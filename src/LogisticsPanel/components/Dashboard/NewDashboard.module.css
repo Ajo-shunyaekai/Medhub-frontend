@@ -1,0 +1,81 @@
+.dashboardContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.cardContainer {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 35px;
+  row-gap: 25px;
+}
+
+.icons {
+  font-size: 40px !important;
+}
+
+.mapContainer {
+  width: 100%;
+  display: flex;
+  justify-content: start;
+  gap: 20px;
+}
+
+.cardSection {
+  padding: 2rem 2.5rem;
+  border: 1px solid #282f86;
+  border-radius: 25px;
+  width: 100%;
+  background-color: #fff;
+  text-align: center;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
+  box-shadow: 1px 1px 6px grey;
+}
+
+.cardHeading {
+  color: #282f86;
+  font-size: 1rem;
+  line-height: 22px;
+  font-weight: 500;
+}
+
+.roundedProcess {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.rightSection {
+  margin-top: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  column-gap: 42px;
+  text-align: center;
+}
+
+.countrySelc {
+  display: flex;
+  flex-direction: column;
+  row-gap: 4px;
+}
+.countryPrice {
+  color: #282f86;
+  font-size: 12px;
+}
+.countryName {
+  font-size: 0.825rem;
+}
+
+@media (max-width: 992px) {
+  .mapContainer {
+    flex-direction: column;
+    justify-content: start;
+    gap: 20px;
+  }
+}
