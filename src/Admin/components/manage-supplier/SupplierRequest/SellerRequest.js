@@ -6,7 +6,7 @@ import Pagination from "react-js-pagination";
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
-import { postRequestWithToken } from '../../../api/Requests';
+import { postReqCSVDownload, postRequestWithToken, postRequestWithTokenForDownload } from '../../../api/Requests';
 import Loader from '../../shared-components/Loader/Loader';
 import moment from 'moment/moment';
 
@@ -53,6 +53,28 @@ const SellerRequest = () => {
         })
     }, [currentPage])
 
+    // const handleDownload = () => {
+    //     postRequestWithToken('admin/get-supplier-list-csv', {}, async (response) => {
+    //         if (response.code === 200) {
+                
+    //         } else {
+    //         }
+    //         setLoading(false);
+    //     })
+    // }
+
+    const handleDownload = async () => {
+        setLoading(true);
+        // const result = await postRequestWithTokenForDownload('admin/get-supplier-list-csv', {}, 'supplier_list.csv');
+        const result = await postReqCSVDownload('admin/get-supplier-list-csv', {}, 'supplier_list.csv')
+        if (!result?.success) {
+            // Optionally show error to user
+        }
+        setLoading(false);
+    };
+    
+    
+
     return (
         <>
             {loading ? (
@@ -62,6 +84,9 @@ const SellerRequest = () => {
                     <div className={styles['rejected-main-head']}>Supplier Request</div>
                     <div className={styles['rejected-container']}>
                         <div className={styles['rejected-container-right-2']}>
+                            <div>
+                                <button onClick={handleDownload}>Download</button>
+                            </div>
                             <Table responsive="xxl" className={styles['rejected-table-responsive']}>
                                 <thead>
                                     <div className={styles['rejected-table-row-container']} style={{ backgroundColor: 'transparent' }}>
