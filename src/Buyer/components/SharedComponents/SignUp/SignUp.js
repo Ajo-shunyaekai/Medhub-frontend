@@ -819,10 +819,10 @@ const SignUp = ({ socket }) => {
       Array.from(formData.licenseImage).forEach((file) =>
         formDataToSend.append("license_image", file)
       );
-      Array.from(formData.taxImage).forEach((file) =>
-        formDataToSend.append("tax_image", file)
-      );
-      Array.from(formData.certificateImage).forEach((file) =>
+      // Array.from(formData.taxImage).forEach((file) =>
+      //   formDataToSend.append("tax_image", file)
+      // );
+      (Array.isArray(cNCFileArray) ? cNCFileArray : []).forEach((file) =>
         formDataToSend.append("certificate_image", file)
       );
       if (selectedCompanyType?.value === "medical practitioner") {
