@@ -10,7 +10,14 @@ const useFileUpload = (
   acceptTypes,
   maxFiles = 1,
   filePreviews,
-  reset
+  reset,
+  certificateFileNDate,
+  setCertificateFileNDate,
+  cNCFileArray,
+  setCNCFileArray,
+  cNCFileError,
+  setCNCFileError,
+  mainIndex
 ) => {
   const [filesMerged, setFilesMerged] = useState(filePreviews || []);
   const [error, setError] = useState(null);
@@ -30,6 +37,18 @@ const useFileUpload = (
       }
 
       const newFiles = [{ file: newFile }];
+      const updatedcertificateFileNDate = certificateFileNDate;
+      updatedcertificateFileNDate[mainIndex] = {
+        file: newFile,
+        date: updatedcertificateFileNDate?.[mainIndex]?.date,
+      };
+      setCertificateFileNDate(updatedcertificateFileNDate);
+      const updatedCNCFileArray = cNCFileArray;
+      updatedCNCFileArray[mainIndex] = newFile;
+      setCNCFileArray(updatedCNCFileArray);
+      const fileErrorArr = cNCFileError || [];
+      fileErrorArr[mainIndex] = "";
+      setCNCFileError(fileErrorArr);
       setFilesMerged(newFiles);
       setFilePreviews(newFiles);
       onUploadStatusChange?.(true);
@@ -52,18 +71,31 @@ const useFileUpload = (
     }
   }, [reset, setFilePreviews, onUploadStatusChange]);
 
-  const removeFile = (index, event) => {
+  const removeFile = (mainIndex, event) => {
     event.stopPropagation();
     setFilesMerged([]);
     setFilePreviews([]);
     setError(null);
     onUploadStatusChange?.(false);
+    const updatedcertificateFileNDate = certificateFileNDate;
+    updatedcertificateFileNDate[mainIndex] = {
+      file: null,
+      date: updatedcertificateFileNDate?.[mainIndex]?.date,
+    };
+    setCertificateFileNDate(updatedcertificateFileNDate);
+    const updatedCNCFileArray = cNCFileArray;
+    updatedCNCFileArray[mainIndex] = null;
+    setCNCFileArray(updatedCNCFileArray);
+    const fileErrorArr = cNCFileError || [];
+    fileErrorArr[mainIndex] = `File is required.`;
+    setCNCFileError(fileErrorArr);
   };
 
   const defaultAccept = {
     "application/pdf": [],
     "application/msword": [],
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document": [],
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+      [],
     "image/png": [],
     "image/jpeg": [],
     "image/jpg": [],
@@ -95,6 +127,13 @@ const CertificateUploader = ({
   acceptTypes,
   maxFiles = 1,
   reset,
+  certificateFileNDate,
+  setCertificateFileNDate,
+  cNCFileArray,
+  setCNCFileArray,
+  cNCFileError,
+  setCNCFileError,
+  mainIndex,
 }) => {
   const fileUpload = useFileUpload(
     onUploadStatusChange,
@@ -102,7 +141,14 @@ const CertificateUploader = ({
     acceptTypes,
     maxFiles,
     filePreviews,
-    reset
+    reset,
+    certificateFileNDate,
+    setCertificateFileNDate,
+    cNCFileArray,
+    setCNCFileArray,
+    cNCFileError,
+    setCNCFileError,
+    mainIndex
   );
 
   const isImageOnly =
@@ -135,10 +181,16 @@ const CertificateUploader = ({
         <div className={styles.errorMessage}>{fileUpload.error}</div>
       )}
 
-      {fileUpload?.filesMerged?.length > 0 && (
+      {(Array?.isArray(fileUpload?.filesMerged)
+        ? fileUpload?.filesMerged
+        : [fileUpload?.filesMerged]
+      )?.length > 0 && (
         <div className={styles.previewContainer}>
-          {fileUpload?.filesMerged?.map((item, index) => {
-            const file = item.file;
+          {(Array?.isArray(fileUpload?.filesMerged)
+            ? fileUpload?.filesMerged
+            : [fileUpload?.filesMerged]
+          )?.map((item, index) => {
+            const file = item?.file || item;
             const fileExtension =
               typeof file === "string"
                 ? file.split(".").pop().toLowerCase()
@@ -153,8 +205,7 @@ const CertificateUploader = ({
 
             const isPdf = fileExtension === "pdf";
 
-            const isDoc =
-              fileExtension === "doc" || fileExtension === "docx";
+            const isDoc = fileExtension === "doc" || fileExtension === "docx";
 
             return (
               <div key={index} className={styles.filePreview}>
@@ -182,8 +233,16 @@ const CertificateUploader = ({
                 <button
                   type="button"
                   className={styles.removeButton}
-                  onClick={(event) => fileUpload?.removeFile(index, event)}
-                  title={`Remove ${isImage ? "image" : isPdf ? "PDF" : isDoc ? "document" : "file"}`}
+                  onClick={(event) => fileUpload?.removeFile(mainIndex, event)}
+                  title={`Remove ${
+                    isImage
+                      ? "image"
+                      : isPdf
+                      ? "PDF"
+                      : isDoc
+                      ? "document"
+                      : "file"
+                  }`}
                 >
                   <FiX size={15} className={styles.removeIcon} />
                 </button>
