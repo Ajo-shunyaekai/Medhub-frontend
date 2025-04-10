@@ -96,7 +96,8 @@ function PreviewFile() {
                 className={`alert alert-success ${styles.successContainer}`}
                 role="alert"
               >
-                {previewProducts.entriesWithoutErrorsCount} products imported. Click 'Submit' to upload.
+                {previewProducts.entriesWithoutErrorsCount} {previewProducts.entriesWithoutErrorsCount === 1 ? 'product' : 'products'} imported. Click 'Submit' to upload.
+
                 <div className={styles.buttonGroup}>
                   <button
                     className={styles.uploadButton}
