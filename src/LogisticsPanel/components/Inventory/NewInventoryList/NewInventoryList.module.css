@@ -61,7 +61,7 @@
   font-weight: 600;
 }
 
-.form {
+form {
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -124,6 +124,7 @@
 .formHead {
   font-size: 18px;
   font-weight: 600;
+  color: #282f86;
 }
 
 .formAddButton {
@@ -228,6 +229,7 @@
 .formLabel {
   font-size: 14px;
   font-weight: 500;
+  color: #282f86;
   word-break: break-word;
 }
 
@@ -677,7 +679,6 @@
   width: 100%;
   justify-content: center;
   column-gap: 20px;
-  margin-top: 30px;
   margin-bottom: 100px;
 }
 .logisticsAccept {
