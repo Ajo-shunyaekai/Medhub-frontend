@@ -91,16 +91,16 @@ export const postRequestWithTokenAndFile = async (URL, requestData, callback) =>
 // export const postRequestWithTokenForDownload = async (URL, requestData = {}, fileName = 'download.csv') => {
 //     try {
 //         const token =
-//             sessionStorage.getItem('token') || localStorage.getItem('token');
+//             localStorage.getItem('token') || localStorage.getItem('token');
 
 //         const userType =
-//             sessionStorage.getItem('buyer_id') || localStorage.getItem('buyer_id')
+//             localStorage.getItem('buyer_id') || localStorage.getItem('buyer_id')
 //                 ? 'Buyer'
-//                 : sessionStorage.getItem('supplier_id') || localStorage.getItem('supplier_id')
+//                 : localStorage.getItem('supplier_id') || localStorage.getItem('supplier_id')
 //                 ? 'Supplier'
-//                 : sessionStorage.getItem('admin_id') || localStorage.getItem('admin_id')
+//                 : localStorage.getItem('admin_id') || localStorage.getItem('admin_id')
 //                 ? 'Admin'
-//                 : sessionStorage.getItem('seller_id') || localStorage.getItem('seller_id')
+//                 : localStorage.getItem('seller_id') || localStorage.getItem('seller_id')
 //                 ? 'Seller'
 //                 : undefined;
 
@@ -142,39 +142,39 @@ export const postReqCSVDownload = async (URL, requestData, fileName) => {
             "Content-Type": "application/json",
             authorization: process.env.REACT_APP_Authorization,
             accesstoken:
-              sessionStorage.getItem("token") ||
+              localStorage.getItem("token") ||
               localStorage.getItem("token") ||
               undefined,
             buyer_id:
-              sessionStorage.getItem("buyer_id") ||
+              localStorage.getItem("buyer_id") ||
               localStorage.getItem("buyer_id") ||
               undefined,
             supplier_id:
-              sessionStorage.getItem("supplier_id") ||
+              localStorage.getItem("supplier_id") ||
               localStorage.getItem("supplier_id") ||
               undefined,
             admin_id:
-              sessionStorage.getItem("admin_id") ||
+              localStorage.getItem("admin_id") ||
               localStorage.getItem("admin_id") ||
               undefined,
             partner_id:
-              sessionStorage.getItem("partner_id") ||
+              localStorage.getItem("partner_id") ||
               localStorage.getItem("partner_id") ||
               undefined,
             usertype:
-              sessionStorage.getItem("buyer_id") ||
+              localStorage.getItem("buyer_id") ||
               localStorage.getItem("buyer_id")
                 ? "Buyer"
-                : sessionStorage.getItem("supplier_id") ||
+                : localStorage.getItem("supplier_id") ||
                   localStorage.getItem("supplier_id")
                 ? "Supplier"
-                : sessionStorage.getItem("admin_id") ||
+                : localStorage.getItem("admin_id") ||
                   localStorage.getItem("admin_id")
                 ? "Admin"
-                : sessionStorage.getItem("seller_id") ||
+                : localStorage.getItem("seller_id") ||
                   localStorage.getItem("seller_id")
                 ? "Seller"
-                : sessionStorage.getItem("partner_id") ||
+                : localStorage.getItem("partner_id") ||
                   localStorage.getItem("partner_id")
                 ? "Logistics"
                 : undefined,
