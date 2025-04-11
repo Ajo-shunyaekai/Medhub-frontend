@@ -10,6 +10,7 @@ import Section from "../UI/Section";
 import logo from "../../assets/images/navibluelogo.svg";
 import styles from "./Login.module.css";
 import "react-toastify/dist/ReactToastify.css";
+import Cookies from 'js-cookie';
 
 function Login() {
   const [email, setEmail]                = useState("");

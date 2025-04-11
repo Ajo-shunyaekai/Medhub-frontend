@@ -10,6 +10,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ClipLoader } from 'react-spinners';
 import { messaging, getToken, onMessage } from '../../../../utils/firebaseUtils';
+import Cookies from 'js-cookie';
 
 
 const Login = ({ socket }) => {

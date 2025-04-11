@@ -7,6 +7,7 @@ import logo from '../../../assets/Images/logo.svg';
 import { apiRequests } from '../../../../api/index';
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Cookies from 'js-cookie';
 
 const Login = ({socket}) => {
     const [loading, setLoading]           = useState(false);
