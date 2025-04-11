@@ -1,9 +1,11 @@
 import React from "react";
+import styles from '../NewTrackingForm/NewTrackingForm.module.css';
+import Card from "../../UI/FormCard/FormCard";
 
 const NewTrackingTimeline = ({ trackingData }) => {
   return (
-    <div className="mt-4 mb-5 bg-white p-4 shadow rounded">
-      <h5 className="mb-4">Tracking History</h5>
+    <Card>
+      <h5 className={`mb-4 ${styles.formHead}`}>Tracking History</h5>
       <div className="position-relative border-start border-3 border-secondary ms-4">
         {trackingData.map((event, index) => (
           <div key={index} className="mb-4 d-flex align-items-start position-relative">
@@ -11,14 +13,14 @@ const NewTrackingTimeline = ({ trackingData }) => {
             {index + 1}
           </div>
           <div className="ms-5">
-            <p className="fw-bold mb-1">{event.status}</p>
+            <p className={`fw-bold mb-1 ${styles.formLabel}`}>{event.status}</p>
             <p className="text-muted mb-1">{event.location}</p>
             <p className="text-secondary small">{event.date} at {event.time}</p>
           </div>
         </div>
         ))}
       </div>
-    </div>
+    </Card>
   );
 };
 

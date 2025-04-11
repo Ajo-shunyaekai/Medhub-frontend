@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styles from "./profile.module.css";
+import styles from "./Profile.module.css";
 import { MdOutlineAttachEmail } from "react-icons/md";
 import Image from "../../../assets/images/man.png"
 import { Link, useNavigate, useParams } from "react-router-dom";

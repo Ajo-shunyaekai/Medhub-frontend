@@ -3,6 +3,7 @@ import styles from './NewAddVehicle.module.css';
 import Select from "react-select";
 import Section from "../../UI/Section";
 import Main from "../../UI/Main/Main";
+import Card from "../../UI/FormCard/FormCard";
 
 function NewAddVehicle() {
 
@@ -20,7 +21,7 @@ function NewAddVehicle() {
     <Main title="Add Vehicle">
         <div className={styles.addVehicleContainer}>
             <form>
-                <div className={`${styles.section}`}>
+                <Card>
                     <span className={styles.formHead}>Vehicle Details</span>
                     <div className={styles.formSection}>
                         <div className={styles.productContainer}>
@@ -240,9 +241,7 @@ function NewAddVehicle() {
                         )} */}
                         </div>
                     </div>
-                </div>
-
-                
+                </Card>
 
                 <div className={styles.logisticsButtonContainer}>
                     <button className={styles.logisticsAccept}>

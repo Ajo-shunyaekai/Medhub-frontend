@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { apiRequests } from '../../../api';
 import styles from './NewOrder.module.css';
-import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
+
+import Main from '../UI/Main/Main';
+import OrderList from './OrderList';
+
 import order_list from '../../assets/images/dashboard/order_list.svg'
 import ActiveOrder from './ActiveOrders/ActiveOrder';
 import CompletedOrder from './CompletedOrders/CompleteOrder';
@@ -8,12 +14,7 @@ import PendingOrder from './PendingOrders/PendingOrders'
 import OngoingOrder from './OngoingOrders/OngoingOrders'
 import { postRequestWithToken } from '../../../api/Requests';
 import Loader from '../SharedComponents/Loader/Loader';
-import { toast } from 'react-toastify';
-import { apiRequests } from '../../../api';
-import Section from '../UI/Section';
-import Main from '../UI/Main/Main';
 import DataTable from 'react-data-table-component';
-import NewActiveOrders from './NewActiveOrders/NewActiveOrders';
 
 function NewOrder() {
     const location = useLocation();
@@ -75,7 +76,7 @@ function NewOrder() {
         return;
         }
         const obj = {
-            partner_id  : partnerIdSessionStorage || partnerIdLocalStorage,
+            partner_id   : partnerIdSessionStorage || partnerIdLocalStorage,
             status       : activeLink,
             page_no      : currentPage, 
             limit        : listPerPage,
@@ -116,13 +117,13 @@ function NewOrder() {
                 </button>
             </div>
             <div className={styles.tableContainer}>
-                <NewActiveOrders 
-                    list={list}
-                    totalList={totalList}
-                    currentPage={currentPage}
-                    listPerPage={listPerPage}
-                    handlePageChange={handlePageChange}
-                    activeLink={activeLink}
+                <OrderList 
+                    list             = {list}
+                    totalList        = {totalList}
+                    currentPage      = {currentPage}
+                    listPerPage      = {listPerPage}
+                    handlePageChange = {handlePageChange}
+                    activeLink       = {activeLink}
                 />
             </div>
         </div>

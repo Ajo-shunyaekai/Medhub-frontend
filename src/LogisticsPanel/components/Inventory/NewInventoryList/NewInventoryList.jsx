@@ -1,32 +1,32 @@
 import React, { useState } from "react";
-import styles from "./NewInventoryList.module.css";
 import Select from "react-select";
+import styles from "./NewInventoryList.module.css";
 import CloseIcon from "@mui/icons-material/Close";
-import Section from "../../UI/Section";
 import Main from "../../UI/Main/Main";
+import Card from '../../UI/FormCard/FormCard';
 
 function NewInventoryList() {
     const [product, setProduct] = useState([
         {
-            product_id: Date.now().toString(),
-            product_name: "",
-            product_quantity: "",
-            product_weight: "",
+            product_id       : Date.now().toString(),
+            product_name     : "",
+            product_quantity : "",
+            product_weight   : "",
         },
         ]);
 
     const warehouse_status_options = [
-    { value: "active", label: "Active" },
+    { value: "active",    label: "Active" },
     { value: "in-active", label: "In-Active" },
     ];
     const product_unit_of_measure_options = [
-    { value: "envelops", label: "Envelops" },
-    { value: "pieces", label: "Pieces" },
-    { value: "boxes", label: "Boxes" },
+    { value: "envelops",  label: "Envelops" },
+    { value: "pieces",    label: "Pieces" },
+    { value: "boxes",     label: "Boxes" },
     ];
     const prefered_transport_options = [
-    { value: "road", label: "By-Road" },
-    { value: "air", label: "By-Air" },
+    { value: "road",  label: "By-Road" },
+    { value: "air",   label: "By-Air" },
     { value: "water", label: "By-Water" },
     { value: "train", label: "By-Train" },
     ];
@@ -41,10 +41,10 @@ function NewInventoryList() {
     setProduct([
         ...product,
         {
-        product_id: Date.now().toString(),
-        product_name: "",
-        product_quantity: "",
-        product_weight: "",
+        product_id       : Date.now().toString(),
+        product_name     : "",
+        product_quantity : "",
+        product_weight   : "",
         },
     ]);
     };
@@ -57,7 +57,7 @@ function NewInventoryList() {
     <Main title='Inventory'>
         <div className={styles.inventoryContainer}>
             <form>
-                <div className={`${styles.section}`}>
+                <Card>
                 <span className={styles.formHead}>Warehouse Details</span>
                 <div className={styles.formSection}>
                     <div className={styles.productContainer}>
@@ -179,9 +179,9 @@ function NewInventoryList() {
                         )} */}
                     </div>
                 </div>
-                </div>
+                </Card>
     
-                <div className={`${styles.section} mt-4`}>
+                <Card>
                 {/* <span className={styles.formHead}>Product Registration</span> */}
                 <div className={styles.formHeadSection}>
                     <span className={styles.formHead}>Product Registration</span>
@@ -493,11 +493,11 @@ function NewInventoryList() {
                         )} */}
                     </div>
                 </div>
-                </div>
+                </Card>
     
                 <div className={styles.logisticsButtonContainer}>
-                <button className={styles.logisticsAccept}>Submit</button>
-                <buttton className={styles.logisticsCancel}>Cancel</buttton>
+                    <button className={styles.logisticsAccept}>Submit</button>
+                    <buttton className={styles.logisticsCancel}>Cancel</buttton>
                 </div>
             </form>
         </div>

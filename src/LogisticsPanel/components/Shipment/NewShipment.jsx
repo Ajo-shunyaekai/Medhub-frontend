@@ -1,13 +1,14 @@
 import React from 'react';
 import styles from './NewShipment.module.css';
 import Main from '../UI/Main/Main';
+import Card from "../UI/FormCard/FormCard";
 
 function NewShipment() {
   return (
     <Main title='Shipment'>
         <div className={styles.shipmentContainer}>
             <form>
-                <div className={`${styles.section}`}>
+                <Card>
                     <span className={styles.formHead}>Shipment From</span>
                     <div className={styles.formSection}>
                     <div className={styles.productContainer}>
@@ -129,9 +130,9 @@ function NewShipment() {
                         )}
                     </div> */}
                     </div>
-                </div>
+                </Card>
 
-                <div className={`${styles.section} mt-4`}>
+                <Card>
                     <span className={styles.formHead}>Shipment To</span>
                     <div className={styles.formSection}>
                     <div className={styles.productContainer}>
@@ -253,7 +254,7 @@ function NewShipment() {
                         )}
                     </div> */}
                     </div>
-                </div>
+                </Card>
 
                 <div className={styles.logisticsButtonContainer}>
                     <button className={styles.logisticsAccept}>Submit</button>

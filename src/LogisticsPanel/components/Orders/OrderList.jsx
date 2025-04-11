@@ -2,9 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import moment from 'moment';
-import Table from '../../UI/Table/Table';
+import Table from '../UI/Table/Table';
+import styles from './NewOrder.module.css';
 
-const NewActiveOrders = ({ list, totalList, currentPage, listPerPage, handlePageChange, page }) => {
+const OrderList = ({ list, totalList, currentPage, listPerPage, handlePageChange, page }) => {
     
     const columns = [
         {
@@ -38,7 +39,7 @@ const NewActiveOrders = ({ list, totalList, currentPage, listPerPage, handlePage
                 <Link to={page === 'pickupOrder' 
                     ? `/logistics/pickup-order-details/${row.logistics_id}`
                     : `/logistics/logistics-details/${row.logistics_id}`}>
-                    <RemoveRedEyeOutlinedIcon className='order-section-eye' />
+                    <RemoveRedEyeOutlinedIcon className={styles.viewButton} />
                 </Link>
             ),
             ignoreRowClick: true,
@@ -58,4 +59,4 @@ const NewActiveOrders = ({ list, totalList, currentPage, listPerPage, handlePage
     );
 };
 
-export default NewActiveOrders;
+export default OrderList;
