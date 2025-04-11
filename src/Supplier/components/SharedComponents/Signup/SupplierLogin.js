@@ -61,8 +61,10 @@ const SupplierLogin = ({socket}) => {
                 }else{
                     const { accessToken, refreshToken} = response.data;
                     // Store tokens in cookies
-                    Cookies.set('accessToken', accessToken, { path: '/', expires: 7 });
-                    Cookies.set('refreshToken', refreshToken, { path: '/', expires: 7 });
+                    localStorage.setItem(`token1`, accessToken)
+                    localStorage.setItem(`token2`, refreshToken)
+                    Cookies.set('accessToken', accessToken,);
+                    Cookies.set('refreshToken', refreshToken,);
 
                     const {data} = await response;
                     for (let x in data) {
