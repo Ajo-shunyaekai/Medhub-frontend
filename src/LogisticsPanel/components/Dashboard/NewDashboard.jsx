@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./NewDashboard.module.css";
-
-import WorldMap from "react-svg-worldmap";
-import CircularBar from "./chart/CircularBar";
 import { toast } from "react-toastify";
 import { apiRequests } from "../../../api";
-import Main from "./../UI/Main/Main";
-import DashboardCard from "../UI/DashboardCard/DashboardCard";
+import styles from "./NewDashboard.module.css";
 
+import CircularBar from "./chart/CircularBar";
+import DashboardCard from "../UI/DashboardCard/DashboardCard";
+import Main from "./../UI/Main/Main";
+import WorldMap from "react-svg-worldmap";
+
+//Icons
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import HourglassFullIcon from '@mui/icons-material/HourglassFull';
 import SyncIcon from '@mui/icons-material/Sync';
@@ -17,8 +18,8 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 function NewDashboard() {
   const navigate = useNavigate();
-  const [countryData, setCountryData] = useState([]);
-  const [orderSummary, setOrderSummary] = useState();
+  const [countryData, setCountryData]     = useState([]);
+  const [orderSummary, setOrderSummary]   = useState();
   const [dashboardData, setDashboardData] = useState({});
 
   const fetchData = async () => {
@@ -30,8 +31,8 @@ function NewDashboard() {
       return;
     }
     const obj = {
-      partner_id: partnerIdSessionStorage || partnerIdLocalStorage,
-      usertype: "Logistics",
+      partner_id : partnerIdSessionStorage || partnerIdLocalStorage,
+      usertype   : "Logistics",
     };
 
     try {
@@ -84,11 +85,11 @@ function NewDashboard() {
             </div>
         </div>
         <div className={styles.cardContainer}>
-            <DashboardCard title='Total Orders'      count={80}  icons={<ShoppingCartIcon className={styles.icons} />} />
-            <DashboardCard title='Pending Orders'    count={80}  icons={<HourglassFullIcon className={styles.icons}/>} />
-            <DashboardCard title='Ongoing Orders'    count={80}  icons={<SyncIcon className={styles.icons}/>} />
-            <DashboardCard title='Active Orders'     count={80}  icons={<LocalShippingIcon className={styles.icons}/>} />
-            <DashboardCard title='Completed Orders'  count={80}  icons={<CheckCircleIcon className={styles.icons}/>} />
+            <DashboardCard title='Total Orders'     count={dashboardData?.total || 0}     icons={<ShoppingCartIcon   className={styles.icons} />} />
+            <DashboardCard title='Pending Orders'   count={dashboardData?.pending || 0}   icons={<HourglassFullIcon  className={styles.icons}/>} />
+            <DashboardCard title='Ongoing Orders'   count={dashboardData?.ongoing || 0}   icons={<SyncIcon           className={styles.icons}/>} />
+            <DashboardCard title='Active Orders'    count={dashboardData?.active || 0}    icons={<LocalShippingIcon  className={styles.icons}/>} />
+            <DashboardCard title='Completed Orders' count={dashboardData?.completed || 0} icons={<CheckCircleIcon    className={styles.icons}/>} />
         </div>
       </div>
     </Main>

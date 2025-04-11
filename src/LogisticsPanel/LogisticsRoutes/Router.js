@@ -2,33 +2,39 @@ import React, { Suspense, lazy } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Loader from "../components/SharedComponents/Loader/Loader";
 
-// const AddVehicle        = lazy(() => import("../components/Vehicle/index"));
 const AddVehicle        = lazy(() => import("../components/Vehicle/NewAddVehicle/NewAddVehicle"));
 const ActiveOrder       = lazy(() => import("../components/Orders/ActiveOrders/ActiveOrder"));
 const CompleteOrder     = lazy(() => import("../components/Orders/CompletedOrders/CompleteOrder"));
-// const Dashboard         = lazy(() => import("../components/Dashboard/index"));
 const Dashboard         = lazy(() => import("../components/Dashboard/NewDashboard"));
-// const Inventory         = lazy(() => import("../components/Inventory/index"));
 const Inventory         = lazy(() => import("../components/Inventory/NewInventoryList/NewInventoryList"));
 const LogisticsLayout   = lazy(() => import("../components/SharedComponents/LogisticsLayout"));
+const Login             = lazy(() => import("../components/Login/Login"));
+const LogisticsDetails  = lazy(() => import("../components/Orders/NewOrderDetails/NewOrderDetails"));
+const Orders            = lazy(() => import("../components/Orders/NewOrder"));
+const PickupOrders      = lazy(() => import("../components/PickupOrders/NewPickupOrder/NewPickupOrder"));
+const PickupDetails     = lazy(() => import("../components/PickupOrders/NewPickupOrderDetails/NewPickupOrderDetails"));
+const PendingOrder      = lazy(() => import("../components/Orders/PendingOrders/PendingOrders"));
+const Profile           = lazy(() => import("../components/SharedComponents/Profile/Profile"));
+const Shipment          = lazy(() => import("../components/Shipment/NewShipment"));
+const Tracking          = lazy(() => import("../components/Tracking/NewTrackingForm/NewTrackingForm"));
+const VehicleList       = lazy(() => import("../components/Vehicle/NewVehicleList/NewVehicleList"));
+
+
+// Old UI Component
+// const OngoingOrder      = lazy(() => import("../components/Orders/OngoingOrders/OngoingOrders"));
+// const AddVehicle        = lazy(() => import("../components/Vehicle/index"));
+// const Dashboard         = lazy(() => import("../components/Dashboard/index"));
+// const Inventory         = lazy(() => import("../components/Inventory/index"));
 // const Layout            = lazy(() => import("../components/SharedComponents/layout"));
 // const Login             = lazy(() => import("../components/SharedComponents/Login/Login"));
-const Login             = lazy(() => import("../components/Login/Login"));
-const LogisticsDetails  = lazy(() => import("../components/Orders/OrderDetails/LogisticsDetails"));
-const OngoingOrder      = lazy(() => import("../components/Orders/OngoingOrders/OngoingOrders"));
+// const LogisticsDetails  = lazy(() => import("../components/Orders/OrderDetails/LogisticsDetails"));
 // const Orders            = lazy(() => import("../components/Orders/index"));
-const Orders            = lazy(() => import("../components/Orders/NewOrder"));
 // const PickupOrders      = lazy(() => import("../components/PickupOrders/index"));
-const PickupOrders      = lazy(() => import("../components/PickupOrders/NewPickupOrder/NewPickupOrder"));
-const PickupDetails     = lazy(() => import("../components/PickupOrders/PickupOrderDetails/PickupOrderDetails"));
-const PendingOrder      = lazy(() => import("../components/Orders/PendingOrders/PendingOrders"));
-const Profile           = lazy(() => import("../components/SharedComponents/Profile/profile"));
+// const PickupDetails     = lazy(() => import("../components/PickupOrders/PickupOrderDetails/PickupOrderDetails"));
+// const Profile           = lazy(() => import("../components/SharedComponents/Profile/profile"));
 // const Shipment          = lazy(() => import("../components/Shipment/index"));
-const Shipment          = lazy(() => import("../components/Shipment/NewShipment"));
 // const Tracking          = lazy(() => import("../components/Tracking/index"));
-const Tracking          = lazy(() => import("../components/Tracking/NewTrackingForm/NewTrackingForm"));
 // const VehicleList       = lazy(() => import("../components/Vehicle/VehicleList/VehicleLIst"));
-const VehicleList       = lazy(() => import("../components/Vehicle/NewVehicleList/NewVehicleList"));
 
 const router = createBrowserRouter([
   {
@@ -103,7 +109,7 @@ function Router() {
 
 export default Router;
 
-/*
+/*  Old Router Code
 import React, {
   useEffect,
   useState,

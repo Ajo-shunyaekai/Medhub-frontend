@@ -10,6 +10,10 @@ h1 {
     sans-serif !important;
     cursor: default !important;
 }
+a:hover {
+  color: currentColor !important;
+  text-decoration: none !important;
+}
 a{
   cursor: pointer !important; 
 }

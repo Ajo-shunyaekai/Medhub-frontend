@@ -19,7 +19,7 @@ const SendInquiry = ({socket}) => {
   const buyerNameLocalStorage = localStorage.getItem("buyer_name");
   const navigate = useNavigate();
   const dispatch = useDispatch()
-  
+
   const itemsPerPage = 3;
   const [buttonLoading, setButtonLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -111,47 +111,47 @@ const SendInquiry = ({socket}) => {
       navigate("/buyer/login");
       return;
     }
-    
-    
+
+
     const selectedItems = [];
     Object.entries(groupedProducts).forEach(([supplierName, supplierData]) => {
       const selectedItemDetails = supplierData.items.filter(item => checkedState[item?._id]);
       if (selectedItemDetails.length > 0) {
         selectedItems.push({
-          supplier_id            : supplierData.supplier_details.supplier_id || "",
-          supplier_name          : supplierData.supplier_details.supplier_name || "",
-          supplier_email         : supplierData.supplier_details.contact_person_email || supplierData.supplier_details.supplier_email || "",
-          supplier_contact_email : supplierData.supplier_details.contact_person_email || "",
-          list_id                : supplierData.list_id || "",
-          item_details           : selectedItemDetails.map(item => ({
-            item_id              : item._id || "",
-            product_id           : item.product_id || "",
-            unit_price           : item.unit_price || "",
-            unit_tax             : item.unit_tax || "",
-            quantity_required    : item.quantity_required || "",
-            est_delivery_days    : item.est_delivery_days || "",
-            target_price         : item.target_price || "",
+          supplier_id: supplierData.supplier_details.supplier_id || "",
+          supplier_name: supplierData.supplier_details.supplier_name || "",
+          supplier_email: supplierData.supplier_details.contact_person_email || supplierData.supplier_details.supplier_email || "",
+          supplier_contact_email: supplierData.supplier_details.contact_person_email || "",
+          list_id: supplierData.list_id || "",
+          item_details: selectedItemDetails.map(item => ({
+            item_id: item._id || "",
+            product_id: item.product_id || "",
+            unit_price: item.unit_price || "",
+            unit_tax: item.unit_tax || "",
+            quantity_required: item.quantity_required || "",
+            est_delivery_days: item.est_delivery_days || "",
+            target_price: item.target_price || "",
             total_quantity: item.total_quantity || 0
           }))
         });
-      } 
+      }
     });
 
     const enquiryPayload = {
       buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
-      buyer_name : buyerNameSessionStorage || buyerNameLocalStorage,
+      buyer_name: buyerNameSessionStorage || buyerNameLocalStorage,
       items: selectedItems
     };
 
     // Validation: Check if total_quantity is greater than 100
-  for (const supplier of enquiryPayload.items) {
-    for (const item of supplier.item_details) {
-      if (parseInt(item.total_quantity, 10) <= 50) {
-        return toast(`Selected Item is out of stock`, { type: "error" });
+    for (const supplier of enquiryPayload.items) {
+      for (const item of supplier.item_details) {
+        if (parseInt(item.total_quantity, 10) <= 50) {
+          return toast(`Selected Item is out of stock`, { type: "error" });
+        }
       }
     }
-  }
-    if(enquiryPayload.items.length === 0) {
+    if (enquiryPayload.items.length === 0) {
       return toast('Select Atleast One Item', { type: "error" });
     }
     setButtonLoading(true)
@@ -160,16 +160,16 @@ const SendInquiry = ({socket}) => {
         // toast(response.message, { type: "success" });
         enquiryPayload.items.forEach(item => {
           socket.emit('sendInquiry', {
-              supplierId: item.supplier_id, // The supplier to be notified
-              message: 'You have a new inquiry from a buyer!',
-              link : process.env.REACT_APP_PUBLIC_URL
-              // send other details if needed
+            supplierId: item.supplier_id, // The supplier to be notified
+            message: 'You have a new inquiry from a buyer!',
+            link: process.env.REACT_APP_PUBLIC_URL
+            // send other details if needed
           });
-      });
+        });
         setCheckedState({});
         setCurrentPage(1);
         setRefreshTrigger(prev => !prev);
-        
+
         // enquiryPayload.items.forEach(item => {
         //   socket.emit('sendInquiry', {
         //     supplierId: item.supplier_id, // The supplier to be notified
@@ -180,7 +180,7 @@ const SendInquiry = ({socket}) => {
         navigate("/buyer/thank-you", { state: { from: 'order' } });
         localStorage.setItem('list_count', response.result.listCount)
         dispatch(updateInquiryCartCount(response.result.listCount))
-      
+
       } else {
         toast(response.message, { type: "error" });
       }
@@ -193,36 +193,33 @@ const SendInquiry = ({socket}) => {
       <div className='send-enquiry-heading'>Send Inquiry</div>
       <div className='send-enquiry-main-section'>
         <div className='send-enquiry-inner-section'>
-        {list.length > 0 && (
-          <div className='send-enquiry-upper-section'>
-            <div className='send-enquiry-upper-left-sec'>
-              <span className='send-enquiry-upper-left-head'>Your Inquiries</span>
-            </div>
-            
-            <div className='send-enquiry-upper-right-sec'>
-              <div className='send-enquiry-upper-right-content'>
-                <span className='send-enquiry-upper-right-total'>Total:</span>
-                <span className='send-enquiry-upper-right-number'>{totalItems} Inquiries</span>
+          {list.length > 0 && (
+            <div className='send-enquiry-upper-section'>
+              <div className='send-enquiry-upper-left-sec'>
+                <span className='send-enquiry-upper-left-head'>Your Inquiries</span>
               </div>
-              {/* <div className='send-enquiry-upper-right-button-sec' onClick={handleSendEnquiry}>
-                <span className='send-enquiry-upper-right-button'>Send Inquiry</span>
-              </div> */}
-               <div className='send-enquiry-upper-right-button-sec' onClick={handleSendEnquiry}>
-      <span className='send-enquiry-upper-right-button'>
-        {buttonLoading ? (
-          <>
-            <ClipLoader size={20} color={"#ffffff"} loading={buttonLoading} />
-            Sending...
-          </>
-        ) : (
-          'Send Inquiry'
-        )}
-      </span>
-    </div>
+
+              <div className='send-enquiry-upper-right-sec'>
+                <div className='send-enquiry-upper-right-content'>
+                  <span className='send-enquiry-upper-right-total'>Total:</span>
+                  <span className='send-enquiry-upper-right-number'>{totalItems} Inquiries</span>
+                </div>
+                <div className='send-enquiry-upper-right-button-sec' onClick={handleSendEnquiry}>
+                  <span className='send-enquiry-upper-right-button'>
+                    {buttonLoading ? (
+                      <>
+                        <ClipLoader size={20} color={"#ffffff"} loading={buttonLoading} />
+                        Sending...
+                      </>
+                    ) : (
+                      'Send Inquiry'
+                    )}
+                  </span>
+                </div>
+              </div>
+
             </div>
-         
-          </div>
-           )}
+          )}
           <div className='send-enquiry-container-inner-container'>
             {list.length === 0 ? (
               <div className='no-data-found'>
@@ -249,22 +246,21 @@ const SendInquiry = ({socket}) => {
                         </label>
                       </div>
                       <div className='send-enquiry-inner-image'>
-                        <img 
-                          // src={`${process.env.REACT_APP_SERVER_URL}uploads/medicine/product_files/${product?.medicine_image[0]}`} alt='Product' 
-                          src={`${process.env.REACT_APP_SERVER_URL}uploads/products/${product?.medicine_image[0]}`} alt='Product' 
-                          />
+                        <img
+                          src={`${process.env.REACT_APP_SERVER_URL}uploads/products/${product?.medicine_image[0]}`} alt='Product'
+                        />
                       </div>
                       <div className='send-enquiry-inner-content'>
                         <div className='send-enquiry-inner-top-container'>
                           <div className='send-enquiry-inner-top-head-section'>
                             <span className='send-enquiry-inner-top-heading'>{product?.medicine_name}</span>
                           </div>
-                          <div className='send-enquiry-inner-top-text-section'>
+                          {/* <div className='send-enquiry-inner-top-text-section'>
                             <span className='send-enquiry-inner-top-supplier'>{supplierData?.supplier_details?.supplier_name}</span>
-                          </div>
+                          </div> */}
                         </div>
                         <div className='send-enquiry-inner-bottom-section'>
-                        <div className='send-enquiry-inner-bottom-container'>
+                          <div className='send-enquiry-inner-bottom-container'>
                             <span className='send-enquiry-inner-bootom-head'>Quantity Required:</span>
                             <span className='send-enquiry-inner-bootom-text'>{product?.quantity_required} </span>
                           </div>
@@ -279,14 +275,14 @@ const SendInquiry = ({socket}) => {
                           <div className='send-enquiry-inner-bottom-container'>
                             <span className='send-enquiry-inner-bootom-head'>Est. Delivery Time:</span>
                             <span className='send-enquiry-inner-bootom-text'>
-                              {/* {product?.est_delivery_days}  */}
-                              {product?.est_delivery_days 
-                                  ? product.est_delivery_days.toLowerCase().includes('days') 
-                                      ? product.est_delivery_days.replace(/days/i, 'Days') 
-                                      : `${product.est_delivery_days} Days` 
-                                  : ''
+
+                              {product?.est_delivery_days
+                                ? product.est_delivery_days.toLowerCase().includes('days')
+                                  ? product.est_delivery_days.replace(/days/i, 'Days')
+                                  : `${product.est_delivery_days} Days`
+                                : ''
                               }
-                              </span>
+                            </span>
                           </div>
                         </div>
                       </div>

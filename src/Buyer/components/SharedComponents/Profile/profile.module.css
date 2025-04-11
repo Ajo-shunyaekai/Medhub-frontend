@@ -1,6 +1,6 @@
 .container {
   width: 100%;
-  max-width: 90%;
+  max-width: 98%;
   height: 100vh;
   overflow: scroll;
   background-attachment: fixed;
@@ -48,7 +48,7 @@
   padding: 26px 30px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
-  width: 20vw;
+  width: 25%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -61,17 +61,19 @@
 
 .profileContainer {
   display: flex;
-  gap: 30px;
+  gap: 20px;
+  width: 100%;
 }
 
 .contentSection {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  width: 70vw;
+  width: 75%;
 }
 
 .companyNameSection {
+  width: 100%;
   background-color: #ffffff;
   border-radius: 4px;
   padding: 26px 30px;
@@ -164,6 +166,7 @@
   justify-content: start;
   align-items: start;
   gap: 40px;
+  width: 100%;
 }
 
 .companyInnerContainer {
@@ -428,13 +431,6 @@
 /* End style the Edit profile form section */
 
 /* Style the media quiery section */
-@media (max-width: 1200px) {
-  .container {
-    width: 100%;
-    max-width: 85%;
-    margin: unset;
-  }
-}
 @media (max-width: 1150px) {
   .editSubSection {
     width: 31%;
@@ -445,4 +441,43 @@
   font-size: 12px;
   color: red;
   margin-top: -4px;
+}
+@media (max-width: 767px) {
+  .profileContainer {
+    flex-direction: column;
+  }
+  .imgSection{
+    width: 100%;
+  }
+  .contentSection{
+    width: 100%;
+  }
+  .companyDetailsSection{
+    flex-direction: column;
+    gap: 6px;
+  }
+  .companyInnerContainer{
+    width: 100%;
+  }
+  .companySection{
+    flex-direction: column;
+  }
+  .companyContainerContactSection{
+    width: 100%;
+  }
+  .textareaSeaction{
+    width: 100%;
+  }
+  .documentInnerSection{
+    width: 46%;
+  }
+}
+
+@media (max-width: 767px) {
+.contentIconSection{
+  flex-direction: column;
+}
+.addressSection{
+  width: 100%;
+}
 }

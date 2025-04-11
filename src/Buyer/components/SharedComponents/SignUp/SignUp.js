@@ -679,7 +679,7 @@ const SignUp = ({ socket }) => {
     if (!formData.registrationNo)
       formErrors.registrationNo = "Registration No. is Required";
     if (!formData.vatRegistrationNo)
-      formErrors.vatRegistrationNo = "Tax/VAT Registration No. is Required";
+      formErrors.vatRegistrationNo = "GST/VAT Registration No. is Required";
     // if (!formData.medicalCertificate) formErrors.medicalCertificate = 'Medical Certificate Image is Required';
     if (
       selectedCompanyType?.value === "medical practitioner" &&
@@ -1041,7 +1041,7 @@ const SignUp = ({ socket }) => {
                     </div>
                     <div className="signup-form-section-div">
                       <label className="signup-form-section-label">
-                        Tax/VAT Registration Number
+                      GST/VAT Registration Number
                         <span className="labelstamp">*</span>
                       </label>
                       <div className="signup-tooltip-class">
@@ -1049,14 +1049,14 @@ const SignUp = ({ socket }) => {
                           className="signup-form-section-input"
                           type="text"
                           name="vatRegistrationNo"
-                          placeholder="Enter Tax/VAT Registration Number"
+                          placeholder="Enter GST/VAT Registration Number"
                           value={formData.vatRegistrationNo}
                           onChange={handleChange}
                         />
                         <span
                           className="email-info-icon"
                           data-tooltip-id="company-name-tooltip"
-                          data-tooltip-content="Provide your Tax/VAT Registration Number"
+                          data-tooltip-content="Provide your GST/VAT Registration Number"
                         >
                           <img
                             src={Information}

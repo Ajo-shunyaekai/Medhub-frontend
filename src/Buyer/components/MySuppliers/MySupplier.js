@@ -70,13 +70,14 @@ const MySupplier = () => {
                                                     <div className={styles.mySupplierCardText}>{supplier?.supplier_details?.supplier_type}</div>
                                                 </div>
                                                 <div className={styles.mySupplierInnerCardSection}>
-                                                    <div className={styles.mySupplierCardHeading}>Tax Number</div>
-                                                    <div className={styles.mySupplierCardText}>{supplier?.supplier_details?.tax_no}</div>
-                                                </div>
-                                                <div className={styles.mySupplierInnerCardSection}>
-                                                    <div className={styles.mySupplierCardHeading}>Country Origin</div>
+                                                    <div className={styles.mySupplierCardHeading}>Country of Origin</div>
                                                     <div className={styles.mySupplierCardText}>{supplier?.supplier_details?.country_of_origin || 'United Arab Emirates'}</div>
                                                 </div>
+                                                <div className={styles.mySupplierInnerCardSection}>
+                                                    <div className={styles.mySupplierCardHeading}>GST/VAT Registration Number</div>
+                                                    <div className={styles.mySupplierCardText}>{supplier?.supplier_details?.tax_no}</div>
+                                                </div>
+                                                
                                             </div>
                                         </div>
 

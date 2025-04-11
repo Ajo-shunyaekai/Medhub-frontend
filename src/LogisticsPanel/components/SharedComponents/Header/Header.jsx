@@ -207,32 +207,32 @@ return (
             onClose={toggleDrawer}
             direction="left"
             className={`${styles.drawer}`}
-            >
+        >
             <ul className={styles.drawerMenus}>
-            <li>
-                <Link to={`/logistics/`}>Dashboard</Link>
-            </li>
-            <li>
-                <Link to={`/logistics/order`}>Order</Link>
-            </li>
-            <li>
-                <Link to={`/logistics/pickup-order`}>Pickup Order</Link>
-            </li>
-            <li>
-                <Link to={`/logistics/inventory`}>Inventory</Link>
-            </li>
-            <li>
-                <Link to={`/logistics/add-vehicle`}>Add vehicle</Link>
-            </li>
-            <li>
-                <Link to={`/logistics/vehicle-list`}>Vehicle List</Link>
-            </li>
-            <li>
-                <Link to={`/logistics/shipment`}>Shipment</Link>
-            </li>
-            <li>
-                <Link to={`/logistics/tracking`}>Tracking</Link>
-            </li>
+                <li>
+                    <Link to={`/logistics/`} onClick={toggleDrawer}>Dashboard</Link>
+                </li>
+                <li>
+                    <Link to={`/logistics/order`} onClick={toggleDrawer}>Order</Link>
+                </li>
+                <li>
+                    <Link to={`/logistics/pickup-order`} onClick={toggleDrawer}>Pickup Order</Link>
+                </li>
+                <li>
+                    <Link to={`/logistics/inventory`} onClick={toggleDrawer}>Inventory</Link>
+                </li>
+                <li>
+                    <Link to={`/logistics/add-vehicle`} onClick={toggleDrawer}>Add vehicle</Link>
+                </li>
+                <li>
+                    <Link to={`/logistics/vehicle-list`} onClick={toggleDrawer}>Vehicle List</Link>
+                </li>
+                <li>
+                    <Link to={`/logistics/shipment`} onClick={toggleDrawer}>Shipment</Link>
+                </li>
+                <li>
+                    <Link to={`/logistics/tracking`} onClick={toggleDrawer}>Tracking</Link>
+                </li>
             </ul>
         </Drawer>
     </>

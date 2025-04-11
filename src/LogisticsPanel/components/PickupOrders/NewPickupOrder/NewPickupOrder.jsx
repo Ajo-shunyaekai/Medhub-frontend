@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from './NewPickupOrder.module.css';
-
 import { toast } from "react-toastify";
 import { apiRequests } from "../../../../api";
-// import "./PickupOrders.css";
-import Section from "../../UI/Section";
+import styles from './NewPickupOrder.module.css';
+
 import Main from "../../UI/Main/Main";
-import NewActiveOrders from "../../Orders/NewActiveOrders/NewActiveOrders";
+import PickupOrderList from './PickupOrderList';
 
 function NewPickupOrder() {
     const navigate                        = useNavigate();
@@ -51,13 +49,13 @@ function NewPickupOrder() {
   return (
     <Main title="Pickup Order's">
         <div className={styles.pickupOrderContainer}>
-            <NewActiveOrders 
-                list={list}
-                totalList={totalList}
-                currentPage={currentPage}
-                listPerPage={listPerPage}
-                handlePageChange={handlePageChange}
-                page="pickupOrder"
+            <PickupOrderList 
+                list             = {list}
+                totalList        = {totalList}
+                currentPage      = {currentPage}
+                listPerPage      = {listPerPage}
+                handlePageChange = {handlePageChange}
+                page             = "pickupOrder"
             />
         </div>
     </Main>

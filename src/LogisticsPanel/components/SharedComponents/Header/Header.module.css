@@ -176,7 +176,7 @@ ul {
 .profile_wrapper a {
   list-style: none;
   text-decoration: none;
-  color: #5e676f;
+  color: #282f86;
   width: 100%;
   max-width: 90%;
 }
@@ -190,11 +190,11 @@ ul {
 }
 
 .profile_text:hover {
-  color: #282f86;
+  color: #5e676f;
 }
 
 .profile_sign_out {
-  color: #5e676f;
+  color: #282f86;
   font-weight: 500;
   padding: 8px 14px;
   font-size: 14px;
@@ -202,7 +202,7 @@ ul {
 }
 
 .profile_sign_out:hover {
-  color: #282f86;
+  color: #5e676f;
 }
 
 .drawerMenus {
@@ -241,6 +241,6 @@ ul {
   .displayHamburger {
     display: block;
     cursor: pointer;
-    z-index: 999;
+    z-index: 1000;
   }
 }

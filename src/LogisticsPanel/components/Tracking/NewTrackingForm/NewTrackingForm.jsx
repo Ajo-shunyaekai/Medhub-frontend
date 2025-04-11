@@ -1,7 +1,7 @@
 import React from "react";
 import styles from './NewTrackingForm.module.css';
-import Select from "react-select";
 import Main from "../../UI/Main/Main";
+import Card from "../../UI/FormCard/FormCard";
 import NewTrackingTimeline from "../NewTrackingDetails/NewTrackingTimeline";
 
 const trackingData = [
@@ -18,7 +18,7 @@ const NewTracking = () => {
         <Main title='Tracking'>
             <div className={styles.trackingContainer}>
                 <form>
-                    <div className={`${styles.section}`}>
+                    <Card>
                         <span className={styles.formHead}>Track Order</span>
                         <center className={styles.formSection}>
                             <div className={styles.productContainer}>
@@ -53,7 +53,7 @@ const NewTracking = () => {
                                 )} */}
                             </div>
                         </center>
-                    </div>
+                    </Card>
 
                     <div className={styles.logisticsButtonContainer}>
                         <button className={styles.logisticsAccept}>
