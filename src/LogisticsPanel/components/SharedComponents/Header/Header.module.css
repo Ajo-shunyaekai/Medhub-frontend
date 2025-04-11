@@ -42,8 +42,13 @@ ul {
   color: #282f86;
 }
 
-.links a:hover {
-  text-decoration: underline;
+.links a:focus,
+.links a:active {
+  font-weight: bold;
+}
+
+.activeLink {
+  font-weight: bold;
 }
 
 .menus {

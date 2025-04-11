@@ -47,7 +47,7 @@ function NewPickupOrder() {
     fetchData();
     }, [currentPage]);
   return (
-    <Main title="Pickup Order's">
+    <Main title="Pickup Orders">
         <div className={styles.pickupOrderContainer}>
             <PickupOrderList 
                 list             = {list}

@@ -106,13 +106,13 @@ function NewOrder() {
 
         <div className={styles.requestContainer}>
             <div className={styles.buttonContainer}>
-                <button className={styles.button} onClick={() => handleLinkClick('pending')} >
+                <button  className={`${styles.button} ${activeLink === 'pending' ? styles.activeButton : ''}`}  onClick={() => handleLinkClick('pending')}>
                     Pending Requests
                 </button>
-                <button className={styles.button} onClick={() => handleLinkClick('active')}>
+                <button className={`${styles.button} ${activeLink === 'active' ? styles.activeButton : ''}`} onClick={() => handleLinkClick('active')}>
                     Active Requests
                 </button>
-                <button className={styles.button} onClick={() => handleLinkClick('completed')}>
+                <button className={`${styles.button} ${activeLink === 'completed' ? styles.activeButton : ''}`} onClick={() => handleLinkClick('completed')}>
                     Completed Requests
                 </button>
             </div>
