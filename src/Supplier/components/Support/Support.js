@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Support = () => {
     const navigate = useNavigate()
+    const [loading, setLoading] = useState(false)
     const [feedbackVisible, setFeedbackVisible] = useState(true);
     const [complaintVisible, setComplaintVisible] = useState(false);
     const [activeButton, setActiveButton] = useState('enquiry');
@@ -26,141 +27,120 @@ const Support = () => {
     };
 
     // Feedback form state
-    const [orderId, setOrderId] = useState('');
-    const [orderIdError, setOrderIdError] = useState('');
-    const [feedback, setFeedback] = useState('');
-    const [feedbackError, setFeedbackError] = useState('');
+    const [subject, setSubject] = useState('');
+    const [subjectError, setSubjectError] = useState('');
+    const [message, setMessage] = useState('');
+    const [messageError, setMessageError] = useState('');
     const [feedbackImages, setFeedbackImages] = useState([]);
     const [imageError, setImageError] = useState('');
 
     // Complaint form state
-    const [compOrderId, setCompOrderId] = useState('');
-    const [compOrderIdError, setCompOrderIdError] = useState('');
-    const [compFeedback, setCompFeedback] = useState('');
-    const [compFeedbackError, setCompFeedbackError] = useState('');
+    const [compSubject, setCompSubject] = useState('');
+    const [compSubjectError, setCompSubjectError] = useState('');
+    const [compMessage, setCompMessage] = useState('');
+    const [compMessageError, setCompMessageError] = useState('');
     const [compImages, setCompImages] = useState([]);
     const [compImageError, setCompImageError] = useState('');
 
-    const validate = () => {
+
+    const validateForm = (formValues, setErrors) => {
+        const { subject, message, images } = formValues;
         const errors = {};
-        if (!orderId) {
-            setOrderIdError('Order ID is required');
-            errors.orderId = true;
-        } else {
-            setOrderIdError('');
-        }
-        if (!feedback) {
-            setFeedbackError('Feedback is required');
-            errors.feedback = true;
-        } else {
-            setFeedbackError('');
-        }
-        if (feedbackImages.length === 0) {
-            setImageError('Please upload at least one image');
-            errors.image = true;
-        } else {
-            setImageError('');
-        }
-        return errors;
+    
+        if (!subject) errors.subject = 'Subject is required';
+        if (!message) errors.message = 'Message is required';
+        if (images.length === 0) errors.images = 'Please upload at least one image';
+    
+        // Set errors in UI
+        setErrors(errors);
+    
+        return Object.keys(errors).length === 0;
     };
 
-    const compValidate = () => {
-        const errors = {};
-        if (!compOrderId) {
-            setCompOrderIdError('Order ID is required');
-            errors.compOrderId = true;
-        } else {
-            setCompOrderIdError('');
+    const submitSupportForm = ({ subject, message, images, type, endpoint, resetForm }) => {
+        setLoading(true)
+        const supplierId = sessionStorage.getItem("supplier_id") || localStorage.getItem("supplier_id");
+        if (!supplierId) {
+            navigate("/supplier/login");
+            return;
         }
-        if (!compFeedback) {
-            setCompFeedbackError('Feedback is required');
-            errors.compFeedback = true;
-        } else {
-            setCompFeedbackError('');
-        }
-        if (compImages.length === 0) {
-            setCompImageError('Please upload at least one image');
-            errors.compImage = true;
-        } else {
-            setCompImageError('');
-        }
-        return errors;
+    
+        const formData = new FormData();
+        formData.append('supplier_id', supplierId);
+        formData.append('subject', subject);
+        formData.append('message', message);
+        formData.append('support_type', type); // feedback or complaint
+        formData.append('usertype', 'supplier');
+        images.forEach(file => formData.append(`${type}_image`, file));
+    
+        postRequestWithTokenAndFile(endpoint, formData, async (response) => {
+            if (response.code === 200) {
+                toast(response.message, { type: "success" });
+                resetForm(); // clear form values
+                setLoading(false)
+            } else {
+                setLoading(false)
+                toast(response.message, { type: "error" });
+            }
+        });
     };
 
-    const handleSubmit = (event) => {
-
-        const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
-        const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
-
-        if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-        navigate("/supplier/login");
-        return;
-        }
-
-        event.preventDefault();
-        const errors = validate();
-        if (Object.keys(errors).length === 0) {
-            // const feedback_images = Array.from(feedbackImages).map(file => file);
-
-            const formData = new FormData();
-
-            formData.append('supplier_id', supplierIdSessionStorage || supplierIdLocalStorage);
-            formData.append('order_id', orderId);
-            formData.append('feedback', feedback);
-            formData.append('support_type', 'feedback');
-            formData.append('usertype', 'supplier');
-            Array.from(feedbackImages).forEach(file => formData.append('feedback_image', file))
-
-            postRequestWithTokenAndFile('order/submit-order-feedback', formData, async (response) => {
-                if(response.code === 200) {
-                    toast(response.message, { type: "success" });
-                    setOrderId('')
-                    setFeedback('')
-                    setFeedbackImages([])
-                } else {
-                    toast(response.message, { type: "error" });
-                }
-            })
-            
+    const handleFeedbackSubmit = (e) => {
+        e.preventDefault();
+        setLoading(true)
+        const formValues = { subject, message, images: feedbackImages };
+        const isValid = validateForm(formValues, ({ subject, message, images }) => {
+            setSubjectError(subject || '');
+            setMessageError(message || '');
+            setImageError(images || '');
+        });
+    
+        if (isValid) {
+            submitSupportForm({
+                subject,
+                message,
+                images: feedbackImages,
+                type: 'feedback',
+                endpoint: 'support/submit-feedback',
+                resetForm: () => {
+                    setSubject('');
+                    setMessage('');
+                    setFeedbackImages([]);
+                },
+            });
+        } else {
+            setLoading(false)
         }
     };
-
-    const complaintSubmit = (event) => {
-        const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
-        const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
-
-        if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-        navigate("/supplier/login");
-        return;
-        }
-
-
-        event.preventDefault();
-        const errors = compValidate();
-        if (Object.keys(errors).length === 0) {
-            const complaint_images = Array.from(compImages).map(file => file);
-
-            const formData = new FormData();
-
-            formData.append('supplier_id', supplierIdSessionStorage || supplierIdLocalStorage);
-            formData.append('order_id', compOrderId);
-            formData.append('complaint', compFeedback);
-            formData.append('support_type', 'complaint');
-            formData.append('usertype', 'supplier');
-            Array.from(compImages).forEach(file => formData.append('complaint_image', file))
-
-            postRequestWithTokenAndFile('order/submit-order-complaint', formData, async (response) => {
-                if(response.code === 200) {
-                    toast(response.message, { type: "success" });
-                    setCompOrderId('')
-                    setCompFeedback('')
-                    setCompImages([])
-                } else {
-                    toast(response.message, { type: "error" });
-                }
-            })
+    
+    const handleComplaintSubmit = (e) => {
+        e.preventDefault();
+        setLoading(true)
+        const formValues = { subject: compSubject, message: compMessage, images: compImages };
+        const isValid = validateForm(formValues, ({ subject, message, images }) => {
+            setCompSubjectError(subject || '');
+            setCompMessageError(message || '');
+            setCompImageError(images || '');
+        });
+    
+        if (isValid) {
+            submitSupportForm({
+                subject: compSubject,
+                message: compMessage,
+                images: compImages,
+                type: 'complaint',
+                endpoint: 'support/submit-complaint',
+                resetForm: () => {
+                    setCompSubject('');
+                    setCompMessage('');
+                    setCompImages([]);
+                },
+            });
+        } else {
+            setLoading(false)
         }
     };
+    
 
     const clearFeedbackImageError = () => {
         setImageError('');
@@ -178,7 +158,7 @@ const Support = () => {
                     <div className={styles['faq-section']}>
                         <div className={styles['support-btn-container']}>
                             <div onClick={toggleFeedbackForm}>
-                                <div className={`${styles['support-btn']} ${activeButton === 'feedback' && styles.active}`}>
+                                <div className={`${styles['support-btn']} ${activeButton === 'enquiry' && styles.active}`}>
                                     Enquiry
                                 </div>
                             </div>
@@ -197,29 +177,33 @@ const Support = () => {
                             feedbackVisible && (
                                 <div className={styles['form-main-container']}>
                                     <div className={styles['form-heading']}>Enquiry Form</div>
-                                    <form className={styles['form-main-form-section']} onSubmit={handleSubmit}>
+                                    <form className={styles['form-main-form-section']} 
+                                    //   onSubmit={handleSubmit}
+                                    onSubmit={handleFeedbackSubmit}
+
+                                    >
                                         <div className={styles['form-container']}>
                                             <div className={styles['form-support-main-section']}>
                                                 <div className={styles['form-cont-input-sec']}>
                                                     <input
                                                         type="text"
-                                                        placeholder="Enter your Order Id"
+                                                        placeholder="Enter subject"
                                                         className={styles['form-input']}
-                                                        value={orderId}
-                                                        onChange={(e) => { setOrderId(e.target.value); setOrderIdError('') }}
+                                                        value={subject}
+                                                        onChange={(e) => { setSubject(e.target.value); setSubjectError('') }}
                                                     />
-                                                    {orderIdError && <div className={styles['error-message']}>{orderIdError}</div>}
+                                                    {subjectError && <div className={styles['error-message']}>{subjectError}</div>}
                                                 </div>
 
                                                 <div className={styles['form-support-textarea']}>
                                                     <textarea
-                                                        placeholder="Enter your Enquiry"
+                                                        placeholder="Enter message"
                                                         className={styles['form-textarea']}
                                                         rows={4}
-                                                        value={feedback}
-                                                        onChange={(e) => { setFeedback(e.target.value); setFeedbackError('') }}
+                                                        value={message}
+                                                        onChange={(e) => { setMessage(e.target.value); setMessageError('') }}
                                                     />
-                                                    {feedbackError && <div className={styles['error-message']}>{feedbackError}</div>}
+                                                    {messageError && <div className={styles['error-message']}>{messageError}</div>}
                                                 </div>
                                             </div>
 
@@ -239,7 +223,17 @@ const Support = () => {
                                             </div>
                                         </div>
                                         <div className={styles['form-submit-btn-cont']}>
-                                            <button type="submit" className={styles['form-submit-btn']}>Submit</button>
+                                            <button 
+                                              type="submit" 
+                                              className={styles['form-submit-btn']}
+                                              disabled={loading}
+                                              >
+                                                {loading ? (
+                                                <div className='loading-spinner'></div>
+                                            ) : (
+                                                'Submit'
+                                            )}
+                                            </button>
                                         </div>
                                     </form>
                                 </div>
@@ -249,29 +243,32 @@ const Support = () => {
                             complaintVisible && (
                                 <div className={styles['form-main-container']}>
                                     <div className={styles['form-heading']}>Complaint Form</div>
-                                    <form className={styles['form-main-form-section']} onSubmit={complaintSubmit}>
+                                    <form className={styles['form-main-form-section']} 
+                                    //    onSubmit={complaintSubmit}
+                                    onSubmit={handleComplaintSubmit}
+                                       >
                                         <div className={styles['form-container']}>
                                             <div className={styles['form-support-main-section']}>
                                                 <div className={styles['form-cont-input-sec']}>
                                                     <input
                                                         type="text"
-                                                        placeholder="Enter your Order Id"
+                                                        placeholder="Enter subject"
                                                         className={styles['form-input']}
-                                                        value={compOrderId}
-                                                        onChange={(e) => { setCompOrderId(e.target.value); setCompOrderIdError('') }}
+                                                        value={compSubject}
+                                                        onChange={(e) => { setCompSubject(e.target.value); setCompSubjectError('') }}
                                                     />
-                                                    {compOrderIdError && <div className={styles['error-message']}>{compOrderIdError}</div>}
+                                                    {compSubjectError && <div className={styles['error-message']}>{compSubjectError}</div>}
                                                 </div>
 
                                                 <div className={styles['form-support-textarea']}>
                                                     <textarea
-                                                        placeholder="Enter your Complaint"
+                                                        placeholder="Enter message"
                                                         className={styles['form-textarea']}
                                                         rows={4}
-                                                        value={compFeedback}
-                                                        onChange={(e) => { setCompFeedback(e.target.value); setCompFeedbackError('') }}
+                                                        value={compMessage}
+                                                        onChange={(e) => { setCompMessage(e.target.value); setCompMessageError('') }}
                                                     />
-                                                    {compFeedbackError && <div className={styles['error-message']}>{compFeedbackError}</div>}
+                                                    {compMessageError && <div className={styles['error-message']}>{compMessageError}</div>}
                                                 </div>
                                             </div>
 
@@ -291,7 +288,17 @@ const Support = () => {
                                             </div>
                                         </div>
                                         <div className={styles['form-submit-btn-cont']}>
-                                            <button type="submit" className={styles['form-submit-btn']}>Submit</button>
+                                            <button 
+                                            type="submit" 
+                                            className={styles['form-submit-btn']}
+                                            disabled={loading}
+                                            >
+                                                {loading ? (
+                                                <div className='loading-spinner'></div>
+                                            ) : (
+                                                'Submit'
+                                            )}
+                                           </button>
                                         </div>
                                     </form>
                                 </div>

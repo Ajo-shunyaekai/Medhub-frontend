@@ -9,7 +9,7 @@ import {
 import DataTable from "react-data-table-component";
 import styles from "./PreviewFile.module.css";
 import FileUploadModal from "../../../SharedComponents/FileUploadModal/FileUploadModal";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
  
 function PreviewFile() {
   const dispatch = useDispatch();
@@ -96,8 +96,8 @@ function PreviewFile() {
                 className={`alert alert-success ${styles.successContainer}`}
                 role="alert"
               >
-                {previewProducts.entriesWithoutErrorsCount} successfully
-                uploaded
+                {previewProducts.entriesWithoutErrorsCount} {previewProducts.entriesWithoutErrorsCount === 1 ? 'product' : 'products'} imported. Click 'Submit' to upload.
+
                 <div className={styles.buttonGroup}>
                   <button
                     className={styles.uploadButton}
@@ -138,8 +138,11 @@ function PreviewFile() {
               className={`alert alert-danger ${styles.successContainer}`}
               role="alert"
             >
-              {previewProducts.entriesWithErrorsCount} errors have been
-              identified
+              <span>
+                {previewProducts.entriesWithErrorsCount} errors found. Download the file, correct them &#38; re-upload or for support please click 
+                <Link to='/supplier/support'> here</Link>
+              </span>
+              
               <div className={styles.buttonGroup}>
                 <button
                   className={styles.uploadButton}

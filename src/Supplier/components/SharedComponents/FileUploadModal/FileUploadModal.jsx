@@ -28,10 +28,10 @@ const FileUploadModal = ({ onClose, onSelectFile, onHandleUpload, modaltitle, ti
           <button className={styles.closeButton} onClick={onClose}>×</button>
         </div>
         <div className={styles.fileInputWrapper}>
-          <label className={styles.formLabel}>{title} File (PDF, CSV, Excel, DOC)</label>
+          <label className={styles.formLabel}>{title} File (CSV)</label>
           <div className={styles.modalInnerSection}>
             <FiUploadCloud size={20} className={styles.uploadIcon} />
-            <input type="file" accept=".pdf,.csv,.xls,.xlsx,.doc,.docx" onChange={handleInputChange} className={styles.fileInput} />
+            <input type="file" accept=".csv" onChange={handleInputChange} className={styles.fileInput} />
             {!selectedFile && <p className={styles.placeholderText}>{title} file</p>}
             {selectedFile && (
                 <p className={styles.fileModalName}>

@@ -1,0 +1,34 @@
+main {
+  width: 100%;
+  height: 100vh;
+  background-color: #f9f9fa;
+  overflow: scroll;
+  background-attachment: fixed;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  margin: auto;
+}
+main::-webkit-scrollbar {
+  display: none;
+}
+
+.outerContainer {
+  padding: 0px 1.2rem;
+  display: flex;
+  flex-direction: column;
+  row-gap: 15px;
+}
+
+h4 {
+  margin: 0px;
+}
+.title {
+  color: #282f86;
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.innerContainer {
+  width: 100%;
+}

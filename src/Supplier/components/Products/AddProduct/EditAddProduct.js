@@ -364,7 +364,7 @@ const EditAddProduct = ({ placeholder }) => {
       const additional = productDetail?.additional || {};
       const inventoryDetails = productDetail?.inventoryDetails || {};
       const healthNSafety = productDetail?.healthNSafety || {};
-      const secondayMarketDetails = productDetail?.secondayMarketDetails || {};
+      const secondaryMarketDetails = productDetail?.secondaryMarketDetails || {};
       const categoryDetails = productDetail?.[productDetail?.category] || {}; // Safely access category details
 
       formik.setValues({
@@ -415,12 +415,12 @@ const EditAddProduct = ({ placeholder }) => {
         environmentalImpactNew: [],
         category: productDetail?.category || "",
         market: productDetail?.market || "",
-        purchasedOn: secondayMarketDetails?.purchasedOn || "",
-        countryAvailable: secondayMarketDetails?.countryAvailable || [],
-        purchaseInvoiceFile: secondayMarketDetails?.purchaseInvoiceFile || [],
+        purchasedOn: secondaryMarketDetails?.purchasedOn || "",
+        countryAvailable: secondaryMarketDetails?.countryAvailable || [],
+        purchaseInvoiceFile: secondaryMarketDetails?.purchaseInvoiceFile || [],
         purchaseInvoiceFileNew: [],
-        condition: secondayMarketDetails?.condition || "",
-        minimumPurchaseUnit: secondayMarketDetails?.minimumPurchaseUnit || "",
+        condition: secondaryMarketDetails?.condition || "",
+        minimumPurchaseUnit: secondaryMarketDetails?.minimumPurchaseUnit || "",
         subCategory: categoryDetails?.subCategory || "",
         anotherCategory: categoryDetails?.anotherCategory || "",
         stockedInDetails: inventoryDetails?.stockedInDetails || [

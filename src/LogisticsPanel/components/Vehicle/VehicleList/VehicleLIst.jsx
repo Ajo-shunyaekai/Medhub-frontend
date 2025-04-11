@@ -62,7 +62,6 @@ const VehicleList = () => {
         <div className="order-container-right container mt-3">
           <div responsive="xl" className="order-table-responsive">
             <div className='order-main-container'>
-              <div className="order-name-2"> Active Requests</div>
               <div className="order-container">
                   <div className="order-container-right-section">
                       <div className='order-inner-container-section'>

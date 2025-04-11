@@ -97,8 +97,8 @@ const BuyerComplaintDetails = () => {
                                     </div>
                                     <div className='seller-details-uppar-right-container-section'>
                                         <div className='seller-details-company-type-section'>
-                                            <div className='seller-details-company-type-sec-head'>Order ID :</div>
-                                            <div className='seller-details-company-type-sec-text'>{supplierDetails?.order_id}</div>
+                                            <div className='seller-details-company-type-sec-head'>Subject :</div>
+                                            <div className='seller-details-company-type-sec-text'>{supplierDetails?.subject || 'N/A'}</div>
                                         </div>
                                         <div className='seller-details-company-type-section'>
                                             <div className='seller-details-company-type-sec-head'>Date:</div>
@@ -111,8 +111,8 @@ const BuyerComplaintDetails = () => {
                             </div>
                         </div>
                         <div className='seller-details-description-section'>
-                            <div className='seller-details-description-head'>Complaint Description</div>
-                            <div className='seller-details-description-content'>{supplierDetails?.reason}</div>
+                            <div className='seller-details-description-head'>Message</div>
+                            <div className='seller-details-description-content'>{supplierDetails?.message || 'N/A'}</div>
                         </div>
                     </div>
                     <div className='seller-details-card-section'>

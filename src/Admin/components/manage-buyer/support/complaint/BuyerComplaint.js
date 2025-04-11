@@ -21,10 +21,10 @@ const BuyerComplaint = ({supportList, handlePageChange, currentPage, totalItems,
                                         <span className={styles['complaint-header-text-color']}>Complaint ID</span>
                                     </div>
                                     <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-1']}`}>
-                                        <span className={styles['complaint-header-text-color']}>Order ID</span>
+                                        <span className={styles['complaint-header-text-color']}>Subject</span>
                                     </div>
                                     <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-2']}`}>
-                                        <span className={styles['complaint-header-text-color']}>Complaint</span>
+                                        <span className={styles['complaint-header-text-color']}>Message</span>
                                     </div>
                                    
                                     <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-1']}`}>
@@ -40,11 +40,11 @@ const BuyerComplaint = ({supportList, handlePageChange, currentPage, totalItems,
                                         <div className={styles['complaint-table-text-color']}>{support.support_id || 'ID Not Provided'}</div>
                                     </div>
                                     <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-1']}`}>
-                                        <div className={styles['complaint-table-text-color']}>{support.order_id || 'Order ID Not Provided'}</div>
+                                        <div className={styles['complaint-table-text-color']}>{support.order_id || support.subject ||  'N/A'}</div>
                                     </div>
                                     <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-2']}`}>
                                         <div className={`${styles['complaint-table-text-color']} ${styles['truncated-text']}`}>
-                                        {support.reason || 'Reason Not Provided'}
+                                        {support.reason || support.message ||  'N/A'}
                                         </div>
                                     </div>
                                     <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-btn']} ${styles['complaint-table-order-1']}`}>

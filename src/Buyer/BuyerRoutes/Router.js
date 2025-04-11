@@ -503,7 +503,7 @@ const router = createBrowserRouter([
         ),
         children: [
           {
-            path: "by-supplier",
+            path: "suppliers",
             element: (
               <Suspense fallback={<Loader />}>
                 <BySupplier socket={socket} />
@@ -511,7 +511,7 @@ const router = createBrowserRouter([
             ),
           },
           {
-            path: "by-product",
+            path: "new-products",
             element: (
               <Suspense fallback={<Loader />}>
                 <ByProduct socket={socket} />
