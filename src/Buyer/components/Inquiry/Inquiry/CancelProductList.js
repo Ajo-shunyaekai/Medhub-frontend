@@ -2,28 +2,8 @@ import React, { useState } from 'react';
 import Pagination from 'react-js-pagination';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
-
+import '../ongoingdetails.css'
 const CancelProductList = ({items, inquiryDetails}) => {
-  // Static data
-  // const items = [
-  //   {
-  //     productId: '123654789',
-  //     productName: 'Paracetamol',
-  //     quantity: 1400,
-  //     listedPrice: '20 USD',
-  //     targetPrice: '14 USD',
-  //     status: 'Pending',
-  //   },
-  //   {
-  //     productId: '456123789',
-  //     productName: 'Aspirin',
-  //     quantity: 800,
-  //     listedPrice: '15 USD',
-  //     targetPrice: '10 USD',
-  //     status: 'Pending',
-  //   },
-  // ];
-
   const [currentPage, setCurrentPage] = useState(1);
   const ordersPerPage = 3;
   const indexOfLastOrder  = currentPage * ordersPerPage;
@@ -51,7 +31,8 @@ const CancelProductList = ({items, inquiryDetails}) => {
               </td>
               <td className='tables-td-cont'>
                 <div className="table-second-container">
-                <span className="table-g-section">{item?.medicine_details?.medicine_name?.charAt(0).toUpperCase()}</span>
+                   {/* {item.unit_price} USD */}
+                {/* <span className="table-g-section">{item?.medicine_details?.medicine_name?.charAt(0).toUpperCase()}</span> */}
                   <div className="table-g-section-content">
                     <span className="table-g-driver-name">Product Name</span>
                     <span className="table-g-not-name">{item?.medicine_details?.medicine_name}</span>

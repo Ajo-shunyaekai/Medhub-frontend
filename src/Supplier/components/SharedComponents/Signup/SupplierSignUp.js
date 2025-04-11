@@ -334,50 +334,6 @@ const SupplierSignUp = ({ socket }) => {
             if (!value.trim()) {
                 errorMessage = 'Please enter bank details';
             }
-            // Validate number of fields
-            // else if (details.length > 3) {
-            //     errorMessage = 'Too many values. Please enter only Bank Name, Account Number, and IFSC Code';
-            // }
-            // else {
-            //     const [bankName = '', accountNumber = '', ifscCode = ''] = details;
-
-            //     // Validate bank name
-            //     // if (bankName && !/^[A-Za-z\s]*$/.test(bankName)) {
-            //     //     errorMessage = 'Bank name should only contain letters and spaces';
-            //     // }
-            //     if (bankName && !/^[A-Za-z\s\-]*$/.test(bankName)) {
-            //         errorMessage = 'Bank name should only contain letters, spaces, and hyphens';
-            //       }
-
-            //     // Validate account number if bank name is valid
-            //     else if (accountNumber) {
-            //         // if (!/^\d*$/.test(accountNumber)) {
-            //         //     errorMessage = 'Account number should only contain digits';
-            //         // } 
-            //         if (!/^[A-Za-z0-9\s\-]*$/.test(accountNumber)) {
-            //             errorMessage = 'Account number should only contain letters, digits, spaces, and hyphens';
-            //           }
-            //         else if (accountNumber.length > 0 && accountNumber.length < 6) {
-            //             errorMessage = 'Account number should be at least 6 digits';
-            //         } else if (accountNumber.length > 30) {
-            //             errorMessage = 'Account number should not exceed 30 digits';
-            //         }
-            //     }
-
-            //     // Validate IFSC code if account number is valid
-            //     if (ifscCode) {
-            //         if (ifscCode.length > 20) {
-            //             errorMessage = 'IFSC/Sort Code should not exceed 20 digits';
-            //         }
-            //     }
-
-            //     // If all fields are present, verify complete format
-            //     if (details.length === 3 && !errorMessage) {
-            //         if (!bankName) errorMessage = 'Please enter bank name';
-            //         else if (!accountNumber) errorMessage = 'Please enter account number';
-            //         else if (!ifscCode) errorMessage = 'Please enter IFSC code';
-            //     }
-            // }
 
             setErrors(prevState => ({
                 ...prevState,
@@ -424,9 +380,6 @@ const SupplierSignUp = ({ socket }) => {
         } else if (name === 'delivertime' && !/^\d{0,3}$/.test(value)) {
             setErrors(prevState => ({ ...prevState, delivertime: '' }));
         }
-        // else if(name === 'pincode' && !/^\d{0,6}$/.test(value)) {
-        //     setErrors(prevState => ({ ...prevState, pincode: '' }));
-        // } 
         else if (name === 'pincode' && !/^[A-Za-z0-9-]{0,8}$/.test(value)) {
             setErrors(prevState => ({ ...prevState, pincode: '' }));
         }
@@ -555,37 +508,11 @@ const SupplierSignUp = ({ socket }) => {
                 }
             }
         }
-        // if (!formData.companyTaxNo) formErrors.companyTaxNo = 'Company Tax No. is Required';
-        // if (!isChecked) formErrors.terms = 'You must agree to the terms and conditions';
-        // if (!formData.bankdetails) formErrors.bankdetails = 'Bank Details are Required';
+       
         if (!formData.bankdetails) {
             formErrors.bankdetails = 'Bank Details are Required';
         } else {
-            // const bankDetailsArray = formData.bankdetails.split(',');
-
-            // // Check if we have all three parts
-            // if (bankDetailsArray.length !== 3) {
-            //     formErrors.bankdetails = 'Please provide Bank Name, Account Number, and IFSC Code separated by commas';
-            // } else {
-            //     const [bankName, accountNumber, ifscCode] = bankDetailsArray.map(item => item.trim());
-
-            //     // Validate each part
-            //     if (!bankName) {
-            //         formErrors.bankdetails = 'Bank Name is required';
-            //     }
-
-            //     if (!accountNumber || accountNumber.length < 8) {
-            //         formErrors.bankdetails = 'Please enter a valid Account Number';
-            //     }
-
-            //     // IFSC validation (11 characters, alphanumeric)
-            //     // if (!ifscCode || !/^[A-Za-z]{4}0[A-Za-z0-9]{6}$/.test(ifscCode)) {
-            //     //     formErrors.bankdetails = 'Please enter a valid IFSC Code (11 characters, starting with 4 letters followed by a 0)';
-            //     // }
-            //     if (!ifscCode || ifscCode.length < 16) {
-            //         formErrors.bankdetails = 'Please enter a valid IFSC code ';
-            //     }
-            // }
+           
         }
 
 
@@ -604,7 +531,7 @@ const SupplierSignUp = ({ socket }) => {
             formErrors.medicalCertificateImage = 'Medical Certificate Image is Required';
         }
         if (!formData.registrationNo) formErrors.registrationNo = 'Registration No. is Required';
-        if (!formData.vatRegistrationNo) formErrors.vatRegistrationNo = 'Tax/VAT Registration No. is Required';
+        if (!formData.vatRegistrationNo) formErrors.vatRegistrationNo = 'GST/VAT Registration No. is Required';
         if (!formData.activityCode) formErrors.activityCode = 'Business/Trade Activity is Required';
 
 
@@ -690,13 +617,6 @@ const SupplierSignUp = ({ socket }) => {
     };
 
     const handleCancel = () => {
-        // setFormData(defaultFormData);
-        // setErrors({});
-        // setIsChecked(false);
-        // setCompanyPhone('');
-        // setMobile('');
-        // setSelectedCompanyType(null)
-        // setResetUploaders(true);
         navigate('/supplier/login')
     }
 
@@ -734,8 +654,6 @@ const SupplierSignUp = ({ socket }) => {
             formDataToSend.append('supplier_name', formData.companyName);
             formDataToSend.append('description', formData.description);
             formDataToSend.append('supplier_address', formData.companyAddress);
-            // formDataToSend.append('supplier_email', formData.companyEmail);
-            // formDataToSend.append('supplier_mobile_no', companyPhone);
             formDataToSend.append('supplier_mobile_no', formData.companyPhone);
             formDataToSend.append('license_no', formData.companyLicenseNo);
             formDataToSend.append('license_expiry_date', formData.companyLicenseExpiry);
@@ -877,13 +795,13 @@ const SupplierSignUp = ({ socket }) => {
                                                 {errors.registrationNo && <div className='signup__errors'>{errors.registrationNo}</div>}
                                             </div>
                                             <div className='signup-form-section-div'>
-                                                <label className='signup-form-section-label'>Tax/VAT Registration Number<span className='labelstamp'>*</span></label>
+                                                <label className='signup-form-section-label'>GST/VAT Registration Number<span className='labelstamp'>*</span></label>
                                                 <div className='signup-tooltip-class'>
                                                 <input
                                                     className='signup-form-section-input'
                                                     type="text"
                                                     name="vatRegistrationNo"
-                                                    placeholder="Enter Tax/VAT Registration Number"
+                                                    placeholder="Enter GST/VAT Registration Number"
                                                     value={formData.vatRegistrationNo}
                                                     onChange={handleChange}
                                                 />
@@ -1056,6 +974,20 @@ const SupplierSignUp = ({ socket }) => {
                                                 {errors.operationCountries && <div className='signup__errors'>{errors.operationCountries}</div>}
                                             </div>
                                             <div className='signup-form-section-div'>
+                                                <label className='signup-form-section-label'>Categories you Trade In<span className='labelstamp'>*</span></label>
+                                                {category.length > 0 && (
+                                                    < MultiSelectDropdown
+                                                        className='signup-forms-sections-select custom-multi-select'
+                                                        options={category}
+                                                        value={formData.categories}
+                                                        onChange={handleCategoriesChange}
+                                                        getDropdownButtonLabel={getDropdownButtonLabel}
+                                                        style={{ width: '100%!important' }}
+                                                    />
+                                                )}
+                                                {errors.categories && <div className='signup__errors'>{errors.categories}</div>}
+                                            </div>
+                                            <div className='signup-form-section-div'>
                                                 <label className='signup-form-section-label'>Company License No.<span className='labelstamp'>*</span></label>
                                                 <input
                                                     className='signup-form-section-input'
@@ -1081,18 +1013,6 @@ const SupplierSignUp = ({ socket }) => {
 
                                                 {errors.companyLicenseExpiry && <div className='signup__errors'>{errors.companyLicenseExpiry}</div>}
                                             </div>
-                                            {/* <div className='signup-form-section-div'>
-                                                <label className='signup-form-section-label'>Company Tax No.<span className='labelstamp'>*</span></label>
-                                                <input
-                                                    className='signup-form-section-input'
-                                                    type="text"
-                                                    name="companyTaxNo"
-                                                    placeholder="Enter Company Tax No."
-                                                    value={formData.companyTaxNo}
-                                                    onChange={handleChange}
-                                                />
-                                                {errors.companyTaxNo && <div className='signup__errors'>{errors.companyTaxNo}</div>}
-                                            </div> */}
                                             <div className='signup-form-section-div'>
                                                 <label className='signup-form-section-label'>Tags<span className='labelstamp'>*</span></label>
                                                 <input
@@ -1105,20 +1025,7 @@ const SupplierSignUp = ({ socket }) => {
                                                 />
                                                 {errors.tags && <div className='signup__errors'>{errors.tags}</div>}
                                             </div>
-                                            <div className='signup-form-section-div'>
-                                                <label className='signup-form-section-label'>Categories you Trade In<span className='labelstamp'>*</span></label>
-                                                {category.length > 0 && (
-                                                    < MultiSelectDropdown
-                                                        className='signup-forms-sections-select custom-multi-select'
-                                                        options={category}
-                                                        value={formData.categories}
-                                                        onChange={handleCategoriesChange}
-                                                        getDropdownButtonLabel={getDropdownButtonLabel}
-                                                        style={{ width: '100%!important' }}
-                                                    />
-                                                )}
-                                                {errors.categories && <div className='signup__errors'>{errors.categories}</div>}
-                                            </div>
+                                          
                                             <div className='signup-form-section-div'>
                                                 <label className='signup-form-section-label'>About Company<span className='labelstamp'>*</span></label>
                                                 <div className='signup-tooltip-class'>

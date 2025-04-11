@@ -1,7 +1,7 @@
 .Maincontainer {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 20px;
 }
 
 ul {
@@ -98,13 +98,10 @@ ul {
 }
 
 .cardContainer {
-    background: linear-gradient(270deg, #f5f5f7, #e1f2ff);
-    border-radius: 4px;
     display: flex;
     justify-content: start;
     flex-wrap: wrap;
     gap: 20px;
-    padding: 1rem 30px;
 }
 
 .cardSection {

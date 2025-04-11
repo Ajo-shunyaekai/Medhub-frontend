@@ -158,9 +158,9 @@ const SupplierCompleted = lazy(() =>
 const SupplierActive = lazy(() =>
   import("../components/supplier/SupplierActive")
 );
-const SupplierPending = lazy(() =>
-  import("../components/supplier/SupplierPending")
-);
+// const SupplierPending = lazy(() =>
+//   import("../components/supplier/SupplierPending")
+// );
 const Profile = lazy(() =>
   import("../components/SharedComponents/Profile/profile")
 );
@@ -857,14 +857,14 @@ const router = createBrowserRouter([
           </Suspense>
         ),
       },
-      {
-        path: "supplier-pending/:supplierId",
-        element: (
-          <Suspense fallback={<Loader />}>
-            <SupplierPending socket={socket} />
-          </Suspense>
-        ),
-      },
+      // {
+      //   path: "supplier-pending/:supplierId",
+      //   element: (
+      //     <Suspense fallback={<Loader />}>
+      //       <SupplierPending socket={socket} />
+      //     </Suspense>
+      //   ),
+      // },
       {
         path: "logistics-form/:orderId/:buyerId",
         element: (

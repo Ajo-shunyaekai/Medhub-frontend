@@ -1,19 +1,17 @@
 .gridContainer {
-    background: linear-gradient(270deg, #f5f5f7, #e1f2ff);
-    border-radius: 4px;
     display: flex;
     justify-content: start;
     flex-wrap: wrap;
     gap: 20px;
-    padding: 1rem 30px;
 }
-
+h4{
+    margin-bottom: 0px !important;
+}
 .card {
     background-color: #fff;
     border-radius: 4px;
     box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
-    display: flex
-;
+    display: flex;
     align-items: center;
     gap: 30px;
     padding: 20px 24px;
@@ -24,8 +22,7 @@
     margin-bottom: 26rem;
     display: flex;
     flex-direction: column;
-    gap: 30px;
-
+    gap: 20px;
 }
 
 .innerContainer {

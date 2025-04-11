@@ -639,7 +639,7 @@ const SignUp = ({ socket }) => {
         if (!formData.licenseImage) formErrors.licenseImage = 'License Image is Required';
         if (!formData.certificateImage) formErrors.certificateImage = 'Certificate Image is Required';
         if (!formData.registrationNo) formErrors.registrationNo = 'Registration No. is Required';
-        if (!formData.vatRegistrationNo) formErrors.vatRegistrationNo = 'Tax/VAT Registration No. is Required';
+        if (!formData.vatRegistrationNo) formErrors.vatRegistrationNo = 'GST/VAT Registration Number is Required';
         // if (!formData.medicalCertificate) formErrors.medicalCertificate = 'Medical Certificate Image is Required';
         if (selectedCompanyType?.value === "medical practitioner" && !formData.medicalCertificateImage) {
             formErrors.medicalCertificateImage = 'Medical Certificate Image is Required';
@@ -909,20 +909,20 @@ const SignUp = ({ socket }) => {
                                                 {errors.registrationNo && <div className='signup__errors'>{errors.registrationNo}</div>}
                                             </div>
                                             <div className='signup-form-section-div'>
-                                                <label className='signup-form-section-label'>Tax/VAT Registration Number<span className='labelstamp'>*</span></label>
+                                                <label className='signup-form-section-label'>GST/VAT Registration Number<span className='labelstamp'>*</span></label>
                                                 <div className='signup-tooltip-class'>
                                                 <input
                                                     className='signup-form-section-input'
                                                     type="text"
                                                     name="vatRegistrationNo"
-                                                    placeholder="Enter Tax/VAT Registration Number"
+                                                    placeholder="Enter GST/VAT Registration Number"
                                                     value={formData.vatRegistrationNo}
                                                     onChange={handleChange}
                                                 />
                                                  <span
                                                         className="email-info-icon"
                                                         data-tooltip-id="company-name-tooltip"
-                                                        data-tooltip-content="Provide your Tax/VAT Registration Number"
+                                                        data-tooltip-content="Provide your GST/VAT Registration Number"
                                                     >
                                                         <img src={Information} className='tooltip-icons' alt='information' />
                                                     </span>
@@ -1118,7 +1118,7 @@ const SignUp = ({ socket }) => {
                                                 />
                                                 {errors.companyLicenseExpiry && <div className='signup__errors'>{errors.companyLicenseExpiry}</div>}
                                             </div>
-                                            <div className='signup-form-section-div'>
+                                            {/* <div className='signup-form-section-div'>
                                                 <label className='signup-form-section-label'>Company Tax No.<span className='labelstamp'>*</span></label>
                                                 <input
                                                     className='signup-form-section-input'
@@ -1129,7 +1129,7 @@ const SignUp = ({ socket }) => {
                                                     onChange={handleChange}
                                                 />
                                                 {errors.companyTaxNo && <div className='signup__errors'>{errors.companyTaxNo}</div>}
-                                            </div>
+                                            </div> */}
                                             <div className='signup-form-section-div'>
                                                 <label className='signup-form-section-label'>Approx. Yearly Purchase Value<span className='labelstamp'>*</span></label>
                                                 <input
