@@ -24,11 +24,11 @@ const SupplierRequestDetails = () => {
     const [rejectLoading, setRejectLoading] = useState(false)
     const [open, setOpen] = useState(false);
     const [pdfUrl, setPdfUrl] = useState(null);
-    const [salesPersonName, setSalesPersonName] = useState(""); 
+    const [salesPersonName, setSalesPersonName] = useState("");
     const [isEditable, setIsEditable] = useState(false);
 
     const handleEditClick = () => {
-        setIsEditable(true); 
+        setIsEditable(true);
     };
 
     const handleChange = (e) => {
@@ -121,7 +121,7 @@ const SupplierRequestDetails = () => {
                 }
                 setSupplierDetails(response?.result);
                 setSalesPersonName(response?.result?.sales_person_name)
-                
+
             } catch (error) {
             }
         }
@@ -211,50 +211,86 @@ const SupplierRequestDetails = () => {
                                                         />
                                                     )}
                                                 </div>
-                                                <div className='buyer-details-left-inner-email-button' >
-                                                   <a href={`mailto:${supplierDetails?.contact_person_email}`} target="_blank" rel="noopener noreferrer">
-                                                        <MailOutlineIcon
-                                                            data-tooltip-id={supplierDetails?.contact_person_email ? "my-tooltip-2" : null}
-                                                            className='buyer-details-left-inner-icon'
-                                                        />
-                                                    </a>
-                                                    {supplierDetails?.contact_person_email && (
-                                                        <ReactTooltip
-                                                            id="my-tooltip-2"
-                                                            place="bottom"
-                                                            effect="solid"
-                                                            content={supplierDetails.contact_person_email}
-                                                        />
-                                                    )}
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div className='buyer-details-uppar-right-container-section'>
-                                        <div className='buyer-details-company-type-section'>
-                                            <div className='buyer-details-company-type-sec-head'>Company Type:</div>
-                                            <div className='buyer-details-company-type-sec-text'> {supplierDetails?.supplier_type}</div>
+                                        <div className='buyer-details-account-container-section'>
+                                            <div className='buyer-details-inner-section'>
+                                                <div className='buyer-details-inner-head'>Account Status :</div>
+                                                <div className='buyer-details-button-text'>Active</div>
+                                            </div>
+                                            <div className='buyer-details-inner-section'>
+                                                <div className='buyer-details-inner-head'>Company Type:</div>
+                                                <div className='buyer-details-inner-text'> {supplierDetails?.supplier_type}</div>
+                                            </div>
+
+
                                         </div>
                                         <div className='buyer-details-company-type-section'>
                                             <div className='buyer-details-company-type-sec-head'>Address:</div>
-                                            <div className='buyer-details-company-type-sec-text'>{supplierDetails?.supplier_address} {supplierDetails?.registeredAddress?.locality} </div>
-                                            <div className='buyer-details-company-type-sec-text'>{supplierDetails?.registeredAddress?.land_mark} {supplierDetails?.registeredAddress?.country} {supplierDetails?.registeredAddress?.state} {supplierDetails?.registeredAddress?.city}</div>
-                                            <div className='buyer-details-company-type-sec-text'>{supplierDetails?.registeredAddress?.pincode}</div>
+                                            <div className='buyer-details-company-type-sec-text'>{supplierDetails?.supplier_address} {supplierDetails?.registeredAddress?.locality} {supplierDetails?.registeredAddress?.land_mark} </div>
+                                            <div className='buyer-details-company-type-sec-text'> {supplierDetails?.registeredAddress?.country} {supplierDetails?.registeredAddress?.state} {supplierDetails?.registeredAddress?.city} {supplierDetails?.registeredAddress?.pincode}</div>
+                                            
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div className='buyer-details-bank-container'>
-                        <div className='buyer-details-bank-section'>
-                            <div className='buyer-details-description-head'>Description</div>
-                            <div className='buyer-details-description-content'>{supplierDetails?.description}</div>
+                            <div className='buyer-details-bank-section'>
+                                <div className='buyer-details-description-head'>Description</div>
+                                <div className='buyer-details-description-content'>{supplierDetails?.description}</div>
+                            </div>
+                            <div className='buyer-details-bank-section'>
+                                <div className='buyer-details-description-head'>Bank Details</div>
+                                <div className='buyer-details-description-content'>{supplierDetails?.bank_details}</div>
+                            </div>
                         </div>
-                        <div className='buyer-details-bank-section'>
-                            <div className='buyer-details-description-head'>Bank Details</div>
-                            <div className='buyer-details-description-content'>{supplierDetails?.bank_details}</div>
+
+                        <div className='buyers-details-section'>
+                            <div className='buyer-details-inner-left-section'>
+                                
+
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Payment Status :</div>
+                                    <div className='buyer-details-inner-text-button'>Done</div>
+                                </div>
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Payment Plan :</div>
+                                    <div className='buyer-details-inner-text'>{supplierDetails?.registration_no}</div>
+                                </div>
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Promotion Name:</div>
+                                    <div className='buyer-details-inner-text'>{supplierDetails?.country_of_operation?.join(', ')}</div>
+                                </div>
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Renewal Date :</div>
+                                    <div className='buyer-details-inner-text'>{supplierDetails?.license_no}</div>
+                                </div>
+
+
+
+                            </div>
+                            <div className='buyer-details-inner-left-section'>
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Account Creation Date :</div>
+                                    <div className='buyer-details-inner-text'>{supplierDetails?.vat_reg_no}</div>
+                                </div>
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Last Log-in Date :</div>
+                                    <div className='buyer-details-inner-text'>{supplierDetails?.license_expiry_date}</div>
+                                </div>
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Log-in frequency over <br />last 90 days:</div>
+                                    <div className='buyer-details-inner-text'>{supplierDetails?.license_expiry_date}</div>
+                                </div>
+                            </div>
                         </div>
-                        </div>
+
+
+
+
                         <div className='buyers-details-section'>
                             <div className='buyer-details-inner-left-section'>
                                 <div className="buyer-details-inner-section">
@@ -277,69 +313,11 @@ const SupplierRequestDetails = () => {
                                     </div>
                                 </div>
                                 <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Contact Person Name :</div>
-                                    <div className='buyer-details-inner-text'>{supplierDetails?.contact_person_name}</div>
-                                </div>
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Designation :</div>
-                                    <div className='buyer-details-inner-text'>{supplierDetails?.designation}</div>
-                                </div>
-                                {/* <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Email ID :</div>
-                                    <div className='buyer-details-inner-text'>{supplierDetails?.contact_person_email}</div>
-                                </div> */}
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Mobile No. :</div>
-                                    <div className='buyer-details-inner-text'>{supplierDetails?.contact_person_country_code} {supplierDetails?.contact_person_mobile_no}</div>
-                                </div>
-                                
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Tags :</div>
-                                    <div className='buyer-details-inner-text'>{supplierDetails?.tags}</div>
-                                </div>
-                                {/* <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Est.Delivery Time :</div>
-                                    <div className='buyer-details-inner-text'>
-                                        {
-                                            supplierDetails?.estimated_delivery_time && !supplierDetails?.estimated_delivery_time.includes('Days')
-                                                ? `${supplierDetails?.estimated_delivery_time} Days`
-                                                : supplierDetails?.estimated_delivery_time
-                                        }
-                                    </div>
-                                </div> */}
-                                 
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>License No. :</div>
-                                    <div className='buyer-details-inner-text'>{supplierDetails?.license_no}</div>
-                                </div>
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>License Expiry Date :</div>
-                                    <div className='buyer-details-inner-text'>{supplierDetails?.license_expiry_date}</div>
-                                </div>
-                            </div>
-                            <div className='buyer-details-inner-left-section'>
-                            <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Business/Trade Activity Code :</div>
-                                    <div className='buyer-details-inner-text'>{supplierDetails?.activity_code || '-'}</div>
-                                </div>
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>License No. :</div>
-                                    <div className='buyer-details-inner-text'>{supplierDetails?.license_no}</div>
-                                </div>
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>License Expiry Date :</div>
-                                    <div className='buyer-details-inner-text'>{supplierDetails?.license_expiry_date}</div>
-                                </div>
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Tax No. :</div>
-                                    <div className='buyer-details-inner-text'>{supplierDetails?.tax_no}</div>
-                                </div>
-                                <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Company Registration No. :</div>
                                     <div className='buyer-details-inner-text'>{supplierDetails?.registration_no}</div>
                                 </div>
                                 <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>VAT Registration No :</div>
+                                    <div className='buyer-details-inner-head'>GST/VAT Registration No :</div>
                                     <div className='buyer-details-inner-text'>{supplierDetails?.vat_reg_no}</div>
                                 </div>
                                 <div className='buyer-details-inner-section'>
@@ -350,21 +328,61 @@ const SupplierRequestDetails = () => {
                                     <div className='buyer-details-inner-head'>Country of Operation :</div>
                                     <div className='buyer-details-inner-text'>{supplierDetails?.country_of_operation?.join(', ')}</div>
                                 </div>
-                              
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>License No. :</div>
+                                    <div className='buyer-details-inner-text'>{supplierDetails?.license_no}</div>
+                                </div>
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>License Expiry Date :</div>
+                                    <div className='buyer-details-inner-text'>{supplierDetails?.license_expiry_date}</div>
+                                </div>
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Country you Trade in :</div>
+                                    <div className='buyer-details-inner-text'>{supplierDetails?.license_expiry_date}</div>
+                                </div>
+
+
+                            </div>
+                            <div className='buyer-details-inner-left-section'>
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Tags :</div>
+                                    <div className='buyer-details-inner-text'>{supplierDetails?.tags}</div>
+                                </div>
+
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Business/Trade Activity Code :</div>
+                                    <div className='buyer-details-inner-text'>{supplierDetails?.activity_code || '-'}</div>
+                                </div>
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Contact Person Name :</div>
+                                    <div className='buyer-details-inner-text'>{supplierDetails?.contact_person_name}</div>
+                                </div>
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Designation :</div>
+                                    <div className='buyer-details-inner-text'>{supplierDetails?.designation}</div>
+                                </div>
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Email ID :</div>
+                                    <div className='buyer-details-inner-text'>{supplierDetails?.contact_person_email}</div>
+                                </div>
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Mobile No. :</div>
+                                    <div className='buyer-details-inner-text'>{supplierDetails?.contact_person_country_code} {supplierDetails?.contact_person_mobile_no}</div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div className='buyer-details-card-section'>
                         <div className='buyer-details-uppar-card-section'>
                             <div className='buyer-details-uppar-card-inner-section'>
-                            {
+                                {
                                     supplierDetails?.supplier_type === 'Medical Practitioner' && (
                                         <div className='buyer-details-card-container'>
-                                    <div className='buyer-details-company-logo-heading'>Medical Practioner Document</div>
-                                    <div className='buyer-details-company-img-container'>
-                                        {renderFiles(supplierDetails?.medical_certificate, 'medical_practitioner_image')}
-                                    </div>
-                                </div>
+                                            <div className='buyer-details-company-logo-heading'>Medical Practioner Document</div>
+                                            <div className='buyer-details-company-img-container'>
+                                                {renderFiles(supplierDetails?.medical_certificate, 'medical_practitioner_image')}
+                                            </div>
+                                        </div>
                                     )
                                 }
                                 {/* Trade License */}
@@ -391,7 +409,7 @@ const SupplierRequestDetails = () => {
                                     </div>
                                 </div>
 
-                                
+
                             </div>
                         </div>
 
