@@ -21,6 +21,8 @@ import Box from "@mui/material/Box";
 import Badge from "@mui/material/Badge";
 import Drawer from "@mui/material/Drawer";
 import moment from "moment";
+import { useDispatch } from "react-redux";
+import { logoutUser } from "../../../../redux/reducers/userDataSlice";
 
 const AdmSidebar = ({
   children,
@@ -30,6 +32,7 @@ const AdmSidebar = ({
   handleClick,
 }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
   const [isDropOpen, setIsDropOpen] = useState(false);
   const [isSellerOpen, setIsSellerOpen] = useState(false);
   const [isManageOpen, setIsManageOpen] = useState(false);
@@ -169,11 +172,14 @@ const AdmSidebar = ({
     setOpen(newOpen);
   };
 
-  const handleSignout = () => {
+  const handleSignout = async() => {
     setIsProfileOpen(!isProfileOpen);
-    localStorage.clear();
-    sessionStorage.clear();
-    navigate("/admin/login");
+    const response = await  dispatch(logoutUser({}));
+    if(response.meta.requestStatus === "fulfilled") {
+    setTimeout(() => {
+      navigate("/admin/login");
+    }, 500);
+    }
   };
 
   const toggleAccordion = () => {

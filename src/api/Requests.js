@@ -1,5 +1,6 @@
 import axios from 'axios';
-axios.defaults.baseURL                       = process.env.REACT_APP_API_URL;
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
+axios.defaults.withCredentials = true;
 axios.defaults.headers.post['Content-Type']  = 'application/json';
 axios.defaults.headers.post['authorization'] = process.env.REACT_APP_Authorization;
 // axios.defaults.withCredentials               = true

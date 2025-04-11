@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import { apiRequests } from '../../../../api/index';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import Cookies from 'js-cookie';
 
 const SupplierLogin = ({socket}) => {
     const [loading, setLoading] = useState(false);
@@ -59,6 +59,11 @@ const SupplierLogin = ({socket}) => {
                 if(response.code !== 200){
                     toast(response.message, { type: "error" });
                 }else{
+                    const { accessToken, refreshToken} = response.data;
+                    // Store tokens in cookies
+                    Cookies.set('accessToken', accessToken, { path: '/', expires: 7 });
+                    Cookies.set('refreshToken', refreshToken, { path: '/', expires: 7 });
+
                     const {data} = await response;
                     for (let x in data) {
                         sessionStorage.setItem(`${x}`, data[x])

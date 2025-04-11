@@ -12,11 +12,14 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import Badge from '@mui/material/Badge';
+import { useDispatch } from "react-redux";
+import { logoutUser } from "../../../../redux/reducers/userDataSlice";
 
 function Header({  notificationList, count }) {
     const notificationRef = useRef(null);
     const profileRef      = useRef(null);
     const navigate        = useNavigate();
+    const dispatch        = useDispatch()
 
     const [isDrawerOpen, setIsDrawerOpen]             = useState(false);
     const [isDisplayHamburger, setIsDisplayHamburger] = useState(false);
@@ -75,11 +78,15 @@ function Header({  notificationList, count }) {
         navigate(`/buyer/notification-list`)
     }
 
-    const handleSignout = () => {
+    const handleSignout = async() => {
         setIsProfileOpen(!isProfileOpen);
-        localStorage.clear()
-        sessionStorage.clear()
-        navigate('/logistics/login')
+                       
+        const response = await  dispatch(logoutUser({}));
+        if(response.meta.requestStatus === "fulfilled") {
+        setTimeout(() => {
+            navigate('/logistics/login')
+        }, 500);
+        }
     }
 
 return (

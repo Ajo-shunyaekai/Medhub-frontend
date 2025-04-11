@@ -8,7 +8,6 @@ const InquiryProductList = ({ orderItems, quotationItems, handleAccept, handleRe
 
     const [currentPage, setCurrentPage] = useState(1);
     const ordersPerPage = 5;
-console.log('orderItems',orderItems)
     // Static data
     const activeOrders = [
         { productId: 'PR1234567', productName: 'Paracetamol', quantity: 200, totalAmount: '500 USD' },

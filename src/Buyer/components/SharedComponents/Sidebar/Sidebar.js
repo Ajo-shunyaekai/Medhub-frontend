@@ -23,14 +23,16 @@ import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import { Outlet } from "react-router-dom";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import moment from "moment";
+import { logoutUser } from '../../../../redux/reducers/userDataSlice';
 
 
 const Sidebar = ({ children, dragWindow,
     invoiceCount, notificationList, count, handleClick
 }) => {
     const navigate = useNavigate();
+    const dispatch = useDispatch()
     const { inquiriesCartCount } = useSelector(state => state.inquiryReducer)
 
     // Search bar toggle function
@@ -147,12 +149,16 @@ const Sidebar = ({ children, dragWindow,
         setIsDropdown(!isDropdown)
     };
 
-    const handleSignout = () => {
+    const handleSignout = async () => {
         setIsProfileOpen(!isProfileOpen);
-        localStorage.clear()
-        sessionStorage.clear()
-        navigate('/buyer/login')
-    }
+                       
+        const response = await  dispatch(logoutUser({}));
+        if(response.meta.requestStatus === "fulfilled") {
+        setTimeout(() => {
+            navigate('/buyer/login')
+        }, 500);
+        }
+}
 
     {/* Mobile sidebar */ }
     const DrawerList = (

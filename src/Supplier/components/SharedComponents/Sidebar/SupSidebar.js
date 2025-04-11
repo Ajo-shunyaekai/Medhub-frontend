@@ -25,12 +25,15 @@ import moment from "moment"
 // Mobile sidebar
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
+import { useDispatch } from 'react-redux';
+import { logoutUser } from '../../../../redux/reducers/userDataSlice';
  
  
 const SupSidebar = ({ children, dragWindow,
     invoiceCount, notificationList, count, handleClick
 }) => {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
     const supplierIdLocalStorage = localStorage.getItem("supplier_id");
     const [isDropOpen, setIsDropOpen] = useState(false);
@@ -96,11 +99,15 @@ const SupSidebar = ({ children, dragWindow,
         setIsNotificationOpen(false); // Close notification dropdown if open
     };
  
-    const handleSignout = () => {
+    const handleSignout = async () => {
         setIsProfileOpen(!isProfileOpen);
-        localStorage.clear()
-        sessionStorage.clear()
-        navigate('/supplier/login')
+       
+        const response = await  dispatch(logoutUser({}));
+        if(response.meta.requestStatus === "fulfilled") {
+        setTimeout(() => {
+            navigate('/supplier/login')
+        }, 500);
+        }
     }
 
     const handleProfileClick = (event) => {

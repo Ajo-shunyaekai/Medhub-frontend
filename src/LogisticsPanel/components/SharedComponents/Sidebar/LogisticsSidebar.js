@@ -17,11 +17,13 @@ import TimelineOutlinedIcon from '@mui/icons-material/TimelineOutlined';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import CarCrashOutlinedIcon from '@mui/icons-material/CarCrashOutlined';
 import { Outlet } from "react-router-dom";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutUser } from '../../../../redux/reducers/userDataSlice';
 
 
 const Sidebar = ({  notificationList, count, handleClick }) => {
     const navigate = useNavigate();
+    const dispatch = useDispatch()
     const { inquiriesCartCount } = useSelector(state => state.inquiryReducer)
     const [isSearchVisible, setSearchVisible] = useState(false);
     const toggleSearchBar = () => {
@@ -109,11 +111,15 @@ const Sidebar = ({  notificationList, count, handleClick }) => {
         setIsDropdown(!isDropdown)
     };
 
-    const handleSignout = () => {
+    const handleSignout = async () => {
         setIsProfileOpen(!isProfileOpen);
-        localStorage.clear()
-        sessionStorage.clear()
-        navigate('/logistics/login')
+               
+        const response = await  dispatch(logoutUser({}));
+        if(response.meta.requestStatus === "fulfilled") {
+        setTimeout(() => {
+            navigate('/logistics/login')
+        }, 500);
+        }
     }
  // ======================
     const [sidebarWidth, setSidebarWidth] = useState(0);
