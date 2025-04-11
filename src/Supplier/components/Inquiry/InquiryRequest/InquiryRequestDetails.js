@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import { apiRequests } from '../../../../api';
 
 const InquiryRequestDetails = ({socket}) => {
-    const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
+    const supplierIdSessionStorage = localStorage.getItem("supplier_id");
     const supplierIdLocalStorage = localStorage.getItem("supplier_id");
  
     const { inquiryId } = useParams()

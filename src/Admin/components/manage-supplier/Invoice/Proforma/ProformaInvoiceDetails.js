@@ -8,7 +8,7 @@ function ProformaInvoiceDetails() {
   const { orderId } = useParams();
   const navigate = useNavigate();
 
-  const adminIdSessionStorage = sessionStorage.getItem("admin_id");
+  const adminIdSessionStorage = localStorage.getItem("admin_id");
   const adminIdLocalStorage = localStorage.getItem("admin_id");
 
   const [orderDetails, setOrderDetails] = useState();

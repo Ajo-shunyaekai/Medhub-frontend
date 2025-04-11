@@ -94,7 +94,7 @@ const BuySeller = ({ active }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const buyerId = sessionStorage.getItem("buyer_id") || localStorage.getItem("buyer_id");
+                const buyerId = localStorage.getItem("buyer_id") || localStorage.getItem("buyer_id");
                 if (!buyerId) {
                     navigate("/buyer/login");
                     return;
@@ -123,7 +123,7 @@ const BuySeller = ({ active }) => {
     }, [searchKey, filterCountry, currentPage, active, companyType, navigate]);
 
     useEffect(() => {
-        const buyerId = sessionStorage.getItem("buyer_id") || localStorage.getItem("buyer_id");
+        const buyerId = localStorage.getItem("buyer_id") || localStorage.getItem("buyer_id");
         if (!buyerId) {
             navigate("/buyer/login");
             return;
@@ -271,7 +271,7 @@ const BuySeller = ({ active }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const buyerId = sessionStorage.getItem("buyer_id") || localStorage.getItem("buyer_id");
+                const buyerId = localStorage.getItem("buyer_id") || localStorage.getItem("buyer_id");
                 if (!buyerId) {
                     navigate("/buyer/login");
                     return;
@@ -300,7 +300,7 @@ const BuySeller = ({ active }) => {
     }, [searchKey, filterCountry, currentPage, active, companyType, navigate]);
 
     useEffect(() => {
-        const buyerId = sessionStorage.getItem("buyer_id") || localStorage.getItem("buyer_id");
+        const buyerId = localStorage.getItem("buyer_id") || localStorage.getItem("buyer_id");
         if (!buyerId) {
             navigate("/buyer/login");
             return;

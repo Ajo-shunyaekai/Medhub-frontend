@@ -8,7 +8,7 @@ const PurchasedOrderDetails = () => {
   const { purchaseOrderId } = useParams();
   const navigate = useNavigate();
  
-  const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
+  const buyerIdSessionStorage = localStorage.getItem("buyer_id");
   const buyerIdLocalStorage = localStorage.getItem("buyer_id");
  
   const [poDetails, setPoDetails] = useState();

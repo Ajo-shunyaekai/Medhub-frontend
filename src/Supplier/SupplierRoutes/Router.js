@@ -150,7 +150,7 @@ const socket = io.connect(process.env.REACT_APP_SERVER_URL);
  
 export const NotificationProvider = ({ children }) => {
   const dispatch = useDispatch();
-  const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
+  const supplierIdSessionStorage = localStorage.getItem("supplier_id");
   const supplierIdLocalStorage = localStorage.getItem("supplier_id");
   const location = useLocation();
   const navigate = useNavigate();

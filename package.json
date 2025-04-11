@@ -33,6 +33,7 @@
     "html2pdf.js": "^0.10.2",
     "i": "^0.3.7",
     "jodit-react": "^5.2.15",
+    "js-cookie": "^3.0.5",
     "libphonenumber-js": "^1.11.2",
     "mdb-react-ui-kit": "^8.0.0",
     "moment": "^2.30.1",

@@ -25,13 +25,16 @@ import moment from "moment"
 // Mobile sidebar
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
+import { useDispatch } from 'react-redux';
+import { logoutUser } from '../../../../redux/reducers/userDataSlice';
  
  
 const SupSidebar = ({ children, dragWindow,
     invoiceCount, notificationList, count, handleClick
 }) => {
     const navigate = useNavigate()
-    const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
+    const dispatch = useDispatch()
+    const supplierIdSessionStorage = localStorage.getItem("supplier_id");
     const supplierIdLocalStorage = localStorage.getItem("supplier_id");
     const [isDropOpen, setIsDropOpen] = useState(false);
     const [isIconOpen, setIsIconOpen] = useState(false);
@@ -96,18 +99,22 @@ const SupSidebar = ({ children, dragWindow,
         setIsNotificationOpen(false); // Close notification dropdown if open
     };
  
-    const handleSignout = () => {
+    const handleSignout = async () => {
         setIsProfileOpen(!isProfileOpen);
-        localStorage.clear()
-        sessionStorage.clear()
-        navigate('/supplier/login')
+       
+        const response = await  dispatch(logoutUser({}));
+        if(response.meta.requestStatus === "fulfilled") {
+        setTimeout(() => {
+            navigate('/supplier/login')
+        }, 500);
+        }
     }
 
     const handleProfileClick = (event) => {
         event.stopPropagation();
         setIsProfileOpen(false); // Close the dropdown first
         setTimeout(() => {
-            navigate(`/supplier/profile/${sessionStorage?.getItem("_id")}`); // Navigate after dropdown closes
+            navigate(`/supplier/profile/${localStorage?.getItem("_id")}`); // Navigate after dropdown closes
         }, 0);
     };
 
@@ -290,8 +297,8 @@ const SupSidebar = ({ children, dragWindow,
             editsecondarymedicinerequest: `/supplier/pending-products-list`,
             editnewmedicine: `/supplier/product-details/${eventId}`,
             editsecondarymedicine: `/supplier/secondary-product-details/${eventId}`,
-            "Profile Edit Approved": `/supplier/profile/${sessionStorage.getItem('_id')}`,
-            "Profile Edit Rejected": `/supplier/profile/${sessionStorage.getItem('_id')}`,
+            "Profile Edit Approved": `/supplier/profile/${localStorage.getItem('_id')}`,
+            "Profile Edit Rejected": `/supplier/profile/${localStorage.getItem('_id')}`,
         };
  
         const route = eventRoutes[event] || '/supplier/';
@@ -426,13 +433,13 @@ const SupSidebar = ({ children, dragWindow,
                                                     to="#"
                                                     onClick={() => setIsProfileOpen(false)} // Close dropdown on click
                                                 >
-                                                    {sessionStorage.getItem('supplier_name')}
+                                                    {localStorage.getItem('supplier_name')}
                                                 </Link>
                                             </div>
                                             <div className={styles.profile_wrapper_mid}>
                                                 <div>
                                                     {/* <Link
-                                                        to={`/supplier/profile/${sessionStorage?.getItem("_id")}`}
+                                                        to={`/supplier/profile/${localStorage?.getItem("_id")}`}
                                                         onClick={() => setIsProfileOpen(false)} // Close dropdown on click
                                                     > */}
                                                         <div className={styles.profile_text} onMouseDown={handleProfileClick}>Profile</div>

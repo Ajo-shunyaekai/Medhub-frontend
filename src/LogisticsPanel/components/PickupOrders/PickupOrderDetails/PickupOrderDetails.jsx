@@ -11,7 +11,7 @@ const PickupOrderDetails = () => {
   const { requestId } = useParams();
   const navigate = useNavigate();
 
-  const partnerIdSessionStorage = sessionStorage.getItem("partner_id");
+  const partnerIdSessionStorage = localStorage.getItem("partner_id");
   const partnerIdLocalStorage = localStorage.getItem("partner_id");
 
   const [loading, setLoading] = useState(false);

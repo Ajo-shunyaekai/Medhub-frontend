@@ -3,6 +3,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { apiRequests } from "../../api";
 import { socket, usertype } from "../../constants";
+import Cookies from "js-cookie";
 
 const initialState = {
   user: null,
@@ -37,10 +38,10 @@ export const loginUser = createAsyncThunk(
       }
       const { data } = await response;
       for (let x in data) {
-        sessionStorage.setItem(`${x}`, data[x]);
+        localStorage.setItem(`${x}`, data[x]);
         if (x == "registeredAddress") {
           for (let y in data[x]) {
-            sessionStorage.setItem(`${y}`, data[x][y]);
+            localStorage.setItem(`${y}`, data[x][y]);
           }
         }
       }
@@ -89,6 +90,30 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+export const logoutUser = createAsyncThunk(
+  "user/logoutUser",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await apiRequests?.postRequest(`auth/logout`);
+      if (response.code !== 200) {
+        toast(response?.message, { type: "error" });
+        return rejectWithValue(response?.message || "Unknown error");
+      }
+
+      Cookies.remove("accessToken");
+      Cookies.remove("refreshToken");
+      localStorage?.clear();
+
+      return {};
+
+      // return rejectWithValue(response?.data?.err);
+    } catch (error) {
+      //   toast.error("An error occurred while logging in");
+      return rejectWithValue(error?.response?.data || "Unknown error");
+    }
+  }
+);
+
 export const editProfile = createAsyncThunk(
   "user/editProfile",
   async (values, { rejectWithValue }) => {
@@ -102,8 +127,8 @@ export const editProfile = createAsyncThunk(
         return rejectWithValue(response?.message || "Unknown error");
       }
       const { data, message } = await response;
-      toast.success(message)
-      
+      toast.success(message);
+
       return data;
       // return rejectWithValue(response?.data?.err);
     } catch (error) {
@@ -131,9 +156,7 @@ export const registerUser = createAsyncThunk(
 
       (usertype == "Supplier" || usertype == "Buyer") &&
         socket.emit(
-          usertype == "Supplier"
-            ? "supplierRegistration"
-            : "buyerRegistration",
+          usertype == "Supplier" ? "supplierRegistration" : "buyerRegistration",
           {
             adminId: process.env.REACT_APP_ADMIN_ID,
             message: `New ${usertype} Registration Request `,
@@ -186,6 +209,17 @@ export const userDataSlice = createSlice({
         state.user = action.payload;
       })
       .addCase(loginUser.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+      .addCase(logoutUser.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(logoutUser.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.user = action.payload;
+      })
+      .addCase(logoutUser.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
       })

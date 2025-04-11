@@ -9,7 +9,7 @@ function ProformaDetailsPage() {
   const { orderId } = useParams();
   const navigate = useNavigate();
 
-  const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
+  const supplierIdSessionStorage = localStorage.getItem("supplier_id");
   const supplierIdLocalStorage = localStorage.getItem("supplier_id");
 
   const [orderDetails, setOrderDetails] = useState();

@@ -23,7 +23,7 @@ const LogisticsForm = ({socket}) => {
     (state) => state?.addressReducer
   );
 
-  const buyerIdSessionStorage = sessionStorage.getItem('buyer_id');
+  const buyerIdSessionStorage = localStorage.getItem('buyer_id');
   const buyerIdLocalStorage = localStorage.getItem('buyer_id');
   const [orderDetails, setOrderDetails] = useState()
   const [loading, setLoading] = useState(false);

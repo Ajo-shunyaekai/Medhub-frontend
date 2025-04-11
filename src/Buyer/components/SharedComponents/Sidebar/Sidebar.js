@@ -23,14 +23,16 @@ import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import { Outlet } from "react-router-dom";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import moment from "moment";
+import { logoutUser } from '../../../../redux/reducers/userDataSlice';
 
 
 const Sidebar = ({ children, dragWindow,
     invoiceCount, notificationList, count, handleClick
 }) => {
     const navigate = useNavigate();
+    const dispatch = useDispatch()
     const { inquiriesCartCount } = useSelector(state => state.inquiryReducer)
 
     // Search bar toggle function
@@ -147,12 +149,16 @@ const Sidebar = ({ children, dragWindow,
         setIsDropdown(!isDropdown)
     };
 
-    const handleSignout = () => {
+    const handleSignout = async () => {
         setIsProfileOpen(!isProfileOpen);
-        localStorage.clear()
-        sessionStorage.clear()
-        navigate('/buyer/login')
-    }
+                       
+        const response = await  dispatch(logoutUser({}));
+        if(response.meta.requestStatus === "fulfilled") {
+        setTimeout(() => {
+            navigate('/buyer/login')
+        }, 500);
+        }
+}
 
     {/* Mobile sidebar */ }
     const DrawerList = (
@@ -251,8 +257,8 @@ const Sidebar = ({ children, dragWindow,
             order: `/buyer/order-details/${eventId}`,
             purchaseorder: `/buyer/purchased-order-details/${linkId}`,
             invoice: `/buyer/invoice/Pending-Invoice`,
-            "Profile Edit Approved": `/buyer/profile/${sessionStorage.getItem('_id')}`,
-            "Profile Edit Rejected": `/buyer/profile/${sessionStorage.getItem('_id')}`,
+            "Profile Edit Approved": `/buyer/profile/${localStorage.getItem('_id')}`,
+            "Profile Edit Rejected": `/buyer/profile/${localStorage.getItem('_id')}`,
         };
 
         const route = eventRoutes[event] || "/buyer/";
@@ -406,13 +412,13 @@ const Sidebar = ({ children, dragWindow,
                                                     onClick={() => setIsProfileOpen(false)} // Close dropdown on click
                                                 >
                                                     {localStorage.getItem('buyer_name') ||
-                                                        sessionStorage.getItem('buyer_name')}
+                                                        localStorage.getItem('buyer_name')}
                                                 </Link>
                                             </div>
                                             <div className={styles.profile_wrapper_mid}>
                                                 <div>
                                                     <Link
-                                                        to={`/buyer/profile/${sessionStorage?.getItem("_id")}`}
+                                                        to={`/buyer/profile/${localStorage?.getItem("_id")}`}
                                                         onClick={() => setIsProfileOpen(false)} // Close dropdown on click
                                                     >
                                                         <div className={styles.profile_text}>Profile</div>

@@ -11,7 +11,7 @@ import { toast } from 'react-toastify';
 const SecondaryProductRequestDetails = ({socket}) => {
     const [showModal, setShowModal] = useState(false);
 
-    const adminIdSessionStorage = sessionStorage.getItem("admin_id");
+    const adminIdSessionStorage = localStorage.getItem("admin_id");
     const adminIdLocalStorage   = localStorage.getItem("admin_id");
     const { medicineId } = useParams()
     const navigate    = useNavigate()

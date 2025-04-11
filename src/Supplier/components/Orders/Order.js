@@ -69,7 +69,7 @@ const Order = () => {
         setCurrentPage(pageNumber);
     };
  
-    const fetchData = async ()=> {const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
+    const fetchData = async ()=> {const supplierIdSessionStorage = localStorage.getItem("supplier_id");
         const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
  
         if (!supplierIdSessionStorage && !supplierIdLocalStorage) {

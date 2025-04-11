@@ -99,7 +99,7 @@ import DateRange from './DateRange.js';
 
 const AdminSidebar = () => {
     const navigate = useNavigate();
-    const adminIdSessionStorage = sessionStorage.getItem("admin_id");
+    const adminIdSessionStorage = localStorage.getItem("admin_id");
     const adminIdLocalStorage   = localStorage.getItem("admin_id");
 
     const socket = io.connect(process.env.REACT_APP_SERVER_URL);

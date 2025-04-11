@@ -59,7 +59,7 @@ const Support = () => {
     
         const submitSupportForm = ({ subject, message, images, type, endpoint, resetForm }) => {
             setLoading(true)
-            const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
+            const buyerIdSessionStorage = localStorage.getItem("buyer_id");
             const buyerIdLocalStorage = localStorage.getItem("buyer_id");
 
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
@@ -191,7 +191,7 @@ const Support = () => {
 
     // const handleSubmit = (event) => {
 
-    //     const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
+    //     const buyerIdSessionStorage = localStorage.getItem("buyer_id");
     //     const buyerIdLocalStorage = localStorage.getItem("buyer_id");
 
     //     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
@@ -228,7 +228,7 @@ const Support = () => {
     // };
 
     // const complaintSubmit = (event) => {
-    //     const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
+    //     const buyerIdSessionStorage = localStorage.getItem("buyer_id");
     //     const buyerIdLocalStorage = localStorage.getItem("buyer_id");
 
     //     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
@@ -289,7 +289,7 @@ const Support = () => {
                                     Complaint
                                 </div>
                             </div>
-                            <Link to={`/buyer/edit-profile/${sessionStorage.getItem("_id")}`}>
+                            <Link to={`/buyer/edit-profile/${localStorage.getItem("_id")}`}>
                                 <div className={`${styles['support-btn']} ${activeButton === 'profile' && styles.active}`}>
                                     Update Profile
                                 </div>

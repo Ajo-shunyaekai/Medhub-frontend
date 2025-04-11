@@ -9,7 +9,7 @@ import { postRequestWithToken } from "../../../../api/Requests";
 
 
 const OngoingInquiriesDetails = () => {
-  const adminIdSessionStorage = sessionStorage.getItem("admin_id");
+  const adminIdSessionStorage = localStorage.getItem("admin_id");
     const adminIdLocalStorage   = localStorage.getItem("admin_id");
 
     const { inquiryId } = useParams()

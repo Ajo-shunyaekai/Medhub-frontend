@@ -189,7 +189,7 @@ const socket = io.connect(process.env.REACT_APP_SERVER_URL, {
  
 export function NotificationProvider({ children }) {
   const dispatch = useDispatch();
-  const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
+  const buyerIdSessionStorage = localStorage.getItem("buyer_id");
   const buyerIdLocalStorage = localStorage.getItem("buyer_id");
   const [notificationList, setNotificationList] = useState([]);
   const [count, setCount] = useState(0);
@@ -198,7 +198,7 @@ export function NotificationProvider({ children }) {
   const navigate = useNavigate();
   const location = useLocation();
   const buyerId =
-    sessionStorage.getItem("buyer_id") || localStorage.getItem("buyer_id");
+    localStorage.getItem("buyer_id") || localStorage.getItem("buyer_id");
  
   const showNotification = (title, options, url) => {
     if (Notification.permission === "granted") {
@@ -343,9 +343,9 @@ export function NotificationProvider({ children }) {
   }, [buyerId]);
  
   useEffect(() => {
-    sessionStorage.getItem("_id") &&
-      dispatch(fetchUserData(sessionStorage.getItem("_id")));
-  }, [sessionStorage.getItem("_id")]);
+    localStorage.getItem("_id") &&
+      dispatch(fetchUserData(localStorage.getItem("_id")));
+  }, [localStorage.getItem("_id")]);
  
   return (
     <Sidebar

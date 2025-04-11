@@ -13,7 +13,7 @@ const OrderDetails = ({ socket }) => {
   const { orderId } = useParams();
   const navigate = useNavigate();
 
-  const adminIdSessionStorage = sessionStorage.getItem("admin_id");
+  const adminIdSessionStorage = localStorage.getItem("admin_id");
   const adminIdLocalStorage = localStorage.getItem("admin_id");
 
   const [activeButton, setActiveButton] = useState("1h");

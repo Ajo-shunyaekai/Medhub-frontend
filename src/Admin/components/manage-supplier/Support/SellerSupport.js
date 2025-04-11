@@ -12,7 +12,7 @@ const SellerSupport = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const adminIdSessionStorage = sessionStorage.getItem("admin_id");
+    const adminIdSessionStorage = localStorage.getItem("admin_id");
     const adminIdLocalStorage = localStorage.getItem("admin_id");
 
     const [loading, setLoading] = useState(true);

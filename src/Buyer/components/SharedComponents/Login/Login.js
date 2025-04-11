@@ -65,10 +65,10 @@ const Login = ({ socket }) => {
                 }
                 const { data } = await response;
                 for (let x in data) {
-                    sessionStorage.setItem(`${x}`, data[x])
+                    localStorage.setItem(`${x}`, data[x])
                     if(x =='registeredAddress'){
                         for (let y in data[x]) {
-                            sessionStorage.setItem(`${y}`, data[x][y])
+                            localStorage.setItem(`${y}`, data[x][y])
                         }
                     }
                 }
@@ -159,7 +159,7 @@ const Login = ({ socket }) => {
     };
 
     useEffect(() => {
-        if (sessionStorage.getItem("buyer_id") !== undefined && sessionStorage.getItem("buyer_id")) {
+        if (localStorage.getItem("buyer_id") !== undefined && localStorage.getItem("buyer_id")) {
             navigate('/buyer');
         }
     }, []);

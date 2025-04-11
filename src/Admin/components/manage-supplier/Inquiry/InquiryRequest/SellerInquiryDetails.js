@@ -5,7 +5,7 @@ import { postRequestWithToken } from '../../../../api/Requests';
 import SellerInquiryProductList from './SellerInquiryProductList';
 
 const SellerInquiryDetails = () => {
-    const adminIdSessionStorage = sessionStorage.getItem("admin_id");
+    const adminIdSessionStorage = localStorage.getItem("admin_id");
     const adminIdLocalStorage   = localStorage.getItem("admin_id");
 
     const { inquiryId } = useParams()

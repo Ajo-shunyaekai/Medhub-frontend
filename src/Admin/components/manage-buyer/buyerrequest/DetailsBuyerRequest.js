@@ -17,7 +17,7 @@ const DetailsBuyerRequest = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { buyerId } = useParams()
     const navigate = useNavigate()
-    const adminIdSessionStorage = sessionStorage.getItem("admin_id");
+    const adminIdSessionStorage = localStorage.getItem("admin_id");
     const adminIdLocalStorage = localStorage.getItem("admin_id");
     const [open, setOpen] = useState(false);
     const [pdfUrl, setPdfUrl] = useState(null);

@@ -17,7 +17,7 @@ const BuyerRequest = () => {
     const queryParams = new URLSearchParams(location.search);
     const filterValue = queryParams.get('filterValue');
 
-    const adminIdSessionStorage = sessionStorage.getItem("admin_id");
+    const adminIdSessionStorage = localStorage.getItem("admin_id");
     const adminIdLocalStorage   = localStorage.getItem("admin_id");
     
     const [loading, setLoading]                   = useState(true);

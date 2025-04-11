@@ -16,7 +16,7 @@ import { apiRequests } from '../../../../api/index';
 const SupplierDetails = () => {
     const {supplierId} = useParams()
     const navigate    = useNavigate()
-    const adminIdSessionStorage = sessionStorage.getItem("admin_id");
+    const adminIdSessionStorage = localStorage.getItem("admin_id");
     const adminIdLocalStorage   = localStorage.getItem("admin_id");
     const [supplierDetails, setSupplierDetails] = useState()
    // Start the modal and pdf url

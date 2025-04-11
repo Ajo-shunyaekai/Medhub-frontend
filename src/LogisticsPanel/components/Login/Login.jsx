@@ -56,7 +56,7 @@ function Login() {
         toast.error(response.message);
       } else {
         Object.entries(response.data).forEach(([key, value]) => {
-          sessionStorage.setItem(key, value);
+          localStorage.setItem(key, value);
         });
         setTimeout(() => navigate("/logistics"), 500);
       }

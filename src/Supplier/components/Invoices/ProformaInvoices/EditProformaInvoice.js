@@ -14,7 +14,7 @@ const EditProformaInvoice = () => {
   const { purchaseOrderId } = useParams();
   const navigate = useNavigate();
 
-  const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
+  const supplierIdSessionStorage = localStorage.getItem("supplier_id");
   const supplierIdLocalStorage = localStorage.getItem("supplier_id");
 
   const [currentDate, setCurrentDate] = useState("");
@@ -113,7 +113,7 @@ const EditProformaInvoice = () => {
     setDueDate(formattedDueDate);
     setValue("invoiceDueDate", formattedDueDate);
 
-    // const storedItems = sessionStorage.getItem('acceptedQuotationItems');
+    // const storedItems = localStorage.getItem('acceptedQuotationItems');
   }, [setValue]);
 
   useEffect(() => {

@@ -54,7 +54,7 @@ const InquiryPurchaseOrder = () => {
   };
 
   const fetchData = async () => {
-    const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
+    const supplierIdSessionStorage = localStorage.getItem("supplier_id");
     const supplierIdLocalStorage = localStorage.getItem("supplier_id");
 
     if (!supplierIdSessionStorage && !supplierIdLocalStorage) {

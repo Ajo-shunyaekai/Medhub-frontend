@@ -59,7 +59,7 @@ const Support = () => {
 
     const submitSupportForm = ({ subject, message, images, type, endpoint, resetForm }) => {
         setLoading(true)
-        const supplierId = sessionStorage.getItem("supplier_id") || localStorage.getItem("supplier_id");
+        const supplierId = localStorage.getItem("supplier_id") || localStorage.getItem("supplier_id");
         if (!supplierId) {
             navigate("/supplier/login");
             return;
@@ -167,7 +167,7 @@ const Support = () => {
                                     Complaint
                                 </div>
                             </div>
-                            <Link to={`/supplier/edit-profile/${sessionStorage.getItem("_id")}`}>
+                            <Link to={`/supplier/edit-profile/${localStorage.getItem("_id")}`}>
                                 <div className={`${styles['support-btn']} ${activeButton === 'profile' && styles.active}`}>
                                     Update Profile
                                 </div>

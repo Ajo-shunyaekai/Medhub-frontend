@@ -67,7 +67,7 @@ const Order = () => {
     };
 
      const fetchData = async ()=> {
-            const partnerIdSessionStorage = sessionStorage.getItem("partner_id");
+            const partnerIdSessionStorage = localStorage.getItem("partner_id");
             const partnerIdLocalStorage   = localStorage.getItem("partner_id");
      
             if (!partnerIdSessionStorage && !partnerIdLocalStorage) {

@@ -73,7 +73,7 @@ import CompleteInvoicesList from './dashboard/CompleteInvoicesList.js';
 import PendingInvoicesList from './dashboard/PendingInvoicesList.js';
 
 const BuyerSidebar = () => {
-    const buyerIdSessionStorage = sessionStorage.getItem('buyer_id');
+    const buyerIdSessionStorage = localStorage.getItem('buyer_id');
     const buyerIdLocalStorage   = localStorage.getItem('buyer_id');
 
     const socket = io.connect(process.env.REACT_APP_SERVER_URL);
