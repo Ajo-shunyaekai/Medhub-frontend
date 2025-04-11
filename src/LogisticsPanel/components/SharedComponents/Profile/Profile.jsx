@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserData } from "../../../../redux/reducers/userDataSlice";
 import { MdOutlineAttachEmail } from "react-icons/md";
-import styles from './Profile.module.css';
+import styles from './profile.module.css';
 import Main from '../../UI/Main/Main';
 import Card from '../../UI/FormCard/FormCard';
 import Image from "../../../assets/images/man.png"
