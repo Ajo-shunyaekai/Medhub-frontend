@@ -329,50 +329,7 @@ const SupplierSignUp = ({ socket }) => {
       if (!value.trim()) {
         errorMessage = "Please enter bank details";
       }
-      // Validate number of fields
-      // else if (details.length > 3) {
-      //     errorMessage = 'Too many values. Please enter only Bank Name, Account Number, and IFSC Code';
-      // }
-      // else {
-      //     const [bankName = '', accountNumber = '', ifscCode = ''] = details;
-
-      //     // Validate bank name
-      //     // if (bankName && !/^[A-Za-z\s]*$/.test(bankName)) {
-      //     //     errorMessage = 'Bank name should only contain letters and spaces';
-      //     // }
-      //     if (bankName && !/^[A-Za-z\s\-]*$/.test(bankName)) {
-      //         errorMessage = 'Bank name should only contain letters, spaces, and hyphens';
-      //       }
-
-      //     // Validate account number if bank name is valid
-      //     else if (accountNumber) {
-      //         // if (!/^\d*$/.test(accountNumber)) {
-      //         //     errorMessage = 'Account number should only contain digits';
-      //         // }
-      //         if (!/^[A-Za-z0-9\s\-]*$/.test(accountNumber)) {
-      //             errorMessage = 'Account number should only contain letters, digits, spaces, and hyphens';
-      //           }
-      //         else if (accountNumber.length > 0 && accountNumber.length < 6) {
-      //             errorMessage = 'Account number should be at least 6 digits';
-      //         } else if (accountNumber.length > 30) {
-      //             errorMessage = 'Account number should not exceed 30 digits';
-      //         }
-      //     }
-
-      //     // Validate IFSC code if account number is valid
-      //     if (ifscCode) {
-      //         if (ifscCode.length > 20) {
-      //             errorMessage = 'IFSC/Sort Code should not exceed 20 digits';
-      //         }
-      //     }
-
-      //     // If all fields are present, verify complete format
-      //     if (details.length === 3 && !errorMessage) {
-      //         if (!bankName) errorMessage = 'Please enter bank name';
-      //         else if (!accountNumber) errorMessage = 'Please enter account number';
-      //         else if (!ifscCode) errorMessage = 'Please enter IFSC code';
-      //     }
-      // }
+    
 
       setErrors((prevState) => ({
         ...prevState,
@@ -592,27 +549,7 @@ const SupplierSignUp = ({ socket }) => {
     if (!formData.bankdetails) {
       formErrors.bankdetails = "Bank Details are Required";
     } else {
-      // const bankDetailsArray = formData.bankdetails.split(',');
-      // // Check if we have all three parts
-      // if (bankDetailsArray.length !== 3) {
-      //     formErrors.bankdetails = 'Please provide Bank Name, Account Number, and IFSC Code separated by commas';
-      // } else {
-      //     const [bankName, accountNumber, ifscCode] = bankDetailsArray.map(item => item.trim());
-      //     // Validate each part
-      //     if (!bankName) {
-      //         formErrors.bankdetails = 'Bank Name is required';
-      //     }
-      //     if (!accountNumber || accountNumber.length < 8) {
-      //         formErrors.bankdetails = 'Please enter a valid Account Number';
-      //     }
-      //     // IFSC validation (11 characters, alphanumeric)
-      //     // if (!ifscCode || !/^[A-Za-z]{4}0[A-Za-z0-9]{6}$/.test(ifscCode)) {
-      //     //     formErrors.bankdetails = 'Please enter a valid IFSC Code (11 characters, starting with 4 letters followed by a 0)';
-      //     // }
-      //     if (!ifscCode || ifscCode.length < 16) {
-      //         formErrors.bankdetails = 'Please enter a valid IFSC code ';
-      //     }
-      // }
+     
     }
 
     // if (!formData.delivertime) formErrors.delivertime = 'Estimated Delivery Time is Required';
@@ -752,13 +689,6 @@ const SupplierSignUp = ({ socket }) => {
   };
 
   const handleCancel = () => {
-    // setFormData(defaultFormData);
-    // setErrors({});
-    // setIsChecked(false);
-    // setCompanyPhone('');
-    // setMobile('');
-    // setSelectedCompanyType(null)
-    // setResetUploaders(true);
     navigate("/supplier/login");
   };
 
@@ -1667,12 +1597,6 @@ const SupplierSignUp = ({ socket }) => {
                         </div>
                       ))}
                     </div>
-                    {/* <div className='signup-form-section-div'>
-                                                <label className='signup-form-section-label'>Upload a Certificate<span className='labelstamp'>*</span></label>
-                                               
-                                                <ImageUploader onUploadStatusChange={handleImageUpload} filePreviews={certificatePreviews} setFilePreviews={setcertificatePreviews} imageType="certificate" reset={resetUploaders} allowMultiple={true} />
-                                                {errors.certificateImage && <div className='signup__errors'>{errors.certificateImage}</div>}
-                                            </div> */}
                     {selectedCompanyType?.value === "medical practitioner" && (
                       <div className="signup-form-section-div">
                         <label className="signup-form-section-label">

@@ -120,6 +120,7 @@ const ImageUploader = ({ onUploadStatusChange, imageType, reset, allowMultiple, 
     return (
         <div className={styles['image-uploader']}>
             <div className={styles['upload-area']} onClick={handleImageClick}>
+                <div className={styles['upload-content-wrapper']}>
                 {uploading ? (
                     <p>Uploading...</p>
                 ) : (
@@ -128,6 +129,7 @@ const ImageUploader = ({ onUploadStatusChange, imageType, reset, allowMultiple, 
                         <p className={styles['upload-text']}>Click here to Upload Files</p>
                     </>
                 )}
+                </div>
                 <input
                     type="file"
                     accept={imageType === 'logo' ? 'image/png, image/jpeg' : 'application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document'}

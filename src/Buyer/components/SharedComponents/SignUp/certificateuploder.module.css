@@ -24,6 +24,7 @@
     }
     
     .uploadIcon {
+      width: 20px;
       color: #888;
       cursor: pointer !important;
     }
