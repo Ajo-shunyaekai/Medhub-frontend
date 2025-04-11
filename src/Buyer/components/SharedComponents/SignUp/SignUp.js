@@ -1330,7 +1330,7 @@ const SignUp = ({ socket }) => {
                         </div>
                       )}
                     </div>
-                    <div className="signup-form-section-div">
+                    {/* <div className="signup-form-section-div">
                       <label className="signup-form-section-label">
                         Company Tax No.<span className="labelstamp">*</span>
                       </label>
@@ -1347,7 +1347,7 @@ const SignUp = ({ socket }) => {
                           {errors.companyTaxNo}
                         </div>
                       )}
-                    </div>
+                    </div> */}
                     <div className="signup-form-section-div">
                       <label className="signup-form-section-label">
                         Approx. Yearly Purchase Value

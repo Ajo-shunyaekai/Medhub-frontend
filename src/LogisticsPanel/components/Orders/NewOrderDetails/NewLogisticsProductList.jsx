@@ -3,6 +3,7 @@ import styles from './NewOrderDetails.module.css';
 import Pagination from 'react-js-pagination';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+import Card from '../../UI/DetailsCard/DetailsCard';
 
 function NewLogisticsProductList({ productList }) {
     const [currentPage, setCurrentPage] = useState(1);
@@ -24,7 +25,7 @@ function NewLogisticsProductList({ productList }) {
     setCurrentPage(pageNumber);
     };
   return (
-    <div className={styles.cardBody}>
+    <Card className={styles.cardBody}>
       <div className={styles.tableHeading}>Product List</div>
       <div className={styles.tableContainer}>
         <table className={styles.table}>
@@ -87,7 +88,7 @@ function NewLogisticsProductList({ productList }) {
         />
         <div className={styles.totalItems}>Total Items: {data.length}</div>
       </div>
-    </div>
+    </Card>
   )
 }
 

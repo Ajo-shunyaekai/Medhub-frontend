@@ -4,6 +4,7 @@ import { apiRequests } from "../../../../api";
 import styles from './NewOrderDetails.module.css';
 
 import Main from "../../UI/Main/Main";
+import Card from "../../UI/DetailsCard/DetailsCard";
 import moment from "moment";
 import ProductList from "./NewLogisticsProductList";
 
@@ -97,273 +98,437 @@ function NewOrderDetails() {
   return (
     <Main title={`Request ID : ${requestDetails?.logistics_id}`}>
         <div className={styles.orderDetailsContainer}>
-            <div className={styles.logisticsSection}>
-            <div className={styles.logisticsCompanySection}>
-            <span className={styles.logisticsCompanyHead}>Supplier Details:</span>
-            <div className={styles.logisticsInnerSection}>
-                <span className={styles.logisticsInnerHead}>Company Name:</span>
-                <span className={styles.logisticsInnerText}>
-                {requestDetails?.supplierDetails?.supplier_name}
-                </span>
-            </div>
-            <div className={styles.logisticsInnerSection}>
-                <span className={styles.logisticsInnerHead}>Company Type:</span>
-                <span className={styles.logisticsInnerText}>
-                {requestDetails?.supplierDetails?.supplier_type}
-                </span>
-            </div>
-            <div className={styles.logisticsInnerSection}>
-                <span className={styles.logisticsInnerHead}>Contact Name:</span>
-                <span className={styles.logisticsInnerText}>
-                {requestDetails?.supplierDetails?.contact_person_name}
-                </span>
-            </div>
-            <div className={styles.logisticsInnerSection}>
-                <span className={styles.logisticsInnerHead}>Email ID:</span>
-                <span className={styles.logisticsInnerText}>
-                {requestDetails?.supplierDetails?.contact_person_email}
-                </span>
-            </div>
-            <div className={styles.logisticsInnerSection}>
-                <span className={styles.logisticsInnerHead}>Phone No:</span>
-                <span className={styles.logisticsInnerText}>
-                {requestDetails?.supplierDetails?.contact_person_country_code}{" "}
-                {requestDetails?.supplierDetails?.contact_person_mobile_no}
-                </span>
-            </div>
-            </div>
 
-            <div className={styles.logisticsCompanySection}>
-            <span className={styles.logisticsCompanyHead}>Buyer Details:</span>
-            <div className={styles.logisticsInnerSection}>
-                <span className={styles.logisticsInnerHead}>Company Name:</span>
-                <span className={styles.logisticsInnerText}>
-                {requestDetails?.buyerDetails?.buyer_name}
-                </span>
-            </div>
-            <div className={styles.logisticsInnerSection}>
-                <span className={styles.logisticsInnerHead}>Company Type:</span>
-                <span className={styles.logisticsInnerText}>
-                {requestDetails?.buyerDetails?.buyer_type}
-                </span>
-            </div>
-            <div className={styles.logisticsInnerSection}>
-                <span className={styles.logisticsInnerHead}>Contact Name:</span>
-                <span className={styles.logisticsInnerText}>
-                {requestDetails?.buyerDetails?.contact_person_name}
-                </span>
-            </div>
-            <div className={styles.logisticsInnerSection}>
-                <span className={styles.logisticsInnerHead}>Email ID:</span>
-                <span className={styles.logisticsInnerText}>
-                {requestDetails?.buyerDetails?.contact_person_email}
-                </span>
-            </div>
-            <div className={styles.logisticsInnerSection}>
-                <span className={styles.logisticsInnerHead}>Phone No:</span>
-                <span className={styles.logisticsInnerText}>
-                {requestDetails?.buyerDetails?.contact_person_country_code}{" "}
-                {requestDetails?.buyerDetails?.contact_person_mobile}
-                </span>
-            </div>
-            </div>
-        </div>
-        {/* Start the table product details name */}
-        <ProductList
-            productList={
-            requestDetails?.orderDetails?.supplier_logistics_data
-                ?.bill_of_material?.products
+            <Card className={styles.logisticsCompanySection}>
+                <div className={`row`}>
+                    <div className={`col-6`}>
+                        <div className={`${styles.logisticsPickDropSection}`}>
+                            <span className={styles.logisticsCompanyHead}>Supplier Details:</span>
+                            <div className={styles.logisticsInnerSection}>
+                                <span className={styles.logisticsInnerHead}>Company Name:</span>
+                                <span className={styles.logisticsInnerText}>
+                                    {requestDetails?.supplierDetails?.supplier_name}
+                                </span>
+                            </div>
+                            <div className={styles.logisticsInnerSection}>
+                                <span className={styles.logisticsInnerHead}>Company Type:</span>
+                                <span className={styles.logisticsInnerText}>
+                                    {requestDetails?.supplierDetails?.supplier_type}
+                                </span>
+                            </div>
+                            <div className={styles.logisticsInnerSection}>
+                                <span className={styles.logisticsInnerHead}>Contact Name:</span>
+                                <span className={styles.logisticsInnerText}>
+                                    {requestDetails?.supplierDetails?.contact_person_name}
+                                </span>
+                            </div>
+                            <div className={styles.logisticsInnerSection}>
+                                <span className={styles.logisticsInnerHead}>Email ID:</span>
+                                <span className={styles.logisticsInnerText}>
+                                    {requestDetails?.supplierDetails?.contact_person_email}
+                                </span>
+                            </div>
+                            <div className={styles.logisticsInnerSection}>
+                                <span className={styles.logisticsInnerHead}>Phone No:</span>
+                                <span className={styles.logisticsInnerText}>
+                                    {requestDetails?.supplierDetails?.contact_person_country_code}{" "}
+                                    {requestDetails?.supplierDetails?.contact_person_mobile_no}
+                                </span>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <div className={`col-6`}>
+                        <div className={`${styles.logisticsPickDropSection}`}>
+                        <span className={styles.logisticsCompanyHead}>Pickup Details:</span>
+                        <span className={styles.logisticsText}>
+                        {requestDetails?.orderDetails?.supplier_logistics_data?.full_name}{" "}
+                        {
+                            requestDetails?.orderDetails?.buyer_logistics_data
+                            ?.mobile_number
+                        }
+                        {/* <span className={styles.logisticsAddress}>
+                            {
+                            requestDetails?.orderDetails?.supplier_logistics_data
+                                ?.address_type
+                            }
+                        </span> */}
+                        </span>
+                        {/* <span className={styles.logisticsText}>
+                        {
+                            requestDetails?.orderDetails?.buyer_logistics_data
+                            ?.mobile_number
+                        }
+                        </span> */}
+                        <span className={styles.logisticsText}>
+                        {
+                            requestDetails?.orderDetails?.buyer_logistics_data
+                            ?.company_reg_address
+                        }{" "}
+                        {requestDetails?.orderDetails?.buyer_logistics_data?.locality}{" "}
+                        {requestDetails?.orderDetails?.buyer_logistics_data?.land_mark}{" "}
+
+                        {requestDetails?.orderDetails?.buyer_logistics_data?.city}{" "}
+                        {requestDetails?.orderDetails?.buyer_logistics_data?.state}{" "}
+                        {requestDetails?.orderDetails?.buyer_logistics_data?.country}{" "}
+                        </span>
+                        <span className={styles.logisticsText}>
+                        {/* {requestDetails?.orderDetails?.buyer_logistics_data?.city}{" "}
+                        {requestDetails?.orderDetails?.buyer_logistics_data?.state}{" "}
+                        {requestDetails?.orderDetails?.buyer_logistics_data?.country}{" "} */}
+                        {requestDetails?.orderDetails?.buyer_logistics_data?.pincode}
+                        </span>
+                    </div>
+
+                    <div className={styles.logisticsInnerSection}>
+                        <span className={styles.logisticsInnerHead}>Preferred Date of Pickup:</span>
+                        <span className={styles.logisticsInnerText}>
+                            {pickupDate}
+                        </span>
+                    </div>
+                    <div className={styles.logisticsInnerSection}>
+                        <span className={styles.logisticsInnerHead}>Preferred Time of Pickup:</span>
+                        <span className={styles.logisticsInnerText}>
+                            {pickupTime}
+                        </span>
+                    </div>
+                    </div>
+                </div>
+                {/* <div className={styles.logisticsAddSec}>
+                    <div className={styles.logisticsAddContainer}>
+                    <span className={styles.logisticsAddHead}>
+                        Preferred Date of Pickup
+                    </span>
+                    <span className={styles.logisticsAddText}>{pickupDate}</span>
+                    </div>
+                    <div className={styles.logisticsAddContainer}>
+                    <span className={styles.logisticsAddHead}>
+                        Preferred Time of Pickup
+                    </span>
+                    <span className={styles.logisticsAddText}>{pickupTime}</span>
+                    </div>
+                </div> */}
+            </Card>
+
+            <Card className={styles.logisticsCompanySection}>
+                <div className={`row`}>
+                    <div className={`col-6`}>
+                    <div className={`${styles.logisticsPickDropSection}`}>
+                    <span className={styles.logisticsCompanyHead}>Buyer Details:</span>
+                        <div className={styles.logisticsInnerSection}>
+                            <span className={styles.logisticsInnerHead}>Company Name:</span>
+                            <span className={styles.logisticsInnerText}>
+                                {requestDetails?.buyerDetails?.buyer_name}
+                            </span>
+                        </div>
+                        <div className={styles.logisticsInnerSection}>
+                            <span className={styles.logisticsInnerHead}>Company Type:</span>
+                            <span className={styles.logisticsInnerText}>
+                                {requestDetails?.buyerDetails?.buyer_type}
+                            </span>
+                        </div>
+                        <div className={styles.logisticsInnerSection}>
+                            <span className={styles.logisticsInnerHead}>Contact Name:</span>
+                            <span className={styles.logisticsInnerText}>
+                                {requestDetails?.buyerDetails?.contact_person_name}
+                            </span>
+                        </div>
+                        <div className={styles.logisticsInnerSection}>
+                            <span className={styles.logisticsInnerHead}>Email ID:</span>
+                            <span className={styles.logisticsInnerText}>
+                            {   requestDetails?.buyerDetails?.contact_person_email}
+                            </span>
+                        </div>
+                        <div className={styles.logisticsInnerSection}>
+                            <span className={styles.logisticsInnerHead}>Phone No:</span>
+                            <span className={styles.logisticsInnerText}>
+                                {requestDetails?.buyerDetails?.contact_person_country_code}{" "}
+                                {requestDetails?.buyerDetails?.contact_person_mobile}
+                            </span>
+                        </div>
+                    </div>
+                        
+                    </div>
+                    <div className={`col-6`}>
+                        <div className={`${styles.logisticsPickDropSection}`}>
+                        <span className={`${styles.logisticsCompanyHead}`}>Drop Details:</span>
+                        <span className={styles.logisticsText}>
+                        {requestDetails?.orderDetails?.buyer_logistics_data?.full_name}{" "}
+                        {
+                            requestDetails?.orderDetails?.buyer_logistics_data
+                            ?.mobile_number
+                        }
+                        {/* <span className={styles.logisticsAddress}>
+                            {
+                            requestDetails?.orderDetails?.buyer_logistics_data
+                                ?.address_type
+                            }
+                        </span> */}
+                        </span>
+                        {/* <span className={styles.logisticsText}>
+                        {
+                            requestDetails?.orderDetails?.buyer_logistics_data
+                            ?.mobile_number
+                        }
+                        </span> */}
+                        <span className={styles.logisticsText}>
+                        {
+                            requestDetails?.orderDetails?.buyer_logistics_data
+                            ?.company_reg_address
+                        }{" "}
+                        {requestDetails?.orderDetails?.buyer_logistics_data?.locality}{" "}
+                        {requestDetails?.orderDetails?.buyer_logistics_data?.land_mark}{" "}
+                        {requestDetails?.orderDetails?.buyer_logistics_data?.city}{" "}
+                        {requestDetails?.orderDetails?.buyer_logistics_data?.state}{" "}
+                        {requestDetails?.orderDetails?.buyer_logistics_data?.country}{" "}
+                        </span>
+                        <span className={styles.logisticsText}>
+                        {/* {requestDetails?.orderDetails?.buyer_logistics_data?.city}{" "}
+                        {requestDetails?.orderDetails?.buyer_logistics_data?.state}{" "}
+                        {requestDetails?.orderDetails?.buyer_logistics_data?.country}{" "} */}
+                        {requestDetails?.orderDetails?.buyer_logistics_data?.pincode}
+                        </span>
+                    </div>
+
+                    <div className={styles.logisticsInnerSection}>
+                        <span className={styles.logisticsInnerHead}>Mode of Transport:</span>
+                        <span className={styles.logisticsInnerText}>
+                            {
+                            requestDetails?.orderDetails?.buyer_logistics_data
+                                ?.mode_of_transport
+                            }
+                        </span>
+                    </div>
+                    <div className={styles.logisticsInnerSection}>
+                        <span className={styles.logisticsInnerHead}>Extra Services:</span>
+                        <span className={styles.logisticsInnerText}>
+                            {requestDetails?.orderDetails?.buyer_logistics_data?.extra_services?.join(
+                            ", "
+                            )}
+                        </span>
+                    </div>
+                    </div>
+                </div>
+                {/* <div className={styles.logisticsAddSec}>
+                    <div className={styles.logisticsAddContainer}>
+                    <span className={styles.logisticsAddHead}>Mode of Transport</span>
+                    <span className={styles.logisticsAddText}>
+                        {
+                        requestDetails?.orderDetails?.buyer_logistics_data
+                            ?.mode_of_transport
+                        }
+                    </span>
+                    </div>
+                    <div className={styles.logisticsAddContainer}>
+                    <span className={styles.logisticsAddHead}>Extra Services</span>
+                    <span className={styles.logisticsAddText}>
+                        {requestDetails?.orderDetails?.buyer_logistics_data?.extra_services?.join(
+                        ", "
+                        )}
+                    </span>
+                    </div>
+                </div> */}
+            </Card>
+
+            {/* Start the table product details name */}
+            <ProductList
+                productList={
+                requestDetails?.orderDetails?.supplier_logistics_data
+                    ?.bill_of_material?.products
             }
-        />
-        {/* End the table product details name */}
-        {/* start the logistics section */}
-        <div className={styles.logisticsSection}>
-            <div className={styles.logisticsDropContainer}>
-            <div className={styles.logisticsCompanySection}>
-                <span className={styles.logisticsCompanyHead}>Drop Details</span>
-                <span className={styles.logisticsText}>
-                {requestDetails?.orderDetails?.buyer_logistics_data?.full_name}{" "}
-                {/* <span className={styles.logisticsAddress}>
-                    {
-                    requestDetails?.orderDetails?.buyer_logistics_data
-                        ?.address_type
-                    }
-                </span> */}
-                </span>
-                <span className={styles.logisticsText}>
-                {
-                    requestDetails?.orderDetails?.buyer_logistics_data
-                    ?.mobile_number
-                }
-                </span>
-                <span className={styles.logisticsText}>
-                {
-                    requestDetails?.orderDetails?.buyer_logistics_data
-                    ?.company_reg_address
-                }{" "}
-                {requestDetails?.orderDetails?.buyer_logistics_data?.locality}{" "}
-                {requestDetails?.orderDetails?.buyer_logistics_data?.land_mark}
-                </span>
-                <span className={styles.logisticsText}>
-                {requestDetails?.orderDetails?.buyer_logistics_data?.city}{" "}
-                {requestDetails?.orderDetails?.buyer_logistics_data?.state}{" "}
-                {requestDetails?.orderDetails?.buyer_logistics_data?.country}{" "}
-                {requestDetails?.orderDetails?.buyer_logistics_data?.pincode}
-                </span>
-            </div>
-            <div className={styles.logisticsAddSec}>
-                <div className={styles.logisticsAddContainer}>
-                <span className={styles.logisticsAddHead}>Mode of Transport</span>
-                <span className={styles.logisticsAddText}>
-                    {
-                    requestDetails?.orderDetails?.buyer_logistics_data
-                        ?.mode_of_transport
-                    }
-                </span>
-                </div>
-                <div className={styles.logisticsAddContainer}>
-                <span className={styles.logisticsAddHead}>Extra Services</span>
-                <span className={styles.logisticsAddText}>
-                    {requestDetails?.orderDetails?.buyer_logistics_data?.extra_services?.join(
-                    ", "
-                    )}
-                </span>
-                </div>
-            </div>
-            </div>
-            <div className={styles.logisticsDropContainer}>
-            <div className={styles.logisticsCompanySection}>
-                <span className={styles.logisticsCompanyHead}>Pickup Details</span>
-                <span className={styles.logisticsText}>
-                {requestDetails?.orderDetails?.supplier_logistics_data?.full_name}{" "}
-                {/* <span className={styles.logisticsAddress}>
-                    {
-                    requestDetails?.orderDetails?.supplier_logistics_data
-                        ?.address_type
-                    }
-                </span> */}
-                </span>
-                <span className={styles.logisticsText}>
-                {
-                    requestDetails?.orderDetails?.buyer_logistics_data
-                    ?.mobile_number
-                }
-                </span>
-                <span className={styles.logisticsText}>
-                {
-                    requestDetails?.orderDetails?.buyer_logistics_data
-                    ?.company_reg_address
-                }{" "}
-                {requestDetails?.orderDetails?.buyer_logistics_data?.locality}{" "}
-                {requestDetails?.orderDetails?.buyer_logistics_data?.land_mark}
-                </span>
-                <span className={styles.logisticsText}>
-                {requestDetails?.orderDetails?.buyer_logistics_data?.city}{" "}
-                {requestDetails?.orderDetails?.buyer_logistics_data?.state}{" "}
-                {requestDetails?.orderDetails?.buyer_logistics_data?.country}{" "}
-                {requestDetails?.orderDetails?.buyer_logistics_data?.pincode}
-                </span>
-            </div>
-            <div className={styles.logisticsAddSec}>
-                <div className={styles.logisticsAddContainer}>
-                <span className={styles.logisticsAddHead}>
-                    Preferred Date of Pickup
-                </span>
-                <span className={styles.logisticsAddText}>{pickupDate}</span>
-                </div>
-                <div className={styles.logisticsAddContainer}>
-                <span className={styles.logisticsAddHead}>
-                    Preferred Time of Pickup
-                </span>
-                <span className={styles.logisticsAddText}>{pickupTime}</span>
-                </div>
-            </div>
-            </div>
-        </div>
-        {/* end the logistics section */}
+            />
+        
+            {/* start the package details */}
+            <Card className={styles.packageMainContainer}>
+                <div className={styles.packageMainHeading}>Package Details</div>
+                {requestDetails?.orderDetails?.supplier_logistics_data?.package_information?.package_details?.map(
+                (packageDetail, index) => (
+                    <div key={index} className={styles.packageConatiner}>
+                    <div className={styles.packageWeight}>
+                        <div className={styles.logisticsAddHead}>Package Weight</div>
+                        <span className={styles.logisticsAddText}>
+                        {packageDetail?.weight || "N/A"}
+                        </span>
+                    </div>
+                    <div className={styles.packageDimension}>
+                        <div className={styles.packageDimensionSEction}>
+                        <div className={styles.logisticsAddHead}>Height</div>
+                        <span className={styles.logisticsAddText}>
+                            {packageDetail?.dimensions?.height || "N/A"}
+                        </span>
+                        </div>
+                        <div className={styles.packageDimensionSEction}>
+                        <div className={styles.logisticsAddHead}>Width</div>
+                        <span className={styles.logisticsAddText}>
+                            {packageDetail?.dimensions?.width || "N/A"}
+                        </span>
+                        </div>
+                        <div className={styles.packageDimensionSEction}>
+                        <div className={styles.logisticsAddHead}>Length</div>
+                        <span className={styles.logisticsAddText}>
+                            {packageDetail?.dimensions?.length || "N/A"}
+                        </span>
+                        </div>
+                    </div>
+                    <div className={styles.packageWeight}>
+                        <div className={styles.logisticsAddHead}>Total Volume</div>
+                        <span className={styles.logisticsAddText}>
+                        {packageDetail?.dimensions?.volume || "N/A"}
+                        </span>
+                    </div>
+                    </div>
+                )
+                )}
 
-        {/* start the package details */}
-        <div className={styles.packageMainContainer}>
-            <div className={styles.packageMainHeading}>Package Details</div>
-            {requestDetails?.orderDetails?.supplier_logistics_data?.package_information?.package_details?.map(
-            (packageDetail, index) => (
-                <div key={index} className={styles.packageConatiner}>
+                {/* <div className={styles.packageConatiner}>
                 <div className={styles.packageWeight}>
                     <div className={styles.logisticsAddHead}>Package Weight</div>
-                    <span className={styles.logisticsAddText}>
-                    {packageDetail?.weight || "N/A"}
-                    </span>
+                    <span className={styles.logisticsAddText}>500</span>
                 </div>
                 <div className={styles.packageDimension}>
                     <div className={styles.packageDimensionSEction}>
                     <div className={styles.logisticsAddHead}>Height</div>
-                    <span className={styles.logisticsAddText}>
-                        {packageDetail?.dimensions?.height || "N/A"}
-                    </span>
+                    <span className={styles.logisticsAddText}>100</span>
                     </div>
                     <div className={styles.packageDimensionSEction}>
                     <div className={styles.logisticsAddHead}>Width</div>
-                    <span className={styles.logisticsAddText}>
-                        {packageDetail?.dimensions?.width || "N/A"}
-                    </span>
+                    <span className={styles.logisticsAddText}>100</span>
                     </div>
                     <div className={styles.packageDimensionSEction}>
                     <div className={styles.logisticsAddHead}>Length</div>
-                    <span className={styles.logisticsAddText}>
-                        {packageDetail?.dimensions?.length || "N/A"}
-                    </span>
+                    <span className={styles.logisticsAddText}>50</span>
                     </div>
                 </div>
                 <div className={styles.packageWeight}>
                     <div className={styles.logisticsAddHead}>Total Volume</div>
-                    <span className={styles.logisticsAddText}>
-                    {packageDetail?.dimensions?.volume || "N/A"}
-                    </span>
+                    <span className={styles.logisticsAddText}>1500</span>
                 </div>
+                </div> */}
+            </Card>
+
+            {/* start the logistics section */}
+            {requestDetails?.status === "pending" && (
+                <div className={styles.logisticsButtonContainer}>
+                <button className={styles.logisticsAccept} onClick={handleAccept}>
+                    {loading ? <div className="loading-spinner"></div> : "Accept"}
+                </button>
+                <buttton className={styles.logisticsCancel} onClick={handleCancel}>
+                    Cancel
+                </buttton>
                 </div>
-            )
             )}
-
-            {/* <div className={styles.packageConatiner}>
-            <div className={styles.packageWeight}>
-                <div className={styles.logisticsAddHead}>Package Weight</div>
-                <span className={styles.logisticsAddText}>500</span>
-            </div>
-            <div className={styles.packageDimension}>
-                <div className={styles.packageDimensionSEction}>
-                <div className={styles.logisticsAddHead}>Height</div>
-                <span className={styles.logisticsAddText}>100</span>
-                </div>
-                <div className={styles.packageDimensionSEction}>
-                <div className={styles.logisticsAddHead}>Width</div>
-                <span className={styles.logisticsAddText}>100</span>
-                </div>
-                <div className={styles.packageDimensionSEction}>
-                <div className={styles.logisticsAddHead}>Length</div>
-                <span className={styles.logisticsAddText}>50</span>
-                </div>
-            </div>
-            <div className={styles.packageWeight}>
-                <div className={styles.logisticsAddHead}>Total Volume</div>
-                <span className={styles.logisticsAddText}>1500</span>
-            </div>
-            </div> */}
-        </div>
-
-        {/* start the logistics section */}
-        {requestDetails?.status === "pending" && (
-            <div className={styles.logisticsButtonContainer}>
-            <button className={styles.logisticsAccept} onClick={handleAccept}>
-                {loading ? <div className="loading-spinner"></div> : "Accept"}
-            </button>
-            <buttton className={styles.logisticsCancel} onClick={handleCancel}>
-                Cancel
-            </buttton>
-            </div>
-        )}
         </div>
     </Main>
   )
 }
 
 export default NewOrderDetails;
+
+
+{/* start the logistics section */}
+        {/* <div className={styles.logisticsSection}>
+            <Card className={styles.logisticsDropContainer}>
+                <div className={styles.logisticsPickDropSection}>
+                    <span className={styles.logisticsCompanyHead}>Drop Details</span>
+                    <span className={styles.logisticsText}>
+                    {requestDetails?.orderDetails?.buyer_logistics_data?.full_name}{" "}
+                    <span className={styles.logisticsAddress}>
+                        {
+                        requestDetails?.orderDetails?.buyer_logistics_data
+                            ?.address_type
+                        }
+                    </span>
+                    </span>
+                    <span className={styles.logisticsText}>
+                    {
+                        requestDetails?.orderDetails?.buyer_logistics_data
+                        ?.mobile_number
+                    }
+                    </span>
+                    <span className={styles.logisticsText}>
+                    {
+                        requestDetails?.orderDetails?.buyer_logistics_data
+                        ?.company_reg_address
+                    }{" "}
+                    {requestDetails?.orderDetails?.buyer_logistics_data?.locality}{" "}
+                    {requestDetails?.orderDetails?.buyer_logistics_data?.land_mark}
+                    </span>
+                    <span className={styles.logisticsText}>
+                    {requestDetails?.orderDetails?.buyer_logistics_data?.city}{" "}
+                    {requestDetails?.orderDetails?.buyer_logistics_data?.state}{" "}
+                    {requestDetails?.orderDetails?.buyer_logistics_data?.country}{" "}
+                    {requestDetails?.orderDetails?.buyer_logistics_data?.pincode}
+                    </span>
+                </div>
+                <div className={styles.logisticsAddSec}>
+                    <div className={styles.logisticsAddContainer}>
+                    <span className={styles.logisticsAddHead}>Mode of Transport</span>
+                    <span className={styles.logisticsAddText}>
+                        {
+                        requestDetails?.orderDetails?.buyer_logistics_data
+                            ?.mode_of_transport
+                        }
+                    </span>
+                    </div>
+                    <div className={styles.logisticsAddContainer}>
+                    <span className={styles.logisticsAddHead}>Extra Services</span>
+                    <span className={styles.logisticsAddText}>
+                        {requestDetails?.orderDetails?.buyer_logistics_data?.extra_services?.join(
+                        ", "
+                        )}
+                    </span>
+                    </div>
+                </div>
+            </Card>
+
+            <Card className={styles.logisticsDropContainer}>
+                <div className={styles.logisticsPickDropSection}>
+                    <span className={styles.logisticsCompanyHead}>Pickup Details</span>
+                    <span className={styles.logisticsText}>
+                    {requestDetails?.orderDetails?.supplier_logistics_data?.full_name}{" "}
+                    <span className={styles.logisticsAddress}>
+                        {
+                        requestDetails?.orderDetails?.supplier_logistics_data
+                            ?.address_type
+                        }
+                    </span>
+                    </span>
+                    <span className={styles.logisticsText}>
+                    {
+                        requestDetails?.orderDetails?.buyer_logistics_data
+                        ?.mobile_number
+                    }
+                    </span>
+                    <span className={styles.logisticsText}>
+                    {
+                        requestDetails?.orderDetails?.buyer_logistics_data
+                        ?.company_reg_address
+                    }{" "}
+                    {requestDetails?.orderDetails?.buyer_logistics_data?.locality}{" "}
+                    {requestDetails?.orderDetails?.buyer_logistics_data?.land_mark}
+                    </span>
+                    <span className={styles.logisticsText}>
+                    {requestDetails?.orderDetails?.buyer_logistics_data?.city}{" "}
+                    {requestDetails?.orderDetails?.buyer_logistics_data?.state}{" "}
+                    {requestDetails?.orderDetails?.buyer_logistics_data?.country}{" "}
+                    {requestDetails?.orderDetails?.buyer_logistics_data?.pincode}
+                    </span>
+                </div>
+                <div className={styles.logisticsAddSec}>
+                    <div className={styles.logisticsAddContainer}>
+                    <span className={styles.logisticsAddHead}>
+                        Preferred Date of Pickup
+                    </span>
+                    <span className={styles.logisticsAddText}>{pickupDate}</span>
+                    </div>
+                    <div className={styles.logisticsAddContainer}>
+                    <span className={styles.logisticsAddHead}>
+                        Preferred Time of Pickup
+                    </span>
+                    <span className={styles.logisticsAddText}>{pickupTime}</span>
+                    </div>
+                </div>
+            </Card>
+        </div> */}
+        {/* end the logistics section */}

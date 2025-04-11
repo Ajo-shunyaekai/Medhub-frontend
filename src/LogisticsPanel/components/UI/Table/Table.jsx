@@ -20,7 +20,7 @@ const Table = ({
                         columns={columns}
                         data={data}
                         pagination={false}
-                        noDataComponent={<div className='pending-products-no-orders'>No Requests</div>}
+                        noDataComponent={<div className='p-4 rounder display-6'>No Requests</div>}
                     />
                     {data && data.length > 0 && (
                         <div className='pagi-container'>

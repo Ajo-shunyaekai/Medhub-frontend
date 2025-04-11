@@ -34,19 +34,14 @@
 }
 
 .logisticsCompanySection {
-  width: 100%;
-  background-color: #fff;
-  border-radius: 4px;
-  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
-  padding: 10px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+  gap: 2px !important;
 }
 
 .logisticsCompanyHead {
   font-size: 20px;
   font-weight: 600;
+  color: #282f86;
+  margin-bottom: 10px !important;
 }
 
 .logisticsInnerSection {
@@ -56,7 +51,8 @@
 }
 
 .logisticsInnerHead {
-  color: #5e676f !important;
+  /* color: #5e676f !important; */
+  color: #282f86 !important;
   font-size: 14px;
   font-weight: 500;
   line-height: 20px;
@@ -76,6 +72,12 @@
   row-gap: 20px;
   width: 100%;
 }
+.logisticsPickDropSection {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
 .logisticsAddSec {
   display: flex;
   gap: 20px;
@@ -94,6 +96,7 @@
 .logisticsAddHead {
   font-size: 16px;
   font-weight: 500;
+  color: #282f86;
 }
 .logisticsAddText {
   color: #99a0ac;
@@ -107,6 +110,7 @@
 .packageMainHeading {
   font-size: 20px;
   font-weight: 600;
+  color: #282f86;
 }
 .packageConatiner {
   display: flex;
@@ -193,17 +197,19 @@
 .cardBody {
   background-color: #fff;
   border-radius: 4px;
-  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+  /* box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important; */
   padding: 20px;
 }
 
 .tableHeading {
   font-size: 20px;
   font-weight: 600;
+  color: #282f86;
 }
 .logisticsText {
   font-size: 14px;
-  font-weight: 500;
+  line-height: 20px;
+  /* font-weight: 500; */
 }
 
 .tableContainer {
@@ -231,6 +237,7 @@
 .th {
   font-weight: 500;
   font-size: 14px;
+  color: #282f86;
 }
 
 .productNameCell {
