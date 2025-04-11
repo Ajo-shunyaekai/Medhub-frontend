@@ -49,7 +49,7 @@ const OngoingInquiriesList = () => {
       };
 
     //   postRequestWithToken("buyer/enquiry/enquiry-list", obj, (response) => {
-    //     if (response.code === 200) {
+    //     if (response?.code === 200) {
     //       setInquiryList(response.result.data);
     //       setTotalInquiries(response.result.totalItems);
     //     } else {
@@ -61,7 +61,7 @@ const OngoingInquiriesList = () => {
         const response = await apiRequests.getRequest(
           `enquiry/get-all-enquiry-list?pageNo=${currentPage}&pageSize=${ordersPerPage}&filterKey={"pending}`
         );
-        if (response.code === 200) {
+        if (response?.code === 200) {
           setInquiryList(response.result.data);
           setTotalInquiries(response.result.totalItems);
         } else {

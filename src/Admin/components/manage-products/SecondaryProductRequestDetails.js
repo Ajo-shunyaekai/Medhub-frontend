@@ -58,7 +58,7 @@ const SecondaryProductRequestDetails = ({socket}) => {
         }
 
         postRequest('buyer/medicine/medicine-details', obj, async (response) => {
-            if (response.code === 200) {
+            if (response?.code === 200) {
                 setMedicineDetails(response?.result?.data)
                 setInvoiceImage(response?.result?.data?.invoice_image[0])
             } else {
@@ -83,7 +83,7 @@ const SecondaryProductRequestDetails = ({socket}) => {
             setRejectLoading(true)
         }
         postRequestWithToken('admin/accept-reject-add-medicine', obj, async (response) => {
-            if (response.code === 200) {
+            if (response?.code === 200) {
                 toast(response.message, {type: 'success'})
                 setLoading(false);
                 setRejectLoading(false);

@@ -38,7 +38,7 @@ const PendingDetails = () => {
           `order/get-specific-order-details/${orderId}`,
           obj
         );
-        if (response.code === 200) {
+        if (response?.code === 200) {
           setOrderDetails(response.result);
         } else {
         }

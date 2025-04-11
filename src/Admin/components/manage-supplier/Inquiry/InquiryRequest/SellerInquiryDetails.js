@@ -42,7 +42,7 @@ const SellerInquiryDetails = () => {
         }
 
         postRequestWithToken('admin/get-inquiry-details', obj, async (response) => {
-            if (response.code === 200) {
+            if (response?.code === 200) {
                 setInquiryDetails(response?.result)
             } else {
             }

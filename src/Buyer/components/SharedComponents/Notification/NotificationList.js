@@ -42,7 +42,7 @@ const NotificationList = () => {
         };
 
         postRequestWithToken('buyer/get-notification-details-list', obj, (response) => {
-            if (response.code === 200) {
+            if (response?.code === 200) {
                 setList(response.result.data);
                 setTotalItems(response.result.totalItems);
             } else {

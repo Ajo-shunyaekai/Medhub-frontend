@@ -60,7 +60,7 @@ export const addAddress = createAsyncThunk(
         `address/add-address`,
         { ...values?.obj }
       );
-      if (response.code !== 200) {
+      if (response?.code !== 200) {
         toast(response?.message, { type: "error" });
         return rejectWithValue(response?.message || "Unknown error");
       }
@@ -84,7 +84,7 @@ export const editAddress = createAsyncThunk(
         `address/edit-address/${values?.obj?.userId}/${values?.obj?.addressId}`,
         { ...values?.obj, }
       );
-      if (response.code !== 200) {
+      if (response?.code !== 200) {
         toast(response?.message, { type: "error" });
         return rejectWithValue(response?.message || "Unknown error");
       }
@@ -108,7 +108,7 @@ export const deleteAddress = createAsyncThunk(
         `address/delete-address/${values?.userId}/${values?.addressId}`,
         { ...values?.obj, }
       );
-      if (response.code !== 200) {
+      if (response?.code !== 200) {
         toast(response?.message, { type: "error" });
         return rejectWithValue(response?.message || "Unknown error");
       }

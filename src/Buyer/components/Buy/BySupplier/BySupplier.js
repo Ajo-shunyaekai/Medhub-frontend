@@ -130,7 +130,7 @@ const BuySeller = ({ active }) => {
         }
 
         postRequestWithToken('supplier/get-filter-values', { buyer_id: buyerId }, (response) => {
-            if (response.code === 200) {
+            if (response?.code === 200) {
                 setCountryOrigin(response.result[0].country);
             } else {
             }
@@ -307,7 +307,7 @@ const BuySeller = ({ active }) => {
         }
 
         postRequestWithToken('supplier/get-filter-values', { buyer_id: buyerId }, (response) => {
-            if (response.code === 200) {
+            if (response?.code === 200) {
                 setCountryOrigin(response.result[0].country);
             } else {
             }

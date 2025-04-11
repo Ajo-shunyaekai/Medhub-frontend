@@ -73,7 +73,7 @@ const CancelInquiryList = () => {
         };
  
         postRequestWithToken("enquiry/cancel-enquiry", obj, async (response) => {
-        if (response.code === 200) {
+        if (response?.code === 200) {
             toast(response.message, { type: "success" });
             setTimeout(() => {
                 navigate(`/buyer/ongoing-inquiries-details/${inquiryId}`);
@@ -104,7 +104,7 @@ const CancelInquiryList = () => {
             }
             setInquiryDetails(response?.result);
             // postRequestWithToken(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj, async (response) => {
-            //     if (response.code === 200) {
+            //     if (response?.code === 200) {
             //         setInquiryDetails(response?.result);
             //     } else {
             //     }

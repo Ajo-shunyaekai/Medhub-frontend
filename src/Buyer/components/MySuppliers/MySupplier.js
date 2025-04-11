@@ -33,7 +33,7 @@ const MySupplier = () => {
             pageSize: itemsPerPage
         }
         postRequestWithToken('buyer/my-supplier-list', obj, async (response) => {
-            if (response.code === 200) {
+            if (response?.code === 200) {
                 setMySuppliers(response.result.data)
                 setTotalItems(response.result.totalItems)
             } else {

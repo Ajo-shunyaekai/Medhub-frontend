@@ -127,7 +127,7 @@ const AdminSidebar = () => {
             status : 1
         }
         postRequestWithToken('admin/update-notification-status', obj, (response) => {
-            if (response.code === 200) {
+            if (response?.code === 200) {
                 setRefresh(true)
             } else {
             }
@@ -145,7 +145,7 @@ const AdminSidebar = () => {
 
         const fetchNotifications = () => {
             postRequestWithToken('admin/get-notification-list', obj, (response) => {
-                if (response.code === 200) {
+                if (response?.code === 200) {
                     setNotificationList(response.result.data);
                     setCount(response.result.totalItems || 0)
                 } else {

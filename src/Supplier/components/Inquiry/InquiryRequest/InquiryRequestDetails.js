@@ -51,7 +51,7 @@ const InquiryRequestDetails = ({socket}) => {
             }
             setInquiryDetails(response?.result);
             // postRequestWithToken(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj, async (response) => {
-            //     if (response.code === 200) {
+            //     if (response?.code === 200) {
             //         setInquiryDetails(response?.result)
             //     } else {
             //     }
@@ -110,7 +110,7 @@ const InquiryRequestDetails = ({socket}) => {
         }
 
         postRequestWithToken('enquiry/submit-quotation', obj, async (response) => {
-            if (response.code === 200) {
+            if (response?.code === 200) {
                 toast(response.message, { type: 'success' })
  
                 socket.emit('submitQuotation', {

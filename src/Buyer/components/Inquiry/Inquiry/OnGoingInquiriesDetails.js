@@ -66,7 +66,7 @@ const OnGoingInquiriesDetails = () => {
       localStorage.setItem("acceptedQuotationItems", JSON.stringify(acceptedItems));
       localStorage.setItem("rejectedQuotationItems", JSON.stringify(rejectedItems));
       // postRequestWithToken(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj, async (response) => {
-      //   if (response.code === 200) {
+      //   if (response?.code === 200) {
       //     setInquiryDetails(response?.result);
       //     const acceptedItems = [];
       //     const rejectedItems = [];
@@ -116,7 +116,7 @@ const OnGoingInquiriesDetails = () => {
       new_status: status,
     };
     postRequestWithToken("enquiry/accept-reject-quotation", obj, async (response) => {
-      if (response.code === 200) {
+      if (response?.code === 200) {
         toast(response.message, { type: "success" });
         const fetchData = async () => {                 
           const response = await apiRequests.getRequest(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj);
@@ -138,7 +138,7 @@ const OnGoingInquiriesDetails = () => {
             return updatedItems;
           });
           // postRequestWithToken(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj, async (response) => {
-          // if (response.code === 200) {
+          // if (response?.code === 200) {
           //   setInquiryDetails(response?.result);
           //   setAcceptedItems((prevItems) => {
           //     const updatedItems = [...prevItems, item];
@@ -183,7 +183,7 @@ const OnGoingInquiriesDetails = () => {
       "enquiry/accept-reject-quotation",
       obj,
       async (response) => {
-        if (response.code === 200) {
+        if (response?.code === 200) {
           toast(response.message, { type: "success" });
           const fetchData = async ()=>{
             const response = await apiRequests.getRequest(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj);
@@ -213,7 +213,7 @@ const OnGoingInquiriesDetails = () => {
             // `enquiry/get-specific-enquiry-details/${inquiryId}`,
             // obj,
             // async (response) => {
-            //   if (response.code === 200) {
+            //   if (response?.code === 200) {
             //     setInquiryDetails(response?.result);
             //     setRejectedItems((prevItems) => {
             //       const updatedItems = [...prevItems, item];

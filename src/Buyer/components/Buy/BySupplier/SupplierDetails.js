@@ -121,7 +121,7 @@ const SupplierDetails = () => {
     }
 
     postRequestWithToken('buyer/supplier-product-list', obj, async (response) => {
-      if (response.code === 200) {
+      if (response?.code === 200) {
         setProductList(response.result.data);
         setTotalProducts(response.result.totalItems);
       } else {
@@ -138,7 +138,7 @@ const SupplierDetails = () => {
       }
 
       postRequestWithToken('buyer/buyer-supplier-orders', obj, async (response) => {
-        if (response.code === 200) {
+        if (response?.code === 200) {
           setBuyerSupplierOrder(response.result)
           setTotalOrders(response.result.totalOrders)
         } else {

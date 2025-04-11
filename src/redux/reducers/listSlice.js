@@ -32,7 +32,7 @@ export const addToList = createAsyncThunk(
           `buyer/add-to-list`,
           values
         );
-        if (response.code !== 200) {
+        if (response?.code !== 200) {
           toast(response?.message, { type: "error" });
           return rejectWithValue(response?.message || "Unknown error");
         }

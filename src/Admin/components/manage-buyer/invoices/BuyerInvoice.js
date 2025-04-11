@@ -97,7 +97,7 @@ const SellerInvoice = () => {
           const response = await apiRequests.getRequest(
             `order/get-all-order-list?filterKey=${"completed"}&pageNo=${currentPage}&pageSize=${listPerPage}`
           );
-          if (response.code === 200) {
+          if (response?.code === 200) {
             setInvoiceList(response.result.data);
             setTotalItems(response.result.totalItems);
           } else {

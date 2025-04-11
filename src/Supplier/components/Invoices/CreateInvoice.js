@@ -128,7 +128,7 @@ const CreateInvoice = ({ socket }) => {
           `order/get-specific-order-details/${orderId}`,
           obj
         );
-        if (response.code === 200) {
+        if (response?.code === 200) {
           setOrderDetails(response.result);
           const data = response.result;
           const formattedSupplierMobile = `${
@@ -318,7 +318,7 @@ const CreateInvoice = ({ socket }) => {
         "invoice/create-invoice",
         formData,
         async (response) => {
-          if (response.code === 200) {
+          if (response?.code === 200) {
             toast(response.message, { type: "success" });
             socket.emit("createInvoice", {
               buyerId: formData?.buyerId,

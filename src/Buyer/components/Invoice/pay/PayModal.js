@@ -241,7 +241,7 @@ function PayModal({ showModal, handleClose, invoiceId, orderId, buyerId, supplie
             formData.append('transaction_image', uploadedImage);
 
             postRequestWithTokenAndFile('invoice/update-payment-status', formData, async (response) => {
-                if (response.code === 200) {
+                if (response?.code === 200) {
                     toast(response.message, { type: 'success' });
                     socket.emit('invoicePaymentDone', {
                         supplierId: supplierId, 

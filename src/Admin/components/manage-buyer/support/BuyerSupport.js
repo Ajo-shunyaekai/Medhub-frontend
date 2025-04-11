@@ -72,7 +72,7 @@ const SellerSupport = () => {
         }
 
         postRequestWithToken('admin/get-support-list', obj, async (response) => {
-            if (response.code === 200) {
+            if (response?.code === 200) {
                 setSupportList(response.result.data)
                 setTotalIems(response.result.totalItems)
             } else {

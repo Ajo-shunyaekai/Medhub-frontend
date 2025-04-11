@@ -58,7 +58,7 @@ export const bookLogistics = createAsyncThunk(
         `order/book-logistics`,
         { ...values?.obj }
       );
-      if (response.code !== 200) {
+      if (response?.code !== 200) {
         toast(response?.message, { type: "error" });
         return rejectWithValue(response?.message || "Unknown error");
       }
@@ -82,7 +82,7 @@ export const submitPickupDetails = createAsyncThunk(
         `order/submit-pickup-details`,
         { ...values?.obj }
       );
-      if (response.code !== 200) {
+      if (response?.code !== 200) {
         toast(response?.message, { type: "error" });
         return rejectWithValue(response?.message || "Unknown error");
       }

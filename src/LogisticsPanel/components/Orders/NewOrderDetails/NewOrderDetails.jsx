@@ -41,7 +41,7 @@ function NewOrderDetails() {
         `logistics/update-logistics-details`,
         obj
         );
-        if (response.code === 200) {
+        if (response?.code === 200) {
         setTimeout(() => {
             navigate("/logistics/order");
             setLoading(true);
@@ -72,7 +72,7 @@ function NewOrderDetails() {
         `logistics/get-logistics-details/${requestId}`,
         obj
         );
-        if (response.code === 200) {
+        if (response?.code === 200) {
         setRequestDetails(response.result);
         setPickupDate(
             response?.result?.orderDetails?.supplier_logistics_data?.pickup_date

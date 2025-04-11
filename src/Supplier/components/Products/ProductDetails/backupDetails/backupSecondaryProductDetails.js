@@ -58,7 +58,7 @@ const SecondaryProductDetails = () => {
             }
  
             // postRequest('buyer/medicine/medicine-details', obj, async (response) => {
-            //     if (response.code === 200) {
+            //     if (response?.code === 200) {
             //         setMedicineDetails(response?.result?.data)
             //         setInvoiceImage(response?.result?.data?.invoice_image[0])
             //     } else {
@@ -72,7 +72,7 @@ const SecondaryProductDetails = () => {
                 setMedicineDetails(response?.result)
                 setInvoiceImage(response?.result?.invoice_image[0])
                 // postRequest(`medicine/get-specific-medicine-details/${medId}`, obj, async (response) => {
-                //     if (response.code === 200) {
+                //     if (response?.code === 200) {
                 //         setMedicineDetails(response?.result?.data)
                 //         setInvoiceImage(response?.result?.data?.invoice_image[0])
                 //     } else {

@@ -64,7 +64,7 @@ const EditUpdateSecondaryDetails = ({socket}) => {
         }
 
         postRequestWithToken('admin/get-edit-medicine_details', obj, async (response) => {
-            if (response.code === 200) {
+            if (response?.code === 200) {
                 setMedicineDetails(response?.result)
                 setInvoiceImage(response?.result?.invoice_image[0])
             } else {
@@ -90,7 +90,7 @@ const EditUpdateSecondaryDetails = ({socket}) => {
         }
 
         postRequestWithToken('admin/accept-reject-edit-medicine', obj, async (response) => {
-            if (response.code === 200) {
+            if (response?.code === 200) {
                 toast(response.message, {type: 'success'})
                 setLoading(false);
                 setRejectLoading(false);

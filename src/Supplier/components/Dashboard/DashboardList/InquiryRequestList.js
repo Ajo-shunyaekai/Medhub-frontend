@@ -62,7 +62,7 @@ const InquiryRequestList = () => {
         const response = await apiRequests.getRequest(
           `enquiry/get-all-enquiry-list?pageNo=${currentPage}&pageSize=${ordersPerPage}&filterKey=${"completed"}`
         );
-        if (response.code === 200) {
+        if (response?.code === 200) {
           setInquiryList(response.result.data);
           setTotalInquiries(response.result.totalItems);
         } else {

@@ -64,7 +64,7 @@ const BuyerDetails = () => {
             }
 
             postRequestWithToken('buyer/buyer-supplier-orders', obj, async (response) => {
-                if (response.code === 200) {
+                if (response?.code === 200) {
                     setBuyerSupplierOrder(response.result)
                     setTotalOrders(response.result.totalOrders)
                 } else {

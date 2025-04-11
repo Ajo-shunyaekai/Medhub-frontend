@@ -71,7 +71,7 @@ const Invoice = ({ socket }) => {
           const response = await apiRequests.getRequest(
             `order/get-all-order-list?pageNo=${currentPage}&pageSize=${invoicesPerPage}&filterKey=${"filterKey"}`
           );
-          if (response.code === 200) {
+          if (response?.code === 200) {
             setInvoiceList(response.result.data);
             setTotalInvoices(response.result.totalItems);
           } else {
@@ -96,7 +96,7 @@ const Invoice = ({ socket }) => {
           setInvoiceList(response.result.data);
           setTotalInvoices(response.result.totalItems);
           // postRequestWithToken(`order/get-all-invoice-list?filterKey=${filterKey}&pageNo=${currentPage}&pageSize=${invoicesPerPage}`, obj, async (response) => {
-          //     if (response.code == 200) {
+          //     if (response?.code == 200) {
           //         setInvoiceList(response.result.data);
           //         setTotalInvoices(response.result.totalItems);
           //     }

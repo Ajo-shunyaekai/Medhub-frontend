@@ -70,7 +70,7 @@ const ProductRequests = () => {
             }
         
             postRequestWithToken('admin/get-medicine-list', obj, async (response) => {
-                if (response.code === 200) {
+                if (response?.code === 200) {
                     setProductList(response.result.data);
                     setTotalProducts(response.result.totalItems);
                 } else {
@@ -85,7 +85,7 @@ const ProductRequests = () => {
                 setProductList(response.result.data);
                 setTotalProducts(response.result.totalItems);
                 // postRequestWithToken(`medicine/get-all-medicines-list?pageNo=${currentPage}&pageSize=${listPerPage}&medicine_type=${medicineType}&status=${0}`, obj, async (response) => {
-                //     if (response.code === 200) {
+                //     if (response?.code === 200) {
                 //         setProductList(response.result.data);
                 //         setTotalProducts(response.result.totalItems);
                 //     } else {

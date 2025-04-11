@@ -66,7 +66,7 @@ const ProductUpdateRequest = () => {
         }
 
         postRequestWithToken('admin/get-medicine-edit-request-list', obj, async (response) => {
-            if (response.code === 200) {
+            if (response?.code === 200) {
                 setProductList(response.result.data);
                 setTotalProducts(response.result.totalItems);
             } else {

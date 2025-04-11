@@ -73,12 +73,12 @@ const InquiryPurchaseOrder = () => {
       const response = await apiRequests.getRequest(
         `enquiry/get-all-enquiry-list?pageNo=${currentPage}&pageSize=${inquiryPerPage}&status=${status}`
       );
-      if (response.code === 200) {
+      if (response?.code === 200) {
         setInquiryList(response.result.data);
         setTotalInquiries(response.result.totalItems);
       }
       // postRequestWithToken(`enquiry/get-all-enquiry-list?pageNo=${currentPage}&pageSize=${inquiryPerPage}&status=${status}`, obj, async (response) => {
-      //     if (response.code == 200) {
+      //     if (response?.code == 200) {
       //         setInquiryList(response.result.data)
       //         setTotalInquiries(response.result.totalItems)
       //     } else {
@@ -95,7 +95,7 @@ const InquiryPurchaseOrder = () => {
         "purchaseorder/get-po-list",
         obj,
         async (response) => {
-          if (response.code === 200) {
+          if (response?.code === 200) {
             setPOList(response.result.data);
             setTotalPoList(response.result.totalItems);
           } else {

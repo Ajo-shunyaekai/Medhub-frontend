@@ -49,7 +49,7 @@ const RejectedOrders = () => {
       const response = await apiRequests.getRequest(
         `supplier/get-all-suppliers-list?filterKey=${"rejected"}&filterValue=${filterValue}&pageNo=${currentPage}&pageSize=${listPerPage}`
       );
-      if (response.code === 200) {
+      if (response?.code === 200) {
         setSellerList(response.result.data);
         setTotalSellers(response.result.totalItems);
       } else {

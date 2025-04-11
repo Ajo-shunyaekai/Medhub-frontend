@@ -149,7 +149,7 @@ const ProformaInvoice = ({ socket }) => {
       "purchaseorder/get-po-details",
       obj,
       async (response) => {
-        if (response.code === 200) {
+        if (response?.code === 200) {
           setInquiryDetails(response?.result);
           const data = response.result;
           const formattedSupplierMobile = `${
@@ -373,7 +373,7 @@ const ProformaInvoice = ({ socket }) => {
         "order/create-order",
         obj,
         async (response) => {
-          if (response.code === 200) {
+          if (response?.code === 200) {
             toast(response.message, { type: "success" });
 
             socket.emit("createOrder", {

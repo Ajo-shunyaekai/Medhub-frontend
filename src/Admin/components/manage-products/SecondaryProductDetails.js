@@ -61,7 +61,7 @@ const SecondaryProductDetails = () => {
         }
 
         postRequest('buyer/medicine/medicine-details', obj, async (response) => {
-            if (response.code === 200) {
+            if (response?.code === 200) {
                 setMedicineDetails(response.result.data)
                 setInvoiceImage(response?.result?.data?.invoice_image[0])
             } else {

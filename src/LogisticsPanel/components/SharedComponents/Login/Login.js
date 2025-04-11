@@ -58,7 +58,7 @@ const Login = ({socket}) => {
              
                 try {
                     const response = await apiRequests?.postRequest(`auth/login`, obj)
-                    if(response.code !== 200){
+                    if(response?.code !== 200){
                         toast(response.message, { type: "error" });
                     }else{
 

@@ -45,7 +45,7 @@ function InvoiceDesign() {
             }
             setInvoiceDetails(response?.result);
             // postRequestWithToken(`invoice/get-specific-invoice-details/${invoiceId}`, obj, (response) => {
-            //     if (response.code === 200) {
+            //     if (response?.code === 200) {
             //         setInvoiceDetails(response.result);
             //     } else {
             //     }

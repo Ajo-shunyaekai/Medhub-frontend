@@ -75,7 +75,7 @@ const InquiriesDashList = () => {
 
     if (activeLink === "request") {
       // postRequestWithToken("admin/get-inquiry-list", obj, (response) => {
-      //   if (response.code === 200) {
+      //   if (response?.code === 200) {
       //     setList(response.result.data);
       //     setTotalList(response.result.totalItems);
       //   } else {
@@ -87,12 +87,12 @@ const InquiriesDashList = () => {
         const response = await apiRequests.getRequest(
           `enquiry/get-all-enquiry-list?pageNo=${currentPage}&pageSize=${ordersPerPage}&filterKey=${activeLink}&filterValue=${filterValue}`
         );
-        if (response.code === 200) {
+        if (response?.code === 200) {
           setList(response.result.data);
           setTotalList(response.result.totalItems);
         }
         // postRequestWithToken(`enquiry/get-all-enquiry-list?pageNo=${currentPage}&pageSize=${listPerPage}&filterValue=${activeLink}`, obj, async (response) => {
-        //     if (response.code == 200) {
+        //     if (response?.code == 200) {
         //         setList(response.result.data);
         //         setTotalList(response.result.totalItems);
         //     }
@@ -104,7 +104,7 @@ const InquiriesDashList = () => {
     } else if (activeLink === "ongoing") {
       obj.status = "active";
       postRequestWithToken("purchaseorder/get-po-list", obj, (response) => {
-        if (response.code === 200) {
+        if (response?.code === 200) {
           setList(response.result.data);
           setTotalList(response.result.totalItems);
         } else {

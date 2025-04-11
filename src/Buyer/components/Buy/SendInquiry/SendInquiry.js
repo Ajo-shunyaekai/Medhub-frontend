@@ -55,7 +55,7 @@ const SendInquiry = ({socket}) => {
     };
 
     postRequestWithToken('buyer/delete-list-item', obj, async (response) => {
-      if (response.code === 200) {
+      if (response?.code === 200) {
         // setCartCount(response.result.listCount)
         localStorage.setItem('list_count', response.result.listCount)
         dispatch(updateInquiryCartCount(response.result.listCount))
@@ -87,7 +87,7 @@ const SendInquiry = ({socket}) => {
     };
 
     postRequestWithToken('buyer/show-list', obj, async (response) => {
-      if (response.code === 200) {
+      if (response?.code === 200) {
         setList(response?.result?.data);
         setTotalItems(response?.result?.totalItems);
 
@@ -156,7 +156,7 @@ const SendInquiry = ({socket}) => {
     }
     setButtonLoading(true)
     postRequestWithToken('buyer/send-enquiry', enquiryPayload, async (response) => {
-      if (response.code === 200) {
+      if (response?.code === 200) {
         // toast(response.message, { type: "success" });
         enquiryPayload.items.forEach(item => {
           socket.emit('sendInquiry', {

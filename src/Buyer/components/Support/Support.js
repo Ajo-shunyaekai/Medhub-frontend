@@ -76,7 +76,7 @@ const Support = () => {
             images.forEach(file => formData.append(`${type}_image`, file));
         
             postRequestWithTokenAndFile(endpoint, formData, async (response) => {
-                if (response.code === 200) {
+                if (response?.code === 200) {
                     toast(response.message, { type: "success" });
                     resetForm(); // clear form values
                     setLoading(false)
@@ -214,7 +214,7 @@ const Support = () => {
     //         Array.from(feedbackImages).forEach(file => formData.append('feedback_image', file))
 
     //         postRequestWithTokenAndFile('order/submit-order-feedback', formData, async (response) => {
-    //             if (response.code === 200) {
+    //             if (response?.code === 200) {
     //                 toast(response.message, { type: "success" });
     //                 setOrderId('')
     //                 setFeedback('')
@@ -251,7 +251,7 @@ const Support = () => {
     //         Array.from(compImages).forEach(file => formData.append('complaint_image', file))
 
     //         postRequestWithTokenAndFile('order/submit-order-complaint', formData, async (response) => {
-    //             if (response.code === 200) {
+    //             if (response?.code === 200) {
     //                 toast(response.message, { type: "success" });
     //                 setCompOrderId('')
     //                 setCompFeedback('')

@@ -55,7 +55,7 @@ const ApprovedSeller = () => {
                 setSellerList(response.result.data)
                 setTotalSellers(response.result.totalItems)
                 // postRequestWithToken(`supplier/get-all-suppliers-list?filterKey=${'accepted'}&filterValue=${filterValue}&pageNo=${currentPage}&pageSize=${listPerPage}`, obj, async (response) => {
-                //     if (response.code === 200) {
+                //     if (response?.code === 200) {
                 //         setSellerList(response.result.data)
                 //         setTotalSellers(response.result.totalItems)
                 //     } else {

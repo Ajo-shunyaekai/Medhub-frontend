@@ -45,7 +45,7 @@ const TotalPO = () => {
 
     obj.status = "active";
     postRequestWithToken("purchaseorder/get-po-list", obj, (response) => {
-      if (response.code === 200) {
+      if (response?.code === 200) {
         setList(response.result.data);
         setTotalList(response.result.totalItems);
       } else {

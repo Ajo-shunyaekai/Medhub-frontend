@@ -35,7 +35,7 @@ const SupplierDashboard = () => {
             usertype   : 'supplier'
         }
         postRequestWithToken('supplier/orders-buyer-country', obj, async (response) => {
-            if (response.code === 200) {
+            if (response?.code === 200) {
                 setSellerCountry(response?.result)
                 const convertedData = convertCountryToCode(response?.result);
                 setCountryData(convertedData);
@@ -43,14 +43,14 @@ const SupplierDashboard = () => {
             }
         });
         postRequestWithToken('supplier/orders-summary-details', obj, async (response) => {
-            if (response.code === 200) {
+            if (response?.code === 200) {
                 setOrderSummary(response?.result)
             } else {
             }
         })
 
         postRequestWithToken('order/sales-filter', obj, async (response) => {
-            if (response.code === 200) {
+            if (response?.code === 200) {
                 setSalesSummary(response?.result)
             } else {
             }

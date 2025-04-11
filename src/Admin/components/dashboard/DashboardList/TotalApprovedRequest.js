@@ -49,7 +49,7 @@ const TotalApprovedRequest = () => {
         }
 
         postRequestWithToken('admin/get-buyer-supplier-aprroved-reg-req-list', obj, async (response) => {
-            if (response.code === 200) {
+            if (response?.code === 200) {
                 setRequestList(response.result.data)
                 setTotalRequests(response.result.totalItems)
             } else {

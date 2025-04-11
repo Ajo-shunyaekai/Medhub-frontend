@@ -46,7 +46,7 @@ const OrderCancel = ({ setModal, orderId,  activeLink  }) => {
         }
 
         // postRequestWithToken('buyer/order/cancel-order', obj, async (response) => {
-        //     if (response.code === 200) {
+        //     if (response?.code === 200) {
 
         //     } else {
         //     }

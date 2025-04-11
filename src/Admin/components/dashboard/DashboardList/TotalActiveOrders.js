@@ -49,7 +49,7 @@ const TotalActiveOrders = () => {
         const response = await apiRequests.getRequest(
           `order/get-all-order-list?filterKey=${"active"}&filterValue=${filterValue}&pageNo=${currentPage}&pageSize=${ordersPerPage}`
         );
-        if (response.code === 200) {
+        if (response?.code === 200) {
           setOrderList(response.result.data);
           setTotalOrders(response.result.totalItems);
         } else {

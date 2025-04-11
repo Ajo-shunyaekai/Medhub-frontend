@@ -82,7 +82,7 @@ const SellerInvoice = () => {
           setInvoiceList(response.result.data);
           setTotalItems(response.result.totalItems);
           // postRequestWithToken(`order/get-all-invoice-list?pageNo=${currentPage}&pageSize=${listPerPage}&filterKey=${activeLink}`, obj, async (response) => {
-          //     if (response.code == 200) {
+          //     if (response?.code == 200) {
           //         setInvoiceList(response.result.data);
           //         setTotalItems(response.result.totalItems);
           //     }
@@ -104,7 +104,7 @@ const SellerInvoice = () => {
           const response = await apiRequests.getRequest(
             `order/get-all-order-list?pageNo=${currentPage}&pageSize=${listPerPage}&filterKey=${"active"}`
           );
-          if (response.code === 200) {
+          if (response?.code === 200) {
             setInvoiceList(response.result.data);
             setTotalItems(response.result.totalItems);
           }

@@ -39,7 +39,7 @@ export const updateProfileEditReqsDetail = createAsyncThunk(
   async (values, { rejectWithValue }) => {
     try {
       const response = await apiRequests.postRequest(`admin/update-profile-edit-request-details/${values?.id}`,values)
-      if(response.code != 200){
+      if(response?.code != 200){
         return;
       }
       toast.success(response?.message);

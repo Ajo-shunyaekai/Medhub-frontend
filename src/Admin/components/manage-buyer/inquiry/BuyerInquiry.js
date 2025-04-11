@@ -67,7 +67,7 @@ const BuyerInquiry = () => {
 
     if (activeLink === "inquiry") {
       // postRequestWithToken('admin/get-inquiry-list', obj, (response) => {
-      //     if (response.code === 200) {
+      //     if (response?.code === 200) {
       //         setList(response.result.data);
       //         setTotalList(response.result.totalItems);
       //     } else {
@@ -78,12 +78,12 @@ const BuyerInquiry = () => {
         const response = await apiRequests.getRequest(
           `enquiry/get-all-enquiry-list?pageNo=${currentPage}&pageSize=${listPerPage}&filterValue=${activeLink}`
         );
-        if (response.code === 200) {
+        if (response?.code === 200) {
           setList(response.result.data);
           setTotalList(response.result.totalItems);
         }
         // postRequestWithToken(`enquiry/get-all-enquiry-list?pageNo=${currentPage}&pageSize=${listPerPage}&filterValue=${activeLink}`, obj, async (response) => {
-        //     if (response.code == 200) {
+        //     if (response?.code == 200) {
         //         setList(response.result.data);
         //         setTotalList(response.result.totalItems);
         //     }
@@ -95,7 +95,7 @@ const BuyerInquiry = () => {
     } else if (activeLink === "purchased") {
       obj.status = "active";
       postRequestWithToken("purchaseorder/get-po-list", obj, (response) => {
-        if (response.code === 200) {
+        if (response?.code === 200) {
           setList(response.result.data);
           setTotalList(response.result.totalItems);
         } else {

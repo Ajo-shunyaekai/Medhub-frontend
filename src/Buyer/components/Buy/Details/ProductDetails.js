@@ -256,7 +256,7 @@ const ProductDetails = () => {
     // })
 
     postRequestWithToken("buyer/add-to-list", obj, async (response) => {
-      if (response.code === 200) {
+      if (response?.code === 200) {
         toast(response.message, { type: "success" });
         localStorage.setItem("list_count", response.result.listCount);
         dispatch(updateInquiryCartCount(response.result.listCount));

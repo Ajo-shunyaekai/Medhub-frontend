@@ -52,7 +52,7 @@ function Login() {
     setLoading(true);
     try {
       const response = await apiRequests.postRequest(`auth/login`, { email, password, usertype: "Logistics" });
-      if (response.code !== 200) {
+      if (response?.code !== 200) {
         toast.error(response.message);
       } else {
         Object.entries(response.data).forEach(([key, value]) => {

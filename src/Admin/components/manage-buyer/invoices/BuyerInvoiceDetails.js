@@ -40,7 +40,7 @@ function BuyerInvoiceDetails() {
             };
     
             // postRequestWithToken('admin/get-invoice-details', obj, (response) => {
-            //     if (response.code === 200) {
+            //     if (response?.code === 200) {
             //         setInvoiceDetails(response.result);
             //     } else {
             //     }
@@ -52,7 +52,7 @@ function BuyerInvoiceDetails() {
                 }
                 setInvoiceDetails(response.result);
                 // postRequestWithToken(`invoice/get-specific-invoice-details/${obj?.invoice_id}`, obj, (response) => {
-                //     if (response.code === 200) {
+                //     if (response?.code === 200) {
                 //         setInvoiceDetails(response.result);
                 //     } else {
                 //     }

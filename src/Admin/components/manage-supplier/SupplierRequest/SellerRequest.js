@@ -44,7 +44,7 @@ const SellerRequest = () => {
         }
 
         postRequestWithToken('admin/get-supplier-reg-req-list', obj, async (response) => {
-            if (response.code === 200) {
+            if (response?.code === 200) {
                 setSellerRequestList(response.result.data)
                 setTotalRequests(response.result.totalItems)
             } else {
@@ -55,7 +55,7 @@ const SellerRequest = () => {
 
     // const handleDownload = () => {
     //     postRequestWithToken('admin/get-supplier-list-csv', {}, async (response) => {
-    //         if (response.code === 200) {
+    //         if (response?.code === 200) {
                 
     //         } else {
     //         }

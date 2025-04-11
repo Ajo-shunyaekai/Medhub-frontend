@@ -116,7 +116,7 @@ const BuyerSidebar = () => {
             status : 1
         }
         postRequestWithToken('buyer/update-notification-status', obj, (response) => {
-            if (response.code === 200) {
+            if (response?.code === 200) {
                 setRefresh(true)
             } else {
             }
@@ -136,7 +136,7 @@ const BuyerSidebar = () => {
             socket.emit('registerBuyer', buyerId);
 
             postRequestWithToken('buyer/get-invoice-count', obj, (response) => {
-                if (response.code === 200) {
+                if (response?.code === 200) {
                     // Update notification list and count
                     setInvoiceCount(response.result);
                     
@@ -147,7 +147,7 @@ const BuyerSidebar = () => {
             // Fetch notification list on component mount
             const fetchNotifications = () => {
                 postRequestWithToken('buyer/get-notification-list', obj, (response) => {
-                    if (response.code === 200) {
+                    if (response?.code === 200) {
                         // Update notification list and count
                         setNotificationList(response.result.data);
                         setCount(response.result.totalItems || 0);

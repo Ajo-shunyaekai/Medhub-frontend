@@ -346,7 +346,7 @@ const CreatePO = ({ socket }) => {
         grandTotalAmount,
       };
       postRequestWithToken("purchaseorder/create-po", obj, async (response) => {
-        if (response.code === 200) {
+        if (response?.code === 200) {
           toast(response.message, { type: "success" });
           socket.emit("createPO", {
             supplierId: inquiryDetails?.supplier?.supplier_id,

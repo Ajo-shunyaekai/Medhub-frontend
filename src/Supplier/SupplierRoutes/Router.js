@@ -175,7 +175,7 @@ export const NotificationProvider = ({ children }) => {
       supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
     };
     postRequestWithToken("supplier/get-notification-list", obj, (response) => {
-      if (response.code === 200) {
+      if (response?.code === 200) {
         setNotificationList(response.result.data);
         setCount(response.result.totalItems);
       } else {
@@ -188,7 +188,7 @@ export const NotificationProvider = ({ children }) => {
       supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
     };
     postRequestWithToken("supplier/get-invoice-count", obj, (response) => {
-      if (response.code === 200) {
+      if (response?.code === 200) {
         setInvoiceCount(response.result);
       } else {
       }
@@ -207,7 +207,7 @@ export const NotificationProvider = ({ children }) => {
       "supplier/update-notification-status",
       obj,
       (response) => {
-        if (response.code === 200) {
+        if (response?.code === 200) {
           setRefresh(true);
         } else {
         }

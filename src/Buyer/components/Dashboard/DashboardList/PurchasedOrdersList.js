@@ -49,7 +49,7 @@ const PurchasedOrdersList = () => {
     };
 
     postRequestWithToken("purchaseorder/get-po-list", obj, async (response) => {
-      if (response.code === 200) {
+      if (response?.code === 200) {
         setPOList(response.result.data);
         setTotalPoList(response.result.totalItems);
       } else {
