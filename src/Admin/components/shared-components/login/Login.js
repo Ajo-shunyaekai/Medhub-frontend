@@ -64,6 +64,12 @@ const Login = ({socket}) => {
                     if(response?.code !== 200){
                         toast(response.message, { type: "error" });
                     }else{
+                        const { accessToken, refreshToken} = response.data;
+                        // Store tokens in cookies
+                        localStorage.setItem(`token1`, accessToken)
+                        localStorage.setItem(`token2`, refreshToken)
+                        Cookies.set('accessToken', accessToken,);
+                        Cookies.set('refreshToken', refreshToken,);
 
                         const {data} = await response;
                         for (let x in data) {
