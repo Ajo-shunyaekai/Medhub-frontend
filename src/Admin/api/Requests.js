@@ -87,6 +87,119 @@ export const postRequestWithTokenAndFile = async (URL, requestData, callback) =>
     }
 }
 
+// export const postRequestWithTokenForDownload = async (URL, requestData = {}, fileName = 'download.csv') => {
+//     try {
+//         const token =
+//             sessionStorage.getItem('token') || localStorage.getItem('token');
+
+//         const userType =
+//             sessionStorage.getItem('buyer_id') || localStorage.getItem('buyer_id')
+//                 ? 'Buyer'
+//                 : sessionStorage.getItem('supplier_id') || localStorage.getItem('supplier_id')
+//                 ? 'Supplier'
+//                 : sessionStorage.getItem('admin_id') || localStorage.getItem('admin_id')
+//                 ? 'Admin'
+//                 : sessionStorage.getItem('seller_id') || localStorage.getItem('seller_id')
+//                 ? 'Seller'
+//                 : undefined;
+
+//         const response = await axios({
+//             method: 'POST',
+//             url: URL,
+//             data: requestData,
+//             responseType: 'blob', // 👈 important for downloading files
+//             headers: {
+//                 accesstoken: token,
+//                 'Content-Type': 'application/json',
+//                 usertype: userType,
+//             },
+//         });
+
+//         // Create and trigger download
+//         const url = window.URL.createObjectURL(new Blob([response.data]));
+//         const link = document.createElement('a');
+//         link.href = url;
+//         link.setAttribute('download', fileName); // 👈 fallback filename
+//         document.body.appendChild(link);
+//         link.click();
+//         link.remove();
+
+//         return { success: true };
+//     } catch (error) {
+//         console.error('Download failed:', error);
+//         return { success: false, message: error.message };
+//     }
+// };
+
+
+export const postReqCSVDownload = async (URL, requestData, fileName) => {
+    try {
+      axios
+        .post(URL, requestData, {
+          responseType: "blob", // Handle response as a blob for downloading
+          headers: {
+            "Content-Type": "application/json",
+            authorization: process.env.REACT_APP_Authorization,
+            accesstoken:
+              sessionStorage.getItem("token") ||
+              localStorage.getItem("token") ||
+              undefined,
+            buyer_id:
+              sessionStorage.getItem("buyer_id") ||
+              localStorage.getItem("buyer_id") ||
+              undefined,
+            supplier_id:
+              sessionStorage.getItem("supplier_id") ||
+              localStorage.getItem("supplier_id") ||
+              undefined,
+            admin_id:
+              sessionStorage.getItem("admin_id") ||
+              localStorage.getItem("admin_id") ||
+              undefined,
+            partner_id:
+              sessionStorage.getItem("partner_id") ||
+              localStorage.getItem("partner_id") ||
+              undefined,
+            usertype:
+              sessionStorage.getItem("buyer_id") ||
+              localStorage.getItem("buyer_id")
+                ? "Buyer"
+                : sessionStorage.getItem("supplier_id") ||
+                  localStorage.getItem("supplier_id")
+                ? "Supplier"
+                : sessionStorage.getItem("admin_id") ||
+                  localStorage.getItem("admin_id")
+                ? "Admin"
+                : sessionStorage.getItem("seller_id") ||
+                  localStorage.getItem("seller_id")
+                ? "Seller"
+                : sessionStorage.getItem("partner_id") ||
+                  localStorage.getItem("partner_id")
+                ? "Logistics"
+                : undefined,
+          }, // Include the headers
+        })
+        .then((response) => {
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", fileName); // Set the file name for download
+          document.body.appendChild(link);
+          link.click();
+        })
+        .catch((error) => {
+          console.error("There was an error downloading the CSV file!", error);
+        });
+    } catch (err) {
+      return {
+        code: err?.response?.status || 500,
+        message: err?.response?.data?.message,
+      };
+      // throw err;
+    }
+  };
+
+
 export const checkAuth = async () => {
 }
 
