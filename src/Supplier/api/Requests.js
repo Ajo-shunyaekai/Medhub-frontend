@@ -87,7 +87,6 @@ export const postRequestWithToken = async (URL, requestData, callback) => {
       localStorage.clear();
       window.location.reload();
     } else {
-      // if(response.status == 200)
       return callback(response.data);
     }
   } catch (err) {
