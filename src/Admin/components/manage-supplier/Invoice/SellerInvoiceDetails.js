@@ -37,7 +37,7 @@ function SellerInvoiceDetails() {
                 };
         
                 const response = await  apiRequests.getRequest(`invoice/get-specific-invoice-details/${obj?.invoice_id}`, obj)
-                if (response.code === 200) {
+                if (response?.code === 200) {
                     setInvoiceDetails(response.result);
                 }
             } catch (error) {

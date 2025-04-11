@@ -332,7 +332,7 @@ const EditCreatePO = ({ socket }) => {
       "purchaseorder/get-po-details",
       obj,
       async (response) => {
-        if (response.code === 200) {
+        if (response?.code === 200) {
           setPoDetails(response.result);
           const data = response.result;
           const formattedSupplierMobile = `${
@@ -473,7 +473,7 @@ const EditCreatePO = ({ socket }) => {
       };
 
       postRequestWithToken("purchaseorder/edit-po", obj, async (response) => {
-        if (response.code === 200) {
+        if (response?.code === 200) {
           toast(response.message, { type: "success" });
           socket.emit("editPO", {
             supplierId: poDetails?.supplier_id,

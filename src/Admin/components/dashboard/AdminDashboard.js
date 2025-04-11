@@ -37,7 +37,7 @@ const AdminDashboard = () => {
         }
 
         postRequestWithToken('admin/dashboard-data-list', obj, async (response) => {
-            if (response.code === 200) {
+            if (response?.code === 200) {
                 setDashboard(response?.result)
                 const convertedData = convertCountryToCode(response?.result?.buyerCountryData);
                 setCountryData(convertedData);

@@ -290,7 +290,7 @@ const LogisticsForm = ({socket}) => {
           };
           try {
               const response = await apiRequests.getRequest(`order/get-specific-order-details/${orderId}`, obj)
-              if (response.code === 200) {
+              if (response?.code === 200) {
                   setOrderDetails(response.result);
               }
           } catch (error) {

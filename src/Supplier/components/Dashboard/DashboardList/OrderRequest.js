@@ -57,7 +57,7 @@ const OrderRequest = () => {
         const response = await apiRequests.getRequest(
           `order/get-all-order-list?filterKey=${"pending"}&pageNo=${currentPage}&pageSize=${ordersPerPage}`
         );
-        if (response.code === 200) {
+        if (response?.code === 200) {
             setOrderList(response.result.data);
             setTotalOrders(response.result.totalItems);
         } else {

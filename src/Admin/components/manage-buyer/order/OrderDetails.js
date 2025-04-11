@@ -34,7 +34,7 @@ const OrderDetails = ({ socket }) => {
         `order/get-specific-order-details/${orderId}`,
         obj
       );
-      if (response.code === 200) {
+      if (response?.code === 200) {
         setOrderDetails(response.result);
       }
     } catch (error) {}
@@ -86,13 +86,13 @@ const OrderDetails = ({ socket }) => {
       "order/book-logistics",
       obj,
       async (response) => {
-        if (response.code === 200) {
+        if (response?.code === 200) {
           try {
             const response = await apiRequests.getRequest(
               `order/get-specific-order-details/${orderId}`,
               obj
             );
-            if (response.code === 200) {
+            if (response?.code === 200) {
               setOrderDetails(response.result);
             } else {
               toast(response.message, { type: "error" });

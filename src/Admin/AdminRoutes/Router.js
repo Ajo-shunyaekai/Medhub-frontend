@@ -335,7 +335,7 @@ export function NotificationProvider({ children }) {
   const fetchNotifications = () => {
     const obj = { admin_id: adminIdSessionStorage || adminIdLocalStorage };
     postRequestWithToken("admin/get-notification-list", obj, (response) => {
-      if (response.code === 200) {
+      if (response?.code === 200) {
         setNotificationList(response.result.data);
         setCount(response.result.totalItems);
       } else {
@@ -355,7 +355,7 @@ export function NotificationProvider({ children }) {
       "admin/update-notification-status",
       obj,
       (response) => {
-        if (response.code === 200) {
+        if (response?.code === 200) {
           setRefresh(true);
         } else {
         }

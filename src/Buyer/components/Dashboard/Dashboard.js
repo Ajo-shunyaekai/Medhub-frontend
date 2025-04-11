@@ -32,7 +32,7 @@ const Dashboard = () => {
         }
 
         postRequestWithToken('buyer/orders-seller-country', obj, async (response) => {
-            if (response.code === 200) {
+            if (response?.code === 200) {
                 setSellerCountry(response?.result)
                 const convertedData = await convertCountryToCode(response?.result || []);
                 setCountryData(convertedData);
@@ -55,7 +55,7 @@ const Dashboard = () => {
         }
 
         postRequestWithToken('buyer/orders-summary-details', obj, async (response) => {
-            if (response.code === 200) {
+            if (response?.code === 200) {
                 setOrderSummary(response?.result || [])
             } else {
             }

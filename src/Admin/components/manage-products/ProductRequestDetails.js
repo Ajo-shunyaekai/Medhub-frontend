@@ -49,7 +49,7 @@ const ProductRequestDetails = ({ socket }) => {
         }
 
         postRequest('buyer/medicine/medicine-details', obj, async (response) => {
-            if (response.code === 200) {
+            if (response?.code === 200) {
                 setMedicineDetails(response.result.data)
             } else {
             }
@@ -73,7 +73,7 @@ const ProductRequestDetails = ({ socket }) => {
             setRejectLoading(true)
         }
         postRequestWithToken('admin/accept-reject-add-medicine', obj, async (response) => {
-            if (response.code === 200) {
+            if (response?.code === 200) {
                 toast(response.message, { type: 'success' })
                 setLoading(false);
                 setRejectLoading(false);

@@ -74,7 +74,7 @@ const Support = () => {
         images.forEach(file => formData.append(`${type}_image`, file));
     
         postRequestWithTokenAndFile(endpoint, formData, async (response) => {
-            if (response.code === 200) {
+            if (response?.code === 200) {
                 toast(response.message, { type: "success" });
                 resetForm(); // clear form values
                 setLoading(false)

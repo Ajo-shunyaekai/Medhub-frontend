@@ -64,7 +64,7 @@ const Invoice = () => {
           const response = await apiRequests.getRequest(
             `order/get-all-order-list?filterKey=${filterKey}&pageNo=${currentPage}&pageSize=${invoicesPerPage}`
           );
-          if (response.code === 200) {
+          if (response?.code === 200) {
             setInvoiceList(response.result.data);
             setTotalInvoices(response.result.totalItems);
           } else {

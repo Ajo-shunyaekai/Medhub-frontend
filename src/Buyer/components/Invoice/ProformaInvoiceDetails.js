@@ -35,7 +35,7 @@ function ProformaDetailsPage() {
           `order/get-specific-order-details/${orderId}`,
           obj
         );
-        if (response.code === 200) {
+        if (response?.code === 200) {
           setOrderDetails(response.result);
           if (response.result?.supplier?.bank_details) {
             const [bankName, accountNo, sortCode] =

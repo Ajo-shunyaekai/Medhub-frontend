@@ -76,7 +76,7 @@ const SupplierPending = () => {
         }
 
         postRequestWithToken('buyer/buyer-supplier-orders', obj, async (response) => {
-            if (response.code === 200) {
+            if (response?.code === 200) {
                 setOrderList(response.result.orderList)
                 setTotalOrders(response.result.totalOrders)
             } else {

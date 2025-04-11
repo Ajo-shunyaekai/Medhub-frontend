@@ -130,7 +130,7 @@ const EditProformaInvoice = () => {
       "purchaseorder/get-po-details",
       obj,
       async (response) => {
-        if (response.code === 200) {
+        if (response?.code === 200) {
           setInquiryDetails(response?.result);
           setValue(
             "supplierName",
@@ -250,7 +250,7 @@ const EditProformaInvoice = () => {
       totalAmount: roundedGrandTotalAmount,
     };
     postRequestWithToken("order/create-order", obj, async (response) => {
-      if (response.code === 200) {
+      if (response?.code === 200) {
         toast(response.message, { type: "success" });
         setTimeout(() => {
           navigate("/supplier/order/active");

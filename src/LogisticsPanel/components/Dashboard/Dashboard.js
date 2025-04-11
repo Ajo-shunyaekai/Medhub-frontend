@@ -28,7 +28,7 @@ const Dashboard = () => {
     
         try {
             const response = await apiRequests.getRequest(`logistics/get-logistics-dashboard-data`)
-            if (response.code === 200) {
+            if (response?.code === 200) {
                 setDashboardData(response.result)
             }
             

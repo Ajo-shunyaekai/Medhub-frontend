@@ -38,7 +38,7 @@ const SellerTransaction = () => {
         }
 
         postRequestWithToken('admin/get-transaction-list', obj, async (response) => {
-            if (response.code === 200) {
+            if (response?.code === 200) {
                 setTransactionList(response.result.data)
                 setTotalList(response.result.totalItems)
             } else {

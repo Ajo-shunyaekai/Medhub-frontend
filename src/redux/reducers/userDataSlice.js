@@ -32,7 +32,7 @@ export const loginUser = createAsyncThunk(
   async (values, { rejectWithValue }) => {
     try {
       const response = await apiRequests?.postRequest(`auth/login`, values);
-      if (response.code !== 200) {
+      if (response?.code !== 200) {
         toast(response?.message, { type: "error" });
         return rejectWithValue(response?.message || "Unknown error");
       }
@@ -95,7 +95,7 @@ export const logoutUser = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await apiRequests?.postRequest(`auth/logout`);
-      if (response.code !== 200) {
+      if (response?.code !== 200) {
         toast(response?.message, { type: "error" });
         return rejectWithValue(response?.message || "Unknown error");
       }
@@ -122,7 +122,7 @@ export const editProfile = createAsyncThunk(
         `auth/edit-profile/${values?.id}`,
         { ...values?.obj, type: "Registered" }
       );
-      if (response.code !== 200) {
+      if (response?.code !== 200) {
         toast(response?.message, { type: "error" });
         return rejectWithValue(response?.message || "Unknown error");
       }

@@ -24,7 +24,7 @@ const SellerPurchasedOrderDetails = () => {
     }
 
     postRequestWithToken('admin/get-po-details', obj, async (response) => {
-        if (response.code === 200) {
+        if (response?.code === 200) {
             setPoDetails(response.result)
         } else {
         }

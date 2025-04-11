@@ -54,7 +54,7 @@ const EditUpdateProductdetails = ({socket}) => {
         }
 
         postRequestWithToken('admin/get-edit-medicine_details', obj, async (response) => {
-            if (response.code === 200) {
+            if (response?.code === 200) {
                 setMedicineDetails(response.result)
             } else {
             }
@@ -79,7 +79,7 @@ const EditUpdateProductdetails = ({socket}) => {
         }
 
         postRequestWithToken('admin/accept-reject-edit-medicine', obj, async (response) => {
-            if (response.code === 200) {
+            if (response?.code === 200) {
                 toast(response.message, {type: 'success'})
                 setLoading(false);
                 setRejectLoading(false);

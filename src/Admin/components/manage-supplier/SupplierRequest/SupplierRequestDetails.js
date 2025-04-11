@@ -153,7 +153,7 @@ const SupplierRequestDetails = () => {
         }
 
         postRequestWithToken('admin/accept-reject-supplier-registration', obj, async (response) => {
-            if (response.code === 200) {
+            if (response?.code === 200) {
                 setLoading(false);
                 setRejectLoading(false);
                 toast(response.message, { type: 'success' })

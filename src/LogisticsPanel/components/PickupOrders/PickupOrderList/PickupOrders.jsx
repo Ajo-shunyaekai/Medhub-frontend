@@ -32,7 +32,7 @@ const PickupOrders = () => {
       const response = await apiRequests.getRequest(
         `logistics/get-logistics-request-list?status=active&pageNo=${currentPage}&pageSize=${listPerPage}`
       );
-      if (response.code === 200) {
+      if (response?.code === 200) {
         setList(response.result.data);
         setTotalList(response.result.totalItems);
       }

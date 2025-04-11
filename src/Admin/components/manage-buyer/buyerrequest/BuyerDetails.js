@@ -157,7 +157,7 @@ const BuyerDetails = () => {
         }
 
         postRequestWithToken('admin/accept-reject-buyer-registration', obj, async (response) => {
-            if (response.code === 200) {
+            if (response?.code === 200) {
 
                 toast(response.message, { type: 'success' })
                 setTimeout(() => {

@@ -637,7 +637,7 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                 shipment_details: formattedData
             }
             postRequestWithToken('supplier/order/submit-details', obj, (response) => {
-                if (response.code === 200) {
+                if (response?.code === 200) {
                     toast('Details Submitted Successfully', { type: 'success' })
                     socket.emit('shipmentDetailsSubmitted', {
                         buyerId : buyerId, 

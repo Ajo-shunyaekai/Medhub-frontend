@@ -58,7 +58,7 @@ export const addProduct = createAsyncThunk(
         `product/add`,
         values
       );
-      if (response.code !== 200) {
+      if (response?.code !== 200) {
         toast(response?.message, { type: "error" });
         return rejectWithValue(response?.message || "Unknown error");
       }
@@ -82,7 +82,7 @@ export const editProduct = createAsyncThunk(
         `product/edit/${id}`,
         values
       );
-      if (response.code !== 200) {
+      if (response?.code !== 200) {
         toast(response?.message, { type: "error" });
         return rejectWithValue(response?.message || "Unknown error");
       }
@@ -105,7 +105,7 @@ export const bulkUpload = createAsyncThunk(
       const response = await apiRequests?.postRequest(`product/bulk-upload`, {
         products: values,
       });
-      if (response.code !== 200) {
+      if (response?.code !== 200) {
         toast(response?.message, { type: "error" });
         return rejectWithValue(response?.message || "Unknown error");
       }
@@ -130,7 +130,7 @@ export const csvDownload = createAsyncThunk(
         { products: values },
         `Products.csv`
       );
-      if (response.code !== 200) {
+      if (response?.code !== 200) {
         toast(response?.message, { type: "error" });
         return rejectWithValue(response?.message || "Unknown error");
       }
@@ -154,7 +154,7 @@ export const previewBulkProducts = createAsyncThunk(
         `product/preview-bulk-products`,
         values
       );
-      if (response.code !== 200) {
+      if (response?.code !== 200) {
         toast(response?.message, { type: "error" });
         return rejectWithValue(response?.message || "Unknown error");
       }

@@ -44,7 +44,7 @@ const BuyerRequest = () => {
         }
 
         postRequestWithToken('admin/get-buyer-reg-req-list', obj, async (response) => {
-            if (response.code === 200) {
+            if (response?.code === 200) {
                 setBuyerRequestList(response.result.data)
                 setTotalRequests(response.result.totalItems)
             } else {

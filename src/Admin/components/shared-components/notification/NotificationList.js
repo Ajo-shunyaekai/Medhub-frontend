@@ -35,7 +35,7 @@ const NotificationList = () => {
         };
 
         postRequestWithToken('admin/get-notification-details-list', obj, (response) => {
-            if (response.code === 200) {
+            if (response?.code === 200) {
                 setNotificationList(response.result.data);
                 setCount(response.result.totalItems || 0);
             } else {

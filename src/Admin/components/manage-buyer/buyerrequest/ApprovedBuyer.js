@@ -43,7 +43,7 @@ const ApprovedBuyer = () => {
         }
 
         postRequestWithToken('admin/get-buyer-list', obj, async (response) => {
-            if (response.code === 200) {
+            if (response?.code === 200) {
                 setBuyerList(response.result.data)
                 setTotalBuyers(response.result.totalItems)
             } else {

@@ -43,9 +43,9 @@ const SellerRequest = () => {
         };
 
         postRequestWithToken('admin/get-supplier-reg-req-list', obj, async (response) => {
-            if (response.code === 200) {
-                setSellerRequestList(response.result.data);
-                setTotalRequests(response.result.totalItems);
+            if (response?.code === 200) {
+                setSellerRequestList(response.result.data)
+                setTotalRequests(response.result.totalItems)
             } else {
                 console.error('Error fetching supplier requests:', response.message);
             }

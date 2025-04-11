@@ -123,7 +123,7 @@ const renderFiles = (files, type) => {
         }
  
         postRequestWithToken('admin/accept-reject-supplier-registration', obj, async (response) => {
-            if (response.code === 200) {
+            if (response?.code === 200) {
                 toast(response.message, {type: 'success'})
                 setTimeout(() => {
                     navigate('/admin/supplier-request')

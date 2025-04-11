@@ -49,7 +49,7 @@ const BuyerComplaintDetails = () => {
             support_id: supportId,
         }
         postRequestWithToken('admin/get-support-details', obj, async (response) => {
-            if (response.code === 200) {
+            if (response?.code === 200) {
                 setSupplierDetails(response.result)
             } else {
             }
@@ -64,7 +64,7 @@ const BuyerComplaintDetails = () => {
         }
 
         postRequestWithToken('admin/accept-reject-supplier-registration', obj, async (response) => {
-            if (response.code === 200) {
+            if (response?.code === 200) {
                 toast(response.message, { type: 'success' })
                 setTimeout(() => {
                     navigate('/admin/supplier-request')

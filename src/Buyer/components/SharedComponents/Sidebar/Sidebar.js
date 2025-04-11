@@ -243,7 +243,7 @@ const Sidebar = ({ children, dragWindow,
 
     const updateStatusApi = (id) => {
         // postRequestWithToken('buyer/update-notification-status', obj, (response) => {
-        //             if (response.code === 200) {
+        //             if (response?.code === 200) {
         //                 // setNotificationList(response.result.data);
         //                 // setCount(response.result.totalItems || 0)
         //             } else {

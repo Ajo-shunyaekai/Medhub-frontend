@@ -213,7 +213,7 @@ export function NotificationProvider({ children }) {
   const fetchNotifications = () => {
     const obj = { buyer_id: buyerId };
     postRequestWithToken("buyer/get-notification-list", obj, (response) => {
-      if (response.code === 200) {
+      if (response?.code === 200) {
         setNotificationList(response.result.data);
         setCount(response.result.totalItems);
       } else {
@@ -225,7 +225,7 @@ export function NotificationProvider({ children }) {
   const fetchInvoiceCount = () => {
     const obj = { buyer_id: buyerId };
     postRequestWithToken("buyer/get-invoice-count", obj, (response) => {
-      if (response.code === 200) {
+      if (response?.code === 200) {
         setInvoiceCount(response.result || 0);
       } else {
         console.error("Error fetching invoice count");
@@ -245,7 +245,7 @@ export function NotificationProvider({ children }) {
       "buyer/update-notification-status",
       obj,
       (response) => {
-        if (response.code === 200) {
+        if (response?.code === 200) {
           // setRefresh(true);
           fetchNotifications(); // Refresh notifications after updating
         } else {

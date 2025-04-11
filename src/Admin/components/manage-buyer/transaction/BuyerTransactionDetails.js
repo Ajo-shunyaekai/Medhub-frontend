@@ -21,7 +21,7 @@ const BuyerTransactionDetails = () => {
       invoice_id : invoiceId,
     }
     postRequestWithToken('admin/get-transaction-details', obj, async (response) => {
-      if (response.code === 200) {
+      if (response?.code === 200) {
         setTransactionDetails(response.result)
       } else {
       }

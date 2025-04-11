@@ -51,7 +51,7 @@ const ProductDetails = () => {
             }
  
             // postRequest('buyer/medicine/medicine-details', obj, async (response) => {
-            //     if (response.code === 200) {
+            //     if (response?.code === 200) {
             //         setMedicineDetails(response.result.data)
             //     } else {
             //     }
@@ -63,7 +63,7 @@ const ProductDetails = () => {
                 }
                 setMedicineDetails(response.result)
                 // postRequest(`medicine/get-specific-medicine-details/${medId}`, obj, async (response) => {
-                //     if (response.code === 200) {
+                //     if (response?.code === 200) {
                 //         setMedicineDetails(response.result)
                 //     } else {
                 //     }

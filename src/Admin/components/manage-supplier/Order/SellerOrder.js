@@ -73,7 +73,7 @@ const SellerOrder = () => {
         const response = await apiRequests.getRequest(
           `order/get-all-order-list?pageNo=${currentPage}&pageSize=${ordersPerPage}&filterKey=${activeLink}`
         );
-        if (response.code === 200) {
+        if (response?.code === 200) {
           setOrderList(response.result.data);
           setTotalOrders(response.result.totalItems);
         }

@@ -27,49 +27,29 @@ export const apiRequests = {
         data: {},
         headers: {
           authorization: process.env.REACT_APP_Authorization,
-          accesstoken:
-            localStorage.getItem("token") ||
-            localStorage.getItem("token") ||
-            undefined,
-          buyer_id:
-            localStorage.getItem("buyer_id") ||
-            localStorage.getItem("buyer_id") ||
-            undefined,
-          supplier_id:
-            localStorage.getItem("supplier_id") ||
-            localStorage.getItem("supplier_id") ||
-            undefined,
-          admin_id:
-            localStorage.getItem("admin_id") ||
-            localStorage.getItem("admin_id") ||
-            undefined,
-          partner_id:
-            localStorage.getItem("partner_id") ||
-            localStorage.getItem("partner_id") ||
-            undefined,
+          accesstoken: localStorage.getItem("token"),
+          buyer_id: localStorage.getItem("buyer_id"),
+          supplier_id: localStorage.getItem("supplier_id"),
+          admin_id: localStorage.getItem("admin_id"),
+          partner_id: localStorage.getItem("partner_id"),
           "Content-Type": "application/json",
-          usertype:
-            localStorage.getItem("buyer_id") ||
-            localStorage.getItem("buyer_id")
-              ? "Buyer"
-              : localStorage.getItem("supplier_id") ||
-                localStorage.getItem("supplier_id")
-              ? "Supplier"
-              : localStorage.getItem("admin_id") ||
-                localStorage.getItem("admin_id")
-              ? "Admin"
-              : localStorage.getItem("seller_id") ||
-                localStorage.getItem("seller_id")
-              ? "Seller"
-              : localStorage.getItem("partner_id") ||
-                localStorage.getItem("partner_id")
-              ? "Logistics"
-              : undefined,
+          usertype: localStorage.getItem("buyer_id")
+            ? "Buyer"
+            : localStorage.getItem("supplier_id")
+            ? "Supplier"
+            : localStorage.getItem("admin_id")
+            ? "Admin"
+            : localStorage.getItem("seller_id")
+            ? "Seller"
+            : localStorage.getItem("partner_id")
+            ? "Logistics"
+            : undefined,
         },
       });
 
       if (response.status == 401) {
         localStorage.clear();
+        window.location.reload();
         return;
       }
       return response.data;
@@ -94,12 +74,13 @@ export const apiRequests = {
         data: obj,
         headers: {
           "Content-Type": contentType,
-          usertype: userType == "buyer" ? "Buyer" : "Supplier" || undefined,
+          usertype: userType == "buyer" ? "Buyer" : "Supplier",
         },
       });
 
       if (response.status == 401) {
         localStorage.clear();
+        window.location.reload();
         return;
       }
       return response.data;
@@ -118,45 +99,30 @@ export const apiRequests = {
         url: URL,
         data: requestData,
         headers: {
-          accesstoken:
-            localStorage.getItem("token") ||
-            localStorage.getItem("token") ||
-            undefined,
-          buyer_id:
-            localStorage.getItem("buyer_id") ||
-            localStorage.getItem("buyer_id") ||
-            undefined,
-          supplier_id:
-            localStorage.getItem("supplier_id") ||
-            localStorage.getItem("supplier_id") ||
-            undefined,
-          admin_id:
-            localStorage.getItem("admin_id") ||
-            localStorage.getItem("admin_id") ||
-            undefined,
+          accesstoken: localStorage.getItem("token"),
+          buyer_id: localStorage.getItem("buyer_id"),
+          supplier_id: localStorage.getItem("supplier_id"),
+          admin_id: localStorage.getItem("admin_id"),
           "Content-Type": "application/json",
-          usertype:
-            localStorage.getItem("buyer_id") ||
-            localStorage.getItem("buyer_id")
-              ? "Buyer"
-              : localStorage.getItem("supplier_id") ||
-                localStorage.getItem("supplier_id")
-              ? "Supplier"
-              : localStorage.getItem("admin_id") ||
-                localStorage.getItem("admin_id")
-              ? "Admin"
-              : localStorage.getItem("seller_id") ||
-                localStorage.getItem("seller_id")
-              ? "Seller"
-              : localStorage.getItem("partner_id") ||
-                localStorage.getItem("partner_id")
-              ? "Logistics"
-              : undefined,
+          usertype: localStorage.getItem("buyer_id")
+            ? "Buyer"
+            : localStorage.getItem("supplier_id")
+            ? "Supplier"
+            : localStorage.getItem("admin_id")
+            ? "Admin"
+            : localStorage.getItem("seller_id")
+            ? "Seller"
+            : localStorage.getItem("partner_id")
+            ? "Logistics"
+            : undefined,
         },
       });
 
+      console.log("\n\nfirst", response)
+      
       if (response.status == 401) {
         localStorage.clear();
+        window.location.reload();
         return;
       }
       return response.data;
@@ -175,44 +141,23 @@ export const apiRequests = {
         url: URL,
         data: requestData,
         headers: {
-          accesstoken:
-            localStorage.getItem("token") ||
-            localStorage.getItem("token") ||
-            undefined,
-          buyer_id:
-            localStorage.getItem("buyer_id") ||
-            localStorage.getItem("buyer_id") ||
-            undefined,
-          supplier_id:
-            localStorage.getItem("supplier_id") ||
-            localStorage.getItem("supplier_id") ||
-            undefined,
-          admin_id:
-            localStorage.getItem("admin_id") ||
-            localStorage.getItem("admin_id") ||
-            undefined,
-          partner_id:
-            localStorage.getItem("partner_id") ||
-            localStorage.getItem("partner_id") ||
-            undefined,
+          accesstoken: localStorage.getItem("token"),
+          buyer_id: localStorage.getItem("buyer_id"),
+          supplier_id: localStorage.getItem("supplier_id"),
+          admin_id: localStorage.getItem("admin_id"),
+          partner_id: localStorage.getItem("partner_id"),
           "Content-Type": "multipart/form-data",
-          usertype:
-            localStorage.getItem("buyer_id") ||
-            localStorage.getItem("buyer_id")
-              ? "Buyer"
-              : localStorage.getItem("supplier_id") ||
-                localStorage.getItem("supplier_id")
-              ? "Supplier"
-              : localStorage.getItem("admin_id") ||
-                localStorage.getItem("admin_id")
-              ? "Admin"
-              : localStorage.getItem("seller_id") ||
-                localStorage.getItem("seller_id")
-              ? "Seller"
-              : localStorage.getItem("partner_id") ||
-                localStorage.getItem("partner_id")
-              ? "Logistics"
-              : undefined,
+          usertype: localStorage.getItem("buyer_id")
+            ? "Buyer"
+            : localStorage.getItem("supplier_id")
+            ? "Supplier"
+            : localStorage.getItem("admin_id")
+            ? "Admin"
+            : localStorage.getItem("seller_id")
+            ? "Seller"
+            : localStorage.getItem("partner_id")
+            ? "Logistics"
+            : undefined,
         },
       });
       // return response.data;
@@ -234,43 +179,22 @@ export const apiRequests = {
           headers: {
             "Content-Type": "application/json",
             authorization: process.env.REACT_APP_Authorization,
-            accesstoken:
-              localStorage.getItem("token") ||
-              localStorage.getItem("token") ||
-              undefined,
-            buyer_id:
-              localStorage.getItem("buyer_id") ||
-              localStorage.getItem("buyer_id") ||
-              undefined,
-            supplier_id:
-              localStorage.getItem("supplier_id") ||
-              localStorage.getItem("supplier_id") ||
-              undefined,
-            admin_id:
-              localStorage.getItem("admin_id") ||
-              localStorage.getItem("admin_id") ||
-              undefined,
-            partner_id:
-              localStorage.getItem("partner_id") ||
-              localStorage.getItem("partner_id") ||
-              undefined,
-            usertype:
-              localStorage.getItem("buyer_id") ||
-              localStorage.getItem("buyer_id")
-                ? "Buyer"
-                : localStorage.getItem("supplier_id") ||
-                  localStorage.getItem("supplier_id")
-                ? "Supplier"
-                : localStorage.getItem("admin_id") ||
-                  localStorage.getItem("admin_id")
-                ? "Admin"
-                : localStorage.getItem("seller_id") ||
-                  localStorage.getItem("seller_id")
-                ? "Seller"
-                : localStorage.getItem("partner_id") ||
-                  localStorage.getItem("partner_id")
-                ? "Logistics"
-                : undefined,
+            accesstoken: localStorage.getItem("token"),
+            buyer_id: localStorage.getItem("buyer_id"),
+            supplier_id: localStorage.getItem("supplier_id"),
+            admin_id: localStorage.getItem("admin_id"),
+            partner_id: localStorage.getItem("partner_id"),
+            usertype: localStorage.getItem("buyer_id")
+              ? "Buyer"
+              : localStorage.getItem("supplier_id")
+              ? "Supplier"
+              : localStorage.getItem("admin_id")
+              ? "Admin"
+              : localStorage.getItem("seller_id")
+              ? "Seller"
+              : localStorage.getItem("partner_id")
+              ? "Logistics"
+              : undefined,
           }, // Include the headers
         })
         .then((response) => {
@@ -301,42 +225,26 @@ export const apiRequests = {
         data: requestData,
         headers: {
           authorization: process.env.REACT_APP_Authorization,
-          accesstoken:
-            localStorage.getItem("token") ||
-            localStorage.getItem("token") ||
-            undefined,
-          buyer_id:
-            localStorage.getItem("buyer_id") ||
-            localStorage.getItem("buyer_id") ||
-            undefined,
-          supplier_id:
-            localStorage.getItem("supplier_id") ||
-            localStorage.getItem("supplier_id") ||
-            undefined,
-          admin_id:
-            localStorage.getItem("admin_id") ||
-            localStorage.getItem("admin_id") ||
-            undefined,
+          accesstoken: localStorage.getItem("token"),
+          buyer_id: localStorage.getItem("buyer_id"),
+          supplier_id: localStorage.getItem("supplier_id"),
+          admin_id: localStorage.getItem("admin_id"),
           "Content-Type": "application/json",
-          usertype:
-            localStorage.getItem("buyer_id") ||
-            localStorage.getItem("buyer_id")
-              ? "Buyer"
-              : localStorage.getItem("supplier_id") ||
-                localStorage.getItem("supplier_id")
-              ? "Supplier"
-              : localStorage.getItem("admin_id") ||
-                localStorage.getItem("admin_id")
-              ? "Admin"
-              : localStorage.getItem("seller_id") ||
-                localStorage.getItem("seller_id")
-              ? "Seller"
-              : undefined,
+          usertype: localStorage.getItem("buyer_id")
+            ? "Buyer"
+            : localStorage.getItem("supplier_id")
+            ? "Supplier"
+            : localStorage.getItem("admin_id")
+            ? "Admin"
+            : localStorage.getItem("seller_id")
+            ? "Seller"
+            : undefined,
         },
       });
 
       if (response.status == 401) {
         localStorage.clear();
+        window.location.reload();
         return;
       }
       return response.data;
@@ -355,42 +263,26 @@ export const apiRequests = {
         url: URL,
         headers: {
           authorization: process.env.REACT_APP_Authorization,
-          accesstoken:
-            localStorage.getItem("token") ||
-            localStorage.getItem("token") ||
-            undefined,
-          buyer_id:
-            localStorage.getItem("buyer_id") ||
-            localStorage.getItem("buyer_id") ||
-            undefined,
-          supplier_id:
-            localStorage.getItem("supplier_id") ||
-            localStorage.getItem("supplier_id") ||
-            undefined,
-          admin_id:
-            localStorage.getItem("admin_id") ||
-            localStorage.getItem("admin_id") ||
-            undefined,
+          accesstoken: localStorage.getItem("token"),
+          buyer_id: localStorage.getItem("buyer_id"),
+          supplier_id: localStorage.getItem("supplier_id"),
+          admin_id: localStorage.getItem("admin_id"),
           "Content-Type": "application/json",
-          usertype:
-            localStorage.getItem("buyer_id") ||
-            localStorage.getItem("buyer_id")
-              ? "Buyer"
-              : localStorage.getItem("supplier_id") ||
-                localStorage.getItem("supplier_id")
-              ? "Supplier"
-              : localStorage.getItem("admin_id") ||
-                localStorage.getItem("admin_id")
-              ? "Admin"
-              : localStorage.getItem("seller_id") ||
-                localStorage.getItem("seller_id")
-              ? "Seller"
-              : undefined,
+          usertype: localStorage.getItem("buyer_id")
+            ? "Buyer"
+            : localStorage.getItem("supplier_id")
+            ? "Supplier"
+            : localStorage.getItem("admin_id")
+            ? "Admin"
+            : localStorage.getItem("seller_id")
+            ? "Seller"
+            : undefined,
         },
       });
 
       if (response.status == 401) {
         localStorage.clear();
+        window.location.reload();
         return;
       }
       return response.data;
