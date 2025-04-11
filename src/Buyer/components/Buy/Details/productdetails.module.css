@@ -134,12 +134,12 @@
 
 .container {
   width: 100%;
-  max-width: 94%;
+  max-width: 98%;
   height: 100vh;
   margin: auto;
   display: flex;
   flex-direction: column;
-  gap: 2.6rem;
+  gap: 26px;
   overflow: scroll;
   scrollbar-width: none;
   background-attachment: fixed;

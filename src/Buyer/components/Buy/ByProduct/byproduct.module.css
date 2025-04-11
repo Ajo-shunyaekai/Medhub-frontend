@@ -1,8 +1,7 @@
 .productContainer{
     display: flex;
         flex-direction: column;
-        gap: 1rem;
-        /* margin-top: -60px; */
+        gap: 20px;
 }
 .innerSection{
     

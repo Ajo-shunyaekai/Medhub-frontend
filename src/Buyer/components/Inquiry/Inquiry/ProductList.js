@@ -3,7 +3,7 @@ import Pagination from 'react-js-pagination';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import moment from "moment-timezone";
-
+import '../ongoingdetails.css'
 const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject, inquiryDetails }) => {
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -72,7 +72,7 @@ const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject, i
                                     </td>
                                     <td className='tables-tds-cont' >
                                         <div className="table-second-container">
-                                            <span className="table-g-section">{item?.product_name?.charAt(0) || item?.medicine_details?.general?.name?.charAt(0) || item?.productName?.charAt(0)}</span>
+                                            {/* <span className="table-g-section">{item?.product_name?.charAt(0) || item?.medicine_details?.general?.name?.charAt(0) || item?.productName?.charAt(0)}</span> */}
                                             <div className="table-g-section-content">
                                                 <span className="table-g-driver-name">Product Name</span>
                                                 <span className="table-g-not-name">{item?.product_name || item?.medicine_details?.general?.name || item.product_name}</span>

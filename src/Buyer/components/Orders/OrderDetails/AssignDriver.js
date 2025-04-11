@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Pagination from 'react-js-pagination';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+import './orderdetails.css'
 
 const AssignDriver = ({orderItems}) => {
 
@@ -42,7 +43,7 @@ const AssignDriver = ({orderItems}) => {
                                     </td>
                                     <td className='tables-td-cont' >
                                         <div className="table-second-container">
-                                            <span className="table-g-section">{item?.medicine_name?.charAt(0) || item?.product_name?.charAt(0) }</span>
+                                            {/* <span className="table-g-section">{item?.medicine_name?.charAt(0) || item?.product_name?.charAt(0) }</span> */}
                                             <div className="table-g-section-content">
                                                 <span className="table-g-driver-name">Product Name</span>
                                                 <span className="table-g-not-name">{item.medicine_name || item.product_name} </span>

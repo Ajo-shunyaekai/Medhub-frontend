@@ -6,9 +6,6 @@ import {
   fetchOtherSupplierProductsList,
   fetchProductDetail,
 } from "../../../../redux/reducers/productSlice";
-import SearchSection from "../UiShared/Search/Search"; // Updated import
-import FilterSection from "../Details/FilterSection";
-import ProductButton from "./ProductButton";
 import { useState, useEffect, useRef } from "react";
 import Modal from "react-modal";
 import CloseIcon from "../../../assets/images/Icon.svg";
@@ -3736,15 +3733,15 @@ const ProductDetails = () => {
         {/* End the product inventory section */}
       </div>
       <div className={styles.section}>
-        <div className={styles.ProductMainContainer2}>
+        {/* <div className={styles.ProductMainContainer2}>
           <SearchSection
             inputValue={inputValue}
             handleInputChange={handleInputChange}
-            // handleProductSearch={handleProductSearch}
+            handleProductSearch={handleProductSearch}
             handleKeyDown={handleKeyDown}
             placeholder="Search Products"
           />
-        </div>
+        </div> */}
 
         {/* <FilterSection
           countryAvailable={
@@ -3764,6 +3761,7 @@ const ProductDetails = () => {
           itemsPerPage={itemsPerPage}
           onPageChange={handlePageChange}
           basePath="/buyer/product-details"
+          heading="Similar Products"
         />
         {/* Modal for PDF Preview */}
         <Modal

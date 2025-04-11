@@ -3,7 +3,7 @@ import Pagination from 'react-js-pagination';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import moment from "moment-timezone";
-
+import '../ongoingdetails.css'
 
 const AssignDriver = ({ items, inquiryDetails }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -42,7 +42,7 @@ const AssignDriver = ({ items, inquiryDetails }) => {
               </td>
               <td className='tables-td-cont'>
                 <div className="table-second-container">
-                  <span className="table-g-section">{item?.medicine_details?.general?.name?.charAt(0).toUpperCase()}</span>
+                  {/* <span className="table-g-section">{item?.medicine_details?.general?.name?.charAt(0).toUpperCase()}</span> */}
                   <div className="table-g-section-content">
                     <span className="table-g-driver-name">Product Name</span>
                     <span className="table-g-not-name">{item?.medicine_details?.general?.name}</span>

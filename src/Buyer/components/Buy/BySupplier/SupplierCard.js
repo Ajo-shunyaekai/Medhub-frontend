@@ -32,13 +32,14 @@ const SupplierCard = ({
                                     <span className={styles.cardText}>{supplier.company_type || 'Manufacturer'}</span>
                                 </div>
                                 <div className={styles.cardContentSection}>
-                                    <span className={styles.cardHead}>Tax No.</span>
-                                    <span className={styles.cardText}>{supplier.tax_no || 'N/A'}</span>
-                                </div>
-                                <div className={styles.cardContentSection}>
                                     <span className={styles.cardHead}>Country of Origin</span>
                                     <span className={styles.cardText}>{supplier.country_of_origin || 'N/A'}</span>
                                 </div>
+                                <div className={styles.cardContentSection}>
+                                    <span className={styles.cardHead}>GST/VAT Registration Number</span>
+                                    <span className={styles.cardText}>{supplier.tax_no || 'N/A'}</span>
+                                </div>
+                                
                                 </div>
                                 {/* <div className={styles.cardContentSection}>
                                     <span className={styles.cardHead}>Description</span>
