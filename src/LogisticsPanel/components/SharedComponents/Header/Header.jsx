@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import styles from "./Header.module.css";
 import Drawer from "react-modern-drawer";
 import "react-modern-drawer/dist/index.css";
@@ -19,6 +19,7 @@ function Header({  notificationList, count }) {
     const notificationRef = useRef(null);
     const profileRef      = useRef(null);
     const navigate        = useNavigate();
+    const location        = useLocation();
     const dispatch        = useDispatch()
 
     const [isDrawerOpen, setIsDrawerOpen]             = useState(false);
@@ -94,18 +95,18 @@ return (
         <header className={`${styles.header}`}>
             <main className={`${styles.wrapper}`}>
                 <div className={styles.cursorPointer}>
-                    <Link to={`/logistics/`} ><img className={`${styles.logo}`} src={logo} alt="logo" /></Link>
+                    <NavLink className={({ isActive }) => isActive ? styles.activeLink : ""} to="/logistics" end ><img className={`${styles.logo}`} src={logo} alt="logo" /></NavLink>
                 </div>
                 
                 <ul className={`${styles.links}`}>
-                    <li><Link to={`/logistics/`} className="">Dashboard</Link></li>
-                    <li><Link to={`/logistics/order`} className="">Order</Link></li>
-                    <li><Link to={`/logistics/pickup-order`} className="">Pickup Order</Link></li>
-                    <li><Link to={`/logistics/inventory`} className="">Inventory</Link></li>
-                    <li><Link to={`/logistics/add-vehicle`} className="">Add Vehicle</Link></li>
-                    <li><Link to={`/logistics/vehicle-list`} className="">Vehicle List</Link></li>
-                    <li><Link to={`/logistics/shipment`} className="">Shipment</Link></li>
-                    <li><Link to={`/logistics/tracking`} className="">Tracking</Link></li>
+                    <li><NavLink className={() => (location.pathname === "/logistics" ? styles.activeLink : "")}                      to="/logistics" end >Dashboard</NavLink></li>
+                    <li><NavLink className={() => (location.pathname.startsWith("/logistics/order") ? styles.activeLink : "")}        to="/logistics/order">Order</NavLink></li>
+                    <li><NavLink className={() => (location.pathname.startsWith("/logistics/pickup-order") ? styles.activeLink : "")} to="/logistics/pickup-order">Pickup Order</NavLink></li>
+                    <li><NavLink className={() => (location.pathname.startsWith("/logistics/inventory") ? styles.activeLink : "")}    to="/logistics/inventory">Inventory</NavLink></li>
+                    <li><NavLink className={() => (location.pathname.startsWith("/logistics/add-vehicle") ? styles.activeLink : "")}  to="/logistics/add-vehicle">Add Vehicle</NavLink></li>
+                    <li><NavLink className={() => (location.pathname.startsWith("/logistics/vehicle-list") ? styles.activeLink : "")} to="/logistics/vehicle-list">Vehicle List</NavLink></li>
+                    <li><NavLink className={() => (location.pathname.startsWith("/logistics/shipment") ? styles.activeLink : "")}     to="/logistics/shipment">Shipment</NavLink></li>
+                    <li><NavLink className={() => (location.pathname.startsWith("/logistics/tracking") ? styles.activeLink : "")}     to="/logistics/tracking">Tracking</NavLink></li>
                 </ul>
 
                 <div className={`${styles.menus}`}>
@@ -210,28 +211,28 @@ return (
         >
             <ul className={styles.drawerMenus}>
                 <li>
-                    <Link to={`/logistics/`} onClick={toggleDrawer}>Dashboard</Link>
+                    <NavLink className={() => (location.pathname === "/logistics" ? styles.activeLink : "")} to="/logistics" end onClick={toggleDrawer}>Dashboard</NavLink>
                 </li>
                 <li>
-                    <Link to={`/logistics/order`} onClick={toggleDrawer}>Order</Link>
+                    <NavLink className={() => (location.pathname.startsWith("/logistics/order") ? styles.activeLink : "")} to="/logistics/order" end onClick={toggleDrawer}>Order</NavLink>
                 </li>
                 <li>
-                    <Link to={`/logistics/pickup-order`} onClick={toggleDrawer}>Pickup Order</Link>
+                    <NavLink className={() => (location.pathname.startsWith("/logistics/pickup-order") ? styles.activeLink : "")} to="/logistics/pickup-order" end onClick={toggleDrawer}>Pickup Order</NavLink>
                 </li>
                 <li>
-                    <Link to={`/logistics/inventory`} onClick={toggleDrawer}>Inventory</Link>
+                    <NavLink className={() => (location.pathname.startsWith("/logistics/inventory") ? styles.activeLink : "")} to="/logistics/inventory" end onClick={toggleDrawer}>Inventory</NavLink>
                 </li>
                 <li>
-                    <Link to={`/logistics/add-vehicle`} onClick={toggleDrawer}>Add vehicle</Link>
+                    <NavLink className={() => (location.pathname.startsWith("/logistics/add-vehicle") ? styles.activeLink : "")} to="/logistics/add-vehicle" end onClick={toggleDrawer}>Add Vehicle</NavLink>
                 </li>
                 <li>
-                    <Link to={`/logistics/vehicle-list`} onClick={toggleDrawer}>Vehicle List</Link>
+                    <NavLink className={() => (location.pathname.startsWith("/logistics/vehicle-list") ? styles.activeLink : "")} to="/logistics/vehicle-list" end onClick={toggleDrawer}>Vehicle List</NavLink>
                 </li>
                 <li>
-                    <Link to={`/logistics/shipment`} onClick={toggleDrawer}>Shipment</Link>
+                    <NavLink className={() => (location.pathname.startsWith("/logistics/shipment") ? styles.activeLink : "")} to="/logistics/shipment" end onClick={toggleDrawer}>Shipment</NavLink>
                 </li>
                 <li>
-                    <Link to={`/logistics/tracking`} onClick={toggleDrawer}>Tracking</Link>
+                    <NavLink className={() => (location.pathname.startsWith("/logistics/tracking") ? styles.activeLink : "")} to="/logistics/tracking" end onClick={toggleDrawer}>Tracking</NavLink>
                 </li>
             </ul>
         </Drawer>

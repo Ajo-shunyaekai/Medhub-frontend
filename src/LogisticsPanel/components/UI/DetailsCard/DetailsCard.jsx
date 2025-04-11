@@ -1,7 +1,7 @@
 import React from "react";
-import styles from "./FormCard.module.css";
+import styles from "./DetailsCard.module.css";
 
-function FormCard({ children, className, props }) {
+function DetailsCard({ children, className, props }) {
   return (
     <section className={`${styles.card} ${className}`} {...props}>
       {children}
@@ -9,4 +9,4 @@ function FormCard({ children, className, props }) {
   );
 }
 
-export default FormCard;
+export default DetailsCard;
