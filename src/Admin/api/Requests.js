@@ -59,6 +59,8 @@ export const postRequestWithToken = async (URL, requestData, callback) => {
       // withCredentials : true,
       headers: {
         accesstoken: localStorage.getItem("token"),
+        token1: localStorage.getItem("token1"),
+        token2: localStorage.getItem("token2"),
         // accesstoken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiV2VkIEp1bCAxNyAyMDI0IDEzOjIyOjQzIEdNVCswNTMwIChJbmRpYSBTdGFuZGFyZCBUaW1lKSIsImVtYWlsIjoiYWRtaW5Ac2h1bnlhZWthaS50ZWNoIiwiaWF0IjoxNzIxMjAyNzYzfQ.7KnHj1ywbLqb7B8OzrIuRmScx_gzM8y-7iCi2L3PWLk',
         "Content-Type": "application/json",
         usertype: localStorage.getItem("buyer_id")
@@ -99,6 +101,8 @@ export const postRequestWithTokenAndFile = async (
       data: requestData,
       headers: {
         accesstoken: localStorage.getItem("token"),
+        token1: localStorage.getItem("token1"),
+        token2: localStorage.getItem("token2"),
         buyer_id: localStorage.getItem("buyer_id"),
         "Content-Type": "multipart/form-data",
         usertype: localStorage.getItem("buyer_id")
@@ -130,6 +134,8 @@ export const postReqCSVDownload = async (URL, requestData, fileName) => {
           "Content-Type": "application/json",
           authorization: process.env.REACT_APP_Authorization,
           accesstoken: localStorage.getItem("token"),
+          token1: localStorage.getItem("token1"),
+          token2: localStorage.getItem("token2"),
           buyer_id: localStorage.getItem("buyer_id"),
           supplier_id: localStorage.getItem("supplier_id"),
           admin_id: localStorage.getItem("admin_id"),

@@ -28,6 +28,8 @@ export const apiRequests = {
         headers: {
           authorization: process.env.REACT_APP_Authorization,
           accesstoken: localStorage.getItem("token"),
+          token1: localStorage.getItem("token1"),
+          token2: localStorage.getItem("token2"),
           buyer_id: localStorage.getItem("buyer_id"),
           supplier_id: localStorage.getItem("supplier_id"),
           admin_id: localStorage.getItem("admin_id"),
@@ -100,6 +102,8 @@ export const apiRequests = {
         data: requestData,
         headers: {
           accesstoken: localStorage.getItem("token"),
+          token1: localStorage.getItem("token1"),
+          token2: localStorage.getItem("token2"),
           buyer_id: localStorage.getItem("buyer_id"),
           supplier_id: localStorage.getItem("supplier_id"),
           admin_id: localStorage.getItem("admin_id"),
@@ -118,8 +122,8 @@ export const apiRequests = {
         },
       });
 
-      console.log("\n\nfirst", response)
-      
+      console.log("\n\nfirst", response);
+
       if (response.status == 401) {
         localStorage.clear();
         window.location.reload();
@@ -142,6 +146,8 @@ export const apiRequests = {
         data: requestData,
         headers: {
           accesstoken: localStorage.getItem("token"),
+          token1: localStorage.getItem("token1"),
+          token2: localStorage.getItem("token2"),
           buyer_id: localStorage.getItem("buyer_id"),
           supplier_id: localStorage.getItem("supplier_id"),
           admin_id: localStorage.getItem("admin_id"),
@@ -180,6 +186,8 @@ export const apiRequests = {
             "Content-Type": "application/json",
             authorization: process.env.REACT_APP_Authorization,
             accesstoken: localStorage.getItem("token"),
+            token1: localStorage.getItem("token1"),
+            token2: localStorage.getItem("token2"),
             buyer_id: localStorage.getItem("buyer_id"),
             supplier_id: localStorage.getItem("supplier_id"),
             admin_id: localStorage.getItem("admin_id"),
@@ -226,6 +234,8 @@ export const apiRequests = {
         headers: {
           authorization: process.env.REACT_APP_Authorization,
           accesstoken: localStorage.getItem("token"),
+          token1: localStorage.getItem("token1"),
+          token2: localStorage.getItem("token2"),
           buyer_id: localStorage.getItem("buyer_id"),
           supplier_id: localStorage.getItem("supplier_id"),
           admin_id: localStorage.getItem("admin_id"),
@@ -264,6 +274,8 @@ export const apiRequests = {
         headers: {
           authorization: process.env.REACT_APP_Authorization,
           accesstoken: localStorage.getItem("token"),
+          token1: localStorage.getItem("token1"),
+          token2: localStorage.getItem("token2"),
           buyer_id: localStorage.getItem("buyer_id"),
           supplier_id: localStorage.getItem("supplier_id"),
           admin_id: localStorage.getItem("admin_id"),
