@@ -72,7 +72,7 @@ const CreatePO = ({ socket }) => {
     orderItems: [],
   });
 
-  const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
+  const buyerIdSessionStorage = localStorage.getItem("buyer_id");
   const buyerIdLocalStorage = localStorage.getItem("buyer_id");
   let grandTotalAmount = 0;
 
@@ -96,8 +96,8 @@ const CreatePO = ({ socket }) => {
     setCurrentDate(formattedDate);
     setPONumber(generatedInvoiceNumber);
 
-    const storedItems = sessionStorage.getItem("acceptedQuotationItems");
-    const rejectedItems = sessionStorage.getItem("rejectedQuotationItems");
+    const storedItems = localStorage.getItem("acceptedQuotationItems");
+    const rejectedItems = localStorage.getItem("rejectedQuotationItems");
     if (storedItems) {
       try {
         const parsedItems = JSON.parse(storedItems);

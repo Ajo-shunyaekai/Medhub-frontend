@@ -10,9 +10,9 @@ const Profile = () => {
 
   // Fetching data from sessionStorage
   useEffect(() => {
-    const adminId = sessionStorage.getItem("admin_id");
-    const adminName = sessionStorage.getItem("user_name");
-    const adminEmail = sessionStorage.getItem("email");
+    const adminId = localStorage.getItem("admin_id");
+    const adminName = localStorage.getItem("user_name");
+    const adminEmail = localStorage.getItem("email");
 
     if (adminId) {
       setAdminData({

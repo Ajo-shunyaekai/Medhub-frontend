@@ -219,10 +219,10 @@ const ProductDetails = () => {
 
   const handleSubmit = (values, { resetForm }) => {
     setLoading(true);
-    const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
+    const buyerIdSessionStorage = localStorage.getItem("buyer_id");
     const buyerIdLocalStorage = localStorage.getItem("buyer_id");
     const buyerId =
-      sessionStorage.getItem("_id") || localStorage.getItem("_id");
+      localStorage.getItem("_id") || localStorage.getItem("_id");
 
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
       navigate("/buyer/login");
@@ -261,7 +261,7 @@ const ProductDetails = () => {
     postRequestWithToken("buyer/add-to-list", obj, async (response) => {
       if (response.code === 200) {
         toast(response.message, { type: "success" });
-        sessionStorage.setItem("list_count", response.result.listCount);
+        localStorage.setItem("list_count", response.result.listCount);
         dispatch(updateInquiryCartCount(response.result.listCount));
         setTimeout(() => {
           navigate("/buyer/send-inquiry");

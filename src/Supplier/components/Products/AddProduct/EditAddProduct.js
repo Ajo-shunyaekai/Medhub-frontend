@@ -114,7 +114,7 @@ const EditAddProduct = ({ placeholder }) => {
       });
 
       // Append the supplier ID
-      const supplierId = sessionStorage.getItem("_id");
+      const supplierId = localStorage.getItem("_id");
       if (supplierId) {
         formData.append("supplier_id", supplierId);
       } else {

@@ -13,7 +13,7 @@ const EditUpdateSecondaryDetails = ({socket}) => {
 
     const { medicineId } = useParams()
     const navigate    = useNavigate()
-    const adminIdSessionStorage = sessionStorage.getItem("admin_id");
+    const adminIdSessionStorage = localStorage.getItem("admin_id");
     const adminIdLocalStorage   = localStorage.getItem("admin_id");
 
     const [medicineDetails, setMedicineDetails] = useState()

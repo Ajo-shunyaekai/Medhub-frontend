@@ -28,40 +28,40 @@ export const apiRequests = {
         headers: {
           authorization: process.env.REACT_APP_Authorization,
           accesstoken:
-            sessionStorage.getItem("token") ||
+            localStorage.getItem("token") ||
             localStorage.getItem("token") ||
             undefined,
           buyer_id:
-            sessionStorage.getItem("buyer_id") ||
+            localStorage.getItem("buyer_id") ||
             localStorage.getItem("buyer_id") ||
             undefined,
           supplier_id:
-            sessionStorage.getItem("supplier_id") ||
+            localStorage.getItem("supplier_id") ||
             localStorage.getItem("supplier_id") ||
             undefined,
           admin_id:
-            sessionStorage.getItem("admin_id") ||
+            localStorage.getItem("admin_id") ||
             localStorage.getItem("admin_id") ||
             undefined,
           partner_id:
-            sessionStorage.getItem("partner_id") ||
+            localStorage.getItem("partner_id") ||
             localStorage.getItem("partner_id") ||
             undefined,
           "Content-Type": "application/json",
           usertype:
-            sessionStorage.getItem("buyer_id") ||
+            localStorage.getItem("buyer_id") ||
             localStorage.getItem("buyer_id")
               ? "Buyer"
-              : sessionStorage.getItem("supplier_id") ||
+              : localStorage.getItem("supplier_id") ||
                 localStorage.getItem("supplier_id")
               ? "Supplier"
-              : sessionStorage.getItem("admin_id") ||
+              : localStorage.getItem("admin_id") ||
                 localStorage.getItem("admin_id")
               ? "Admin"
-              : sessionStorage.getItem("seller_id") ||
+              : localStorage.getItem("seller_id") ||
                 localStorage.getItem("seller_id")
               ? "Seller"
-              : sessionStorage.getItem("partner_id") ||
+              : localStorage.getItem("partner_id") ||
                 localStorage.getItem("partner_id")
               ? "Logistics"
               : undefined,
@@ -69,7 +69,7 @@ export const apiRequests = {
       });
 
       if (response.status == 401) {
-        sessionStorage.clear();
+        localStorage.clear();
         return;
       }
       return response.data;
@@ -99,7 +99,7 @@ export const apiRequests = {
       });
 
       if (response.status == 401) {
-        sessionStorage.clear();
+        localStorage.clear();
         return;
       }
       return response.data;
@@ -119,36 +119,36 @@ export const apiRequests = {
         data: requestData,
         headers: {
           accesstoken:
-            sessionStorage.getItem("token") ||
+            localStorage.getItem("token") ||
             localStorage.getItem("token") ||
             undefined,
           buyer_id:
-            sessionStorage.getItem("buyer_id") ||
+            localStorage.getItem("buyer_id") ||
             localStorage.getItem("buyer_id") ||
             undefined,
           supplier_id:
-            sessionStorage.getItem("supplier_id") ||
+            localStorage.getItem("supplier_id") ||
             localStorage.getItem("supplier_id") ||
             undefined,
           admin_id:
-            sessionStorage.getItem("admin_id") ||
+            localStorage.getItem("admin_id") ||
             localStorage.getItem("admin_id") ||
             undefined,
           "Content-Type": "application/json",
           usertype:
-            sessionStorage.getItem("buyer_id") ||
+            localStorage.getItem("buyer_id") ||
             localStorage.getItem("buyer_id")
               ? "Buyer"
-              : sessionStorage.getItem("supplier_id") ||
+              : localStorage.getItem("supplier_id") ||
                 localStorage.getItem("supplier_id")
               ? "Supplier"
-              : sessionStorage.getItem("admin_id") ||
+              : localStorage.getItem("admin_id") ||
                 localStorage.getItem("admin_id")
               ? "Admin"
-              : sessionStorage.getItem("seller_id") ||
+              : localStorage.getItem("seller_id") ||
                 localStorage.getItem("seller_id")
               ? "Seller"
-              : sessionStorage.getItem("partner_id") ||
+              : localStorage.getItem("partner_id") ||
                 localStorage.getItem("partner_id")
               ? "Logistics"
               : undefined,
@@ -156,7 +156,7 @@ export const apiRequests = {
       });
 
       if (response.status == 401) {
-        sessionStorage.clear();
+        localStorage.clear();
         return;
       }
       return response.data;
@@ -176,40 +176,40 @@ export const apiRequests = {
         data: requestData,
         headers: {
           accesstoken:
-            sessionStorage.getItem("token") ||
+            localStorage.getItem("token") ||
             localStorage.getItem("token") ||
             undefined,
           buyer_id:
-            sessionStorage.getItem("buyer_id") ||
+            localStorage.getItem("buyer_id") ||
             localStorage.getItem("buyer_id") ||
             undefined,
           supplier_id:
-            sessionStorage.getItem("supplier_id") ||
+            localStorage.getItem("supplier_id") ||
             localStorage.getItem("supplier_id") ||
             undefined,
           admin_id:
-            sessionStorage.getItem("admin_id") ||
+            localStorage.getItem("admin_id") ||
             localStorage.getItem("admin_id") ||
             undefined,
           partner_id:
-            sessionStorage.getItem("partner_id") ||
+            localStorage.getItem("partner_id") ||
             localStorage.getItem("partner_id") ||
             undefined,
           "Content-Type": "multipart/form-data",
           usertype:
-            sessionStorage.getItem("buyer_id") ||
+            localStorage.getItem("buyer_id") ||
             localStorage.getItem("buyer_id")
               ? "Buyer"
-              : sessionStorage.getItem("supplier_id") ||
+              : localStorage.getItem("supplier_id") ||
                 localStorage.getItem("supplier_id")
               ? "Supplier"
-              : sessionStorage.getItem("admin_id") ||
+              : localStorage.getItem("admin_id") ||
                 localStorage.getItem("admin_id")
               ? "Admin"
-              : sessionStorage.getItem("seller_id") ||
+              : localStorage.getItem("seller_id") ||
                 localStorage.getItem("seller_id")
               ? "Seller"
-              : sessionStorage.getItem("partner_id") ||
+              : localStorage.getItem("partner_id") ||
                 localStorage.getItem("partner_id")
               ? "Logistics"
               : undefined,
@@ -235,39 +235,39 @@ export const apiRequests = {
             "Content-Type": "application/json",
             authorization: process.env.REACT_APP_Authorization,
             accesstoken:
-              sessionStorage.getItem("token") ||
+              localStorage.getItem("token") ||
               localStorage.getItem("token") ||
               undefined,
             buyer_id:
-              sessionStorage.getItem("buyer_id") ||
+              localStorage.getItem("buyer_id") ||
               localStorage.getItem("buyer_id") ||
               undefined,
             supplier_id:
-              sessionStorage.getItem("supplier_id") ||
+              localStorage.getItem("supplier_id") ||
               localStorage.getItem("supplier_id") ||
               undefined,
             admin_id:
-              sessionStorage.getItem("admin_id") ||
+              localStorage.getItem("admin_id") ||
               localStorage.getItem("admin_id") ||
               undefined,
             partner_id:
-              sessionStorage.getItem("partner_id") ||
+              localStorage.getItem("partner_id") ||
               localStorage.getItem("partner_id") ||
               undefined,
             usertype:
-              sessionStorage.getItem("buyer_id") ||
+              localStorage.getItem("buyer_id") ||
               localStorage.getItem("buyer_id")
                 ? "Buyer"
-                : sessionStorage.getItem("supplier_id") ||
+                : localStorage.getItem("supplier_id") ||
                   localStorage.getItem("supplier_id")
                 ? "Supplier"
-                : sessionStorage.getItem("admin_id") ||
+                : localStorage.getItem("admin_id") ||
                   localStorage.getItem("admin_id")
                 ? "Admin"
-                : sessionStorage.getItem("seller_id") ||
+                : localStorage.getItem("seller_id") ||
                   localStorage.getItem("seller_id")
                 ? "Seller"
-                : sessionStorage.getItem("partner_id") ||
+                : localStorage.getItem("partner_id") ||
                   localStorage.getItem("partner_id")
                 ? "Logistics"
                 : undefined,
@@ -302,33 +302,33 @@ export const apiRequests = {
         headers: {
           authorization: process.env.REACT_APP_Authorization,
           accesstoken:
-            sessionStorage.getItem("token") ||
+            localStorage.getItem("token") ||
             localStorage.getItem("token") ||
             undefined,
           buyer_id:
-            sessionStorage.getItem("buyer_id") ||
+            localStorage.getItem("buyer_id") ||
             localStorage.getItem("buyer_id") ||
             undefined,
           supplier_id:
-            sessionStorage.getItem("supplier_id") ||
+            localStorage.getItem("supplier_id") ||
             localStorage.getItem("supplier_id") ||
             undefined,
           admin_id:
-            sessionStorage.getItem("admin_id") ||
+            localStorage.getItem("admin_id") ||
             localStorage.getItem("admin_id") ||
             undefined,
           "Content-Type": "application/json",
           usertype:
-            sessionStorage.getItem("buyer_id") ||
+            localStorage.getItem("buyer_id") ||
             localStorage.getItem("buyer_id")
               ? "Buyer"
-              : sessionStorage.getItem("supplier_id") ||
+              : localStorage.getItem("supplier_id") ||
                 localStorage.getItem("supplier_id")
               ? "Supplier"
-              : sessionStorage.getItem("admin_id") ||
+              : localStorage.getItem("admin_id") ||
                 localStorage.getItem("admin_id")
               ? "Admin"
-              : sessionStorage.getItem("seller_id") ||
+              : localStorage.getItem("seller_id") ||
                 localStorage.getItem("seller_id")
               ? "Seller"
               : undefined,
@@ -336,7 +336,7 @@ export const apiRequests = {
       });
 
       if (response.status == 401) {
-        sessionStorage.clear();
+        localStorage.clear();
         return;
       }
       return response.data;
@@ -356,33 +356,33 @@ export const apiRequests = {
         headers: {
           authorization: process.env.REACT_APP_Authorization,
           accesstoken:
-            sessionStorage.getItem("token") ||
+            localStorage.getItem("token") ||
             localStorage.getItem("token") ||
             undefined,
           buyer_id:
-            sessionStorage.getItem("buyer_id") ||
+            localStorage.getItem("buyer_id") ||
             localStorage.getItem("buyer_id") ||
             undefined,
           supplier_id:
-            sessionStorage.getItem("supplier_id") ||
+            localStorage.getItem("supplier_id") ||
             localStorage.getItem("supplier_id") ||
             undefined,
           admin_id:
-            sessionStorage.getItem("admin_id") ||
+            localStorage.getItem("admin_id") ||
             localStorage.getItem("admin_id") ||
             undefined,
           "Content-Type": "application/json",
           usertype:
-            sessionStorage.getItem("buyer_id") ||
+            localStorage.getItem("buyer_id") ||
             localStorage.getItem("buyer_id")
               ? "Buyer"
-              : sessionStorage.getItem("supplier_id") ||
+              : localStorage.getItem("supplier_id") ||
                 localStorage.getItem("supplier_id")
               ? "Supplier"
-              : sessionStorage.getItem("admin_id") ||
+              : localStorage.getItem("admin_id") ||
                 localStorage.getItem("admin_id")
               ? "Admin"
-              : sessionStorage.getItem("seller_id") ||
+              : localStorage.getItem("seller_id") ||
                 localStorage.getItem("seller_id")
               ? "Seller"
               : undefined,
@@ -390,7 +390,7 @@ export const apiRequests = {
       });
 
       if (response.status == 401) {
-        sessionStorage.clear();
+        localStorage.clear();
         return;
       }
       return response.data;

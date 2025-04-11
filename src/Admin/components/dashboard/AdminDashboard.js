@@ -18,7 +18,7 @@ import { countryToCodeMapping, convertCountryToCode } from '../shared-components
 const AdminDashboard = () => {
     const navigate = useNavigate()
 
-    const adminIdSessionStorage = sessionStorage.getItem("admin_id");
+    const adminIdSessionStorage = localStorage.getItem("admin_id");
     const adminIdLocalStorage   = localStorage.getItem("admin_id");
 
     const [countryData, setCountryData] = useState([]);

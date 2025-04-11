@@ -96,7 +96,7 @@ function PreviewFile() {
   const handleBulkUpload = () => {
     if (selectedFile) {
       const bulkFormData = new FormData();
-      bulkFormData.append("supplier_id", sessionStorage.getItem("_id"));
+      bulkFormData.append("supplier_id", localStorage.getItem("_id"));
       bulkFormData.append("csvfile", selectedFile);
 
       dispatch(previewBulkProducts(bulkFormData)).then((response) => {
@@ -112,7 +112,7 @@ function PreviewFile() {
       return {
         ...ele,
         supplier_id: {
-          value: sessionStorage.getItem("_id"),
+          value: localStorage.getItem("_id"),
         },
       };
     });

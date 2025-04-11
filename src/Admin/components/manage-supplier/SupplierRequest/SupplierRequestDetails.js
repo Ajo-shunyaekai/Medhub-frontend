@@ -18,7 +18,7 @@ const SupplierRequestDetails = () => {
     const [supplierDetails, setSupplierDetails] = useState();
     const { supplierId } = useParams();
     const navigate = useNavigate();
-    const adminIdSessionStorage = sessionStorage.getItem("admin_id");
+    const adminIdSessionStorage = localStorage.getItem("admin_id");
     const adminIdLocalStorage = localStorage.getItem("admin_id");
     const [loading, setLoading] = useState(false);
     const [rejectLoading, setRejectLoading] = useState(false)

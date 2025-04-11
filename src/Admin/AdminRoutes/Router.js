@@ -314,7 +314,7 @@ const socket = io.connect(process.env.REACT_APP_SERVER_URL);
 export function NotificationProvider({ children }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const adminIdSessionStorage = sessionStorage.getItem("admin_id");
+  const adminIdSessionStorage = localStorage.getItem("admin_id");
   const adminIdLocalStorage = localStorage.getItem("admin_id");
 
   const [notificationList, setNotificationList] = useState([]);
@@ -452,9 +452,9 @@ export function NotificationProvider({ children }) {
   }, [adminIdSessionStorage, adminIdLocalStorage, navigate]);
 
   useEffect(() => {
-    sessionStorage.getItem("_id") &&
-      dispatch(fetchUserData(sessionStorage.getItem("_id")));
-  }, [sessionStorage.getItem("_id")]);
+    localStorage.getItem("_id") &&
+      dispatch(fetchUserData(localStorage.getItem("_id")));
+  }, [localStorage.getItem("_id")]);
 
   return (
     <AdmSidebar

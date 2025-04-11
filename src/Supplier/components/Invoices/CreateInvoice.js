@@ -110,7 +110,7 @@ const CreateInvoice = ({ socket }) => {
 
   useEffect(() => {
     const getOrderDetails = async () => {
-      const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
+      const supplierIdSessionStorage = localStorage.getItem("supplier_id");
       const supplierIdLocalStorage = localStorage.getItem("supplier_id");
 
       if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
@@ -303,7 +303,7 @@ const CreateInvoice = ({ socket }) => {
   };
 
   const handleSubmit = (e) => {
-    const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
+    const supplierIdSessionStorage = localStorage.getItem("supplier_id");
     const supplierIdLocalStorage = localStorage.getItem("supplier_id");
 
     if (!supplierIdSessionStorage && !supplierIdLocalStorage) {

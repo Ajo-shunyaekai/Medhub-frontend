@@ -64,7 +64,7 @@ const BuyProduct = ({
   //   };
 
   useEffect(() => {
-    const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
+    const buyerIdSessionStorage = localStorage.getItem("buyer_id");
     const buyerIdLocalStorage = localStorage.getItem("buyer_id");
 
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
@@ -74,7 +74,7 @@ const BuyProduct = ({
     const fetchData = async () => {
       try {
         const buyerId =
-          sessionStorage.getItem("buyer_id") ||
+          localStorage.getItem("buyer_id") ||
           localStorage.getItem("buyer_id");
         if (!buyerId) {
           navigate("/buyer/login");

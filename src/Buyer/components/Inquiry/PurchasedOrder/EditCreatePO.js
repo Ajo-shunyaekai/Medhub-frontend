@@ -316,7 +316,7 @@ const EditCreatePO = ({ socket }) => {
   const [loading, setLoading] = useState(false);
   const [poDetails, setPoDetails] = useState();
 
-  const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
+  const buyerIdSessionStorage = localStorage.getItem("buyer_id");
   const buyerIdLocalStorage = localStorage.getItem("buyer_id");
 
   useEffect(() => {

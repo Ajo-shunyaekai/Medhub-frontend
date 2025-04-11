@@ -86,9 +86,9 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    (id || sessionStorage?.getItem("_id")) &&
-      dispatch(fetchUserData(id || sessionStorage?.getItem("_id")));
-  }, [dispatch, id, sessionStorage?.getItem("_id")]);
+    (id || localStorage?.getItem("_id")) &&
+      dispatch(fetchUserData(id || localStorage?.getItem("_id")));
+  }, [dispatch, id, localStorage?.getItem("_id")]);
 
   if (!user) return <Loader />;
 
@@ -98,7 +98,7 @@ const Profile = () => {
     <div className={styles.container}>
       <div className={styles.profileHeadSection}>
         <div className={styles.MainHeading}>Profile</div>
-        <Link to={`/buyer/edit-profile/${sessionStorage.getItem("_id")}`}>
+        <Link to={`/buyer/edit-profile/${localStorage.getItem("_id")}`}>
           <div className={styles.EditButtonSection}>
             <span className={styles.editButton}>Edit</span>
           </div>

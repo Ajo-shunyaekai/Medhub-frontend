@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 import { apiRequests } from "../../../../api";
 
 const OnGoingInquiriesDetails = () => {
-  const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
+  const buyerIdSessionStorage = localStorage.getItem("buyer_id");
   const buyerIdLocalStorage = localStorage.getItem("buyer_id");
  
   const { inquiryId } = useParams();
@@ -63,8 +63,8 @@ const OnGoingInquiriesDetails = () => {
       setAcceptedItems(acceptedItems);
       setRejectedItems(rejectedItems);
  
-      sessionStorage.setItem("acceptedQuotationItems", JSON.stringify(acceptedItems));
-      sessionStorage.setItem("rejectedQuotationItems", JSON.stringify(rejectedItems));
+      localStorage.setItem("acceptedQuotationItems", JSON.stringify(acceptedItems));
+      localStorage.setItem("rejectedQuotationItems", JSON.stringify(rejectedItems));
       // postRequestWithToken(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj, async (response) => {
       //   if (response.code === 200) {
       //     setInquiryDetails(response?.result);
@@ -81,8 +81,8 @@ const OnGoingInquiriesDetails = () => {
       //     setAcceptedItems(acceptedItems);
       //     setRejectedItems(rejectedItems);
  
-      //     sessionStorage.setItem("acceptedQuotationItems", JSON.stringify(acceptedItems));
-      //     sessionStorage.setItem("rejectedQuotationItems", JSON.stringify(rejectedItems));
+      //     localStorage.setItem("acceptedQuotationItems", JSON.stringify(acceptedItems));
+      //     localStorage.setItem("rejectedQuotationItems", JSON.stringify(rejectedItems));
       //   } else {
       //   }
       // }
@@ -93,8 +93,8 @@ const OnGoingInquiriesDetails = () => {
  
   useEffect(() => {
     const handleBeforeUnload = () => {
-      sessionStorage.removeItem("acceptedQuotationItems");
-      sessionStorage.removeItem("rejectedQuotationItems");
+      localStorage.removeItem("acceptedQuotationItems");
+      localStorage.removeItem("rejectedQuotationItems");
     };
  
     window.addEventListener("beforeunload", handleBeforeUnload);
@@ -126,14 +126,14 @@ const OnGoingInquiriesDetails = () => {
           setInquiryDetails(response?.result);
           setAcceptedItems((prevItems) => {
             const updatedItems = [...prevItems, item];
-            sessionStorage.setItem("acceptedQuotationItems", JSON.stringify(updatedItems));
+            localStorage.setItem("acceptedQuotationItems", JSON.stringify(updatedItems));
             return updatedItems;
           });
           setRejectedItems((prevItems) => {
             const updatedItems = prevItems.filter(
               (rejItem) => rejItem._id !== item._id
             );
-            sessionStorage.setItem("rejectedQuotationItems", JSON.stringify(updatedItems)
+            localStorage.setItem("rejectedQuotationItems", JSON.stringify(updatedItems)
             );
             return updatedItems;
           });
@@ -142,14 +142,14 @@ const OnGoingInquiriesDetails = () => {
           //   setInquiryDetails(response?.result);
           //   setAcceptedItems((prevItems) => {
           //     const updatedItems = [...prevItems, item];
-          //     sessionStorage.setItem("acceptedQuotationItems", JSON.stringify(updatedItems));
+          //     localStorage.setItem("acceptedQuotationItems", JSON.stringify(updatedItems));
           //     return updatedItems;
           //   });
           //   setRejectedItems((prevItems) => {
           //     const updatedItems = prevItems.filter(
           //       (rejItem) => rejItem._id !== item._id
           //     );
-          //     sessionStorage.setItem("rejectedQuotationItems", JSON.stringify(updatedItems)
+          //     localStorage.setItem("rejectedQuotationItems", JSON.stringify(updatedItems)
           //     );
           //     return updatedItems;
           //   });
@@ -193,7 +193,7 @@ const OnGoingInquiriesDetails = () => {
               setInquiryDetails(response?.result);
               setRejectedItems((prevItems) => {
                   const updatedItems = [...prevItems, item];
-                  sessionStorage.setItem(
+                  localStorage.setItem(
                       "rejectedQuotationItems",
                       JSON.stringify(updatedItems)
                     );
@@ -203,7 +203,7 @@ const OnGoingInquiriesDetails = () => {
                       const updatedItems = prevItems.filter(
                           (accItem) => accItem._id !== item._id
                         );
-                        sessionStorage.setItem(
+                        localStorage.setItem(
                             "acceptedQuotationItems",
                             JSON.stringify(updatedItems)
                           );
@@ -217,7 +217,7 @@ const OnGoingInquiriesDetails = () => {
             //     setInquiryDetails(response?.result);
             //     setRejectedItems((prevItems) => {
             //       const updatedItems = [...prevItems, item];
-            //       sessionStorage.setItem(
+            //       localStorage.setItem(
             //         "rejectedQuotationItems",
             //         JSON.stringify(updatedItems)
             //       );
@@ -227,7 +227,7 @@ const OnGoingInquiriesDetails = () => {
             //       const updatedItems = prevItems.filter(
             //         (accItem) => accItem._id !== item._id
             //       );
-            //       sessionStorage.setItem(
+            //       localStorage.setItem(
             //         "acceptedQuotationItems",
             //         JSON.stringify(updatedItems)
             //       );

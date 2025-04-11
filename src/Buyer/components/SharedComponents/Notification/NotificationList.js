@@ -11,7 +11,7 @@ import moment from 'moment/moment';
 const NotificationList = () => {
    
     const navigate = useNavigate();
-    const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
+    const buyerIdSessionStorage = localStorage.getItem("buyer_id");
     const buyerIdLocalStorage = localStorage.getItem("buyer_id");
 
     const [list, setList] = useState()
@@ -65,10 +65,10 @@ const NotificationList = () => {
                 navigate(`/buyer/invoice/Pending-Invoice`);
                 break; 
                 case 'Profile Edit Approved':
-                    navigate(`/buyer/profile/${sessionStorage.getItem('_id')}`);
+                    navigate(`/buyer/profile/${localStorage.getItem('_id')}`);
                     break; 
                 case 'Profile Edit Rejected':
-                    navigate(`/buyer/profile/${sessionStorage.getItem('_id')}`);
+                    navigate(`/buyer/profile/${localStorage.getItem('_id')}`);
                     break; 
             default:
                 navigate('/buyer/');

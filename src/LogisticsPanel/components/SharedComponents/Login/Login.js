@@ -64,7 +64,7 @@ const Login = ({socket}) => {
 
                         const {data} = await response;
                         for (let x in data) {
-                            sessionStorage.setItem(`${x}`, data[x])
+                            localStorage.setItem(`${x}`, data[x])
                         }
     
                         setTimeout(() => {

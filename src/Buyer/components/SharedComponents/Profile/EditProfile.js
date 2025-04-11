@@ -26,8 +26,8 @@ const EditProfile = () => {
   const [selectedCity, setSelectedCity] = useState(null);
 
   useEffect(() => {
-    (id || sessionStorage.getItem("id")) &&
-      dispatch(fetchUserData(id || sessionStorage.getItem("id")));
+    (id || localStorage.getItem("id")) &&
+      dispatch(fetchUserData(id || localStorage.getItem("id")));
   }, [id, dispatch]);
 
   const formik = useFormik({
@@ -132,7 +132,7 @@ const EditProfile = () => {
           // If new password is provided, clear localStorage and sessionStorage and navigate to login
           setTimeout(() => {
             localStorage.clear();
-            sessionStorage.clear();
+            localStorage.clear();
             navigate("/buyer/login");
           }, 100);
         }

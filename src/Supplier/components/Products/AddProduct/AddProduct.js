@@ -245,7 +245,7 @@ const AddProduct = ({ placeholder }) => {
   // const handleBulkUpload = () => {
   //   const bulkFormData = new FormData();
 
-  //   bulkFormData.append("supplier_id", sessionStorage.getItem("_id"));
+  //   bulkFormData.append("supplier_id", localStorage.getItem("_id"));
   //   bulkFormData.append("csvfile", selectedFile);
 
   //   dispatch(bulkUpload(bulkFormData));
@@ -254,7 +254,7 @@ const AddProduct = ({ placeholder }) => {
   const handleBulkUpload = () => {
     if (selectedFile) {
       const bulkFormData = new FormData();
-      bulkFormData.append("supplier_id", sessionStorage.getItem("_id"));
+      bulkFormData.append("supplier_id", localStorage.getItem("_id"));
       bulkFormData.append("csvfile", selectedFile);
 
       dispatch(previewBulkProducts(bulkFormData)).then((response) => {
@@ -312,7 +312,7 @@ const AddProduct = ({ placeholder }) => {
               }
             }
           });
-          formData.append("supplier_id", sessionStorage.getItem("_id"));
+          formData.append("supplier_id", localStorage.getItem("_id"));
 
           const stockedInDetailsUpdated = JSON.stringify(
             values?.stockedInDetails?.map((section) => ({

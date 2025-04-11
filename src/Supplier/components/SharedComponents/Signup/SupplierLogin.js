@@ -66,10 +66,10 @@ const SupplierLogin = ({socket}) => {
 
                     const {data} = await response;
                     for (let x in data) {
-                        sessionStorage.setItem(`${x}`, data[x])
+                        localStorage.setItem(`${x}`, data[x])
                         if(x =='registeredAddress'){
                             for (let y in data[x]) {
-                                sessionStorage.setItem(`${y}`, data[x][y])
+                                localStorage.setItem(`${y}`, data[x][y])
                             }
                         }
                     }
@@ -155,7 +155,7 @@ const SupplierLogin = ({socket}) => {
     };
 
     useEffect(() => {
-        if ( sessionStorage.getItem("supplier_id") !== undefined && sessionStorage.getItem("supplier_id") ) {
+        if ( localStorage.getItem("supplier_id") !== undefined && localStorage.getItem("supplier_id") ) {
             navigate('/supplier');
         }
     }, []);

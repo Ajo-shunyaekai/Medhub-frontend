@@ -10,7 +10,7 @@ import moment from 'moment/moment';
 
 const NotificationList = () => {
     const navigate = useNavigate();
-    const adminIdSessionStorage = sessionStorage.getItem("admin_id");
+    const adminIdSessionStorage = localStorage.getItem("admin_id");
     const adminIdLocalStorage   = localStorage.getItem("admin_id");
 
     const [notificationList, setNotificationList] = useState([]);

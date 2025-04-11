@@ -38,10 +38,10 @@ export const loginUser = createAsyncThunk(
       }
       const { data } = await response;
       for (let x in data) {
-        sessionStorage.setItem(`${x}`, data[x]);
+        localStorage.setItem(`${x}`, data[x]);
         if (x == "registeredAddress") {
           for (let y in data[x]) {
-            sessionStorage.setItem(`${y}`, data[x][y]);
+            localStorage.setItem(`${y}`, data[x][y]);
           }
         }
       }
@@ -102,7 +102,7 @@ export const logoutUser = createAsyncThunk(
 
       Cookies.remove("accessToken");
       Cookies.remove("refreshToken");
-      sessionStorage?.clear();
+      localStorage?.clear();
 
       return {};
 

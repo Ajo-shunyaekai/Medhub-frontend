@@ -257,8 +257,8 @@ const Sidebar = ({ children, dragWindow,
             order: `/buyer/order-details/${eventId}`,
             purchaseorder: `/buyer/purchased-order-details/${linkId}`,
             invoice: `/buyer/invoice/Pending-Invoice`,
-            "Profile Edit Approved": `/buyer/profile/${sessionStorage.getItem('_id')}`,
-            "Profile Edit Rejected": `/buyer/profile/${sessionStorage.getItem('_id')}`,
+            "Profile Edit Approved": `/buyer/profile/${localStorage.getItem('_id')}`,
+            "Profile Edit Rejected": `/buyer/profile/${localStorage.getItem('_id')}`,
         };
 
         const route = eventRoutes[event] || "/buyer/";
@@ -412,13 +412,13 @@ const Sidebar = ({ children, dragWindow,
                                                     onClick={() => setIsProfileOpen(false)} // Close dropdown on click
                                                 >
                                                     {localStorage.getItem('buyer_name') ||
-                                                        sessionStorage.getItem('buyer_name')}
+                                                        localStorage.getItem('buyer_name')}
                                                 </Link>
                                             </div>
                                             <div className={styles.profile_wrapper_mid}>
                                                 <div>
                                                     <Link
-                                                        to={`/buyer/profile/${sessionStorage?.getItem("_id")}`}
+                                                        to={`/buyer/profile/${localStorage?.getItem("_id")}`}
                                                         onClick={() => setIsProfileOpen(false)} // Close dropdown on click
                                                     >
                                                         <div className={styles.profile_text}>Profile</div>

@@ -26,7 +26,7 @@ const OrderCancel = ({ setModal, orderId,  activeLink }) => {
     };
 
     const handleCancel = () => {
-    //     const buyerIdSessionStorage = sessionStorage.getItem("supplier_id");
+    //     const buyerIdSessionStorage = localStorage.getItem("supplier_id");
     //     const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
 
     // if (!buyerIdSessionStorage && !buyerIdLocalStorage) {

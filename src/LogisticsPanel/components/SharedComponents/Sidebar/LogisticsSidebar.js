@@ -257,7 +257,7 @@ const Sidebar = ({  notificationList, count, handleClick }) => {
                                                     onClick={() => setIsProfileOpen(false)}
                                                 >
                                                     {localStorage.getItem('buyer_name') ||
-                                                        sessionStorage.getItem('buyer_name')}
+                                                        localStorage.getItem('buyer_name')}
                                                 </Link>
                                             </div> */}
                                             <div className={styles.profile_wrapper_mid}>

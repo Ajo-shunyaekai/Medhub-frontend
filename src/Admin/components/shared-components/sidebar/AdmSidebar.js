@@ -678,7 +678,7 @@ const AdmSidebar = ({
                           to="#"
                           onClick={() => setIsProfileOpen(false)} // Close dropdown on click
                         >
-                          {sessionStorage?.email || "admin@gmail.com"}
+                          {localStorage?.email || "admin@gmail.com"}
                         </Link>
                       </div>
                       <div className={styles.profile_wrapper_mid}>

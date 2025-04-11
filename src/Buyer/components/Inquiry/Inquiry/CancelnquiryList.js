@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import { apiRequests } from '../../../../api';
 
 const CancelInquiryList = () => {
-    const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
+    const buyerIdSessionStorage = localStorage.getItem("buyer_id");
     const buyerIdLocalStorage = localStorage.getItem("buyer_id");
  
     const { inquiryId } = useParams();

@@ -15,7 +15,7 @@ const ApprovedProduct = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const adminIdSessionStorage = sessionStorage.getItem("admin_id");
+  const adminIdSessionStorage = localStorage.getItem("admin_id");
   const adminIdLocalStorage = localStorage.getItem("admin_id");
 
   const getActiveLinkFromPath = (path) => {

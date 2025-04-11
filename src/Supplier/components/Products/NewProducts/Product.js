@@ -82,16 +82,16 @@ const Product = () => {
     const handleUpdateProductUpload = () => {
     if (selectedFile) {
         const bulkFormData = new FormData();
-        bulkFormData.append("supplier_id", sessionStorage.getItem("_id"));
+        bulkFormData.append("supplier_id", localStorage.getItem("_id"));
         bulkFormData.append("csvfile", selectedFile);
         dispatch(bulkUpload(bulkFormData));
     }
     };
 
     useEffect(() => {
-        const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
+        const supplierIdSessionStorage = localStorage.getItem("supplier_id");
         const supplierIdLocalStorage = localStorage.getItem("supplier_id");
-        const supplier_id = sessionStorage.getItem("_id") || localStorage.getItem("_id");
+        const supplier_id = localStorage.getItem("_id") || localStorage.getItem("_id");
 
         if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
             navigate("/supplier/login");

@@ -26,7 +26,7 @@ const Dashboard = () => {
 
     useEffect(() => {
 
-        const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
+        const buyerIdSessionStorage = localStorage.getItem("buyer_id");
         const buyerIdLocalStorage = localStorage.getItem("buyer_id");
 
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
@@ -49,7 +49,7 @@ const Dashboard = () => {
     }, [])
 
     useEffect(() => {
-        const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
+        const buyerIdSessionStorage = localStorage.getItem("buyer_id");
         const buyerIdLocalStorage = localStorage.getItem("buyer_id");
 
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {

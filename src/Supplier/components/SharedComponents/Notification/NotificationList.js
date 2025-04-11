@@ -10,7 +10,7 @@ import moment from 'moment/moment';
 
 const NotificationList = () => {
     const navigate = useNavigate();
-    const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
+    const supplierIdSessionStorage = localStorage.getItem("supplier_id");
     const supplierIdLocalStorage = localStorage.getItem("supplier_id");
 
     const [notificationList, setNotificationList] = useState([]);
@@ -89,10 +89,10 @@ const NotificationList = () => {
                 navigate(`/supplier/secondary-product-details/${eventId}`);
                 break;   
             case 'Profile Edit Approved':
-                navigate(`/supplier/profile/${sessionStorage.getItem('_id')}`);
+                navigate(`/supplier/profile/${localStorage.getItem('_id')}`);
                 break; 
             case 'Profile Edit Rejected':
-                navigate(`/supplier/profile/${sessionStorage.getItem('_id')}`);
+                navigate(`/supplier/profile/${localStorage.getItem('_id')}`);
                 break;    
                 
             default:

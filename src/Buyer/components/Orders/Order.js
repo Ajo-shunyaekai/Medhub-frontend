@@ -55,7 +55,7 @@ const Order = () => {
     };
  
     const fetchData = async () => {
-        const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
+        const buyerIdSessionStorage = localStorage.getItem("buyer_id");
         const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
  
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
