@@ -16,7 +16,8 @@ function ProformaInvoiceDetails() {
   useEffect(() => {
     const getOrderDetails = async () => {
       if (!adminIdSessionStorage && !adminIdLocalStorage) {
-        navigate("/supplier/login");
+        localStorage.clear();
+        navigate("/admin/login");
         return;
       }
       const obj = {

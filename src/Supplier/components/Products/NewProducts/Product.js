@@ -94,6 +94,7 @@ const Product = () => {
         const supplier_id = localStorage.getItem("_id") || localStorage.getItem("_id");
 
         if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
+            localStorage.clear();
             navigate("/supplier/login");
             return;
         }

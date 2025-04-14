@@ -129,6 +129,7 @@ const BuyerDetails = () => {
     useEffect(() => {
         const getBuyerDetails = async () => {
             if (!adminIdSessionStorage && !adminIdLocalStorage) {
+                localStorage.clear();
                 navigate("/admin/login");
                 return;
             }

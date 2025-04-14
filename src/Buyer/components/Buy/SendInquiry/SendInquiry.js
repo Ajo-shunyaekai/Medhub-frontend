@@ -42,6 +42,7 @@ const SendInquiry = ({socket}) => {
 
   const handleRemoveItem = (listId, itemId) => {
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
+      localStorage.clear();
       navigate("/buyer/login");
       return;
     }
@@ -76,6 +77,7 @@ const SendInquiry = ({socket}) => {
 
   useEffect(() => {
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
+      localStorage.clear();
       navigate("/buyer/login");
       return;
     }
@@ -108,6 +110,7 @@ const SendInquiry = ({socket}) => {
 
   const handleSendEnquiry = () => {
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
+      localStorage.clear();
       navigate("/buyer/login");
       return;
     }

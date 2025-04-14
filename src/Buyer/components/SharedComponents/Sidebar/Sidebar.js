@@ -155,6 +155,7 @@ const Sidebar = ({ children, dragWindow,
         const response = await  dispatch(logoutUser({}));
         if(response.meta.requestStatus === "fulfilled") {
         setTimeout(() => {
+            localStorage.clear();
             navigate('/buyer/login')
         }, 500);
         }

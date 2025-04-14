@@ -60,6 +60,7 @@ const SellerOrder = () => {
   useEffect(() => {
     const fetchOrderList = async () => {
       if (!adminIdSessionStorage && !adminIdLocalStorage) {
+        localStorage.clear();
         navigate("/admin/login");
         return;
       }

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 axios.defaults.headers.post["Content-Type"] = "application/json";
 axios.defaults.withCredentials = true;
@@ -49,13 +50,17 @@ export const apiRequests = {
         },
       });
 
-      if (response.status == 401) {
-        localStorage.clear();
-        window.location.reload();
-        return;
-      }
       return response.data;
     } catch (err) {
+      if (err?.response?.status === 401) {
+        toast.error("Session Expired. Please login again.");
+        setTimeout(() => {
+          localStorage.clear();
+          window.location.reload();
+          return;
+        }, 1000);
+      }
+
       return {
         code: err?.response?.status || 500,
         message: err?.response?.data?.message,
@@ -80,13 +85,17 @@ export const apiRequests = {
         },
       });
 
-      if (response.status == 401) {
-        localStorage.clear();
-        window.location.reload();
-        return;
-      }
       return response.data;
     } catch (err) {
+      if (err?.response?.status === 401) {
+        toast.error("Session Expired. Please login again.");
+        setTimeout(() => {
+          localStorage.clear();
+          window.location.reload();
+          return;
+        }, 1000);
+      }
+
       return {
         code: err?.response?.status || 500,
         message: err?.response?.data?.message,
@@ -122,15 +131,17 @@ export const apiRequests = {
         },
       });
 
-      console.log("\n\nfirst", response);
-
-      if (response.status == 401) {
-        localStorage.clear();
-        window.location.reload();
-        return;
-      }
       return response.data;
     } catch (err) {
+      if (err?.response?.status === 401) {
+        toast.error("Session Expired. Please login again.");
+        setTimeout(() => {
+          localStorage.clear();
+          window.location.reload();
+          return;
+        }, 1000);
+      }
+
       return {
         code: err?.response?.status || 500,
         message: err?.response?.data?.message,
@@ -166,9 +177,18 @@ export const apiRequests = {
             : undefined,
         },
       });
-      // return response.data;
+
       return response.data;
     } catch (err) {
+      if (err?.response?.status === 401) {
+        toast.error("Session Expired. Please login again.");
+        setTimeout(() => {
+          localStorage.clear();
+          window.location.reload();
+          return;
+        }, 1000);
+      }
+
       return {
         code: err?.response?.status || 500,
         message: err?.response?.data?.message,
@@ -217,6 +237,15 @@ export const apiRequests = {
           console.error("There was an error downloading the CSV file!", error);
         });
     } catch (err) {
+      if (err?.response?.status === 401) {
+        toast.error("Session Expired. Please login again.");
+        setTimeout(() => {
+          localStorage.clear();
+          window.location.reload();
+          return;
+        }, 1000);
+      }
+
       return {
         code: err?.response?.status || 500,
         message: err?.response?.data?.message,
@@ -252,13 +281,17 @@ export const apiRequests = {
         },
       });
 
-      if (response.status == 401) {
-        localStorage.clear();
-        window.location.reload();
-        return;
-      }
       return response.data;
     } catch (err) {
+      if (err?.response?.status === 401) {
+        toast.error("Session Expired. Please login again.");
+        setTimeout(() => {
+          localStorage.clear();
+          window.location.reload();
+          return;
+        }, 1000);
+      }
+
       return {
         code: err?.response?.status || 500,
         message: err?.response?.data?.message,
@@ -292,13 +325,17 @@ export const apiRequests = {
         },
       });
 
-      if (response.status == 401) {
-        localStorage.clear();
-        window.location.reload();
-        return;
-      }
       return response.data;
     } catch (err) {
+      if (err?.response?.status === 401) {
+        toast.error("Session Expired. Please login again.");
+        setTimeout(() => {
+          localStorage.clear();
+          window.location.reload();
+          return;
+        }, 1000);
+      }
+
       return {
         code: err?.response?.status || 500,
         message: err?.response?.data?.message,

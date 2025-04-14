@@ -118,6 +118,7 @@ const EditProformaInvoice = () => {
 
   useEffect(() => {
     if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
+      localStorage.clear();
       navigate("/supplier/login");
       return;
     }
@@ -196,6 +197,7 @@ const EditProformaInvoice = () => {
 
   const onSubmit = (data) => {
     if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
+      localStorage.clear();
       navigate("/supplier/login");
       return;
     }

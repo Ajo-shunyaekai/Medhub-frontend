@@ -37,6 +37,7 @@ const ApprovedSeller = () => {
         const fetchData = async () => {
             try {
                 if (!adminIdSessionStorage && !adminIdLocalStorage) {
+                    localStorage.clear();
                     navigate("/admin/login");
                     return;
                 }

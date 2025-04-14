@@ -132,7 +132,6 @@ const EditProfile = () => {
           // If new password is provided, clear localStorage and sessionStorage and navigate to login
           setTimeout(() => {
             localStorage.clear();
-            localStorage.clear();
             navigate("/supplier/login");
           }, 100);
         }

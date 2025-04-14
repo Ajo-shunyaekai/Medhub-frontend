@@ -37,6 +37,7 @@ const OnGoingInquiriesDetails = () => {
  
   useEffect(() => {
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
+      localStorage.clear();
       navigate("/buyer/login");
       return;
     }
@@ -106,6 +107,7 @@ const OnGoingInquiriesDetails = () => {
  
   const handleAccept = (item, status) => {
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
+      localStorage.clear();
       navigate("/buyer/login");
       return;
     }
@@ -169,6 +171,7 @@ const OnGoingInquiriesDetails = () => {
  
   const handleReject = (item, status) => {
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
+      localStorage.clear();
       navigate("/buyer/login");
       return;
     }

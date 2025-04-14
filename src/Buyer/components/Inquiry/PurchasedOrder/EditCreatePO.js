@@ -321,6 +321,7 @@ const EditCreatePO = ({ socket }) => {
 
   useEffect(() => {
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
+      localStorage.clear();
       navigate("/buyer/login");
       return;
     }
@@ -455,6 +456,7 @@ const EditCreatePO = ({ socket }) => {
     e.preventDefault();
 
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
+      localStorage.clear();
       navigate("/buyer/login");
       return;
     }

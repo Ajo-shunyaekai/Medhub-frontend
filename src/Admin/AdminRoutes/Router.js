@@ -447,6 +447,7 @@ export function NotificationProvider({ children }) {
 
   useEffect(() => {
     if (!adminIdSessionStorage && !adminIdLocalStorage) {
+      localStorage.clear();
       navigate("/admin/login");
     }
   }, [adminIdSessionStorage, adminIdLocalStorage, navigate]);

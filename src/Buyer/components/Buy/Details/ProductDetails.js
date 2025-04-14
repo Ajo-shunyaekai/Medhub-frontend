@@ -222,6 +222,7 @@ const ProductDetails = () => {
       localStorage.getItem("_id") || localStorage.getItem("_id");
 
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
+      localStorage.clear();
       navigate("/buyer/login");
       return;
     }

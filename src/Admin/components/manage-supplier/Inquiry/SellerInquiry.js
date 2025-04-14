@@ -55,6 +55,7 @@ const SellerInquiry = () => {
   // Fetch the inquiry or PO list based on activeLink and currentPage
   const fetchData = async () => {
     if (!adminIdSessionStorage && !adminIdLocalStorage) {
+      localStorage.clear();
       navigate("/admin/login");
       return;
     }

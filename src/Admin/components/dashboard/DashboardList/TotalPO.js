@@ -32,6 +32,7 @@ const TotalPO = () => {
 
   const fetchData = () => {
     if (!adminIdSessionStorage && !adminIdLocalStorage) {
+      localStorage.clear();
       navigate("/admin/login");
       return;
     }

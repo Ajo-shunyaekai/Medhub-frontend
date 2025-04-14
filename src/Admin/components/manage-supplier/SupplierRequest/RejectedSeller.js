@@ -35,6 +35,7 @@ const RejectedOrders = () => {
   useEffect(() => {
     const fetchSupplierList = async () => {
       if (!adminIdSessionStorage && !adminIdLocalStorage) {
+        localStorage.clear();
         navigate("/admin/login");
         return;
       }

@@ -24,6 +24,7 @@ const OrderDetails = ({ socket }) => {
 
   const fetchData = async () => {
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
+      localStorage.clear();
       navigate("/buyer/login");
       return;
     }
@@ -58,6 +59,7 @@ const OrderDetails = ({ socket }) => {
 
   const handleModalSubmit = (data) => {
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
+      localStorage.clear();
       navigate("/buyer/login");
       return;
     }

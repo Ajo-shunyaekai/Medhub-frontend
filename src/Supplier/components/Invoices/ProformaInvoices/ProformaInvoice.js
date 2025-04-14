@@ -138,6 +138,7 @@ const ProformaInvoice = ({ socket }) => {
 
   useEffect(() => {
     if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
+      localStorage.clear();
       navigate("/supplier/login");
       return;
     }
@@ -324,6 +325,7 @@ const ProformaInvoice = ({ socket }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
+      localStorage.clear();
       navigate("/supplier/login");
       return;
     }

@@ -221,6 +221,7 @@ export const NotificationProvider = ({ children }) => {
       !supplierIdLocalStorage &&
       location.pathname !== "/supplier/sign-up"
     ) {
+      localStorage.clear();
       navigate("/supplier/login");
     }
   }, [location.pathname]);

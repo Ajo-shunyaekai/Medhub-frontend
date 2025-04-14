@@ -132,6 +132,7 @@ const CreatePO = ({ socket }) => {
   useEffect(() => {
     const fetchData = async () => {
       if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
+        localStorage.clear();
         navigate("/buyer/login");
         return;
       }
@@ -310,6 +311,7 @@ const CreatePO = ({ socket }) => {
     e.preventDefault();
 
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
+      localStorage.clear();
       navigate("/buyer/login");
       return;
     }

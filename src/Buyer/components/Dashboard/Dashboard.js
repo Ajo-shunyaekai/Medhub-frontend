@@ -23,6 +23,7 @@ const Dashboard = () => {
         const buyerIdLocalStorage = localStorage.getItem("buyer_id");
 
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
+            localStorage.clear();
             navigate("/buyer/login");
             return;
         }
@@ -46,6 +47,7 @@ const Dashboard = () => {
         const buyerIdLocalStorage = localStorage.getItem("buyer_id");
 
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
+            localStorage.clear();
             navigate("/buyer/login");
             return;
         }
