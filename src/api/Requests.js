@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
 axios.defaults.headers.post["Content-Type"] = "application/json";
@@ -12,6 +13,15 @@ export const postRequest = async (URL, requestData, callback) => {
     // return response.data;
     return callback(response.data);
   } catch (err) {
+    if (err?.response?.status === 401) {
+      toast.error("Session Expired. Please login again.");
+      setTimeout(() => {
+        localStorage.clear();
+        window.location.reload();
+        return;
+      }, 1000);
+    }
+
     return callback({
       code: 500,
       message: "Connection faild, please start node server",
@@ -35,6 +45,15 @@ export const getRequest = async (URL, requestData, callback) => {
 
     return callback(response.data);
   } catch (err) {
+    if (err?.response?.status === 401) {
+      toast.error("Session Expired. Please login again.");
+      setTimeout(() => {
+        localStorage.clear();
+        window.location.reload();
+        return;
+      }, 1000);
+    }
+
     console.error("Error in GET Request:", err);
     return callback({
       code: 500,
@@ -66,6 +85,15 @@ export const postRequestWithFile = async (URL, requestData, callback) => {
     // return response.data;
     return callback(response.data);
   } catch (err) {
+    if (err?.response?.status === 401) {
+      toast.error("Session Expired. Please login again.");
+      setTimeout(() => {
+        localStorage.clear();
+        window.location.reload();
+        return;
+      }, 1000);
+    }
+
     return callback({
       code: 500,
       message: "Connection faild, please start node server",
@@ -100,13 +128,17 @@ export const postRequestWithToken = async (URL, requestData, callback) => {
       },
     });
 
-    if (response.status == 401) {
-      localStorage.clear();
-      window.location.reload();
-    } else {
-      return callback(response.data);
-    }
+    return callback(response.data);
   } catch (err) {
+    if (err?.response?.status === 401) {
+      toast.error("Session Expired. Please login again.");
+      setTimeout(() => {
+        localStorage.clear();
+        window.location.reload();
+        return;
+      }, 1000);
+    }
+
     return callback({
       code: 500,
       message: "Connection failed, please start node server ",
@@ -143,6 +175,15 @@ export const postRequestWithTokenAndFile = async (
     });
     return callback(response.data);
   } catch (err) {
+    if (err?.response?.status === 401) {
+      toast.error("Session Expired. Please login again.");
+      setTimeout(() => {
+        localStorage.clear();
+        window.location.reload();
+        return;
+      }, 1000);
+    }
+
     return callback({
       code: 500,
       message: "Connection faild, please start node server ",
