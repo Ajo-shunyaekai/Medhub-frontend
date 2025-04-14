@@ -29,6 +29,7 @@ const SellerFeedbackDetails = () => {
     };
     useEffect(() => {
         if (!adminIdSessionStorage && !adminIdLocalStorage) {
+            localStorage.clear();
             navigate("/admin/login");
             return;
         }

@@ -26,6 +26,7 @@ const NotificationList = () => {
 
     useEffect(() => {
         if( !adminIdSessionStorage && !adminIdLocalStorage) {
+            localStorage.clear();
             navigate("/admin/login");
         }
         const obj = {

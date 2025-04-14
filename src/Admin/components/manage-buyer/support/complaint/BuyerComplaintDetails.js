@@ -41,6 +41,7 @@ const BuyerComplaintDetails = () => {
     // End the modal and pdf url
     useEffect(() => {
         if (!adminIdSessionStorage && !adminIdLocalStorage) {
+            localStorage.clear();
             navigate("/admin/login");
             return;
         }

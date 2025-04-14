@@ -106,6 +106,7 @@ const SupplierRequestDetails = () => {
     useEffect(() => {
         const getSupplierdetails = async () => {
             if (!adminIdSessionStorage && !adminIdLocalStorage) {
+                localStorage.clear();
                 navigate("/admin/login");
                 return;
             }

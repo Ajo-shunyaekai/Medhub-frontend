@@ -60,6 +60,7 @@ const ApprovedProduct = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       if (!adminIdSessionStorage && !adminIdLocalStorage) {
+        localStorage.clear();
         navigate("/admin/login");
         return;
       }
@@ -87,6 +88,7 @@ const ApprovedProduct = () => {
 
   const handleDownload = () => {
     if (!adminIdSessionStorage && !adminIdLocalStorage) {
+      localStorage.clear();
       navigate("/admin/login");
       return;
     }
