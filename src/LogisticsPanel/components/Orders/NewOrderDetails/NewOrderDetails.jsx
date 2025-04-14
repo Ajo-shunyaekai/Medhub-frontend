@@ -25,6 +25,7 @@ function NewOrderDetails() {
 
     const handleAccept = async () => {
     if (!partnerIdSessionStorage && !partnerIdLocalStorage) {
+        localStorage.clear();
         navigate("/logistics/login");
         return;
     }
@@ -60,6 +61,7 @@ function NewOrderDetails() {
 
     const fetchData = async () => {
     if (!partnerIdSessionStorage && !partnerIdLocalStorage) {
+        localStorage.clear();
         navigate("/logistics/login");
         return;
     }

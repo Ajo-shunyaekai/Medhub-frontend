@@ -21,6 +21,7 @@ const PickupOrderDetails = () => {
 
   const handleAccept = async () => {
     if (!partnerIdSessionStorage && !partnerIdLocalStorage) {
+      localStorage.clear();
       navigate("/logistics/login");
       return;
     }
@@ -57,6 +58,7 @@ const PickupOrderDetails = () => {
 
   const fetchData = async () => {
     if (!partnerIdSessionStorage && !partnerIdLocalStorage) {
+      localStorage.clear();
       navigate("/logistics/login");
       return;
     }
