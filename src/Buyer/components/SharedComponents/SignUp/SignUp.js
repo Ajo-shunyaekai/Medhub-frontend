@@ -729,14 +729,7 @@ const SignUp = ({ socket }) => {
   }, [resetUploaders]);
 
   const handleCancel = () => {
-    // setFormData(defaultFormData)
-    // setErrors({});
-    // setIsChecked(false);
-    // setCompanyPhone('');
-    // setMobile('');
-    // setSelectedCompanyType(null)
-    // setSelectedOptions([])
-    // setResetUploaders(true);
+    localStorage.clear();
     navigate("/buyer/login");
   };
 

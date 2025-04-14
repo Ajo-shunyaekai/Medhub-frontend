@@ -15,6 +15,7 @@ const PurchasedOrderDetails = () => {
  
   useEffect(() => {
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
+      localStorage.clear();
       navigate("/buyer/login");
       return;
     }

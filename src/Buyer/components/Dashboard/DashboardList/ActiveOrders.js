@@ -40,6 +40,7 @@ const OngoingOrders = () => {
       const buyerIdLocalStorage = localStorage.getItem("buyer_id");
 
       if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
+        localStorage.clear();
         navigate("/buyer/login");
         return;
       }

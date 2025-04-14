@@ -22,6 +22,7 @@ function ProformaDetailsPage() {
   useEffect(() => {
     const fetchOrderDetails = async () => {
       if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
+        localStorage.clear();
         navigate("/buyer/login");
         return;
       }

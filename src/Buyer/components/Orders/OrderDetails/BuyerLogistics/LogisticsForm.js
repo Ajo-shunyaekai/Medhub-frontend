@@ -281,6 +281,7 @@ const LogisticsForm = ({socket}) => {
 
   const fetchData = async () => {
           if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
+              localStorage.clear();
               navigate('/buyer/login');
               return;
           }

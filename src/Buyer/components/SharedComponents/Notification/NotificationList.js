@@ -31,6 +31,7 @@ const NotificationList = () => {
 
     useEffect(() => {
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
+            localStorage.clear();
             navigate("/buyer/login");
             return;
         }

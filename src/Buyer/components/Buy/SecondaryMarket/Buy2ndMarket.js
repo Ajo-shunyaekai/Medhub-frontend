@@ -70,6 +70,7 @@ const Buy2ndMarket = ({
     const buyerIdLocalStorage = localStorage.getItem("buyer_id");
 
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
+      localStorage.clear();
       navigate("/buyer/login");
       return;
     }
@@ -79,6 +80,7 @@ const Buy2ndMarket = ({
           localStorage.getItem("buyer_id") ||
           localStorage.getItem("buyer_id");
         if (!buyerId) {
+          localStorage.clear();
           navigate("/buyer/login");
           return;
         }

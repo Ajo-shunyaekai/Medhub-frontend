@@ -105,6 +105,7 @@ const BuyerSidebar = () => {
 
     useEffect(() => {
         if (!buyerIdSessionStorage && !buyerIdLocalStorage && location.pathname !== '/buyer/sign-up') {
+            localStorage.clear();
             navigate("/buyer/login");
         }
     }, [location.pathname]); 

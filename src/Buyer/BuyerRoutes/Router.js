@@ -257,6 +257,7 @@ export function NotificationProvider({ children }) {
  
   useEffect(() => {
     if (!buyerId && location.pathname !== "/buyer/sign-up") {
+      localStorage.clear();
       navigate("/buyer/login");
     }
   }, [buyerId, location.pathname]);
