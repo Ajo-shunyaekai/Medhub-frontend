@@ -24,6 +24,7 @@ function NewPickupOrder() {
     const partnerIdLocalStorage = localStorage.getItem("partner_id");
 
     if (!partnerIdSessionStorage && !partnerIdLocalStorage) {
+        localStorage.clear();
         navigate("/logistics/login");
         return;
     }

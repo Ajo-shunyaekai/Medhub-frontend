@@ -117,6 +117,7 @@ const Sidebar = ({  notificationList, count, handleClick }) => {
         const response = await  dispatch(logoutUser({}));
         if(response.meta.requestStatus === "fulfilled") {
         setTimeout(() => {
+            localStorage.clear();
             navigate('/logistics/login')
         }, 500);
         }
