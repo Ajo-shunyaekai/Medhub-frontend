@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import DataTable from 'react-data-table-component';
 import '../../../assets/style/dashboardorders.css';
 import Table from 'react-bootstrap/Table';
 import Pagination from "react-js-pagination";
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
-import { postRequestWithToken } from '../../../api/Requests';
+import { postReqCSVDownload, postRequestWithToken } from '../../../api/Requests';
 import Loader from '../../shared-components/Loader/Loader';
 import { apiRequests } from '../../../../api';
 
@@ -69,6 +70,18 @@ const ApprovedSeller = () => {
         }
         fetchData()
     },[currentPage])
+
+    const handleDownload = async () => {
+            setLoading(true);
+            const obj = {
+                filterKey: 'accepted'
+            }
+            const result = await postReqCSVDownload('admin/get-supplier-list-csv', obj, 'supplier_list.csv');
+            if (!result?.success) {
+                console.error('Error downloading CSV');
+            }
+            setLoading(false);
+        };
 
 
     return (

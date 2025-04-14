@@ -6,7 +6,7 @@ import Pagination from "react-js-pagination";
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
-import { postRequestWithToken } from '../../../api/Requests';
+import { postReqCSVDownload, postRequestWithToken } from '../../../api/Requests';
 import Loader from '../../shared-components/Loader/Loader';
 
 const RejectedBuyer = () => {
@@ -52,6 +52,18 @@ const RejectedBuyer = () => {
             setLoading(false);
         })
     },[currentPage])
+
+    const handleDownload = async () => {
+                setLoading(true);
+                const obj = {
+                    filterKey: 'rejected'
+                }
+                const result = await postReqCSVDownload('admin/get-buyer-list-csv', obj, 'buyer_list.csv')
+                if (!result?.success) {
+                    // Optionally show error to user
+                }
+                setLoading(false);
+            };
 
     return (
         <>

@@ -6,7 +6,7 @@ import Pagination from "react-js-pagination";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
-import { postRequestWithToken } from "../../../api/Requests";
+import { postReqCSVDownload, postRequestWithToken } from "../../../api/Requests";
 import Loader from "../../shared-components/Loader/Loader";
 import { apiRequests } from "../../../../api";
 
@@ -59,6 +59,18 @@ const RejectedOrders = () => {
     };
     fetchSupplierList()
   }, []);
+
+  const handleDownload = async () => {
+          setLoading(true);
+          const obj = {
+            filterKey: 'rejected'
+        }
+          const result = await postReqCSVDownload('admin/get-supplier-list-csv', obj, 'supplier_list.csv');
+          if (!result?.success) {
+              console.error('Error downloading CSV');
+          }
+          setLoading(false);
+      };
 
   return (
     <>
