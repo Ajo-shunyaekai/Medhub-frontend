@@ -22,6 +22,7 @@ function ProformaDetailsPage() {
   useEffect(() => {
     const getOrderDetails = async () => {
       if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
+        localStorage.clear();
         navigate("/supplier/login");
         return;
       }

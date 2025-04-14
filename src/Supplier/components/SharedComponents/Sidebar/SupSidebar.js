@@ -105,6 +105,7 @@ const SupSidebar = ({ children, dragWindow,
         const response = await  dispatch(logoutUser({}));
         if(response.meta.requestStatus === "fulfilled") {
         setTimeout(() => {
+            localStorage.clear();
             navigate('/supplier/login')
         }, 500);
         }
@@ -131,6 +132,7 @@ const SupSidebar = ({ children, dragWindow,
         handleSignout(); // Your logout function
         setIsProfileOpen(false);
         // setTimeout(() => {
+        //     localStorage.clear();
         //     navigate("supplier/login");
         // }, 0);
     };

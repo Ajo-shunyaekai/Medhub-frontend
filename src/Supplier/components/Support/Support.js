@@ -61,6 +61,7 @@ const Support = () => {
         setLoading(true)
         const supplierId = localStorage.getItem("supplier_id") || localStorage.getItem("supplier_id");
         if (!supplierId) {
+            localStorage.clear();
             navigate("/supplier/login");
             return;
         }

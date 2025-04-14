@@ -36,6 +36,7 @@ const InquiryRequestDetails = ({socket}) => {
     useEffect(() => {
         const fetchData = async ()=>{
             if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
+                localStorage.clear();
                 navigate("/supplier/login");
                 return;
             }
@@ -71,6 +72,7 @@ const InquiryRequestDetails = ({socket}) => {
  
     const handleSubmitQuotation = () => {
         if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
+            localStorage.clear();
             navigate("/supplier/login");
             return;
         }

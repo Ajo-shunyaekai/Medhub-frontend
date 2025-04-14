@@ -43,6 +43,7 @@ const CompletedOrders = () => {
       const supplierIdLocalStorage = localStorage.getItem("supplier_id");
 
       if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
+        localStorage.clear();
         navigate("/supplier/login");
         return;
       }
