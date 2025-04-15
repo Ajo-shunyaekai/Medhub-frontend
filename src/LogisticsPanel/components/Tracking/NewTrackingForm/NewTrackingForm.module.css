@@ -4,7 +4,86 @@
   gap: 20px;
 }
 
-.trackingMainContainer {
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.formHead {
+  font-size: 18px;
+  font-weight: 600;
+  color: #282f86;
+}
+
+.productContainer {
+  width: 60%;
+}
+
+.labelStamp {
+  font-size: 16px;
+  color: #ff0000;
+}
+
+.formLabel {
+  font-size: 14px;
+  font-weight: 500;
+  color: #282f86;
+  word-break: break-word;
+}
+
+.formInput {
+  background-color: #fff !important;
+  border: none !important;
+  border-radius: 4px !important;
+  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+  font-size: 14px !important;
+  outline: none !important;
+  padding: 25px !important;
+  position: relative !important;
+  width: 100% !important;
+}
+
+.error {
+  font-size: 12px;
+  margin-top: -6px;
+  color: red;
+}
+
+.logisticsButtonContainer {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  column-gap: 20px;
+}
+.logisticsAccept {
+  padding: 7px 10px;
+  background-color: #282f86;
+  color: #fff;
+  border-radius: 7px;
+  border: 2px solid #282f86;
+}
+.logisticsAccept:hover {
+  background-color: #fff;
+  color: #282f86;
+  border: 2px solid #282f86;
+}
+.logisticsCancel {
+  padding: 7px 10px;
+  background-color: #fff;
+  color: #282f86;
+  border-radius: 7px;
+  border: 2px solid #282f86;
+  cursor: pointer !important;
+}
+
+@media screen and (max-width: 992px) {
+  .productContainer {
+    width: 100%;
+  }
+}
+
+/* .trackingMainContainer {
   padding: 0px 10rem;
 }
 
@@ -66,14 +145,9 @@
 .heading {
   font-size: 20px;
   font-weight: 600;
-}
+} */
 
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
+/* 
 .section {
   width: 100%;
   background-color: #ffffff;
@@ -81,9 +155,6 @@ form {
   padding: 26px 30px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
-  /* display: flex;
-    flex-direction: column;
-    gap: 14px; */
 }
 
 .additionalSection {
@@ -100,10 +171,10 @@ form {
 
 .innerProductContainer {
   width: 100%;
-  /* background-color: #ffffff; */
+  background-color: #ffffff;
   border-radius: 4px;
-  /* padding: 26px 30px;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important; */
+  padding: 26px 30px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -119,22 +190,16 @@ form {
   display: flex;
   flex-direction: column;
   gap: 10px;
-}
+} 
 
 .formHeadSection {
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
+} */
 
-.formHead {
-  font-size: 18px;
-  font-weight: 600;
-  color: #282f86;
-}
-
-.formAddButton {
+/* .formAddButton {
   align-items: center;
   background: linear-gradient(270deg, #00dcff, #0075ce);
   border-radius: 4px;
@@ -157,7 +222,7 @@ form {
   right: 16px;
   transform: translateY(-50%);
   cursor: pointer !important;
-}
+} 
 
 .formclose {
   box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
@@ -171,26 +236,20 @@ form {
 }
 
 .formSection {
-  /* display: flex;
+  display: flex;
     gap: 15px 10px;
     flex-wrap: wrap;
     width: 100%;
-    position: relative; */
+    position: relative;
 }
 
 .icon {
   width: 16px !important;
   height: 16px !important;
   cursor: pointer !important;
-}
+}*/
 
-.productContainer {
-  /* display: flex;
-    flex-direction: column;
-    gap: 10px; */
-  width: 60%;
-}
-
+/* 
 .descriptionContainer {
   display: flex;
   flex-direction: column;
@@ -222,27 +281,9 @@ form {
   font-size: 14px;
   font-weight: 500;
   word-break: break-word;
-}
+} */
 
-.formLabel {
-  font-size: 14px;
-  font-weight: 500;
-  color: #282f86;
-  word-break: break-word;
-}
-
-.formInput {
-  background-color: #fff !important;
-  border: none !important;
-  border-radius: 4px !important;
-  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
-  font-size: 14px !important;
-  outline: none !important;
-  padding: 25px !important;
-  position: relative !important;
-  width: 100% !important;
-}
-
+/* 
 .formDate {
   background-color: #fff !important;
   border: none !important;
@@ -302,16 +343,10 @@ form {
   font-size: 14px !important;
   outline: none !important;
   padding: 12px !important;
-}
-
-.error {
-  font-size: 12px;
-  margin-top: -6px;
-  color: red;
-}
+} */
 
 /* Start the Upload Section design */
-.uploadBox {
+/* .uploadBox {
   background-color: #fff !important;
   border: none !important;
   border-radius: 4px !important;
@@ -385,12 +420,12 @@ form {
   cursor: pointer;
   color: #5e676f;
   cursor: pointer !important;
-}
+} */
 
 /* End the Upload Section design */
 
 /* Start the stock quantity section */
-.tooltipSec {
+/* .tooltipSec {
   font-size: 11px !important;
   white-space: pre-line !important;
 }
@@ -466,11 +501,11 @@ form {
 
 .radioForm input[type="radio"] {
   margin-right: 5px;
-}
+} */
 
 /* End the stock quantity section */
 
-.tooltipContainer {
+/* .tooltipContainer {
   display: flex;
   position: relative;
 }
@@ -488,10 +523,10 @@ form {
 .iconTooltip {
   width: 14px;
   cursor: pointer !important;
-}
+} */
 
 /* Style image preview setion */
-.uploadSection {
+/* .uploadSection {
   margin-bottom: 20px;
 }
 
@@ -528,12 +563,12 @@ form {
   overflow: hidden;
   text-overflow: ellipsis;
   width: 100%;
-}
+} */
 
 /* End image preview section */
 
 /* Start the button section */
-.buttonContainer {
+/* .buttonContainer {
   margin-bottom: 20rem;
   display: flex;
   justify-content: center;
@@ -567,12 +602,12 @@ form {
   font-size: 14px;
   font-weight: 500;
   padding: 6px 22px;
-}
+} */
 
 /* End the button section */
 
 /* Bulk Upload section */
-.modalOverlay {
+/* .modalOverlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -669,48 +704,10 @@ form {
 .labelStamp {
   font-size: 16px;
   color: #ff0000;
-}
+} */
 /* End bulk upload section */
 
-.logisticsButtonContainer {
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  column-gap: 20px;
-}
-.logisticsAccept {
-  padding: 7px 10px;
-  background-color: #282f86;
-  color: #fff;
-  border-radius: 7px;
-  border: 2px solid #282f86;
-}
-.logisticsAccept:hover {
-  background-color: #fff;
-  color: #282f86;
-  border: 2px solid #282f86;
-}
-.logisticsCancel {
-  /* box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
-      background-color: #ffffff;
-      border: 1px solid #5e676f;
-      color: #5e676f;
-      padding: 6px 22px;
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      font-weight: 500;
-      font-size: 14px;
-      cursor: pointer !important; */
-  padding: 7px 10px;
-  background-color: #fff;
-  color: #282f86;
-  border-radius: 7px;
-  border: 2px solid #282f86;
-  cursor: pointer !important;
-}
-
-@media (max-width: 1580px) {
+/* @media (max-width: 1580px) {
   .compliancesContainer {
     width: 19vw;
   }
@@ -719,9 +716,6 @@ form {
 @media (max-width: 1400px) {
   .compliancesContainer {
     width: 25vw;
-  }
-  .productContainer {
-    width: 32%;
   }
   .formCloseSection {
     top: 58%;
@@ -751,10 +745,4 @@ form {
   .trackingMainContainer {
     padding: 0px 4rem;
   }
-}
-
-@media screen and (max-width: 992px) {
-  .trackingMainContainer {
-    padding: 0px 1rem;
-  }
-}
+} */
