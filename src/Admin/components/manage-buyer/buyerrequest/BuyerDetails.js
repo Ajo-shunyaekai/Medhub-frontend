@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import '../../../assets/style/request.module.css';
-import { Modal } from 'react-responsive-modal';
+import '../../../assets/style/detailsrequest.css'
 import { Tooltip as ReactTooltip } from "react-tooltip";
+import { Modal } from 'react-responsive-modal';
 import 'react-responsive-modal/styles.css';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PhoneInTalkOutlinedIcon from '@mui/icons-material/PhoneInTalkOutlined';
-import { useNavigate, useParams } from 'react-router-dom';
+import {Link, useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../../../api/Requests';
 import { toast } from 'react-toastify';
 import { FaFilePdf, FaFileWord } from 'react-icons/fa';
 import { apiRequests } from '../../../../api/index';
-
+import moment from 'moment/moment';
 const BuyerDetails = () => {
     const { buyerId } = useParams()
     const navigate = useNavigate()
@@ -34,41 +34,22 @@ const BuyerDetails = () => {
         return url.split('/').pop();
     };
 
-    // Assuming `supplierDetails` has arrays like `license_image`, `tax_image`, and `certificate_image`
-    // const renderFiles = (files, type) => {
-    //     return files?.map((file, index) => {
-    //         if (file.endsWith('.pdf')) {
-    //             // Render a PDF icon with a clickable link
-    //             return (
-    //                 <div key={index} className='buyer-details-pdf-section'>
-    //                     <FaFilePdf
-    //                         size={50}
-    //                         color="red"
-    //                         style={{ cursor: 'pointer' }}
-    //                         onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/buyer/${type}/${file}`)}
-    //                     />
-    //                     <div className='pdf-url' onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/buyer/${type}/${file}`)}>
-    //                         {extractFileName(file)}
-    //                     </div>
-    //                 </div>
-    //             );
-    //         } else {
-    //             // Render an image
-    //             return (
-    //                 <img
-    //                     key={index}
-    //                     src={`${process.env.REACT_APP_SERVER_URL}uploads/buyer/${type}/${file}`}
-    //                     alt={type}
-    //                     className='buyer-details-document-image'
-    //                 />
-    //             );
-    //         }
-    //     });
-    // };
 
-    const renderFiles = (files, type) => {
-        return files?.map((file, index) => {
+
+    const renderFiles = (files, type, hasDate = false) => {
+        if (!files) return null;
+
+        return files.map((item, index) => {
             const serverUrl = process.env.REACT_APP_SERVER_URL;
+            let file, date;
+
+            // Check if item is an object (from certificateFileNDate) or a string (from certificate_image)
+            if (hasDate) {
+                file = item.file;
+                date = item.date;
+            } else {
+                file = item;
+            }
 
             if (file.endsWith('.pdf')) {
                 return (
@@ -79,9 +60,17 @@ const BuyerDetails = () => {
                             style={{ cursor: 'pointer' }}
                             onClick={() => window.open(`${serverUrl}uploads/buyer/${type}/${file}`, '_blank')}
                         />
-                        <div className='pdf-url' onClick={() => window.open(`${serverUrl}uploads/buyer/${type}/${file}`, '_blank')}>
+                        <div
+                            className='pdf-url'
+                            onClick={() => window.open(`${serverUrl}uploads/buyer/${type}/${file}`, '_blank')}
+                        >
                             {extractFileName(file)}
                         </div>
+                        {hasDate && date && (
+                            <div className='certificate-expiry-date'>
+                                Expiry Date: {new Date(date).toLocaleDateString()}
+                            </div>
+                        )}
                     </div>
                 );
             } else if (
@@ -102,19 +91,32 @@ const BuyerDetails = () => {
                             style={{ cursor: 'pointer' }}
                             onClick={() => window.open(docxUrl, '_blank')}
                         />
-                        <div className='docx-url' onClick={() => window.open(docxUrl, '_blank')}>
-                            {extractFileName(docxFileName)}
+                        <div>
+                            <div className='docx-url' onClick={() => window.open(docxUrl, '_blank')}>
+                                {extractFileName(docxFileName)}
+                            </div>
+                            {hasDate && date && (
+                                <div className='expiry-date'>
+                                    Expiry Date: {new Date(date).toLocaleDateString()}
+                                </div>
+                            )}
                         </div>
                     </div>
                 );
             } else {
                 return (
-                    <img
-                        key={index}
-                        src={`${serverUrl}uploads/buyer/${type}/${file}`}
-                        alt={type}
-                        className='buyer-details-document-image'
-                    />
+                    <div key={index} className='buyer-details-image-section'>
+                        <img
+                            src={`${serverUrl}uploads/buyer/${type}/${file}`}
+                            alt={type}
+                            className='buyer-details-document-image'
+                        />
+                        {hasDate && date && (
+                            <div className='expiry-date'>
+                                Expiry Date: {new Date(date).toLocaleDateString()}
+                            </div>
+                        )}
+                    </div>
                 );
             }
         });
@@ -164,7 +166,7 @@ const BuyerDetails = () => {
                 setTimeout(() => {
                     navigate('/admin/buyer-request')
                 }, 1000)
-                // setSupplierDetails(response.result)
+                // setbuyerDetails(response.result)
             } else {
                 toast(response.message, { type: 'error' })
             }
@@ -174,7 +176,16 @@ const BuyerDetails = () => {
         <>
             <div className='buyer-details-container'>
                 <div className='buyer-details-inner-conatiner'>
-                    <div className='buyer-details-container-heading'>Buyer Details</div>
+                    <div className='buyer-details-edit-button-container'>
+                        <div className='buyer-details-container-heading'>Buyer ID: {buyerDetails?.buyer_id}</div>
+                        {buyerDetails?.account_status !== 2 && (
+                            <>
+                                <Link to={`/admin/edit-details/buyer/${buyerDetails?._id}`}>
+                                    <span className='buyer-details-edit-button'>Edit</span>
+                                </Link>
+                            </>
+                        )}
+                    </div>
                     <div className='buyer-details-left-inner-container'>
                         <div className='buyer-details-left-uppar-section'>
                             <div className='buyer-details-uppar-main-logo-section'>
@@ -186,12 +197,10 @@ const BuyerDetails = () => {
                                 </div>
                                 <div className='buyer-details-uppar-right-main-section'>
                                     <div className='buyer-details-uppar-main-containers'>
-                                        <div className='buyer-details-upper-section-container'>
-                                            <div className='buyer-details-left-uppar-head'>{buyerDetails?.buyer_name}</div>
-                                        </div>
+
                                         <div className='buyer-details-left-inner-section'>
-                                            <div className='buyer-details-left-company-type'>
-                                                <div className='buyer-details-left-inner-sec-text'>Buyer ID: {buyerDetails?.buyer_id}</div>
+                                            <div className='buyer-details-upper-section-container'>
+                                                <div className='buyer-details-left-uppar-head'>{buyerDetails?.buyer_name}</div>
                                             </div>
                                             <div className='buyer-details-left-inner-img-container'>
                                                 <div className='buyer-details-left-inner-mobile-button'>
@@ -209,12 +218,12 @@ const BuyerDetails = () => {
                                                     )}
                                                 </div>
                                                 <div className='buyer-details-left-inner-email-button'>
-                                                <a href={`mailto:${buyerDetails?.contact_person_email}`} target="_blank" rel="noopener noreferrer">
-                                                    <MailOutlineIcon
-                                                        data-tooltip-id={buyerDetails?.contact_person_email ? "my-tooltip-2" : null}
-                                                        className='buyer-details-left-inner-icon'
-                                                    />
-                                                     </a>
+                                                    <a href={`mailto:${buyerDetails?.contact_person_email}`} target="_blank" rel="noopener noreferrer">
+                                                        <MailOutlineIcon
+                                                            data-tooltip-id={buyerDetails?.contact_person_email ? "my-tooltip-2" : null}
+                                                            className='buyer-details-left-inner-icon'
+                                                        />
+                                                    </a>
                                                     {buyerDetails?.contact_person_email && (
                                                         <ReactTooltip
                                                             id="my-tooltip-2"
@@ -229,9 +238,33 @@ const BuyerDetails = () => {
                                         </div>
                                     </div>
                                     <div className='buyer-details-uppar-right-container-section'>
-                                        <div className='buyer-details-company-type-section'>
-                                            <div className='buyer-details-company-type-sec-head'>Company Type:</div>
-                                            <div className='buyer-details-company-type-sec-text'> {buyerDetails?.buyer_type}</div>
+                                        <div className='buyer-details-account-container-section'>
+                                            <div className='buyer-details-inner-section'>
+                                                <div className='buyer-details-inner-head'>Account Status :</div>
+                                                <div
+                                                    className='buyer-details-button-text'
+                                                    style={{
+                                                        backgroundColor:
+                                                            buyerDetails?.account_status === 0
+                                                                ? 'orange'
+                                                                : buyerDetails?.account_status === 1
+                                                                    ? 'green'
+                                                                    : 'red',
+                                                    }}
+                                                >
+                                                    {buyerDetails?.account_status === 0
+                                                        ? 'Pending'
+                                                        : buyerDetails?.account_status === 1
+                                                            ? 'Active'
+                                                            : 'Inactive'}
+                                                </div>
+                                            </div>
+
+                                            <div className='buyer-details-inner-section'>
+                                                <div className='buyer-details-inner-head'>Company Type:</div>
+                                                <div className='buyer-details-inner-text'>{buyerDetails?.buyer_type}</div>
+                                            </div>
+
                                         </div>
                                         <div className='buyer-details-company-type-section'>
                                             <div className='buyer-details-company-type-sec-head'>Address:</div>
@@ -239,44 +272,149 @@ const BuyerDetails = () => {
                                                 {buyerDetails?.buyer_address} {buyerDetails?.registeredAddress?.locality}
                                             </div>
                                             <div className='buyer-details-company-type-sec-text'>
-                                                 {buyerDetails?.registeredAddress?.land_mark || ''} {buyerDetails?.registeredAddress?.country} {buyerDetails?.registeredAddress?.state || ''} {buyerDetails?.registeredAddress?.city || ''}  
+                                                {buyerDetails?.registeredAddress?.land_mark || ''} {buyerDetails?.registeredAddress?.country} {buyerDetails?.registeredAddress?.state || ''} {buyerDetails?.registeredAddress?.city || ''}
                                             </div>
                                             <div className='buyer-details-company-type-sec-text'>
-                                            {buyerDetails?.registeredAddress?.pincode || ''}
+                                                {buyerDetails?.registeredAddress?.pincode || ''}
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        {/* <div className='buyer-details-description-section'>
-                            <div className='buyer-details-description-head'>Reason for Rejected Buyer</div>
-                            <div className='buyer-details-description-content'>{buyerDetails?.description}</div>
-                        </div> */}
+
                         <div className='buyer-details-description-section'>
                             <div className='buyer-details-description-head'>Description</div>
                             <div className='buyer-details-description-content'>{buyerDetails?.description}</div>
                         </div>
+
+
                         <div className='buyers-details-section'>
                             <div className='buyer-details-inner-left-section'>
-                            <div className='buyer-details-inner-section'>
+
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Account Creation Date :</div>
+                                    <div className='buyer-details-inner-text'>
+                                        {moment(buyerDetails?.createdAt).format("DD-MM-YYYY")}
+                                    </div>
+                                </div>
+                                {buyerDetails?.account_status !== 2 && (
+                                    <>
+                                        <div className='buyer-details-inner-section'>
+                                            <div className='buyer-details-inner-head'>Last Log-in Date :</div>
+                                            <div className='buyer-details-inner-text'>
+                                                {moment(buyerDetails?.last_login).format("DD-MM-YYYY")}
+                                            </div>
+                                        </div>
+                                    </>
+
+
+                                )}
+                                {/* {buyerDetails?.account_status !== 2 && (
+                                    <>
+                                        <div className='buyer-details-inner-section'>
+                                            <div className='buyer-details-inner-head'>Payment Status :</div>
+                                            <div className='buyer-details-inner-text-button'>Done</div>
+                                        </div>
+                                        <div className='buyer-details-inner-section'>
+                                            <div className='buyer-details-inner-head'>Payment Plan :</div>
+                                            <div className='buyer-details-inner-text'>Monthly</div>
+                                        </div>
+                                        <div className='buyer-details-inner-section'>
+                                            <div className='buyer-details-inner-head'>Promotion Name:</div>
+                                            <div className='buyer-details-inner-text'>Supplier</div>
+                                        </div>
+                                        <div className='buyer-details-inner-section'>
+                                            <div className='buyer-details-inner-head'>Renewal Date :</div>
+                                            <div className='buyer-details-inner-text'>12-12-2024</div>
+                                        </div>
+                                    </>
+                                )} */}
+                            </div>
+                            <div className='buyer-details-inner-left-section'>
+                                <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>
-                                    {buyerDetails?.account_status === 1 ? "Account Approved Date:" : buyerDetails?.account_status === 2 ? "Account Rejected Date:" : ""}
+                                        {buyerDetails?.account_status === 1 ? "Account Approved Date:" : buyerDetails?.account_status === 2 ? "Account Rejected Date:" : ""}
                                     </div>
                                     <div className='buyer-details-inner-text'>
-                                    {buyerDetails?.account_status === 1 
-                                        ? buyerDetails?.account_accepted_date 
-                                        : buyerDetails?.account_status === 2 
-                                        ? buyerDetails?.account_rejected_date 
-                                        : " "}
-                                        </div>
+                                        {buyerDetails?.account_status === 1
+                                            ? buyerDetails?.account_accepted_date
+                                            : buyerDetails?.account_status === 2
+                                                ? buyerDetails?.account_rejected_date
+                                                : " "}
+                                    </div>
                                 </div>
+                                {buyerDetails?.account_status !== 2 && (
+                                    <>
+                                        <div className='buyer-details-inner-section'>
+                                            <div className='buyer-details-inner-head'>
+                                                Log-in frequency over <br />last 90 days:
+                                            </div>
+                                            <div className='buyer-details-inner-text'>
+                                                {buyerDetails?.loginFrequencyLast90Days}
+                                            </div>
+                                        </div>
+                                    </>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className='buyers-details-section'>
+                            <div className='buyer-details-inner-left-section'>
+
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Sales Person Name:</div>
                                     <div className='buyer-details-inner-text'>
                                         {buyerDetails?.sales_person_name}
                                     </div>
                                 </div>
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Company Registartion No. :</div>
+                                    <div className='buyer-details-inner-text'>{buyerDetails?.registration_no}</div>
+                                </div>
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>GST/VAT Registration No. :</div>
+                                    <div className='buyer-details-inner-text'>{buyerDetails?.vat_reg_no}</div>
+                                </div>
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Approx. Yearly Purchase :<br /> Value</div>
+                                    <div className='buyer-details-inner-text'>{buyerDetails?.approx_yearly_purchase_value}</div>
+                                </div>
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Country of Origin :</div>
+                                    <div className='buyer-details-inner-text'>{buyerDetails?.country_of_origin}</div>
+                                </div>
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Country of Operation :</div>
+                                    <div className='buyer-details-inner-text'>{buyerDetails?.country_of_operation?.join(', ')}</div>
+                                </div>
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Interested In :</div>
+                                    <div className='buyer-details-inner-text'>{buyerDetails?.interested_in?.join(', ')}</div>
+                                </div>
+                            </div>
+                            <div className='buyer-details-inner-left-section'>
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Business/Trade Activity Code :</div>
+                                    <div className='buyer-details-inner-text'>{buyerDetails?.registration_no}</div>
+                                </div>
+
+
+                                {buyerDetails?.license_no && buyerDetails?.license_expiry_date && (
+                                    <>
+                                        <div className='buyer-details-inner-section'>
+                                            <div className='buyer-details-inner-head'>License No. :</div>
+                                            <div className='buyer-details-inner-text'>{buyerDetails?.license_no}</div>
+                                        </div>
+
+
+                                        <div className='buyer-details-inner-section'>
+                                            <div className='buyer-details-inner-head'>License Expiry Date :</div>
+                                            <div className='buyer-details-inner-text'>{buyerDetails?.license_expiry_date}</div>
+                                        </div>
+                                    </>
+                                )}
+
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Contact Person Name :</div>
                                     <div className='buyer-details-inner-text'>{buyerDetails?.contact_person_name}</div>
@@ -292,51 +430,6 @@ const BuyerDetails = () => {
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Mobile No. :</div>
                                     <div className='buyer-details-inner-text'>{buyerDetails?.contact_person_country_code} {buyerDetails?.contact_person_mobile}</div>
-                                </div>
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>License No. :</div>
-                                    <div className='buyer-details-inner-text'>{buyerDetails?.license_no}</div>
-                                </div>
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>License Expiry Date :</div>
-                                    <div className='buyer-details-inner-text'>{buyerDetails?.license_expiry_date}</div>
-                                </div>
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Tax No. :</div>
-                                    <div className='buyer-details-inner-text'>{buyerDetails?.tax_no}</div>
-                                </div>
-
-                            </div>
-                            <div className='buyer-details-inner-left-section'>
-
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Company Registartion No. :</div>
-                                    <div className='buyer-details-inner-text'>{buyerDetails?.registration_no}</div>
-                                </div>
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>VAT Registartion No. :</div>
-                                    <div className='buyer-details-inner-text'>{buyerDetails?.vat_reg_no}</div>
-                                </div>
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Approx. Yearly Purchase :<br /> Value</div>
-                                    <div className='buyer-details-inner-text'>{buyerDetails?.approx_yearly_purchase_value}</div>
-                                </div>
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Country of Origin :</div>
-                                    <div className='buyer-details-inner-text'>{buyerDetails?.country_of_origin}</div>
-                                </div>
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Country of Operation :</div>
-                                    <div className='buyer-details-inner-text'>{buyerDetails?.country_of_operation?.join(', ')}</div>
-                                </div>
-
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Interested In :</div>
-                                    <div className='buyer-details-inner-text'>{buyerDetails?.interested_in?.join(', ')}</div>
-                                </div>
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Business/Trade Activity Code :</div>
-                                    <div className='buyer-details-inner-text'>{buyerDetails?.registration_no}</div>
                                 </div>
                             </div>
                         </div>
@@ -361,19 +454,32 @@ const BuyerDetails = () => {
                                     </div>
                                 </div>
                                 <div className='buyer-details-card-container'>
-                                    <div className='buyer-details-company-logo-heading'>Tax Certificate</div>
-                                    <div className='buyer-details-company-img-container'>
-                                        {renderFiles(buyerDetails?.tax_image, 'tax_images')}
-                                    </div>
-                                </div>
-                                <div className='buyer-details-card-container'>
                                     <div className='buyer-details-company-logo-heading'>Certificate</div>
                                     <div className='buyer-details-company-img-container'>
-                                        {renderFiles(buyerDetails?.certificate_image, 'certificate_images')}
+                                        {renderFiles(
+                                            buyerDetails?.certificateFileNDate?.length > 0
+                                                ? buyerDetails?.certificateFileNDate
+                                                : buyerDetails?.certificate_image,
+                                            'certificate_images',
+                                            buyerDetails?.certificateFileNDate?.length > 0
+                                        )}
                                     </div>
                                 </div>
+
                             </div>
                         </div>
+                        {/* Modal for PDF viewing */}
+                        <Modal open={open} onClose={closeModal} center>
+                            {pdfUrl ? (
+                                <iframe
+                                    src={pdfUrl}
+                                    style={{ width: '500px', height: '500px', border: 'none' }}
+                                    title="PDF Viewer"
+                                />
+                            ) : (
+                                <p>Unable to load the PDF. Check the URL or try again later.</p>
+                            )}
+                        </Modal>
                     </div>
 
                     <div className='buyer-details-button-containers'>

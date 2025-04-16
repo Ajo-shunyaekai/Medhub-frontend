@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import "../../../assets/style/dashboardorders.css";
-import Table from "react-bootstrap/Table";
-import Pagination from "react-js-pagination";
+import DataTable from "react-data-table-component";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
-import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
-import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import { postReqCSVDownload, postRequestWithToken } from "../../../api/Requests";
 import Loader from "../../shared-components/Loader/Loader";
 import { apiRequests } from "../../../../api";
+import PaginationComponent from '../../shared-components/Pagination/Pagination';
+import styles from '../../../assets/style/table.module.css';
+import '../../../assets/style/table.css'
 
 const RejectedOrders = () => {
   const navigate = useNavigate();
@@ -21,17 +20,25 @@ const RejectedOrders = () => {
   const adminIdLocalStorage = localStorage.getItem("admin_id");
 
   const [currentPage, setCurrentPage] = useState(1);
-  const ordersPerPage = 5;
+  const [loading, setLoading] = useState(true);
+  const [sellerList, setSellerList] = useState([]);
+  const [totalSellers, setTotalSellers] = useState(0);
+  const listPerPage = 10;
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-
-  const [loading, setLoading] = useState(true);
-  const [sellerList, setSellerList] = useState([]);
-  const [totalSellers, setTotalSellers] = useState();
-  const listPerPage = 5;
-
+  const handleDownload = async () => {
+    setLoading(true);
+    const obj = {
+        filterKey: 'rejected'
+    }
+    const result = await postReqCSVDownload('admin/get-supplier-list-csv', obj, 'supplier_list.csv');
+    if (!result?.success) {
+        console.error('Error downloading CSV');
+    }
+    setLoading(false);
+};
   useEffect(() => {
     const fetchSupplierList = async () => {
       if (!adminIdSessionStorage && !adminIdLocalStorage) {
@@ -39,6 +46,7 @@ const RejectedOrders = () => {
         navigate("/admin/login");
         return;
       }
+
       const obj = {
         admin_id: adminIdSessionStorage || adminIdLocalStorage,
         filterKey: "rejected",
@@ -47,160 +55,116 @@ const RejectedOrders = () => {
         pageSize: listPerPage,
       };
 
+      setLoading(true);
       const response = await apiRequests.getRequest(
-        `supplier/get-all-suppliers-list?filterKey=${"rejected"}&filterValue=${filterValue}&pageNo=${currentPage}&pageSize=${listPerPage}`
+        `supplier/get-all-suppliers-list?filterKey=rejected&filterValue=${filterValue}&pageNo=${currentPage}&pageSize=${listPerPage}`
       );
+
       if (response?.code === 200) {
         setSellerList(response.result.data);
         setTotalSellers(response.result.totalItems);
-      } else {
       }
       setLoading(false);
     };
-    fetchSupplierList()
-  }, []);
 
-  const handleDownload = async () => {
-          setLoading(true);
-          const obj = {
-            filterKey: 'rejected'
-        }
-          const result = await postReqCSVDownload('admin/get-supplier-list-csv', obj, 'supplier_list.csv');
-          if (!result?.success) {
-              console.error('Error downloading CSV');
-          }
-          setLoading(false);
-      };
+    fetchSupplierList();
+  }, [currentPage, filterValue, adminIdSessionStorage, adminIdLocalStorage, navigate]);
 
+  // Define columns for DataTable
+  const columns = [
+    {
+      name: "Supplier ID",
+      selector: (row) => row.supplier_id,
+      sortable: true,
+    },
+    {
+      name: 'Registration No.',
+      selector: row => row.registration_no,
+      sortable: true,
+
+  },
+  {
+      name: 'GST/VAT Registration No.',
+      selector: row => row.vat_reg_no,
+      sortable: true,
+
+  },
+  {
+      name: 'Supplier Name',
+      selector: row => row.supplier_name,
+      sortable: true,
+
+  },
+  {
+      name: 'Supplier Type',
+      selector: row => row.supplier_type,
+      sortable: true,
+
+  },
+   
+    {
+      name: "Mobile No.",
+      selector: (row) => `${row.supplier_country_code} ${row.supplier_mobile}`,
+      sortable: true,
+    },
+  
+    {
+      name: "Status",
+      selector: (row) =>
+        row.account_status
+          ? row.account_status === 1
+            ? "Accepted"
+            : row.account_status === 2
+              ? "Rejected"
+              : "Pending"
+          : "",
+      sortable: true,
+    },
+    {
+      name: "Action",
+      cell: (row) => (
+        <Link to={`/admin/supplier-details/${row.supplier_id}`}>
+          <div className={styles.activeBtn}>
+            <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
+          </div>
+        </Link>
+      ),
+      ignoreRowClick: true,
+      allowOverflow: true,
+      button: true,
+    },
+  ];
   return (
-    <>
+    <div className={`${styles.container} auth`}>
       {loading ? (
         <Loader />
       ) : (
-        <div className="rejected-main-container">
-          <div className="rejected-main-head">Rejected Supplier</div>
-          <div className="rejected-container">
-            <div className="rejected-container-right-2">
-              <Table responsive="xxl" className="rejected-table-responsive">
-                <thead>
-                  <div
-                    className="rejected-table-row-container"
-                    style={{ backgroundColor: "transparent" }}
-                  >
-                    <div className="rejected-table-row-item rejected-table-order-1">
-                      <span className="rejected-header-text-color">
-                        Supplier ID
-                      </span>
-                    </div>
-                    <div className="rejected-table-row-item rejected-table-order-1">
-                      <span className="rejected-header-text-color">
-                        Supplier Name
-                      </span>
-                    </div>
-                    <div className="rejected-table-row-item rejected-table-order-1">
-                      <span className="rejected-header-text-color">
-                        Mobile No.
-                      </span>
-                    </div>
-                    <div className="rejected-table-row-item rejected-table-order-2">
-                      <span className="rejected-header-text-color">
-                        Email ID
-                      </span>
-                    </div>
-                    <div className="rejected-table-row-item rejected-table-order-1">
-                      <span className="rejected-header-text-color">Status</span>
-                    </div>
-                    <div className="rejected-table-row-item rejected-table-order-1">
-                      <span className="rejected-header-text-color">Action</span>
-                    </div>
-                  </div>
-                </thead>
-                <tbody className="bordered">
-                  {/* {sellerList?.map((supplier, index) => ( */}
-                  {sellerList?.length > 0 ? (
-                    sellerList.map((supplier, index) => (
-                      <div className="rejected-table-row-container" key={index}>
-                        <div className="rejected-table-row-item rejected-table-order-1">
-                          <div className="rejected-table-text-color">
-                            {supplier.supplier_id}
-                          </div>
-                        </div>
-                        <div className="rejected-table-row-item rejected-table-order-1">
-                          <div className="rejected-table-text-color">
-                            {supplier.supplier_name}
-                          </div>
-                        </div>
-                        <div className="rejected-table-row-item rejected-table-order-1">
-                          <div className="table-text-color">
-                            {supplier.supplier_country_code}{" "}
-                            {supplier.supplier_mobile}
-                          </div>
-                        </div>
-                        <div className="rejected-table-row-item rejected-table-order-2">
-                          <div className="rejected-table-text-color">
-                            {supplier.contact_person_email}
-                          </div>
-                        </div>
-                        <div className="rejected-table-row-item rejected-table-order-1">
-                          <div className="rejected-table-text-color">
-                            {supplier.account_status
-                              ? supplier.account_status === 1
-                                ? "Accepted"
-                                : supplier.account_status === 2
-                                ? "Rejected"
-                                : "Pending"
-                              : ""}
-                          </div>
-                        </div>
-                        <div className="rejected-table-row-item rejected-table-btn rejected-table-order-1">
-                          <Link
-                            to={`/admin/supplier-details/${supplier.supplier_id}`}
-                          >
-                            <div className="rejected-table rejected-table-view">
-                              <RemoveRedEyeOutlinedIcon className="table-icon" />
-                            </div>
-                          </Link>
-                        </div>
-                      </div>
-                      // ))}
-                    ))
-                  ) : (
-                    <>
-                      <div className="pending-products-no-orders">
-                        No Data Available
-                      </div>
-                    </>
-                  )}
-                </tbody>
-              </Table>
-              <div className="rejected-pagi-container">
-                <Pagination
-                  activePage={currentPage}
-                  itemsCountPerPage={listPerPage}
-                  totalItemsCount={totalSellers}
-                  pageRangeDisplayed={5}
-                  onChange={handlePageChange}
-                  itemClass="page-item"
-                  linkClass="page-link"
-                  prevPageText={
-                    <KeyboardDoubleArrowLeftIcon style={{ fontSize: "15px" }} />
-                  }
-                  nextPageText={
-                    <KeyboardDoubleArrowRightIcon
-                      style={{ fontSize: "15px" }}
-                    />
-                  }
-                  hideFirstLastPages={true}
-                />
-                <div className="rejected-pagi-total">
-                  <div>Total Items: {totalSellers}</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <>
+          <header className={styles.header}>
+            <span className={styles.title}>Rejected Supplier</span>
+            <button className={styles.button} onClick={handleDownload}>
+              Download
+            </button>
+          </header>
+          <DataTable
+            columns={columns}
+            data={sellerList}
+            pagination={false}
+            noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
+            persistTableHead
+          />
+          {sellerList.length > 0 && (
+            <PaginationComponent
+              activePage={currentPage}
+              itemsCountPerPage={listPerPage}
+              totalItemsCount={totalSellers}
+              pageRangeDisplayed={10}
+              onChange={handlePageChange}
+            />
+          )}
+        </>
       )}
-    </>
+    </div>
   );
 };
 

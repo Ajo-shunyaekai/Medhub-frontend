@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { FaEdit } from 'react-icons/fa';
 import '../../../assets/style/detailsrequest.css';
 import { Modal } from 'react-responsive-modal';
+import moment from 'moment/moment';
 import 'react-responsive-modal/styles.css';
 import { Tooltip as ReactTooltip } from "react-tooltip";
-import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PhoneInTalkOutlinedIcon from '@mui/icons-material/PhoneInTalkOutlined';
 import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../../../api/Requests';
@@ -12,7 +12,6 @@ import { toast } from 'react-toastify';
 import { FaFilePdf, FaFileWord } from 'react-icons/fa';
 import SupplierCustomModal from './SupplierCustomModal';
 import { apiRequests } from '../../../../api/index';
-
 const SupplierRequestDetails = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [supplierDetails, setSupplierDetails] = useState();
@@ -47,25 +46,42 @@ const SupplierRequestDetails = () => {
     const extractFileName = (url) => {
         return url.split('/').pop();
     };
-    const renderFiles = (files, type) => {
-        return files?.map((file, index) => {
-            const serverUrl = process.env.REACT_APP_SERVER_URL;
+    const renderFiles = (files, type, hasDate = false) => {
+        const serverUrl = process.env.REACT_APP_SERVER_URL;
+        if (!files || files.length === 0) {
+            return <p>No files available.</p>;
+        }
+        const isObjectArray = files[0] && typeof files[0] === 'object' && 'file' in files[0];
 
+        return files.map((item, index) => {
+            const file = isObjectArray ? item.file : item;
+            const date = isObjectArray ? item.date : null;
             if (file.endsWith('.pdf')) {
                 return (
-                    <div key={index} className='buyer-details-pdf-section'>
+                    <div key={`${file}-${index}`} className='buyer-details-pdf-section'>
                         <FaFilePdf
                             size={50}
                             color="red"
                             style={{ cursor: 'pointer' }}
                             onClick={() => window.open(`${serverUrl}uploads/supplier/${type}/${file}`, '_blank')}
                         />
-                        <div className='pdf-url' onClick={() => window.open(`${serverUrl}uploads/supplier/${type}/${file}`, '_blank')}>
-                            {extractFileName(file)}
+                        <div>
+                            <div
+                                className='pdf-url'
+                                onClick={() => window.open(`${serverUrl}uploads/supplier/${type}/${file}`, '_blank')}
+                            >
+                                {extractFileName(file)}
+                            </div>
+                            {hasDate && date && (
+                                <div className='expiry-date'>
+                                    Expiry Date: {new Date(date).toLocaleDateString()}
+                                </div>
+                            )}
                         </div>
                     </div>
                 );
-            } else if (
+            }
+            else if (
                 file.endsWith('.vnd.openxmlformats-officedocument.wordprocessingml.document') ||
                 file.endsWith('.docx')
             ) {
@@ -74,35 +90,45 @@ const SupplierRequestDetails = () => {
                     '.docx'
                 );
                 const docxUrl = `${serverUrl}uploads/supplier/${type}/${docxFileName}`;
-
                 return (
-                    <div key={index} className='buyer-details-docx-section'>
+                    <div key={`${file}-${index}`} className='buyer-details-docx-section'>
                         <FaFileWord
                             size={50}
                             color="blue"
                             style={{ cursor: 'pointer' }}
                             onClick={() => window.open(docxUrl, '_blank')}
                         />
-                        <div className='docx-url' onClick={() => window.open(docxUrl, '_blank')}>
-                            {extractFileName(docxFileName)}
+                        <div>
+                            <div className='docx-url' onClick={() => window.open(docxUrl, '_blank')}>
+                                {extractFileName(docxFileName)}
+                            </div>
+                            {hasDate && date && (
+                                <div className='expiry-date'>
+                                    Expiry Date: {new Date(date).toLocaleDateString()}
+                                </div>
+                            )}
                         </div>
                     </div>
                 );
-            } else {
+            }
+            else {
                 return (
-                    <img
-                        key={index}
-                        src={`${serverUrl}uploads/supplier/${type}/${file}`}
-                        alt={type}
-                        className='buyer-details-document-image'
-                    />
+                    <div key={`${file}-${index}`}>
+                        <img
+                            src={`${serverUrl}uploads/supplier/${type}/${file}`}
+                            alt={type}
+                            className='buyer-details-document-image'
+                        />
+                        {hasDate && date && (
+                            <div className='expiry-date'>
+                                Expiry Date: {new Date(date).toLocaleDateString()}
+                            </div>
+                        )}
+                    </div>
                 );
             }
         });
     };
-
-
-    // End the modal and pdf url
     useEffect(() => {
         const getSupplierdetails = async () => {
             if (!adminIdSessionStorage && !adminIdLocalStorage) {
@@ -139,10 +165,6 @@ const SupplierRequestDetails = () => {
             action: action,
             sales_person_name: salesPersonName
         }
-        // if(salesPersonName == '' || salesPersonName == null) {
-        //     return toast('Sales Person is required',{ type: 'error' })
-        // }
-
         if (!salesPersonName || salesPersonName === '') {
             return toast('Sales Person is required', { type: 'error' });
         }
@@ -161,8 +183,6 @@ const SupplierRequestDetails = () => {
                 setTimeout(() => {
                     navigate('/admin/supplier-request')
                 }, 1000)
-
-                // setSupplierDetails(response.result)
             } else {
                 setLoading(false);
                 toast(response.message, { type: 'error' })
@@ -171,10 +191,10 @@ const SupplierRequestDetails = () => {
     }
 
     return (
-        <>
+       
             <div className='buyer-details-container'>
                 <div className='buyer-details-inner-conatiner'>
-                    <div className='buyer-details-container-heading'>Supplier Details</div>
+                    <div className='buyer-details-container-heading'>Supplier ID: {supplierDetails?.supplier_id}</div>
                     <div className='buyer-details-left-inner-container'>
                         <div className='buyer-details-left-uppar-section'>
                             <div className='buyer-details-uppar-main-logo-section'>
@@ -188,14 +208,10 @@ const SupplierRequestDetails = () => {
                                 </div>
                                 <div className='buyer-details-uppar-right-main-section'>
                                     <div className='buyer-details-uppar-main-containers'>
-                                        <div className='buyer-details-upper-section-container'>
-                                            <div className='buyer-details-left-uppar-head'>{supplierDetails?.supplier_name}</div>
-                                        </div>
+
                                         <div className='buyer-details-left-inner-section'>
-                                            <div className='buyer-details-left-company-type'>
-                                                <div className='buyer-details-left-inner-sec-text'>
-                                                    Supplier ID: {supplierDetails?.supplier_id}
-                                                </div>
+                                            <div className='buyer-details-upper-section-container'>
+                                                <div className='buyer-details-left-uppar-head'>{supplierDetails?.supplier_name}</div>
                                             </div>
                                             <div className='buyer-details-left-inner-img-container'>
                                                 <div className='buyer-details-left-inner-mobile-button'>
@@ -217,9 +233,32 @@ const SupplierRequestDetails = () => {
                                     </div>
                                     <div className='buyer-details-uppar-right-container-section'>
                                         <div className='buyer-details-account-container-section'>
+
                                             <div className='buyer-details-inner-section'>
                                                 <div className='buyer-details-inner-head'>Account Status :</div>
-                                                <div className='buyer-details-button-text'>Active</div>
+                                                <div
+                                                    className='buyer-details-button-text'
+                                                    style={{
+                                                        backgroundColor:
+                                                            supplierDetails?.account_status === 0
+                                                                ? 'orange'
+                                                                : supplierDetails?.account_status === 1
+                                                                    ? 'green'
+                                                                    : 'red',
+                                                    }}
+                                                >
+                                                    {supplierDetails?.account_status === 0
+                                                        ? 'Pending'
+                                                        : supplierDetails?.account_status === 1
+                                                            ? 'Active'
+                                                            : 'Inactive'}
+                                                </div>
+                                            </div>
+                                            <div className='buyer-details-inner-section'>
+                                                <div className='buyer-details-inner-head'>Account Creation Date :</div>
+                                                <div className='buyer-details-inner-text'>
+                                                    {moment(supplierDetails?.createdAt).format("DD-MM-YYYY")}
+                                                </div>
                                             </div>
                                             <div className='buyer-details-inner-section'>
                                                 <div className='buyer-details-inner-head'>Company Type:</div>
@@ -232,7 +271,7 @@ const SupplierRequestDetails = () => {
                                             <div className='buyer-details-company-type-sec-head'>Address:</div>
                                             <div className='buyer-details-company-type-sec-text'>{supplierDetails?.supplier_address} {supplierDetails?.registeredAddress?.locality} {supplierDetails?.registeredAddress?.land_mark} </div>
                                             <div className='buyer-details-company-type-sec-text'> {supplierDetails?.registeredAddress?.country} {supplierDetails?.registeredAddress?.state} {supplierDetails?.registeredAddress?.city} {supplierDetails?.registeredAddress?.pincode}</div>
-                                            
+
                                         </div>
                                     </div>
                                 </div>
@@ -245,53 +284,13 @@ const SupplierRequestDetails = () => {
                             </div>
                             <div className='buyer-details-bank-section'>
                                 <div className='buyer-details-description-head'>Bank Details</div>
-                                <div className='buyer-details-description-content'>{supplierDetails?.bank_details}</div>
-                            </div>
-                        </div>
-
-                        <div className='buyers-details-section'>
-                            <div className='buyer-details-inner-left-section'>
-                                
-
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Payment Status :</div>
-                                    <div className='buyer-details-inner-text-button'>Done</div>
-                                </div>
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Payment Plan :</div>
-                                    <div className='buyer-details-inner-text'>{supplierDetails?.registration_no}</div>
-                                </div>
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Promotion Name:</div>
-                                    <div className='buyer-details-inner-text'>{supplierDetails?.country_of_operation?.join(', ')}</div>
-                                </div>
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Renewal Date :</div>
-                                    <div className='buyer-details-inner-text'>{supplierDetails?.license_no}</div>
-                                </div>
-
-
-
-                            </div>
-                            <div className='buyer-details-inner-left-section'>
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Account Creation Date :</div>
-                                    <div className='buyer-details-inner-text'>{supplierDetails?.vat_reg_no}</div>
-                                </div>
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Last Log-in Date :</div>
-                                    <div className='buyer-details-inner-text'>{supplierDetails?.license_expiry_date}</div>
-                                </div>
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Log-in frequency over <br />last 90 days:</div>
-                                    <div className='buyer-details-inner-text'>{supplierDetails?.license_expiry_date}</div>
+                                <div className='buyer-details-description-content'>
+                                    {supplierDetails?.bank_details?.split('\r\n').map((line, index) => (
+                                        <div key={index}>{line}</div>
+                                    ))}
                                 </div>
                             </div>
                         </div>
-
-
-
-
                         <div className='buyers-details-section'>
                             <div className='buyer-details-inner-left-section'>
                                 <div className="buyer-details-inner-section">
@@ -330,30 +329,40 @@ const SupplierRequestDetails = () => {
                                     <div className='buyer-details-inner-text'>{supplierDetails?.country_of_operation?.join(', ')}</div>
                                 </div>
                                 <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>License No. :</div>
-                                    <div className='buyer-details-inner-text'>{supplierDetails?.license_no}</div>
-                                </div>
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>License Expiry Date :</div>
-                                    <div className='buyer-details-inner-text'>{supplierDetails?.license_expiry_date}</div>
-                                </div>
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Country you Trade in :</div>
+                                    <div className='buyer-details-inner-head'>Category you Trade in :</div>
                                     <div className='buyer-details-inner-text'>{supplierDetails?.license_expiry_date}</div>
                                 </div>
 
-
-                            </div>
-                            <div className='buyer-details-inner-left-section'>
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Tags :</div>
                                     <div className='buyer-details-inner-text'>{supplierDetails?.tags}</div>
                                 </div>
 
+
+
+                            </div>
+                            <div className='buyer-details-inner-left-section'>
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Business/Trade Activity Code :</div>
                                     <div className='buyer-details-inner-text'>{supplierDetails?.activity_code || '-'}</div>
                                 </div>
+
+                                {/* Conditionally render License No. */}
+                                {supplierDetails?.license_no && (
+                                    <div className='buyer-details-inner-section'>
+                                        <div className='buyer-details-inner-head'>License No. :</div>
+                                        <div className='buyer-details-inner-text'>{supplierDetails?.license_no}</div>
+                                    </div>
+                                )}
+
+                                {/* Conditionally render License Expiry Date */}
+                                {supplierDetails?.license_expiry_date && (
+                                    <div className='buyer-details-inner-section'>
+                                        <div className='buyer-details-inner-head'>License Expiry Date :</div>
+                                        <div className='buyer-details-inner-text'>{supplierDetails?.license_expiry_date}</div>
+                                    </div>
+                                )}
+
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Contact Person Name :</div>
                                     <div className='buyer-details-inner-text'>{supplierDetails?.contact_person_name}</div>
@@ -368,7 +377,9 @@ const SupplierRequestDetails = () => {
                                 </div>
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Mobile No. :</div>
-                                    <div className='buyer-details-inner-text'>{supplierDetails?.contact_person_country_code} {supplierDetails?.contact_person_mobile_no}</div>
+                                    <div className='buyer-details-inner-text'>
+                                        {supplierDetails?.contact_person_country_code} {supplierDetails?.contact_person_mobile_no}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -379,7 +390,7 @@ const SupplierRequestDetails = () => {
                                 {
                                     supplierDetails?.supplier_type === 'Medical Practitioner' && (
                                         <div className='buyer-details-card-container'>
-                                            <div className='buyer-details-company-logo-heading'>Medical Practioner Document</div>
+                                            <div className='buyer-details-company-logo-heading'>Medical Practitioner Document</div>
                                             <div className='buyer-details-company-img-container'>
                                                 {renderFiles(supplierDetails?.medical_certificate, 'medical_practitioner_image')}
                                             </div>
@@ -393,24 +404,19 @@ const SupplierRequestDetails = () => {
                                         {renderFiles(supplierDetails?.license_image, 'license_image')}
                                     </div>
                                 </div>
-
-                                {/* Tax Certificate */}
-                                <div className='buyer-details-card-container'>
-                                    <div className='buyer-details-company-logo-heading'>Tax Certificate</div>
-                                    <div className='buyer-details-company-img-container'>
-                                        {renderFiles(supplierDetails?.tax_image, 'tax_image')}
-                                    </div>
-                                </div>
-
                                 {/* Certificate */}
                                 <div className='buyer-details-card-container'>
                                     <div className='buyer-details-company-logo-heading'>Certificate</div>
                                     <div className='buyer-details-company-img-container'>
-                                        {renderFiles(supplierDetails?.certificate_image, 'certificate_image')}
+                                        {renderFiles(
+                                            supplierDetails?.certificateFileNDate?.length > 0
+                                                ? supplierDetails?.certificateFileNDate
+                                                : supplierDetails?.certificate_image,
+                                            'certificate_image',
+                                            supplierDetails?.certificateFileNDate?.length > 0
+                                        )}
                                     </div>
                                 </div>
-
-
                             </div>
                         </div>
 
@@ -462,7 +468,6 @@ const SupplierRequestDetails = () => {
                     </div>
                 </div>
             </div>
-        </>
     );
 };
 
