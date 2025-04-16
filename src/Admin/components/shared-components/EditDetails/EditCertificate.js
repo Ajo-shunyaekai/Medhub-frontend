@@ -1,9 +1,8 @@
+
 import React, { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { FiUploadCloud, FiFileText, FiX } from "react-icons/fi";
-import Tooltip from "../../SharedComponents/Tooltip/Tooltip";
-import styles from "./addproduct.module.css";
-import Information from "../../../assets/images/infomation.svg";
+import styles from "./edit.module.css";
 
 // useFileUpload Hook
 const useFileUpload = (
@@ -130,7 +129,7 @@ const useFileUpload = (
 };
 
 // EditComplianceNCertification Component
-const EditComplianceNCertification = ({
+const EditCertificate = ({
   setFieldValue,
   fieldInputName,
   initialValues,
@@ -168,7 +167,7 @@ const EditComplianceNCertification = ({
 
   return (
     <div className={styles.compliancesContainer}>
-      {showLabel && <label className={styles.formLabel}>{label}</label>}
+      {showLabel && <label className={styles.formLabel}>{label}<span className={styles?.labelStamp}>*</span></label>}
       <div className={styles.tooltipContainer}>
         <div {...fileUpload?.getRootProps({ className: styles.uploadBox })}>
           <input {...fileUpload?.getInputProps()} />
@@ -183,14 +182,6 @@ const EditComplianceNCertification = ({
                 }`}
           </p>
         </div>
-        {tooltip && (
-          <>
-           <Tooltip
-              content={tooltipContent}
-              className={styles.tooltipSec}
-            />
-          </>
-        )}
       </div>
       {(typeof fileUpload?.selectedFile == "string"
         ? [fileUpload?.selectedFile]
@@ -258,4 +249,4 @@ const EditComplianceNCertification = ({
   );
 };
 
-export default EditComplianceNCertification;
+export default EditCertificate;

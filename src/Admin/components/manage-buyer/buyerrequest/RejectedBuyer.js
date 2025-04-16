@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import '../../../assets/style/dashboardorders.css';
-import Table from 'react-bootstrap/Table';
-import Pagination from "react-js-pagination";
+import DataTable from 'react-data-table-component';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
-import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
-import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { postReqCSVDownload, postRequestWithToken } from '../../../api/Requests';
 import Loader from '../../shared-components/Loader/Loader';
+import PaginationComponent from '../../shared-components/Pagination/Pagination';
+import styles from '../../../assets/style/table.module.css';
+import '../../../assets/style/table.css'
 
 const RejectedBuyer = () => {
     const navigate = useNavigate();
@@ -17,17 +16,13 @@ const RejectedBuyer = () => {
     const filterValue = queryParams.get('filterValue');
 
     const adminIdSessionStorage = localStorage.getItem("admin_id");
-    const adminIdLocalStorage   = localStorage.getItem("admin_id");
+    const adminIdLocalStorage = localStorage.getItem("admin_id");
 
-    const handlePageChange = (pageNumber) => {
-        setCurrentPage(pageNumber);
-    };
-
-    const [loading, setLoading]         = useState(true);
-    const [buyerList, setBuyerList]     = useState([])
-    const [totalBuyers, setTotalBuyers] = useState()
+    const [loading, setLoading] = useState(true);
+    const [buyerList, setBuyerList] = useState([]);
+    const [totalBuyers, setTotalBuyers] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
-    const listPerPage = 5
+    const listPerPage = 10;
 
     useEffect(() => {
         if (!adminIdSessionStorage && !adminIdLocalStorage) {
@@ -35,131 +30,130 @@ const RejectedBuyer = () => {
             navigate("/admin/login");
             return;
         }
+
         const obj = {
-            admin_id    : adminIdSessionStorage || adminIdLocalStorage,
-            filterKey   : 'rejected',
-            filterValue : filterValue,
-            pageNo      : currentPage, 
-            pageSize    : listPerPage,
-        }
+            admin_id: adminIdSessionStorage || adminIdLocalStorage,
+            filterKey: 'rejected',
+            filterValue: filterValue,
+            pageNo: currentPage,
+            pageSize: listPerPage,
+        };
 
         postRequestWithToken('admin/get-buyer-list', obj, async (response) => {
             if (response?.code === 200) {
-                setBuyerList(response.result.data)
-                setTotalBuyers(response.result.totalItems)
-            } else {
+                setBuyerList(response.result.data);
+                setTotalBuyers(response.result.totalItems);
             }
             setLoading(false);
-        })
-    },[currentPage])
+        });
+    }, [currentPage, adminIdSessionStorage, adminIdLocalStorage, filterValue, navigate]);
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
 
     const handleDownload = async () => {
-                setLoading(true);
-                const obj = {
-                    filterKey: 'rejected'
-                }
-                const result = await postReqCSVDownload('admin/get-buyer-list-csv', obj, 'buyer_list.csv')
-                if (!result?.success) {
-                    // Optionally show error to user
-                }
-                setLoading(false);
-            };
+        setLoading(true);
+        const obj = { filterKey: 'rejected' };
+        await postReqCSVDownload('admin/get-buyer-list-csv', obj, 'buyer_list.csv');
+        setLoading(false);
+    };
+
+    const columns = [
+        {
+            name: 'Buyer ID',
+            selector: (row) => row.buyer_id,
+            sortable: true,
+        },
+        {
+            name: 'Registration No',
+            selector: row => row.registration_no,
+            sortable: true,
+
+        },
+        {
+            name: 'GST/VAT Registration No',
+            selector: row => row.vat_reg_no,
+            sortable: true,
+
+        },
+        {
+            name: 'Buyer Name',
+            selector: row => row.buyer_name,
+            sortable: true,
+        },
+        {
+            name: 'Buyer Type',
+            selector: row => row.buyer_type,
+            sortable: true,
+
+        },
+        {
+            name: "Mobile No.",
+            selector: (row) => `${row.buyer_country_code} ${row.buyer_mobile}`,
+            sortable: true,
+          },
+
+        {
+            name: 'Status',
+            selector: (row) =>
+                row.account_status
+                    ? row.account_status === 1
+                        ? 'Accepted'
+                        : row.account_status === 2
+                            ? 'Rejected'
+                            : 'Pending'
+                    : 'Status Unknown',
+            sortable: true,
+
+        },
+        {
+            name: 'Action',
+            cell: (row) => (
+                <Link to={`/admin/buyer-details/${row.buyer_id}`}>
+                    <div className={styles.activeBtn}>
+                        <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
+                    </div>
+                </Link>
+            ),
+
+        },
+    ];
 
     return (
-        <>
-        {loading ? (
-                     <Loader />
-                ) : (
-            <div className='rejected-main-container'>
-                <div className="rejected-main-head">Rejected Buyer</div>
-                <div className="rejected-container">
-                    <div className="rejected-container-right-2">
-                        <Table responsive="xxl" className='rejected-table-responsive'>
-                            <thead>
-                                <div className='rejected-table-row-container' style={{ backgroundColor: 'transparent' }}>
-                                    <div className='rejected-table-row-item rejected-table-order-1'>
-                                        <span className='rejected-header-text-color'>Buyer ID</span>
-                                    </div>
-                                    <div className='rejected-table-row-item rejected-table-order-1'>
-                                        <span className='rejected-header-text-color'>Buyer Name</span>
-                                    </div>
-                                    <div className='rejected-table-row-item rejected-table-order-1'>
-                                        <span className='rejected-header-text-color'>Mobile No.</span>
-                                    </div>
-                                    <div className='rejected-table-row-item rejected-table-order-2'>
-                                        <span className='rejected-header-text-color'>Email ID</span>
-                                    </div>
-                                    <div className='rejected-table-row-item rejected-table-order-1'>
-                                        <span className='rejected-header-text-color'>Status</span>
-                                    </div>
-                                    <div className='rejected-table-row-item rejected-table-order-1'>
-                                        <span className='rejected-header-text-color'>Action</span>
-                                    </div>
-                                </div>
-                            </thead>
-                            <tbody className='bordered'>
-                            {buyerList?.length > 0 ? (
-                                buyerList.map((buyer, index) => (
-                                    <div className='rejected-table-row-container' key={index}>
-                                    <div className='rejected-table-row-item rejected-table-order-1'>
-                                        <div className='rejected-table-text-color'>{buyer.buyer_id}</div>
-                                    </div>
-                                    <div className='rejected-table-row-item rejected-table-order-1'>
-                                        <div className='rejected-table-text-color'>{buyer.buyer_name}</div>
-                                    </div>
-                                    <div className='rejected-table-row-item rejected-table-order-1'>
-                                        <div className='table-text-color'>{buyer.buyer_country_code} {buyer.buyer_mobile || 'Not Provided'}</div>
-                                    </div>
-                                    <div className='rejected-table-row-item rejected-table-order-2'>
-                                        <div className='rejected-table-text-color'>{buyer.contact_person_email || 'Not Provided'}</div>
-                                    </div>
-                                    <div className='rejected-table-row-item rejected-table-order-1'>
-                                        <div className='rejected-table-text-color'>
-                                        {buyer.account_status 
-                                            ? (buyer.account_status === 1 ? 'Accepted' 
-                                            : (buyer.account_status === 2 ? 'Rejected' : 'Pending'))
-                                            : 'Status Unknown'
-                                        }
-                                        </div>
-                                    </div>
-                                    <div className='rejected-table-row-item rejected-table-btn rejected-table-order-1'>
-                                        <Link to={`/admin/buyer-details/${buyer.buyer_id}`}>
-                                        <div className='rejected-table rejected-table-view'>
-                                            <RemoveRedEyeOutlinedIcon className="table-icon" />
-                                        </div>
-                                        </Link>
-                                    </div>
-                                    </div>
-                                ))
-                                ) : (
-                                    <div class="pending-products-no-orders">No data available</div>
-                                )}
+        <div className={styles.container}>
+            {loading ? (
+                <Loader />
+            ) : (
+                <>
+                    <header className={styles.header}>
+                        <span className={styles.title}> Rejected Buyer</span>
+                        <button className={styles.button} onClick={handleDownload}>
+                            Download
+                        </button>
+                    </header>
 
-                            </tbody>
-                        </Table>
-                        <div className='rejected-pagi-container'>
-                            <Pagination
-                                activePage={currentPage}
-                                itemsCountPerPage={listPerPage}
-                                totalItemsCount={totalBuyers}
-                                pageRangeDisplayed={5}
-                                onChange={handlePageChange}
-                                itemClass="page-item"
-                                linkClass="page-link"
-                                prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
-                                nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
-                                hideFirstLastPages={true}
-                            />
-                            <div className='rejected-pagi-total'>
-                                <div>Total Items: {totalBuyers}</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
+                    <DataTable
+                        columns={columns}
+                        data={buyerList}
+                        noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
+                        persistTableHead
+                        pagination={false}
+
+                    />
+
+                    <PaginationComponent
+                        activePage={currentPage}
+                        itemsCountPerPage={listPerPage}
+                        totalItemsCount={totalBuyers}
+                        pageRangeDisplayed={10}
+                        onChange={handlePageChange}
+                    />
+                </>
             )}
-        </>
+        </div>
     );
-}
+};
 
 export default RejectedBuyer;
