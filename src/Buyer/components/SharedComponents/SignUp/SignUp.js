@@ -16,7 +16,7 @@ import logo from "../../../assets/images/navibluelogo.svg";
 import SuccessModal from "./SuccessModal";
 import ImageUploaders from "./ImageUploader";
 import { parsePhoneNumberFromString, isValidNumber } from "libphonenumber-js";
-// import { postRequestWithFile } from '../api/Requests';
+import Cross from "../../../assets/images/Icon.svg"
 import { InputMask } from "@react-input/mask";
 import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
@@ -620,8 +620,8 @@ const SignUp = ({ socket }) => {
       formErrors.originCountry = "Country of Origin is Required";
     if (!formData.operationCountries.length)
       formErrors.operationCountries = "Country of Operation is Required";
-    if (!formData.companyLicenseNo)
-      formErrors.companyLicenseNo = "Company License No. is Required";
+    // if (!formData.companyLicenseNo)
+    //   formErrors.companyLicenseNo = "Company License No. is Required";
     // if (!formData.companyLicenseExpiry) formErrors.companyLicenseExpiry = 'Company License Expiry is Required';
     // License expiry date validation
     if (!formData.companyLicenseExpiry) {
@@ -1284,7 +1284,7 @@ const SignUp = ({ socket }) => {
 
                     <div className="signup-form-section-div">
                       <label className="signup-form-section-label">
-                        Company License No.<span className="labelstamp">*</span>
+                        Company License No.
                       </label>
                       <input
                         className="signup-form-section-input"
@@ -1294,16 +1294,15 @@ const SignUp = ({ socket }) => {
                         value={formData.companyLicenseNo}
                         onChange={handleChange}
                       />
-                      {errors.companyLicenseNo && (
+                      {/* {errors.companyLicenseNo && (
                         <div className="signup__errors">
                           {errors.companyLicenseNo}
                         </div>
-                      )}
+                      )} */}
                     </div>
                     <div className="signup-form-section-div">
                       <label className="signup-form-section-label">
                         License Expiry / Renewal Date
-                        <span className="labelstamp">*</span>
                       </label>
                       <InputMask
                         className="signup-form-section-input"
@@ -1317,11 +1316,11 @@ const SignUp = ({ socket }) => {
                         showMask
                         separate
                       />
-                      {errors.companyLicenseExpiry && (
+                      {/* {errors.companyLicenseExpiry && (
                         <div className="signup__errors">
                           {errors.companyLicenseExpiry}
                         </div>
-                      )}
+                      )} */}
                     </div>
                     {/* <div className="signup-form-section-div">
                       <label className="signup-form-section-label">
@@ -1593,13 +1592,14 @@ const SignUp = ({ socket }) => {
                     </div>
 
                     <div className="signup-document-section">
+                      <div className="signup-add-button-section">
                       <button
                         className="signup-document-head"
                         onClick={(e) => addNewSection(e)}
                       >
                         Add
                       </button>
-
+                      </div>
                       {certificateFileNDate.map((section, index) => (
                         <div key={index} className="document-inner-section">
                           <div className="signup-form-section-div">
@@ -1607,6 +1607,7 @@ const SignUp = ({ socket }) => {
                               Upload Certificate
                               <span className="labelstamp">*</span>
                             </label>
+                            <div className="file-preview-container">
                             <CertificateUploader
                               onUploadStatusChange={(status) =>
                                 handleImageUpload(status, index)
@@ -1626,12 +1627,12 @@ const SignUp = ({ socket }) => {
                               mainIndex={index}
                             />
                             {cNCFileError?.[index] && (
-                              <div className="signup__errors">
+                              <div className="signup_document_errors">
                                 {cNCFileError?.[index]}
                               </div>
                             )}
                           </div>
-
+</div>
                           <div className="signup-form-section-div">
                             <label className="signup-form-section-label">
                               Expiry Date
@@ -1650,12 +1651,12 @@ const SignUp = ({ socket }) => {
                           </div>
 
                           {certificateFileNDate.length > 1 && (
-                            <button
+                            <div
                               onClick={() => removeSection(index)}
-                              className="document-cross-button"
+                              className="signup-cross-button"
                             >
-                              ×
-                            </button>
+                              <img src={Cross} alt="cross" className="cross-icon"/>
+                            </div>
                           )}
                         </div>
                       ))}

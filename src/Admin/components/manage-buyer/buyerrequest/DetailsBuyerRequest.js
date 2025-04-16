@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../../../assets/style/detailsrequest.css'
 import { Modal } from 'react-responsive-modal';
+import moment from 'moment/moment';
 import { FaEdit } from 'react-icons/fa';
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import 'react-responsive-modal/styles.css';
@@ -43,9 +44,20 @@ const DetailsBuyerRequest = () => {
     const extractFileName = (url) => {
         return url.split('/').pop();
     };
-    const renderFiles = (files, type) => {
-        return files?.map((file, index) => {
+    const renderFiles = (files, type, hasDate = false) => {
+        if (!files) return null;
+
+        return files.map((item, index) => {
             const serverUrl = process.env.REACT_APP_SERVER_URL;
+            let file, date;
+
+            // Check if item is an object (from certificateFileNDate) or a string (from certificate_image)
+            if (hasDate) {
+                file = item.file;
+                date = item.date;
+            } else {
+                file = item;
+            }
 
             if (file.endsWith('.pdf')) {
                 return (
@@ -56,9 +68,17 @@ const DetailsBuyerRequest = () => {
                             style={{ cursor: 'pointer' }}
                             onClick={() => window.open(`${serverUrl}uploads/buyer/${type}/${file}`, '_blank')}
                         />
-                        <div className='pdf-url' onClick={() => window.open(`${serverUrl}uploads/buyer/${type}/${file}`, '_blank')}>
+                        <div
+                            className='pdf-url'
+                            onClick={() => window.open(`${serverUrl}uploads/buyer/${type}/${file}`, '_blank')}
+                        >
                             {extractFileName(file)}
                         </div>
+                        {hasDate && date && (
+                            <div className='certificate-expiry-date'>
+                                Expiry Date: {new Date(date).toLocaleDateString()}
+                            </div>
+                        )}
                     </div>
                 );
             } else if (
@@ -79,19 +99,32 @@ const DetailsBuyerRequest = () => {
                             style={{ cursor: 'pointer' }}
                             onClick={() => window.open(docxUrl, '_blank')}
                         />
-                        <div className='docx-url' onClick={() => window.open(docxUrl, '_blank')}>
-                            {extractFileName(docxFileName)}
+                        <div>
+                            <div className='docx-url' onClick={() => window.open(docxUrl, '_blank')}>
+                                {extractFileName(docxFileName)}
+                            </div>
+                            {hasDate && date && (
+                                <div className='expiry-date'>
+                                    Expiry Date: {new Date(date).toLocaleDateString()}
+                                </div>
+                            )}
                         </div>
                     </div>
                 );
             } else {
                 return (
-                    <img
-                        key={index}
-                        src={`${serverUrl}uploads/buyer/${type}/${file}`}
-                        alt={type}
-                        className='buyer-details-document-image'
-                    />
+                    <div key={index} className='buyer-details-image-section'>
+                        <img
+                            src={`${serverUrl}uploads/buyer/${type}/${file}`}
+                            alt={type}
+                            className='buyer-details-document-image'
+                        />
+                        {hasDate && date && (
+                            <div className='expiry-date'>
+                                Expiry Date: {new Date(date).toLocaleDateString()}
+                            </div>
+                        )}
+                    </div>
                 );
             }
         });
@@ -136,7 +169,7 @@ const DetailsBuyerRequest = () => {
             sales_person_name: salesPersonName
         }
         if (!salesPersonName || salesPersonName === '') {
-             return toast('Sales Person is required', { type: 'error' });
+            return toast('Sales Person is required', { type: 'error' });
         }
         if (action === 'accept') {
             setLoading(true)
@@ -169,7 +202,7 @@ const DetailsBuyerRequest = () => {
         <>
             <div className='buyer-details-container'>
                 <div className='buyer-details-inner-conatiner'>
-                    <div className='buyer-details-container-heading'>Buyer Details</div>
+                    <div className='buyer-details-container-heading'>Buyer ID: {buyerDetails?.buyer_id}</div>
                     <div className='buyer-details-left-inner-container'>
                         <div className='buyer-details-left-uppar-section'>
                             <div className='buyer-details-uppar-main-logo-section'>
@@ -181,12 +214,10 @@ const DetailsBuyerRequest = () => {
                                 </div>
                                 <div className='buyer-details-uppar-right-main-section'>
                                     <div className='buyer-details-uppar-main-containers'>
-                                        <div className='buyer-details-upper-section-container'>
-                                            <div className='buyer-details-left-uppar-head'>{buyerDetails?.buyer_name}</div>
-                                        </div>
+
                                         <div className='buyer-details-left-inner-section'>
-                                            <div className='buyer-details-left-company-type'>
-                                                <div className='buyer-details-left-inner-sec-text'>Buyer ID: {buyerDetails?.buyer_id}</div>
+                                            <div className='buyer-details-upper-section-container'>
+                                                <div className='buyer-details-left-uppar-head'>{buyerDetails?.buyer_name}</div>
                                             </div>
                                             <div className='buyer-details-left-inner-img-container'>
                                                 <div className='buyer-details-left-inner-mobile-button'>
@@ -204,11 +235,11 @@ const DetailsBuyerRequest = () => {
                                                     )}
                                                 </div>
                                                 <div className='buyer-details-left-inner-email-button'>
-                                                <a href={`mailto:${buyerDetails?.contact_person_email}`} target="_blank" rel="noopener noreferrer">
-                                                    <MailOutlineIcon
-                                                        data-tooltip-id={buyerDetails?.contact_person_email ? "my-tooltip-2" : null}
-                                                        className='buyer-details-left-inner-icon'
-                                                    />
+                                                    <a href={`mailto:${buyerDetails?.contact_person_email}`} target="_blank" rel="noopener noreferrer">
+                                                        <MailOutlineIcon
+                                                            data-tooltip-id={buyerDetails?.contact_person_email ? "my-tooltip-2" : null}
+                                                            className='buyer-details-left-inner-icon'
+                                                        />
                                                     </a>
                                                     {buyerDetails?.contact_person_email && (
                                                         <ReactTooltip
@@ -223,9 +254,38 @@ const DetailsBuyerRequest = () => {
                                         </div>
                                     </div>
                                     <div className='buyer-details-uppar-right-container-section'>
-                                        <div className='buyer-details-company-type-section'>
-                                            <div className='buyer-details-company-type-sec-head'>Company Type:</div>
-                                            <div className='buyer-details-company-type-sec-text'> {buyerDetails?.buyer_type}</div>
+                                        <div className='buyer-details-account-container-section'>
+                                            <div className='buyer-details-inner-section'>
+                                                <div className='buyer-details-inner-head'>Account Status :</div>
+                                                <div
+                                                    className='buyer-details-button-text'
+                                                    style={{
+                                                        backgroundColor:
+                                                            buyerDetails?.account_status === 0
+                                                                ? 'orange'
+                                                                : buyerDetails?.account_status === 1
+                                                                    ? 'green'
+                                                                    : 'red',
+                                                    }}
+                                                >
+                                                    {buyerDetails?.account_status === 0
+                                                        ? 'Pending'
+                                                        : buyerDetails?.account_status === 1
+                                                            ? 'Active'
+                                                            : 'Inactive'}
+                                                </div>
+                                            </div>
+                                            <div className='buyer-details-inner-section'>
+                                                <div className='buyer-details-inner-head'>Account Creation Date :</div>
+                                                <div className='buyer-details-inner-text'>
+                                                    {moment(buyerDetails?.createdAt).format("DD-MM-YYYY")}
+                                                </div>
+                                            </div>
+                                            <div className='buyer-details-inner-section'>
+                                                <div className='buyer-details-inner-head'>Company Type:</div>
+                                                <div className='buyer-details-inner-text'>{buyerDetails?.buyer_type}</div>
+                                            </div>
+
                                         </div>
                                         <div className='buyer-details-company-type-section'>
                                             <div className='buyer-details-company-type-sec-head'>Address:</div>
@@ -233,10 +293,10 @@ const DetailsBuyerRequest = () => {
                                                 {buyerDetails?.buyer_address} {buyerDetails?.registeredAddress?.locality}
                                             </div>
                                             <div className='buyer-details-company-type-sec-text'>
-                                                 {buyerDetails?.registeredAddress?.land_mark || ''} {buyerDetails?.registeredAddress?.country} {buyerDetails?.registeredAddress?.state || ''} {buyerDetails?.registeredAddress?.city || ''}  
+                                                {buyerDetails?.registeredAddress?.land_mark || ''} {buyerDetails?.registeredAddress?.country} {buyerDetails?.registeredAddress?.state || ''} {buyerDetails?.registeredAddress?.city || ''}
                                             </div>
                                             <div className='buyer-details-company-type-sec-text'>
-                                            {buyerDetails?.registeredAddress?.pincode || ''}
+                                                {buyerDetails?.registeredAddress?.pincode || ''}
                                             </div>
                                         </div>
 
@@ -270,43 +330,11 @@ const DetailsBuyerRequest = () => {
                                     </div>
                                 </div>
                                 <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Contact Person Name :</div>
-                                    <div className='buyer-details-inner-text'>{buyerDetails?.contact_person_name}</div>
-                                </div>
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Designation :</div>
-                                    <div className='buyer-details-inner-text'>{buyerDetails?.designation}</div>
-                                </div>
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Email ID :</div>
-                                    <div className='buyer-details-inner-text'>{buyerDetails?.contact_person_email}</div>
-                                </div>
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Mobile No. :</div>
-                                    <div className='buyer-details-inner-text'>{buyerDetails?.contact_person_country_code} {buyerDetails?.contact_person_mobile}</div>
-                                </div>
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>License No. :</div>
-                                    <div className='buyer-details-inner-text'>{buyerDetails?.license_no}</div>
-                                </div>
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>License Expiry Date :</div>
-                                    <div className='buyer-details-inner-text'>{buyerDetails?.license_expiry_date}</div>
-                                </div>
-
-
-                            </div>
-                            <div className='buyer-details-inner-left-section'>
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Tax No. :</div>
-                                    <div className='buyer-details-inner-text'>{buyerDetails?.tax_no}</div>
-                                </div>
-                                <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Company Registartion No. :</div>
                                     <div className='buyer-details-inner-text'>{buyerDetails?.registration_no}</div>
                                 </div>
                                 <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>VAT Registartion No. :</div>
+                                    <div className='buyer-details-inner-head'>GST/VAT Registration No. :</div>
                                     <div className='buyer-details-inner-text'>{buyerDetails?.vat_reg_no}</div>
                                 </div>
                                 <div className='buyer-details-inner-section'>
@@ -326,9 +354,41 @@ const DetailsBuyerRequest = () => {
                                     <div className='buyer-details-inner-head'>Interested In :</div>
                                     <div className='buyer-details-inner-text'>{buyerDetails?.interested_in?.join(', ')}</div>
                                 </div>
+
+
+                            </div>
+                            <div className='buyer-details-inner-left-section'>
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Business/Trade Activity Code :</div>
                                     <div className='buyer-details-inner-text'>{buyerDetails?.activity_code || '-'}</div>
+                                </div>
+                                {buyerDetails?.license_no && buyerDetails?.license_expiry_date && (
+                                    <>
+                                        <div className='buyer-details-inner-section'>
+                                            <div className='buyer-details-inner-head'>License No. :</div>
+                                            <div className='buyer-details-inner-text'>{buyerDetails.license_no}</div>
+                                        </div>
+                                        <div className='buyer-details-inner-section'>
+                                            <div className='buyer-details-inner-head'>License Expiry Date :</div>
+                                            <div className='buyer-details-inner-text'>{buyerDetails.license_expiry_date}</div>
+                                        </div>
+                                    </>
+                                )}
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Contact Name :</div>
+                                    <div className='buyer-details-inner-text'>{buyerDetails?.contact_person_name}</div>
+                                </div>
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Designation :</div>
+                                    <div className='buyer-details-inner-text'>{buyerDetails?.designation}</div>
+                                </div>
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Email ID :</div>
+                                    <div className='buyer-details-inner-text'>{buyerDetails?.contact_person_email}</div>
+                                </div>
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Mobile No. :</div>
+                                    <div className='buyer-details-inner-text'>{buyerDetails?.contact_person_country_code} {buyerDetails?.contact_person_mobile}</div>
                                 </div>
                             </div>
 
@@ -354,15 +414,15 @@ const DetailsBuyerRequest = () => {
                                     </div>
                                 </div>
                                 <div className='buyer-details-card-container'>
-                                    <div className='buyer-details-company-logo-heading'>Tax Certificate</div>
-                                    <div className='buyer-details-company-img-container'>
-                                        {renderFiles(buyerDetails?.tax_image, 'tax_images')}
-                                    </div>
-                                </div>
-                                <div className='buyer-details-card-container'>
                                     <div className='buyer-details-company-logo-heading'>Certificate</div>
                                     <div className='buyer-details-company-img-container'>
-                                        {renderFiles(buyerDetails?.certificate_image, 'certificate_images')}
+                                        {renderFiles(
+                                            buyerDetails?.certificateFileNDate?.length > 0
+                                                ? buyerDetails?.certificateFileNDate
+                                                : buyerDetails?.certificate_image,
+                                            'certificate_images',
+                                            buyerDetails?.certificateFileNDate?.length > 0
+                                        )}
                                     </div>
                                 </div>
 

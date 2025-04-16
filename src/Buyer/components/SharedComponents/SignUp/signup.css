@@ -8,6 +8,15 @@
 }
 .signup-document-section{
   width: 100%;
+  display: flex
+;
+  flex-direction: column;
+  row-gap: 20px;
+}
+.signup-add-button-section{
+  display: flex;
+      justify-content: end;
+      margin-bottom: -30px;
 }
 .signup-document-head{
   border: none !important;
@@ -29,17 +38,34 @@
       gap: 1rem;
       position: relative;
 }
-
-.document-cross-button{
+.file-preview-container{
+  position: relative;
+  display: inline-block;
+}
+.cross-icon {
   position: absolute;
-  right: -11px;
-  top: 48%;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  font-size: 20px;
-  transform: translate(50%, -50%);
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+    top: 50%;
+    right: -20px;
+    width: 22px;
+    height: 22px;
+    padding: 6px;
+    cursor: pointer !important;
+    border: none;
+    background: transparent;
+    font-size: 20px;
+    transform: translateY(168%);
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    z-index: 10;
+}
+
+.signup-cross-button {
+  cursor: pointer !important;
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .signup-logo-section {
   width: 46%;

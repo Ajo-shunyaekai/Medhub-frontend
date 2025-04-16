@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Cross from '../../../assets/images/Icon.svg'
 import { useNavigate } from "react-router-dom";
 import Select, { components } from "react-select";
 import countryList from "react-select-country-list";
@@ -504,10 +505,7 @@ const SupplierSignUp = ({ socket }) => {
       formErrors.operationCountries = "Country of Operation is Required";
     if (!formData.categories.length)
       formErrors.categories = "Trade In Category is Required";
-    if (!formData.companyLicenseNo)
-      formErrors.companyLicenseNo = "Company License No. is Required";
-    // if (!formData.companyLicenseExpiry) formErrors.companyLicenseExpiry = 'Company License Expiry Date is Required';
-    // License expiry date validation
+   
     if (!formData.companyLicenseExpiry) {
       formErrors.companyLicenseExpiry =
         "Company License Expiry Date is Required";
@@ -543,9 +541,7 @@ const SupplierSignUp = ({ socket }) => {
         }
       }
     }
-    // if (!formData.companyTaxNo) formErrors.companyTaxNo = 'Company Tax No. is Required';
-    // if (!isChecked) formErrors.terms = 'You must agree to the terms and conditions';
-    // if (!formData.bankdetails) formErrors.bankdetails = 'Bank Details are Required';
+   
     if (!formData.bankdetails) {
       formErrors.bankdetails = "Bank Details are Required";
     } else {
@@ -565,9 +561,6 @@ const SupplierSignUp = ({ socket }) => {
     if (!formData.logoImage) formErrors.logoImage = "Logo Image is Required";
     if (!formData.licenseImage)
       formErrors.licenseImage = "License Image is Required";
-    // if (!formData.certificateImage)
-    //   formErrors.certificateImage = "Certificate Image is Required";
-    // if (!formData.medicalCertificate) formErrors.medicalCertificate = 'Medical Certificate Image is Required';
     if (
       selectedCompanyType?.value === "medical practitioner" &&
       !formData.medicalCertificateImage
@@ -1180,76 +1173,7 @@ const SupplierSignUp = ({ socket }) => {
                         </div>
                       )}
                     </div>
-                    <div className="signup-form-section-div">
-                      <label className="signup-form-section-label">
-                        Company License No.<span className="labelstamp">*</span>
-                      </label>
-                      <input
-                        className="signup-form-section-input"
-                        type="text"
-                        name="companyLicenseNo"
-                        placeholder="Enter License No."
-                        value={formData.companyLicenseNo}
-                        onChange={handleChange}
-                      />
-                      {errors.companyLicenseNo && (
-                        <div className="signup__errors">
-                          {errors.companyLicenseNo}
-                        </div>
-                      )}
-                    </div>
-                    <div className="signup-form-section-div">
-                      <label className="signup-form-section-label">
-                        License Expiry / Renewal Date
-                        <span className="labelstamp">*</span>
-                      </label>
-                      <InputMask
-                        className="signup-form-section-input"
-                        type="text"
-                        mask="dd-mm-yyyy"
-                        placeholder="DD-MM-YYYY"
-                        name="companyLicenseExpiry"
-                        value={formData.companyLicenseExpiry}
-                        onChange={handleChange}
-                        replacement={{ d: /\d/, m: /\d/, y: /\d/ }}
-                        showMask
-                        separate
-                      />
 
-                      {errors.companyLicenseExpiry && (
-                        <div className="signup__errors">
-                          {errors.companyLicenseExpiry}
-                        </div>
-                      )}
-                    </div>
-                    {/* <div className='signup-form-section-div'>
-                                                <label className='signup-form-section-label'>Company Tax No.<span className='labelstamp'>*</span></label>
-                                                <input
-                                                    className='signup-form-section-input'
-                                                    type="text"
-                                                    name="companyTaxNo"
-                                                    placeholder="Enter Company Tax No."
-                                                    value={formData.companyTaxNo}
-                                                    onChange={handleChange}
-                                                />
-                                                {errors.companyTaxNo && <div className='signup__errors'>{errors.companyTaxNo}</div>}
-                                            </div> */}
-                    <div className="signup-form-section-div">
-                      <label className="signup-form-section-label">
-                        Tags<span className="labelstamp">*</span>
-                      </label>
-                      <input
-                        className="signup-form-section-input"
-                        type="text"
-                        name="tags"
-                        placeholder="Enter Tags (comma separated)"
-                        value={formData.tags}
-                        onChange={handleChange}
-                      />
-                      {errors.tags && (
-                        <div className="signup__errors">{errors.tags}</div>
-                      )}
-                    </div>
                     <div className="signup-form-section-div">
                       <label className="signup-form-section-label">
                         Categories you Trade In
@@ -1271,6 +1195,57 @@ const SupplierSignUp = ({ socket }) => {
                         </div>
                       )}
                     </div>
+                    <div className="signup-form-section-div">
+                      <label className="signup-form-section-label">
+                        Company License No.
+                      </label>
+                      <input
+                        className="signup-form-section-input"
+                        type="text"
+                        name="companyLicenseNo"
+                        placeholder="Enter License No."
+                        value={formData.companyLicenseNo}
+                        onChange={handleChange}
+                      />
+                     
+                    </div>
+                    <div className="signup-form-section-div">
+                      <label className="signup-form-section-label">
+                        License Expiry / Renewal Date
+                        
+                      </label>
+                      <InputMask
+                        className="signup-form-section-input"
+                        type="text"
+                        mask="dd-mm-yyyy"
+                        placeholder="DD-MM-YYYY"
+                        name="companyLicenseExpiry"
+                        value={formData.companyLicenseExpiry}
+                        onChange={handleChange}
+                        replacement={{ d: /\d/, m: /\d/, y: /\d/ }}
+                        showMask
+                        separate
+                      />
+
+                     
+                    </div>
+                    <div className="signup-form-section-div">
+                      <label className="signup-form-section-label">
+                        Tags<span className="labelstamp">*</span>
+                      </label>
+                      <input
+                        className="signup-form-section-input"
+                        type="text"
+                        name="tags"
+                        placeholder="Enter Tags (comma separated)"
+                        value={formData.tags}
+                        onChange={handleChange}
+                      />
+                      {errors.tags && (
+                        <div className="signup__errors">{errors.tags}</div>
+                      )}
+                    </div>
+                    
                     <div className="signup-form-section-div">
                       <label className="signup-form-section-label">
                         About Company<span className="labelstamp">*</span>
@@ -1531,13 +1506,14 @@ const SupplierSignUp = ({ socket }) => {
                       )}
                     </div>
                     <div className="signup-document-section">
+                    <div className="signup-add-button-section">
                       <button
                         className="signup-document-head"
                         onClick={(e) => addNewSection(e)}
                       >
                         Add
                       </button>
-
+                      </div>
                       {certificateFileNDate.map((section, index) => (
                         <div key={index} className="document-inner-section">
                           <div className="signup-form-section-div">
@@ -1588,12 +1564,12 @@ const SupplierSignUp = ({ socket }) => {
                           </div>
 
                           {certificateFileNDate.length > 1 && (
-                            <button
+                            <div
                               onClick={() => removeSection(index)}
-                              className="document-cross-button"
+                              className="signup-cross-button"
                             >
-                              ×
-                            </button>
+                              <img src={Cross} alt="cross" className="cross-icon"/>
+                            </div>
                           )}
                         </div>
                       ))}

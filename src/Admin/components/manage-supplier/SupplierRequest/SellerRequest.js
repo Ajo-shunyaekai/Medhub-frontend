@@ -23,7 +23,7 @@ const SellerRequest = () => {
     const [sellerRequestList, setSellerRequestList] = useState([]);
     const [totalRequests, setTotalRequests] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
-    const listPerPage = 5;
+    const listPerPage = 10;
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -72,10 +72,16 @@ const SellerRequest = () => {
             // width: '120px',
         },
         {
-            name: 'Company Type',
-            selector: (row) => row.supplier_type,
+            name: 'Registration No.',
+            selector: (row) => row.registration_no,
             sortable: true,
-            // width: '150px',
+            // width: '200px',
+        },
+        {
+            name: 'GST/VAT Registration No.',
+            selector: (row) => row.vat_reg_no,
+            sortable: true,
+            // width: '200px',
         },
         {
             name: 'Company Name',
@@ -84,29 +90,24 @@ const SellerRequest = () => {
             // width: '200px',
         },
         {
-            name: 'Email',
-            selector: (row) => row.contact_person_email,
+            name: 'Company Type',
+            selector: (row) => row.supplier_type,
             sortable: true,
-            // width: '250px',
+            // width: '150px',
         },
+       
         {
             name: 'Country of Origin',
             selector: (row) => row.country_of_origin,
             sortable: true,
             // width: '150px',
         },
-        {
-            name: 'Company License No',
-            selector: (row) => row.license_no,
-            sortable: true,
-            // width: '150px',
-        },
-        {
-            name: 'Company Tax No.',
-            selector: (row) => row.tax_no,
-            sortable: true,
-            // width: '150px',
-        },
+        // {
+        //     name: 'Company Tax No.',
+        //     selector: (row) => row.tax_no,
+        //     sortable: true,
+        //     // width: '150px',
+        // },
         {
             name: 'Action',
             cell: (row) => (
@@ -146,7 +147,7 @@ const SellerRequest = () => {
                             activePage={currentPage}
                             itemsCountPerPage={listPerPage}
                             totalItemsCount={totalRequests}
-                            pageRangeDisplayed={5}
+                            pageRangeDisplayed={10}
                             onChange={handlePageChange}
                         />
                 </>

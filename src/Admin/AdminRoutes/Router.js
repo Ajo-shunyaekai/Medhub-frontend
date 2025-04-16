@@ -184,6 +184,9 @@ const SellerPurchasedOrderDetails = lazy(() =>
 const SellerOrderDetails = lazy(() =>
   import("../components/manage-supplier/Order/OrderDetails")
 );
+const Edit = lazy(() =>
+  import("../components/shared-components/EditDetails/edit.js")
+);
 const SellerInvoiceDetails = lazy(() =>
   import("../components/manage-supplier/Invoice/SellerInvoiceDetails")
 );
@@ -527,6 +530,16 @@ const router = createBrowserRouter([
             ),
           },
         ],
+      },
+     
+      {
+        // path: "_id/edit",
+        path: "edit-details/:userType/:id",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Edit socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "profile",
