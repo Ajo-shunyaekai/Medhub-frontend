@@ -12,6 +12,7 @@ const initialState = {
   error: null,
   loading: false,
   emailToResetPassword: "",
+  otherUserDetails: null,
 };
 
 export const fetchUserData = createAsyncThunk(
@@ -19,6 +20,19 @@ export const fetchUserData = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const response = await apiRequests?.getRequest(`/auth/${id}`);
+      return response?.user || response?.data; // Return the actual user data or fallback
+    } catch (error) {
+      // Log and pass the error
+      return rejectWithValue(error?.response?.data || error.message);
+    }
+  }
+);
+
+export const fetchOtherUserData = createAsyncThunk(
+  "user/fetchOtherUserData",
+  async ({ id, userType }, { rejectWithValue }) => {
+    try {
+      const response = await apiRequests?.getRequest(`/auth/other-user/${userType}/${id}`);
       return response?.user || response?.data; // Return the actual user data or fallback
     } catch (error) {
       // Log and pass the error
@@ -197,6 +211,20 @@ export const userDataSlice = createSlice({
         state.user = action?.payload;
       })
       .addCase(fetchUserData.rejected, (state, action) => {
+        state.status = "failed";
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(fetchOtherUserData.pending, (state) => {
+        state.status = "loading";
+        state.loading = true;
+      })
+      .addCase(fetchOtherUserData.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.loading = false;
+        state.otherUserDetails = action?.payload;
+      })
+      .addCase(fetchOtherUserData.rejected, (state, action) => {
         state.status = "failed";
         state.loading = false;
         state.error = action.payload;

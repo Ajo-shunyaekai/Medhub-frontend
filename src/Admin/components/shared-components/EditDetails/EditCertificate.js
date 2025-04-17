@@ -1,4 +1,3 @@
-
 import React, { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { FiUploadCloud, FiFileText, FiX } from "react-icons/fi";
@@ -24,7 +23,7 @@ const useFileUpload = (
     (acceptedFiles) => {
       setFieldValue(fieldInputName, acceptedFiles);
       const updatedComplianceFiles = [
-        ...(initialValues?.complianceFileNew || []), 
+        ...(initialValues?.complianceFileNew || []),
         ...acceptedFiles,
       ];
       setFieldValue("complianceFileNew", updatedComplianceFiles);
@@ -32,11 +31,9 @@ const useFileUpload = (
         const totalFiles = [...prev, ...acceptedFiles].slice(0, 4); // Limit to maxFiles (4 in this case)
         return totalFiles;
       });
-
     },
     [setFieldValue, initialValues]
   );
-
 
   const removeFile = (index, event, arrayToFilter, file) => {
     event.stopPropagation();
@@ -53,16 +50,15 @@ const useFileUpload = (
       if (filteredValues > 1) {
         setFieldValue(
           "complianceFileNew",
-         
+
           initialValues?.complianceFileNew?.filter(
             (_, index) => index != indexToRemove
-           
           )
         );
       } else {
         setFieldValue(
           "complianceFileNew",
-         
+
           initialValues?.complianceFileNew?.filter(
             // (_, index) => index != indexToRemove
             (_, index) => JSON.stringify(_) != file
@@ -82,7 +78,7 @@ const useFileUpload = (
       if (filteredValues > 1) {
         setFieldValue(
           "complianceFile",
-        
+
           initialValues?.complianceFile?.filter(
             (_, index) => index != indexToRemove
             // (_, index) => JSON.stringify(_) != file
@@ -91,14 +87,13 @@ const useFileUpload = (
       } else {
         setFieldValue(
           "complianceFile",
-         
+
           initialValues?.complianceFile?.filter(
             // (_, index) => index != indexToRemove
             (_, index) => JSON.stringify(_) != file
           )
         );
       }
-    
     }
     setFieldValue(fieldInputName, []); // Update Formik field with the new files
   };
@@ -157,7 +152,6 @@ const EditCertificate = ({
     isEdit
   );
 
-
   const isImageOnly =
     acceptTypes &&
     Object.keys(acceptTypes).every((type) => type?.startsWith("image/"));
@@ -167,7 +161,12 @@ const EditCertificate = ({
 
   return (
     <div className={styles.compliancesContainer}>
-      {showLabel && <label className={styles.formLabel}>{label}<span className={styles?.labelStamp}>*</span></label>}
+      {showLabel && (
+        <label className={styles.formLabel}>
+          {label}
+          <span className={styles?.labelStamp}>*</span>
+        </label>
+      )}
       <div className={styles.tooltipContainer}>
         <div {...fileUpload?.getRootProps({ className: styles.uploadBox })}>
           <input {...fileUpload?.getInputProps()} />
@@ -182,6 +181,13 @@ const EditCertificate = ({
                 }`}
           </p>
         </div>
+        {/* {formik?.touched?.vat_reg_no &&
+                  formik?.errors?.vat_reg_no && ( */}
+        <span className={styles.error}>
+          {/* {formik?.errors?.vat_reg_no} */}
+          eeeeeeeee
+        </span>
+        {/* )} */}
       </div>
       {(typeof fileUpload?.selectedFile == "string"
         ? [fileUpload?.selectedFile]

@@ -23,9 +23,7 @@ const useFileUpload = (
       setFilesNew((prev) => {
         const totalFiles = [...prev, ...acceptedFiles].slice(0, maxFiles); // Limit to maxFiles
         if (acceptedFiles?.length + prev.length > maxFiles) {
-          alert(
-            `You can only upload a maximum of 4 files.`
-          );
+          alert(`You can only upload a maximum of 4 files.`);
           return prev; // Keep previous files if limit exceeded
         }
         // Update Formik state
@@ -50,7 +48,6 @@ const useFileUpload = (
       setFilesMerged(mergedFiles); // Only update if the merged files are different
     }
   }, [filesNew, filesOld, filesMerged]);
-
 
   const removeFile = (index, event, arrayToFilter) => {
     if (event) event.stopPropagation();
@@ -133,7 +130,7 @@ const EditFile = ({
       {showLabel && (
         <label className={styles.formLabel}>
           {label}
-            <span className={styles.labelStamp}>*</span>
+          <span className={styles.labelStamp}>*</span>
         </label>
       )}
       <div className={styles.tooltipContainer}>
@@ -151,8 +148,15 @@ const EditFile = ({
           </p>
         </div>
       </div>
-      {error && <span className={styles.error}>{error}</span>}
-    
+      {/* {formik?.touched?.vat_reg_no &&
+                  formik?.errors?.vat_reg_no && ( */}
+      <span className={styles.error}>
+        {/* {formik?.errors?.vat_reg_no} */}
+        eeeeeeeee
+      </span>
+      {/* )} */}
+      {/* {error && <span className={styles.error}>{error}</span>} */}
+
       {fileUpload?.filesMerged?.length > 0 && (
         <div className={styles.previewContainer}>
           {fileUpload?.filesMerged?.map((file, index) => {

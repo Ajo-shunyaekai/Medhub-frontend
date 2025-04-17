@@ -40,7 +40,7 @@ const SupplierCompleted = () => {
         setOrderList(response.result.orderList);
         setTotalOrders(response.result.totalOrders);
       } else {
-        console.log('Error fetching orders');
+        console.error('Error fetching orders');
       }
     });
   }, [currentPage, supplierId, navigate]);

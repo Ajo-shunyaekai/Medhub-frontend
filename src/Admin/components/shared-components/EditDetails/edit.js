@@ -10,13 +10,24 @@ import { Country, State, City } from "country-state-city";
 import categoryArrays from "../../../../utils/Category";
 import EditCertificate from "./EditCertificate";
 import EditFile from "./EditFile";
-import './edit.css';
+import "./edit.css";
 import styles from "./edit.module.css";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form, Field, useFormik, FormikProvider } from "formik";
 import DatePicker from "react-date-picker";
-import * as Yup from "yup";
 import moment from "moment";
 import { MdClose } from "react-icons/md";
+import {
+  buyererOptions,
+  initialValues,
+  setInitFormValues,
+  supplierOptions,
+  validationSchema,
+} from "./helper";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { parsePhoneNumber, isValidPhoneNumber } from "libphonenumber-js";
+import { parsePhoneNumberFromString, AsYouType } from "libphonenumber-js";
+import { fetchOtherUserData } from "../../../../redux/reducers/userDataSlice";
 
 // MultiSelectOption Component
 const MultiSelectOption = ({ children, ...props }) => (
@@ -41,62 +52,33 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
   );
 };
 
-// Define options arrays
-const Options = [
-  { value: "manufacturer", label: "Manufacturer" },
-  { value: "distributor", label: "Distributor" },
-  { value: "medical practitioner", label: "Medical Practitioner" },
-];
+const Edit = () => {
+  const { userType, id } = useParams();
+  const dispatch = useDispatch();
+  const { otherUserDetails } = useSelector((state) => state.userReducer);
 
-// Validation schema using Yup
-const validationSchema = Yup.object().shape({
-  cNCFileNDate: Yup.array()
-    .of(
-      Yup.object().shape({
-        file: Yup.mixed().required("File is required"),
-        date: Yup.date()
-          .required("Date is required")
-          .min(new Date(), "Date must be in the future"),
-      })
-    )
-    .min(1, "At least one certificate is required"),
-  safetyDatasheetNew: Yup.array().max(4, "Maximum 4 files allowed"),
-  healthHazardRatingNew: Yup.array().max(4, "Maximum 4 files allowed"),
-  environmentalImpactNew: Yup.array().max(4, "Maximum 4 files allowed"),
-  licenseExpiry: Yup.date()
-    .nullable()
-    .min(new Date(), "License Expiry Date must be in the future"),
-});
-
-const Edit = ({ productDetail, id }) => {
-  // State for form data
-  const [formData, setFormData] = useState({
-    originCountry: "",
-    operationCountries: [],
-    categories: [],
+  const formik = useFormik({
+    initialValues: initialValues,
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      // Custom submit handler with e.preventDefault()
+    },
   });
 
+  useEffect(() => {
+    userType && id && dispatch(fetchOtherUserData({ userType, id }));
+  }, [id]);
+
+  useEffect(() => {
+    setInitFormValues(formik, otherUserDetails);
+  }, [otherUserDetails]);
+
   // State for country, state, city selection
-  const [selectedCountry, setSelectedCountry] = useState(null);
-  const [selectedState, setSelectedState] = useState(null);
-  const [selectedCity, setSelectedCity] = useState(null);
   const [mobile, setMobile] = useState("");
   const [category, setCategory] = useState([]);
-  const [companyType, setCompanyType] = useState(null);
-  const [userType, setUserType] = useState("");
 
   // Country list for select
-  const countries = countryList().getData();
-
-  // Determine user type from URL
-  useEffect(() => {
-    const path = window.location.pathname;
-    if (path.includes("/admin/edit-details/supplier")) {
-      setUserType("supplier");
-    } else if (path.includes("/admin/edit-details/buyer")) {
-      setUserType("buyer");
-    }
-  }, []);
+  const countries = countryList()?.getData();
 
   // Populate category options from categoryArrays
   useEffect(() => {
@@ -107,705 +89,1006 @@ const Edit = ({ productDetail, id }) => {
     setCategory(categoryOptions || []);
   }, []);
 
-  // Handlers for form changes
-  const handleCountryChange = (country) => {
-    setSelectedCountry(country);
-    setSelectedState(null);
-    setSelectedCity(null);
-  };
-
-  const handleStateChange = (state) => {
-    setSelectedState(state);
-    setSelectedCity(null);
-  };
-
-  const handleCityChange = (city) => {
-    setSelectedCity(city);
-  };
-
-  const handleCountryOriginChange = (option) => {
-    setFormData({ ...formData, originCountry: option ? option.value : "" });
-  };
-
-  const handleOperationCountriesChange = (selectedOptions) => {
-    setFormData({ ...formData, operationCountries: selectedOptions });
-  };
-
-  const handleCategoriesChange = (selectedOptions) => {
-    setFormData({ ...formData, categories: selectedOptions });
-  };
-
   // Placeholder for dropdown button label
   const getDropdownButtonLabel = ({ value }) => {
-    if (!value || value.length === 0) return "Select...";
-    return value.map((item) => item.label).join(", ");
+    if (!value || value?.length === 0) return "Select...";
+    return value?.map((item) => item.label)?.join(", ");
   };
 
-  // Initial values for the form
-  const initialValues = {
-    cNCFileNDate: [
-      {
-        file: [],
-        date: "",
-        preview: false,
-      },
-    ],
-    complianceFile: [],
-    complianceFileNew: [],
-    safetyDatasheet: [],
-    safetyDatasheetNew: [],
-    healthHazardRating: [],
-    healthHazardRatingNew: [],
-    environmentalImpact: [],
-    environmentalImpactNew: [],
-    phoneNumber: "",
-    mobile: "",
-    companyName: "",
-    companyRegistrationNo: "",
-    gstVatNo: "",
-    billingAddress: "",
-    areaLocality: "",
-    landmark: "",
-    pincode: "",
-    salesPersonName: "",
-    licenseNo: "",
-    licenseExpiry: null,
-    tags: "",
-    aboutCompany: "",
-    bankDetails: "",
-    tradeActivityCode: "",
-    contactName: "",
-    email: "",
-    designation: "",
-    yearlyPurchaseValue: "",
+  // Define handlePhoneChange inside Formik to access setFieldValue
+  const handlePhoneChange = (name, value) => {
+    // Clear previous errors (local + Formik)
+    formik.setFieldError(name, "");
+
+    try {
+      const phoneNumber = parsePhoneNumber(value);
+
+      if (phoneNumber && isValidPhoneNumber(value)) {
+        const countryCode = phoneNumber.countryCallingCode;
+        const nationalNumber = phoneNumber.nationalNumber;
+        const formattedNumber = `+${countryCode} ${nationalNumber}`;
+
+        // Also update Formik field value (if you're syncing both)
+        formik.setFieldValue(name, formattedNumber);
+      } else {
+        const errorMsg = "Invalid phone number";
+
+        // Set both local error and Formik error
+        formik.setFieldError(name, errorMsg);
+      }
+    } catch (error) {
+      // In case of parsing errors
+      formik.setFieldError(name, "Invalid phone format");
+    }
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.headContainer}>
-        <span className={styles.heading}>Edit Details</span>
+    <div className={styles?.container}>
+      <div className={styles?.headContainer}>
+        <span className={styles?.heading}>Edit Details</span>
       </div>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={(values) => {
-          console.log("Form submitted:", values, "ID:", id);
-          // Handle form submission here, you can use `id` for your logic
-        }}
-      >
-        {({ values, setFieldValue, setFieldTouched, touched, errors, handleBlur }) => {
-          // Define handlePhoneChange inside Formik to access setFieldValue
-          const handlePhoneChange = (name, value) => {
-            setMobile(value);
-            setFieldValue(name, value);
-          };
-
-          return (
-            <Form className={styles.form}>
-              <div className={styles.section}>
-                <span className={styles.formHead}>Company Details</span>
-                <div className={styles.formSection}>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Company Type<span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <Select
-                      className={styles.formSelect}
-                      options={Options}
-                      placeholder="Select Company Type"
-                      onChange={(option) => setCompanyType(option)}
-                    />
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Company Name<span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <Field
-                      className={styles.formInput}
-                      type="text"
-                      placeholder="Enter Company Name"
-                      name="companyName"
-                    />
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Company Registration No.
-                      <span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <Field
-                      className={styles.formInput}
-                      type="text"
-                      placeholder="Enter Company Registration No."
-                      name="companyRegistrationNo"
-                    />
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      GST/VAT Registration No<span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <Field
-                      className={styles.formInput}
-                      type="text"
-                      placeholder="Enter GST/VAT Registration No"
-                      name="gstVatNo"
-                    />
-                    {touched.gstVatNo && errors.gstVatNo && (
-                      <span className={styles.error}>{errors.gstVatNo}</span>
-                    )}
-                  </div>
-
-                  {userType !== "supplier" && (
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Company Email ID
-                        <span className={styles?.labelStamp}>*</span>
-                      </label>
-                      <Field
-                        className={styles.formInput}
-                        type="text"
-                        placeholder="Enter Company Email ID"
-                        name="email"
-                      />
-                    </div>
+      <FormikProvider value={formik}>
+        <form className={styles?.form}>
+          <div className={styles?.section}>
+            <span className={styles?.formHead}>Company Details</span>
+            <div className={styles?.formSection}>
+              <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>
+                  Company Type<span className={styles?.labelStamp}>*</span>
+                </label>
+                <Select
+                  className={styles?.formSelect}
+                  options={
+                    userType === "supplier" ? supplierOptions : buyererOptions
+                  }
+                  name={
+                    userType === "supplier" ? "supplier_type" : "buyer_type"
+                  }
+                  placeholder="Select Company Type"
+                  value={(userType === "supplier"
+                    ? supplierOptions
+                    : buyererOptions
+                  )?.find(
+                    (option) =>
+                      option?.value ===
+                      (userType === "supplier"
+                        ? formik?.values?.supplier_type
+                        : formik?.values?.buyer_type)
                   )}
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Company Phone No.
-                      <span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <PhoneInput
-                      defaultCountry="us"
-                      name="phoneNumber"
-                      value={values.phoneNumber}
-                      onChange={(value) => handlePhoneChange("phoneNumber", value)}
-                    />
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Company Billing Address
-                      <span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <Field
-                      className={styles.formInput}
-                      type="text"
-                      placeholder="Enter Company Billing Address"
-                      name="billingAddress"
-                    />
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Area/Locality/Road Name
-                      <span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <Field
-                      className={styles.formInput}
-                      type="text"
-                      placeholder="Enter Area/Locality/Road Name"
-                      name="areaLocality"
-                    />
-                    {touched.areaLocality && errors.areaLocality && (
-                      <span className={styles.error}>{errors.areaLocality}</span>
+                  onChange={(option) => {
+                    formik?.setFieldValue(
+                      userType === "supplier" ? "supplier_type" : "buyer_type",
+                      option?.value
+                    );
+                  }}
+                />
+                {userType === "supplier"
+                  ? formik?.touched?.supplier_type &&
+                    formik?.errors?.supplier_type && (
+                      <span className={styles?.error}>
+                        {formik?.errors?.supplier_type}
+                      </span>
+                    )
+                  : formik?.touched?.buyer_type &&
+                    formik?.errors?.buyer_type && (
+                      <span className={styles?.error}>
+                        {formik?.errors?.buyer_type}
+                      </span>
                     )}
-                  </div>
+              </div>
 
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Landmark</label>
-                    <Field
-                      className={styles.formInput}
-                      type="text"
-                      placeholder="Enter Landmark"
-                      name="landmark"
-                    />
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Country
-                      <span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <Select
-                      options={Country.getAllCountries()}
-                      getOptionLabel={(option) => option.name}
-                      getOptionValue={(option) => option.isoCode}
-                      value={selectedCountry}
-                      onChange={handleCountryChange}
-                      placeholder="Select Country"
-                    />
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>State/Province</label>
-                    <Select
-                      options={
-                        selectedCountry
-                          ? [
-                            ...State.getStatesOfCountry(selectedCountry.isoCode),
-                            { name: "Other", isoCode: "OTHER" },
-                          ]
-                          : []
-                      }
-                      getOptionLabel={(option) => option.name}
-                      getOptionValue={(option) => option.isoCode}
-                      value={selectedState}
-                      onChange={handleStateChange}
-                      placeholder="Select State"
-                    />
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>City/Town</label>
-                    <Select
-                      options={
-                        selectedState && selectedState.isoCode !== "OTHER"
-                          ? [
-                            ...City.getCitiesOfState(
-                              selectedState.countryCode,
-                              selectedState.isoCode
-                            ),
-                            { name: "Other" },
-                          ]
-                          : [{ name: "Other" }]
-                      }
-                      getOptionLabel={(option) => option.name}
-                      getOptionValue={(option) => option.name}
-                      value={selectedCity}
-                      onChange={handleCityChange}
-                      placeholder="Select City"
-                    />
-                    {touched.city && errors.city && (
-                      <span className={styles.error}>{errors.city}</span>
+              <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>
+                  Company Name<span className={styles?.labelStamp}>*</span>
+                </label>
+                <Field
+                  className={styles?.formInput}
+                  type="text"
+                  placeholder="Enter Company Name"
+                  name={
+                    userType === "supplier" ? "supplier_name" : "buyer_name"
+                  }
+                  value={
+                    userType === "supplier"
+                      ? formik?.values?.supplier_name
+                      : formik?.values?.buyer_name
+                  }
+                  onChange={formik?.handleChange}
+                  onBlur={formik?.handleBlur}
+                />
+                {userType === "supplier"
+                  ? formik?.touched?.supplier_name &&
+                    formik?.errors?.supplier_name && (
+                      <span className={styles?.error}>
+                        {formik?.errors?.supplier_name}
+                      </span>
+                    )
+                  : formik?.touched?.buyer_name &&
+                    formik?.errors?.buyer_name && (
+                      <span className={styles?.error}>
+                        {formik?.errors?.buyer_name}
+                      </span>
                     )}
-                  </div>
+              </div>
 
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Pincode/Postcode</label>
-                    <Field
-                      className={styles.formInput}
-                      type="text"
-                      placeholder="Enter Pincode/Postcode"
-                      name="pincode"
-                    />
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Sales Person Name</label>
-                    <Field
- applause
-                      className={styles.formInput}
-                      type="text"
-                      placeholder="Enter Sales Person Name"
-                      name="salesPersonName"
-                    />
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Country of Origin
-                      <span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <Select
-                      className="signup-forms-sections-select"
-                      options={countries}
-                      value={countries.find(
-                        (option) => option.value === formData.originCountry
-                      )}
-                      onChange={handleCountryOriginChange}
-                    />
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Country of Operation</label>
-                    {countries.length > 0 && (
-                      <MultiSelectDropdown
-                        className="signup-forms-sections-select custom-multi-select"
-                        options={countries}
-                        value={formData.operationCountries}
-                        onChange={handleOperationCountriesChange}
-                        getDropdownButtonLabel={getDropdownButtonLabel}
-                        style={{ width: "100%!important" }}
-                      />
-                    )}
-                    {touched.operationCountries && errors.operationCountries && (
-                      <span className={styles.error}>{errors.operationCountries}</span>
-                    )}
-                  </div>
-
-                  {userType !== "supplier" && (
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Approx. Yearly Purchase Value
-                      </label>
-                      <Field
-                        className={styles.formInput}
-                        type="text"
-                        placeholder="Enter Approx. Yearly Purchase Value"
-                        name="yearlyPurchaseValue"
-                      />
-                    </div>
+              <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>
+                  Company Registration No.
+                  <span className={styles?.labelStamp}>*</span>
+                </label>
+                <Field
+                  className={styles?.formInput}
+                  type="text"
+                  placeholder="Enter Company Registration No."
+                  name="registration_no"
+                  value={formik?.values?.registration_no}
+                  onChange={formik?.handleChange}
+                  onBlur={formik?.handleBlur}
+                />
+                {formik?.touched?.registration_no &&
+                  formik?.errors?.registration_no && (
+                    <span className={styles?.error}>
+                      {formik?.errors?.registration_no}
+                    </span>
                   )}
+              </div>
 
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Company License No.</label>
-                    <Field
-                      className={styles.formInput}
-                      type="text"
-                      placeholder="Enter Company License No."
-                      name="licenseNo"
+              <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>
+                  GST/VAT Registration No
+                  <span className={styles?.labelStamp}>*</span>
+                </label>
+                <Field
+                  className={styles?.formInput}
+                  type="text"
+                  placeholder="Enter GST/VAT Registration No"
+                  name="vat_reg_no"
+                  value={formik?.values?.vat_reg_no}
+                  onChange={formik?.handleChange}
+                  onBlur={formik?.handleBlur}
+                />
+                {formik?.touched?.vat_reg_no && formik?.errors?.vat_reg_no && (
+                  <span className={styles?.error}>
+                    {formik?.errors?.vat_reg_no}
+                  </span>
+                )}
+              </div>
+
+              {userType === "buyer" && (
+                <div className={styles?.productContainer}>
+                  <label className={styles?.formLabel}>
+                    Company Email ID
+                    <span className={styles?.labelStamp}>*</span>
+                  </label>
+                  <Field
+                    className={styles?.formInput}
+                    type="text"
+                    placeholder="Enter Company Email ID"
+                    name="buyer_email"
+                    value={formik?.values?.buyer_email}
+                    onChange={formik?.handleChange}
+                    onBlur={formik?.handleBlur}
+                  />
+                  {formik?.touched?.buyer_email &&
+                    formik?.errors?.buyer_email && (
+                      <span className={styles?.error}>
+                        {formik?.errors?.buyer_email}
+                      </span>
+                    )}
+                </div>
+              )}
+
+              <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>
+                  Company Phone No.
+                  <span className={styles?.labelStamp}>*</span>
+                </label>
+                <PhoneInput
+                  defaultCountry="us"
+                  name="buyer_mobile"
+                  value={formik?.values?.buyer_mobile}
+                  onChange={(value) => handlePhoneChange("buyer_mobile", value)}
+                />
+                {formik?.touched?.buyer_mobile &&
+                  formik?.errors?.buyer_mobile && (
+                    <span className={styles?.error}>
+                      {formik?.errors?.buyer_mobile}
+                    </span>
+                  )}
+              </div>
+
+              <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>
+                  Company Billing Address
+                  <span className={styles?.labelStamp}>*</span>
+                </label>
+                <Field
+                  className={styles?.formInput}
+                  type="text"
+                  placeholder="Enter Company Billing Address"
+                  name={
+                    userType === "supplier"
+                      ? "supplier_address"
+                      : "buyer_address"
+                  }
+                  value={
+                    userType === "supplier"
+                      ? formik?.values?.supplier_address
+                      : formik?.values?.buyer_address
+                  }
+                  onChange={formik?.handleChange}
+                  onBlur={formik?.handleBlur}
+                />
+                {userType === "supplier"
+                  ? formik?.touched?.supplier_address &&
+                    formik?.errors?.supplier_address && (
+                      <span className={styles?.error}>
+                        {formik?.errors?.supplier_address}
+                      </span>
+                    )
+                  : formik?.touched?.buyer_address &&
+                    formik?.errors?.buyer_address && (
+                      <span className={styles?.error}>
+                        {formik?.errors?.buyer_address}
+                      </span>
+                    )}
+              </div>
+
+              <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>
+                  Area/Locality/Road Name
+                  <span className={styles?.labelStamp}>*</span>
+                </label>
+                <Field
+                  className={styles?.formInput}
+                  type="text"
+                  placeholder="Enter Area/Locality/Road Name"
+                  name="locality"
+                  value={formik?.values?.locality}
+                  onChange={formik?.handleChange}
+                  onBlur={formik?.handleBlur}
+                />
+                {formik?.touched?.locality && formik?.errors?.locality && (
+                  <span className={styles?.error}>
+                    {formik?.errors?.locality}
+                  </span>
+                )}
+              </div>
+
+              <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>Landmark</label>
+                <Field
+                  className={styles?.formInput}
+                  type="text"
+                  placeholder="Enter Landmark"
+                  name="land_mark"
+                  value={formik?.values?.land_mark}
+                  onChange={formik?.handleChange}
+                  onBlur={formik?.handleBlur}
+                />
+              </div>
+
+              <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>
+                  Country
+                  <span className={styles?.labelStamp}>*</span>
+                </label>
+                <Select
+                  options={Country?.getAllCountries()}
+                  getOptionLabel={(option) => option?.name}
+                  getOptionValue={(option) => option?.isoCode}
+                  name="country"
+                  value={Country?.getAllCountries()?.find(
+                    (country) => country?.name == formik?.values?.country
+                  )}
+                  onChange={(country) => {
+                    formik?.setFieldValue("country", country?.name);
+                    formik?.setFieldValue("state", "");
+                    formik?.setFieldValue("city", "");
+                  }}
+                  placeholder="Select Country"
+                />
+                {formik?.touched?.country && formik?.errors?.country && (
+                  <span className={styles?.error}>
+                    {formik?.errors?.country}
+                  </span>
+                )}
+              </div>
+
+              <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>State/Province</label>
+                <Select
+                  options={
+                    Country?.getAllCountries()?.find(
+                      (country) => country?.name == formik?.values?.country
+                    )
+                      ? [
+                          ...State.getStatesOfCountry(
+                            Country?.getAllCountries()?.find(
+                              (country) =>
+                                country?.name == formik?.values?.country
+                            )?.isoCode
+                          ),
+                          { name: "Other", isoCode: "OTHER" },
+                        ]
+                      : []
+                  }
+                  getOptionLabel={(option) => option?.name}
+                  getOptionValue={(option) => option?.isoCode}
+                  value={[
+                    ...State.getStatesOfCountry(
+                      Country?.getAllCountries()?.find(
+                        (country) => country?.name == formik?.values?.country
+                      )?.isoCode
+                    ),
+                    { name: "Other", isoCode: "OTHER" },
+                  ]?.find((state) => state?.name == formik?.values?.state)}
+                  onChange={(state) => {
+                    formik?.setFieldValue("state", state?.name);
+                    formik?.setFieldValue("city", "");
+                  }}
+                  placeholder="Select State"
+                />
+              </div>
+
+              <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>City/Town</label>
+                <Select
+                  options={
+                    [
+                      ...State.getStatesOfCountry(
+                        Country?.getAllCountries()?.find(
+                          (country) => country?.name == formik?.values?.country
+                        )?.isoCode
+                      ),
+                      { name: "Other", isoCode: "OTHER" },
+                    ]?.find((state) => state?.name == formik?.values?.state) &&
+                    [
+                      ...State.getStatesOfCountry(
+                        Country?.getAllCountries()?.find(
+                          (country) => country?.name == formik?.values?.country
+                        )?.isoCode
+                      ),
+                      { name: "Other", isoCode: "OTHER" },
+                    ]?.find((state) => state?.name == formik?.values?.state)
+                      .isoCode !== "OTHER"
+                      ? [
+                          ...City.getCitiesOfState(
+                            [
+                              ...State.getStatesOfCountry(
+                                Country?.getAllCountries()?.find(
+                                  (country) =>
+                                    country?.name == formik?.values?.country
+                                )?.isoCode
+                              ),
+                              { name: "Other", isoCode: "OTHER" },
+                            ]?.find(
+                              (state) => state?.name == formik?.values?.state
+                            )?.countryCode,
+                            [
+                              ...State.getStatesOfCountry(
+                                Country?.getAllCountries()?.find(
+                                  (country) =>
+                                    country?.name == formik?.values?.country
+                                )?.isoCode
+                              ),
+                              { name: "Other", isoCode: "OTHER" },
+                            ]?.find(
+                              (state) => state?.name == formik?.values?.state
+                            )?.isoCode
+                          ),
+                          { name: "Other" },
+                        ]
+                      : [{ name: "Other" }]
+                  }
+                  getOptionLabel={(option) => option?.name}
+                  getOptionValue={(option) => option?.name}
+                  value={[
+                    ...City.getCitiesOfState(
+                      [
+                        ...State.getStatesOfCountry(
+                          Country?.getAllCountries()?.find(
+                            (country) =>
+                              country?.name == formik?.values?.country
+                          )?.isoCode
+                        ),
+                        { name: "Other", isoCode: "OTHER" },
+                      ]?.find((state) => state?.name == formik?.values?.state)
+                        ?.countryCode,
+                      [
+                        ...State.getStatesOfCountry(
+                          Country?.getAllCountries()?.find(
+                            (country) =>
+                              country?.name == formik?.values?.country
+                          )?.isoCode
+                        ),
+                        { name: "Other", isoCode: "OTHER" },
+                      ]?.find((state) => state?.name == formik?.values?.state)
+                        ?.isoCode
+                    ),
+                    { name: "Other" },
+                  ]?.find((city) => city?.name == formik?.values?.city)}
+                  onChange={(city) => {
+                    formik?.setFieldValue("city", city?.name);
+                  }}
+                  placeholder="Select City"
+                />
+              </div>
+
+              <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>Pincode/Postcode</label>
+                <Field
+                  className={styles?.formInput}
+                  type="text"
+                  placeholder="Enter Pincode/Postcode"
+                  name="pincode"
+                  value={formik?.values?.pincode}
+                  onChange={formik?.handleChange}
+                  onBlur={formik?.handleBlur}
+                />
+              </div>
+
+              <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>Sales Person Name</label>
+                <Field
+                  applause
+                  className={styles?.formInput}
+                  type="text"
+                  placeholder="Enter Sales Person Name"
+                  name="sales_person_name"
+                  value={formik?.values?.sales_person_name}
+                  onChange={formik?.handleChange}
+                  onBlur={formik?.handleBlur}
+                />
+              </div>
+
+              <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>
+                  Country of Origin
+                  <span className={styles?.labelStamp}>*</span>
+                </label>
+                <Select
+                  className="signup-forms-sections-select"
+                  options={countries}
+                  value={countries?.find(
+                    (option) =>
+                      option.label === formik?.values?.country_of_origin
+                  )}
+                  onChange={(option) => {
+                    formik?.setFieldValue("country_of_origin", option?.label);
+                  }}
+                />
+                {formik?.touched?.country_of_origin &&
+                  formik?.errors?.country_of_origin && (
+                    <span className={styles?.error}>
+                      {formik?.errors?.country_of_origin}
+                    </span>
+                  )}
+              </div>
+
+              <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>
+                  Country of Operation
+                </label>
+                {countries?.length > 0 && (
+                  <MultiSelectDropdown
+                    className="signup-forms-sections-select custom-multi-select"
+                    options={countries}
+                    value={
+                      formik.values?.country_of_operation?.map((country) =>
+                        countries?.find((c) => c.label === country)
+                      ) || []
+                    }
+                    onChange={(selectedOptions) => {
+                      const selectedValues = selectedOptions?.map(
+                        (option) => option.label
+                      );
+                      formik.setFieldValue(
+                        "country_of_operation",
+                        selectedValues
+                      );
+                    }}
+                    getDropdownButtonLabel={getDropdownButtonLabel}
+                    style={{ width: "100%!important" }}
+                  />
+                )}
+                {formik?.touched?.country_of_operation &&
+                  formik?.errors?.country_of_operation && (
+                    <span className={styles?.error}>
+                      {formik.errors.country_of_operation}
+                    </span>
+                  )}
+              </div>
+
+              {userType === "buyer" && (
+                <div className={styles?.productContainer}>
+                  <label className={styles?.formLabel}>
+                    Approx. Yearly Purchase Value
+                  </label>
+                  <Field
+                    className={styles?.formInput}
+                    type="text"
+                    placeholder="Enter Approx. Yearly Purchase Value"
+                    name="approx_yearly_purchase_value"
+                    value={formik?.values?.approx_yearly_purchase_value}
+                    onChange={formik?.handleChange}
+                    onBlur={formik?.handleBlur}
+                  />
+                </div>
+              )}
+
+              <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>Company License No.</label>
+                <Field
+                  className={styles?.formInput}
+                  type="text"
+                  placeholder="Enter Company License No."
+                  name="license_no"
+                  value={formik?.values?.license_no}
+                  onChange={formik?.handleChange}
+                  onBlur={formik?.handleBlur}
+                />
+              </div>
+
+              <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>
+                  License Expiry / Renewal Date
+                </label>
+                <DatePicker
+                  className={styles?.formInput}
+                  name="license_expiry_date"
+                  onChange={formik?.handleChange}
+                  onBlur={formik?.handleBlur}
+                  value={formik?.values?.license_expiry_date}
+                  minDate={new Date()}
+                  format="dd/MM/yyyy"
+                  placeholder="dd/MM/yyyy"
+                  clearIcon={null}
+                />
+              </div>
+
+              {userType === "supplier" && (
+                <div className={styles?.productContainer}>
+                  <label className={styles?.formLabel}>
+                    Tags
+                    <span className={styles?.labelStamp}>*</span>
+                  </label>
+                  <Field
+                    className={styles?.formInput}
+                    type="text"
+                    placeholder="Enter Tags"
+                    name="tags"
+                    value={formik?.values?.tags}
+                    onChange={formik?.handleChange}
+                    onBlur={formik?.handleBlur}
+                  />
+                  {formik?.touched?.tags && formik?.errors?.tags && (
+                    <span className={styles?.error}>
+                      {formik?.errors?.tags}
+                    </span>
+                  )}
+                </div>
+              )}
+
+              {userType === "buyer" && (
+                <div className={styles?.productContainer}>
+                  <label className={styles?.formLabel}>Interested in</label>
+                  {category.length > 0 && (
+                    <MultiSelectDropdown
+                      className="signup-forms-sections-select custom-multi-select"
+                      options={category}
+                      value={
+                        formik.values?.interested_in?.map((cat) =>
+                          category?.find((c) => c.label === cat)
+                        ) || []
+                      }
+                      onChange={(selectedOptions) => {
+                        const selectedValues = selectedOptions?.map(
+                          (option) => option.label
+                        );
+                        formik.setFieldValue("interested_in", selectedValues);
+                      }}
+                      getDropdownButtonLabel={getDropdownButtonLabel}
+                      style={{ width: "100%!important" }}
                     />
-                  </div>
+                  )}
+                  {formik?.touched?.interested_in &&
+                    formik?.errors?.interested_in && (
+                      <span className={styles?.error}>
+                        {formik.errors.interested_in}
+                      </span>
+                    )}
+                </div>
+              )}
 
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      License Expiry / Renewal Date
-                    </label>
+              {userType === "supplier" && (
+                <div className={styles?.productContainer}>
+                  <label className={styles?.formLabel}>
+                    Categories you Trade In
+                    <span className={styles?.labelStamp}>*</span>
+                  </label>
+                  {category?.length > 0 && (
+                    <MultiSelectDropdown
+                      className="signup-forms-sections-select custom-multi-select"
+                      options={category}
+                      value={
+                        formik.values?.categories?.map((cat) =>
+                          category?.find((c) => c.label === cat)
+                        ) || []
+                      }
+                      onChange={(selectedOptions) => {
+                        const selectedValues = selectedOptions?.map(
+                          (option) => option.label
+                        );
+                        formik.setFieldValue("categories", selectedValues);
+                      }}
+                      getDropdownButtonLabel={getDropdownButtonLabel}
+                      style={{ width: "100%!important" }}
+                    />
+                  )}
+                  {formik?.touched?.categories &&
+                    formik?.errors?.categories && (
+                      <span className={styles?.error}>
+                        {formik?.errors?.categories}
+                      </span>
+                    )}
+                </div>
+              )}
+
+              <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>
+                  About Company
+                  <span className={styles?.labelStamp}>*</span>
+                </label>
+                <Field
+                  as="textarea"
+                  className={styles?.formInput}
+                  placeholder="Enter About Company"
+                  name="description"
+                  value={formik?.values?.description}
+                  onChange={formik?.handleChange}
+                  onBlur={formik?.handleBlur}
+                />
+                {formik?.touched?.description &&
+                  formik?.errors?.description && (
+                    <span className={styles?.error}>
+                      {formik?.errors?.description}
+                    </span>
+                  )}
+              </div>
+
+              <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>
+                  Bank Details
+                  <span className={styles?.labelStamp}>*</span>
+                </label>
+                <Field
+                  as="textarea"
+                  className={styles?.formInput}
+                  placeholder="Enter Bank Details"
+                  name="bank_details"
+                  value={formik?.values?.bank_details}
+                  onChange={formik?.handleChange}
+                  onBlur={formik?.handleBlur}
+                />
+                {formik?.touched?.bank_details &&
+                  formik?.errors?.bank_details && (
+                    <span className={styles?.error}>
+                      {formik?.errors?.bank_details}
+                    </span>
+                  )}
+              </div>
+
+              <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>
+                  Business/Trade Activity Code
+                  <span className={styles?.labelStamp}>*</span>
+                </label>
+                <Field
+                  as="textarea"
+                  className={styles?.formInput}
+                  placeholder="Enter Business/Trade Activity Code"
+                  name="activity_code"
+                  value={formik?.values?.activity_code}
+                  onChange={formik?.handleChange}
+                  onBlur={formik?.handleBlur}
+                />
+                {formik?.touched?.activity_code &&
+                  formik?.errors?.activity_code && (
+                    <span className={styles?.error}>
+                      {formik?.errors?.activity_code}
+                    </span>
+                  )}
+              </div>
+            </div>
+          </div>
+
+          <div className={styles?.section}>
+            <span className={styles?.formHead}>Contact Details</span>
+            <div className={styles?.formSection}>
+              <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>
+                  Contact Name<span className={styles?.labelStamp}>*</span>
+                </label>
+                <Field
+                  className={styles?.formInput}
+                  type="text"
+                  placeholder="Enter Contact Name"
+                  name="contact_person_name"
+                  value={formik?.values?.contact_person_name}
+                  onChange={formik?.handleChange}
+                  onBlur={formik?.handleBlur}
+                />
+                {formik?.touched?.contact_person_name &&
+                  formik?.errors?.contact_person_name && (
+                    <span className={styles?.error}>
+                      {formik?.errors?.contact_person_name}
+                    </span>
+                  )}
+              </div>
+
+              <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>
+                  Email ID
+                  <span className={styles?.labelStamp}>*</span>
+                </label>
+                <Field
+                  className={styles?.formInput}
+                  type="text"
+                  placeholder="Enter Contact Name"
+                  name="contact_person_email"
+                  value={formik?.values?.contact_person_email}
+                  onChange={formik?.handleChange}
+                  onBlur={formik?.handleBlur}
+                />
+                {formik?.touched?.contact_person_email &&
+                  formik?.errors?.contact_person_email && (
+                    <span className={styles?.error}>
+                      {formik?.errors?.contact_person_email}
+                    </span>
+                  )}
+              </div>
+
+              <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>
+                  Mobile No.
+                  <span className={styles?.labelStamp}>*</span>
+                </label>
+                <PhoneInput
+                  className="signup-form-section-phone-input"
+                  defaultCountry="gb"
+                  name="mobile"
+                  value={mobile}
+                  onChange={(value) => {
+                    handlePhoneChange("mobile", value);
+                    setMobile(value);
+                  }}
+                />
+                {/* {formik?.touched?.vat_reg_no &&
+                  formik?.errors?.vat_reg_no && ( */}
+                <span className={styles?.error}>
+                  {/* {formik?.errors?.vat_reg_no} */}
+                </span>
+                {/* )} */}
+              </div>
+
+              <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>
+                  Designation
+                  <span className={styles?.labelStamp}>*</span>
+                </label>
+                <Field
+                  className={styles?.formInput}
+                  type="text"
+                  placeholder="Enter Designation"
+                  name="designation"
+                  value={formik?.values?.designation}
+                  onChange={formik?.handleChange}
+                  onBlur={formik?.handleBlur}
+                />
+                {formik?.touched?.designation &&
+                  formik?.errors?.designation && (
+                    <span className={styles?.error}>
+                      {formik?.errors?.designation}
+                    </span>
+                  )}
+              </div>
+            </div>
+          </div>
+
+          <div className={styles?.section}>
+            <div className={styles?.formHeadSection}>
+              <span className={styles?.formHead}>Certificate</span>
+              <span
+                className={styles?.formAddButton}
+                onClick={() => {
+                  if (formik?.values?.certificateFileNDate?.length < 4) {
+                    formik?.setFieldValue("certificateFileNDate", [
+                      ...formik?.values?.certificateFileNDate,
+                      {
+                        file: [],
+                        date: "",
+                        preview: false,
+                      },
+                    ]);
+                  }
+                }}
+              >
+                Add More
+              </span>
+            </div>
+
+            {formik?.values?.certificateFileNDate?.map((ele, index) => (
+              <div
+                key={`certification_${index}`}
+                className={styles?.formSection}
+              >
+                <Field name={`certificateFileNDate.${index}.file`}>
+                  {({ field }) => (
+                    <EditCertificate
+                      fieldInputName={`certificateFileNDate.${index}.file`}
+                      setFieldValue={formik?.setFieldValue}
+                      initialValues={formik?.values}
+                      label="Upload Certificate"
+                      selectedFile={ele.file}
+                      preview={ele.preview}
+                      fileIndex={index}
+                      isEdit={false}
+                    />
+                  )}
+                </Field>
+                <span className={styles?.error}>
+                  {formik?.touched?.certificateFileNDate?.[index]?.file &&
+                    formik?.errors?.certificateFileNDate?.[index]?.file}
+                </span>
+
+                <div className={styles?.productContainer}>
+                  <label className={styles?.formLabel}>Date of Expiry</label>
+                  <div className={styles?.tooltipContainer}>
                     <DatePicker
-                      className={styles.formInput}
-                      onChange={(date) => setFieldValue("licenseExpiry", date)}
-                      value={values.licenseExpiry}
-                      minDate={new Date()}
+                      className={styles?.formDate}
+                      clearIcon={null}
                       format="dd/MM/yyyy"
                       placeholder="dd/MM/yyyy"
-                      clearIcon={null}
-                    />
-                    {touched.licenseExpiry && errors.licenseExpiry && (
-                      <span className={styles.error}>{errors.licenseExpiry}</span>
-                    )}
-                  </div>
-
-                  {userType !== "buyer" && (
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Tags
-                        <span className={styles?.labelStamp}>*</span>
-                      </label>
-                      <Field
-                        className={styles.formInput}
-                        type="text"
-                        placeholder="Enter Tags"
-                        name="tags"
-                      />
-                    </div>
-                  )}
-
-                  {userType !== "supplier" && (
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Interested in
-                        <span className={styles?.labelStamp}>*</span>
-                      </label>
-                      {category.length > 0 && (
-                        <MultiSelectDropdown
-                          className="signup-forms-sections-select custom-multi-select"
-                          options={category}
-                          value={formData.categories}
-                          onChange={handleCategoriesChange}
-                          getDropdownButtonLabel={getDropdownButtonLabel}
-                          style={{ width: "100%!important" }}
-                        />
-                      )}
-                      {touched.categories && errors.categories && (
-                        <span className={styles.error}>{errors.categories}</span>
-                      )}
-                    </div>
-                  )}
-
-                  {userType !== "buyer" && (
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Categories you Trade In
-                        <span className={styles?.labelStamp}>*</span>
-                      </label>
-                      {category.length > 0 && (
-                        <MultiSelectDropdown
-                          className="signup-forms-sections-select custom-multi-select"
-                          options={category}
-                          value={formData.categories}
-                          onChange={handleCategoriesChange}
-                          getDropdownButtonLabel={getDropdownButtonLabel}
-                          style={{ width: "100%!important" }}
-                        />
-                      )}
-                      {touched.categories && errors.categories && (
-                        <span className={styles.error}>{errors.categories}</span>
-                      )}
-                    </div>
-                  )}
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      About Company
-                      <span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <Field
-                      as="textarea"
-                      className={styles.formInput}
-                      placeholder="Enter About Company"
-                      name="aboutCompany"
-                    />
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Bank Details
-                      <span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <Field
-                      as="textarea"
-                      className={styles.formInput}
-                      placeholder="Enter Bank Details"
-                      name="bankDetails"
-                    />
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Business/Trade Activity Code
-                      <span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <Field
-                      as="textarea"
-                      className={styles.formInput}
-                      placeholder="Enter Business/Trade Activity Code"
-                      name="tradeActivityCode"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className={styles.section}>
-                <span className={styles.formHead}>Contact Details</span>
-                <div className={styles.formSection}>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Contact Name<span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <Field
-                      className={styles.formInput}
-                      type="text"
-                      placeholder="Enter Contact Name"
-                      name="contactName"
-                    />
-                    {touched.contactName && errors.contactName && (
-                      <span className={styles.error}>{errors.contactName}</span>
-                    )}
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Email ID
-                      <span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <Field
-                        className={styles.formInput}
-                        type="text"
-                        placeholder="Enter Email ID"
-                        name="email"
-                      />
-                    </div>
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Mobile No.
-                      <span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <PhoneInput
-                      defaultCountry="gb"
-                      name="mobile"
-                      value={values.mobile}
-                      onChange={(value) => handlePhoneChange("mobile", value)}
-                    />
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Designation
-                      <span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <Field
-                      className={styles.formInput}
-                      type="text"
-                      placeholder="Enter Designation"
-                      name="designation"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className={styles.section}>
-                <div className={styles.formHeadSection}>
-                  <span className={styles.formHead}>Certificate</span>
-                  <span
-                    className={styles.formAddButton}
-                    onClick={() => {
-                      if (values.cNCFileNDate.length < 4) {
-                        setFieldValue("cNCFileNDate", [
-                          ...values.cNCFileNDate,
-                          {
-                            file: [],
-                            date: "",
-                            preview: false,
-                          },
-                        ]);
+                      name={`certificateFileNDate.${index}.date`}
+                      value={ele.date ? new Date(ele.date) : null}
+                      minDate={new Date()}
+                      onChange={(date) => {
+                        formik?.setFieldValue(
+                          `certificateFileNDate.${index}.date`,
+                          date
+                        );
+                        formik?.setFieldTouched(
+                          `certificateFileNDate.${index}.date`,
+                          true,
+                          true
+                        );
+                      }}
+                      onBlur={formik?.handleBlur}
+                      disabledDate={(current) =>
+                        current && current < moment()?.endOf("day")
                       }
-                    }}
-                  >
-                    Add More
+                    />
+                  </div>
+                  <span className={styles?.error}>
+                    {formik?.touched?.certificateFileNDate?.[index]?.date &&
+                      formik?.errors?.certificateFileNDate?.[index]?.date}
                   </span>
                 </div>
 
-                {values.cNCFileNDate.map((ele, index) => (
-                  <div key={`certification_${index}`} className={styles.formSection}>
-                    <Field name={`cNCFileNDate.${index}.file`}>
-                      {({ field }) => (
-                        <EditCertificate
-                          fieldInputName={`cNCFileNDate.${index}.file`}
-                          setFieldValue={setFieldValue}
-                          initialValues={values}
-                          label="Upload Certificate"
-                          selectedFile={ele.file}
-                          preview={ele.preview}
-                          fileIndex={index}
-                          isEdit={false}
-                        />
-                      )}
-                    </Field>
-                    <span className={styles.error}>
-                      {touched.cNCFileNDate?.[index]?.file &&
-                        errors.cNCFileNDate?.[index]?.file}
+                {formik?.values?.certificateFileNDate?.length > 1 && (
+                  <div
+                    className={styles?.formCloseSection}
+                    onClick={() => {
+                      formik?.setFieldValue(
+                        `certificateFileNDate.${index}.file`,
+                        []
+                      );
+                      formik?.setFieldValue(
+                        `certificateFileNDate.${index}.date`,
+                        ""
+                      );
+                      formik?.setFieldValue(
+                        `certificateFileNDate.${index}.preview`,
+                        false
+                      );
+
+                      const updatedList =
+                        formik?.values?.certificateFileNDate.filter(
+                          (_, elindex) => elindex !== index
+                        );
+                      const updatedList2 =
+                        formik?.values?.complianceFile.filter(
+                          (_, elindex) => elindex !== index
+                        );
+                      formik?.setFieldValue(
+                        "certificateFileNDate",
+                        updatedList
+                      );
+                      formik?.setFieldValue("complianceFile", updatedList2);
+                    }}
+                  >
+                    <span className={styles?.formclose}>
+                      <MdClose className={styles?.icon} />
                     </span>
-
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Date of Expiry</label>
-                      <div className={styles.tooltipContainer}>
-                        <DatePicker
-                          className={styles.formDate}
-                          clearIcon={null}
-                          format="dd/MM/yyyy"
-                          placeholder="dd/MM/yyyy"
-                          name={`cNCFileNDate.${index}.date`}
-                          value={ele.date ? new Date(ele.date) : null}
-                          minDate={new Date()}
-                          onChange={(date) => {
-                            setFieldValue(`cNCFileNDate.${index}.date`, date);
-                            setFieldTouched(`cNCFileNDate.${index}.date`, true, true);
-                          }}
-                          onBlur={handleBlur}
-                          disabledDate={(current) =>
-                            current && current < moment().endOf("day")
-                          }
-                        />
-                      </div>
-                      <span className={styles.error}>
-                        {touched.cNCFileNDate?.[index]?.date &&
-                          errors.cNCFileNDate?.[index]?.date}
-                      </span>
-                    </div>
-
-                    {values.cNCFileNDate.length > 1 && (
-                      <div
-                        className={styles.formCloseSection}
-                        onClick={() => {
-                          setFieldValue(`cNCFileNDate.${index}.file`, []);
-                          setFieldValue(`cNCFileNDate.${index}.date`, "");
-                          setFieldValue(`cNCFileNDate.${index}.preview`, false);
-
-                          const updatedList = values.cNCFileNDate.filter(
-                            (_, elindex) => elindex !== index
-                          );
-                          const updatedList2 = values.complianceFile.filter(
-                            (_, elindex) => elindex !== index
-                          );
-                          setFieldValue("cNCFileNDate", updatedList);
-                          setFieldValue("complianceFile", updatedList2);
-                        }}
-                      >
-                        <span className={styles.formclose}>
-                          <MdClose className={styles.icon} />
-                        </span>
-                      </div>
-                    )}
                   </div>
-                ))}
+                )}
               </div>
+            ))}
+          </div>
 
-              <div className={styles.section}>
-                <span className={styles.formHead}>Documents</span>
-                <div className={styles.formSection}>
-                  <EditFile
-                    productDetails={productDetail}
-                    maxFiles={4 - (values.safetyDatasheet?.length || 0)}
-                    fieldInputName="safetyDatasheetNew"
-                    oldFieldName="safetyDatasheet"
-                    existingFiles={values.safetyDatasheet}
-                    setFieldValue={setFieldValue}
-                    initialValues={values}
-                    label="Upload Company Logo"
-                    acceptTypes={{
-                      "image/png": [],
-                      "image/jpeg": [],
-                      "image/jpg": [],
-                      "application/pdf": [],
-                    }}
-                  />
+          <div className={styles?.section}>
+            <span className={styles?.formHead}>Documents</span>
+            <div className={styles?.formSection}>
+              <EditFile
+                // productDetails={productDetail}
+                maxFiles={4 - (formik?.values?.safetyDatasheet?.length || 0)}
+                fieldInputName="safetyDatasheetNew"
+                oldFieldName="safetyDatasheet"
+                existingFiles={formik?.values?.safetyDatasheet}
+                setFieldValue={formik?.setFieldValue}
+                initialValues={formik?.values}
+                label="Upload Company Logo"
+                acceptTypes={{
+                  "image/png": [],
+                  "image/jpeg": [],
+                  "image/jpg": [],
+                  "application/pdf": [],
+                }}
+              />
 
-                  <EditFile
-                    productDetails={productDetail}
-                    maxFiles={4 - (values.healthHazardRating?.length || 0)}
-                    fieldInputName="healthHazardRatingNew"
-                    oldFieldName="healthHazardRating"
-                    existingFiles={values.healthHazardRating}
-                    setFieldValue={setFieldValue}
-                    initialValues={values}
-                    label="Upload Trade License"
-                    acceptTypes={{
-                      "image/png": [],
-                      "image/jpeg": [],
-                      "image/jpg": [],
-                      "application/pdf": [],
-                    }}
-                  />
+              <EditFile
+                // productDetails={productDetail}
+                maxFiles={4 - (formik?.values?.healthHazardRating?.length || 0)}
+                fieldInputName="healthHazardRatingNew"
+                oldFieldName="healthHazardRating"
+                existingFiles={formik?.values?.healthHazardRating}
+                setFieldValue={formik?.setFieldValue}
+                initialValues={formik?.values}
+                label="Upload Trade License"
+                acceptTypes={{
+                  "image/png": [],
+                  "image/jpeg": [],
+                  "image/jpg": [],
+                  "application/pdf": [],
+                }}
+              />
 
-                  {companyType?.value === "medical practitioner" && (
-                    <EditFile
-                      productDetails={productDetail}
-                      maxFiles={4 - (values.environmentalImpact?.length || 0)}
-                      fieldInputName="environmentalImpactNew"
-                      oldFieldName="environmentalImpact"
-                      existingFiles={values.environmentalImpact}
-                      setFieldValue={setFieldValue}
-                      initialValues={values}
-                      label="Upload Medical Practitioner Certificate"
-                      acceptTypes={{
-                        "image/png": [],
-                        "image/jpeg": [],
-                        "image/jpg": [],
-                        "application/pdf": [],
-                      }}
-                    />
-                  )}
-                </div>
-              </div>
+              {(userType === "supplier"
+                ? formik?.values?.supplier_type
+                : formik?.values?.buyer_type) === "Medical Practitioner" && (
+                <EditFile
+                  // productDetails={productDetail}
+                  maxFiles={
+                    4 - (formik?.values?.environmentalImpact?.length || 0)
+                  }
+                  fieldInputName="environmentalImpactNew"
+                  oldFieldName="environmentalImpact"
+                  existingFiles={formik?.values?.environmentalImpact}
+                  setFieldValue={formik?.setFieldValue}
+                  initialValues={formik?.values}
+                  label="Upload Medical Practitioner Certificate"
+                  acceptTypes={{
+                    "image/png": [],
+                    "image/jpeg": [],
+                    "image/jpg": [],
+                    "application/pdf": [],
+                  }}
+                />
+              )}
+            </div>
+          </div>
 
-              <div className={styles.buttonContainer}>
-                <button type="button" className={styles.buttonCancel}>
-                  Cancel
-                </button>
-                <button type="submit" className={styles.buttonSubmit}>
-                  Submit
-                </button>
-              </div>
-            </Form>
-          );
-        }}
-      </Formik>
+          <div className={styles?.buttonContainer}>
+            <button type="button" className={styles?.buttonCancel}>
+              Cancel
+            </button>
+            <button type="submit" className={styles?.buttonSubmit}>
+              Submit
+            </button>
+          </div>
+        </form>
+      </FormikProvider>
     </div>
   );
 };
