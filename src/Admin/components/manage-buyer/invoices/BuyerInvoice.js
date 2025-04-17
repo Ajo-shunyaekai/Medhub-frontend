@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import styles from "../../../assets/style/sellersupport.module.css";
+import styles from "../../../assets/style/secondsidebar.module.css";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import BuyerPending from "./pending/BuyerPending";
 import BuyerPaid from "./paid/BuyerPaid";
-import { postRequestWithToken } from "../../../api/Requests";
 import BuyerProforma from "./proforma/BuyerProforma";
 import Loader from "../../shared-components/Loader/Loader";
 import { apiRequests } from "../../../../api";
 
-const SellerInvoice = () => {
+const BuyerInvoice = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -52,7 +51,7 @@ const SellerInvoice = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [invoiceList, setInvoiceList] = useState();
   const [totalItems, setTotalItems] = useState();
-  const listPerPage = 5;
+  const listPerPage = 10;
 
   useEffect(() => {
     if (!adminIdSessionStorage && !adminIdLocalStorage) {
@@ -91,7 +90,6 @@ const SellerInvoice = () => {
       };
       fetchInvoiceList();
     } else if (activeLink === "proforma") {
-      // Call a different API for 'proforma' invoices
       const fetchOrderList = async () => {
         obj.filterKey = "active";
         try {
@@ -101,7 +99,6 @@ const SellerInvoice = () => {
           if (response?.code === 200) {
             setInvoiceList(response.result.data);
             setTotalItems(response.result.totalItems);
-          } else {
           }
         } catch (error) {
         } finally {
@@ -115,52 +112,41 @@ const SellerInvoice = () => {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+
   return (
     <>
       {loading ? (
         <Loader />
       ) : (
-        <div className={styles[`invoice-container`]}>
-          <div className={styles["complete-container-invoice-section"]}>
-            <div className={styles["complete-conatiner-head"]}>Invoices</div>
+        <div className={styles.container}>
+          <div className={styles.header}>
+            <div className={styles.title}>Invoices</div>
           </div>
-          <div className={styles[`invoice-wrapper`]}>
-            <div className={styles[`invoice-wrapper-left`]}>
+          <div className={styles.content}>
+            <div className={styles.sidebar}>
               <div
                 onClick={() => handleLinkClick("paid")}
-                className={`${activeLink === "paid" ? styles.active : ""} ${
-                  styles["invoice-wrapper-left-text"]
-                }`}
+                className={`${styles.tab} ${activeLink === "paid" ? styles.active : ""}`}
               >
-                <DescriptionOutlinedIcon
-                  className={styles["invoice-wrapper-left-icons"]}
-                />
-                <div className={styles.invoiceHead}>Paid Invoices</div>
+                <DescriptionOutlinedIcon className={styles.icon} />
+                <div className={styles.text}>Paid Invoices</div>
               </div>
               <div
                 onClick={() => handleLinkClick("pending")}
-                className={`${activeLink === "pending" ? styles.active : ""} ${
-                  styles["invoice-wrapper-left-text"]
-                }`}
+                className={`${styles.tab} ${activeLink === "pending" ? styles.active : ""}`}
               >
-                <DescriptionOutlinedIcon
-                  className={styles["invoice-wrapper-left-icons"]}
-                />
-                <div className={styles.invoiceHead}>Pending Invoices</div>
+                <DescriptionOutlinedIcon className={styles.icon} />
+                <div className={styles.text}>Pending Invoices</div>
               </div>
               <div
                 onClick={() => handleLinkClick("proforma")}
-                className={`${activeLink === "proforma" ? styles.active : ""} ${
-                  styles["invoice-wrapper-left-text"]
-                }`}
+                className={`${styles.tab} ${activeLink === "proforma" ? styles.active : ""}`}
               >
-                <DescriptionOutlinedIcon
-                  className={styles["invoice-wrapper-left-icons"]}
-                />
-                <div className={styles.invoiceHead}>Proforma Invoices</div>
+                <DescriptionOutlinedIcon className={styles.icon} />
+                <div className={styles.text}>Proforma Invoices</div>
               </div>
             </div>
-            <div className={styles[`invoice-wrapper-right`]}>
+            <div className={styles.main}>
               {activeLink === "paid" && (
                 <BuyerPaid
                   invoiceList={invoiceList}
@@ -196,4 +182,4 @@ const SellerInvoice = () => {
   );
 };
 
-export default SellerInvoice;
+export default BuyerInvoice;

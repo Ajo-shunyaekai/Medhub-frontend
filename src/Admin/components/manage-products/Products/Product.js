@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import styles from "../../../assets/style/order.module.css";
-import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
+import styles from "../../../assets/style/secondsidebar.module.css";
+import { AiOutlineProduct } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import { postRequestWithToken } from "../../../api/Requests";
-import ApprovedNewProducts from "./ApprovedNewProducts";
-import ApprovedSecondaryProducts from "./ApprovedSecondaryProducts";
+import ApprovedNewProducts from "./NewProducts";
+import ApprovedSecondaryProducts from "./SecondaryProducts";
 import Loader from "../../shared-components/Loader/Loader";
 import { apiRequests } from "../../../../api";
 import { fetchProductsList } from "../../../../redux/reducers/productSlice";
@@ -50,7 +49,7 @@ const ApprovedProduct = () => {
   const [medicineList, setMedicineList] = useState([]);
   const [totalProducts, setTotalProducts] = useState();
   const [currentPage, setCurrentPage] = useState(1);
-  const listPerPage = 5;
+  const listPerPage = 10;
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -120,41 +119,38 @@ const ApprovedProduct = () => {
       {loading ? (
         <Loader />
       ) : (
-        <div className={styles[`order-container`]}>
-          <div className={styles["complete-container-order-section"]}>
-            <div className={styles["complete-conatiner-head"]}>
+        <div className={styles.container}>
+          <div className={styles.header}>
+            <div className={styles.title}>
               Products List
             </div>
           </div>
-          <div className={styles[`order-wrapper`]}>
-            <div className={styles[`order-wrapper-left`]}>
+          <div className={styles.content}>
+            <div className={styles.sidebar}>
               <div
                 onClick={() => handleLinkClick("new")}
-                className={`${activeLink === "new" ? styles.active : ""} ${
-                  styles["order-wrapper-left-text"]
-                }`}
+                className={`${activeLink === "new" ? styles.active : ""} ${styles.tab}`}
               >
-                <DescriptionOutlinedIcon
-                  className={styles["order-wrapper-left-icons"]}
+                <AiOutlineProduct
+                   className={styles.icon}
                 />
-                <div>New Products</div>
+                <div className={styles.text}>New Products</div>
               </div>
               <div
                 onClick={() => handleLinkClick("secondary")}
                 className={`${
                   activeLink === "secondary" ? styles.active : ""
-                } ${styles["order-wrapper-left-text"]}`}
+                } ${styles.tab}`}
               >
-                <DescriptionOutlinedIcon
-                  className={styles["order-wrapper-left-icons"]}
+                <AiOutlineProduct
+                   className={styles.icon}
                 />
-                <div>Secondary Products</div>
+                <div className={styles.text}>Secondary Products</div>
               </div>
             </div>
-            <div className={styles[`order-wrapper-right`]}>
+            <div className={styles.main}>
               {activeLink === "new" && (
                 <ApprovedNewProducts
-                  //  productList     = {productList}
                   productList={medicineList}
                   totalProducts={totalProducts}
                   currentPage={currentPage}
@@ -165,7 +161,6 @@ const ApprovedProduct = () => {
               )}
               {activeLink === "secondary" && (
                 <ApprovedSecondaryProducts
-                  // productList         = {productList}
                   productList={medicineList}
                   totalProducts={totalProducts}
                   currentPage={currentPage}

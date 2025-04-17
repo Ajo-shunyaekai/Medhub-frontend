@@ -19,9 +19,6 @@ const AdmSidebar = lazy(() =>
 const Layout = lazy(() => import("../components/shared-components/Layout"));
 const Login = lazy(() => import("../components/shared-components/login/Login"));
 const Dashboard = lazy(() => import("../components/dashboard/index"));
-const ManageCommission = lazy(() =>
-  import("../components/manage-commission/index")
-);
 const BuyerRequest = lazy(() =>
   import("../components/manage-buyer/buyerrequest/BuyerRequest")
 );
@@ -227,69 +224,19 @@ const TotalInquiriesRequest = lazy(() =>
 const TotalOngoingInquiries = lazy(() =>
   import("../components/dashboard/DashboardList/TotalOngoingInquiries")
 );
-const ProductRequests = lazy(() =>
-  import("../components/manage-products/ProductRequest/ProductRequests")
-);
-const NewProductRequest = lazy(() =>
-  import("../components/manage-products/ProductRequest/NewProductRequest")
-);
-const SecondaryProductRequest = lazy(() =>
-  import("../components/manage-products/ProductRequest/SecondaryProductRequest")
-);
-const ProductUpdateRequest = lazy(() =>
-  import(
-    "../components/manage-products/ProductUpdateRequest/ProductUpdateRequest"
-  )
-);
-const NewProductUpdateRequest = lazy(() =>
-  import(
-    "../components/manage-products/ProductUpdateRequest/NewProductUpdateRequest"
-  )
-);
-const SecondaryUpdateRequest = lazy(() =>
-  import(
-    "../components/manage-products/ProductUpdateRequest/SecondaryUpdateRequest"
-  )
+const ProductDetails = lazy(() =>
+  import("../components/manage-products/ProductDetails/ProductDetails.jsx")
 );
 const ApprovedProducts = lazy(() =>
-  import("../components/manage-products/ApprovedProducts/ApprovedProduct")
+  import("../components/manage-products/Products/Product.js")
 );
 const ApprovedNewProducts = lazy(() =>
-  import("../components/manage-products/ApprovedProducts/ApprovedNewProducts")
+  import("../components/manage-products/Products/NewProducts.js")
 );
 const ApprovedSecondaryProducts = lazy(() =>
   import(
-    "../components/manage-products/ApprovedProducts/ApprovedSecondaryProducts"
+    "../components/manage-products/Products/SecondaryProducts.js"
   )
-);
-const RejectedProducts = lazy(() =>
-  import("../components/manage-products/RejectedProducts/RejectedProduct")
-);
-const RejectedNewProducts = lazy(() =>
-  import("../components/manage-products/RejectedProducts/RejectedNewProduct")
-);
-const RejectedSecondaryProducts = lazy(() =>
-  import(
-    "../components/manage-products/RejectedProducts/RejectedSecondaryProducts"
-  )
-);
-const ProductDetails = lazy(() =>
-  import("../components/manage-products/ProductDetails")
-);
-const ProductDetailsNew = lazy(() =>
-  import("../components/manage-products/product/Products")
-);
-const SecondaryProductRequestDetails = lazy(() =>
-  import("../components/manage-products/SecondaryProductRequestDetails")
-);
-const EditProductDetails = lazy(() =>
-  import("../components/manage-products/EditUpdateProductdetails")
-);
-const EditSecondaryDetails = lazy(() =>
-  import("../components/manage-products/EditUpdateSecondaryDetails")
-);
-const SecondaryProductDetails = lazy(() =>
-  import("../components/manage-products/SecondaryProductDetails")
 );
 const NotificationList = lazy(() =>
   import("../components/shared-components/notification/NotificationList")
@@ -586,14 +533,6 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<Loader />}>
             <TotalCompletedOrders socket={socket} />
-          </Suspense>
-        ),
-      },
-      {
-        path: "manage-commission",
-        element: (
-          <Suspense fallback={<Loader />}>
-            <ManageCommission socket={socket} />
           </Suspense>
         ),
       },
@@ -1080,58 +1019,6 @@ const router = createBrowserRouter([
       },
       // start the product request
       {
-        path: "product-requests",
-        element: (
-          <Suspense fallback={<Loader />}>
-            <ProductRequests socket={socket} />
-          </Suspense>
-        ),
-        children: [
-          {
-            path: "newproduct",
-            element: (
-              <Suspense fallback={<Loader />}>
-                <NewProductRequest socket={socket} />
-              </Suspense>
-            ),
-          },
-          {
-            path: "secondary",
-            element: (
-              <Suspense fallback={<Loader />}>
-                <SecondaryProductRequest socket={socket} />
-              </Suspense>
-            ),
-          },
-        ],
-      },
-      {
-        path: "product-update-requests",
-        element: (
-          <Suspense fallback={<Loader />}>
-            <ProductUpdateRequest socket={socket} />
-          </Suspense>
-        ),
-        children: [
-          {
-            path: "newproduct",
-            element: (
-              <Suspense fallback={<Loader />}>
-                <NewProductUpdateRequest socket={socket} />
-              </Suspense>
-            ),
-          },
-          {
-            path: "secondary",
-            element: (
-              <Suspense fallback={<Loader />}>
-                <SecondaryUpdateRequest socket={socket} />
-              </Suspense>
-            ),
-          },
-        ],
-      },
-      {
         path: "products",
         element: (
           <Suspense fallback={<Loader />}>
@@ -1158,79 +1045,14 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: "rejected-product",
-        element: (
-          <Suspense fallback={<Loader />}>
-            <RejectedProducts socket={socket} />
-          </Suspense>
-        ),
-        children: [
-          {
-            path: "newproduct",
-            element: (
-              <Suspense fallback={<Loader />}>
-                <RejectedNewProducts socket={socket} />
-              </Suspense>
-            ),
-          },
-          {
-            path: "secondary",
-            element: (
-              <Suspense fallback={<Loader />}>
-                <RejectedSecondaryProducts socket={socket} />
-              </Suspense>
-            ),
-          },
-        ],
-      },
-      {
         path: "product-details/:id",
         element: (
           <Suspense fallback={<Loader />}>
-            <ProductDetailsNew socket={socket} />
+            <ProductDetails socket={socket} />
           </Suspense>
         ),
       },
-      // {
-      //   path: "product-request-details/:id",
-      //   element: (
-      //     <Suspense fallback={<Loader />}>
-      //       <ProductDetailsNew socket={socket} />
-      //     </Suspense>
-      //   ),
-      // },
-      // {
-      //   path: "product-request-details/:medicineId",
-      //   element: (
-      //     <Suspense fallback={<Loader />}>
-      //       <SecondaryProductRequestDetails socket={socket} />
-      //     </Suspense>
-      //   ),
-      // },
-      {
-        path: "edit-product-details/:medicineId",
-        element: (
-          <Suspense fallback={<Loader />}>
-            <EditProductDetails socket={socket} />
-          </Suspense>
-        ),
-      },
-      {
-        path: "edit-secondary-details/:medicineId",
-        element: (
-          <Suspense fallback={<Loader />}>
-            <EditSecondaryDetails socket={socket} />
-          </Suspense>
-        ),
-      },
-      {
-        path: "secondary-product-details/:medicineId",
-        element: (
-          <Suspense fallback={<Loader />}>
-            <SecondaryProductDetails socket={socket} />
-          </Suspense>
-        ),
-      },
+     
     ],
   },
 ]);
