@@ -45,23 +45,23 @@ const ProductDetails = () => {
     return `${day}-${month}-${year}`;
   };
 
-  const fallbackImageUrl = "https://medhub.global/uploads/emailer_images/medhubEmailerBanner.png";
+    const fallbackImageUrl = "https://medhub.global/uploads/emailer_images/medhubEmailerBanner.png";
 
-// Utility to check if URL ends with image extension
-const isImageExtension = (fileName) => {
-  return /\.(png|jpe?g|gif|bmp|webp)$/i.test(fileName);
-};
+      // Utility to check if URL ends with image extension
+      const isImageExtension = (fileName) => {
+        return /\.(png|jpe?g|gif|bmp|webp)$/i.test(fileName);
+      };
 
 
-const isValidHttpUrl = (url) => {
-  try {
-    const parsedUrl = new URL(url);
-    return (parsedUrl.protocol === "http:" || parsedUrl.protocol === "https:") &&
-      isImageExtension(parsedUrl.pathname);
-  } catch (_) {
-    return false;
-  }
-};
+      const isValidHttpUrl = (url) => {
+        try {
+          const parsedUrl = new URL(url);
+          return (parsedUrl.protocol === "http:" || parsedUrl.protocol === "https:") &&
+            isImageExtension(parsedUrl.pathname);
+        } catch (_) {
+          return false;
+        }
+      };
 
 
 
@@ -3185,67 +3185,67 @@ const isValidHttpUrl = (url) => {
           </div>
         )} */}
 
-{productDetail?.general?.image?.length > 0 && (
-  <div className={styles.mainContainer}>
-    <span className={styles.innerHead}>Product Images</span>
-    <div className={styles.productImageSection}>
-      {/* {productDetail?.general?.image?.map((img, index) => {
-        const imgUrl = !productDetail?.bulkUpload
-          ? `${process.env.REACT_APP_SERVER_URL}uploads/products/${img}`
-          : img;
+        {productDetail?.general?.image?.length > 0 && (
+          <div className={styles.mainContainer}>
+            <span className={styles.innerHead}>Product Images</span>
+            <div className={styles.productImageSection}>
+              {/* {productDetail?.general?.image?.map((img, index) => {
+                const imgUrl = !productDetail?.bulkUpload
+                  ? `${process.env.REACT_APP_SERVER_URL}uploads/products/${img}`
+                  : img;
 
-        // Check if the image URL is valid
-        const isValidUrl = isValidHttpUrl(imgUrl);
-        const isImage = isImageExtension(imgUrl); // Check if the URL ends with an image extension
+                // Check if the image URL is valid
+                const isValidUrl = isValidHttpUrl(imgUrl);
+                const isImage = isImageExtension(imgUrl); // Check if the URL ends with an image extension
 
-        return (
-          <div className={styles.imageContainer} key={index}>
-            <img
-              className={styles.imageSection}
-              src={isValidUrl || isImage ? imgUrl : fallbackImageUrl} // Use fallback if not valid
-              alt="Product Image"
-              onError={(e) => {
-                e.target.onerror = null; // Prevent infinite loop on error
-                e.target.src = fallbackImageUrl; // Fallback to default image on error
-              }}
-            />
+                return (
+                  <div className={styles.imageContainer} key={index}>
+                    <img
+                      className={styles.imageSection}
+                      src={isValidUrl || isImage ? imgUrl : fallbackImageUrl} // Use fallback if not valid
+                      alt="Product Image"
+                      onError={(e) => {
+                        e.target.onerror = null; // Prevent infinite loop on error
+                        e.target.src = fallbackImageUrl; // Fallback to default image on error
+                      }}
+                    />
+                  </div>
+                );
+              })} */}
+
+              {productDetail?.general?.image?.map((img, index) => {
+                const baseUrl = process.env.REACT_APP_SERVER_URL?.endsWith("/")
+                  ? process.env.REACT_APP_SERVER_URL
+                  : `${process.env.REACT_APP_SERVER_URL}/`;
+
+                // If not a full URL, prepend base path
+                const imgUrl = img.startsWith("http")
+                  ? img
+                  : `${baseUrl}uploads/products/${img}`;
+
+                // Check if it ends with image extension
+                const isImageFile = isImageExtension(imgUrl);
+
+                return (
+                  <div className={styles.imageContainer} key={index}>
+                    <img
+                      className={styles.imageSection}
+                      src={isImageFile ? imgUrl : fallbackImageUrl}
+                      alt="Product Image"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = fallbackImageUrl;
+                      }}
+                    />
+                  </div>
+                );
+              })}
+
+
+
+            </div>
           </div>
-        );
-      })} */}
-
-{productDetail?.general?.image?.map((img, index) => {
-  const baseUrl = process.env.REACT_APP_SERVER_URL?.endsWith("/")
-    ? process.env.REACT_APP_SERVER_URL
-    : `${process.env.REACT_APP_SERVER_URL}/`;
-
-  // If not a full URL, prepend base path
-  const imgUrl = img.startsWith("http")
-    ? img
-    : `${baseUrl}uploads/products/${img}`;
-
-  // Check if it ends with image extension
-  const isImageFile = isImageExtension(imgUrl);
-
-  return (
-    <div className={styles.imageContainer} key={index}>
-      <img
-        className={styles.imageSection}
-        src={isImageFile ? imgUrl : fallbackImageUrl}
-        alt="Product Image"
-        onError={(e) => {
-          e.target.onerror = null;
-          e.target.src = fallbackImageUrl;
-        }}
-      />
-    </div>
-  );
-})}
-
-
-
-    </div>
-  </div>
-)}
+        )}
         {/* End product image section */}
         {/* Start Compliance & Certification Health & Safety */}
         {(productDetail?.cNCFileNDate?.length > 0 ||

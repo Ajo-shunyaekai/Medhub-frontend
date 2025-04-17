@@ -46,6 +46,13 @@ const ProductDetails = () => {
     ? `${process.env.REACT_APP_SERVER_URL}/uploads/products/${pdfFile}`
     : "https://morth.nic.in/sites/default/files/dd12-13_0.pdf";
 
+    const fallbackImageUrl = "https://medhub.global/uploads/emailer_images/medhubEmailerBanner.png";
+
+      // Utility to check if URL ends with image extension
+      const isImageExtension = (fileName) => {
+        return /\.(png|jpe?g|gif|bmp|webp)$/i.test(fileName);
+      };
+
   const [loading, setLoading] = useState(false);
   const inventoryList = productDetail?.inventoryDetails?.inventoryList || [];
   const [medicineList, setMedicineList] = useState([]);
@@ -554,7 +561,8 @@ const ProductDetails = () => {
         )}
         {/* End the product description */}
         {/* Start product image section */}
-        {productDetail?.general?.image?.length > 0 && (
+
+        {/* {productDetail?.general?.image?.length > 0 && (
           <div className={styles.mainContainer}>
             <span className={styles.innerHead}>Product Images</span>
             <div className={styles.productImageSection}>
@@ -573,7 +581,36 @@ const ProductDetails = () => {
               ))}
             </div>
           </div>
-        )}
+        )} */}
+
+        {productDetail?.general?.image?.map((img, index) => {
+                        const baseUrl = process.env.REACT_APP_SERVER_URL?.endsWith("/")
+                          ? process.env.REACT_APP_SERVER_URL
+                          : `${process.env.REACT_APP_SERVER_URL}/`;
+        
+                        // If not a full URL, prepend base path
+                        const imgUrl = img.startsWith("http")
+                          ? img
+                          : `${baseUrl}uploads/products/${img}`;
+        
+                        // Check if it ends with image extension
+                        const isImageFile = isImageExtension(imgUrl);
+        
+                        return (
+                          <div className={styles.imageContainer} key={index}>
+                            <img
+                              className={styles.imageSection}
+                              src={isImageFile ? imgUrl : fallbackImageUrl}
+                              alt="Product Image"
+                              onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.src = fallbackImageUrl;
+                              }}
+                            />
+                          </div>
+                        );
+                      })}
+
         {/* End product image section */}
         {/* Start Inventory & Packaging section */}
         {(productDetail?.inventoryDetails?.stockedInDetails?.length > 0 ||

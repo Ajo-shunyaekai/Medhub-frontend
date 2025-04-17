@@ -1,7 +1,8 @@
 import React from "react";
 import { FaFilePdf, FaFileWord } from "react-icons/fa";
 import styles from './ProductDetails/productdetail.module.css'
-import PDFIcon from '../../assets/images/pdf-icon.svg';
+import PDFIcon from '../../assets/images/pdf.png';
+import DocxIcon from '../../assets/images/doc.png'
  
 const extractFileName = (url) => {
   return url.split("/").pop();
@@ -188,8 +189,8 @@ return files?.map((file, index) => {
         className={styles.pdfLink}
       >
         <img
-          src={PDFIcon} // Or any PDF icon you prefer
-          alt="PDF File"
+          src={DocxIcon} // Or any PDF icon you prefer
+          alt="Docx File"
           className={styles.uploadImage}
         />
         {/* <p>View PDF</p> */}
