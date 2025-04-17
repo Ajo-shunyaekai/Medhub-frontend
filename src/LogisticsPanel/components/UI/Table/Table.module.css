@@ -1,0 +1,45 @@
+.tableContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.paginationContainer {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 1rem;
+}
+
+.pageLink {
+  display: inline-block;
+  color: #282f86;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+  transition: color 0.15s;
+}
+
+.pageLink:hover {
+  color: #282f86;
+  text-decoration: none;
+  background-color: #e9ecef;
+}
+
+.pageItem.active .pageLink {
+  z-index: 3;
+  color: #fff;
+  background-color: #282f86;
+}
+
+.pageItem.disabled .pageLink {
+  color: #6c757d;
+  pointer-events: none;
+  cursor: auto;
+  background-color: transparent;
+  border-color: rgba(160, 175, 185, 0.15) !important;
+}
+
+.pagiTotal {
+  color: #99a0ac;
+  font-size: 14px;
+}
