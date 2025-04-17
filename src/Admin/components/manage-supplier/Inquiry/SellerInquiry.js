@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import styles from "../../../assets/style/order.module.css";
-import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
+import styles from "../../../assets/style/secondsidebar.module.css";
+import { BiPurchaseTagAlt } from "react-icons/bi";
 import InquiryRequest from "./InquiryRequest/InquiryRequest";
 import PurchasedOrder from "./PurchasedOrder/PurchasedOrder";
 import { postRequestWithToken } from "../../../api/Requests";
@@ -12,11 +12,8 @@ import { apiRequests } from "../../../../api";
 const SellerInquiry = () => {
   const location = useLocation();
   const navigate = useNavigate();
-
   const adminIdSessionStorage = localStorage.getItem("admin_id");
   const adminIdLocalStorage = localStorage.getItem("admin_id");
-
-  // Get initial active link based on the path
   const getActiveLinkFromPath = (path) => {
     switch (path) {
       case "/admin/supplier-inquiry/inquiry-request":
@@ -27,39 +24,29 @@ const SellerInquiry = () => {
         return "inquiry";
     }
   };
-
-  // State variables
   const [activeLink, setActiveLink] = useState(
     getActiveLinkFromPath(location.pathname)
   );
-
   const [loading, setLoading] = useState(true);
   const [list, setList] = useState([]);
   const [totalList, setTotalList] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const listPerPage = 5;
-
-  // Handle link clicks to change active page
+  const listPerPage = 10;
   const handleLinkClick = (link) => {
-    setCurrentPage(1); // Reset page when switching tabs
+    setCurrentPage(1);
     setActiveLink(link);
-
-    // Navigate to appropriate route
     if (link === "inquiry") {
       navigate("/admin/supplier-inquiry/inquiry-request");
     } else if (link === "purchased") {
       navigate("/admin/supplier-inquiry/purchased-order");
     }
   };
-
-  // Fetch the inquiry or PO list based on activeLink and currentPage
   const fetchData = async () => {
     if (!adminIdSessionStorage && !adminIdLocalStorage) {
       localStorage.clear();
       navigate("/admin/login");
       return;
     }
-
     const obj = {
       admin_id: adminIdSessionStorage || adminIdLocalStorage,
       filterKey: activeLink,
@@ -67,17 +54,7 @@ const SellerInquiry = () => {
       pageSize: listPerPage,
       usertype: "Supplier",
     };
-
     if (activeLink === "inquiry") {
-      // postRequestWithToken('admin/get-inquiry-list', obj, (response) => {
-      //     if (response?.code === 200) {
-      //         setList(response.result.data);
-      //         setTotalList(response.result.totalItems);
-      //     } else {
-      //     }
-      //     setLoading(false);
-      // });
-
       try {
         const response = await apiRequests.getRequest(
           `enquiry/get-all-enquiry-list?pageNo=${currentPage}&pageSize=${listPerPage}&filterValue=${activeLink}`
@@ -86,12 +63,6 @@ const SellerInquiry = () => {
           setList(response.result.data);
           setTotalList(response.result.totalItems);
         }
-        // postRequestWithToken(`enquiry/get-all-enquiry-list?pageNo=${currentPage}&pageSize=${listPerPage}&filterValue=${activeLink}`, obj, async (response) => {
-        //     if (response?.code == 200) {
-        //         setList(response.result.data);
-        //         setTotalList(response.result.totalItems);
-        //     }
-        // })
       } catch (error) {
       } finally {
         setLoading(false);
@@ -108,49 +79,44 @@ const SellerInquiry = () => {
       });
     }
   };
-
-  // First useEffect: Calls fetchData when activeLink changes
   useEffect(() => {
     fetchData();
-  }, [activeLink, currentPage]); // Call whenever `activeLink` or `currentPage` changes
+  }, [activeLink, currentPage]);
 
   return (
     <>
       {loading ? (
         <Loader />
       ) : (
-        <div className={styles[`order-container`]}>
-          <div className={styles["complete-container-order-section"]}>
-            <div className={styles["complete-conatiner-head"]}>
+        <div className={styles.container}>
+          <div className={styles.header}>
+            <div className={styles.title}>
               Inquiry & Purchased Orders
             </div>
           </div>
-          <div className={styles[`order-wrapper`]}>
-            <div className={styles[`order-wrapper-left`]}>
+          <div className={styles.content}>
+            <div className={styles.sidebar}>
               <div
                 onClick={() => handleLinkClick("inquiry")}
-                className={`${activeLink === "inquiry" ? styles.active : ""} ${
-                  styles["order-wrapper-left-text"]
-                }`}
+                className={`${activeLink === "inquiry" ? styles.active : ""} ${styles.tab}`}
               >
-                <DescriptionOutlinedIcon
-                  className={styles["order-wrapper-left-icons"]}
+                <BiPurchaseTagAlt
+                  className={styles.icon}
                 />
-                <div className="inquiry-content-navbar">Inquiry Request</div>
+                <div className={styles.text}>Inquiry Request</div>
               </div>
               <div
                 onClick={() => handleLinkClick("purchased")}
-                className={`${
-                  activeLink === "purchased" ? styles.active : ""
-                } ${styles["order-wrapper-left-text"]}`}
+                className={`${activeLink === "purchased" ? styles.active : ""
+                  } ${styles.tab}`}
               >
-                <DescriptionOutlinedIcon
-                  className={styles["order-wrapper-left-icons"]}
+                <BiPurchaseTagAlt
+                  className={styles.icon}
                 />
-                <div className="inquiry-content-navbar">Purchased Orders</div>
+                <div className={styles.text}>Purchased Orders</div>
               </div>
             </div>
-            <div className={styles[`order-wrapper-right`]}>
+            <div className={styles.main}>
               {activeLink === "inquiry" && (
                 <InquiryRequest
                   inquiryList={list}

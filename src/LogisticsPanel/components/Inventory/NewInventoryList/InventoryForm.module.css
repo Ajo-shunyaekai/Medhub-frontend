@@ -1,4 +1,174 @@
-.inventoryMainContainer {
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.formHeadSection {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.formHead {
+  font-size: 18px;
+  font-weight: 600;
+  color: #282f86;
+}
+
+.formAddButton {
+  padding: 7px 10px;
+  background-color: #282f86;
+  color: #fff;
+  border-radius: 7px;
+  border: 2px solid #282f86;
+  cursor: pointer !important;
+}
+
+.formAddButton:hover {
+  background-color: #fff;
+  color: #282f86;
+  border: 2px solid #282f86;
+}
+
+.formCloseSection {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  cursor: pointer !important;
+  position: absolute;
+  top: 70%;
+  right: -16px;
+  transform: translateY(-50%);
+  cursor: pointer !important;
+}
+
+.formclose {
+  padding: 7px 10px;
+  background-color: #282f86;
+  color: #fff;
+  border-radius: 7px;
+  border: 2px solid #282f86;
+  cursor: pointer !important;
+}
+
+.formSection {
+  display: flex;
+  gap: 15px 10px;
+  flex-wrap: wrap;
+  width: 100%;
+  position: relative;
+}
+
+.icon {
+  width: 16px !important;
+  height: 16px !important;
+  cursor: pointer !important;
+}
+
+.productContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 24.1%;
+}
+
+.formLabel {
+  font-size: 14px;
+  font-weight: 500;
+  color: #282f86;
+  word-break: break-word;
+}
+
+.formInput {
+  background-color: #fff !important;
+  border: none !important;
+  border-radius: 4px !important;
+  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+  font-size: 14px !important;
+  outline: none !important;
+  padding: 12px !important;
+  position: relative !important;
+  width: 100% !important;
+}
+
+.error {
+  font-size: 12px;
+  margin-top: -6px;
+  color: red;
+}
+
+.tooltipSec {
+  font-size: 11px !important;
+  white-space: pre-line !important;
+}
+
+.tooltipContainer {
+  display: flex;
+  position: relative;
+}
+
+.infoTooltip {
+  position: absolute;
+  right: 2%;
+  top: 20%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  cursor: pointer !important;
+  z-index: 0;
+}
+
+.iconTooltip {
+  width: 14px;
+  cursor: pointer !important;
+}
+
+.labelStamp {
+  font-size: 16px;
+  color: #ff0000;
+}
+
+.logisticsButtonContainer {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  column-gap: 20px;
+  margin-bottom: 100px;
+}
+.logisticsAccept {
+  padding: 7px 10px;
+  background-color: #282f86;
+  color: #fff;
+  border-radius: 7px;
+  border: 2px solid #282f86;
+}
+.logisticsAccept:hover {
+  background-color: #fff;
+  color: #282f86;
+  border: 2px solid #282f86;
+}
+.logisticsCancel {
+  padding: 7px 10px;
+  background-color: #fff;
+  color: #282f86;
+  border-radius: 7px;
+  border: 2px solid #282f86;
+  cursor: pointer !important;
+}
+
+@media (max-width: 1400px) {
+  .productContainer {
+    width: 32%;
+  }
+  .formCloseSection {
+    top: 58%;
+    right: -23px;
+  }
+}
+
+/* Old CSS */
+/* .inventoryMainContainer {
   padding: 0px 10rem;
 }
 .mainContainer {
@@ -93,10 +263,7 @@ form {
 
 .innerProductContainer {
   width: 100%;
-  /* background-color: #ffffff; */
   border-radius: 4px;
-  /* padding: 26px 30px;
-      box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important; */
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -155,15 +322,6 @@ form {
 }
 
 .formclose {
-  /* box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
-  padding: 4px 8px;
-  font-size: 13px;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  font-weight: 500;
-  cursor: pointer !important; */
-
   padding: 7px 10px;
   background-color: #282f86;
   color: #fff;
@@ -310,10 +468,10 @@ form {
   font-size: 12px;
   margin-top: -6px;
   color: red;
-}
+} */
 
 /* Start the Upload Section design */
-.uploadBox {
+/* .uploadBox {
   background-color: #fff !important;
   border: none !important;
   border-radius: 4px !important;
@@ -387,12 +545,12 @@ form {
   cursor: pointer;
   color: #5e676f;
   cursor: pointer !important;
-}
+} */
 
 /* End the Upload Section design */
 
 /* Start the stock quantity section */
-.tooltipSec {
+/* .tooltipSec {
   font-size: 11px !important;
   white-space: pre-line !important;
 }
@@ -468,11 +626,11 @@ form {
 
 .radioForm input[type="radio"] {
   margin-right: 5px;
-}
+} */
 
 /* End the stock quantity section */
 
-.tooltipContainer {
+/* .tooltipContainer {
   display: flex;
   position: relative;
 }
@@ -490,10 +648,10 @@ form {
 .iconTooltip {
   width: 14px;
   cursor: pointer !important;
-}
+} */
 
 /* Style image preview setion */
-.uploadSection {
+/* .uploadSection {
   margin-bottom: 20px;
 }
 
@@ -530,12 +688,12 @@ form {
   overflow: hidden;
   text-overflow: ellipsis;
   width: 100%;
-}
+} */
 
 /* End image preview section */
 
 /* Start the button section */
-.buttonContainer {
+/* .buttonContainer {
   margin-bottom: 20rem;
   display: flex;
   justify-content: center;
@@ -569,12 +727,12 @@ form {
   font-size: 14px;
   font-weight: 500;
   padding: 6px 22px;
-}
+} */
 
 /* End the button section */
 
 /* Bulk Upload section */
-.modalOverlay {
+/* .modalOverlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -668,13 +826,14 @@ form {
 .closeButton:hover {
   color: #000;
 }
+
 .labelStamp {
   font-size: 16px;
   color: #ff0000;
-}
+} */
 /* End bulk upload section */
 
-.logisticsButtonContainer {
+/* .logisticsButtonContainer {
   display: flex;
   width: 100%;
   justify-content: center;
@@ -694,7 +853,14 @@ form {
   border: 2px solid #282f86;
 }
 .logisticsCancel {
-  /* box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+  padding: 7px 10px;
+  background-color: #fff;
+  color: #282f86;
+  border-radius: 7px;
+  border: 2px solid #282f86;
+  cursor: pointer !important;
+} */
+/* box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
   background-color: #ffffff;
   border: 1px solid #5e676f;
   color: #5e676f;
@@ -705,14 +871,8 @@ form {
   font-weight: 500;
   font-size: 14px;
   cursor: pointer !important; */
-  padding: 7px 10px;
-  background-color: #fff;
-  color: #282f86;
-  border-radius: 7px;
-  border: 2px solid #282f86;
-  cursor: pointer !important;
-}
 
+/* 
 @media (max-width: 1580px) {
   .compliancesContainer {
     width: 19vw;
@@ -760,4 +920,4 @@ form {
   .inventoryMainContainer {
     padding: 0px 1rem;
   }
-}
+} */

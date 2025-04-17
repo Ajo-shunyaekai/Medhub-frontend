@@ -1,151 +1,137 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import '../../../assets/style/dashboardorders.css';
-import Table from 'react-bootstrap/Table';
-import Pagination from "react-js-pagination";
+import { useNavigate } from 'react-router-dom';
+import DataTable from 'react-data-table-component';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
-import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
-import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { postRequestWithToken } from '../../../api/Requests';
 import Loader from '../../shared-components/Loader/Loader';
+import PaginationComponent from '../../shared-components/Pagination/Pagination';
+import styles from '../../../assets/style/table.module.css';
+import '../../../assets/style/table.css'
 
 const SellerTransaction = () => {
-    const navigate = useNavigate()
-    const adminIdSessionStorage = localStorage.getItem("admin_id");
-    const adminIdLocalStorage   = localStorage.getItem("admin_id");
+    const navigate = useNavigate();
+    const adminId = localStorage.getItem("admin_id");
 
-    const [loading, setLoading]           = useState(true);
-    const [transactionList, setTransactionList] = useState([])
-    const [totalList, setTotalList]           = useState()
+    const [loading, setLoading] = useState(true);
+    const [transactionList, setTransactionList] = useState([]);
+    const [totalList, setTotalList] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
-    const listPerPage = 5;
+    const listPerPage = 10;
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
 
-
     useEffect(() => {
-        if (!adminIdSessionStorage && !adminIdLocalStorage) {
+        if (!adminId) {
             localStorage.clear();
             navigate("/admin/login");
             return;
         }
+
         const obj = {
-            admin_id  : adminIdSessionStorage || adminIdLocalStorage ,
-            filterKey : 'paid',
-            pageNo    : currentPage, 
-            pageSize  : listPerPage,
-        }
+            admin_id: adminId,
+            filterKey: 'paid',
+            pageNo: currentPage,
+            pageSize: listPerPage,
+        };
 
         postRequestWithToken('admin/get-transaction-list', obj, async (response) => {
             if (response?.code === 200) {
-                setTransactionList(response.result.data)
-                setTotalList(response.result.totalItems)
-            } else {
+                setTransactionList(response.result.data);
+                setTotalList(response.result.totalItems);
             }
             setLoading(false);
-        })
-    },[currentPage])
+        });
+    }, [currentPage, adminId, navigate]);
 
+    const columns = [
+        {
+            name: 'Transaction ID',
+            selector: row => row.transaction_id,
+            sortable: true,
+
+        },
+        {
+            name: 'Buyer Name',
+            selector: row => row.buyer_name,
+            sortable: true,
+
+        },
+        {
+            name: 'Total Amount',
+            selector: row => row.total_amount_paid,
+            sortable: true,
+            cell: row => (
+                <div className={styles.tableCell}>
+                    {row.total_amount_paid ? `${row.total_amount_paid} USD` : '-'}
+                </div>
+            )
+        },
+        {
+            name: 'Payment Mode',
+            selector: row => row.mode_of_payment,
+            sortable: true,
+
+        },
+        {
+            name: 'Status',
+            selector: row => row.status,
+            sortable: true,
+            cell: row => (
+                <div className={styles.tableCell}>
+                    {row.status?.charAt(0).toUpperCase() + row.status?.slice(1)}
+                </div>
+            )
+        },
+        {
+            name: 'Action',
+            cell: row => (
+                
+                    <a href={`/admin/supplier-transaction-details/${row.invoice_id}`}>
+                        <div className={styles.activeBtn}>
+                            <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
+                        </div>
+                    </a>
+               
+            ),
+            ignoreRowClick: true,
+            allowOverflow: true,
+            button: true
+        }
+    ];
 
     return (
-        <>
-        { loading ? (
-                     <Loader />
-                ) : (
-            <div className='rejected-main-container'>
-                <div className="rejected-main-head">Supplier Transaction List</div>
-                <div className="rejected-container">
-                    <div className="rejected-container-right-2">
-                        <Table responsive="xxl" className='rejected-table-responsive'>
-                            <thead>
-                                <div className='rejected-table-row-container' style={{ backgroundColor: 'transparent' }}>
-                                    <div className='rejected-table-row-item rejected-table-order-1'>
-                                        <span className='rejected-header-text-color'>Transaction ID</span>
-                                    </div>
-                                    <div className='rejected-table-row-item rejected-table-order-1'>
-                                        <span className='rejected-header-text-color'>Buyer Name</span>
-                                    </div>
-                                    <div className='rejected-table-row-item rejected-table-order-1'>
-                                        <span className='rejected-header-text-color'>Total Amount</span>
-                                    </div>
-                                    <div className='rejected-table-row-item rejected-table-order-2'>
-                                        <span className='rejected-header-text-color'>Payment Mode</span>
-                                    </div>
-                                    <div className='rejected-table-row-item rejected-table-order-1'>
-                                        <span className='rejected-header-text-color'>Status</span>
-                                    </div>
-                                    <div className='rejected-table-row-item rejected-table-order-1'>
-                                        <span className='rejected-header-text-color'>Action</span>
-                                    </div>
-                                </div>
-                            </thead>
-                            <tbody className='bordered'>
-                                {/* {transactionList?.map((transaction, index) => ( */}
-                                {transactionList?.length > 0 ? (
-                                    transactionList.map((transaction, index) => (
-                                    <div className='rejected-table-row-container' key={index}>
-                                        <div className='rejected-table-row-item rejected-table-order-1'>
-                                            <div className='rejected-table-text-color'>{transaction.transaction_id}</div>
-                                        </div>
-                                        <div className='rejected-table-row-item rejected-table-order-1'>
-                                            <div className='rejected-table-text-color'>{transaction.buyer_name}</div>
-                                        </div>
-                                        <div className='rejected-table-row-item rejected-table-order-1'>
-                                        <div className='table-text-color'>
-                                           {transaction.total_amount_paid ? `${transaction.total_amount_paid} USD` : null}
-                                        </div>
+        <div className={styles.container}>
 
-                                        </div>
-                                        <div className='rejected-table-row-item rejected-table-order-2'>
-                                            <div className='rejected-table-text-color'>{transaction.mode_of_payment}</div>
-                                        </div>
-                                        <div className='rejected-table-row-item rejected-table-order-1'>
-                                            <div className='rejected-table-text-color'>
-                                                {/* {transaction.status} */}
-                                                {transaction?.status?.charAt(0).toUpperCase() + transaction?.status.slice(1)  }
-                                            </div>
-                                        </div>
-                                        <div className='rejected-table-row-item rejected-table-btn rejected-table-order-1'>
-                                            <Link to={`/admin/supplier-transaction-details/${transaction.invoice_id}`}>
-                                                <div className='rejected-table rejected-table-view'><RemoveRedEyeOutlinedIcon className="table-icon" /></div>
-                                            </Link>
-                                        </div>
-                                    </div>
-                                ))
-                            ) : (
-                                <>
-                                    <div className='pending-products-no-orders'>
-                                        No Data Available
-                                    </div>
-                                </>
-                            )}
-                            </tbody>
-                        </Table>
-                        <div className='rejected-pagi-container'>
-                            <Pagination
-                                activePage={currentPage}
-                                itemsCountPerPage={listPerPage}
-                                totalItemsCount={totalList}
-                                pageRangeDisplayed={5}
-                                onChange={handlePageChange}
-                                itemClass="page-item"
-                                linkClass="page-link"
-                                prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
-                                nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
-                                hideFirstLastPages={true}
-                            />
-                            <div className='rejected-pagi-total'>
-                                <div>Total Items: {totalList}</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {loading ? (
+                <Loader />
+            ) : (
+                <>
+
+                    <span className={styles.title}>Supplier Transaction List</span>
+
+
+                    <DataTable
+                        columns={columns}
+                        data={transactionList}
+                        persistTableHead
+                        noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
+                        pagination={false}
+                    />
+                    {transactionList.length > 0 && (
+                        <PaginationComponent
+                            activePage={currentPage}
+                            itemsCountPerPage={listPerPage}
+                            totalItemsCount={totalList}
+                            pageRangeDisplayed={10}
+                            onChange={handlePageChange}
+                        />
+                    )}
+                </>
             )}
-        </>
+        </div>
     );
-}
+};
 
 export default SellerTransaction;

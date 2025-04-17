@@ -1,5 +1,4 @@
 import styles from "./productdetail.module.css";
-import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
@@ -8,7 +7,6 @@ import CloseIcon from "../../../assets/Images/Icon.svg";
 import RenderProductFiles from "./RenderProductFiles";
 import { fetchProductDetail } from "../../../../redux/reducers/productSlice";
 Modal.setAppElement("#root");
-
 const ProductDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -47,23 +45,15 @@ const ProductDetails = () => {
 
   return (
     <div className={styles.container}>
-      <span className={styles.heading}>Product Details</span>
+      <span className={styles.heading}>Product ID: {productDetail?.product_id} </span>
       <div className={styles.section}>
-        {/* <div className={styles.mainContainer}>
+        <div className={styles.mainContainer}>
           <div className={styles.InnerContainer}>
             <span className={styles.medicineName}>
               {productDetail?.general?.name}
             </span>
-            <Link
-              to={`/supplier/edit-product/${id}`}
-              className={styles.editButton}
-            >
-              Edit
-            </Link>
           </div>
-        </div> */}
-
-        {/* Start Secondar Market section */}
+        </div>
         {(productDetail?.secondaryMarketDetails?.purchasedOn ||
           productDetail?.secondaryMarketDetails?.countryAvailable?.length > 0 ||
           productDetail?.secondaryMarketDetails?.purchaseInvoiceFile?.length >
@@ -3258,11 +3248,11 @@ const ProductDetails = () => {
                     </div>
                   )}
                   {productDetail?.additional?.other && (
-                    <div className={styles.manufacturerDescriptionSection}>
+                    <div className={styles.additionalInnerSection}>
                       <span className={styles.medicineHead}>
                         Other Information
                       </span>
-                      <span className={styles.medicineContent}>
+                      <span className={styles.medicineText}>
                         {productDetail?.additional?.other}
                       </span>
                     </div>

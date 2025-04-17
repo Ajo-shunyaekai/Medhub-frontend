@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import styles from "../../../assets/style/order.module.css";
+import styles from "../../../assets/style/secondsidebar.module.css";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import TotalOngoingInquiries from "./TotalOngoingInquiries";
 import TotalInquiriesRequest from "./TotalInquiriesRequest";

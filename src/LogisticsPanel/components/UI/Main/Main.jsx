@@ -3,11 +3,11 @@ import styles from "./Main.module.css";
 
 function Main({ title, children }) {
   return (
-    <main className={styles.outerContainer}>
+    <main className={styles.wrapper}>
       <div className={styles.title}>
         <h4>{title}</h4>
       </div>
-      <div className={styles.innerContainer}>{children}</div>
+      <div className={styles.mainContainer}>{children}</div>
     </main>
   );
 }

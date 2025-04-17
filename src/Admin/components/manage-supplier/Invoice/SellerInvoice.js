@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import styles from "../../../assets/style/sellersupport.module.css";
+import styles from "../../../assets/style/secondsidebar.module.css";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import PendingInvoice from "./Pending/PendingInvoice";
 import PaidInvoice from "./Paid/PaidInvoice";
@@ -12,10 +12,8 @@ import { apiRequests } from "../../../../api";
 const SellerInvoice = () => {
   const location = useLocation();
   const navigate = useNavigate();
-
   const adminIdSessionStorage = localStorage.getItem("admin_id");
   const adminIdLocalStorage = localStorage.getItem("admin_id");
-
   const getActiveLinkFromPath = (path) => {
     switch (path) {
       case "/admin/supplier-invoice/paid":
@@ -28,9 +26,7 @@ const SellerInvoice = () => {
         return "paid";
     }
   };
-
   const activeLink = getActiveLinkFromPath(location.pathname);
-
   const handleLinkClick = (link) => {
     setCurrentPage(1);
     switch (link) {
@@ -47,20 +43,17 @@ const SellerInvoice = () => {
         navigate("/admin/supplier-invoice/paid");
     }
   };
-
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [invoiceList, setInvoiceList] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
-  const listPerPage = 5;
-
+  const listPerPage = 10;
   useEffect(() => {
     if (!adminIdSessionStorage && !adminIdLocalStorage) {
       localStorage.clear();
       navigate("/admin/login");
       return;
     }
-
     const obj = {
       admin_id: adminIdSessionStorage || adminIdLocalStorage,
       pageNo: currentPage,
@@ -68,7 +61,6 @@ const SellerInvoice = () => {
       page_no: currentPage,
       page_size: listPerPage,
     };
-
     if (activeLink === "paid" || activeLink === "pending") {
       obj.filterKey = activeLink;
       const fetchInvoiceList = async () => {
@@ -82,12 +74,6 @@ const SellerInvoice = () => {
 
           setInvoiceList(response.result.data);
           setTotalItems(response.result.totalItems);
-          // postRequestWithToken(`order/get-all-invoice-list?pageNo=${currentPage}&pageSize=${listPerPage}&filterKey=${activeLink}`, obj, async (response) => {
-          //     if (response?.code == 200) {
-          //         setInvoiceList(response.result.data);
-          //         setTotalItems(response.result.totalItems);
-          //     }
-          // })
         } catch (error) {
         } finally {
           setLoading(false);
@@ -95,9 +81,7 @@ const SellerInvoice = () => {
       };
       fetchInvoiceList();
       setLoading(false);
-      // });
     } else if (activeLink === "proforma") {
-      // Call a different API for 'proforma' invoices
       const fetchOrderList = async () => {
         obj.filterKey = "active";
 
@@ -126,47 +110,41 @@ const SellerInvoice = () => {
       {loading ? (
         <Loader />
       ) : (
-        <div className={styles[`invoice-container`]}>
-          <div className={styles["complete-container-invoice-section"]}>
-            <div className={styles["complete-conatiner-head"]}>Invoices</div>
+        <div className={styles.container}>
+          <div className={styles.header}>
+            <div className={styles.title}>Invoices</div>
           </div>
-          <div className={styles[`invoice-wrapper`]}>
-            <div className={styles[`invoice-wrapper-left`]}>
+          <div className={styles.content}>
+            <div className={styles.sidebar}>
               <div
                 onClick={() => handleLinkClick("paid")}
-                className={`${activeLink === "paid" ? styles.active : ""} ${
-                  styles["invoice-wrapper-left-text"]
-                }`}
+                className={`${activeLink === "paid" ? styles.active : ""} ${styles.tab}`}
               >
                 <DescriptionOutlinedIcon
-                  className={styles["invoice-wrapper-left-icons"]}
+                 className={styles.icon}
                 />
-                <div className={styles.invoiceHead}>Paid Invoices</div>
+                <div className={styles.text}>Paid Invoices</div>
               </div>
               <div
                 onClick={() => handleLinkClick("pending")}
-                className={`${activeLink === "pending" ? styles.active : ""} ${
-                  styles["invoice-wrapper-left-text"]
-                }`}
+                className={`${activeLink === "pending" ? styles.active : ""} ${styles.tab}`}
               >
                 <DescriptionOutlinedIcon
-                  className={styles["invoice-wrapper-left-icons"]}
+                  className={styles.icon}
                 />
-                <div className={styles.invoiceHead}>Pending Invoices</div>
+                <div className={styles.text}>Pending Invoices</div>
               </div>
               <div
                 onClick={() => handleLinkClick("proforma")}
-                className={`${activeLink === "proforma" ? styles.active : ""} ${
-                  styles["invoice-wrapper-left-text"]
-                }`}
+                className={`${activeLink === "proforma" ? styles.active : ""} ${styles.tab}`}
               >
                 <DescriptionOutlinedIcon
-                  className={styles["invoice-wrapper-left-icons"]}
+                 className={styles.icon}
                 />
-                <div className={styles.invoiceHead}>Proforma Invoices</div>
+                <div className={styles.text}>Proforma Invoices</div>
               </div>
             </div>
-            <div className={styles[`invoice-wrapper-right`]}>
+            <div className={styles.main}>
               {activeLink === "paid" && (
                 <PaidInvoice
                   invoiceList={invoiceList}
