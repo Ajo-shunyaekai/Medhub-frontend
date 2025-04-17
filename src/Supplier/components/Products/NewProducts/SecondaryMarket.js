@@ -12,6 +12,18 @@ import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArro
 
 const NewProduct = ({products, totalItems, currentPage, itemsPerPage, handlePageChange}) => {
   const serverUrl = process.env.REACT_APP_SERVER_URL;
+  const isImageExtension = (filename) => {
+    return /\.(jpg|jpeg|png|webp|gif|bmp)$/i.test(filename);
+  };
+  
+  const isValidHttpUrl = (url) => {
+    try {
+      const parsed = new URL(url);
+      return parsed.protocol === "http:" || parsed.protocol === "https:";
+    } catch (_) {
+      return false;
+    }
+  };
   return (
     <>
       <div className={styles.container}>
@@ -24,7 +36,7 @@ const NewProduct = ({products, totalItems, currentPage, itemsPerPage, handlePage
           </div>
         </Link>
 
-        {products?.length > 0 ? (
+        {/* {products?.length > 0 ? (
           products?.map((product) => (
             <div key={product._id} className={styles.mainCard}>
               <div className={styles.cardImgSection}>
@@ -88,6 +100,85 @@ const NewProduct = ({products, totalItems, currentPage, itemsPerPage, handlePage
           <div className={styles.noDataSection}>
             No Data Available
           </div>
+        )} */}
+
+        {products?.length > 0 ? (
+          products?.map((product) => {
+            const imageName = product.general.image?.[0];
+            const serverUrl = process.env.REACT_APP_SERVER_URL;
+            let imageSrc = ProductImage;
+        
+            if (imageName) {
+              const imageUrl = `${serverUrl}uploads/products/${imageName}`;
+              if (isValidHttpUrl(imageName) && isImageExtension(imageName)) {
+                imageSrc = imageName;
+              } else if (isImageExtension(imageName)) {
+                imageSrc = imageUrl;
+              }
+            }
+        
+            return (
+              <div key={product._id} className={styles.mainCard}>
+                <div className={styles.cardImgSection}>
+                  <div className={styles.cardImg}>
+                    <img
+                      className={styles.productImg}
+                      src={imageSrc}
+                      alt="Product Img"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = ProductImage;
+                      }}
+                    />
+                  </div>
+                  <Link to={`/supplier/product-details/${product._id}`}>
+                    <div className={styles.cardButton}>View Details</div>
+                  </Link>
+                </div>
+                <div className={styles.cardContentSection}>
+                  <div className={styles.cardMainHeading}>
+                    {product.general.name || "Unnamed Product"}
+                  </div>
+                  <div className={styles.cardInnerContainer}>
+                    <span className={styles.cardHead}>Category</span>
+                    <span className={styles.cardText}>
+                      {product?.category
+                        ?.replace(/([a-z])([A-Z])/g, "$1 $2")
+                        ?.replace(/\b\w/g, (char) => char.toUpperCase())}
+                    </span>
+                  </div>
+                  <div className={styles.cardInnerContainer}>
+                    <span className={styles.cardHead}>Sub Category</span>
+                    <span className={styles.cardText}>
+                      {product?.[product?.category]?.subCategory || "N/A"}
+                    </span>
+                  </div>
+                  <div className={styles.cardInnerContainer}>
+                    <span className={styles.cardHead}>Part/Model No.</span>
+                    <span className={styles.cardText}>
+                      {product.general.model || "N/A"}
+                    </span>
+                  </div>
+                  <div className={styles.cardInnerContainer}>
+                    <span className={styles.cardHead}>Total Quantity</span>
+                    <span className={styles.cardText}>
+                      {product.general.quantity || "0"}
+                    </span>
+                  </div>
+                  <div className={styles.cardInnerContainer}>
+                    <span className={styles.cardHead}>Stock Status</span>
+                    <span className={styles.cardText}>
+                      {product.inventoryDetails?.stock ||
+                        product.inventory?.stock ||
+                        "N/A"}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            );
+          })
+        ) : (
+          <div className={styles.noDataSection}>No Data Available</div>
         )}
       </div>
 
