@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import styles from '../../../assets/style/sellersupport.module.css';
-import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
+import styles from "../../../assets/style/secondsidebar.module.css";
+import { BiSupport } from "react-icons/bi";
 import BuyerComplaint from './complaint/BuyerComplaint';
 import BuyerFeedback from './feedback/BuyerFeedback';
 import BuyerUpdateProfile from './UpdateProfile/EditProfileList'
@@ -51,7 +51,7 @@ const SellerSupport = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const [supportList, setSupportList] = useState([])
     const [totalItems, setTotalIems]    = useState()
-    const listPerPage = 5
+    const listPerPage = 10
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber)
@@ -87,35 +87,35 @@ const SellerSupport = () => {
         {loading ? (
                      <Loader />
                 ) : (
-            <div className={styles[`invoice-container`]}>
-                <div className={styles['complete-container-invoice-section']}>
-                    <div className={styles['complete-conatiner-head']}>Support</div>
+            <div className={styles.container}>
+                <div className={styles.header}>
+                    <div className={styles.title}>Support</div>
                 </div>
-                <div className={styles[`invoice-wrapper`]}>
-                    <div className={styles[`invoice-wrapper-left`]}>
+                <div className={styles.content}>
+                    <div className={styles.sidebar}>
                         <div
                             onClick={() => handleLinkClick('complaint')}
-                            className={`${activeLink === 'complaint' ? styles.active : ''} ${styles['invoice-wrapper-left-text']}`}
+                            className={`${activeLink === 'complaint' ? styles.active : ''} ${styles.tab}`}
                         >
-                            <DescriptionOutlinedIcon className={styles['invoice-wrapper-left-icons']} />
-                            <div className={styles.supportHead}>Complaint</div>
+                            <BiSupport className={styles.icon} />
+                            <div className={styles.text}>Complaint</div>
                         </div>
                         <div
                             onClick={() => handleLinkClick('enquiry')}
-                            className={`${activeLink === 'enquiry' ? styles.active : ''} ${styles['invoice-wrapper-left-text']}`}
+                            className={`${activeLink === 'enquiry' ? styles.active : ''} ${styles.tab}`}
                         >
-                            <DescriptionOutlinedIcon className={styles['invoice-wrapper-left-icons']} />
-                            <div className={styles.supportHead}>Enquiry</div>
+                            <BiSupport className={styles.icon} />
+                            <div className={styles.text}>Enquiry</div>
                         </div>
                         <div
                             onClick={() => handleLinkClick('editprofile')}
-                            className={`${activeLink === 'editprofile' ? styles.active : ''} ${styles['invoice-wrapper-left-text']}`}
+                            className={`${activeLink === 'editprofile' ? styles.active : ''} ${styles.tab}`}
                         >
-                            <DescriptionOutlinedIcon className={styles['invoice-wrapper-left-icons']} />
-                            <div className={styles.supportHead}>Edit Profile Requests</div>
+                            <BiSupport className={styles.icon} />
+                            <div className={styles.text}>Edit Profile Requests</div>
                         </div>
                     </div>
-                    <div className={styles[`invoice-wrapper-right`]}>
+                    <div className={styles.main}>
                         {activeLink === 'complaint' && 
                         <BuyerComplaint
                             supportList = {supportList}

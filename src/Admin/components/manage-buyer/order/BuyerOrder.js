@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import styles from '../../../assets/style/order.module.css';
-import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
+import styles from "../../../assets/style/secondsidebar.module.css";
+import { TbReorder } from "react-icons/tb";
 import ActiveBuyerOrder from './ActiveOrder/ActiveBuyerOrder';
 import CompletedBuyerOrder from './CompletedOrder/CompletedBuyerOrder';
-import { postRequestWithToken } from '../../../api/Requests';
 import Loader from '../../shared-components/Loader/Loader';
 import { apiRequests } from '../../../../api';
 
 const BuyerOrder = () => {
     const location = useLocation();
     const navigate = useNavigate();
- 
     const adminIdSessionStorage = localStorage.getItem("admin_id");
     const adminIdLocalStorage   = localStorage.getItem("admin_id");
  
@@ -51,7 +49,7 @@ const BuyerOrder = () => {
     const [orderList, setOrderList]     = useState([])
     const [totalOrders, setTotalOrders] = useState()
     const [currentPage, setCurrentPage] = useState(1); 
-    const ordersPerPage = 5;
+    const ordersPerPage = 10;
  
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -101,29 +99,29 @@ const BuyerOrder = () => {
         {loading ? (
                      <Loader />
                 ) : (
-            <div className={styles[`order-container`]}>
-                <div className={styles['complete-container-order-section']}>
-                    <div className={styles['complete-conatiner-head']}>Orders</div>
+            <div className={styles.container}>
+                <div className={styles.header}>
+                    <div className={styles.title}>Orders</div>
                 </div>
-                <div className={styles[`order-wrapper`]}>
-                    <div className={styles[`order-wrapper-left`]}>
+                <div className={styles.content}>
+                    <div className={styles.sidebar}>
                         <div
                             onClick={() => handleLinkClick('active')}
-                            className={`${activeLink === 'active' ? styles.active : ''} ${styles['order-wrapper-left-text']}`}
+                            className={`${activeLink === 'active' ? styles.active : ''} ${styles.tab}`}
                         >
-                            <DescriptionOutlinedIcon className={styles['order-wrapper-left-icons']} />
-                            <div className={styles.OrderHeading}>Active Orders</div>
+                            <TbReorder className={styles.icon} />
+                            <div className={styles.text}>Active Orders</div>
                         </div>
                         <div
                             onClick={() => handleLinkClick('completed')}
-                            className={`${activeLink === 'completed' ? styles.active : ''} ${styles['order-wrapper-left-text']}`}
+                            className={`${activeLink === 'completed' ? styles.active : ''} ${styles.tab}`}
                         >
-                            <DescriptionOutlinedIcon className={styles['order-wrapper-left-icons']} />
-                            <div className={styles.OrderHeading}>Completed Orders</div>
+                            <TbReorder className={styles.icon} />
+                            <div className={styles.text}>Completed Orders</div>
                         </div>
                        
                     </div>
-                    <div className={styles[`order-wrapper-right`]}>
+                    <div className={styles.main}>
                         {activeLink === 'active' &&
                          <ActiveBuyerOrder
                             orderList        = {orderList} 

@@ -1,4 +1,3 @@
-// PaginationComponent.jsx
 import React from 'react';
 import './pagination.css';
 import Pagination from 'react-js-pagination';

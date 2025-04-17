@@ -1,87 +1,70 @@
-import React, { useState } from 'react';
+import React from 'react';
+import DataTable from 'react-data-table-component';
 import { Link } from 'react-router-dom';
-import styles from '../../../../assets/style/complaint.module.css';
-import Table from 'react-bootstrap/Table';
-import Pagination from "react-js-pagination";
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
-import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
-import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+import PaginationComponent from '../../../shared-components/Pagination/Pagination';
+import styles from '../../../../assets/style/table.module.css';
+import '../../../../assets/style/table.css'
 
-const Complaint = ({supportList, handlePageChange, currentPage, totalItems,listPerPage}) => {
+const Complaint = ({ supportList, handlePageChange, currentPage, totalItems, listPerPage }) => {
+    const columns = [
+        {
+            name: 'Complaint ID',
+            selector: row => row.support_id || 'ID Not Provided',
+            sortable: true,
+           
+        },
+        {
+            name: 'Subject',
+            selector: row => row.order_id || row.subject || 'N/A',
+            sortable: true,
+           
+        },
+        {
+            name: 'Message',
+            selector: row => row.reason || row.message || 'Reason Not Provided',
+            sortable: true,
+            grow: 2,
+            wrap: true,
+           
+        },
+        {
+            name: 'Action',
+            cell: row => (
+                <Link to={`/admin/supplier-complaint-details/${row.support_id}`}>
+                     <div className={styles.activeBtn}>
+                        <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
+                    </div>
+                </Link>
+            ),
+            ignoreRowClick: true,
+            allowOverflow: true,
+            button: true,
+            sortable: false,
+        },
+    ];
 
     return (
-        <>
-            <div className={styles['complaint-main-container']}>
-                <div className={styles['complaint-container']}>
-                    <div className={styles['complaint-container-right-2']}>
-                        <Table responsive="xxl" className={styles['complaint-table-responsive']}>
-                            <thead>
-                                <div className={styles['complaint-table-row-container']} style={{ backgroundColor: 'transparent' }}>
-                                    <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-1']}`}>
-                                        <span className={styles['complaint-header-text-color']}>Complaint ID</span>
-                                    </div>
-                                    <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-1']}`}>
-                                        <span className={styles['complaint-header-text-color']}>Subject</span>
-                                    </div>
-                                    <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-2']}`}>
-                                        <span className={styles['complaint-header-text-color']}>Message</span>
-                                    </div>
-                                    <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-1']}`}>
-                                        <span className={styles['complaint-header-text-color']}>Action</span>
-                                    </div>
-                                </div>
-                            </thead>
-                            <tbody className={styles.bordered}>
-                            {supportList?.length > 0 ? (
-                                supportList.map((support, index) => (
-                                    <div className={styles['complaint-table-row-container']} key={index}>
-                                    <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-1']}`}>
-                                        <div className={styles['complaint-table-text-color']}>{support.support_id || 'ID Not Provided'}</div>
-                                    </div>
-                                    <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-1']}`}>
-                                        <div className={styles['complaint-table-text-color']}>{support.order_id || support.subject ||  'N/A'}</div>
-                                    </div>
-                                    <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-2']}`}>
-                                        <div className={`${styles['complaint-table-text-color']} ${styles['truncated-text']}`}>
-                                        {support.reason || support.message || 'Reason Not Provided'}
-                                        </div>
-                                    </div>
-                                    <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-btn']} ${styles['complaint-table-order-1']}`}>
-                                        <Link to={`/admin/supplier-complaint-details/${support.support_id}`}>
-                                        <div className={`${styles['complaint-table']} ${styles['complaint-table-view']}`}>
-                                            <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
-                                        </div>
-                                        </Link>
-                                    </div>
-                                    </div>
-                                ))
-                                ) : (
-                                <div className={styles['no-data-message']}>No data available</div>
-                                )}
-                            </tbody>
-                        </Table>
-                        <div className={styles['complaint-pagi-container']}>
-                            <Pagination
-                                activePage={currentPage}
-                                itemsCountPerPage={listPerPage}
-                                totalItemsCount={totalItems}
-                                pageRangeDisplayed={5}
-                                onChange={handlePageChange}
-                              itemClass="page-item"
-                                    linkClass="page-link"
-                                prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
-                                nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
-                                hideFirstLastPages={true}
-                            />
-                            <div className={styles['complaint-pagi-total']}>
-                                <div>Total Items: {totalItems}</div>
-                            </div>
-                        </div>
-                    </div>
+            <div className={styles.container}>
+                <DataTable
+                    columns={columns}
+                    data={supportList}
+                    persistTableHead
+                    noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
+                    pagination={false}
+                    responsive
+                />
+              
+                    <PaginationComponent
+                        activePage={currentPage}
+                        itemsCountPerPage={listPerPage}
+                        totalItemsCount={totalItems}
+                        pageRangeDisplayed={5}
+                        onChange={handlePageChange}
+                    />
                 </div>
-            </div>
-        </>
+          
     );
-}
+};
 
 export default Complaint;
