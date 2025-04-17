@@ -48,7 +48,7 @@ const PickupOrderDetails = () => {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      console.log("error in update-logistics-details api");
+      console.error("error in update-logistics-details api");
     }
   };
 
@@ -87,7 +87,7 @@ const PickupOrderDetails = () => {
         );
       }
     } catch (error) {
-      console.log("error in order details api");
+      console.error("error in order details api");
     }
   };
 
