@@ -258,7 +258,13 @@ const SupplierEditProfileDetails = lazy(() =>
     "../components/manage-supplier/Support/UpdateProfile/EditProfileDetails"
   )
 );
-
+// Start supplier individual product routes
+const Product = lazy(() => import("../components/manage-supplier/Product/List/Product.js"));
+const NewProduct = lazy(() =>import("../components/manage-supplier/Product/List/NewProductList.js"));
+const SecondaryProduct = lazy(() =>import("../components/manage-supplier/Product/List/SecondaryProductList.js"));
+// const AddProduct = lazy(() =>import("../components/manage-supplier/Product/AddProduct/Addproduct.js"));
+const PreviewFile = lazy(() =>import("../components/manage-supplier/Product/AddProduct/PreviewFile/PreviewFile.jsx"));
+// End supplier individual product routes
 const socket = io.connect(process.env.REACT_APP_SERVER_URL);
 
 export function NotificationProvider({ children }) {
@@ -1052,6 +1058,53 @@ const router = createBrowserRouter([
           </Suspense>
         ),
       },
+
+  // start Supplier product section
+  {
+    path: "product",
+    element: (
+      <Suspense fallback={<Loader />}>
+        <Product socket={socket} />
+      </Suspense>
+    ),
+    children: [
+      {
+        path: "new-product",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <NewProduct socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "secondary-product",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <SecondaryProduct socket={socket} />
+          </Suspense>
+        ),
+      },
+    ],
+  },
+  // {
+  //   path: "add-product",
+  //   element: (
+  //     <Suspense fallback={<Loader />}>
+  //       <AddProduct socket={socket} />
+  //     </Suspense>
+  //   ),
+  // },
+  {
+    path: "preview-file",
+    element: (
+      <Suspense fallback={<Loader />}>
+        <PreviewFile socket={socket} />
+      </Suspense>
+    ),
+  },
+
+ // end Supplier product section
+      
      
     ],
   },

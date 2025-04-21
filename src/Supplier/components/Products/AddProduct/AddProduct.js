@@ -241,16 +241,6 @@ const AddProduct = ({ placeholder }) => {
         })) || []
     );
   };
-
-  // const handleBulkUpload = () => {
-  //   const bulkFormData = new FormData();
-
-  //   bulkFormData.append("supplier_id", localStorage.getItem("_id"));
-  //   bulkFormData.append("csvfile", selectedFile);
-
-  //   dispatch(bulkUpload(bulkFormData));
-  //   navigate("/supplier/preview-file");
-  // };
   const handleBulkUpload = () => {
     if (selectedFile) {
       const bulkFormData = new FormData();
@@ -281,10 +271,7 @@ const AddProduct = ({ placeholder }) => {
         initialValues={initialValues}
         validationSchema={productValidationSchema}
         validateOnBlur={true}
-        // validateOnChange={false} // Only validate when user submits
         onSubmit={(values) => {
-          // Custom submit handler with e.preventDefault()
-          // Your custom submit logic here
           setLoading(true)
           // Create a new FormData object
           const formData = new FormData();
