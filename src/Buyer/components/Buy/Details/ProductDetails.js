@@ -46,7 +46,7 @@ const ProductDetails = () => {
     ? `${process.env.REACT_APP_SERVER_URL}/uploads/products/${pdfFile}`
     : "https://morth.nic.in/sites/default/files/dd12-13_0.pdf";
 
-    const fallbackImageUrl = "https://medhub.global/uploads/emailer_images/medhubEmailerBanner.png";
+    const fallbackImageUrl = "https://medhub.shunyaekai.com/uploads/emailer_images/medhubEmailerBanner.png";
 
       // Utility to check if URL ends with image extension
       const isImageExtension = (fileName) => {

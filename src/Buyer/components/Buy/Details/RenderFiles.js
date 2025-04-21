@@ -8,7 +8,7 @@ const extractFileName = (url) => {
   return url.split("/").pop();
 };
 
-const fallbackImageUrl = "https://medhub.global/uploads/emailer_images/medhubEmailerBanner.png";
+const fallbackImageUrl = "https://medhub.shunyaekai.com/uploads/emailer_images/medhubEmailerBanner.png";
 
 
 // utility to check if URL ends with image extension

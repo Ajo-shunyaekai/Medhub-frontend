@@ -289,7 +289,7 @@ const AddProductFileUpload = ({
   // Type checks
   const isImage = ["jpeg", "jpg", "png", "gif", "bmp", "webp"].includes(fileExtension);
   const isPdf = fileExtension === "pdf";
-  const fallbackImage = "https://medhub.global/uploads/emailer_images/medhubEmailerBanner.png";
+  const fallbackImage = "https://medhub.shunyaekai.com/uploads/emailer_images/medhubEmailerBanner.png";
 
   const isValidUrl = (url) => {
     try {
