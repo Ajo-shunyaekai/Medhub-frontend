@@ -178,13 +178,13 @@ const BuyerDetails = () => {
                 <div className='buyer-details-inner-conatiner'>
                     <div className='buyer-details-edit-button-container'>
                         <div className='buyer-details-container-heading'>Buyer ID: {buyerDetails?.buyer_id}</div>
-                        {buyerDetails?.account_status !== 2 && (
+                        {/* {buyerDetails?.account_status !== 2 && (
                             <>
                                 <Link to={`/admin/edit-details/buyer/${buyerDetails?._id}`}>
                                     <span className='buyer-details-edit-button'>Edit</span>
                                 </Link>
                             </>
-                        )}
+                        )} */}
                     </div>
                     <div className='buyer-details-left-inner-container'>
                         <div className='buyer-details-left-uppar-section'>
