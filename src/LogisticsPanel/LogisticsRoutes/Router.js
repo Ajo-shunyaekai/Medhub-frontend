@@ -5,6 +5,7 @@ import Loader from "../components/SharedComponents/Loader/Loader";
 const AddVehicle        = lazy(() => import("../components/Vehicle/NewAddVehicle/NewAddVehicle"));
 const Dashboard         = lazy(() => import("../components/Dashboard/NewDashboard"));
 const Error             = lazy(() => import("../components/SharedComponents/Error/Error"));
+const ForgotPassword    = lazy(() => import("../components/ForgotPassword/ForgotPassword"));
 const Inventory         = lazy(() => import("../components/Inventory/NewInventoryList/InventoryForm"));
 const LogisticsLayout   = lazy(() => import("../components/SharedComponents/LogisticsLayout"));
 const Login             = lazy(() => import("../components/Login/Login"));
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
   {
     path    : "/logistics/login",
     element : <Login />,
+  },
+  {
+    path    : "/logistics/forgot-password",
+    element : <ForgotPassword />,
   },
   {
     path     : "/logistics",

@@ -55,7 +55,7 @@ function NewOrder() {
   }, [activeLink, currentPage]);
 
   return (
-    <Main title="Logistics Requests">
+    <Main title="Orders">
       <div className={styles.requestContainer}>
         <div className={styles.buttonContainer}>
           <button className={`${styles.button} ${activeLink === 'pending' ? styles.activeButton : ''}`} onClick={() => handleLinkClick('pending')}>
