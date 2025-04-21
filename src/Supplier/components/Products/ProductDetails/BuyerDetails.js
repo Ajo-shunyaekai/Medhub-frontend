@@ -172,7 +172,7 @@ const BuyerDetails = () => {
                                 <div className='supplier-details-inner-text'>{buyer?.license_no}</div>
                             </div>
                             <div className='supplier-details-inner-section'>
-                                <div className='supplier-details-inner-head'>License Expiry / Renewal Date</div>
+                                <div className='supplier-details-inner-head'>License Expiry/Renewal Date</div>
                                 <div className='supplier-details-inner-text'>{buyer?.license_expiry_date}</div>
                             </div>
                             <div className='supplier-details-inner-section'>

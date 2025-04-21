@@ -292,7 +292,7 @@ const Profile = () => {
         </div>
         <div className={styles.textareaSeaction}>
           <div className={styles.textareaHead}>
-            Business / Trade Activity Code
+            Business/Trade Activity Code
           </div>
           <span className={styles.textareaContent}>
             {user?.activity_code || "N/A"}

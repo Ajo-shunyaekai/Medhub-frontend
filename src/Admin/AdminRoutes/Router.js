@@ -182,7 +182,7 @@ const SellerOrderDetails = lazy(() =>
   import("../components/manage-supplier/Order/OrderDetails")
 );
 const Edit = lazy(() =>
-  import("../components/shared-components/EditDetails/edit.js")
+  import("../components/shared-components/EditDetails/EditProfileDetails.js")
 );
 const SellerInvoiceDetails = lazy(() =>
   import("../components/manage-supplier/Invoice/SellerInvoiceDetails")

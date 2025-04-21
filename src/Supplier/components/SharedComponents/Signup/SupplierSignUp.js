@@ -1211,7 +1211,7 @@ const SupplierSignUp = ({ socket }) => {
                     </div>
                     <div className="signup-form-section-div">
                       <label className="signup-form-section-label">
-                        License Expiry / Renewal Date
+                        License Expiry/Renewal Date
                         
                       </label>
                       <InputMask

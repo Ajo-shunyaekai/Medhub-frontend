@@ -13,6 +13,7 @@ import EditFile from "./EditFile";
 import "./edit.css";
 import styles from "./edit.module.css";
 import { Formik, Form, Field, useFormik, FormikProvider } from "formik";
+import * as Yup from "yup";
 import DatePicker from "react-date-picker";
 import moment from "moment";
 import { MdClose } from "react-icons/md";
@@ -21,12 +22,10 @@ import {
   initialValues,
   setInitFormValues,
   supplierOptions,
-  validationSchema,
 } from "./helper";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { parsePhoneNumber, isValidPhoneNumber } from "libphonenumber-js";
-import { parsePhoneNumberFromString, AsYouType } from "libphonenumber-js";
 import { fetchOtherUserData } from "../../../../redux/reducers/userDataSlice";
 
 // MultiSelectOption Component
@@ -52,10 +51,150 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
   );
 };
 
-const Edit = () => {
+const EditProfileDetails = () => {
   const { userType, id } = useParams();
   const dispatch = useDispatch();
-  const { otherUserDetails } = useSelector((state) => state.userReducer);
+  const { otherUserDetails } = useSelector((state) => state?.userReducer);
+  // State for country, state, city selection
+  const [category, setCategory] = useState([]);
+  // Country list for select
+  const countries = countryList()?.getData();
+  const validationSchema = Yup.object().shape({
+    // Conditionally required field
+    supplier_type: Yup.string().when([], {
+      is: () => userType === "supplier",
+      then: (schema) => schema.required("Company Type is required."),
+      otherwise: (schema) => schema.notRequired(),
+    }),
+
+    buyer_type: Yup.string().when([], {
+      is: () => userType === "buyer",
+      then: (schema) => schema.required("Company Type is required."),
+      otherwise: (schema) => schema.notRequired(),
+    }),
+
+    supplier_name: Yup.string().when([], {
+      is: () => userType === "supplier",
+      then: (schema) => schema.required("Company Name is required."),
+      otherwise: (schema) => schema.notRequired(),
+    }),
+
+    buyer_name: Yup.string().when([], {
+      is: () => userType === "buyer",
+      then: (schema) => schema.required("Company Name is required."),
+      otherwise: (schema) => schema.notRequired(),
+    }),
+
+    registration_no: Yup.string().required(
+      "Company Registration No. is required."
+    ),
+
+    vat_reg_no: Yup.string().required("GST/VAT Registration No. is required."),
+
+    buyer_email: Yup.string().when([], {
+      is: () => userType === "buyer",
+      then: (schema) => schema.required("Company Email ID is required."),
+      otherwise: (schema) => schema.notRequired(),
+    }),
+
+    // // supplier_mobile: Yup.string().when([], {
+    // //   is: () => userType === "supplier",
+    // //   then: (schema) => schema.required("Company Phone No. is required."),
+    // //   otherwise: (schema) => schema.notRequired(),
+    // // }),
+
+    // // buyer_mobile: Yup.string().when([], {
+    // //   is: () => userType === "buyer",
+    // //   then: (schema) => schema.required("Company Phone No. is required."),
+    // //   otherwise: (schema) => schema.notRequired(),
+    // // }),
+
+    // // ✅ Conditionally required phone number validation
+    // ...(userType === "supplier"
+    //   ? {
+    //       supplier_mobile: Yup.string()
+    //         .required("Phone number is required")
+    //         .test("is-valid-phone", "Invalid phone number", (value) =>
+    //           isValidPhoneNumber(`+${value}`)
+    //         ),
+    //     }
+    //   : {
+    //       buyer_mobile: Yup.string()
+    //         .required("Phone number is required")
+    //         .test("is-valid-phone", "Invalid phone number", (value) =>
+    //           isValidPhoneNumber(`+${value}`)
+    //         ),
+    //     }),
+    ...(userType === "supplier"
+      ? {
+          supplier_mobile: Yup.string().test(
+            "phone-validation",
+            "Phone number is required",
+            function (value) {
+              const { supplier_country_code } = this.parent;
+              const fullNumber = supplier_country_code?.includes("+")?`${supplier_country_code || ""} ${
+                value || ""
+              }`:`+${supplier_country_code || ""} ${
+                value || ""
+              }`;
+
+              if (!value && !supplier_country_code) {
+                return this.createError({
+                  message: "Phone number is required",
+                });
+              }
+
+              if (value && supplier_country_code) {
+                console.log("fullNumber", fullNumber);
+                if (!isValidPhoneNumber(fullNumber)) {
+                  return this.createError({ message: "Invalid phone number." });
+                }
+              }
+
+              return true;
+            }
+          ),
+        }
+      : {
+          buyer_mobile: Yup.string().test(
+            "phone-validation",
+            "Phone number is required",
+            function (value) {
+              const { buyer_country_code } = this.parent;
+              const fullNumber = buyer_country_code?.includes("+")?`${buyer_country_code || ""} ${value || ""}`:`+${buyer_country_code || ""} ${value || ""}`;
+
+              if (!value && !buyer_country_code) {
+                return this.createError({
+                  message: "Phone number is required",
+                });
+              }
+
+              if (value && buyer_country_code) {
+                console.log("fullNumber", fullNumber);
+                if (!isValidPhoneNumber(fullNumber)) {
+                  return this.createError({ message: "Invalid phone number." });
+                }
+              }
+
+              return true;
+            }
+          ),
+        }),
+
+    cNCFileNDate: Yup.array()
+      .of(
+        Yup.object().shape({
+          file: Yup.mixed().required("File is required."),
+          date: Yup.date()
+            .required("Date is required.")
+            .min(new Date(), "Date must be in the future"),
+        })
+      )
+      .min(1, "At least one certificate is required."),
+    licenseExpiry: Yup.date()
+      .nullable()
+      .min(new Date(), "License Expiry Date must be in the future"),
+  });
 
   const formik = useFormik({
     initialValues: initialValues,
@@ -73,13 +212,6 @@ const Edit = () => {
     setInitFormValues(formik, otherUserDetails);
   }, [otherUserDetails]);
 
-  // State for country, state, city selection
-  const [mobile, setMobile] = useState("");
-  const [category, setCategory] = useState([]);
-
-  // Country list for select
-  const countries = countryList()?.getData();
-
   // Populate category options from categoryArrays
   useEffect(() => {
     const categoryOptions = categoryArrays?.map((cat) => ({
@@ -95,37 +227,106 @@ const Edit = () => {
     return value?.map((item) => item.label)?.join(", ");
   };
 
-  // Define handlePhoneChange inside Formik to access setFieldValue
+  // // Define handlePhoneChange inside Formik to access setFieldValue
+  // const handlePhoneChange = (name, value) => {
+  //   try {
+  //     const phoneNumber = parsePhoneNumber(value);
+
+  //     // if (!value) {
+  //     //   formik.setFieldError(name, "Phone number is required.");
+  //     //   return;
+  //     // }
+
+  //     // if (!phoneNumber || !isValidPhoneNumber(value)) {
+  //     //   formik.setFieldError(name, "Invalid phone number");
+  //     //   return;
+  //     // }
+
+  //     // Extract the country code and national number from the parsed phone number
+  //     const countryCode = phoneNumber.countryCallingCode;
+  //     const nationalNumber = phoneNumber.nationalNumber;
+  //     const formattedNumber = `+${countryCode} ${nationalNumber}`;
+
+  //     // Update Formik field values
+  //     if (userType === "buyer") {
+  //       if (name === "buyer_mobile") {
+  //         formik.setFieldValue("buyer_country_code", countryCode);
+  //         formik.setFieldValue("buyer_mobile", nationalNumber);
+  //       } else if (name === "contact_person_mobile") {
+  //         formik.setFieldValue("contact_person_country_code", countryCode);
+  //         formik.setFieldValue("contact_person_mobile", nationalNumber);
+  //       }
+  //     } else if (userType === "supplier") {
+  //       if (name === "supplier_mobile") {
+  //         formik.setFieldValue("supplier_country_code", countryCode);
+  //         formik.setFieldValue("supplier_mobile", nationalNumber);
+  //       } else if (name === "contact_person_mobile_no") {
+  //         formik.setFieldValue("contact_person_country_code", countryCode);
+  //         formik.setFieldValue("contact_person_mobile_no", nationalNumber);
+  //       }
+  //     }
+
+  //     // Update the full phone number
+  //     if (formik.touched[name]) {
+  //       formik.setFieldValue(name, formattedNumber);
+  //     }
+  //   } catch (error) {
+  //     // if (formik.touched[name]) {
+  //     //   formik.setFieldError(name, "Invalid phone number");
+  //     // }
+  //   }
+  // };
   const handlePhoneChange = (name, value) => {
-    // Clear previous errors (local + Formik)
-    formik.setFieldError(name, "");
+  try {
+    const phoneNumber = parsePhoneNumber(value);
 
-    try {
-      const phoneNumber = parsePhoneNumber(value);
-
-      if (phoneNumber && isValidPhoneNumber(value)) {
-        const countryCode = phoneNumber.countryCallingCode;
-        const nationalNumber = phoneNumber.nationalNumber;
-        const formattedNumber = `+${countryCode} ${nationalNumber}`;
-
-        // Also update Formik field value (if you're syncing both)
-        formik.setFieldValue(name, formattedNumber);
-      } else {
-        const errorMsg = "Invalid phone number";
-
-        // Set both local error and Formik error
-        formik.setFieldError(name, errorMsg);
+    // If nothing is entered yet, clear fields
+    if (!value || !phoneNumber) {
+      if (userType === "buyer") {
+        formik.setFieldValue("buyer_country_code", "");
+        formik.setFieldValue("buyer_mobile", "");
+      } else if (userType === "supplier") {
+        formik.setFieldValue("supplier_country_code", "");
+        formik.setFieldValue("supplier_mobile", "");
       }
-    } catch (error) {
-      // In case of parsing errors
-      formik.setFieldError(name, "Invalid phone format");
+      return;
     }
-  };
+
+    // Extract components
+    const countryCode = phoneNumber.countryCallingCode;
+    const nationalNumber = phoneNumber.nationalNumber;
+
+    // Update Formik fields based on userType
+    if (userType === "buyer") {
+      if (name === "buyer_mobile") {
+        formik.setFieldValue("buyer_country_code", countryCode);
+        formik.setFieldValue("buyer_mobile", nationalNumber);
+      } else if (name === "contact_person_mobile") {
+        formik.setFieldValue("contact_person_country_code", countryCode);
+        formik.setFieldValue("contact_person_mobile", nationalNumber);
+      }
+    } else if (userType === "supplier") {
+      if (name === "supplier_mobile") {
+        formik.setFieldValue("supplier_country_code", countryCode);
+        formik.setFieldValue("supplier_mobile", nationalNumber);
+      } else if (name === "contact_person_mobile_no") {
+        formik.setFieldValue("contact_person_country_code", countryCode);
+        formik.setFieldValue("contact_person_mobile_no", nationalNumber);
+      }
+    }
+
+    // Touch the field to trigger validation
+    formik.setFieldTouched(name, true, false);
+  } catch (error) {
+    // Do not throw or set error here — let Yup handle it via validationSchema
+    console.warn("Phone parsing error:", error.message);
+  }
+};
 
   return (
     <div className={styles?.container}>
       <div className={styles?.headContainer}>
-        <span className={styles?.heading}>Edit Details</span>
+        <span className={styles?.heading}>Edit Profile Details</span>
       </div>
       <FormikProvider value={formik}>
         <form className={styles?.form}>
@@ -235,13 +436,13 @@ const Edit = () => {
 
               <div className={styles?.productContainer}>
                 <label className={styles?.formLabel}>
-                  GST/VAT Registration No
+                  GST/VAT Registration No.
                   <span className={styles?.labelStamp}>*</span>
                 </label>
                 <Field
                   className={styles?.formInput}
                   type="text"
-                  placeholder="Enter GST/VAT Registration No"
+                  placeholder="Enter GST/VAT Registration No."
                   name="vat_reg_no"
                   value={formik?.values?.vat_reg_no}
                   onChange={formik?.handleChange}
@@ -284,17 +485,43 @@ const Edit = () => {
                   <span className={styles?.labelStamp}>*</span>
                 </label>
                 <PhoneInput
-                  defaultCountry="us"
-                  name="buyer_mobile"
-                  value={formik?.values?.buyer_mobile}
-                  onChange={(value) => handlePhoneChange("buyer_mobile", value)}
+                  defaultCountry="gb"
+                  name={
+                    userType === "supplier" ? "supplier_mobile" : "buyer_mobile"
+                  }
+                  value={
+                    userType === "supplier"
+                      ? `+${formik.values.supplier_country_code || ""}${
+                          formik.values.supplier_mobile || ""
+                        }`
+                      : `+${formik.values.buyer_country_code || ""}${
+                          formik.values.buyer_mobile || ""
+                        }`
+                  }
+                  onChange={(value) => {
+                    const fieldName =
+                      userType === "supplier"
+                        ? "supplier_mobile"
+                        : "buyer_mobile";
+
+                    handlePhoneChange(fieldName, value);
+                    formik.setFieldTouched(fieldName, true, false); // <-- This is crucial
+                  }}
+                  // onBlur={formik?.handleBlur}
                 />
-                {formik?.touched?.buyer_mobile &&
-                  formik?.errors?.buyer_mobile && (
-                    <span className={styles?.error}>
-                      {formik?.errors?.buyer_mobile}
-                    </span>
-                  )}
+                {userType === "supplier"
+                  ? formik.touched["supplier_mobile"] &&
+                    formik.errors["supplier_mobile"] && (
+                      <span className={styles.error}>
+                        {formik.errors["supplier_mobile"]}
+                      </span>
+                    )
+                  : formik.touched["buyer_mobile"] &&
+                    formik.errors["buyer_mobile"] && (
+                      <span className={styles.error}>
+                        {formik.errors["buyer_mobile"]}
+                      </span>
+                    )}
               </div>
 
               <div className={styles?.productContainer}>
@@ -379,7 +606,7 @@ const Edit = () => {
                   getOptionValue={(option) => option?.isoCode}
                   name="country"
                   value={Country?.getAllCountries()?.find(
-                    (country) => country?.name == formik?.values?.country
+                    (country) => country?.name === formik?.values?.country
                   )}
                   onChange={(country) => {
                     formik?.setFieldValue("country", country?.name);
@@ -400,13 +627,13 @@ const Edit = () => {
                 <Select
                   options={
                     Country?.getAllCountries()?.find(
-                      (country) => country?.name == formik?.values?.country
+                      (country) => country?.name === formik?.values?.country
                     )
                       ? [
-                          ...State.getStatesOfCountry(
+                          ...State?.getStatesOfCountry(
                             Country?.getAllCountries()?.find(
                               (country) =>
-                                country?.name == formik?.values?.country
+                                country?.name === formik?.values?.country
                             )?.isoCode
                           ),
                           { name: "Other", isoCode: "OTHER" },
@@ -416,13 +643,13 @@ const Edit = () => {
                   getOptionLabel={(option) => option?.name}
                   getOptionValue={(option) => option?.isoCode}
                   value={[
-                    ...State.getStatesOfCountry(
+                    ...State?.getStatesOfCountry(
                       Country?.getAllCountries()?.find(
-                        (country) => country?.name == formik?.values?.country
+                        (country) => country?.name === formik?.values?.country
                       )?.isoCode
                     ),
                     { name: "Other", isoCode: "OTHER" },
-                  ]?.find((state) => state?.name == formik?.values?.state)}
+                  ]?.find((state) => state?.name === formik?.values?.state)}
                   onChange={(state) => {
                     formik?.setFieldValue("state", state?.name);
                     formik?.setFieldValue("city", "");
@@ -436,45 +663,45 @@ const Edit = () => {
                 <Select
                   options={
                     [
-                      ...State.getStatesOfCountry(
+                      ...State?.getStatesOfCountry(
                         Country?.getAllCountries()?.find(
-                          (country) => country?.name == formik?.values?.country
+                          (country) => country?.name === formik?.values?.country
                         )?.isoCode
                       ),
                       { name: "Other", isoCode: "OTHER" },
-                    ]?.find((state) => state?.name == formik?.values?.state) &&
+                    ]?.find((state) => state?.name === formik?.values?.state) &&
                     [
-                      ...State.getStatesOfCountry(
+                      ...State?.getStatesOfCountry(
                         Country?.getAllCountries()?.find(
-                          (country) => country?.name == formik?.values?.country
+                          (country) => country?.name === formik?.values?.country
                         )?.isoCode
                       ),
                       { name: "Other", isoCode: "OTHER" },
-                    ]?.find((state) => state?.name == formik?.values?.state)
+                    ]?.find((state) => state?.name === formik?.values?.state)
                       .isoCode !== "OTHER"
                       ? [
                           ...City.getCitiesOfState(
                             [
-                              ...State.getStatesOfCountry(
+                              ...State?.getStatesOfCountry(
                                 Country?.getAllCountries()?.find(
                                   (country) =>
-                                    country?.name == formik?.values?.country
+                                    country?.name === formik?.values?.country
                                 )?.isoCode
                               ),
                               { name: "Other", isoCode: "OTHER" },
                             ]?.find(
-                              (state) => state?.name == formik?.values?.state
+                              (state) => state?.name === formik?.values?.state
                             )?.countryCode,
                             [
-                              ...State.getStatesOfCountry(
+                              ...State?.getStatesOfCountry(
                                 Country?.getAllCountries()?.find(
                                   (country) =>
-                                    country?.name == formik?.values?.country
+                                    country?.name === formik?.values?.country
                                 )?.isoCode
                               ),
                               { name: "Other", isoCode: "OTHER" },
                             ]?.find(
-                              (state) => state?.name == formik?.values?.state
+                              (state) => state?.name === formik?.values?.state
                             )?.isoCode
                           ),
                           { name: "Other" },
@@ -486,28 +713,28 @@ const Edit = () => {
                   value={[
                     ...City.getCitiesOfState(
                       [
-                        ...State.getStatesOfCountry(
+                        ...State?.getStatesOfCountry(
                           Country?.getAllCountries()?.find(
                             (country) =>
-                              country?.name == formik?.values?.country
+                              country?.name === formik?.values?.country
                           )?.isoCode
                         ),
                         { name: "Other", isoCode: "OTHER" },
-                      ]?.find((state) => state?.name == formik?.values?.state)
+                      ]?.find((state) => state?.name === formik?.values?.state)
                         ?.countryCode,
                       [
-                        ...State.getStatesOfCountry(
+                        ...State?.getStatesOfCountry(
                           Country?.getAllCountries()?.find(
                             (country) =>
-                              country?.name == formik?.values?.country
+                              country?.name === formik?.values?.country
                           )?.isoCode
                         ),
                         { name: "Other", isoCode: "OTHER" },
-                      ]?.find((state) => state?.name == formik?.values?.state)
+                      ]?.find((state) => state?.name === formik?.values?.state)
                         ?.isoCode
                     ),
                     { name: "Other" },
-                  ]?.find((city) => city?.name == formik?.values?.city)}
+                  ]?.find((city) => city?.name === formik?.values?.city)}
                   onChange={(city) => {
                     formik?.setFieldValue("city", city?.name);
                   }}
@@ -636,14 +863,24 @@ const Edit = () => {
                 </label>
                 <DatePicker
                   className={styles?.formInput}
-                  name="license_expiry_date"
-                  onChange={formik?.handleChange}
-                  onBlur={formik?.handleBlur}
-                  value={formik?.values?.license_expiry_date}
-                  minDate={new Date()}
+                  clearIcon={null}
                   format="dd/MM/yyyy"
                   placeholder="dd/MM/yyyy"
-                  clearIcon={null}
+                  name="license_expiry_date"
+                  value={
+                    formik?.values?.license_expiry_date
+                      ? new Date(formik?.values?.license_expiry_date)
+                      : null
+                  }
+                  minDate={new Date()}
+                  onChange={(date) => {
+                    formik?.setFieldValue(`license_expiry_date`, date);
+                    formik?.setFieldTouched(`license_expiry_date`, true, true);
+                  }}
+                  onBlur={formik?.handleBlur}
+                  disabledDate={(current) =>
+                    current && current < moment()?.endOf("day")
+                  }
                 />
               </div>
 
@@ -855,21 +1092,45 @@ const Edit = () => {
                   <span className={styles?.labelStamp}>*</span>
                 </label>
                 <PhoneInput
-                  className="signup-form-section-phone-input"
                   defaultCountry="gb"
-                  name="mobile"
-                  value={mobile}
+                  name={
+                    userType === "supplier"
+                      ? "contact_person_mobile_no"
+                      : "contact_person_mobile"
+                  }
+                  value={
+                    userType === "supplier"
+                      ? `+${formik.values.contact_person_country_code || ""}${
+                          formik.values.contact_person_mobile_no || ""
+                        }`
+                      : `+${formik.values.contact_person_country_code || ""}${
+                          formik.values.contact_person_mobile || ""
+                        }`
+                  }
                   onChange={(value) => {
-                    handlePhoneChange("mobile", value);
-                    setMobile(value);
+                    const fieldName =
+                      userType === "supplier"
+                        ? "contact_person_mobile_no"
+                        : "contact_person_mobile";
+
+                    handlePhoneChange(fieldName, value);
+                    formik.setFieldTouched(fieldName, true, false); // <-- This is crucial
                   }}
+                  // onBlur={formik?.handleBlur}
                 />
-                {/* {formik?.touched?.vat_reg_no &&
-                  formik?.errors?.vat_reg_no && ( */}
-                <span className={styles?.error}>
-                  {/* {formik?.errors?.vat_reg_no} */}
-                </span>
-                {/* )} */}
+                {userType === "supplier"
+                  ? formik.touched["contact_person_mobile_no"] &&
+                    formik.errors["contact_person_mobile_no"] && (
+                      <span className={styles.error}>
+                        {formik.errors["contact_person_mobile_no"]}
+                      </span>
+                    )
+                  : formik.touched["contact_person_mobile"] &&
+                    formik.errors["contact_person_mobile"] && (
+                      <span className={styles.error}>
+                        {formik.errors["contact_person_mobile"]}
+                      </span>
+                    )}
               </div>
 
               <div className={styles?.productContainer}>
@@ -899,23 +1160,25 @@ const Edit = () => {
           <div className={styles?.section}>
             <div className={styles?.formHeadSection}>
               <span className={styles?.formHead}>Certificate</span>
-              <span
-                className={styles?.formAddButton}
-                onClick={() => {
-                  if (formik?.values?.certificateFileNDate?.length < 4) {
-                    formik?.setFieldValue("certificateFileNDate", [
-                      ...formik?.values?.certificateFileNDate,
-                      {
-                        file: [],
-                        date: "",
-                        preview: false,
-                      },
-                    ]);
-                  }
-                }}
-              >
-                Add More
-              </span>
+              {formik?.values?.certificateFileNDate?.length < 4 && (
+                <span
+                  className={styles?.formAddButton}
+                  onClick={() => {
+                    if (formik?.values?.certificateFileNDate?.length < 4) {
+                      formik?.setFieldValue("certificateFileNDate", [
+                        ...formik?.values?.certificateFileNDate,
+                        {
+                          file: [],
+                          date: "",
+                          preview: false,
+                        },
+                      ]);
+                    }
+                  }}
+                >
+                  Add More cc
+                </span>
+              )}
             </div>
 
             {formik?.values?.certificateFileNDate?.map((ele, index) => (
@@ -1021,11 +1284,26 @@ const Edit = () => {
             <span className={styles?.formHead}>Documents</span>
             <div className={styles?.formSection}>
               <EditFile
-                // productDetails={productDetail}
-                maxFiles={4 - (formik?.values?.safetyDatasheet?.length || 0)}
-                fieldInputName="safetyDatasheetNew"
-                oldFieldName="safetyDatasheet"
-                existingFiles={formik?.values?.safetyDatasheet}
+                productDetails={otherUserDetails}
+                maxFilesCount={1}
+                maxFiles={
+                  userType == "supplier"
+                    ? 1 - (formik?.values?.supplier_image?.length || 0)
+                    : 1 - (formik?.values?.buyer_image?.length || 0)
+                }
+                fieldInputName={
+                  userType == "supplier"
+                    ? "supplier_imageNew"
+                    : "buyer_imageNew"
+                }
+                oldFieldName={
+                  userType == "supplier" ? "supplier_image" : "buyer_image"
+                }
+                existingFiles={
+                  userType == "supplier"
+                    ? formik?.values?.supplier_image
+                    : formik?.values?.buyer_image
+                }
                 setFieldValue={formik?.setFieldValue}
                 initialValues={formik?.values}
                 label="Upload Company Logo"
@@ -1038,11 +1316,12 @@ const Edit = () => {
               />
 
               <EditFile
-                // productDetails={productDetail}
-                maxFiles={4 - (formik?.values?.healthHazardRating?.length || 0)}
-                fieldInputName="healthHazardRatingNew"
-                oldFieldName="healthHazardRating"
-                existingFiles={formik?.values?.healthHazardRating}
+                productDetails={otherUserDetails}
+                maxFilesCount={4}
+                maxFiles={4 - (formik?.values?.license_image?.length || 0)}
+                fieldInputName="license_imageNew"
+                oldFieldName="license_image"
+                existingFiles={formik?.values?.license_image}
                 setFieldValue={formik?.setFieldValue}
                 initialValues={formik?.values}
                 label="Upload Trade License"
@@ -1058,13 +1337,14 @@ const Edit = () => {
                 ? formik?.values?.supplier_type
                 : formik?.values?.buyer_type) === "Medical Practitioner" && (
                 <EditFile
-                  // productDetails={productDetail}
+                  productDetails={otherUserDetails}
+                  maxFilesCount={4}
                   maxFiles={
-                    4 - (formik?.values?.environmentalImpact?.length || 0)
+                    4 - (formik?.values?.medical_certificate?.length || 0)
                   }
-                  fieldInputName="environmentalImpactNew"
-                  oldFieldName="environmentalImpact"
-                  existingFiles={formik?.values?.environmentalImpact}
+                  fieldInputName="medical_certificateNew"
+                  oldFieldName="medical_certificate"
+                  existingFiles={formik?.values?.medical_certificate}
                   setFieldValue={formik?.setFieldValue}
                   initialValues={formik?.values}
                   label="Upload Medical Practitioner Certificate"
@@ -1093,4 +1373,4 @@ const Edit = () => {
   );
 };
 
-export default Edit;
+export default EditProfileDetails;

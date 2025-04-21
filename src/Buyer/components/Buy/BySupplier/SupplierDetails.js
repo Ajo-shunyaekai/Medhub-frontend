@@ -256,7 +256,7 @@ const SupplierDetails = () => {
               <span className={styles.cardContent}>{supplier?.license_no || 'Not provided'}</span>
             </div>
             <div className={styles.cardMainContainer}>
-              <span className={styles.cardHead}>License Expiry / Renewal Date</span>
+              <span className={styles.cardHead}>License Expiry/Renewal Date</span>
               <span className={styles.cardContent}>{supplier?.license_expiry_date || 'Not provided'}</span>
             </div>
             <div className={styles.cardMainContainer}>
