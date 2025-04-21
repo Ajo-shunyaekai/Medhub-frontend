@@ -46,12 +46,12 @@ const ProductDetails = () => {
     ? `${process.env.REACT_APP_SERVER_URL}/uploads/products/${pdfFile}`
     : "https://morth.nic.in/sites/default/files/dd12-13_0.pdf";
 
-    const fallbackImageUrl = "https://medhub.shunyaekai.com/uploads/fallbackImage.jpg";
+  const fallbackImageUrl = "https://medhub.shunyaekai.com/uploads/fallbackImage.jpg";
 
-      // Utility to check if URL ends with image extension
-      const isImageExtension = (fileName) => {
-        return /\.(png|jpe?g|gif|bmp|webp)$/i.test(fileName);
-      };
+  // Utility to check if URL ends with image extension
+  const isImageExtension = (fileName) => {
+    return /\.(png|jpe?g|gif|bmp|webp)$/i.test(fileName);
+  };
 
   const [loading, setLoading] = useState(false);
   const inventoryList = productDetail?.inventoryDetails?.inventoryList || [];
@@ -80,34 +80,12 @@ const ProductDetails = () => {
       dispatch(fetchProductDetail(`product/${id}`));
     }
   }, [id]);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const response = await dispatch(
-  //       fetchOtherSupplierProductsList(
-  //         `product/get-other-products/${id}?page_no=${currentPage}&page_size=${itemsPerPage}&search_key=${
-  //           searchKey || ""
-  //         }`
-  //       )
-  //     );
-  //     if (response.meta.requestStatus === "fulfilled") {
-  //       setMedicineList(response?.payload?.products || []);
-  //       setTotalitems(response?.payload?.totalItems || 0);
-  //     } else {
-  //       setMedicineList([]);
-  //       setTotalitems(0);
-  //     }
-  //   };
-  //   fetchData();
-  // }, [id, dispatch, currentPage, searchKey]);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await dispatch(
           fetchOtherSupplierProductsList(
-            `product/get-other-products/${id}?page_no=${currentPage}&page_size=${itemsPerPage}&search_key=${
-              searchKey || ""
+            `product/get-other-products/${id}?page_no=${currentPage}&page_size=${itemsPerPage}&search_key=${searchKey || ""
             }`
           )
         );
@@ -130,28 +108,6 @@ const ProductDetails = () => {
     if (!productDetail?.category) return null;
     return productDetail[productDetail.category]?.[property];
   };
-
-  // const handleInputChange = (e) => {
-  //   // setInputValue(e.target.value);
-  //   const input = e.target.value;
-  //   // if(input.length <= 10) {
-  //   setInputValue(e.target.value);
-
-  //   if (e.target.value === "") {
-  //     setSearchKey("");
-  //   }
-  // };
-  // const handleProductSearch = () => {
-  //   setSearchKey(inputValue);
-  //   setCurrentPage(1);
-  // };
-
-  // const handleKeyDown = (e) => {
-  //   if (e.key === "Enter") {
-  //     handleProductSearch();
-  //   }
-  // };
-
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
     if (searchTimeoutRef.current) {
@@ -172,41 +128,6 @@ const ProductDetails = () => {
       setCurrentPage(1);
     }
   };
-
-  // Filter handlers (minimal implementation, adjust as per your needs)
-  const handlePriceRange = (selectedValues) => {
-    setFilters((prev) => ({ ...prev, price: selectedValues }));
-  };
-
-  const handleDeliveryTime = (selectedValues) => {
-    setFilters((prev) => ({ ...prev, deliveryTime: selectedValues }));
-  };
-
-  const handleStockedIn = (selectedValues) => {
-    setFilters((prev) => ({ ...prev, stockedIn: selectedValues }));
-  };
-
-  const handleQuantity = (selectedValues) => {
-    setFilters((prev) => ({ ...prev, totalQuantity: selectedValues }));
-  };
-
-  // const handleReset = () => {
-  //   const dataToFilter = productDetail?.data || [productDetail] || [];
-  //   setFilteredData(dataToFilter);
-  //   setInputValue("");
-  // };
-
-  const handleReset = () => {
-    setFilters({
-      price: [],
-      deliveryTime: [],
-      stockedIn: [],
-      totalQuantity: [],
-    });
-    setInputValue("");
-    setSearchKey("");
-  };
-
   const quantityOptions = inventoryList.map((ele) => ({
     value: `${ele.quantityFrom}-${ele.quantityTo}`,
     label: `${ele.quantityFrom} - ${ele.quantityTo}`,
@@ -247,22 +168,6 @@ const ProductDetails = () => {
       unit_tax: productDetail?.general?.unit_tax,
       est_delivery_time: values?.deliveryTime,
     };
-
-    // dispatch(addToList(obj)).then((response) => {
-    //   if (response?.meta.requestStatus === "fulfilled") {
-    //     dispatch(updateInquiryCartCount(response?.result?.listCount))
-
-    //     // resetForm()
-    //     // setTimeout(() => {
-    //     //   navigate('/buyer/send-inquiry')
-    //     //   setLoading(true)
-    //     // }, 1000);
-
-    //   } else {
-    //     setLoading(false)
-    //   }
-    // })
-
     postRequestWithToken("buyer/add-to-list", obj, async (response) => {
       if (response?.code === 200) {
         toast(response.message, { type: "success" });
@@ -302,102 +207,102 @@ const ProductDetails = () => {
         {(productDetail?.secondaryMarketDetails?.purchasedOn ||
           productDetail?.secondaryMarketDetails?.countryAvailable?.length > 0 ||
           productDetail?.secondaryMarketDetails?.purchaseInvoiceFile?.length >
-            0 ||
+          0 ||
           productDetail?.secondaryMarketDetails?.condition) && (
-          <div className={styles.mainContainer}>
-            <span className={styles.innerHead}>
-              Secondary Market Information
-            </span>
-            <div className={styles.innerSection}>
-              <div className={styles.mainSection}>
-                {productDetail?.secondaryMarketDetails?.purchasedOn && (
-                  <div className={styles.medicinesSection}>
-                    <span className={styles.medicineHead}>Purchased on</span>
-                    <span className={styles.medicineText}>
-                      {String(
-                        new Date(
-                          productDetail?.secondaryMarketDetails?.purchasedOn
-                        )?.getDate()
-                      ).padStart(2, "0")}
-                      /
-                      {String(
-                        new Date(
-                          productDetail?.secondaryMarketDetails?.purchasedOn
-                        )?.getMonth() + 1
-                      ).padStart(2, "0")}
-                      /
-                      {new Date(
-                        productDetail?.secondaryMarketDetails?.purchasedOn
-                      )?.getFullYear()}
-                    </span>
-                  </div>
-                )}
-                {productDetail?.secondaryMarketDetails?.condition && (
-                  <div className={styles.medicinesSection}>
-                    <span className={styles.medicineHead}>Condition</span>
-                    <span className={styles.medicineText}>
-                      {productDetail?.secondaryMarketDetails?.condition}
-                    </span>
-                  </div>
-                )}
-              </div>
-              {(productDetail?.secondaryMarketDetails?.countryAvailable?.length >
-                0 ||
-                productDetail?.secondaryMarketDetails?.minimumPurchaseUnit) && (
+            <div className={styles.mainContainer}>
+              <span className={styles.innerHead}>
+                Secondary Market Information
+              </span>
+              <div className={styles.innerSection}>
                 <div className={styles.mainSection}>
-                  {productDetail?.secondaryMarketDetails?.countryAvailable
-                    ?.length > 0 && (
+                  {productDetail?.secondaryMarketDetails?.purchasedOn && (
                     <div className={styles.medicinesSection}>
-                      <span className={styles.medicineHead}>
-                        Country Available in
-                      </span>
+                      <span className={styles.medicineHead}>Purchased on</span>
                       <span className={styles.medicineText}>
-                        {productDetail?.secondaryMarketDetails?.countryAvailable?.map(
-                          (country, index) => (
-                            <span key={index}>
-                              {country}
-                              {index !==
-                                productDetail?.secondaryMarketDetails
-                                  ?.countryAvailable.length -
-                                  1 && ", "}
+                        {String(
+                          new Date(
+                            productDetail?.secondaryMarketDetails?.purchasedOn
+                          )?.getDate()
+                        ).padStart(2, "0")}
+                        /
+                        {String(
+                          new Date(
+                            productDetail?.secondaryMarketDetails?.purchasedOn
+                          )?.getMonth() + 1
+                        ).padStart(2, "0")}
+                        /
+                        {new Date(
+                          productDetail?.secondaryMarketDetails?.purchasedOn
+                        )?.getFullYear()}
+                      </span>
+                    </div>
+                  )}
+                  {productDetail?.secondaryMarketDetails?.condition && (
+                    <div className={styles.medicinesSection}>
+                      <span className={styles.medicineHead}>Condition</span>
+                      <span className={styles.medicineText}>
+                        {productDetail?.secondaryMarketDetails?.condition}
+                      </span>
+                    </div>
+                  )}
+                </div>
+                {(productDetail?.secondaryMarketDetails?.countryAvailable?.length >
+                  0 ||
+                  productDetail?.secondaryMarketDetails?.minimumPurchaseUnit) && (
+                    <div className={styles.mainSection}>
+                      {productDetail?.secondaryMarketDetails?.countryAvailable
+                        ?.length > 0 && (
+                          <div className={styles.medicinesSection}>
+                            <span className={styles.medicineHead}>
+                              Country Available in
                             </span>
-                          )
+                            <span className={styles.medicineText}>
+                              {productDetail?.secondaryMarketDetails?.countryAvailable?.map(
+                                (country, index) => (
+                                  <span key={index}>
+                                    {country}
+                                    {index !==
+                                      productDetail?.secondaryMarketDetails
+                                        ?.countryAvailable.length -
+                                      1 && ", "}
+                                  </span>
+                                )
+                              )}
+                            </span>
+                          </div>
                         )}
-                      </span>
+
+                      {productDetail?.secondaryMarketDetails
+                        ?.minimumPurchaseUnit && (
+                          <div className={styles.medicinesSection}>
+                            <span className={styles.medicineHead}>
+                              Minimum Purchase Unit
+                            </span>
+                            <span className={styles.medicineText}>
+                              {
+                                productDetail?.secondaryMarketDetails
+                                  ?.minimumPurchaseUnit
+                              }
+                            </span>
+                          </div>
+                        )}
                     </div>
                   )}
 
-                  {productDetail?.secondaryMarketDetails
-                    ?.minimumPurchaseUnit && (
-                    <div className={styles.medicinesSection}>
-                      <span className={styles.medicineHead}>
-                        Minimum Purchase Unit
-                      </span>
-                      <span className={styles.medicineText}>
-                        {
-                          productDetail?.secondaryMarketDetails
-                            ?.minimumPurchaseUnit
-                        }
-                      </span>
+                {productDetail?.secondaryMarketDetails?.purchaseInvoiceFile
+                  ?.length > 0 && (
+                    <div className={styles.mainPurchaseSection}>
+                      <button
+                        className={styles.PurcahseButton}
+                        onClick={() => setModalIsOpen(true)}
+                      >
+                        View Purchase Invoice
+                      </button>
                     </div>
                   )}
-                </div>
-              )}
-
-              {productDetail?.secondaryMarketDetails?.purchaseInvoiceFile
-                ?.length > 0 && (
-                <div className={styles.mainPurchaseSection}>
-                  <button
-                    className={styles.PurcahseButton}
-                    onClick={() => setModalIsOpen(true)}
-                  >
-                    View Purchase Invoice
-                  </button>
-                </div>
-              )}
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
         {/* End Secondar Market section */}
         {/* Start general information section */}
@@ -464,16 +369,16 @@ const ProductDetails = () => {
               )}
               {(productDetail?.general?.packageMaterial ||
                 productDetail?.general?.packageMaterialIfOther) && (
-                <div className={styles.medicinesSection}>
-                  <span className={styles.medicineHead}>
-                    Product Packaging Material
-                  </span>
-                  <span className={styles.medicineText}>
-                    {productDetail?.general?.packageMaterial ||
-                      productDetail?.general?.packageMaterialIfOther}
-                  </span>
-                </div>
-              )}
+                  <div className={styles.medicinesSection}>
+                    <span className={styles.medicineHead}>
+                      Product Packaging Material
+                    </span>
+                    <span className={styles.medicineText}>
+                      {productDetail?.general?.packageMaterial ||
+                        productDetail?.general?.packageMaterialIfOther}
+                    </span>
+                  </div>
+                )}
             </div>
             <div className={styles.mainSection}>
               {productDetail?.[productDetail?.category]?.subCategory && (
@@ -582,34 +487,41 @@ const ProductDetails = () => {
             </div>
           </div>
         )} */}
+        <div className={styles.mainContainer}>
+          <span className={styles.innerHead}>Product Images</span>
+          <div className={styles.productImageSection}>
+          {productDetail?.general?.image?.map((img, index) => {
+            const baseUrl = process.env.REACT_APP_SERVER_URL?.endsWith("/")
+              ? process.env.REACT_APP_SERVER_URL
+              : `${process.env.REACT_APP_SERVER_URL}/`;
 
-        {productDetail?.general?.image?.map((img, index) => {
-                        const baseUrl = process.env.REACT_APP_SERVER_URL?.endsWith("/")
-                          ? process.env.REACT_APP_SERVER_URL
-                          : `${process.env.REACT_APP_SERVER_URL}/`;
-        
-                        // If not a full URL, prepend base path
-                        const imgUrl = img.startsWith("http")
-                          ? img
-                          : `${baseUrl}uploads/products/${img}`;
-        
-                        // Check if it ends with image extension
-                        const isImageFile = isImageExtension(imgUrl);
-        
-                        return (
-                          <div className={styles.imageContainer} key={index}>
-                            <img
-                              className={styles.imageSection}
-                              src={isImageFile ? imgUrl : fallbackImageUrl}
-                              alt="Product Image"
-                              onError={(e) => {
-                                e.target.onerror = null;
-                                e.target.src = fallbackImageUrl;
-                              }}
-                            />
-                          </div>
-                        );
-                      })}
+            // If not a full URL, prepend base path
+            const imgUrl = img.startsWith("http")
+              ? img
+              : `${baseUrl}uploads/products/${img}`;
+
+            // Check if it ends with image extension
+            const isImageFile = isImageExtension(imgUrl);
+          
+            return (
+             
+                <div className={styles.imageContainer} key={index}>
+                  <img
+                    className={styles.imageSection}
+                    src={isImageFile ? imgUrl : fallbackImageUrl}
+                    alt="Product Image"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = fallbackImageUrl;
+                    }}
+                  />
+                </div>
+              
+            );
+          
+          })}
+          </div>
+        </div>
 
         {/* End product image section */}
         {/* Start Inventory & Packaging section */}
@@ -617,139 +529,139 @@ const ProductDetails = () => {
           productDetail?.inventoryDetails?.sku ||
           productDetail?.inventoryDetails?.stock ||
           productDetail?.inventoryDetails?.date) && (
-          <div className={styles.mainContainer}>
-            <span className={styles.innerHead}>Inventory & Packaging</span>
-            <div className={styles.innerMainSection}>
-              {(productDetail?.inventoryDetails?.sku ||
-                productDetail?.inventoryDetails?.stock ||
-                productDetail?.inventoryDetails?.date) && (
-                <div className={styles.inventorySection}>
-                  <div className={styles.mainSection}>
-                    {productDetail?.inventoryDetails?.sku && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>SKU</span>
-                        <span className={styles.medicineText}>
-                          {productDetail?.inventoryDetails?.sku}
-                        </span>
+            <div className={styles.mainContainer}>
+              <span className={styles.innerHead}>Inventory & Packaging</span>
+              <div className={styles.innerMainSection}>
+                {(productDetail?.inventoryDetails?.sku ||
+                  productDetail?.inventoryDetails?.stock ||
+                  productDetail?.inventoryDetails?.date) && (
+                    <div className={styles.inventorySection}>
+                      <div className={styles.mainSection}>
+                        {productDetail?.inventoryDetails?.sku && (
+                          <div className={styles.medicinesSection}>
+                            <span className={styles.medicineHead}>SKU</span>
+                            <span className={styles.medicineText}>
+                              {productDetail?.inventoryDetails?.sku}
+                            </span>
+                          </div>
+                        )}
+                        {productDetail?.inventoryDetails?.countries && (
+                          <div className={styles.medicinesSection}>
+                            <span className={styles.medicineHead}>
+                              Stocked in Countries
+                            </span>
+                            <span className={styles.medicineText}>
+                              {productDetail.inventoryDetails.countries.map(
+                                (country, index) => (
+                                  <span key={index}>
+                                    {country}
+                                    {index <
+                                      productDetail.inventoryDetails.countries
+                                        .length -
+                                      1
+                                      ? ", "
+                                      : ""}
+                                  </span>
+                                )
+                              )}
+                            </span>
+                          </div>
+                        )}
                       </div>
-                    )}
-                    {productDetail?.inventoryDetails?.countries && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>
-                          Stocked in Countries
-                        </span>
-                        <span className={styles.medicineText}>
-                          {productDetail.inventoryDetails.countries.map(
-                            (country, index) => (
-                              <span key={index}>
-                                {country}
-                                {index <
-                                productDetail.inventoryDetails.countries
-                                  .length -
-                                  1
-                                  ? ", "
-                                  : ""}
-                              </span>
-                            )
-                          )}
-                        </span>
-                      </div>
-                    )}
-                  </div>
 
-                  <div className={styles.mainSection}>
-                    {productDetail?.inventoryDetails?.stock && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>Stock</span>
-                        <span className={styles.medicineText}>
-                          {productDetail?.inventoryDetails?.stock}
-                        </span>
+                      <div className={styles.mainSection}>
+                        {productDetail?.inventoryDetails?.stock && (
+                          <div className={styles.medicinesSection}>
+                            <span className={styles.medicineHead}>Stock</span>
+                            <span className={styles.medicineText}>
+                              {productDetail?.inventoryDetails?.stock}
+                            </span>
+                          </div>
+                        )}
+                        {productDetail?.inventoryDetails?.date && (
+                          <div className={styles.medicinesSection}>
+                            <span className={styles.medicineHead}>
+                              Date of Manufacture
+                            </span>
+                            <span className={styles.medicineText}>
+                              {new Date(
+                                productDetail.inventoryDetails.date
+                              ).toLocaleDateString("en-US", {
+                                day: "numeric",
+                                month: "long",
+                                year: "numeric",
+                              })}
+                            </span>
+                          </div>
+                        )}
                       </div>
-                    )}
-                    {productDetail?.inventoryDetails?.date && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>
-                          Date of Manufacture
-                        </span>
-                        <span className={styles.medicineText}>
-                          {new Date(
-                            productDetail.inventoryDetails.date
-                          ).toLocaleDateString("en-US", {
-                            day: "numeric",
-                            month: "long",
-                            year: "numeric",
-                          })}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
-              {productDetail?.inventoryDetails?.stockedInDetails?.length >
-                0 && (
-                <div className={styles.inventorySection}>
-                  <div className={styles.mainSection}>
-                    <div className={styles.medicinesSection}>
-                      <span className={styles.medicineHead}>
-                        Country where Stock Trades
-                      </span>
-                      <span className={styles.medicineHeadings}>Quantity</span>
                     </div>
-
-                    {productDetail?.inventoryDetails?.stockedInDetails?.map(
-                      (ele) => (
+                  )}
+                {productDetail?.inventoryDetails?.stockedInDetails?.length >
+                  0 && (
+                    <div className={styles.inventorySection}>
+                      <div className={styles.mainSection}>
                         <div className={styles.medicinesSection}>
                           <span className={styles.medicineHead}>
-                            {ele?.country}
+                            Country where Stock Trades
                           </span>
-                          <span className={styles.medicineTexts}>
-                            {ele?.quantity} {ele?.type}
-                          </span>
+                          <span className={styles.medicineHeadings}>Quantity</span>
                         </div>
-                      )
-                    )}
-                  </div>
-                </div>
-              )}
+
+                        {productDetail?.inventoryDetails?.stockedInDetails?.map(
+                          (ele) => (
+                            <div className={styles.medicinesSection}>
+                              <span className={styles.medicineHead}>
+                                {ele?.country}
+                              </span>
+                              <span className={styles.medicineTexts}>
+                                {ele?.quantity} {ele?.type}
+                              </span>
+                            </div>
+                          )
+                        )}
+                      </div>
+                    </div>
+                  )}
+              </div>
             </div>
-          </div>
-        )}
+          )}
         {/* End Inventory & Packaging section */}
         {/* Start Manufacturer section */}
         {(productDetail?.general?.manufacturer ||
           productDetail?.general?.aboutManufacturer ||
           productDetail?.general?.countryOfOrigin) && (
-          <div className={styles.mainManufacturerContainer}>
-            <span className={styles.innerHead}>Manufacturer Details</span>
-            <div className={styles.manufacturerMainContainer}>
-              {(productDetail?.general?.manufacturer ||
-                productDetail?.general?.countryOfOrigin) && (
-                <div className={styles.manufacturerContainer}>
-                  {productDetail?.general?.manufacturer && (
-                    <div className={styles.manufacturersection}>
-                      <span className={styles.medicineHead}>
-                        Manufacturer Name
-                      </span>
-                      <span className={styles.medicineText}>
-                        {productDetail?.general?.manufacturer}
-                      </span>
+            <div className={styles.mainManufacturerContainer}>
+              <span className={styles.innerHead}>Manufacturer Details</span>
+              <div className={styles.manufacturerMainContainer}>
+                {(productDetail?.general?.manufacturer ||
+                  productDetail?.general?.countryOfOrigin) && (
+                    <div className={styles.manufacturerContainer}>
+                      {productDetail?.general?.manufacturer && (
+                        <div className={styles.manufacturersection}>
+                          <span className={styles.medicineHead}>
+                            Manufacturer Name
+                          </span>
+                          <span className={styles.medicineText}>
+                            {productDetail?.general?.manufacturer}
+                          </span>
+                        </div>
+                      )}
+                      {productDetail?.general?.countryOfOrigin && (
+                        <div className={styles.manufacturersection}>
+                          <span className={styles.medicineHead}>
+                            Contry of Origin
+                          </span>
+                          <span className={styles.medicineText}>
+                            {productDetail?.general?.countryOfOrigin}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   )}
-                  {productDetail?.general?.countryOfOrigin && (
-                    <div className={styles.manufacturersection}>
-                      <span className={styles.medicineHead}>
-                        Contry of Origin
-                      </span>
-                      <span className={styles.medicineText}>
-                        {productDetail?.general?.countryOfOrigin}
-                      </span>
-                    </div>
-                  )}
-                </div>
-              )}
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
         {/* End Manufacturer section */}
 
@@ -768,7 +680,7 @@ const ProductDetails = () => {
             "performanceTestingReport",
             productDetail?.[productDetail?.category]
               ?.performanceTestingReportFile?.length > 0 &&
-              "performanceTestingReportFile",
+            "performanceTestingReportFile",
           ].some(getCategoryData) && (
             <div className={styles.mainContainer}>
               <span className={styles.innerHead}>
@@ -835,42 +747,42 @@ const ProductDetails = () => {
                   "performanceTestingReport",
                   "performanceTestingReportFile",
                 ].some(getCategoryData) && (
-                  <div className={styles.textareaSection}>
-                    {getCategoryData("specification") && (
-                      <div className={styles.textareaInnerSection}>
-                        <span className={styles.medicineHead}>
-                          Specification
-                        </span>
-                        <span className={styles.medicineContent}>
-                          {getCategoryData("specification")}
-                        </span>
-                        <div className={styles.uploadFileSection}>
-                          <RenderProductFiles
-                            files={getCategoryData("specificationFile")}
-                          />
+                    <div className={styles.textareaSection}>
+                      {getCategoryData("specification") && (
+                        <div className={styles.textareaInnerSection}>
+                          <span className={styles.medicineHead}>
+                            Specification
+                          </span>
+                          <span className={styles.medicineContent}>
+                            {getCategoryData("specification")}
+                          </span>
+                          <div className={styles.uploadFileSection}>
+                            <RenderProductFiles
+                              files={getCategoryData("specificationFile")}
+                            />
+                          </div>
                         </div>
-                      </div>
-                    )}
-                    {getCategoryData("performanceTestingReport") && (
-                      <div className={styles.textareaInnerSection}>
-                        <span className={styles.medicineHead}>
-                          Performance Testing Report
-                        </span>
-                        <span className={styles.medicineContent}>
-                          {getCategoryData("performanceTestingReport")}
-                        </span>
+                      )}
+                      {getCategoryData("performanceTestingReport") && (
+                        <div className={styles.textareaInnerSection}>
+                          <span className={styles.medicineHead}>
+                            Performance Testing Report
+                          </span>
+                          <span className={styles.medicineContent}>
+                            {getCategoryData("performanceTestingReport")}
+                          </span>
 
-                        <div className={styles.uploadFileSection}>
-                          <RenderProductFiles
-                            files={getCategoryData(
-                              "performanceTestingReportFile"
-                            )}
-                          />
+                          <div className={styles.uploadFileSection}>
+                            <RenderProductFiles
+                              files={getCategoryData(
+                                "performanceTestingReportFile"
+                              )}
+                            />
+                          </div>
                         </div>
-                      </div>
-                    )}
-                  </div>
-                )}
+                      )}
+                    </div>
+                  )}
                 {["diagnosticFunctions"].some(getCategoryData) && (
                   <div className={styles.textareaSection}>
                     {getCategoryData("diagnosticFunctions") && (
@@ -914,71 +826,71 @@ const ProductDetails = () => {
                 {["genericName", "strength", "otcClassification"].some(
                   getCategoryData
                 ) && (
-                  <div className={styles.mainSection}>
-                    {getCategoryData("genericName") && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>
-                          Generic Name
-                        </span>
-                        <span className={styles.medicineText}>
-                          {getCategoryData("genericName")}
-                        </span>
-                      </div>
-                    )}
-                    {getCategoryData("strength") && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>Strength</span>
-                        <span className={styles.medicineText}>
-                          {getCategoryData("strength")}
-                        </span>
-                      </div>
-                    )}
-                    {getCategoryData("otcClassification") && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>
-                          OTC Classification
-                        </span>
-                        <span className={styles.medicineText}>
-                          {getCategoryData("otcClassification")}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                )}
+                    <div className={styles.mainSection}>
+                      {getCategoryData("genericName") && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>
+                            Generic Name
+                          </span>
+                          <span className={styles.medicineText}>
+                            {getCategoryData("genericName")}
+                          </span>
+                        </div>
+                      )}
+                      {getCategoryData("strength") && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>Strength</span>
+                          <span className={styles.medicineText}>
+                            {getCategoryData("strength")}
+                          </span>
+                        </div>
+                      )}
+                      {getCategoryData("otcClassification") && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>
+                            OTC Classification
+                          </span>
+                          <span className={styles.medicineText}>
+                            {getCategoryData("otcClassification")}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  )}
 
                 {/* Drug Class & Controlled Substance */}
                 {["drugClass", "expiry", "controlledSubstance"].some(
                   getCategoryData
                 ) && (
-                  <div className={styles.mainSection}>
-                    {getCategoryData("drugClass") && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>Drug Class</span>
-                        <span className={styles.medicineText}>
-                          {getCategoryData("drugClass")}
-                        </span>
-                      </div>
-                    )}
-                    {getCategoryData("expiry") && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>
-                          Shelf Life/Expiry
-                        </span>
-                        <span className={styles.medicineText}>
-                          {getCategoryData("expiry")}
-                        </span>
-                      </div>
-                    )}
-                    {getCategoryData("controlledSubstance") === true && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>
-                          Controlled Substance
-                        </span>
-                        <span className={styles.medicineText}>Yes</span>
-                      </div>
-                    )}
-                  </div>
-                )}
+                    <div className={styles.mainSection}>
+                      {getCategoryData("drugClass") && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>Drug Class</span>
+                          <span className={styles.medicineText}>
+                            {getCategoryData("drugClass")}
+                          </span>
+                        </div>
+                      )}
+                      {getCategoryData("expiry") && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>
+                            Shelf Life/Expiry
+                          </span>
+                          <span className={styles.medicineText}>
+                            {getCategoryData("expiry")}
+                          </span>
+                        </div>
+                      )}
+                      {getCategoryData("controlledSubstance") === true && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>
+                            Controlled Substance
+                          </span>
+                          <span className={styles.medicineText}>Yes</span>
+                        </div>
+                      )}
+                    </div>
+                  )}
               </div>
 
               {/* Textarea Section */}
@@ -990,87 +902,87 @@ const ProductDetails = () => {
                 "allergens",
                 "sideEffectsAndWarnings",
               ].some(getCategoryData) && (
-                <div className={styles.textareaContainer}>
-                  {/* Composition & Formulation */}
-                  {["composition", "drugAdministrationRoute"].some(
-                    getCategoryData
-                  ) && (
-                    <div className={styles.textareaSection}>
-                      {getCategoryData("composition") && (
-                        <div className={styles.textareaInnerSection}>
-                          <span className={styles.medicineHead}>
-                            Composition/Ingredients
-                          </span>
-                          <span className={styles.medicineContent}>
-                            {getCategoryData("composition")}
-                          </span>
+                  <div className={styles.textareaContainer}>
+                    {/* Composition & Formulation */}
+                    {["composition", "drugAdministrationRoute"].some(
+                      getCategoryData
+                    ) && (
+                        <div className={styles.textareaSection}>
+                          {getCategoryData("composition") && (
+                            <div className={styles.textareaInnerSection}>
+                              <span className={styles.medicineHead}>
+                                Composition/Ingredients
+                              </span>
+                              <span className={styles.medicineContent}>
+                                {getCategoryData("composition")}
+                              </span>
+                            </div>
+                          )}
+
+                          {getCategoryData("drugAdministrationRoute") && (
+                            <div className={styles.textareaInnerSection}>
+                              <span className={styles.medicineHead}>
+                                Drug Administration Route
+                              </span>
+                              <span className={styles.medicineContent}>
+                                {getCategoryData("drugAdministrationRoute")}
+                              </span>
+                            </div>
+                          )}
                         </div>
                       )}
 
-                      {getCategoryData("drugAdministrationRoute") && (
-                        <div className={styles.textareaInnerSection}>
-                          <span className={styles.medicineHead}>
-                            Drug Administration Route
-                          </span>
-                          <span className={styles.medicineContent}>
-                            {getCategoryData("drugAdministrationRoute")}
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                  )}
+                    {/* Purpose & Drug Administration */}
+                    {["purpose", "formulation"].some(getCategoryData) && (
+                      <div className={styles.textareaSection}>
+                        {getCategoryData("purpose") && (
+                          <div className={styles.textareaInnerSection}>
+                            <span className={styles.medicineHead}>Purpose</span>
+                            <span className={styles.medicineContent}>
+                              {getCategoryData("purpose")}
+                            </span>
+                          </div>
+                        )}
+                        {getCategoryData("formulation") && (
+                          <div className={styles.textareaInnerSection}>
+                            <span className={styles.medicineHead}>
+                              Formulation
+                            </span>
+                            <span className={styles.medicineContent}>
+                              {getCategoryData("formulation")}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    )}
 
-                  {/* Purpose & Drug Administration */}
-                  {["purpose", "formulation"].some(getCategoryData) && (
-                    <div className={styles.textareaSection}>
-                      {getCategoryData("purpose") && (
-                        <div className={styles.textareaInnerSection}>
-                          <span className={styles.medicineHead}>Purpose</span>
-                          <span className={styles.medicineContent}>
-                            {getCategoryData("purpose")}
-                          </span>
+                    {/* Side Effects & Allergens */}
+                    {["sideEffectsAndWarnings", "allergens"].some(
+                      getCategoryData
+                    ) && (
+                        <div className={styles.textareaSection}>
+                          {getCategoryData("sideEffectsAndWarnings") && (
+                            <div className={styles.textareaInnerSection}>
+                              <span className={styles.medicineHead}>
+                                Side Effects and Warnings
+                              </span>
+                              <span className={styles.medicineContent}>
+                                {getCategoryData("sideEffectsAndWarnings")}
+                              </span>
+                            </div>
+                          )}
+                          {getCategoryData("allergens") && (
+                            <div className={styles.textareaInnerSection}>
+                              <span className={styles.medicineHead}>Allergens</span>
+                              <span className={styles.medicineContent}>
+                                {getCategoryData("allergens")}
+                              </span>
+                            </div>
+                          )}
                         </div>
                       )}
-                      {getCategoryData("formulation") && (
-                        <div className={styles.textareaInnerSection}>
-                          <span className={styles.medicineHead}>
-                            Formulation
-                          </span>
-                          <span className={styles.medicineContent}>
-                            {getCategoryData("formulation")}
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                  )}
-
-                  {/* Side Effects & Allergens */}
-                  {["sideEffectsAndWarnings", "allergens"].some(
-                    getCategoryData
-                  ) && (
-                    <div className={styles.textareaSection}>
-                      {getCategoryData("sideEffectsAndWarnings") && (
-                        <div className={styles.textareaInnerSection}>
-                          <span className={styles.medicineHead}>
-                            Side Effects and Warnings
-                          </span>
-                          <span className={styles.medicineContent}>
-                            {getCategoryData("sideEffectsAndWarnings")}
-                          </span>
-                        </div>
-                      )}
-                      {getCategoryData("allergens") && (
-                        <div className={styles.textareaInnerSection}>
-                          <span className={styles.medicineHead}>Allergens</span>
-                          <span className={styles.medicineContent}>
-                            {getCategoryData("allergens")}
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-              )}
+                  </div>
+                )}
             </div>
           )}
         {/* End Pharmaceuticals */}
@@ -1122,81 +1034,81 @@ const ProductDetails = () => {
                   "dermatologistTested",
                   "dermatologistTestedFile",
                 ].some(getCategoryData) && (
-                  <div className={styles.mainSection}>
-                    {getCategoryData("expiry") && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>
-                          Shelf Life/Expiry
-                        </span>
-                        <span className={styles.medicineText}>
-                          {getCategoryData("expiry")}
-                        </span>
-                      </div>
-                    )}
-                    {getCategoryData("spf") && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>SPF</span>
-                        <span className={styles.medicineText}>
-                          {getCategoryData("spf")}
-                        </span>
-                      </div>
-                    )}
-                    {getCategoryData("vegan") === true && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>Vegan</span>
-                        <span className={styles.medicineText}>Yes</span>
-                      </div>
-                    )}
-                    {getCategoryData("crueltyFree") === true && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>
-                          Cruelty-Free
-                        </span>
-                        <span className={styles.medicineText}>Yes</span>
-                      </div>
-                    )}
-
-                    {getCategoryData("elasticity") && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>Elasticity</span>
-                        <span className={styles.medicineText}>
-                          {getCategoryData("elasticity")}
-                        </span>
-                      </div>
-                    )}
-
-                    {getCategoryData("fragrance") && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>Fragrance</span>
-                        <span className={styles.medicineText}>
-                          {getCategoryData("fragrance")}
-                        </span>
-                      </div>
-                    )}
-                    {getCategoryData("dermatologistTested") && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>
-                          {" "}
-                          Dermatologist Tested
-                        </span>
-                        <span className={styles.medicineText}>
-                          {getCategoryData("dermatologistTested")}
-                        </span>
-                      </div>
-                    )}
-
-                    {getCategoryData("dermatologistTestedFile") && (
-                      <div className={styles.medicinesFileSection}>
-                        <span className={styles.medicineHead}>Upload File</span>
-                        <div className={styles.uploadFileSection}>
-                          <RenderProductFiles
-                            files={getCategoryData("dermatologistTestedFile")}
-                          />
+                    <div className={styles.mainSection}>
+                      {getCategoryData("expiry") && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>
+                            Shelf Life/Expiry
+                          </span>
+                          <span className={styles.medicineText}>
+                            {getCategoryData("expiry")}
+                          </span>
                         </div>
-                      </div>
-                    )}
-                  </div>
-                )}
+                      )}
+                      {getCategoryData("spf") && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>SPF</span>
+                          <span className={styles.medicineText}>
+                            {getCategoryData("spf")}
+                          </span>
+                        </div>
+                      )}
+                      {getCategoryData("vegan") === true && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>Vegan</span>
+                          <span className={styles.medicineText}>Yes</span>
+                        </div>
+                      )}
+                      {getCategoryData("crueltyFree") === true && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>
+                            Cruelty-Free
+                          </span>
+                          <span className={styles.medicineText}>Yes</span>
+                        </div>
+                      )}
+
+                      {getCategoryData("elasticity") && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>Elasticity</span>
+                          <span className={styles.medicineText}>
+                            {getCategoryData("elasticity")}
+                          </span>
+                        </div>
+                      )}
+
+                      {getCategoryData("fragrance") && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>Fragrance</span>
+                          <span className={styles.medicineText}>
+                            {getCategoryData("fragrance")}
+                          </span>
+                        </div>
+                      )}
+                      {getCategoryData("dermatologistTested") && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>
+                            {" "}
+                            Dermatologist Tested
+                          </span>
+                          <span className={styles.medicineText}>
+                            {getCategoryData("dermatologistTested")}
+                          </span>
+                        </div>
+                      )}
+
+                      {getCategoryData("dermatologistTestedFile") && (
+                        <div className={styles.medicinesFileSection}>
+                          <span className={styles.medicineHead}>Upload File</span>
+                          <div className={styles.uploadFileSection}>
+                            <RenderProductFiles
+                              files={getCategoryData("dermatologistTestedFile")}
+                            />
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 {/* Drug Info Section */}
                 {[
                   "strength",
@@ -1207,76 +1119,76 @@ const ProductDetails = () => {
                   "pediatricianRecommended",
                   "pediatricianRecommendedFile",
                 ].some(getCategoryData) && (
-                  <div className={styles.mainSection}>
-                    {getCategoryData("strength") && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>Strength</span>
-                        <span className={styles.medicineText}>
-                          {getCategoryData("strength")}
-                        </span>
-                      </div>
-                    )}
-                    {getCategoryData("controlledSubstance") === true && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>
-                          Controlled Substance
-                        </span>
-                        <span className={styles.medicineText}>Yes</span>
-                      </div>
-                    )}
-                    {getCategoryData("adhesiveness") && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>
-                          Adhesiveness
-                        </span>
-                        <span className={styles.medicineText}>
-                          {getCategoryData("adhesiveness")}
-                        </span>
-                      </div>
-                    )}
-                    {getCategoryData("otcClassification") && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>
-                          Otc Classification
-                        </span>
-                        <span className={styles.medicineText}>
-                          {getCategoryData("otcClassification")}
-                        </span>
-                      </div>
-                    )}
-                    {getCategoryData("thickness") && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>Thickness</span>
-                        <span className={styles.medicineText}>
-                          {getCategoryData("thickness")}
-                        </span>
-                      </div>
-                    )}
-                    {getCategoryData("pediatricianRecommended") && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>
-                          Pediatrician Recommended
-                        </span>
-                        <span className={styles.medicineText}>
-                          {getCategoryData("pediatricianRecommended")}
-                        </span>
-                      </div>
-                    )}
-
-                    {getCategoryData("pediatricianRecommendedFile") && (
-                      <div className={styles.medicinesFileSection}>
-                        <span className={styles.medicineHead}>Upload File</span>
-                        <div className={styles.uploadFileSection}>
-                          <RenderProductFiles
-                            files={getCategoryData(
-                              "pediatricianRecommendedFile"
-                            )}
-                          />
+                    <div className={styles.mainSection}>
+                      {getCategoryData("strength") && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>Strength</span>
+                          <span className={styles.medicineText}>
+                            {getCategoryData("strength")}
+                          </span>
                         </div>
-                      </div>
-                    )}
-                  </div>
-                )}
+                      )}
+                      {getCategoryData("controlledSubstance") === true && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>
+                            Controlled Substance
+                          </span>
+                          <span className={styles.medicineText}>Yes</span>
+                        </div>
+                      )}
+                      {getCategoryData("adhesiveness") && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>
+                            Adhesiveness
+                          </span>
+                          <span className={styles.medicineText}>
+                            {getCategoryData("adhesiveness")}
+                          </span>
+                        </div>
+                      )}
+                      {getCategoryData("otcClassification") && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>
+                            Otc Classification
+                          </span>
+                          <span className={styles.medicineText}>
+                            {getCategoryData("otcClassification")}
+                          </span>
+                        </div>
+                      )}
+                      {getCategoryData("thickness") && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>Thickness</span>
+                          <span className={styles.medicineText}>
+                            {getCategoryData("thickness")}
+                          </span>
+                        </div>
+                      )}
+                      {getCategoryData("pediatricianRecommended") && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>
+                            Pediatrician Recommended
+                          </span>
+                          <span className={styles.medicineText}>
+                            {getCategoryData("pediatricianRecommended")}
+                          </span>
+                        </div>
+                      )}
+
+                      {getCategoryData("pediatricianRecommendedFile") && (
+                        <div className={styles.medicinesFileSection}>
+                          <span className={styles.medicineHead}>Upload File</span>
+                          <div className={styles.uploadFileSection}>
+                            <RenderProductFiles
+                              files={getCategoryData(
+                                "pediatricianRecommendedFile"
+                              )}
+                            />
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
               </div>
               {/* Composition/Formulation/Purpose Section */}
               <div className={styles.textareaContainer}>
@@ -1305,29 +1217,29 @@ const ProductDetails = () => {
                 {["targetCondition", "drugAdministrationRoute"].some(
                   getCategoryData
                 ) && (
-                  <div className={styles.textareaSection}>
-                    {getCategoryData("targetCondition") && (
-                      <div className={styles.textareaInnerSection}>
-                        <span className={styles.medicineHead}>
-                          Target Condition
-                        </span>
-                        <span className={styles.medicineContent}>
-                          {getCategoryData("targetCondition")}
-                        </span>
-                      </div>
-                    )}
-                    {getCategoryData("drugAdministrationRoute") && (
-                      <div className={styles.textareaInnerSection}>
-                        <span className={styles.medicineHead}>
-                          Drug Administration Route
-                        </span>
-                        <span className={styles.medicineContent}>
-                          {getCategoryData("drugAdministrationRoute")}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                )}
+                    <div className={styles.textareaSection}>
+                      {getCategoryData("targetCondition") && (
+                        <div className={styles.textareaInnerSection}>
+                          <span className={styles.medicineHead}>
+                            Target Condition
+                          </span>
+                          <span className={styles.medicineContent}>
+                            {getCategoryData("targetCondition")}
+                          </span>
+                        </div>
+                      )}
+                      {getCategoryData("drugAdministrationRoute") && (
+                        <div className={styles.textareaInnerSection}>
+                          <span className={styles.medicineHead}>
+                            Drug Administration Route
+                          </span>
+                          <span className={styles.medicineContent}>
+                            {getCategoryData("drugAdministrationRoute")}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 {["drugClass", "allergens"].some(getCategoryData) && (
                   <div className={styles.textareaSection}>
                     {getCategoryData("drugClass") && (
@@ -1352,29 +1264,29 @@ const ProductDetails = () => {
                 {["sideEffectsAndWarnings", "concentration"].some(
                   getCategoryData
                 ) && (
-                  <div className={styles.textareaSection}>
-                    {getCategoryData("sideEffectsAndWarnings") && (
-                      <div className={styles.textareaInnerSection}>
-                        <span className={styles.medicineHead}>
-                          Side Effects And Warnings
-                        </span>
-                        <span className={styles.medicineContent}>
-                          {getCategoryData("sideEffectsAndWarnings")}
-                        </span>
-                      </div>
-                    )}
-                    {getCategoryData("concentration") && (
-                      <div className={styles.textareaInnerSection}>
-                        <span className={styles.medicineHead}>
-                          Concentration
-                        </span>
-                        <span className={styles.medicineContent}>
-                          {getCategoryData("concentration")}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                )}
+                    <div className={styles.textareaSection}>
+                      {getCategoryData("sideEffectsAndWarnings") && (
+                        <div className={styles.textareaInnerSection}>
+                          <span className={styles.medicineHead}>
+                            Side Effects And Warnings
+                          </span>
+                          <span className={styles.medicineContent}>
+                            {getCategoryData("sideEffectsAndWarnings")}
+                          </span>
+                        </div>
+                      )}
+                      {getCategoryData("concentration") && (
+                        <div className={styles.textareaInnerSection}>
+                          <span className={styles.medicineHead}>
+                            Concentration
+                          </span>
+                          <span className={styles.medicineContent}>
+                            {getCategoryData("concentration")}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 {["fillerType", "moisturizers"].some(getCategoryData) && (
                   <div className={styles.textareaSection}>
                     {getCategoryData("fillerType") && (
@@ -1448,45 +1360,45 @@ const ProductDetails = () => {
                   "controlledSubstance",
                   "otcClassification",
                 ].some(getCategoryData) && (
-                  <div className={styles.mainSection}>
-                    {getCategoryData("genericName") && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>
-                          Generic Name
-                        </span>
-                        <span className={styles.medicineText}>
-                          {getCategoryData("genericName")}
-                        </span>
-                      </div>
-                    )}
-                    {getCategoryData("strength") && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>Strength</span>
-                        <span className={styles.medicineText}>
-                          {getCategoryData("strength")}
-                        </span>
-                      </div>
-                    )}
-                    {getCategoryData("controlledSubstance") === true && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>
-                          Controlled Substance
-                        </span>
-                        <span className={styles.medicineText}>Yes</span>
-                      </div>
-                    )}
-                    {getCategoryData("otcClassification") && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>
-                          Otc Classification
-                        </span>
-                        <span className={styles.medicineText}>
-                          {getCategoryData("otcClassification")}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                )}
+                    <div className={styles.mainSection}>
+                      {getCategoryData("genericName") && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>
+                            Generic Name
+                          </span>
+                          <span className={styles.medicineText}>
+                            {getCategoryData("genericName")}
+                          </span>
+                        </div>
+                      )}
+                      {getCategoryData("strength") && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>Strength</span>
+                          <span className={styles.medicineText}>
+                            {getCategoryData("strength")}
+                          </span>
+                        </div>
+                      )}
+                      {getCategoryData("controlledSubstance") === true && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>
+                            Controlled Substance
+                          </span>
+                          <span className={styles.medicineText}>Yes</span>
+                        </div>
+                      )}
+                      {getCategoryData("otcClassification") && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>
+                            Otc Classification
+                          </span>
+                          <span className={styles.medicineText}>
+                            {getCategoryData("otcClassification")}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 {/* Drug Info Section */}
                 {["expiry", "vegan", "crueltyFree"].some(getCategoryData) && (
                   <div className={styles.mainSection}>
@@ -1522,27 +1434,27 @@ const ProductDetails = () => {
                 {["drugClass", "drugAdministrationRoute"].some(
                   getCategoryData
                 ) && (
-                  <div className={styles.textareaSection}>
-                    {getCategoryData("drugClass") && (
-                      <div className={styles.textareaInnerSection}>
-                        <span className={styles.medicineHead}> Drug Class</span>
-                        <span className={styles.medicineContent}>
-                          {getCategoryData("drugClass")}
-                        </span>
-                      </div>
-                    )}
-                    {getCategoryData("drugAdministrationRoute") && (
-                      <div className={styles.textareaInnerSection}>
-                        <span className={styles.medicineHead}>
-                          Drug Administration Route
-                        </span>
-                        <span className={styles.medicineContent}>
-                          {getCategoryData("drugAdministrationRoute")}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                )}
+                    <div className={styles.textareaSection}>
+                      {getCategoryData("drugClass") && (
+                        <div className={styles.textareaInnerSection}>
+                          <span className={styles.medicineHead}> Drug Class</span>
+                          <span className={styles.medicineContent}>
+                            {getCategoryData("drugClass")}
+                          </span>
+                        </div>
+                      )}
+                      {getCategoryData("drugAdministrationRoute") && (
+                        <div className={styles.textareaInnerSection}>
+                          <span className={styles.medicineHead}>
+                            Drug Administration Route
+                          </span>
+                          <span className={styles.medicineContent}>
+                            {getCategoryData("drugAdministrationRoute")}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 {["healthBenefit", "composition"].some(getCategoryData) && (
                   <div className={styles.textareaSection}>
                     {getCategoryData("healthBenefit") && (
@@ -1591,28 +1503,28 @@ const ProductDetails = () => {
                 {["sideEffectsAndWarnings", "allergens"].some(
                   getCategoryData
                 ) && (
-                  <div className={styles.textareaSection}>
-                    {getCategoryData("sideEffectsAndWarnings") && (
-                      <div className={styles.textareaInnerSection}>
-                        <span className={styles.medicineHead}>
-                          {" "}
-                          Side Effects and Warnings
-                        </span>
-                        <span className={styles.medicineContent}>
-                          {getCategoryData("sideEffectsAndWarnings")}
-                        </span>
-                      </div>
-                    )}
-                    {getCategoryData("allergens") && (
-                      <div className={styles.textareaInnerSection}>
-                        <span className={styles.medicineHead}>Allergens</span>
-                        <span className={styles.medicineContent}>
-                          {getCategoryData("allergens")}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                )}
+                    <div className={styles.textareaSection}>
+                      {getCategoryData("sideEffectsAndWarnings") && (
+                        <div className={styles.textareaInnerSection}>
+                          <span className={styles.medicineHead}>
+                            {" "}
+                            Side Effects and Warnings
+                          </span>
+                          <span className={styles.medicineContent}>
+                            {getCategoryData("sideEffectsAndWarnings")}
+                          </span>
+                        </div>
+                      )}
+                      {getCategoryData("allergens") && (
+                        <div className={styles.textareaInnerSection}>
+                          <span className={styles.medicineHead}>Allergens</span>
+                          <span className={styles.medicineContent}>
+                            {getCategoryData("allergens")}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  )}
 
                 {["additivesNSweeteners"].some(getCategoryData) && (
                   <div className={styles.textareaSection}>
@@ -1669,57 +1581,57 @@ const ProductDetails = () => {
                   "texture",
                   "sterilized",
                 ].some(getCategoryData) && (
-                  <div className={styles.mainSection}>
-                    {getCategoryData("expiry") && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>
-                          Shelf Life/Expiry
-                        </span>
-                        <span className={styles.medicineText}>
-                          {getCategoryData("expiry")}
-                        </span>
-                      </div>
-                    )}
-                    {getCategoryData("thickness") && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>Thickness</span>
-                        <span className={styles.medicineText}>
-                          {getCategoryData("thickness")}
-                        </span>
-                      </div>
-                    )}
-                    {getCategoryData("powdered") === true && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>Powdered</span>
-                        <span className={styles.medicineText}>Yes</span>
-                      </div>
-                    )}
-                    {getCategoryData("productMaterial") && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>
-                          {" "}
-                          Product Material
-                        </span>
-                        <span className={styles.medicineText}>
-                          {getCategoryData("productMaterial")}
-                        </span>
-                      </div>
-                    )}
+                    <div className={styles.mainSection}>
+                      {getCategoryData("expiry") && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>
+                            Shelf Life/Expiry
+                          </span>
+                          <span className={styles.medicineText}>
+                            {getCategoryData("expiry")}
+                          </span>
+                        </div>
+                      )}
+                      {getCategoryData("thickness") && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>Thickness</span>
+                          <span className={styles.medicineText}>
+                            {getCategoryData("thickness")}
+                          </span>
+                        </div>
+                      )}
+                      {getCategoryData("powdered") === true && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>Powdered</span>
+                          <span className={styles.medicineText}>Yes</span>
+                        </div>
+                      )}
+                      {getCategoryData("productMaterial") && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>
+                            {" "}
+                            Product Material
+                          </span>
+                          <span className={styles.medicineText}>
+                            {getCategoryData("productMaterial")}
+                          </span>
+                        </div>
+                      )}
 
-                    {getCategoryData("texture") === true && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>Texture</span>
-                        <span className={styles.medicineText}>Yes</span>
-                      </div>
-                    )}
-                    {getCategoryData("sterilized") === true && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>Sterilized</span>
-                        <span className={styles.medicineText}>Yes</span>
-                      </div>
-                    )}
-                  </div>
-                )}
+                      {getCategoryData("texture") === true && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>Texture</span>
+                          <span className={styles.medicineText}>Yes</span>
+                        </div>
+                      )}
+                      {getCategoryData("sterilized") === true && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>Sterilized</span>
+                          <span className={styles.medicineText}>Yes</span>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 {/* Drug Info Section */}
                 {[
                   "filtrationEfficiency",
@@ -1728,59 +1640,59 @@ const ProductDetails = () => {
                   "fluidResistance",
                   "filtrationType",
                 ].some(getCategoryData) && (
-                  <div className={styles.mainSection}>
-                    {getCategoryData("filtrationEfficiency") && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>
-                          Filtration Efficiency
-                        </span>
-                        <span className={styles.medicineText}>
-                          {getCategoryData("filtrationEfficiency")}
-                        </span>
-                      </div>
-                    )}
-                    {getCategoryData("breathability") && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>
-                          {" "}
-                          Breathability
-                        </span>
-                        <span className={styles.medicineText}>
-                          {getCategoryData("breathability")}
-                        </span>
-                      </div>
-                    )}
-                    {getCategoryData("layerCount") && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>Layer Count</span>
-                        <span className={styles.medicineText}>
-                          {getCategoryData("layerCount")}
-                        </span>
-                      </div>
-                    )}
-                    {getCategoryData("fluidResistance") === true && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>
-                          Fluid Resistance
-                        </span>
-                        <span className={styles.medicineText}>Yes</span>
-                      </div>
-                    )}
-                    {getCategoryData("filtrationType") && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>
-                          {" "}
-                          Filtration Type
-                        </span>
-                        <span className={styles.medicineText}>
-                          {Array.isArray(getCategoryData("filtrationType"))
-                            ? getCategoryData("filtrationType").join(", ")
-                            : getCategoryData("filtrationType")}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                )}
+                    <div className={styles.mainSection}>
+                      {getCategoryData("filtrationEfficiency") && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>
+                            Filtration Efficiency
+                          </span>
+                          <span className={styles.medicineText}>
+                            {getCategoryData("filtrationEfficiency")}
+                          </span>
+                        </div>
+                      )}
+                      {getCategoryData("breathability") && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>
+                            {" "}
+                            Breathability
+                          </span>
+                          <span className={styles.medicineText}>
+                            {getCategoryData("breathability")}
+                          </span>
+                        </div>
+                      )}
+                      {getCategoryData("layerCount") && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>Layer Count</span>
+                          <span className={styles.medicineText}>
+                            {getCategoryData("layerCount")}
+                          </span>
+                        </div>
+                      )}
+                      {getCategoryData("fluidResistance") === true && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>
+                            Fluid Resistance
+                          </span>
+                          <span className={styles.medicineText}>Yes</span>
+                        </div>
+                      )}
+                      {getCategoryData("filtrationType") && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>
+                            {" "}
+                            Filtration Type
+                          </span>
+                          <span className={styles.medicineText}>
+                            {Array.isArray(getCategoryData("filtrationType"))
+                              ? getCategoryData("filtrationType").join(", ")
+                              : getCategoryData("filtrationType")}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  )}
               </div>
               {/* Composition/Formulation/Purpose Section */}
               <div className={styles.textareaContainer}>
@@ -1916,29 +1828,29 @@ const ProductDetails = () => {
                 {["magnificationRange", "objectiveLenses"].some(
                   getCategoryData
                 ) && (
-                  <div className={styles.textareaSection}>
-                    {getCategoryData("magnificationRange") && (
-                      <div className={styles.textareaInnerSection}>
-                        <span className={styles.medicineHead}>
-                          Magnification Range
-                        </span>
-                        <span className={styles.medicineContent}>
-                          {getCategoryData("magnificationRange")}
-                        </span>
-                      </div>
-                    )}
-                    {getCategoryData("objectiveLenses") && (
-                      <div className={styles.textareaInnerSection}>
-                        <span className={styles.medicineHead}>
-                          Objective Lenses
-                        </span>
-                        <span className={styles.medicineContent}>
-                          {getCategoryData("objectiveLenses")}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                )}
+                    <div className={styles.textareaSection}>
+                      {getCategoryData("magnificationRange") && (
+                        <div className={styles.textareaInnerSection}>
+                          <span className={styles.medicineHead}>
+                            Magnification Range
+                          </span>
+                          <span className={styles.medicineContent}>
+                            {getCategoryData("magnificationRange")}
+                          </span>
+                        </div>
+                      )}
+                      {getCategoryData("objectiveLenses") && (
+                        <div className={styles.textareaInnerSection}>
+                          <span className={styles.medicineHead}>
+                            Objective Lenses
+                          </span>
+                          <span className={styles.medicineContent}>
+                            {getCategoryData("objectiveLenses")}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 {["resolution", "powerSource"].some(getCategoryData) && (
                   <div className={styles.textareaSection}>
                     {getCategoryData("powerSource") && (
@@ -2049,7 +1961,7 @@ const ProductDetails = () => {
             "performanceTestingReport",
             productDetail?.[productDetail?.category]
               ?.performanceTestingReportFile?.length > 0 &&
-              "performanceTestingReportFile",
+            "performanceTestingReportFile",
           ].some(getCategoryData) && (
             <div className={styles.mainContainer}>
               <span className={styles.innerHead}>
@@ -2121,29 +2033,29 @@ const ProductDetails = () => {
                 {["concentration", "maintenanceNotes"].some(
                   getCategoryData
                 ) && (
-                  <div className={styles.textareaSection}>
-                    {getCategoryData("concentration") && (
-                      <div className={styles.textareaInnerSection}>
-                        <span className={styles.medicineHead}>
-                          Concentration
-                        </span>
-                        <span className={styles.medicineContent}>
-                          {getCategoryData("concentration")}
-                        </span>
-                      </div>
-                    )}
-                    {getCategoryData("maintenanceNotes") && (
-                      <div className={styles.textareaInnerSection}>
-                        <span className={styles.medicineHead}>
-                          Maintenance Notes
-                        </span>
-                        <span className={styles.medicineContent}>
-                          {getCategoryData("maintenanceNotes")}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                )}
+                    <div className={styles.textareaSection}>
+                      {getCategoryData("concentration") && (
+                        <div className={styles.textareaInnerSection}>
+                          <span className={styles.medicineHead}>
+                            Concentration
+                          </span>
+                          <span className={styles.medicineContent}>
+                            {getCategoryData("concentration")}
+                          </span>
+                        </div>
+                      )}
+                      {getCategoryData("maintenanceNotes") && (
+                        <div className={styles.textareaInnerSection}>
+                          <span className={styles.medicineHead}>
+                            Maintenance Notes
+                          </span>
+                          <span className={styles.medicineContent}>
+                            {getCategoryData("maintenanceNotes")}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  )}
 
                 {["compatibleEquipment"].some(getCategoryData) && (
                   <div className={styles.textareaSection}>
@@ -2167,42 +2079,42 @@ const ProductDetails = () => {
                   "performanceTestingReport",
                   "performanceTestingReportFile",
                 ].some(getCategoryData) && (
-                  <div className={styles.textareaSection}>
-                    {getCategoryData("specification") && (
-                      <div className={styles.textareaInnerSection}>
-                        <span className={styles.medicineHead}>
-                          Specification
-                        </span>
-                        <span className={styles.medicineContent}>
-                          {getCategoryData("specification")}
-                        </span>
-                        <div className={styles.uploadFileSection}>
-                          <RenderProductFiles
-                            files={getCategoryData("specificationFile")}
-                          />
+                    <div className={styles.textareaSection}>
+                      {getCategoryData("specification") && (
+                        <div className={styles.textareaInnerSection}>
+                          <span className={styles.medicineHead}>
+                            Specification
+                          </span>
+                          <span className={styles.medicineContent}>
+                            {getCategoryData("specification")}
+                          </span>
+                          <div className={styles.uploadFileSection}>
+                            <RenderProductFiles
+                              files={getCategoryData("specificationFile")}
+                            />
+                          </div>
                         </div>
-                      </div>
-                    )}
-                    {getCategoryData("performanceTestingReport") && (
-                      <div className={styles.textareaInnerSection}>
-                        <span className={styles.medicineHead}>
-                          Performance Testing Report
-                        </span>
-                        <span className={styles.medicineContent}>
-                          {getCategoryData("performanceTestingReport")}
-                        </span>
+                      )}
+                      {getCategoryData("performanceTestingReport") && (
+                        <div className={styles.textareaInnerSection}>
+                          <span className={styles.medicineHead}>
+                            Performance Testing Report
+                          </span>
+                          <span className={styles.medicineContent}>
+                            {getCategoryData("performanceTestingReport")}
+                          </span>
 
-                        <div className={styles.uploadFileSection}>
-                          <RenderProductFiles
-                            files={getCategoryData(
-                              "performanceTestingReportFile"
-                            )}
-                          />
+                          <div className={styles.uploadFileSection}>
+                            <RenderProductFiles
+                              files={getCategoryData(
+                                "performanceTestingReportFile"
+                              )}
+                            />
+                          </div>
                         </div>
-                      </div>
-                    )}
-                  </div>
-                )}
+                      )}
+                    </div>
+                  )}
               </div>
             </div>
           )}
@@ -2239,52 +2151,52 @@ const ProductDetails = () => {
                   "powdered",
                   "productMaterial",
                 ].some(getCategoryData) && (
-                  <div className={styles.mainSection}>
-                    {getCategoryData("expiry") && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>
-                          Shelf Life/Expiry
-                        </span>
-                        <span className={styles.medicineText}>
-                          {getCategoryData("expiry")}
-                        </span>
-                      </div>
-                    )}
+                    <div className={styles.mainSection}>
+                      {getCategoryData("expiry") && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>
+                            Shelf Life/Expiry
+                          </span>
+                          <span className={styles.medicineText}>
+                            {getCategoryData("expiry")}
+                          </span>
+                        </div>
+                      )}
 
-                    {getCategoryData("absorbency") && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>Absorbency</span>
-                        <span className={styles.medicineText}>
-                          {getCategoryData("absorbency")}
-                        </span>
-                      </div>
-                    )}
-                    {getCategoryData("thickness") && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>Thickness</span>
-                        <span className={styles.medicineText}>
-                          {getCategoryData("thickness")}
-                        </span>
-                      </div>
-                    )}
-                    {getCategoryData("powdered") === true && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}> Powdered</span>
-                        <span className={styles.medicineText}>Yes</span>
-                      </div>
-                    )}
-                    {getCategoryData("productMaterial") && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>
-                          Product Material
-                        </span>
-                        <span className={styles.medicineText}>
-                          {getCategoryData("productMaterial")}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                )}
+                      {getCategoryData("absorbency") && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>Absorbency</span>
+                          <span className={styles.medicineText}>
+                            {getCategoryData("absorbency")}
+                          </span>
+                        </div>
+                      )}
+                      {getCategoryData("thickness") && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>Thickness</span>
+                          <span className={styles.medicineText}>
+                            {getCategoryData("thickness")}
+                          </span>
+                        </div>
+                      )}
+                      {getCategoryData("powdered") === true && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}> Powdered</span>
+                          <span className={styles.medicineText}>Yes</span>
+                        </div>
+                      )}
+                      {getCategoryData("productMaterial") && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>
+                            Product Material
+                          </span>
+                          <span className={styles.medicineText}>
+                            {getCategoryData("productMaterial")}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 {/* Drug Info Section */}
                 {[
                   "adhesiveness",
@@ -2293,47 +2205,47 @@ const ProductDetails = () => {
                   "fluidResistance",
                   "elasticity",
                 ].some(getCategoryData) && (
-                  <div className={styles.mainSection}>
-                    {getCategoryData("adhesiveness") && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>
-                          Adhesiveness
-                        </span>
-                        <span className={styles.medicineText}>
-                          {getCategoryData("adhesiveness")}
-                        </span>
-                      </div>
-                    )}
-                    {getCategoryData("texture") === true && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}> Texture</span>
-                        <span className={styles.medicineText}>Yes</span>
-                      </div>
-                    )}
-                    {getCategoryData("sterilized") === true && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>Sterilized</span>
-                        <span className={styles.medicineText}>Yes</span>
-                      </div>
-                    )}
-                    {getCategoryData("fluidResistance") === true && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>
-                          Fluid Resistance
-                        </span>
-                        <span className={styles.medicineText}>Yes</span>
-                      </div>
-                    )}
-                    {getCategoryData("elasticity") && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>Elasticity</span>
-                        <span className={styles.medicineText}>
-                          {getCategoryData("elasticity")}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                )}
+                    <div className={styles.mainSection}>
+                      {getCategoryData("adhesiveness") && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>
+                            Adhesiveness
+                          </span>
+                          <span className={styles.medicineText}>
+                            {getCategoryData("adhesiveness")}
+                          </span>
+                        </div>
+                      )}
+                      {getCategoryData("texture") === true && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}> Texture</span>
+                          <span className={styles.medicineText}>Yes</span>
+                        </div>
+                      )}
+                      {getCategoryData("sterilized") === true && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>Sterilized</span>
+                          <span className={styles.medicineText}>Yes</span>
+                        </div>
+                      )}
+                      {getCategoryData("fluidResistance") === true && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>
+                            Fluid Resistance
+                          </span>
+                          <span className={styles.medicineText}>Yes</span>
+                        </div>
+                      )}
+                      {getCategoryData("elasticity") && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>Elasticity</span>
+                          <span className={styles.medicineText}>
+                            {getCategoryData("elasticity")}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  )}
               </div>
               {/* Composition/Formulation/Purpose Section */}
               <div className={styles.textareaContainer}>
@@ -2387,32 +2299,32 @@ const ProductDetails = () => {
                 {["strength", "sterilized", "absorbency"].some(
                   getCategoryData
                 ) && (
-                  <div className={styles.mainSection}>
-                    {getCategoryData("strength") && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}> Strength</span>
-                        <span className={styles.medicineText}>
-                          {getCategoryData("strength")}
-                        </span>
-                      </div>
-                    )}
+                    <div className={styles.mainSection}>
+                      {getCategoryData("strength") && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}> Strength</span>
+                          <span className={styles.medicineText}>
+                            {getCategoryData("strength")}
+                          </span>
+                        </div>
+                      )}
 
-                    {getCategoryData("sterilized") === true && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}> Sterilized</span>
-                        <span className={styles.medicineText}>Yes</span>
-                      </div>
-                    )}
-                    {getCategoryData("absorbency") && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}> Absorbency</span>
-                        <span className={styles.medicineText}>
-                          {getCategoryData("absorbency")}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                )}
+                      {getCategoryData("sterilized") === true && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}> Sterilized</span>
+                          <span className={styles.medicineText}>Yes</span>
+                        </div>
+                      )}
+                      {getCategoryData("absorbency") && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}> Absorbency</span>
+                          <span className={styles.medicineText}>
+                            {getCategoryData("absorbency")}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 {/* Drug Info Section */}
                 {["elasticity", "moistureResistance"].some(getCategoryData) && (
                   <div className={styles.mainSection}>
@@ -2587,31 +2499,31 @@ const ProductDetails = () => {
                 {["maintenanceNotes", "compatibleEquipment"].some(
                   getCategoryData
                 ) && (
-                  <div className={styles.textareaSection}>
-                    {getCategoryData("maintenanceNotes") && (
-                      <div className={styles.textareaInnerSection}>
-                        <span className={styles.medicineHead}>
-                          {" "}
-                          Maintenance Notes
-                        </span>
-                        <span className={styles.medicineContent}>
-                          {getCategoryData("maintenanceNotes")}
-                        </span>
-                      </div>
-                    )}
-                    {getCategoryData("compatibleEquipment") && (
-                      <div className={styles.textareaInnerSection}>
-                        <span className={styles.medicineHead}>
-                          {" "}
-                          Compatible Equipment
-                        </span>
-                        <span className={styles.medicineContent}>
-                          {getCategoryData("compatibleEquipment")}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                )}
+                    <div className={styles.textareaSection}>
+                      {getCategoryData("maintenanceNotes") && (
+                        <div className={styles.textareaInnerSection}>
+                          <span className={styles.medicineHead}>
+                            {" "}
+                            Maintenance Notes
+                          </span>
+                          <span className={styles.medicineContent}>
+                            {getCategoryData("maintenanceNotes")}
+                          </span>
+                        </div>
+                      )}
+                      {getCategoryData("compatibleEquipment") && (
+                        <div className={styles.textareaInnerSection}>
+                          <span className={styles.medicineHead}>
+                            {" "}
+                            Compatible Equipment
+                          </span>
+                          <span className={styles.medicineContent}>
+                            {getCategoryData("compatibleEquipment")}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  )}
               </div>
             </div>
           )}
@@ -2737,7 +2649,7 @@ const ProductDetails = () => {
             "composition",
             productDetail?.[productDetail?.category]
               ?.performanceTestingReportFile?.length > 0 &&
-              "performanceTestingReportFile",
+            "performanceTestingReportFile",
             "typeOfSupport",
           ].some(getCategoryData) && (
             <div className={styles.mainContainer}>
@@ -2747,38 +2659,38 @@ const ProductDetails = () => {
                 {["maxWeightCapacity", "gripType", "expiry"].some(
                   getCategoryData
                 ) && (
-                  <div className={styles.mainSection}>
-                    {getCategoryData("expiry") && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>
-                          Shelf Life/Expiry
-                        </span>
-                        <span className={styles.medicineText}>
-                          {getCategoryData("expiry")}
-                        </span>
-                      </div>
-                    )}
-                    {getCategoryData("maxWeightCapacity") && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>
-                          {" "}
-                          Max Weight Capacity
-                        </span>
-                        <span className={styles.medicineText}>
-                          {getCategoryData("maxWeightCapacity")}
-                        </span>
-                      </div>
-                    )}
-                    {getCategoryData("gripType") && (
-                      <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>Grip Type</span>
-                        <span className={styles.medicineText}>
-                          {getCategoryData("gripType")}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                )}
+                    <div className={styles.mainSection}>
+                      {getCategoryData("expiry") && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>
+                            Shelf Life/Expiry
+                          </span>
+                          <span className={styles.medicineText}>
+                            {getCategoryData("expiry")}
+                          </span>
+                        </div>
+                      )}
+                      {getCategoryData("maxWeightCapacity") && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>
+                            {" "}
+                            Max Weight Capacity
+                          </span>
+                          <span className={styles.medicineText}>
+                            {getCategoryData("maxWeightCapacity")}
+                          </span>
+                        </div>
+                      )}
+                      {getCategoryData("gripType") && (
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>Grip Type</span>
+                          <span className={styles.medicineText}>
+                            {getCategoryData("gripType")}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 {/* Drug Info Section */}
                 {["batterySize", "batteryType"].some(getCategoryData) && (
                   <div className={styles.mainSection}>
@@ -2835,29 +2747,29 @@ const ProductDetails = () => {
                 {["lockingMechanism", "typeOfSupport"].some(
                   getCategoryData
                 ) && (
-                  <div className={styles.textareaSection}>
-                    {getCategoryData("lockingMechanism") && (
-                      <div className={styles.textareaInnerSection}>
-                        <span className={styles.medicineHead}>
-                          Locking Mechanism
-                        </span>
-                        <span className={styles.medicineContent}>
-                          {getCategoryData("lockingMechanism")}
-                        </span>
-                      </div>
-                    )}
-                    {getCategoryData("typeOfSupport") && (
-                      <div className={styles.textareaInnerSection}>
-                        <span className={styles.medicineHead}>
-                          Type of Support
-                        </span>
-                        <span className={styles.medicineContent}>
-                          {getCategoryData("typeOfSupport")}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                )}
+                    <div className={styles.textareaSection}>
+                      {getCategoryData("lockingMechanism") && (
+                        <div className={styles.textareaInnerSection}>
+                          <span className={styles.medicineHead}>
+                            Locking Mechanism
+                          </span>
+                          <span className={styles.medicineContent}>
+                            {getCategoryData("lockingMechanism")}
+                          </span>
+                        </div>
+                      )}
+                      {getCategoryData("typeOfSupport") && (
+                        <div className={styles.textareaInnerSection}>
+                          <span className={styles.medicineHead}>
+                            Type of Support
+                          </span>
+                          <span className={styles.medicineContent}>
+                            {getCategoryData("typeOfSupport")}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  )}
 
                 {["flowRate", "concentration"].some(getCategoryData) && (
                   <div className={styles.textareaSection}>
@@ -2886,30 +2798,30 @@ const ProductDetails = () => {
                   "performanceTestingReport",
                   "performanceTestingReportFile",
                 ].some(getCategoryData) && (
-                  <div className={styles.textareaSection}>
-                    {getCategoryData("performanceTestingReport") && (
-                      <div className={styles.textareaInnerSection}>
-                        <span className={styles.medicineHead}>
-                          {" "}
-                          Performance Testing Report
-                        </span>
-                        <span className={styles.medicineContent}>
-                          {getCategoryData("performanceTestingReport")}
-                        </span>
-                      </div>
-                    )}
+                    <div className={styles.textareaSection}>
+                      {getCategoryData("performanceTestingReport") && (
+                        <div className={styles.textareaInnerSection}>
+                          <span className={styles.medicineHead}>
+                            {" "}
+                            Performance Testing Report
+                          </span>
+                          <span className={styles.medicineContent}>
+                            {getCategoryData("performanceTestingReport")}
+                          </span>
+                        </div>
+                      )}
 
-                    {getCategoryData("performanceTestingReportFile") && (
-                      <div className={styles.uploadFileSection}>
-                        <RenderProductFiles
-                          files={getCategoryData(
-                            "performanceTestingReportFile"
-                          )}
-                        />
-                      </div>
-                    )}
-                  </div>
-                )}
+                      {getCategoryData("performanceTestingReportFile") && (
+                        <div className={styles.uploadFileSection}>
+                          <RenderProductFiles
+                            files={getCategoryData(
+                              "performanceTestingReportFile"
+                            )}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  )}
               </div>
             </div>
           )}
@@ -2973,27 +2885,27 @@ const ProductDetails = () => {
                 {["healthClaims", "healthClaimsFiles"].some(
                   getCategoryData
                 ) && (
-                  <div className={styles.textareaSection}>
-                    {getCategoryData("healthClaims") && (
-                      <div className={styles.textareaInnerSection}>
-                        <span className={styles.medicineHead}>
-                          {" "}
-                          Health Claims
-                        </span>
-                        <span className={styles.medicineContent}>
-                          {getCategoryData("healthClaims")}
-                        </span>
-                      </div>
-                    )}
-                    {getCategoryData("healthClaimsFiles") && (
-                      <div className={styles.uploadFileSection}>
-                        <RenderProductFiles
-                          files={getCategoryData("healthClaimsFiles")}
-                        />
-                      </div>
-                    )}
-                  </div>
-                )}
+                    <div className={styles.textareaSection}>
+                      {getCategoryData("healthClaims") && (
+                        <div className={styles.textareaInnerSection}>
+                          <span className={styles.medicineHead}>
+                            {" "}
+                            Health Claims
+                          </span>
+                          <span className={styles.medicineContent}>
+                            {getCategoryData("healthClaims")}
+                          </span>
+                        </div>
+                      )}
+                      {getCategoryData("healthClaimsFiles") && (
+                        <div className={styles.uploadFileSection}>
+                          <RenderProductFiles
+                            files={getCategoryData("healthClaimsFiles")}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  )}
               </div>
             </div>
           )}
@@ -3212,29 +3124,29 @@ const ProductDetails = () => {
                 {["flavorOptions", "aminoAcidProfile"].some(
                   getCategoryData
                 ) && (
-                  <div className={styles.textareaSection}>
-                    {getCategoryData("flavorOptions") && (
-                      <div className={styles.textareaInnerSection}>
-                        <span className={styles.medicineHead}>
-                          flavorOptions
-                        </span>
-                        <span className={styles.medicineContent}>
-                          {getCategoryData("flavorOptions")}
-                        </span>
-                      </div>
-                    )}
-                    {getCategoryData("aminoAcidProfile") && (
-                      <div className={styles.textareaInnerSection}>
-                        <span className={styles.medicineHead}>
-                          aminoAcidProfile
-                        </span>
-                        <span className={styles.medicineContent}>
-                          {getCategoryData("aminoAcidProfile")}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                )}
+                    <div className={styles.textareaSection}>
+                      {getCategoryData("flavorOptions") && (
+                        <div className={styles.textareaInnerSection}>
+                          <span className={styles.medicineHead}>
+                            flavorOptions
+                          </span>
+                          <span className={styles.medicineContent}>
+                            {getCategoryData("flavorOptions")}
+                          </span>
+                        </div>
+                      )}
+                      {getCategoryData("aminoAcidProfile") && (
+                        <div className={styles.textareaInnerSection}>
+                          <span className={styles.medicineHead}>
+                            aminoAcidProfile
+                          </span>
+                          <span className={styles.medicineContent}>
+                            {getCategoryData("aminoAcidProfile")}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 {["healthBenefit", "composition"].some(getCategoryData) && (
                   <div className={styles.textareaSection}>
                     {getCategoryData("healthBenefit") && (
@@ -3262,27 +3174,27 @@ const ProductDetails = () => {
                 {["fatContent", "additivesNSweeteners"].some(
                   getCategoryData
                 ) && (
-                  <div className={styles.textareaSection}>
-                    {getCategoryData("fatContent") && (
-                      <div className={styles.textareaInnerSection}>
-                        <span className={styles.medicineHead}>fatContent</span>
-                        <span className={styles.medicineContent}>
-                          {getCategoryData("fatContent")}
-                        </span>
-                      </div>
-                    )}
-                    {getCategoryData("additivesNSweeteners") && (
-                      <div className={styles.textareaInnerSection}>
-                        <span className={styles.medicineHead}>
-                          Additives & Sweeteners
-                        </span>
-                        <span className={styles.medicineContent}>
-                          {getCategoryData("additivesNSweeteners")}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                )}
+                    <div className={styles.textareaSection}>
+                      {getCategoryData("fatContent") && (
+                        <div className={styles.textareaInnerSection}>
+                          <span className={styles.medicineHead}>fatContent</span>
+                          <span className={styles.medicineContent}>
+                            {getCategoryData("fatContent")}
+                          </span>
+                        </div>
+                      )}
+                      {getCategoryData("additivesNSweeteners") && (
+                        <div className={styles.textareaInnerSection}>
+                          <span className={styles.medicineHead}>
+                            Additives & Sweeteners
+                          </span>
+                          <span className={styles.medicineContent}>
+                            {getCategoryData("additivesNSweeteners")}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  )}
 
                 {["purpose"].some(getCategoryData) && (
                   <div className={styles.textareaSection}>
@@ -3364,56 +3276,56 @@ const ProductDetails = () => {
                 {["keyFeatures", "coreFunctionalities"].some(
                   getCategoryData
                 ) && (
-                  <div className={styles.textareaSection}>
-                    {getCategoryData("keyFeatures") && (
-                      <div className={styles.textareaInnerSection}>
-                        <span className={styles.medicineHead}>
-                          Key Features
-                        </span>
-                        <span className={styles.medicineContent}>
-                          {getCategoryData("keyFeatures")}
-                        </span>
-                      </div>
-                    )}
-                    {getCategoryData("coreFunctionalities") && (
-                      <div className={styles.textareaInnerSection}>
-                        <span className={styles.medicineHead}>
-                          Core Functionalities
-                        </span>
-                        <span className={styles.medicineContent}>
-                          {getCategoryData("coreFunctionalities")}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                )}
+                    <div className={styles.textareaSection}>
+                      {getCategoryData("keyFeatures") && (
+                        <div className={styles.textareaInnerSection}>
+                          <span className={styles.medicineHead}>
+                            Key Features
+                          </span>
+                          <span className={styles.medicineContent}>
+                            {getCategoryData("keyFeatures")}
+                          </span>
+                        </div>
+                      )}
+                      {getCategoryData("coreFunctionalities") && (
+                        <div className={styles.textareaInnerSection}>
+                          <span className={styles.medicineHead}>
+                            Core Functionalities
+                          </span>
+                          <span className={styles.medicineContent}>
+                            {getCategoryData("coreFunctionalities")}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 {["interoperability", "interoperabilityFile"].some(
                   getCategoryData
                 ) && (
-                  <div className={styles.textareaSection}>
-                    {getCategoryData("interoperability") && (
-                      <div className={styles.textareaInnerSection}>
-                        <span className={styles.medicineHead}>
-                          Interoperability
-                        </span>
-                        <span className={styles.medicineContent}>
-                          {getCategoryData("interoperability")}
-                        </span>
-                      </div>
-                    )}
-                    {productDetail?.[productDetail?.category]
-                      ?.interoperabilityFile.length > 0 && (
-                      <div className={styles.uploadFileSection}>
-                        <RenderProductFiles
-                          files={
-                            productDetail?.[productDetail?.category]
-                              ?.interoperabilityFile
-                          }
-                        />
-                      </div>
-                    )}
-                  </div>
-                )}
+                    <div className={styles.textareaSection}>
+                      {getCategoryData("interoperability") && (
+                        <div className={styles.textareaInnerSection}>
+                          <span className={styles.medicineHead}>
+                            Interoperability
+                          </span>
+                          <span className={styles.medicineContent}>
+                            {getCategoryData("interoperability")}
+                          </span>
+                        </div>
+                      )}
+                      {productDetail?.[productDetail?.category]
+                        ?.interoperabilityFile.length > 0 && (
+                          <div className={styles.uploadFileSection}>
+                            <RenderProductFiles
+                              files={
+                                productDetail?.[productDetail?.category]
+                                  ?.interoperabilityFile
+                              }
+                            />
+                          </div>
+                        )}
+                    </div>
+                  )}
               </div>
             </div>
           )}
@@ -3426,121 +3338,121 @@ const ProductDetails = () => {
           productDetail?.healthNSafety?.safetyDatasheet?.length > 0 ||
           productDetail?.healthNSafety?.healthHazardRating?.length > 0 ||
           productDetail?.healthNSafety?.environmentalImpact?.length > 0) && (
-          <div className={styles.mainContainer}>
-            <span className={styles.innerHead}>
-              Compliance & Certification And Health & Safety
-            </span>
-            <div className={styles.innerComplianceSection}>
-              {productDetail?.cNCFileNDate?.length > 0 && (
-                <div className={styles.additionalUploadSection}>
-                  <span className={styles.medicineHead}>
-                    Regulatory Compliance
-                  </span>
-                  <div className={styles.additionalImageSection}>
-                    {productDetail.cNCFileNDate.map((item, index) => (
-                      <div
-                        className={styles.complianceSection}
-                        key={item._id || index}
-                      >
-                        <RenderProductFiles files={[item.file]} />
-                        <span className={styles.medicineContent}>
-                          {item.date}
-                        </span>
+            <div className={styles.mainContainer}>
+              <span className={styles.innerHead}>
+                Compliance & Certification And Health & Safety
+              </span>
+              <div className={styles.innerComplianceSection}>
+                {productDetail?.cNCFileNDate?.length > 0 && (
+                  <div className={styles.additionalUploadSection}>
+                    <span className={styles.medicineHead}>
+                      Regulatory Compliance
+                    </span>
+                    <div className={styles.additionalImageSection}>
+                      {productDetail.cNCFileNDate.map((item, index) => (
+                        <div
+                          className={styles.complianceSection}
+                          key={item._id || index}
+                        >
+                          <RenderProductFiles files={[item.file]} />
+                          <span className={styles.medicineContent}>
+                            {item.date}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {productDetail?.healthNSafety?.safetyDatasheet?.length > 0 && (
+                  <div className={styles.additionalUploadSection}>
+                    <span className={styles.medicineHead}>Safety Datasheet</span>
+                    <div className={styles.additionalImageSection}>
+                      <RenderProductFiles
+                        files={productDetail?.healthNSafety?.safetyDatasheet}
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+              <div
+                className={styles.innerComplianceSection}
+                style={{ marginTop: "20px" }}
+              >
+                {productDetail?.healthNSafety?.healthHazardRating?.length > 0 && (
+                  <div className={styles.additionalUploadSection}>
+                    <span className={styles.medicineHead}>
+                      Health Hazard Rating
+                    </span>
+                    <div className={styles.additionalImageSection}>
+                      <RenderProductFiles
+                        files={productDetail?.healthNSafety?.healthHazardRating}
+                      />
+                    </div>
+                  </div>
+                )}
+                {productDetail?.healthNSafety?.environmentalImpact?.length >
+                  0 && (
+                    <div className={styles.additionalUploadSection}>
+                      <span className={styles.medicineHead}>
+                        Environmental Impact
+                      </span>
+                      <div className={styles.additionalImageSection}>
+                        <RenderProductFiles
+                          files={productDetail?.healthNSafety?.environmentalImpact}
+                        />
                       </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-              {productDetail?.healthNSafety?.safetyDatasheet?.length > 0 && (
-                <div className={styles.additionalUploadSection}>
-                  <span className={styles.medicineHead}>Safety Datasheet</span>
-                  <div className={styles.additionalImageSection}>
-                    <RenderProductFiles
-                      files={productDetail?.healthNSafety?.safetyDatasheet}
-                    />
-                  </div>
-                </div>
-              )}
+                    </div>
+                  )}
+              </div>
             </div>
-            <div
-              className={styles.innerComplianceSection}
-              style={{ marginTop: "20px" }}
-            >
-              {productDetail?.healthNSafety?.healthHazardRating?.length > 0 && (
-                <div className={styles.additionalUploadSection}>
-                  <span className={styles.medicineHead}>
-                    Health Hazard Rating
-                  </span>
-                  <div className={styles.additionalImageSection}>
-                    <RenderProductFiles
-                      files={productDetail?.healthNSafety?.healthHazardRating}
-                    />
-                  </div>
-                </div>
-              )}
-              {productDetail?.healthNSafety?.environmentalImpact?.length >
-                0 && (
-                <div className={styles.additionalUploadSection}>
-                  <span className={styles.medicineHead}>
-                    Environmental Impact
-                  </span>
-                  <div className={styles.additionalImageSection}>
-                    <RenderProductFiles
-                      files={productDetail?.healthNSafety?.environmentalImpact}
-                    />
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
+          )}
         {/* End Compliance & Certification Health & Safety */}
 
         {/* Start Additional information */}
         {(productDetail?.additional?.other ||
           productDetail?.additional?.warranty ||
           productDetail?.additional?.guidelinesFile?.length > 0) && (
-          <div className={styles.addtionalContainer}>
-            <span className={styles.innerHead}>Additional Information </span>
-            <div className={styles.manufacturerMainContainer}>
-              {productDetail?.additional?.other && (
-                <div className={styles.additionalSection}>
-                  {productDetail?.additional?.warranty && (
-                    <div className={styles.additionalInnerSection}>
-                      <span className={styles.medicineHead}>Warranty</span>
-                      <span className={styles.medicineText}>
-                        {productDetail?.additional?.warranty}
-                      </span>
-                    </div>
-                  )}
-                  {productDetail?.additional?.other && (
-                    <div className={styles.manufacturerDescriptionSection}>
-                      <span className={styles.medicineHead}>
-                        Other Information
-                      </span>
-                      <span className={styles.medicineContent}>
-                        {productDetail?.additional?.other}
-                      </span>
-                    </div>
-                  )}
-                </div>
-              )}
+            <div className={styles.addtionalContainer}>
+              <span className={styles.innerHead}>Additional Information </span>
+              <div className={styles.manufacturerMainContainer}>
+                {productDetail?.additional?.other && (
+                  <div className={styles.additionalSection}>
+                    {productDetail?.additional?.warranty && (
+                      <div className={styles.additionalInnerSection}>
+                        <span className={styles.medicineHead}>Warranty</span>
+                        <span className={styles.medicineText}>
+                          {productDetail?.additional?.warranty}
+                        </span>
+                      </div>
+                    )}
+                    {productDetail?.additional?.other && (
+                      <div className={styles.manufacturerDescriptionSection}>
+                        <span className={styles.medicineHead}>
+                          Other Information
+                        </span>
+                        <span className={styles.medicineContent}>
+                          {productDetail?.additional?.other}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                )}
 
-              {productDetail?.additional?.guidelinesFile?.length > 0 && (
-                <div className={styles.additionalUploadSection}>
+                {productDetail?.additional?.guidelinesFile?.length > 0 && (
                   <div className={styles.additionalUploadSection}>
-                    <span className={styles.medicineHead}>User Guidelines</span>
-                    <div className={styles.additionalImageSection}>
-                      <RenderProductFiles
-                        files={productDetail?.additional?.guidelinesFile}
-                      />
+                    <div className={styles.additionalUploadSection}>
+                      <span className={styles.medicineHead}>User Guidelines</span>
+                      <div className={styles.additionalImageSection}>
+                        <RenderProductFiles
+                          files={productDetail?.additional?.guidelinesFile}
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
         {/* End Additional information */}
         {/* Start the product inventory section */}
@@ -3690,7 +3602,7 @@ const ProductDetails = () => {
                             }}
                             className={
                               errors.selectedQuantity &&
-                              touched.selectedQuantity
+                                touched.selectedQuantity
                                 ? styles.errorSelect
                                 : ""
                             }
