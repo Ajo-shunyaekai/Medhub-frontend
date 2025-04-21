@@ -54,11 +54,11 @@ const SecondaryProductList = ({ products, totalItems, currentPage, itemsPerPage,
     {
       name: 'Actions',
       cell: (row) => (
-        <Link to={`/supplier/product-details/${row._id}`}>
-         <div className={styles.activeBtn}>
-            <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
-          </div>
-        </Link>
+        <Link to={`/admin/product-details/${row._id}`}>
+        <div className={styles.activeBtn}>
+          <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
+        </div>
+      </Link>
       ),
       ignoreRowClick: true,
       allowOverflow: true,

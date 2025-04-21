@@ -271,7 +271,7 @@ main {
 .sidebar {
   width: 240px !important;
   background-attachment: fixed;
-  overflow: scroll;
+  overflow: scroll; 
   scrollbar-width: none;
   background: #f5f5f6;
   color: #fff;

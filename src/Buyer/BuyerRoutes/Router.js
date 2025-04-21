@@ -24,8 +24,6 @@ import Loader from "../components/SharedComponents/Loader/Loader";
 import LogisticsAddress from "../components/Orders/OrderDetails/BuyerLogistics/LogisticsAddress"
 import LogisticsAddNewAddress from "../components/Orders/OrderDetails/BuyerLogistics/AddNewAddress";
 import LogisticsEditNewAddress from "../components/Orders/OrderDetails/BuyerLogistics/EditNewAddress";
-// import socket from '../../utils/Socket.js'
-// Lazy-load the components
 const Sidebar = lazy(() =>
   import("../components/SharedComponents/Sidebar/Sidebar")
 );
@@ -56,10 +54,6 @@ const SecondaryMarket = lazy(() =>
 const SupplierDetails = lazy(() =>
   import("../components/Buy/BySupplier/SupplierDetails")
 );
-
-// const SearchMarketProductDetails = lazy(() =>
-//   import("../components/Buy/SecondaryMarket/SearchMarketProductDetails")
-// );
 const OnGoingOrder = lazy(() =>
   import("../components/Inquiry/Inquiry/OnGoingOrder")
 );
@@ -111,9 +105,6 @@ const OtherSupplier = lazy(() =>
 const SearchProductDetails = lazy(() =>
   import("../components/Buy/Details/SearchProductDetails.js")
 );
-// const MarketProductDetails = lazy(() =>
-//   import("../components/Buy/SecondaryMarket/MarketProductDetails")
-// );
 const OnGoingInquiriesDetails = lazy(() =>
   import("../components/Inquiry/Inquiry/OnGoingInquiriesDetails")
 );
@@ -158,9 +149,6 @@ const SupplierCompleted = lazy(() =>
 const SupplierActive = lazy(() =>
   import("../components/supplier/SupplierActive")
 );
-// const SupplierPending = lazy(() =>
-//   import("../components/supplier/SupplierPending")
-// );
 const Profile = lazy(() =>
   import("../components/SharedComponents/Profile/profile")
 );
@@ -181,8 +169,6 @@ const SubscriptionInvoiceDetails = lazy(() =>
 const Error = lazy(() =>
   import("../components/SharedComponents/Error/Error.jsx")
 );
-// const socket = io.connect(process.env.REACT_APP_SERVER_URL);
-
 const socket = io.connect(process.env.REACT_APP_SERVER_URL, {
   autoConnect: false,
 });
@@ -261,53 +247,8 @@ export function NotificationProvider({ children }) {
       navigate("/buyer/login");
     }
   }, [buyerId, location.pathname]);
- 
-  // useEffect(() => {
-  //   if (buyerId) {
-  //     socket.emit("registerBuyer", buyerId);
- 
-  //     fetchNotifications();
-  //     fetchInvoiceCount();
- 
-  //     const notificationEvents = [
-  //       { event: "enquiryQuotation", title: "New Quote Received" },
-  //       { event: "orderCreated", title: "Order Created" },
-  //       {
-  //         event: "shipmentDetailsSubmission",
-  //         title: "Shipment Details Submitted",
-  //       },
-  //       { event: "invoiceCreated", title: "Invoice Created" },
-  //       {
-  //         event: "editProfileRequestUpdated",
-  //         title: "Profile Edit Request Updated",
-  //       },
-  //     ];
- 
-  //     notificationEvents.forEach(({ event, title }) => {
-  //       socket.on(event, (message) => {
-  //         const link = `${process.env.REACT_APP_BUYER_URL}/notification-list`;
-  //         showNotification(
-  //           title,
-  //           { body: message, icon: "/path/to/logo.png" },
-  //           link
-  //         );
-  //         fetchNotifications();
-  //       });
-  //     });
- 
-  //     return () => {
-  //       notificationEvents.forEach(({ event }) => {
-  //         socket.off(event);
-  //       });
-  //     };
-  //   }
-  // }, [buyerId, refresh]);
-
-
   useEffect(() => {
     if (!buyerId) return;
-
-    // Ensure socket is connected only once
     if (!socket.connected) {
       socket.connect();
     }
@@ -359,19 +300,8 @@ export function NotificationProvider({ children }) {
     </Sidebar>
   );
 }
-
-
- 
 // Routes
 const router = createBrowserRouter([
-  // {
-  //   path: "/",
-  //   element: (
-  //     <Suspense fallback={<Loader />}>
-  //       <Navigate to="/buyer" replace />
-  //     </Suspense>
-  //   ),
-  // },
   {
     path: "/buyer/login",
     element: (
