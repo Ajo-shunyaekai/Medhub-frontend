@@ -164,7 +164,7 @@ const SupplierDetails = () => {
                         {supplierDetails?.account_status !== 2 && (
                             <>
                                 <div className='buyer-details-product-list-section'>
-                                    <Link to=''>
+                                    <Link to='/admin/product/new-product'>
                                         <span className='buyer-details-edit-button'>Product List</span>
                                     </Link>
                                     <Link to={`/admin/edit-details/supplier/${supplierDetails?._id}`}>
