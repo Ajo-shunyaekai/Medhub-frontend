@@ -3,11 +3,19 @@ import * as Yup from "yup";
 // Initial values for the form
 export const initialValues = {
   activity_code: "",
+  buyer_name: "",
+  buyer_id: "",
+  buyer_image: [],
+  buyer_country_code: "",
+  buyer_imageNew: [],
+  buyer_type: "",
   categories: [],
   certificateFileNDate: [],
   certificate_image: [],
+  certificate_imageNew: [],
   contact_person_country_code: "",
   contact_person_email: "",
+  contact_person_mobile: "",
   contact_person_mobile_no: "",
   contact_person_name: "",
   country_of_operation: [],
@@ -17,6 +25,7 @@ export const initialValues = {
   estimated_delivery_time: "",
   license_expiry_date: "",
   license_image: [],
+  license_imageNew: [],
   license_no: "",
   medical_certificate: "",
   city: "",
@@ -31,13 +40,14 @@ export const initialValues = {
   supplier_address: "",
   supplier_country_code: "",
   supplier_id: "",
-  supplier_image: "",
+  supplier_image: [],
+  supplier_imageNew: [],
   supplier_mobile: "",
   supplier_name: "",
-  buyer_name: "",
   supplier_type: "",
   tags: "",
-  tax_image: "",
+  tax_image: [],
+  tax_imageNew: [],
   tax_no: "",
   vat_reg_no: "",
 };
@@ -50,7 +60,13 @@ export const setInitFormValues = (formik, otherUserDetails) => {
       activity_code: otherUserDetails?.activity_code || "",
       bank_details: otherUserDetails?.bank_details || "",
       categories: otherUserDetails?.categories || [],
-      certificateFileNDate: otherUserDetails?.certificateFileNDate || [],
+      certificateFileNDate:
+        otherUserDetails?.certificateFileNDate?.length == 0
+          ? otherUserDetails?.certificate_image?.map((filename) => ({
+              file: filename,
+              date: null,
+            }))
+          : otherUserDetails?.certificateFileNDate || [],
       certificate_image: otherUserDetails?.certificate_image || [],
       contact_person_country_code:
         otherUserDetails?.contact_person_country_code || "",
@@ -65,7 +81,7 @@ export const setInitFormValues = (formik, otherUserDetails) => {
       description: otherUserDetails?.description || "",
       designation: otherUserDetails?.designation || "",
       estimated_delivery_time: otherUserDetails?.estimated_delivery_time || "",
-      license_expiry_date: otherUserDetails?.license_expiry_date || "",
+      license_expiry_date: otherUserDetails?.license_expiry_date || null,
       license_image: otherUserDetails?.license_image || [],
       approx_yearly_purchase_value:
         otherUserDetails?.approx_yearly_purchase_value || [],
@@ -84,8 +100,10 @@ export const setInitFormValues = (formik, otherUserDetails) => {
       supplier_address: otherUserDetails?.supplier_address || "",
       buyer_address: otherUserDetails?.buyer_address || "",
       supplier_country_code: otherUserDetails?.supplier_country_code || "",
+      buyer_country_code: otherUserDetails?.buyer_country_code || "",
       supplier_id: otherUserDetails?.supplier_id || "",
       supplier_image: otherUserDetails?.supplier_image || "",
+      buyer_image: otherUserDetails?.buyer_image || "",
       supplier_mobile: otherUserDetails?.supplier_mobile || "",
       supplier_name: otherUserDetails?.supplier_name || "",
       buyer_name: otherUserDetails?.buyer_name || "",
@@ -117,6 +135,8 @@ export const buyererOptions = [
 
 // Validation schema using Yup
 export const validationSchema = Yup.object().shape({
+  supplier_type: Yup.string().required("Company Typeis required"),
+  buyer_type: Yup.string().required("Company Typeis required"),
   cNCFileNDate: Yup.array()
     .of(
       Yup.object().shape({
@@ -127,9 +147,6 @@ export const validationSchema = Yup.object().shape({
       })
     )
     .min(1, "At least one certificate is required"),
-  safetyDatasheetNew: Yup.array().max(4, "Maximum 4 files allowed"),
-  healthHazardRatingNew: Yup.array().max(4, "Maximum 4 files allowed"),
-  environmentalImpactNew: Yup.array().max(4, "Maximum 4 files allowed"),
   licenseExpiry: Yup.date()
     .nullable()
     .min(new Date(), "License Expiry Date must be in the future"),

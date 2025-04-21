@@ -2972,7 +2972,7 @@ const ProductDetails = () => {
                     {getCategoryData("composition") && (
                       <div className={styles.textareaInnerSection}>
                         <span className={styles.medicineHead}>
-                          Composition / Ingredients
+                          Composition/Ingredients
                         </span>
                         <span className={styles.medicineContent}>
                           {getCategoryData("composition")}

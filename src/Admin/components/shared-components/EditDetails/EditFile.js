@@ -11,6 +11,7 @@ const useFileUpload = (
   initialValues,
   acceptTypes,
   maxFiles = 4,
+  maxFilesCount = 4,
   existingFiles = []
 ) => {
   const [files, setFiles] = useState(existingFiles || []);
@@ -23,7 +24,11 @@ const useFileUpload = (
       setFilesNew((prev) => {
         const totalFiles = [...prev, ...acceptedFiles].slice(0, maxFiles); // Limit to maxFiles
         if (acceptedFiles?.length + prev.length > maxFiles) {
-          alert(`You can only upload a maximum of 4 files.`);
+          alert(
+            `You can only upload a maximum of ${maxFilesCount} ${
+              maxFilesCount != 1 ? "files" : "file"
+            }.`
+          );
           return prev; // Keep previous files if limit exceeded
         }
         // Update Formik state
@@ -31,7 +36,7 @@ const useFileUpload = (
         return totalFiles;
       });
     },
-    [fieldInputName, setFieldValue, maxFiles]
+    [fieldInputName, setFieldValue, maxFiles, maxFilesCount]
   );
 
   // Effect to handle initial file state
@@ -103,6 +108,7 @@ const EditFile = ({
   showLabel = true,
   acceptTypes, // Control accepted file types
   maxFiles = 4, // New prop to control maximum number of files
+  maxFilesCount = 4, // New prop to control maximum number of files
 }) => {
   const tooltipId = `tooltip-${label.replace(/\s+/g, "-").toLowerCase()}`;
   const tooltipContent = tooltip || "Default tooltip text";
@@ -115,6 +121,7 @@ const EditFile = ({
     initialValues,
     acceptTypes,
     maxFiles,
+    maxFilesCount,
     existingFiles
   );
 
