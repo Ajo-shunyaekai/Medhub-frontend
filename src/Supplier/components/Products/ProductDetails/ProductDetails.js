@@ -45,7 +45,7 @@ const ProductDetails = () => {
     return `${day}-${month}-${year}`;
   };
 
-    const fallbackImageUrl = "https://medhub.shunyaekai.com/uploads/emailer_images/medhubEmailerBanner.png";
+    const fallbackImageUrl = "https://medhub.shunyaekai.com/uploads/fallbackImage.jpg";
 
       // Utility to check if URL ends with image extension
       const isImageExtension = (fileName) => {
