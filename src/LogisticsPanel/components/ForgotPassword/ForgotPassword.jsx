@@ -8,11 +8,11 @@ import { apiRequests } from "../../../api/index";
 import { toast, ToastContainer } from "react-toastify";
 import Section from "../UI/Section";
 import logo from "../../assets/images/navibluelogo.svg";
-import styles from "./Login.module.css";
+import styles from "./ForgotPassword.module.css";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from 'js-cookie';
 
-function Login() {
+function ForgotPassword() {
   const [email, setEmail]                = useState("");
   const [password, setPassword]          = useState("");
   const [showPassword, setShowPassword]  = useState(false);
@@ -30,13 +30,13 @@ function Login() {
       newErrors.email = "Invalid email format";
     }
 
-    if (!password.trim()) {
-      newErrors.password = "Password is required";
-    } else if (password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters";
-    } else if (!/(?=.*[A-Z])/.test(password)) {
-      newErrors.password = "Must contain at least one uppercase letter";
-    }
+    // if (!password.trim()) {
+    //   newErrors.password = "Password is required";
+    // } else if (password.length < 6) {
+    //   newErrors.password = "Password must be at least 6 characters";
+    // } else if (!/(?=.*[A-Z])/.test(password)) {
+    //   newErrors.password = "Must contain at least one uppercase letter";
+    // }
 
     return newErrors;
   };
@@ -52,22 +52,22 @@ function Login() {
 
     setLoading(true);
     try {
-      const response = await apiRequests.postRequest(`auth/login`, { email, password, usertype: "Logistics" });
-      if (response?.code !== 200) {
-        toast.error(response.message);
-      } else {
-        const { accessToken, refreshToken} = response.data;
-        // Store tokens in cookies
-        localStorage.setItem(`token1`, accessToken)
-        localStorage.setItem(`token2`, refreshToken)
-        Cookies.set('accessToken', accessToken,);
-        Cookies.set('refreshToken', refreshToken,);
+      // const response = await apiRequests.postRequest(`auth/login`, { email, password, usertype: "Logistics" });
+      // if (response?.code !== 200) {
+      //   toast.error(response.message);
+      // } else {
+      //   const { accessToken, refreshToken} = response.data;
+      //   // Store tokens in cookies
+      //   localStorage.setItem(`token1`, accessToken)
+      //   localStorage.setItem(`token2`, refreshToken)
+      //   Cookies.set('accessToken', accessToken,);
+      //   Cookies.set('refreshToken', refreshToken,);
         
-        Object.entries(response.data).forEach(([key, value]) => {
-          localStorage.setItem(key, value);
-        });
-        setTimeout(() => navigate("/logistics"), 500);
-      }
+      //   Object.entries(response.data).forEach(([key, value]) => {
+      //     localStorage.setItem(key, value);
+      //   });
+      //   setTimeout(() => navigate("/logistics"), 500);
+      // }
     } catch (error) {
       toast.error(error.message);
     } finally {
@@ -92,17 +92,17 @@ function Login() {
     }
   };
 
-  const handlePasswordChange = (e) => {
-    if (e.target.value.length <= 25) {
-      setPassword(e.target.value);
-      if (errors.password) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          password: "",
-        }));
-      }
-    }
-  };
+  // const handlePasswordChange = (e) => {
+  //   if (e.target.value.length <= 25) {
+  //     setPassword(e.target.value);
+  //     if (errors.password) {
+  //       setErrors((prevErrors) => ({
+  //         ...prevErrors,
+  //         password: "",
+  //       }));
+  //     }
+  //   }
+  // };
 
   return (
     <Section className={`${styles.loginContainer}`}>
@@ -117,7 +117,7 @@ function Login() {
 
           <div className="row">
             <div className="col-12">
-              <h4 className={`${styles.title}`}>Logistics Login</h4>
+              <h4 className={`${styles.title}`}>Change Your Password</h4>
             </div>
           </div>
 
@@ -134,7 +134,7 @@ function Login() {
               error={!!errors.email}
             />
 
-            <FormControl variant="filled" fullWidth error={!!errors.password}>
+            {/* <FormControl variant="filled" fullWidth error={!!errors.password}>
               <InputLabel htmlFor="password">Password</InputLabel>
               <FilledInput
                 id="password"
@@ -154,7 +154,7 @@ function Login() {
               {errors.password && (
                 <p className={styles.errorText}>{errors.password}</p>
               )}
-            </FormControl>
+            </FormControl> */}
 
             <button
               type="submit"
@@ -164,18 +164,18 @@ function Login() {
               {loading ? (
                 <div className={`${styles.loadingSpinner}`}></div>
               ) : (
-                "Login"
+                "Verify Email"
               )}
             </button>
           </form>
 
-          <Link to={`/logistics/forgot-password`} className={`${styles.link}`}>
+          {/* <Link to={``} className={`${styles.link}`}>
             Forget Password
-          </Link>
+          </Link> */}
         </div>
       </main>
     </Section>
   );
 }
 
-export default Login;
+export default ForgotPassword;

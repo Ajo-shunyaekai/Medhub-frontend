@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './Table.module.css';
+import '../../../assets/styles/Table.css';
 import DataTable from 'react-data-table-component';
 import Pagination from "react-js-pagination";
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
