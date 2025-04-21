@@ -97,63 +97,37 @@ const EditProfileDetails = () => {
       otherwise: (schema) => schema.notRequired(),
     }),
 
-    // // supplier_mobile: Yup.string().when([], {
-    // //   is: () => userType === "supplier",
-    // //   then: (schema) => schema.required("Company Phone No. is required."),
-    // //   otherwise: (schema) => schema.notRequired(),
-    // // }),
-
-    // // buyer_mobile: Yup.string().when([], {
-    // //   is: () => userType === "buyer",
-    // //   then: (schema) => schema.required("Company Phone No. is required."),
-    // //   otherwise: (schema) => schema.notRequired(),
-    // // }),
-
-    // // ✅ Conditionally required phone number validation
-    // ...(userType === "supplier"
-    //   ? {
-    //       supplier_mobile: Yup.string()
-    //         .required("Phone number is required")
-    //         .test("is-valid-phone", "Invalid phone number", (value) =>
-    //           isValidPhoneNumber(`+${value}`)
-    //         ),
-    //     }
-    //   : {
-    //       buyer_mobile: Yup.string()
-    //         .required("Phone number is required")
-    //         .test("is-valid-phone", "Invalid phone number", (value) =>
-    //           isValidPhoneNumber(`+${value}`)
-    //         ),
-    //     }),
     ...(userType === "supplier"
       ? {
-          supplier_mobile: Yup.string().test(
-            "phone-validation",
-            "Phone number is required",
-            function (value) {
-              const { supplier_country_code } = this.parent;
-              const fullNumber = supplier_country_code?.includes("+")?`${supplier_country_code || ""} ${
-                value || ""
-              }`:`+${supplier_country_code || ""} ${
-                value || ""
-              }`;
+          supplier_mobile: Yup.string()
+            .required("Company Phone No. is required")
+            .test(
+              "phone-validation",
+              "Company Phone No. is required",
+              function (value) {
+                const { supplier_country_code } = this.parent;
+                const fullNumber = supplier_country_code?.includes("+")
+                  ? `${supplier_country_code || ""} ${value || ""}`
+                  : `+${supplier_country_code || ""} ${value || ""}`;
 
-              if (!value && !supplier_country_code) {
-                return this.createError({
-                  message: "Phone number is required",
-                });
-              }
-
-              if (value && supplier_country_code) {
-                console.log("fullNumber", fullNumber);
-                if (!isValidPhoneNumber(fullNumber)) {
-                  return this.createError({ message: "Invalid phone number." });
+                if (!value && !supplier_country_code) {
+                  return this.createError({
+                    message: "Company Phone No. is required",
+                  });
                 }
-              }
 
-              return true;
-            }
-          ),
+                if (value && supplier_country_code) {
+                  console.log("fullNumber", fullNumber);
+                  if (!isValidPhoneNumber(fullNumber)) {
+                    return this.createError({
+                      message: "Invalid Company Phone No.",
+                    });
+                  }
+                }
+
+                return true;
+              }
+            ),
         }
       : {
           buyer_mobile: Yup.string().test(
@@ -161,7 +135,9 @@ const EditProfileDetails = () => {
             "Phone number is required",
             function (value) {
               const { buyer_country_code } = this.parent;
-              const fullNumber = buyer_country_code?.includes("+")?`${buyer_country_code || ""} ${value || ""}`:`+${buyer_country_code || ""} ${value || ""}`;
+              const fullNumber = buyer_country_code?.includes("+")
+                ? `${buyer_country_code || ""} ${value || ""}`
+                : `+${buyer_country_code || ""} ${value || ""}`;
 
               if (!value && !buyer_country_code) {
                 return this.createError({
@@ -227,101 +203,63 @@ const EditProfileDetails = () => {
     return value?.map((item) => item.label)?.join(", ");
   };
 
-  // // Define handlePhoneChange inside Formik to access setFieldValue
-  // const handlePhoneChange = (name, value) => {
-  //   try {
-  //     const phoneNumber = parsePhoneNumber(value);
-
-  //     // if (!value) {
-  //     //   formik.setFieldError(name, "Phone number is required.");
-  //     //   return;
-  //     // }
-
-  //     // if (!phoneNumber || !isValidPhoneNumber(value)) {
-  //     //   formik.setFieldError(name, "Invalid phone number");
-  //     //   return;
-  //     // }
-
-  //     // Extract the country code and national number from the parsed phone number
-  //     const countryCode = phoneNumber.countryCallingCode;
-  //     const nationalNumber = phoneNumber.nationalNumber;
-  //     const formattedNumber = `+${countryCode} ${nationalNumber}`;
-
-  //     // Update Formik field values
-  //     if (userType === "buyer") {
-  //       if (name === "buyer_mobile") {
-  //         formik.setFieldValue("buyer_country_code", countryCode);
-  //         formik.setFieldValue("buyer_mobile", nationalNumber);
-  //       } else if (name === "contact_person_mobile") {
-  //         formik.setFieldValue("contact_person_country_code", countryCode);
-  //         formik.setFieldValue("contact_person_mobile", nationalNumber);
-  //       }
-  //     } else if (userType === "supplier") {
-  //       if (name === "supplier_mobile") {
-  //         formik.setFieldValue("supplier_country_code", countryCode);
-  //         formik.setFieldValue("supplier_mobile", nationalNumber);
-  //       } else if (name === "contact_person_mobile_no") {
-  //         formik.setFieldValue("contact_person_country_code", countryCode);
-  //         formik.setFieldValue("contact_person_mobile_no", nationalNumber);
-  //       }
-  //     }
-
-  //     // Update the full phone number
-  //     if (formik.touched[name]) {
-  //       formik.setFieldValue(name, formattedNumber);
-  //     }
-  //   } catch (error) {
-  //     // if (formik.touched[name]) {
-  //     //   formik.setFieldError(name, "Invalid phone number");
-  //     // }
-  //   }
-  // };
+  // Define handlePhoneChange inside Formik to access setFieldValue
   const handlePhoneChange = (name, value) => {
-  try {
-    const phoneNumber = parsePhoneNumber(value);
+    try {
+      if (!value) {
+        formik.setFieldError(
+          name,
+          name == "buyer_mobile" || name == "supplier_mobile"
+            ? "Company Phone No. is required."
+            : "Mobile No. is required."
+        );
+        return;
+      }
 
-    // If nothing is entered yet, clear fields
-    if (!value || !phoneNumber) {
+      const phoneNumber = parsePhoneNumber(value);
+
+      // If nothing is entered yet, clear fields
+      if (!value || !phoneNumber) {
+        if (userType === "buyer") {
+          formik.setFieldValue("buyer_country_code", "");
+          formik.setFieldValue("buyer_mobile", "");
+        } else if (userType === "supplier") {
+          formik.setFieldValue("supplier_country_code", "");
+          formik.setFieldValue("supplier_mobile", "");
+        }
+        return;
+      }
+
+      // Extract components
+      const countryCode = phoneNumber.countryCallingCode;
+      const nationalNumber = phoneNumber.nationalNumber;
+
+      // Update Formik fields based on userType
       if (userType === "buyer") {
-        formik.setFieldValue("buyer_country_code", "");
-        formik.setFieldValue("buyer_mobile", "");
+        if (name === "buyer_mobile") {
+          formik.setFieldValue("buyer_country_code", countryCode);
+          formik.setFieldValue("buyer_mobile", nationalNumber);
+        } else if (name === "contact_person_mobile") {
+          formik.setFieldValue("contact_person_country_code", countryCode);
+          formik.setFieldValue("contact_person_mobile", nationalNumber);
+        }
       } else if (userType === "supplier") {
-        formik.setFieldValue("supplier_country_code", "");
-        formik.setFieldValue("supplier_mobile", "");
+        if (name === "supplier_mobile") {
+          formik.setFieldValue("supplier_country_code", countryCode);
+          formik.setFieldValue("supplier_mobile", nationalNumber);
+        } else if (name === "contact_person_mobile_no") {
+          formik.setFieldValue("contact_person_country_code", countryCode);
+          formik.setFieldValue("contact_person_mobile_no", nationalNumber);
+        }
       }
-      return;
+
+      // Touch the field to trigger validation
+      formik.setFieldTouched(name, true, false);
+    } catch (error) {
+      // Do not throw or set error here — let Yup handle it via validationSchema
+      console.warn("Phone parsing error:", error.message);
     }
-
-    // Extract components
-    const countryCode = phoneNumber.countryCallingCode;
-    const nationalNumber = phoneNumber.nationalNumber;
-
-    // Update Formik fields based on userType
-    if (userType === "buyer") {
-      if (name === "buyer_mobile") {
-        formik.setFieldValue("buyer_country_code", countryCode);
-        formik.setFieldValue("buyer_mobile", nationalNumber);
-      } else if (name === "contact_person_mobile") {
-        formik.setFieldValue("contact_person_country_code", countryCode);
-        formik.setFieldValue("contact_person_mobile", nationalNumber);
-      }
-    } else if (userType === "supplier") {
-      if (name === "supplier_mobile") {
-        formik.setFieldValue("supplier_country_code", countryCode);
-        formik.setFieldValue("supplier_mobile", nationalNumber);
-      } else if (name === "contact_person_mobile_no") {
-        formik.setFieldValue("contact_person_country_code", countryCode);
-        formik.setFieldValue("contact_person_mobile_no", nationalNumber);
-      }
-    }
-
-    // Touch the field to trigger validation
-    formik.setFieldTouched(name, true, false);
-  } catch (error) {
-    // Do not throw or set error here — let Yup handle it via validationSchema
-    console.warn("Phone parsing error:", error.message);
-  }
-};
+  };
 
   return (
     <div className={styles?.container}>
