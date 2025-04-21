@@ -1,116 +1,90 @@
-
 import React from 'react';
-import styles from './product.module.css';
-import './product.css'
-import ProductImage from '../../../assets/images/productImage.png'
+import DataTable from 'react-data-table-component';
+import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
+import styles from '../../../../assets/style/table.module.css';
+import '../../../../assets/style/table.css'
+import ProductImage from '../../../../assets/Images/productImage.png'
 import { Link } from "react-router-dom";
-import Pagination from 'react-js-pagination';
-import ADD from '../../../assets/images/plus.svg';
-import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
-import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+import PaginationComponent from '../../../shared-components/Pagination/Pagination';
 
-const NewProductList = ({products, totalItems, currentPage, itemsPerPage, handlePageChange}) => {
+const NewProductList = ({ products, totalItems, currentPage, itemsPerPage, handlePageChange }) => {
     const serverUrl = process.env.REACT_APP_SERVER_URL;
-    return (
-        <>
-            <div className={styles.container}>
-                <Link to="/supplier/add-product">
-                    <div className={styles.mainSection}>
-                        <span className={styles.head}>Add a Product</span>
-                        <div className={styles.imgContainer}>
-                            <img className={styles.productIcon} src={ADD} alt='add' />
-                        </div>
-                    </div>
+
+    const columns = [
+        {
+            name: 'Product ID',
+            selector: row => row.product_id,
+            sortable: true,
+            wrap: true,
+        },
+       
+        {
+            name: 'Product Name',
+            selector: row => row.general.name || 'Unnamed Product',
+            sortable: true,
+            wrap: true,
+        },
+        {
+            name: 'Category',
+            selector: row => row?.category
+                ?.replace(/([a-z])([A-Z])/g, "$1 $2")
+                ?.replace(/\b\w/g, (char) => char.toUpperCase()) || 'N/A',
+            sortable: true,
+        },
+        {
+            name: 'Sub Category',
+            selector: row => row?.[row?.category]?.subCategory || 'N/A',
+            sortable: true,
+        },
+        {
+            name: 'Quantity',
+            selector: row => row.general.quantity || '0',
+            sortable: true,
+        },
+        {
+            name: 'Stock Status',
+            selector: row => {
+                const stockValues = row.inventoryDetails?.[0]?.stock ? [row.inventoryDetails[0].stock] : ['N/A'];
+                return stockValues[0];
+            },
+            sortable: true,
+        },
+        {
+            name: 'Action',
+            selector: row => (
+                <Link to={`/supplier/product-details/${row._id}`}>
+                     <div className={styles.activeBtn}>
+            <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
+          </div>
                 </Link>
-                {products?.length > 0 ? (
-                    products?.map((product) => (
-                    <div key={product._id} className={styles.mainCard}>
-                            <div className={styles.cardImgSection}>
-                                <div className={styles.cardImg}>
-                                    <img
-                                        className={styles.productImg}
-                                        src={
-                                            product.general.image && product.general.image.length > 0 
-                                              ? `${serverUrl}uploads/products/${product.general.image[0]}` 
-                                              : ProductImage
-                                          }
-                                          alt='Product Img'
-                                    />
-                                </div>
-                                <Link to={`/supplier/product-details/${product._id}`}>
-                                <div className={styles.cardButton}>
-                                    View Details
-                                </div>
-                                </Link>
-                            </div>
-                            <div className={styles.cardContentSection}>
-                            <div className={styles.cardMainHeading}>
-                                        {product.general.name || 'Unnamed Product'}
-                                    </div>
-                                <div className={styles.cardInnerContainer}>
-                                    <span className={styles.cardHead}>Category</span>
-                                    <span className={styles.cardText}>
-                                    {product?.category
-                      ?.replace(/([a-z])([A-Z])/g, "$1 $2")
-                      ?.replace(/\b\w/g, (char) => char.toUpperCase())}
-                                    </span>
-                                </div>
-                                <div className={styles.cardInnerContainer}>
-                                    <span className={styles.cardHead}>Sub Category</span>
-                                    <span className={styles.cardText}>
-                                        {product?.[product?.category]?.subCategory || 'N/A'}
-                                    </span>
-                                </div>
-                                <div className={styles.cardInnerContainer}>
-                                    <span className={styles.cardHead}>Part/Model No.</span>
-                                    <span className={styles.cardText}>
-                                        {product.general.model || 'N/A'}
-                                    </span>
-                                </div>
-                                <div className={styles.cardInnerContainer}>
-                                    <span className={styles.cardHead}>Total Quantity</span>
-                                    <span className={styles.cardText}>
-                                        {product.general.quantity || '0'}
-                                    </span>
-                                </div>
-                                <div className={styles.cardInnerContainer}>
-                                    <span className={styles.cardHead}>Stock Status</span>
-                                    <span className={styles.cardText}>
-                                        {product.inventoryDetails?.stock || product.inventory?.stock || 'N/A'}
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                ))
-            ) : (
-                <div className={styles.noDataSection}>
-                    No Data Available
-                </div>
-            )}
-            </div>
+            ),
+            ignoreRowClick: true,
+            allowOverflow: true,
+            button: true,
+            sortable: false,
+        },
+    ];
+    return (
+        <div className={styles.container}>
+            <DataTable
+                columns={columns}
+                data={products}
+                persistTableHead
+                noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
+                pagination={false}
+                responsive
+            />
 
             {products?.length > 0 && (
-                <div className={styles.paginationSection}>
-                    <div className='pagi-container'>
-                        <Pagination
-                            activePage={currentPage}
-                            itemsCountPerPage={itemsPerPage}
-                            totalItemsCount={totalItems}
-                            pageRangeDisplayed={5}
-                            onChange={handlePageChange}
-                            itemClass="page-item"
-                            linkClass="page-link"
-                            prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
-                            nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
-                            hideFirstLastPages={true}
-                        />
-                        <div className='pagi-total'>
-                            Total Items: {totalItems}
-                        </div>
-                    </div>
-                </div>
+                <PaginationComponent
+                    activePage={currentPage}
+                    itemsCountPerPage={itemsPerPage}
+                    totalItemsCount={totalItems}
+                    pageRangeDisplayed={10}
+                    onChange={handlePageChange}
+                />
             )}
-        </>
+        </div>
     );
 };
 
