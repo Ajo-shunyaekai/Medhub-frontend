@@ -453,7 +453,7 @@ const SupSidebar = ({ children, dragWindow,
                                                         to="/supplier/subscription"
                                                         onClick={() => setIsProfileOpen(false)}
                                                     > */}
-                                                        <div className={styles.profile_text} onMouseDown={handleSubscriptionClick}>Subscription</div>
+                                                        {/* <div className={styles.profile_text} onMouseDown={handleSubscriptionClick}>Subscription</div> */}
                                                     {/* </Link> */}
                                                 </div>
                                             </div>
@@ -580,10 +580,10 @@ const SupSidebar = ({ children, dragWindow,
  
                         </div>
  
-                        <Link to="/supplier/subscription" className={styles.sidebar_text} activeclassname={styles.active}>
+                        {/* <Link to="/supplier/subscription" className={styles.sidebar_text} activeclassname={styles.active}>
                             <div className={styles.icon}><SubscriptionsOutlinedIcon style={{ color: '#14bae4', }} /></div>
                             <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Subscription</div>
-                        </Link>
+                        </Link> */}
  
                         <Link to="/supplier/invoice" className={styles.sidebar_text} activeclassname={styles.active}>
                             <div className={styles.icon}><DescriptionOutlinedIcon style={{ color: '#F54394' }} /></div>

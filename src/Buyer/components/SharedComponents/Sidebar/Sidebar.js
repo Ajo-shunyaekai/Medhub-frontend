@@ -426,12 +426,12 @@ const Sidebar = ({ children, dragWindow,
                                                     </Link>
                                                 </div>
                                                 <div>
-                                                    <Link
+                                                    {/* <Link
                                                         to="/buyer/subscription"
                                                         onClick={() => setIsProfileOpen(false)}
                                                     >
                                                         <div className={styles.profile_text}>Subscription</div>
-                                                    </Link>
+                                                    </Link> */}
                                                 </div>
                                                 {/* <div className={styles.invoice_container}>
                                                     <Link
@@ -530,10 +530,10 @@ const Sidebar = ({ children, dragWindow,
                             <div className={styles.icon}><LocalShippingOutlinedIcon style={{ color: '#f4c414', fontSize: '20px' }} /></div>
                             <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>My Supplier</div>
                         </Link>
-                        <Link to="/buyer/subscription" className={styles.sidebar_text} activeclassname={styles.active}>
+                        {/* <Link to="/buyer/subscription" className={styles.sidebar_text} activeclassname={styles.active}>
                             <div className={styles.icon}><SubscriptionsOutlinedIcon style={{ color: '#14bae4', fontSize: '20px' }} /></div>
                             <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Subscription</div>
-                        </Link>
+                        </Link> */}
                         <Link to="/buyer/invoice" className={styles.sidebar_text} activeclassname={styles.active}>
                             <div className={styles.icon}><DescriptionOutlinedIcon style={{ color: '#F54394', fontSize: '20px' }} /></div>
                             <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Invoice</div>
