@@ -573,6 +573,7 @@ const EditAddProduct = ({ placeholder }) => {
             if (Object.keys(formik.errors).length === 0) {
               formik.handleSubmit();
             } else {
+              console.log('formik.errors',formik.errors)
               // If validation errors exist or no change, show the error message
               toast.error("Please fill the required fields correctly.");
             }
@@ -1364,7 +1365,7 @@ const EditAddProduct = ({ placeholder }) => {
                   />
                   <Tooltip content="Unit Tax of the product"></Tooltip>
                 </div>
-                {formik.touched.unit_tax && formik.errors.unit_tax && (
+                { formik.errors.unit_tax && (
                   <span className={styles.error}>{formik.errors.unit_tax}</span>
                 )}
               </div>
