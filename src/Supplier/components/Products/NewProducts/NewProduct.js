@@ -166,7 +166,7 @@ const NewProduct = ({products, totalItems, currentPage, itemsPerPage, handlePage
           <div className={styles.cardInnerContainer}>
             <span className={styles.cardHead}>Stock Status</span>
             <span className={styles.cardText}>
-              {product.inventoryDetails?.stock ||
+              {product.inventoryDetails[0]?.stock ||
                 product.inventory?.stock ||
                 "N/A"}
             </span>
