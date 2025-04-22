@@ -15,6 +15,7 @@ const PickupOrders      = lazy(() => import("../components/PickupOrders/NewPicku
 const PickupDetails     = lazy(() => import("../components/PickupOrders/NewPickupOrderDetails/NewPickupOrderDetails"));
 const Profile           = lazy(() => import("../components/SharedComponents/Profile/Profile"));
 const Shipment          = lazy(() => import("../components/Shipment/NewShipment"));
+const Signup            = lazy(() => import("../components/Signup/Signup"));
 const Tracking          = lazy(() => import("../components/Tracking/NewTrackingForm/NewTrackingForm"));
 const VehicleList       = lazy(() => import("../components/Vehicle/NewVehicleList/NewVehicleList"));
 // const ActiveOrder       = lazy(() => import("../components/Orders/ActiveOrders/ActiveOrder"));
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
   {
     path    : "/logistics/forgot-password",
     element : <ForgotPassword />,
+  },
+  {
+    path    : "/logistics/sign-up",
+    element : <Signup />,
   },
   {
     path     : "/logistics",

@@ -6,7 +6,6 @@ import { Visibility, VisibilityOff } from "@material-ui/icons";
 
 import { apiRequests } from "../../../api/index";
 import { toast, ToastContainer } from "react-toastify";
-import Section from "../UI/Section";
 import logo from "../../assets/images/navibluelogo.svg";
 import styles from "./Login.module.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -105,7 +104,7 @@ function Login() {
   };
 
   return (
-    <Section className={`${styles.loginContainer}`}>
+    <section className={`${styles.loginContainer}`}>
       <ToastContainer />
       <main className={`${styles.cardContainer}`}>
         <div className={`${styles.wrapper}`}>
@@ -169,12 +168,19 @@ function Login() {
             </button>
           </form>
 
-          <Link to={`/logistics/forgot-password`} className={`${styles.link}`}>
-            Forget Password
-          </Link>
+          <div className="row">
+            <div className={`col-12 ${styles.links}`}>
+              <Link to={`/logistics/forgot-password`} className={`${styles.link}`}>
+                Forgot Password
+              </Link>
+              <Link to={`/logistics/sign-up`} className={`${styles.link}`}>
+                Sign Up
+              </Link>
+            </div>
+          </div>
         </div>
       </main>
-    </Section>
+    </section>
   );
 }
 
