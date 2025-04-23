@@ -2,11 +2,12 @@ import React, { Suspense, lazy } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Loader from "../components/SharedComponents/Loader/Loader";
 
+const AddInventory      = lazy(() => import("../components/Inventory/AddInventory/InventoryForm"));
 const AddVehicle        = lazy(() => import("../components/Vehicle/NewAddVehicle/NewAddVehicle"));
 const Dashboard         = lazy(() => import("../components/Dashboard/NewDashboard"));
 const Error             = lazy(() => import("../components/SharedComponents/Error/Error"));
 const ForgotPassword    = lazy(() => import("../components/ForgotPassword/ForgotPassword"));
-const Inventory         = lazy(() => import("../components/Inventory/NewInventoryList/InventoryForm"));
+const InventoryList     = lazy(() => import("../components/Inventory/NewInventoryList/NewInventoryList"));
 const LogisticsLayout   = lazy(() => import("../components/SharedComponents/LogisticsLayout"));
 const Login             = lazy(() => import("../components/Login/Login"));
 const LogisticsDetails  = lazy(() => import("../components/Orders/NewOrderDetails/NewOrderDetails"));
@@ -66,8 +67,12 @@ const router = createBrowserRouter([
         element : <PickupDetails />,
       },
       {
-        path    : "inventory",
-        element : <Inventory />,
+        path    : "add-inventory",
+        element : <AddInventory />,
+      },
+      {
+        path    : "inventory-list",
+        element : <InventoryList />,
       },
       {
         path    : "add-vehicle",
