@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import "../../../assets/style/dashboardorders.css";
-import Table from "react-bootstrap/Table";
-import Pagination from "react-js-pagination";
+import DataTable from "react-data-table-component";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
-import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
-import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import { postRequestWithToken } from "../../../api/Requests";
 import moment from "moment/moment";
-import Loader from "../../shared-components/Loader/Loader";
+import Loader from '../../shared-components/Loader/Loader';
+import PaginationComponent from '../../shared-components/Pagination/Pagination';
+import styles from '../../../assets/style/table.module.css';
+import '../../../assets/style/table.css'
 
 const TotalPO = () => {
   const location = useLocation();
@@ -24,7 +23,7 @@ const TotalPO = () => {
   const [list, setList] = useState([]);
   const [totalList, setTotalList] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const listPerPage = 5;
+  const listPerPage = 10;
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -49,7 +48,6 @@ const TotalPO = () => {
       if (response?.code === 200) {
         setList(response.result.data);
         setTotalList(response.result.totalItems);
-      } else {
       }
       setLoading(false);
     });
@@ -59,140 +57,84 @@ const TotalPO = () => {
     fetchData();
   }, [currentPage]);
 
+  const columns = [
+    {
+      name: "PO ID",
+      selector: (row) => row.purchaseOrder_id,
+      sortable: true,
+
+    },
+    {
+      name: "Inquiry ID",
+      selector: (row) => row.enquiry_id,
+      sortable: true,
+
+    },
+    {
+      name: "PO Date",
+      selector: (row) => row.created_at,
+      sortable: true,
+      cell: (row) => <div>{moment(row.created_at).format("DD/MM/YYYY")}</div>,
+    },
+    {
+      name: "Status",
+      selector: (row) => row.po_status,
+      sortable: true,
+      cell: (row) => (
+        <div>
+          {row.po_status
+            ? row.po_status
+              .split(" ")
+              .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+              .join(" ")
+            : ""}
+        </div>
+      ),
+    },
+    {
+      name: "Action",
+      cell: (row) => (
+        <Link to={`/admin/buyer-purchased-order-details/${row.purchaseOrder_id}`}>
+          <div className={styles.activeBtn}>
+            <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
+          </div>
+        </Link>
+      ),
+      ignoreRowClick: true,
+      allowOverflow: true,
+      button: true,
+    },
+  ];
+
   return (
-    <>
+    <section className={styles.container}>
       {loading ? (
         <Loader />
       ) : (
-        <div className="completed-order-main-container">
-          <div className="completed-order-main-head">
-            Total Purchased Orders
-          </div>
-          <div className="completed-order-container">
-            <div className="completed-order-container-right-2">
-              <Table
-                responsive="xxl"
-                className="completed-order-table-responsive"
-              >
-                <thead>
-                  <div
-                    className="completed-table-row-container m-0"
-                    style={{ backgroundColor: "transparent" }}
-                  >
-                    {/* < div className='table-row-item table-order-1' >
-                                        <span className='completed-header-text-color'>Registration Type</span>
-                                    </div> */}
-                    <div className="table-row-item table-order-1">
-                      <span className="completed-header-text-color">PO ID</span>
-                    </div>
-                    <div className="completed-table-row-item completed-table-order-1">
-                      <span className="completed-header-text-color">
-                        Inquiry ID
-                      </span>
-                    </div>
-                    <div className="completed-table-row-item completed-table-order-2">
-                      <span className="completed-header-text-color">
-                        PO Date
-                      </span>
-                    </div>
-                    <div className="completed-table-row-item completed-table-order-1">
-                      <span className="completed-header-text-color">
-                        Status
-                      </span>
-                    </div>
-                    <div className="completed-table-row-item completed-table-order-1">
-                      <span className="completed-header-text-color">
-                        Action
-                      </span>
-                    </div>
-                  </div>
-                </thead>
+        <>
+          <header className={styles.header}>
+            <span className={styles.title}>Total Purchased Orders</span>
 
-                <tbody className="bordered">
-                  {list?.length > 0 ? (
-                    list.map((po, index) => (
-                      <div className="completed-table-row-container">
-                        {/* <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{po.registration_type}</div>
-                                        </div> */}
-                        <div className="completed-table-row-item completed-table-order-1">
-                          <div className="completed-table-text-color">
-                            {po.purchaseOrder_id}
-                          </div>
-                        </div>
+          </header>
 
-                        <div className="completed-table-row-item completed-table-order-1">
-                          <div className="completed-table-text-color">
-                            {po.enquiry_id}
-                          </div>
-                        </div>
-                        <div className="completed-table-row-item  completed-table-order-2">
-                          <div className="table-text-color">
-                            {moment(po.created_at).format("DD/MM/YYYY")}
-                          </div>
-                        </div>
-                        <div className="completed-table-row-item completed-table-order-1">
-                          <div className="completed-table-text-color">
-                            {po?.po_status
-                              ? po?.po_status
-                                  .split(" ")
-                                  .map(
-                                    (word) =>
-                                      word.charAt(0).toUpperCase() +
-                                      word.slice(1)
-                                  )
-                                  .join(" ")
-                              : ""}
-                          </div>
-                        </div>
-                        <div className="completed-table-row-item  completed-order-table-btn completed-table-order-1">
-                          <Link
-                            to={`/admin/buyer-purchased-order-details/${po.purchaseOrder_id}`}
-                          >
-                            <div className="completed-order-table completed-order-table-view ">
-                              <RemoveRedEyeOutlinedIcon className="table-icon" />
-                            </div>
-                          </Link>
-                        </div>
-                      </div>
-                    ))
-                  ) : (
-                    <div class="pending-products-no-orders">
-                      No data available
-                    </div>
-                  )}
-                </tbody>
-              </Table>
-              <div className="completed-pagi-container">
-                <Pagination
-                  activePage={currentPage}
-                  itemsCountPerPage={listPerPage}
-                  totalItemsCount={totalList}
-                  pageRangeDisplayed={5}
-                  onChange={handlePageChange}
-                  itemClass="page-item"
-                  linkClass="page-link"
-                  prevPageText={
-                    <KeyboardDoubleArrowLeftIcon style={{ fontSize: "15px" }} />
-                  }
-                  nextPageText={
-                    <KeyboardDoubleArrowRightIcon
-                      style={{ fontSize: "15px" }}
-                    />
-                  }
-                  hideFirstLastPages={true}
-                />
-                <div className="completed-pagi-total">
-                  <div className="completed-pagi-total">
-                    Total Items: {totalList}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+          <DataTable
+            columns={columns}
+            data={list}
+            noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
+            persistTableHead
+            pagination={false}
+            responsive
+          />
+          <PaginationComponent
+            activePage={currentPage}
+            itemsCountPerPage={listPerPage}
+            totalItemsCount={totalList}
+            pageRangeDisplayed={10}
+            onChange={handlePageChange}
+          />
+        </>
       )}
-    </>
+    </section >
   );
 };
 

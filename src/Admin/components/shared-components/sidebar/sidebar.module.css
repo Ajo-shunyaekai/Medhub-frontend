@@ -6,8 +6,8 @@ body {
 
 .nav_container {
   width: 100%;
-  background-color: #f9f9fa;
-  padding: 5px 0px;
+  background-color: #f7f7f7;
+  padding: 10px 0px;
   position: fixed;
   z-index: 1;
 }
@@ -20,19 +20,11 @@ body {
 }
 
 .nav_img {
-  width: 250px;
-  padding: 5px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-   cursor: pointer !important;;
-  background-color: #f9f9fa;
-  gap: 1rem;
+  padding: 0px 10px;
 }
 
 .nav_img img {
-  width: 170px;
-  /* padding-left: 5px; */
+  width: 180px;
 }
 
 .nav_icon_color {
@@ -63,10 +55,14 @@ body {
 
 .nav_search_container {
   width: 100%;
-  padding: 5px 10px;
   display: flex;
   justify-content: end;
+  gap: 10px;
   align-items: center;
+  padding-right: 14px;
+}
+.notificationSection{
+  position: relative;
 }
 
 .nav_search {
@@ -91,18 +87,20 @@ body {
 }
 
 .nav_notifi_right {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  padding-right: 1.5rem;
+  display: flex
+  ;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      padding-right: 1.4rem;
 }
 
 .noti_container {
   background-color: white;
   position: absolute;
-  top: 100%;
-  right: 4%;
+  z-index: 9;
+  top: 110%;
+  right: 0%;
   width: 350px;
   border-radius: 5px;
   box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
@@ -178,7 +176,7 @@ body {
   color: #005ef7;
 }
 .dropdownText{
-  margin: 10px 12px 12px 0px;
+  cursor: pointer !important;
   display: flex !important;
   justify-content: space-between !important;
   width: 100%;
@@ -186,13 +184,13 @@ body {
 .profile_dropdown {
   background-color: white;
   position: absolute;
-  top: 100%;
+  z-index: 999;
+  top: 120%;
   right: 2%;
   padding: 0px 0px;
   width: 200px;
   border-radius: 4px;
-  box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em,
-    rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
+  box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
 }
 
 .profile_wrapper a {
@@ -251,15 +249,16 @@ body {
 }
 
 .sidebar_container {
-  display: flex;
-  width: 100%;
-  max-width: 100%;
-  position: fixed;
-  top: 44px;
+  display: flex
+  ;
+      width: 100%;
+      max-width: 100%;
+      position: fixed;
+      top: 46px;
 }
 
 main {
-  width: 100%;
+  width: 85%;
   height: 100vh;
   padding: 10px 20px;
   background-color: #f9f9fa;
@@ -269,17 +268,21 @@ main {
   margin-bottom: 10rem;
 }
 .sidebar {
-  width: 240px !important;
+  display: flex
+;
+    flex-direction: column;
+    gap: 20px;
+  width: 15% !important;
+  min-width: 200px !important;
   background-attachment: fixed;
   overflow: scroll;
   scrollbar-width: none;
-  background: #f5f5f6;
-  color: #fff;
+  background: #f5f5f5;
   height: 100vh;
   transition: all 0.5s;
-  padding: 1rem 0px;
+  padding: 20px;
   z-index: 4;
- cursor: pointer !important;;
+  cursor: pointer !important;
 }
 .sidebar::-webkit-scrollbar{
   display: none;
@@ -297,22 +300,18 @@ main {
 }
 
 .sidebar_text {
-  width: 180px;
   font-size: 14px;
-  display: flex;
+  display: flex
+;
   color: #5e676f;
+  gap: 10px;
   text-decoration: none;
   justify-content: start;
   align-items: center;
-  column-gap: 6px;
-  margin: 10px 0px 6px 10px;
-  border-radius: 5px;
 }
 
 .sidebar_text:hover {
   color: #282f86;
-  /* background-color: #e1e1e4;
-  padding: 0px 0px 0px 6px !important; */
 }
 
 .sidebar_text.active {
@@ -340,25 +339,35 @@ main {
   width: 20px !important;
   height: 20px !important;
 }
-
+.dropdown{
+  display: flex
+  ;
+      flex-direction: column;
+      gap: 16px;
+}
+.dropdownContent{
+  display: flex
+  ;
+      flex-direction: column;
+      gap: 16px;
+      padding-left: 26px;
+}
+.icons{
+  width: 10px !important;
+}
 .dropdownToggle {
-  display: flex;
+  cursor: pointer !important;
+  display: flex
+;
+  gap: 10px;
   justify-content: start;
   align-items: center;
-  gap: 12px;
   color: #5e676f;
   font-size: 14px;
-  margin-left: 12px;
 }
+
 /* Media quries start from here */
 @media screen and (max-width: 1350px) {
-  /* .mobile_order_btn {
-        display: block;
-    } */
-
-  /* .desktop_order_btn {
-        display: none;
-    } */
   .sidebar_text {
     width: 180px;
   }

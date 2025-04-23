@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useParams, useNavigate } from 'react-router-dom';
 import { MdProductionQuantityLimits } from "react-icons/md";
 import styles from '../../../../assets/style/secondsidebar.module.css';
 import NewProduct from './NewProductList';
@@ -14,70 +14,70 @@ const Product = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const { supplierId } = useParams();
     const { products } = useSelector((state) => state.productReducer);
     const [loading, setLoading] = useState(true);
-    const [totalItems, setTotalItems] = useState()
-    const [currentPage, setCurrentPage] = useState(1)
-    const itemsPerPage = 10
+    const [totalItems, setTotalItems] = useState();
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10;
     const [open, setOpen] = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
-    const path = location.pathname.split('/').filter(Boolean);;
+    const path = location.pathname.split('/').filter(Boolean);
     const lastPart = path[path.length - 1];
     const showButtonGroup = lastPart === 'newproduct' || lastPart === 'product';
+
     const [medicineType, setMedicineType] = useState(() => {
         switch (location.pathname) {
-            case '/admin/product/new-product':
-                return 'new-product';
-            case '/admin/product/secondary-product':
-                return 'secondary-product';
+            case `/admin/supplier/${supplierId}/products/new`:
+                return 'new';
+            case `/admin/supplier/${supplierId}/products/secondary`:
+                return 'secondary';
             default:
-                return 'new-product';
+                return 'new';
         }
     });
+
     const getActiveButtonFromPath = (path) => {
         switch (path) {
-            case '/admin/product/new-product':
-                return 'new-product';
-            case '/admin/product/secondary-product':
-                return 'secondary-product';
+            case `/admin/supplier/${supplierId}/products/new`:
+                return 'new';
+            case `/admin/supplier/${supplierId}/products/secondary`:
+                return 'secondary';
             default:
-                return 'new-product';
+                return 'new';
         }
     };
+
     const activeButton = getActiveButtonFromPath(location.pathname);
+
     const handleButtonClick = (button) => {
-        setCurrentPage(1)
+        setCurrentPage(1);
         switch (button) {
-            case 'new-product':
-                setMedicineType('new-product')
-                navigate('/admin/product/new-product');
+            case 'new':
+                setMedicineType('new');
+                navigate(`/admin/supplier/${supplierId}/products/new`);
                 break;
-            case 'secondary-product':
-                setMedicineType('secondary-product')
-                navigate('/admin/product/secondary-product');
+            case 'secondary':
+                setMedicineType('secondary');
+                navigate(`/admin/supplier/${supplierId}/products/secondary`);
                 break;
             default:
-                navigate('/admin/product/new-product');
+                navigate(`/admin/supplier/${supplierId}/products/new`);
         }
     };
+
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
+
     const handleSelectFile = (file) => {
         setSelectedFile(file);
     };
-    const handleUpdateProductUpload = () => {
-        if (selectedFile) {
-            const bulkFormData = new FormData();
-            bulkFormData.append("admin_id", localStorage.getItem("_id"));
-            bulkFormData.append("csvfile", selectedFile);
-            dispatch(bulkUpload(bulkFormData));
-        }
-    };
+
     const handleBulkUpload = () => {
         if (selectedFile) {
             const bulkFormData = new FormData();
-            bulkFormData.append("admin_id", localStorage.getItem("_id"));
+            bulkFormData.append("supplier_id", supplierId);
             bulkFormData.append("csvfile", selectedFile);
 
             dispatch(previewBulkProducts(bulkFormData)).then((response) => {
@@ -87,30 +87,34 @@ const Product = () => {
             });
         }
     };
-    useEffect(() => {
-        const adminIdSessionStorage = localStorage.getItem("admin_id");
-        const adminIdLocalStorage = localStorage.getItem("admin_id");
-        const admin_id = localStorage.getItem("_id") || localStorage.getItem("_id");
 
-        if (!adminIdSessionStorage && !adminIdLocalStorage) {
+    useEffect(() => {
+        const admin_id = localStorage.getItem("_id");
+        if (!admin_id) {
             localStorage.clear();
             navigate("/admin/login");
             return;
         }
-        const fetchData = async () => {
 
-            const marketType = activeButton === 'new-product' ? 'new' : 'secondary';
+        const fetchData = async () => {
+            setLoading(true);
+            const marketType = activeButton === 'new' ? 'new' : 'secondary';
             const response = await dispatch(
-                fetchProductsList(`product?market=${marketType}&admin_id=${admin_id}&page_no=${currentPage}&page_size=${itemsPerPage}`)
+                fetchProductsList(`product?market=${marketType}&supplier_id=${supplierId}&page_no=${currentPage}&page_size=${itemsPerPage}`)
             );
+            console.log("API Response:", response); // Debug API response
             if (response.meta.requestStatus === 'fulfilled') {
                 setTotalItems(response.payload?.totalItems);
+                setLoading(false);
+            } else {
+                console.error("Failed to fetch products:", response.error);
                 setLoading(false);
             }
         };
 
         fetchData();
-    }, [dispatch, currentPage, medicineType]);
+    }, [dispatch, currentPage, medicineType, supplierId]);
+
     return (
         <>
             {loading ? (
@@ -128,45 +132,39 @@ const Product = () => {
                     <div className={styles.content}>
                         <div className={styles.sidebar}>
                             <div
-                                className={`${styles.tab} ${activeButton === 'new-product' ? styles.active : ''}`}
-                                onClick={() => handleButtonClick('new-product')}
+                                className={`${styles.tab} ${activeButton === 'new' ? styles.active : ''}`}
+                                onClick={() => handleButtonClick('new')}
                             >
-                                <MdProductionQuantityLimits
-                                    className={styles.icon}
-                                />
+                                <MdProductionQuantityLimits className={styles.icon} />
                                 <div className={styles.text}>New Product</div>
-
-
                             </div>
                             <div
-                                className={`${styles.tab} ${activeButton === 'secondary-product' ? styles.active : ''}`}
-                                onClick={() => handleButtonClick('secondary-product')}
+                                className={`${styles.tab} ${activeButton === 'secondary' ? styles.active : ''}`}
+                                onClick={() => handleButtonClick('secondary')}
                             >
-                                <MdProductionQuantityLimits
-                                    className={styles.icon}
-                                />
+                                <MdProductionQuantityLimits className={styles.icon} />
                                 <div className={styles.text}>Secondary Market</div>
-
                             </div>
                         </div>
                         <div className={styles.main}>
-
-                            {activeButton === 'new-product' &&
+                            {activeButton === 'new' && (
                                 <NewProduct
                                     products={products?.products}
                                     totalItems={totalItems}
                                     currentPage={currentPage}
                                     itemsPerPage={itemsPerPage}
                                     handlePageChange={handlePageChange}
-                                />}
-                            {activeButton === 'secondary-product' &&
+                                />
+                            )}
+                            {activeButton === 'secondary' && (
                                 <SecondaryMarket
                                     products={products?.products}
                                     totalItems={totalItems}
                                     currentPage={currentPage}
                                     itemsPerPage={itemsPerPage}
                                     handlePageChange={handlePageChange}
-                                />}
+                                />
+                            )}
 
                             {open && (
                                 <FileUploadModal
@@ -183,8 +181,7 @@ const Product = () => {
                 </div>
             )}
         </>
-    )
-}
+    );
+};
 
 export default Product;
-

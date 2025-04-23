@@ -1,19 +1,9 @@
 import React, { useState } from 'react';
-import Pagination from 'react-js-pagination';
-import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
-import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+import PaginationComponent from '../../../shared-components/Pagination/Pagination'; 
 
-const SellerInquiryProductList = ({ items, setCounterChecked, setAcceptChecked, setQuotationItems, inquiryDetails, quotation }) => {
+const SellerInquiryProductList = ({ items}) => {
     const [currentPage, setCurrentPage] = useState(1);
-    const [prices, setPrices] = useState({});
     const ordersPerPage = 10;
-
-    const activeOrders = [
-        { productId: 'PR1234567', productName: 'Paracetamol (acetaminophen)', quantity: 200, targetprice: '10 USD' },
-        { productId: 'PR1234568', productName: 'Ibuprofen', quantity: 100, targetprice: '14 USD' },
-        { productId: 'PR1234569', productName: 'Aspirin', quantity: 150, targetprice: '18 USD' },
-    ];
-
     const indexOfLastOrder = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
     const currentOrders = items?.slice(indexOfFirstOrder, indexOfLastOrder);
@@ -22,12 +12,9 @@ const SellerInquiryProductList = ({ items, setCounterChecked, setAcceptChecked, 
         setCurrentPage(pageNumber);
     };
 
-
     return (
         <div className="card-body">
-            <div>
                 <div className="table-assign-driver-heading">Product List</div>
-            </div>
             <table className="table">
                 <tbody>
                 {currentOrders?.map((item, i) => (
@@ -65,13 +52,6 @@ const SellerInquiryProductList = ({ items, setCounterChecked, setAcceptChecked, 
                                 </span>
                             </div>
                         </td>
-                        {/* <td className='tables-td'>
-                            <div className="table-g-section-content">
-                                <span className="table-g-driver-name">Counter Price</span>
-                                <span className="table-g-not-name">
-                                </span>
-                            </div>
-                        </td> */}
                         <td className='tables-td'>
                             <div className="table-g-section-content">
                                 <span className="table-g-driver-name">Est. Delivery Time</span>
@@ -93,25 +73,17 @@ const SellerInquiryProductList = ({ items, setCounterChecked, setAcceptChecked, 
                             </div>
                         </td>
                     </tr>
-                     ))}
+                ))}
                 </tbody>
             </table>
             <div className='pagi-container'>
-                <Pagination
+                <PaginationComponent
                     activePage={currentPage}
                     itemsCountPerPage={ordersPerPage}
                     totalItemsCount={items?.length}
-                    pageRangeDisplayed={5}
+                    pageRangeDisplayed={10}
                     onChange={handlePageChange}
-                    itemClass="page-item"
-                    linkClass="page-link"
-                    prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
-                    nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
-                    hideFirstLastPages={true}
                 />
-                <div className='pagi-total'>
-                    <div>Total Items: {items?.length}</div>
-                </div>
             </div>
         </div>
     );

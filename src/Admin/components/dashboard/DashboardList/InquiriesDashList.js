@@ -52,7 +52,7 @@ const InquiriesDashList = () => {
   const [list, setList] = useState([]);
   const [totalList, setTotalList] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const ordersPerPage = 5;
+  const ordersPerPage = 10;
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -74,16 +74,7 @@ const InquiriesDashList = () => {
       pageSize: ordersPerPage,
     };
 
-    if (activeLink === "request") {
-      // postRequestWithToken("admin/get-inquiry-list", obj, (response) => {
-      //   if (response?.code === 200) {
-      //     setList(response.result.data);
-      //     setTotalList(response.result.totalItems);
-      //   } else {
-      //   }
-      //   setLoading(false);
-      // });
-      
+    if (activeLink === "request") {  
       try {
         const response = await apiRequests.getRequest(
           `enquiry/get-all-enquiry-list?pageNo=${currentPage}&pageSize=${ordersPerPage}&filterKey=${activeLink}&filterValue=${filterValue}`
@@ -92,12 +83,6 @@ const InquiriesDashList = () => {
           setList(response.result.data);
           setTotalList(response.result.totalItems);
         }
-        // postRequestWithToken(`enquiry/get-all-enquiry-list?pageNo=${currentPage}&pageSize=${listPerPage}&filterValue=${activeLink}`, obj, async (response) => {
-        //     if (response?.code == 200) {
-        //         setList(response.result.data);
-        //         setTotalList(response.result.totalItems);
-        //     }
-        // })
       } catch (error) {
       } finally {
         setLoading(false);
@@ -121,37 +106,33 @@ const InquiriesDashList = () => {
   }, [activeLink, currentPage]);
 
   return (
-    <>
-      <div className={styles[`order-container`]}>
-        <div className={styles["complete-container-order-section"]}>
-          <div className={styles["complete-conatiner-head"]}>Inquiries</div>
+  
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <div className={styles.title}>Inquiries</div>
         </div>
-        <div className={styles[`order-wrapper`]}>
-          <div className={styles[`order-wrapper-left`]}>
+        <div className={styles.content}>
+          <div className={styles.sidebar}>
             <div
               onClick={() => handleLinkClick("request")}
-              className={`${activeLink === "request" ? styles.active : ""} ${
-                styles["order-wrapper-left-text"]
-              }`}
+              className={`${activeLink === "request" ? styles.active : ""} ${styles.tab}`}
             >
               <DescriptionOutlinedIcon
-                className={styles["order-wrapper-left-icons"]}
+                className={styles.icon}
               />
-              <div className="inquiry-content-navbar">Inquiry Requests</div>
+              <div className={styles.text}>Inquiry Requests</div>
             </div>
             <div
               onClick={() => handleLinkClick("ongoing")}
-              className={`${activeLink === "ongoing" ? styles.active : ""} ${
-                styles["order-wrapper-left-text"]
-              }`}
+              className={`${activeLink === "ongoing" ? styles.active : ""} ${styles.tab}`}
             >
               <DescriptionOutlinedIcon
-                className={styles["order-wrapper-left-icons"]}
+               className={styles.icon}
               />
-              <div className="inquiry-content-navbar">Ongoing Inquiries</div>
+              <div className={styles.text}>Ongoing Inquiries</div>
             </div>
           </div>
-          <div className={styles[`order-wrapper-right`]}>
+          <div className={styles.main}>
             {activeLink === "ongoing" && (
               <TotalOngoingInquiries
                 list={list}
@@ -175,7 +156,7 @@ const InquiriesDashList = () => {
           </div>
         </div>
       </div>
-    </>
+   
   );
 };
 

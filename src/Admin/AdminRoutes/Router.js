@@ -263,7 +263,7 @@ const Product = lazy(() => import("../components/manage-supplier/Product/List/Pr
 const NewProduct = lazy(() =>import("../components/manage-supplier/Product/List/NewProductList.js"));
 const SecondaryProduct = lazy(() =>import("../components/manage-supplier/Product/List/SecondaryProductList.js"));
 // const AddProduct = lazy(() =>import("../components/manage-supplier/Product/AddProduct/Addproduct.js"));
-const PreviewFile = lazy(() =>import("../components/manage-supplier/Product/AddProduct/PreviewFile/PreviewFile.jsx"));
+const PreviewFile = lazy(() =>import("../components/manage-supplier/Product/PreviewFile/PreviewFile.jsx"));
 // End supplier individual product routes
 const socket = io.connect(process.env.REACT_APP_SERVER_URL);
 
@@ -450,6 +450,15 @@ const router = createBrowserRouter([
           </Suspense>
         ),
       },
+      {
+        path: "preview-file",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <PreviewFile socket={socket} />
+          </Suspense>
+        ),
+      },
+    
       {
         path: "total-request-list",
         element: (
@@ -1061,7 +1070,7 @@ const router = createBrowserRouter([
 
   // start Supplier product section
   {
-    path: "product",
+    path: "supplier/:supplierId/products",
     element: (
       <Suspense fallback={<Loader />}>
         <Product socket={socket} />
@@ -1069,7 +1078,7 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        path: "new-product",
+        path: "new",
         element: (
           <Suspense fallback={<Loader />}>
             <NewProduct socket={socket} />
@@ -1077,7 +1086,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "secondary-product",
+        path: "secondary",
         element: (
           <Suspense fallback={<Loader />}>
             <SecondaryProduct socket={socket} />
@@ -1094,15 +1103,7 @@ const router = createBrowserRouter([
   //     </Suspense>
   //   ),
   // },
-  {
-    path: "preview-file",
-    element: (
-      <Suspense fallback={<Loader />}>
-        <PreviewFile socket={socket} />
-      </Suspense>
-    ),
-  },
-
+ 
  // end Supplier product section
       
      

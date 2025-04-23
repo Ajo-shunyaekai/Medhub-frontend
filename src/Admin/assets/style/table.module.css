@@ -12,6 +12,13 @@
     -ms-overflow-style: none;
     margin: auto;
 }
+.mainInvoicecontainer{
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+    padding: 26px 20px;
+    width: 100%;
+}
 .container::-webkit-scrollbar{
     display: none;
 }

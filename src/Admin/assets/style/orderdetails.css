@@ -5,7 +5,7 @@
   background-attachment: fixed;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  max-width: 90%;
+  max-width: 98%;
   display: flex;
   flex-direction: column;
   row-gap: 20px;
@@ -32,9 +32,23 @@
     line-height: 20px;
      cursor: pointer !important;;
 }
-.active-order-details-conatiner-heading {
+.order-details-id-name{
   font-size: 20px;
   font-weight: 600;
+}
+.active-details-medicine-details{
+  font-size: 14px;
+}
+.active-order-details-link-tag{
+  font-size: 14px;
+  color: #5e676f !important;
+}
+.active-order-details-conatiner-heading {
+  font-size: 20px;
+  display: flex
+;
+  font-weight: 600;
+  flex-direction: column;
 }
 .active-order-details-section {
   width: 100%;

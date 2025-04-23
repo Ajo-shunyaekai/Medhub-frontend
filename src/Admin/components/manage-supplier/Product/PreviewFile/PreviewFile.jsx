@@ -4,11 +4,11 @@ import {
   bulkUpload,
   csvDownload,
   previewBulkProducts,
-} from "../../../../../../redux/reducers/productSlice";
+} from "../../../../../redux/reducers/productSlice";
  
 import DataTable from "react-data-table-component";
 import styles from "./PreviewFile.module.css";
-import FileUploadModal from "../../FileUpload/FileUpload";
+import FileUploadModal from "../FileUpload/FileUpload";
 import { Link, useNavigate } from "react-router-dom";
  
 function PreviewFile() {
@@ -42,7 +42,7 @@ function PreviewFile() {
     dispatch(csvDownload(previewProducts?.entriesWithErrors)).then(
       (response) => {
         if (response?.meta.requestStatus === "fulfilled") {
-          navigate("/supplier/preview-file");
+          navigate("/admin/preview-file");
         }
       }
     );
@@ -56,8 +56,8 @@ function PreviewFile() {
  
       dispatch(previewBulkProducts(bulkFormData)).then((response) => {
         if (response?.meta.requestStatus === "fulfilled") {
-          setIsErrorFreeDataUploaded(false); // Mark that the error-free data is uploaded successfully
-          // navigate("/supplier/preview-file");
+          setIsErrorFreeDataUploaded(false);
+
         }
       });
     }
@@ -75,15 +75,16 @@ function PreviewFile() {
     dispatch(bulkUpload(payloadData))?.then((response) => {
       if (response?.meta.requestStatus === "fulfilled") {
         setHasErrorEntries(false);
-        setIsErrorFreeDataUploaded(true); // Mark that the error-free data is uploaded successfully
+        setIsErrorFreeDataUploaded(true);
         previewProducts?.entriesWithErrors?.length == 0 &&
-          navigate("/supplier/product");
+          navigate("/admin/product/new-product");
       }
     });
   };
  
   return (
-    <>
+   
+    
       <div className={styles.previewContainer}>
         <div className={styles.tableHeader}>
           <h4>Products Preview</h4>
@@ -171,12 +172,12 @@ function PreviewFile() {
                         key,
                         heading
                       )}px`,
-                      style: {
-                        textAlign: "left",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap",
-                      },
+                      // style: {
+                      //   textAlign: "left",
+                      //   overflow: "hidden",
+                      //   textOverflow: "ellipsis",
+                      //   whiteSpace: "nowrap",
+                      // },
                       cell: (row) => {
                         const hasError = row[key]?.error;
                         return (
@@ -206,12 +207,11 @@ function PreviewFile() {
                     },
                   },
                 ]}
-                // fixedHeaderScrollHeight="calc(100vh - 140px)"
               />
             </div>
           </div>
-        )}
-      </div>
+        )}  
+      
  
       {open && (
         <FileUploadModal
@@ -223,7 +223,8 @@ function PreviewFile() {
           selectedFile={selectedFile}
         />
       )}
-    </>
+      </div>
+   
   );
 }
  
