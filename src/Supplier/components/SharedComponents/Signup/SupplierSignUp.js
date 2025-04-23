@@ -506,41 +506,41 @@ const SupplierSignUp = ({ socket }) => {
     if (!formData.categories.length)
       formErrors.categories = "Trade In Category is Required";
    
-    if (!formData.companyLicenseExpiry) {
-      formErrors.companyLicenseExpiry =
-        "Company License Expiry Date is Required";
-    } else {
-      // Check if date is in valid format
-      const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
-      if (!dateRegex.test(formData.companyLicenseExpiry)) {
-        formErrors.companyLicenseExpiry =
-          "Please enter date in DD-MM-YYYY format";
-      } else {
-        const [day, month, year] = formData.companyLicenseExpiry
-          .split("-")
-          .map(Number);
-        const inputDate = new Date(year, month - 1, day);
-        const currentDate = new Date();
+    // if (!formData.companyLicenseExpiry) {
+    //   formErrors.companyLicenseExpiry =
+    //     "Company License Expiry Date is Required";
+    // } else {
+    //   // Check if date is in valid format
+    //   const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
+    //   if (!dateRegex.test(formData.companyLicenseExpiry)) {
+    //     formErrors.companyLicenseExpiry =
+    //       "Please enter date in DD-MM-YYYY format";
+    //   } else {
+    //     const [day, month, year] = formData.companyLicenseExpiry
+    //       .split("-")
+    //       .map(Number);
+    //     const inputDate = new Date(year, month - 1, day);
+    //     const currentDate = new Date();
 
-        // Reset time parts for accurate comparison
-        currentDate.setHours(0, 0, 0, 0);
-        inputDate.setHours(0, 0, 0, 0);
+    //     // Reset time parts for accurate comparison
+    //     currentDate.setHours(0, 0, 0, 0);
+    //     inputDate.setHours(0, 0, 0, 0);
 
-        // Check if it's a valid date (e.g., not 31st Feb)
-        if (
-          inputDate.getFullYear() !== year ||
-          inputDate.getMonth() !== month - 1 ||
-          inputDate.getDate() !== day
-        ) {
-          formErrors.companyLicenseExpiry = "Please enter a valid date";
-        }
-        // Check if date is in the future
-        else if (inputDate <= currentDate) {
-          formErrors.companyLicenseExpiry =
-            "License expiry date must be a future date";
-        }
-      }
-    }
+    //     // Check if it's a valid date (e.g., not 31st Feb)
+    //     if (
+    //       inputDate.getFullYear() !== year ||
+    //       inputDate.getMonth() !== month - 1 ||
+    //       inputDate.getDate() !== day
+    //     ) {
+    //       formErrors.companyLicenseExpiry = "Please enter a valid date";
+    //     }
+    //     // Check if date is in the future
+    //     else if (inputDate <= currentDate) {
+    //       formErrors.companyLicenseExpiry =
+    //         "License expiry date must be a future date";
+    //     }
+    //   }
+    // }
    
     if (!formData.bankdetails) {
       formErrors.bankdetails = "Bank Details are Required";
@@ -598,7 +598,7 @@ const SupplierSignUp = ({ socket }) => {
         formErrors.certificateFileNDate = fileErrors.join(", ");
       }
     }
-
+    console.log('formErrors',formErrors)
     setErrors(formErrors);
 
     return Object.keys(formErrors).length === 0;
