@@ -36,7 +36,6 @@ const AdmSidebar = ({
   const [isDropOpen, setIsDropOpen] = useState(false);
   const [isSellerOpen, setIsSellerOpen] = useState(false);
   const [isManageOpen, setIsManageOpen] = useState(false);
-
   const [isIconOpen, setIsIconOpen] = useState(false);
   const [isBuyerIconOpen, setIsBuyerIconOpen] = useState(false);
   const [isProductIconOpen, setIsProductIconOpen] = useState(false);
@@ -78,8 +77,6 @@ const AdmSidebar = ({
     };
 
     document.addEventListener("fullscreenchange", handleFullScreenChange);
-
-    // Cleanup the event listener on component unmount
     return () => {
       document.removeEventListener("fullscreenchange", handleFullScreenChange);
     };
@@ -97,14 +94,12 @@ const AdmSidebar = ({
   // Notification and profile dropdown code here
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-
   const notificationRef = useRef(null);
   const profileRef = useRef(null);
-
   const NotificationDropdown = () => {
     setIsNotificationOpen(!isNotificationOpen);
-    setIsProfileOpen(false); // Close profile dropdown if open
-    handleClick(); // for notification status update
+    setIsProfileOpen(false); 
+    handleClick(); 
   };
 
   const ProfileDropdown = () => {
@@ -187,7 +182,7 @@ const AdmSidebar = ({
     setIsDropdown(!isDropdown);
   };
   const DrawerList = (
-    <Box sx={{ width: 200 }} role="presentation" onClick={toggleDrawer(true)}>
+    <Box sx={{ width: 240 }} role="presentation" onClick={toggleDrawer(true)}>
       <Link
         to="/admin"
         className={styles.sidebar_text}
@@ -211,7 +206,7 @@ const AdmSidebar = ({
               {" "}
               <TocOutlinedIcon style={{ color: "#31c971", fontSize: "20px" }} />
             </div>
-            <div style={{ marginLeft: "10px", padding: "5px 0px" }}>Orders</div>
+            <div >Orders</div>
           </div>
           {isDropdown && (
             <div className={styles.accordion_content}>
@@ -244,7 +239,7 @@ const AdmSidebar = ({
               </Link>
             </div>
           )}
-          <div className={styles.dropdown} style={{ marginTop: "8px" }}>
+          <div className={styles.dropdown}>
             <div
               className={styles.dropdownToggle}
               onClick={toggleSellerDropdown}
@@ -258,9 +253,11 @@ const AdmSidebar = ({
               >
                 Manage Supplier
                 {isIconOpen ? (
-                  <KeyboardArrowUpOutlinedIcon style={{ color: "#5e676f" }} />
+                   <KeyboardArrowUpOutlinedIcon style={{ color: "#5e676f", cursor:"pointer" }} /> 
                 ) : (
-                  <KeyboardArrowDownOutlinedIcon style={{ color: "#5e676f" }} />
+                   <KeyboardArrowDownOutlinedIcon
+                      style={{ color: "#5e676f", cursor:"pointer" }}
+                    />
                 )}
               </div>
             </div>
@@ -271,13 +268,9 @@ const AdmSidebar = ({
                   className={styles.sidebar_text}
                   activeclassname={styles.active}
                 >
-                  <FiberManualRecordIcon
-                    style={{
-                      color: "#d3d3d3",
-                      fontSize: "12px",
-                      marginLeft: "10px",
-                    }}
-                  />
+                   <FiberManualRecordIcon className={styles.icons}/>
+                 
+               
                   <div className={styles.sidebar_text}>Supplier Requests</div>
                 </Link>
                 <Link
@@ -285,13 +278,9 @@ const AdmSidebar = ({
                   className={styles.sidebar_text}
                   activeclassname={styles.active}
                 >
-                  <FiberManualRecordIcon
-                    style={{
-                      color: "#d3d3d3",
-                      fontSize: "12px",
-                      marginLeft: "10px",
-                    }}
-                  />
+                   <FiberManualRecordIcon className={styles.icons}/>
+                  
+             
                   <div className={styles.sidebar_text}>Approved Supplier</div>
                 </Link>
                 <Link
@@ -299,13 +288,9 @@ const AdmSidebar = ({
                   className={styles.sidebar_text}
                   activeclassname={styles.active}
                 >
-                  <FiberManualRecordIcon
-                    style={{
-                      color: "#d3d3d3",
-                      fontSize: "12px",
-                      marginLeft: "10px",
-                    }}
-                  />
+                   <FiberManualRecordIcon className={styles.icons}/>
+                   
+               
                   <div className={styles.sidebar_text}>Rejected Supplier </div>
                 </Link>
 
@@ -314,13 +299,9 @@ const AdmSidebar = ({
                   className={styles.sidebar_text}
                   activeclassname={styles.active}
                 >
-                  <FiberManualRecordIcon
-                    style={{
-                      color: "#d3d3d3",
-                      fontSize: "12px",
-                      marginLeft: "10px",
-                    }}
-                  />
+                   <FiberManualRecordIcon className={styles.icons}/>
+                  
+          
                   <div className={styles.sidebar_text}>
                     Supplier Transaction
                   </div>
@@ -330,13 +311,9 @@ const AdmSidebar = ({
                   className={styles.sidebar_text}
                   activeclassname={styles.active}
                 >
-                  <FiberManualRecordIcon
-                    style={{
-                      color: "#d3d3d3",
-                      fontSize: "12px",
-                      marginLeft: "10px",
-                    }}
-                  />
+                   <FiberManualRecordIcon className={styles.icons}/>
+                  
+            
                   <div className={styles.sidebar_text}>Support</div>
                 </Link>
                 <Link
@@ -344,20 +321,16 @@ const AdmSidebar = ({
                   className={styles.sidebar_text}
                   activeclassname={styles.active}
                 >
-                  <FiberManualRecordIcon
-                    style={{
-                      color: "#d3d3d3",
-                      fontSize: "12px",
-                      marginLeft: "10px",
-                    }}
-                  />
+                   <FiberManualRecordIcon className={styles.icons}/>
+                  
+           
                   <div className={styles.sidebar_text}>Invoices </div>
                 </Link>
               </div>
             )}
           </div>
 
-          <div className={styles.dropdown} style={{ marginTop: "8px" }}>
+          <div className={styles.dropdown}>
             <div className={styles.dropdownToggle} onClick={toggleDropdown}>
               <LocalShippingOutlinedIcon
                 style={{ color: "#31c971", fontSize: "20px" }}
@@ -368,9 +341,11 @@ const AdmSidebar = ({
               >
                 Manage Buyer
                 {isBuyerIconOpen ? (
-                  <KeyboardArrowUpOutlinedIcon style={{ color: "#5e676f" }} />
+                   <KeyboardArrowUpOutlinedIcon style={{ color: "#5e676f", cursor:"pointer" }} />
                 ) : (
-                  <KeyboardArrowDownOutlinedIcon style={{ color: "#5e676f" }} />
+                   <KeyboardArrowDownOutlinedIcon
+                      style={{ color: "#5e676f", cursor:"pointer" }}
+                    /> 
                 )}
               </div>
             </div>
@@ -381,13 +356,9 @@ const AdmSidebar = ({
                   className={styles.sidebar_text}
                   activeclassname={styles.active}
                 >
-                  <FiberManualRecordIcon
-                    style={{
-                      color: "#d3d3d3",
-                      fontSize: "12px",
-                      marginLeft: "10px",
-                    }}
-                  />
+                   <FiberManualRecordIcon className={styles.icons}/>
+                    
+             
                   <div className={styles.sidebar_text}>Buyer Requests</div>
                 </Link>
                 <Link
@@ -395,13 +366,9 @@ const AdmSidebar = ({
                   className={styles.sidebar_text}
                   activeclassname={styles.active}
                 >
-                  <FiberManualRecordIcon
-                    style={{
-                      color: "#d3d3d3",
-                      fontSize: "12px",
-                      marginLeft: "10px",
-                    }}
-                  />
+                   <FiberManualRecordIcon className={styles.icons}/>
+                   
+           
                   <div className={styles.sidebar_text}>Approved Buyer</div>
                 </Link>
                 <Link
@@ -409,13 +376,9 @@ const AdmSidebar = ({
                   className={styles.sidebar_text}
                   activeclassname={styles.active}
                 >
-                  <FiberManualRecordIcon
-                    style={{
-                      color: "#d3d3d3",
-                      fontSize: "12px",
-                      marginLeft: "10px",
-                    }}
-                  />
+                   <FiberManualRecordIcon className={styles.icons}/>
+                   
+              
                   <div className={styles.sidebar_text}>Rejected Buyer </div>
                 </Link>
                 <Link
@@ -423,13 +386,9 @@ const AdmSidebar = ({
                   className={styles.sidebar_text}
                   activeclassname={styles.active}
                 >
-                  <FiberManualRecordIcon
-                    style={{
-                      color: "#d3d3d3",
-                      fontSize: "12px",
-                      marginLeft: "10px",
-                    }}
-                  />
+                   <FiberManualRecordIcon className={styles.icons}/>
+                    
+           
                   <div className={styles.sidebar_text}>Buyer Transaction</div>
                 </Link>
                 <Link
@@ -437,13 +396,9 @@ const AdmSidebar = ({
                   className={styles.sidebar_text}
                   activeclassname={styles.active}
                 >
-                  <FiberManualRecordIcon
-                    style={{
-                      color: "#d3d3d3",
-                      fontSize: "12px",
-                      marginLeft: "10px",
-                    }}
-                  />
+                   <FiberManualRecordIcon className={styles.icons}/>
+                 
+              
                   <div className={styles.sidebar_text}>Support</div>
                 </Link>
                 <Link
@@ -451,13 +406,9 @@ const AdmSidebar = ({
                   className={styles.sidebar_text}
                   activeclassname={styles.active}
                 >
-                  <FiberManualRecordIcon
-                    style={{
-                      color: "#d3d3d3",
-                      fontSize: "12px",
-                      marginLeft: "10px",
-                    }}
-                  />
+                   <FiberManualRecordIcon className={styles.icons}/>
+                   
+             
                   <div className={styles.sidebar_text}>Invoices </div>
                 </Link>
               </div>
@@ -478,9 +429,11 @@ const AdmSidebar = ({
                 Manage Products{" "}
               </div>
               {isProductIconOpen ? (
-                <KeyboardArrowUpOutlinedIcon style={{ color: "#5e676f" }} />
+                 <KeyboardArrowUpOutlinedIcon style={{ color: "#5e676f", cursor:"pointer" }} /> 
               ) : (
-                <KeyboardArrowDownOutlinedIcon style={{ color: "#5e676f" }} />
+                 <KeyboardArrowDownOutlinedIcon
+                      style={{ color: "#5e676f", cursor:"pointer" }}
+                    /> 
               )}
             </div>
             {isOpen && isManageOpen && (
@@ -490,28 +443,14 @@ const AdmSidebar = ({
                   className={styles.sidebar_text}
                   activeclassname={styles.active}
                 >
-                  <FiberManualRecordIcon
-                    style={{
-                      color: "#d3d3d3",
-                      fontSize: "12px",
-                      marginLeft: "10px",
-                    }}
-                  />
+                   <FiberManualRecordIcon className={styles.icons}/>
+                   
+              
                   <div className={styles.sidebar_text}>Products</div>
                 </Link>
               </div>
             )}
           </div>
-
-          {/* <Link to="/products" className={styles.sidebar_text} activeclassname={styles.active}>
-            <div className={styles.icon}><ManageAccountsOutlinedIcon style={{ color: '#f54394', fontSize: '20px' }} /></div>
-            <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Products</div>
-          </Link> */}
-
-          {/* <Link to="#" className={styles.sidebar_text} activeclassname={styles.active}>
-            <div className={styles.icon}><ManageAccountsOutlinedIcon style={{ color: '#f54394', fontSize: '20px' }} /></div>
-            <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Manage Commission</div>
-          </Link> */}
         </div>
       </Box>
     </Box>
@@ -520,21 +459,16 @@ const AdmSidebar = ({
   // ======================
   const [sidebarWidth, setSidebarWidth] = useState(0);
   useEffect(() => {
-    // Function to calculate sidebar width
     const calculateSidebarWidth = () => {
       const width = document.querySelector(".sidebar")?.offsetWidth;
       setSidebarWidth(width);
     };
-
-    // Call the function initially and on window resize
     calculateSidebarWidth();
     window.addEventListener("resize", calculateSidebarWidth);
-
-    // Cleanup on unmount
     return () => {
       window.removeEventListener("resize", calculateSidebarWidth);
     };
-  }, []); // Empty dependency array to run this effect only once on mount
+  }, []);
 
   const handleNavigation = (notificationId, event, eventId, linkId) => {
     const eventRoutes = {
@@ -549,14 +483,12 @@ const AdmSidebar = ({
     const route = eventRoutes[event] || "/admin/";
     setIsNotificationOpen(false);
     navigate(route);
-    // handleClick(notificationId, event); // Uncomment this if needed
   };
 
   const handleNotificationNavigate = () => {
     setIsNotificationOpen(false);
     navigate(`/admin/notification-list`);
   };
-  // ======================
   return (
     <>
       {/* Header Bar Code start from here  */}
@@ -566,31 +498,11 @@ const AdmSidebar = ({
             <Link to="/admin">
               <img src={DeliverLogo} alt="Deliver Logo" />
             </Link>
-            {/* <MenuOutlinedIcon
-              className={`${styles.nav_icon_color} ${styles.bar_icon}`}
-              onClick={toggle}
-            /> */}
+            
           </div>
 
-          <div className={styles.nav_search_container}>
-            <div className={`${styles.nav_search} ${styles.nav_search_one}`}>
-              <SearchOutlinedIcon className={styles.nav_icon_color} />
-              <input
-                type="text"
-                placeholder="Search products..."
-                className={styles.product_search_input}
-              />
-            </div>
-            <div className={styles.nav_notifi_right}>
-              {/* <CropFreeOutlinedIcon
-                className={styles.nav_icon_color}
-                onClick={toggleFullScreen}
-              /> */}
-              <SearchOutlinedIcon
-                className={styles.nav_icon_color_two}
-                onClick={toggleSearchBar}
-              />
-              <div ref={notificationRef}>
+          <div className={styles.nav_search_container}>     
+              <div className={styles.notificationSection} ref={notificationRef}>
                 <Badge
                   badgeContent={count > 9 ? "9+" : count}
                   color="secondary"
@@ -606,10 +518,9 @@ const AdmSidebar = ({
                       <div className={styles.noti_top_wrapper}>
                         {notificationList && notificationList.length > 0 ? (
                           notificationList.slice(0, 5).map((data, i) => {
-                            // Split the message into heading and content
                             const words = data.message.split(" ");
-                            const heading = words.slice(0, 2).join(" "); // First two words
-                            const content = words.slice(2).join(" "); // Remaining content
+                            const heading = words.slice(0, 2).join(" "); 
+                            const content = words.slice(2).join(" ");
 
                             return (
                               <div
@@ -665,7 +576,7 @@ const AdmSidebar = ({
                   </div>
                 )}
               </div>
-              <div ref={profileRef}>
+              <div className={styles.notificationSection} ref={profileRef}>
                 <AccountCircleOutlinedIcon
                   className={styles.nav_icon_color}
                   onClick={ProfileDropdown}
@@ -711,7 +622,6 @@ const AdmSidebar = ({
                 />
               </div>
             </div>
-          </div>
         </div>
         {isSearchVisible && (
           <div className={`${styles.nav_search} ${styles.nav_search_two}`}>
@@ -729,7 +639,7 @@ const AdmSidebar = ({
       <div className={styles.sidebar_container}>
         {isIcon ? (
           <div
-            style={{ width: isOpen ? "200px" : "50px" }}
+            style={{ width: isOpen ? "250px" : "50px" }}
             className={styles.sidebar}
           >
             <Link
@@ -798,7 +708,7 @@ const AdmSidebar = ({
               )}
             </div>
             {/* =========================== */}
-            <div className={styles.dropdown} style={{ marginTop: "8px" }}>
+            <div className={styles.dropdown} >
               <div
                 className={styles.dropdownToggle}
                 onClick={toggleSellerDropdown}
@@ -812,11 +722,12 @@ const AdmSidebar = ({
                 >
                   Manage Supplier
                   {isIconOpen ? (
-                    <KeyboardArrowUpOutlinedIcon style={{ color: "#5e676f" }} />
+                     <KeyboardArrowUpOutlinedIcon style={{ color: "#5e676f", cursor:"pointer" }} /> 
                   ) : (
-                    <KeyboardArrowDownOutlinedIcon
-                      style={{ color: "#5e676f" }}
+                     <KeyboardArrowDownOutlinedIcon
+                      style={{ color: "#5e676f", cursor:"pointer" }}
                     />
+                     
                   )}
                 </div>
               </div>
@@ -827,13 +738,7 @@ const AdmSidebar = ({
                     className={styles.sidebar_text}
                     activeclassname={styles.active}
                   >
-                    <FiberManualRecordIcon
-                      style={{
-                        color: "#d3d3d3",
-                        fontSize: "12px",
-                        marginLeft: "10px",
-                      }}
-                    />
+                     <FiberManualRecordIcon className={styles.icons}/>
                     <div className={styles.sidebar_text}>Supplier Requests</div>
                   </Link>
                   <Link
@@ -841,13 +746,9 @@ const AdmSidebar = ({
                     className={styles.sidebar_text}
                     activeclassname={styles.active}
                   >
-                    <FiberManualRecordIcon
-                      style={{
-                        color: "#d3d3d3",
-                        fontSize: "12px",
-                        marginLeft: "10px",
-                      }}
-                    />
+                     <FiberManualRecordIcon className={styles.icons}/>
+                    
+                    
                     <div className={styles.sidebar_text}>Approved Supplier</div>
                   </Link>
                   <Link
@@ -855,13 +756,9 @@ const AdmSidebar = ({
                     className={styles.sidebar_text}
                     activeclassname={styles.active}
                   >
-                    <FiberManualRecordIcon
-                      style={{
-                        color: "#d3d3d3",
-                        fontSize: "12px",
-                        marginLeft: "10px",
-                      }}
-                    />
+                     <FiberManualRecordIcon className={styles.icons}/>
+                      
+                   
                     <div className={styles.sidebar_text}>
                       Rejected Supplier{" "}
                     </div>
@@ -871,13 +768,9 @@ const AdmSidebar = ({
                     className={styles.sidebar_text}
                     activeclassname={styles.active}
                   >
-                    <FiberManualRecordIcon
-                      style={{
-                        color: "#d3d3d3",
-                        fontSize: "12px",
-                        marginLeft: "10px",
-                      }}
-                    />
+                     <FiberManualRecordIcon className={styles.icons}/>
+                     
+                 
                     <div className={styles.sidebar_text}>
                       Supplier Transaction
                     </div>
@@ -887,13 +780,9 @@ const AdmSidebar = ({
                     className={styles.sidebar_text}
                     activeclassname={styles.active}
                   >
-                    <FiberManualRecordIcon
-                      style={{
-                        color: "#d3d3d3",
-                        fontSize: "12px",
-                        marginLeft: "10px",
-                      }}
-                    />
+                     <FiberManualRecordIcon className={styles.icons}/>
+                     
+                   
                     <div className={styles.sidebar_text}>Inquiry</div>
                   </Link>
                   <Link
@@ -901,13 +790,9 @@ const AdmSidebar = ({
                     className={styles.sidebar_text}
                     activeclassname={styles.active}
                   >
-                    <FiberManualRecordIcon
-                      style={{
-                        color: "#d3d3d3",
-                        fontSize: "12px",
-                        marginLeft: "10px",
-                      }}
-                    />
+                     <FiberManualRecordIcon className={styles.icons}/>
+                    
+                  
                     <div className={styles.sidebar_text}>Order</div>
                   </Link>
                   <Link
@@ -915,13 +800,9 @@ const AdmSidebar = ({
                     className={styles.sidebar_text}
                     activeclassname={styles.active}
                   >
-                    <FiberManualRecordIcon
-                      style={{
-                        color: "#d3d3d3",
-                        fontSize: "12px",
-                        marginLeft: "10px",
-                      }}
-                    />
+                     <FiberManualRecordIcon className={styles.icons}/>
+                     
+                    
                     <div className={styles.sidebar_text}>Invoices </div>
                   </Link>
                   <Link
@@ -929,20 +810,16 @@ const AdmSidebar = ({
                     className={styles.sidebar_text}
                     activeclassname={styles.active}
                   >
-                    <FiberManualRecordIcon
-                      style={{
-                        color: "#d3d3d3",
-                        fontSize: "12px",
-                        marginLeft: "10px",
-                      }}
-                    />
+                     <FiberManualRecordIcon className={styles.icons}/>
+                     
+                  
                     <div className={styles.sidebar_text}>Support</div>
                   </Link>
                 </div>
               )}
             </div>
             {/* =========================== */}
-            <div className={styles.dropdown} style={{ marginTop: "8px" }}>
+            <div className={styles.dropdown}>
               <div className={styles.dropdownToggle} onClick={toggleDropdown}>
                 <LocalShippingOutlinedIcon
                   style={{ color: "#31c971", fontSize: "20px" }}
@@ -953,11 +830,12 @@ const AdmSidebar = ({
                 >
                   Manage Buyer
                   {isBuyerIconOpen ? (
-                    <KeyboardArrowUpOutlinedIcon style={{ color: "#5e676f" }} />
+                     <KeyboardArrowUpOutlinedIcon style={{ color: "#5e676f", cursor:"pointer" }} />
                   ) : (
-                    <KeyboardArrowDownOutlinedIcon
-                      style={{ color: "#5e676f" }}
+                     <KeyboardArrowDownOutlinedIcon
+                      style={{ color: "#5e676f", cursor:"pointer" }}
                     />
+                     
                   )}
                 </div>
               </div>
@@ -968,13 +846,9 @@ const AdmSidebar = ({
                     className={styles.sidebar_text}
                     activeclassname={styles.active}
                   >
-                    <FiberManualRecordIcon
-                      style={{
-                        color: "#d3d3d3",
-                        fontSize: "12px",
-                        marginLeft: "10px",
-                      }}
-                    />
+                     <FiberManualRecordIcon className={styles.icons}/>
+                     
+                  
                     <div className={styles.sidebar_text}>Buyer Requests</div>
                   </Link>
                   <Link
@@ -982,13 +856,9 @@ const AdmSidebar = ({
                     className={styles.sidebar_text}
                     activeclassname={styles.active}
                   >
-                    <FiberManualRecordIcon
-                      style={{
-                        color: "#d3d3d3",
-                        fontSize: "12px",
-                        marginLeft: "10px",
-                      }}
-                    />
+                     <FiberManualRecordIcon className={styles.icons}/>
+                     
+                  
                     <div className={styles.sidebar_text}>Approved Buyer</div>
                   </Link>
                   <Link
@@ -996,13 +866,9 @@ const AdmSidebar = ({
                     className={styles.sidebar_text}
                     activeclassname={styles.active}
                   >
-                    <FiberManualRecordIcon
-                      style={{
-                        color: "#d3d3d3",
-                        fontSize: "12px",
-                        marginLeft: "10px",
-                      }}
-                    />
+                     <FiberManualRecordIcon className={styles.icons}/>
+                     
+                   
                     <div className={styles.sidebar_text}>Rejected Buyer </div>
                   </Link>
                   <Link
@@ -1010,13 +876,9 @@ const AdmSidebar = ({
                     className={styles.sidebar_text}
                     activeclassname={styles.active}
                   >
-                    <FiberManualRecordIcon
-                      style={{
-                        color: "#d3d3d3",
-                        fontSize: "12px",
-                        marginLeft: "10px",
-                      }}
-                    />
+                     <FiberManualRecordIcon className={styles.icons}/>
+                     
+                  
                     <div className={styles.sidebar_text}>Buyer Transaction</div>
                   </Link>
                   <Link
@@ -1024,13 +886,9 @@ const AdmSidebar = ({
                     className={styles.sidebar_text}
                     activeclassname={styles.active}
                   >
-                    <FiberManualRecordIcon
-                      style={{
-                        color: "#d3d3d3",
-                        fontSize: "12px",
-                        marginLeft: "10px",
-                      }}
-                    />
+                     <FiberManualRecordIcon className={styles.icons}/>
+                    
+                   
                     <div className={styles.sidebar_text}>Inquiry</div>
                   </Link>
                   <Link
@@ -1038,13 +896,9 @@ const AdmSidebar = ({
                     className={styles.sidebar_text}
                     activeclassname={styles.active}
                   >
-                    <FiberManualRecordIcon
-                      style={{
-                        color: "#d3d3d3",
-                        fontSize: "12px",
-                        marginLeft: "10px",
-                      }}
-                    />
+                     <FiberManualRecordIcon className={styles.icons}/>
+                     
+                  
                     <div className={styles.sidebar_text}>Order</div>
                   </Link>
                   <Link
@@ -1052,13 +906,9 @@ const AdmSidebar = ({
                     className={styles.sidebar_text}
                     activeclassname={styles.active}
                   >
-                    <FiberManualRecordIcon
-                      style={{
-                        color: "#d3d3d3",
-                        fontSize: "12px",
-                        marginLeft: "10px",
-                      }}
-                    />
+                     <FiberManualRecordIcon className={styles.icons}/>
+                      
+                
                     <div className={styles.sidebar_text}>Invoices </div>
                   </Link>
                   <Link
@@ -1066,13 +916,9 @@ const AdmSidebar = ({
                     className={styles.sidebar_text}
                     activeclassname={styles.active}
                   >
-                    <FiberManualRecordIcon
-                      style={{
-                        color: "#d3d3d3",
-                        fontSize: "12px",
-                        marginLeft: "10px",
-                      }}
-                    />
+                     <FiberManualRecordIcon className={styles.icons}/>
+                    
+                
                     <div className={styles.sidebar_text}>Support</div>
                   </Link>
                 </div>
@@ -1080,7 +926,7 @@ const AdmSidebar = ({
             </div>
 
             {/* ===================== */}
-            <div className={styles.dropdown} style={{ marginTop: "8px" }}>
+            <div className={styles.dropdown}>
               <div
                 className={styles.dropdownToggle}
                 onClick={toggleManageDropdown}
@@ -1094,59 +940,34 @@ const AdmSidebar = ({
                 >
                   Manage Products
                   {isProductIconOpen ? (
-                    <KeyboardArrowUpOutlinedIcon style={{ color: "#5e676f" }} />
+                     <KeyboardArrowUpOutlinedIcon style={{ color: "#5e676f", cursor:"pointer" }} /> 
                   ) : (
-                    <KeyboardArrowDownOutlinedIcon
-                      style={{ color: "#5e676f" }}
+                     <KeyboardArrowDownOutlinedIcon
+                      style={{ color: "#5e676f", cursor:"pointer" }}
                     />
+                     
                   )}
                 </div>
               </div>
               {isOpen && isManageOpen && (
                 <div className={styles.dropdownContent}>
-                  {/* <Link to="/admin/product-requests" className={styles.sidebar_text} activeclassname={styles.active}>
-                    <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
-                    <div className={styles.sidebar_text}>Product Requests
-                    </div>
-                  </Link>
-                  <Link to="/admin/product-update-requests" className={styles.sidebar_text} activeclassname={styles.active}>
-                    <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
-                    <div className={styles.sidebar_text}>Product Update Requests
-                    </div>
-                  </Link> */}
+                  
                   <Link
                     to="/admin/products/new"
                     className={styles.sidebar_text}
                     activeclassname={styles.active}
                   >
-                    <FiberManualRecordIcon
-                      style={{
-                        color: "#d3d3d3",
-                        fontSize: "12px",
-                        marginLeft: "10px",
-                      }}
-                    />
+                     <FiberManualRecordIcon className={styles.icons}/>
+                     
+              
                     <div className={styles.sidebar_text}>Products</div>
                   </Link>
-                  {/* <Link to="/admin/rejected-product" className={styles.sidebar_text} activeclassname={styles.active}>
-                    <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
-                    <div className={styles.sidebar_text}>Rejected Products
-                    </div>
-                  </Link> */}
+                  
                 </div>
               )}
             </div>
 
-            {/* =============== */}
-            {/* <Link to="/products" id="last_sidebar" className={styles.sidebar_text} activeclassname={styles.active}>
-              <div className={styles.icon}><ManageAccountsOutlinedIcon style={{ color: '#f54394', fontSize: '20px' }} /></div>
-              <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Products</div>
-            </Link> */}
-
-            {/* <Link to="#" id="last_sidebar" className={styles.sidebar_text} activeclassname={styles.active}>
-              <div className={styles.icon}><ManageAccountsOutlinedIcon style={{ color: '#f54394', fontSize: '20px' }} /></div>
-              <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Manage Commission</div>
-            </Link> */}
+           
           </div>
         ) : (
           ""

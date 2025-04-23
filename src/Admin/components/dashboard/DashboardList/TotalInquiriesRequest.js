@@ -1,99 +1,77 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import '../../../assets/style/dashboardorders.css';
-import Table from 'react-bootstrap/Table';
-import Pagination from "react-js-pagination";
-import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
-import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
-import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+import DataTable from 'react-data-table-component';
 import moment from 'moment/moment';
+import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
+import PaginationComponent from '../../shared-components/Pagination/Pagination';
+import styles from '../../../assets/style/table.module.css';
+import '../../../assets/style/table.css'
 
-const TotalInquiriesRequest = ({list, totalList, currentPage, ordersPerPage, handlePageChange, activeLink}) => {
+const TotalInquiriesRequest = ({ list, totalList, currentPage, ordersPerPage, handlePageChange, activeLink }) => {
+  // Define columns for DataTable
+  const columns = [
+    {
+      name: 'Inquiry ID',
+      selector: (row) => row.enquiry_id,
+      sortable: true,
+     
+    },
+    {
+      name: 'Date',
+      selector: (row) => moment(row.created_at).format('DD/MM/YYYY'),
+      sortable: true,
+     
+    },
+    {
+      name: 'Buyer Name',
+      selector: (row) => row.buyer?.buyer_name || 'N/A',
+      sortable: true,
+    
+    },
+    {
+      name: 'Status',
+      selector: (row) =>
+        row.enquiry_status
+          ?.split(' ')
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(' ') || 'N/A',
+      sortable: true,
+     
+    },
+    {
+      name: 'Action',
+      cell: (row) => (
+        <Link to={`/admin/ongoing-inquiries-details/${row.enquiry_id}`}>
+           <div className={styles.activeBtn}>
+                               <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
+                             </div>
+        </Link>
+      ),
+      ignoreRowClick: true,
+      allowOverflow: true,
+      button: true,
+    },
+  ];
 
-    return (
-        <>
-           <div className='completed-order-main-container'>
-                <div className="completed-order-container">
-                    <div className="completed-order-container-right-2">
-                        <Table responsive="xxl" className='completed-order-table-responsive'>
-                            <thead>
-                                <div className='completed-table-row-container m-0' style={{ backgroundColor: 'transparent' }} >
-                                < div className='table-row-item table-order-1' >
-                                        <span className='completed-header-text-color' >Inquiry ID</span>
-                                    </div>
-                                    < div className='table-row-item table-order-1' >
-                                        <span className='completed-header-text-color' >Date</span>
-                                    </div>
-                                    <div className='completed-table-row-item completed-table-order-2'>
-                                        <span className='completed-header-text-color'>Buyer Name</span>
-                                    </div>
-                                    <div className='completed-table-row-item completed-table-order-1'>
-                                        <span className='completed-header-text-color'>Status</span>
-                                    </div>
-                                    <div className='completed-table-row-item completed-table-order-1'>
-                                        <span className='completed-header-text-color'>Action</span>
-                                    </div>
-                                </div>
-                            </thead>
+  return (
+    <div className={styles.container}>
+            <DataTable
+              columns={columns}
+              data={list}
+              persistTableHead
+              noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
+              pagination={false}
+              responsive
+            />
+            <PaginationComponent
+              activePage={currentPage}
+              itemsCountPerPage={ordersPerPage}
+              totalItemsCount={totalList}
+              pageRangeDisplayed={10}
+              onChange={handlePageChange}
+            />
+    </div>
+  );
+};
 
-                            <tbody className='bordered'>
-                                {list?.length > 0 ? (
-                                    list.map((ongoing, index) => (
-                                        <div className='completed-table-row-container'>
-                                            <div className='completed-table-row-item completed-table-order-1'>
-                                                <div className='completed-table-text-color'>{ongoing.enquiry_id}</div>
-                                            </div>
-
-                                            <div className='completed-table-row-item completed-table-order-1'>
-                                                <div className='completed-table-text-color'>{moment(ongoing?.created_at).format("DD/MM/YYYY")}</div>
-                                            </div>
-                                            <div className='completed-table-row-item  completed-table-order-2'>
-                                                <div className='table-text-color'>{ongoing.buyer?.buyer_name}</div>
-                                            </div>
-                                            <div className='completed-table-row-item completed-table-order-1'>
-                                                <div className='completed-table-text-color'>
-                                                {ongoing?.enquiry_status?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
-                                                </div>
-                                            </div>
-                                            <div className='completed-table-row-item  completed-order-table-btn completed-table-order-1'>
-                                                <Link to={`/admin/ongoing-inquiries-details/${ongoing?.enquiry_id}`}>
-                                                    <div className='completed-order-table completed-order-table-view '><RemoveRedEyeOutlinedIcon className="table-icon" /></div>
-                                                </Link>
-                                            </div>
-                                        </div>
-                                        ))
-                                        ) : (
-                                            <div class="pending-products-no-orders">No data available</div>
-                                    )}
-                            </tbody>
-                        </Table>
-                        <div className='completed-pagi-container'>
-                            <Pagination
-                                activePage={currentPage}
-                                itemsCountPerPage={ordersPerPage}
-                                totalItemsCount={totalList}
-                                pageRangeDisplayed={5}
-                                onChange={handlePageChange}
-                                itemClass="page-item"
-                                linkClass="page-link"
-                                prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
-                                nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
-                                hideFirstLastPages={true}
-                            />
-                            <div className='completed-pagi-total'>
-                                <div className='completed-pagi-total'>
-                                    Total Items: {totalList}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div >
-            </div>
-
-
-
-        </>
-    )
-}
-
-export default TotalInquiriesRequest
+export default TotalInquiriesRequest;

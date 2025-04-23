@@ -1,5 +1,5 @@
 .previewContainer {
-  width: 86.5vw;
+  width: 100%;
   height: 100%;
   overflow-y: auto;
   background-attachment: fixed;
@@ -72,29 +72,4 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-
-@media (max-width: 1500px) {
-  .previewContainer {
-    max-width: 82vw;
-  }
-}
-
-@media (max-width: 1300px) {
-  .previewContainer {
-    max-width: 80vw;
-  }
-}
-
-@media (max-width: 1200px) {
-  .previewContainer {
-    max-width: 76vw;
-  }
-}
-
-@media (max-width: 992px) {
-  .previewContainer {
-    max-width: 100%;
-  }
 }

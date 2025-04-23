@@ -120,29 +120,6 @@ const SellerInquiryDetails = () => {
              ) : (
                 ""
               )}
-
-            {/* <div className='inquiry-details-button-section'>
-                {inquiryDetails?.enquiry_status === 'pending' && (
-                <>
-                    <div 
-                    className='inquiry-details-submit-button' 
-                    // onClick={handleSubmitQuotation}
-                    disabled={loading}
-                    >
-                      
-                        {loading ? (
-                                <div className='loading-spinner'></div> 
-                            ) : (
-                                'Submit Quotation'
-                            )}
-                    </div>
-                    <a href={mailtoLink} className='inquiry-details-cancel-button'>
-                        Contact Buyer
-                    </a>
-                </>
-            )}
-
-            </div> */}
         </div>
     );
 };

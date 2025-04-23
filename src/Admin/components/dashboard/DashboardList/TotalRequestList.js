@@ -1,30 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import '../../../assets/style/dashboardorders.css';
-import Table from 'react-bootstrap/Table';
-import Pagination from "react-js-pagination";
+import DataTable from 'react-data-table-component';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
-import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
-import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { postRequestWithToken } from '../../../api/Requests';
 import Loader from '../../shared-components/Loader/Loader';
+import PaginationComponent from '../../shared-components/Pagination/Pagination';
+import styles from '../../../assets/style/table.module.css';
+import '../../../assets/style/table.css'
 
 const TotalRequestList = () => {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const location = useLocation();
 
     const queryParams = new URLSearchParams(location.search);
     const filterValue = queryParams.get('filterValue');
 
-    const adminIdSessionStorage = localStorage.getItem("admin_id");
-    const adminIdLocalStorage   = localStorage.getItem("admin_id");
+    const adminIdSessionStorage = localStorage.getItem('admin_id');
+    const adminIdLocalStorage = localStorage.getItem('admin_id');
 
-    const [loading, setLoading]             = useState(true);
-    const [requestList, setRequestList]     = useState([])
-    const [totalRequests, setTotalRequests] = useState()
-    const [currentPage, setCurrentPage]     = useState(1);
-    const listPerPage = 5;
-
+    const [loading, setLoading] = useState(true);
+    const [requestList, setRequestList] = useState([]);
+    const [totalRequests, setTotalRequests] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
+    const listPerPage = 10;
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -33,133 +31,111 @@ const TotalRequestList = () => {
     useEffect(() => {
         if (!adminIdSessionStorage && !adminIdLocalStorage) {
             localStorage.clear();
-            navigate("/admin/login");
+            navigate('/admin/login');
             return;
         }
         const obj = {
-            admin_id    : adminIdSessionStorage || adminIdLocalStorage ,
-            filterKey   : 'pending',
-            filterValue : filterValue,
-            pageNo      : currentPage, 
-            pageSize    : listPerPage,
-        }
+            admin_id: adminIdSessionStorage || adminIdLocalStorage,
+            filterKey: 'pending',
+            filterValue: filterValue,
+            pageNo: currentPage,
+            pageSize: listPerPage,
+        };
 
         postRequestWithToken('admin/get-buyer-supplier-reg-req-list', obj, async (response) => {
             if (response?.code === 200) {
-                setRequestList(response.result.data)
-                setTotalRequests(response.result.totalItems)
+                setRequestList(response.result.data);
+                setTotalRequests(response.result.totalItems);
             } else {
+                setRequestList([]);
             }
             setLoading(false);
-        })
-    },[currentPage])
+        });
+    }, [currentPage]);
+
+    const columns = [
+        {
+            name: 'Registration Type',
+            selector: (row) => row.registration_type,
+            sortable: true,
+           
+        },
+        {
+            name: 'Company Type',
+            selector: (row) => row.buyer_type || row.supplier_type,
+            sortable: true,
+            
+        },
+        {
+            name: 'Company Name',
+            selector: (row) => row.buyer_name || row.supplier_name,
+            sortable: true,
+            
+        },
+        {
+            name: 'Country of Origin',
+            selector: (row) => row.country_of_origin,
+            sortable: true,
+            
+        },
+      
+        {
+            name: 'Status',
+            selector: (row) => row.status || 'Pending',
+            sortable: true,
+            cell: (row) => <div>{row.status || 'Pending'}</div>,
+        },
+        {
+            name: 'Action',
+            cell: (row) => (
+                <Link
+                    to={
+                        row.registration_type === 'Buyer'
+                            ? `/admin/buyer-request-details/${row.buyer_id}`
+                            : `/admin/supplier-request-details/${row.supplier_id}`
+                    }
+                >
+                    <div className={styles.activeBtn}>
+                                           <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
+                                       </div>
+                </Link>
+            ),
+            ignoreRowClick: true,
+            allowOverflow: true,
+            button: true,
+        },
+    ];
 
     return (
-        <>
-        { loading ? (
-                     <Loader />
+        <section className={styles.container}>
+            {loading ? (
+                <Loader />
             ) : (
-            <div className='completed-order-main-container'>
-                <div className="completed-order-main-head">Total Request List</div>
-                <div className="completed-order-container">
-                    <div className="completed-order-container-right-2">
-                        <Table responsive="xxl" className='completed-order-table-responsive'>
-                            <thead>
-                                <div className='completed-table-row-container m-0' style={{ backgroundColor: 'transparent' }} >
-                                < div className='table-row-item table-order-1' >
-                                        <span className='completed-header-text-color' >Registration Type</span>
-                                    </div>
-                                    < div className='table-row-item table-order-1' >
-                                        <span className='completed-header-text-color' >Company Type</span>
-                                    </div>
-                                    <div className='completed-table-row-item completed-table-order-1'>
-                                        <span className='completed-header-text-color'>Company Name</span>
-                                    </div>
-                                    <div className='completed-table-row-item completed-table-order-2'>
-                                        <span className='completed-header-text-color'>Country of Origin	</span>
-                                    </div>
-                                    <div className='completed-table-row-item completed-table-order-1'>
-                                        <span className='completed-header-text-color'>Company License No.</span>
-                                    </div>
-                                    <div className='completed-table-row-item completed-table-order-1'>
-                                        <span className='completed-header-text-color'>Status</span>
-                                    </div>
-                                    <div className='completed-table-row-item completed-table-order-1'>
-                                        <span className='completed-header-text-color'>Action</span>
-                                    </div>
+                <>
+                <header className={styles.header}>
+                                        <span className={styles.title}>Total Request List</span>
+                                       
+                                    </header>
+               
+                        <DataTable
+                            columns={columns}
+                            data={requestList}
+                            noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
+                            persistTableHead
+                            pagination={false}
+                        />
+                        <PaginationComponent
+                            activePage={currentPage}
+                            itemsCountPerPage={listPerPage}
+                            totalItemsCount={totalRequests}
+                            pageRangeDisplayed={10}
+                            onChange={handlePageChange}
+                        />
+             </>      
+            )}
+        </section >
+    );
+ 
+};
 
-                                </div>
-                            </thead>
-
-                            <tbody className='bordered'>
-
-                                {requestList?.length > 0 ? (
-                                    requestList.map((request, index) => (
-                                        <div className='completed-table-row-container' key={index}>
-                                            <div className='completed-table-row-item completed-table-order-1'>
-                                                <div className='completed-table-text-color'>{request.registration_type}</div>
-                                            </div>
-                                            <div className='completed-table-row-item completed-table-order-1'>
-                                                <div className='completed-table-text-color'>{request.buyer_type || request.supplier_type}</div>
-                                            </div>
-                                            <div className='completed-table-row-item completed-table-order-1'>
-                                                <div className='completed-table-text-color'>{request.buyer_name || request.supplier_name}</div>
-                                            </div>
-                                            <div className='completed-table-row-item completed-table-order-2'>
-                                                <div className='table-text-color'>{request.country_of_origin}</div>
-                                            </div>
-                                            <div className='completed-table-row-item completed-table-order-1'>
-                                                <div className='completed-table-text-color'>{request.license_no}</div>
-                                            </div>
-                                            <div className='completed-table-row-item completed-table-order-1'>
-                                                <div className='completed-table-text-color'>{request.status || 'Pending'}</div>
-                                            </div>
-                                            <div className='completed-table-row-item completed-order-table-btn completed-table-order-1'>
-                                                <Link 
-                                                    to={
-                                                        request.registration_type === 'Buyer' 
-                                                        ? `/admin/buyer-request-details/${request.buyer_id}` 
-                                                        : `/admin/supplier-request-details/${request.supplier_id}`
-                                                    }
-                                                >
-                                                    <div className='completed-order-table completed-order-table-view'>
-                                                        <RemoveRedEyeOutlinedIcon className="table-icon" />
-                                                    </div>
-                                                </Link>
-                                            </div>
-                                        </div>
-                                    ))
-                                ) : (
-                                    <div class="pending-products-no-orders">No data available</div>
-                                )}
-
-                            </tbody>
-                        </Table>
-                        <div className='completed-pagi-container'>
-                            <Pagination
-                                activePage={currentPage}
-                                itemsCountPerPage={listPerPage}
-                                totalItemsCount={totalRequests}
-                                pageRangeDisplayed={5}
-                                onChange={handlePageChange}
-                                itemClass="page-item"
-                                linkClass="page-link"
-                                prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
-                                nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
-                                hideFirstLastPages={true}
-                            />
-                            <div className='completed-pagi-total'>
-                                <div className='completed-pagi-total'>
-                                    Total Items: {totalRequests}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div >
-            </div>
-          )}
-        </>
-    )
-}
-
-export default TotalRequestList
+export default TotalRequestList;
