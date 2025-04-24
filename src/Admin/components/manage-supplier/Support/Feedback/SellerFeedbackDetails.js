@@ -66,7 +66,7 @@ const SellerFeedbackDetails = () => {
         })
     }
     return (
-        <>
+       
             <div className='seller-details-container'>
                 <div className='seller-details-inner-conatiner'>
                     <div className='seller-details-container-heading'>Feedback Details</div>
@@ -83,8 +83,6 @@ const SellerFeedbackDetails = () => {
                                             <div className='seller-details-company-type-sec-head'>Supplier Name :</div>
                                             <div className='seller-details-company-type-sec-text'>{supplierDetails?.supplier?.supplier_name}</div>
                                         </div>
-                                    </div>
-                                    <div className='seller-details-uppar-right-container-section'>
                                         <div className='seller-details-company-type-section'>
                                             <div className='seller-details-company-type-sec-head'>Subject :</div>
                                             <div className='seller-details-company-type-sec-text'>{supplierDetails?.subject || 'N/A'}</div>
@@ -96,6 +94,7 @@ const SellerFeedbackDetails = () => {
                                             </div>
                                         </div>
                                     </div>
+                                   
                                 </div>
                             </div>
                         </div>
@@ -105,7 +104,7 @@ const SellerFeedbackDetails = () => {
                         </div>
                     </div>
                     <div className='seller-details-card-section'>
-                        <div className='seller-details-uppar-card-section'>
+                        <div className='seller-details-uppar-card-section'> 
                             <div className='seller-details-uppar-card-inner-section'>
                                 <div className='seller-details-card-container'>
                                     <div className='seller-details-company-logo-heading'>Images</div>
@@ -119,7 +118,7 @@ const SellerFeedbackDetails = () => {
                     </div>
                 </div>
             </div>
-        </>
+       
     )
 }
 

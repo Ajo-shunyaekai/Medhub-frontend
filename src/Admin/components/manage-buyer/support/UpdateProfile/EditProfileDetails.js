@@ -6,6 +6,7 @@ import { FaRegAddressCard } from "react-icons/fa";
 import { BsCalendar2Date } from "react-icons/bs";
 import CompanyType from "../../../../assets/Images/companytype.svg";
 import CompanyName from "../../../../assets/Images/companyname.svg";
+import Status from "../../../../assets/Images/StatusIcon.svg";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -13,6 +14,13 @@ import {
   updateProfileEditReqsDetail,
 } from "../../../../../redux/reducers/adminSlice";
 import { formatDate } from "../../../../../utils/dateFormatter";
+const getFieldValue = (value) => {
+  return value || "";
+};
+
+const isFieldChanged = (field) => {
+  return false;
+};
 
 const EditProfileDetails = ({ socket }) => {
   const { id } = useParams();
@@ -24,25 +32,31 @@ const EditProfileDetails = ({ socket }) => {
   const { user } = useSelector((state) => state?.userReducer);
 
   const handleAdminAction = async (action) => {
-    // Dispatch the action to update the profile
-    const apiPayload = {
-      id,
-      status: action,
-      type: "buyer",
-      admin_id: user?.admin_id,
-    };
-    const updatedProfileRequest = await dispatch(
-      updateProfileEditReqsDetail(apiPayload)
-    );
+    try {
+      const apiPayload = {
+        id,
+        status: action,
+        type: "buyer",
+        admin_id: user?.admin_id,
+      };
+      const updatedProfileRequest = await dispatch(
+        updateProfileEditReqsDetail(apiPayload)
+      );
 
-    // After dispatching, check if the profile update was successful
-    if (updatedProfileRequest.meta.requestStatus === "fulfilled") {
-      socket.emit("updateProfileEditRequest", {
-        buyerId: profileEditReqDetail?.user_id, // The buyer to be notified
-        message: `Your Proile edit request has been ${action} by the Admin!`,
-        link: process.env.REACT_APP_PUBLIC_URL,
-        // send other details if needed
-      });
+      if (updatedProfileRequest.meta.requestStatus === "fulfilled" && socket) {
+        socket.emit("updateProfileEditRequest", {
+          buyerId: profileEditReqDetail?.user_id,
+          message: `Your Profile edit request has been ${action} by the Admin!`,
+          link: process.env.REACT_APP_PUBLIC_URL,
+        });
+        navigate("/admin/buyer-support/edit-profile");
+      } else {
+        console.error("Failed to update profile request:", updatedProfileRequest.error);
+        alert("Failed to update profile request. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error in handleAdminAction:", error);
+      alert("An unexpected error occurred.");
     }
   };
 
@@ -56,10 +70,19 @@ const EditProfileDetails = ({ socket }) => {
     }
   }, [id, dispatch]);
 
+  // Handle loading and no-data states
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!profileEditReqDetail) {
+    return <div>No profile data found.</div>;
+  }
+
   return (
     <div className={styles.editProfileContainer}>
       <div className={styles.editProfileHead}>
-        Profile ID : {profileEditReqDetail?.user_id}
+        Profile ID: {profileEditReqDetail?.user_id}
       </div>
       <div className={styles.editProfileSection}>
         <div className={styles.editProfileInnerContainer}>
@@ -90,10 +113,23 @@ const EditProfileDetails = ({ socket }) => {
             <img
               className={styles.editProfileImg}
               src={CompanyType}
-              alt="Name"
+              alt="Type"
             />
             <span className={styles.editProfileInnerText}>
               {profileEditReqDetail?.usertype}
+            </span>
+          </div>
+        </div>
+        <div className={styles.editProfileInnerContainer}>
+          <span className={styles.editProfileInnerHead}>Status</span>
+          <div className={styles.editprofileAddSec}>
+            <img
+              className={styles.editProfileImg}
+              src={Status}
+              alt="Status"
+            />
+            <span className={styles.editProfileInnerText}>
+              {profileEditReqDetail?.editReqStatus || "N/A"}
             </span>
           </div>
         </div>
@@ -122,97 +158,79 @@ const EditProfileDetails = ({ socket }) => {
           <div className={styles.editprofileAddSec}>
             <FaRegAddressCard className={styles.icon} />
             <div className={styles.editProfileAddInnerSec}>
-              {profileEditReqDetail?.registeredAddress?.company_reg_address
-                ?.value && (
+              {getFieldValue(profileEditReqDetail?.registeredAddress?.company_reg_address) && (
                 <span
                   className={
-                    profileEditReqDetail?.registeredAddress?.company_reg_address
-                      ?.isChanged
+                    isFieldChanged(profileEditReqDetail?.registeredAddress?.company_reg_address)
                       ? styles.editProfileInnerTextHighlight
                       : styles.editProfileInnerText
                   }
                 >
-                  {
-                    profileEditReqDetail?.registeredAddress?.company_reg_address
-                      ?.value
-                  }
+                  {getFieldValue(profileEditReqDetail?.registeredAddress?.company_reg_address)}
                 </span>
               )}
-              {profileEditReqDetail?.registeredAddress?.locality?.value && (
+              {getFieldValue(profileEditReqDetail?.registeredAddress?.locality) && (
                 <span
                   className={
-                    profileEditReqDetail?.registeredAddress?.locality?.isChanged
+                    isFieldChanged(profileEditReqDetail?.registeredAddress?.locality)
                       ? styles.editProfileInnerTextHighlight
                       : styles.editProfileInnerText
                   }
                 >
-                  {profileEditReqDetail?.registeredAddress?.locality?.value}
+                  {getFieldValue(profileEditReqDetail?.registeredAddress?.locality)}
                 </span>
               )}
-              {profileEditReqDetail?.registeredAddress?.lamd_mark?.value && (
+              {getFieldValue(profileEditReqDetail?.registeredAddress?.land_mark) && (
                 <span
                   className={
-                    profileEditReqDetail?.registeredAddress?.lamd_mark
-                      ?.isChanged
+                    isFieldChanged(profileEditReqDetail?.registeredAddress?.land_mark)
                       ? styles.editProfileInnerTextHighlight
                       : styles.editProfileInnerText
                   }
                 >
-                  {profileEditReqDetail?.registeredAddress?.lamd_mark?.value}
+                  {getFieldValue(profileEditReqDetail?.registeredAddress?.land_mark)}
                 </span>
               )}
-              {(profileEditReqDetail?.registeredAddress?.city?.value ||
-                profileEditReqDetail?.registeredAddress?.state?.value ||
-                profileEditReqDetail?.registeredAddress?.pincode?.value ||
-                profileEditReqDetail?.registeredAddress?.country?.value) && (
+              {(getFieldValue(profileEditReqDetail?.registeredAddress?.city) ||
+                getFieldValue(profileEditReqDetail?.registeredAddress?.state) ||
+                getFieldValue(profileEditReqDetail?.registeredAddress?.pincode) ||
+                getFieldValue(profileEditReqDetail?.registeredAddress?.country)) && (
                 <span
                   className={
-                    profileEditReqDetail?.registeredAddress?.city?.isChanged ||
-                    profileEditReqDetail?.registeredAddress?.state?.isChanged ||
-                    profileEditReqDetail?.registeredAddress?.pincode
-                      ?.isChanged ||
-                    profileEditReqDetail?.registeredAddress?.country?.isChanged
+                    isFieldChanged(profileEditReqDetail?.registeredAddress?.city) ||
+                    isFieldChanged(profileEditReqDetail?.registeredAddress?.state) ||
+                    isFieldChanged(profileEditReqDetail?.registeredAddress?.pincode) ||
+                    isFieldChanged(profileEditReqDetail?.registeredAddress?.country)
                       ? styles.editProfileInnerTextHighlight
                       : styles.editProfileInnerText
                   }
                 >
-                  {profileEditReqDetail?.registeredAddress?.city?.value}{" "}
-                  {profileEditReqDetail?.registeredAddress?.state?.value}{" "}
-                  {profileEditReqDetail?.registeredAddress?.pincode?.value}{" "}
-                  {profileEditReqDetail?.registeredAddress?.country?.value}
+                  {getFieldValue(profileEditReqDetail?.registeredAddress?.city)}
+                  {getFieldValue(profileEditReqDetail?.registeredAddress?.city) && ", "}
+                  {getFieldValue(profileEditReqDetail?.registeredAddress?.state)}
+                  {getFieldValue(profileEditReqDetail?.registeredAddress?.state) && " "}
+                  {getFieldValue(profileEditReqDetail?.registeredAddress?.pincode)}
+                  {getFieldValue(profileEditReqDetail?.registeredAddress?.pincode) && ", "}
+                  {getFieldValue(profileEditReqDetail?.registeredAddress?.country)}
                 </span>
               )}
-              <div className={styles.editprofileAddSec}></div>
             </div>
           </div>
         </div>
       </div>
-      {profileEditReqDetail?.editReqStatus == "Pending" ? (
+      {profileEditReqDetail?.editReqStatus === "Pending" && (
         <div className={styles.editButtonContainer}>
           <button
             className={styles.editButtonSubmit}
-            onClick={(e) => handleAdminAction("Approved")}
+            onClick={() => handleAdminAction("Approved")}
           >
             Approve
           </button>
           <button
             className={styles.editButtonCancel}
-            onClick={(e) => handleAdminAction("Rejected")}
+            onClick={() => handleAdminAction("Rejected")}
           >
             Reject
-          </button>
-        </div>
-      ) : (
-        <div className={styles.editButtonContainer}>
-          <button
-            className={
-              profileEditReqDetail?.editReqStatus == "Approved"
-                ? styles.editButtonSubmit
-                : styles.editButtonCancel
-            }
-            onClick={(e) => e.preventDefault()}
-          >
-            {profileEditReqDetail?.editReqStatus}
           </button>
         </div>
       )}

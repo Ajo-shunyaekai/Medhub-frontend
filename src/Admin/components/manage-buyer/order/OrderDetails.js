@@ -1,443 +1,412 @@
 import React, { useEffect, useState } from "react";
-import "./buyerorderdetails.css";
+import styles from "../../../assets/style/orderdetails.module.css";
 import AssignDriver from "../../shared-components/details/AssignDriver";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { postRequestWithToken } from "../../../api/Requests";
-import moment from "moment-timezone";
 import BuyerActiveCodinator from "./BuyerActiveCodinator";
 import OrderInvoiceList from "../../shared-components/OrderInvoiceList/OrderInvoiceList";
-import { toast } from "react-toastify";
 import { apiRequests } from "../../../../api";
 
-const OrderDetails = ({ socket }) => {
+const OrderDetails = () => {
   const { orderId } = useParams();
   const navigate = useNavigate();
-
-  const adminIdSessionStorage = localStorage.getItem("admin_id");
-  const adminIdLocalStorage = localStorage.getItem("admin_id");
-
-  const [activeButton, setActiveButton] = useState("1h");
-  const [orderDetails, setOrderDetails] = useState();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [orderDetails, setOrderDetails] = useState(null);
+  const [error, setError] = useState(null);
 
   const fetchData = async () => {
-    if (!adminIdSessionStorage && !adminIdLocalStorage) {
+    const adminId = localStorage.getItem("admin_id");
+    if (!adminId) {
       localStorage.clear();
       navigate("/admin/login");
       return;
     }
-    const obj = {
-      order_id: orderId,
-      admin_id: adminIdSessionStorage || adminIdLocalStorage,
-    };
+
     try {
+      const obj = { order_id: orderId, admin_id: adminId };
       const response = await apiRequests.getRequest(
         `order/get-specific-order-details/${orderId}`,
         obj
       );
+
       if (response?.code === 200) {
         setOrderDetails(response.result);
+      } else {
+        setError("Failed to fetch order details. Please try again.");
+        console.error("Failed to fetch order details:", response?.message);
       }
-    } catch (error) {}
+    } catch (error) {
+      setError("An error occurred while fetching order details.");
+      console.error("Error fetching order details:", error);
+    }
   };
 
   useEffect(() => {
     fetchData();
   }, [navigate, orderId]);
 
-  const handleButtonClick = (value) => {
-    setActiveButton(value);
-  };
+  if (error) {
+    return <div className={styles.Container}>{error}</div>;
+  }
 
-  const handleModalSubmit = (data) => {
-    if (!adminIdSessionStorage && !adminIdLocalStorage) {
-      localStorage.clear();
-      navigate("/buyer/login");
-      return;
-    }
-    let type = "";
-    if (data.doorToDoor) {
-      type = "door to door";
-    } else if (data.customClearance) {
-      type = "custom clearance";
-    }
-
-    // Create the logistics_details object
-    const logisticsDetails = {
-      door_to_door: data.doorToDoor,
-      custom_clearance: data.customClearance,
-      prefered_mode: data.transportMode,
-      drop_location: {
-        name: data.dropLocation.name,
-        mobile: data.dropLocation.contact,
-        address: data.dropLocation.address,
-        city_district: data.dropLocation.cityDistrict,
-        state: data.dropLocation.state,
-        pincode: data.dropLocation.pincode,
-      },
-      status: "pending",
-    };
-    const obj = {
-      order_id: orderId,
-      buyer_id: adminIdSessionStorage || adminIdLocalStorage,
-      supplier_id: orderDetails?.supplier_id,
-      status: "Awaiting details from supplier",
-      logistics_details: [logisticsDetails],
-    };
-    postRequestWithToken(
-      "order/book-logistics",
-      obj,
-      async (response) => {
-        if (response?.code === 200) {
-          try {
-            const response = await apiRequests.getRequest(
-              `order/get-specific-order-details/${orderId}`,
-              obj
-            );
-            if (response?.code === 200) {
-              setOrderDetails(response.result);
-            } else {
-              toast(response.message, { type: "error" });
-            }
-          } catch (error) {}
-        } else {
-          toast(response.message, { type: "error" });
-        }
-      }
-    );
-  };
+  if (!orderDetails) {
+    return <div className={styles.Container}>Loading...</div>;
+  }
 
   return (
-    <div className="buyer-order-details-container">
-      <div className="buyer-order-details-conatiner-heading">
-        <span>Order ID: {orderDetails?.order_id}</span>
-        <span className="active-details-medicine-details">
-          {orderDetails?.items?.map((item, index) => (
-            <React.Fragment key={item._id || index}>
-              <span>
-                {" "}
-                {item.medicine_name} ({item.strength}){" "}
-              </span>
-              {index < orderDetails.items.length - 1 && " || "}
-            </React.Fragment>
-          ))}
-        </span>
-        <Link
-          className="active-order-details-link-tag"
-          to={`/admin/supplier-details/${orderDetails?.supplier_id}`}
-        >
-          <span className="active-details-purchsed-by">Sold By: </span>
-          <span className="active-details-Buyer-name">
-            {orderDetails?.supplier?.supplier_name || "Pharmaceuticals Pvt Ltd"}
+    <div className={styles.Container}>
+      <div className={styles.mainContainer}>
+        <span className={styles.mainHead}>Order ID: {orderDetails?.order_id}</span>
+        {orderDetails?.items?.length > 0 && (
+          <span className={styles.medicineText}>
+            {orderDetails.items.map((item, index) => (
+              <React.Fragment key={item._id || index}>
+                {item.medicine_name}
+                {index < orderDetails.items.length - 1 && " || "}
+              </React.Fragment>
+            ))}
           </span>
-        </Link>
+        )}
+        {orderDetails?.supplier_id && orderDetails?.supplier?.supplier_name && (
+          <Link to={`/admin/supplier-details/${orderDetails?.supplier_id}`}>
+            <span className={styles.medicineText}>
+              Supplied By: {orderDetails?.supplier?.supplier_name}
+            </span>
+          </Link>
+        )}
       </div>
-      <div className="buyer-order-details-section">
-        <div className="buyer-order-details-left-section">
-          <div className="buyer-order-details-top-inner-section">
-            <div className="buyer-order-details-left-inner-section-container">
-              <div className="buyer-order-details-left-top-containers">
-                <div className="buyer-order-details-top-order-cont">
-                  <div className="buyer-order-details-left-top-main-heading">
-                    Date & Time
-                  </div>
-                  <div className="buyer-order-details-left-top-main-contents">
-                    {moment(orderDetails?.created_at)
-                      .tz("Asia/Kolkata")
-                      .format("DD-MM-YYYY HH:mm:ss")}
+
+      <div className={styles.detailsContainer}>
+        {orderDetails?.supplier_logistics_data?.country && (
+          <div className={styles.detailSection}>
+            <div className={styles.heading}>Country of Origin</div>
+            <div className={styles.content}>
+              {orderDetails?.supplier_logistics_data?.country}
+            </div>
+          </div>
+        )}
+        {orderDetails?.supplier?.supplier_type && (
+          <div className={styles.detailSection}>
+            <div className={styles.heading}>Company Type</div>
+            <div className={styles.content}>{orderDetails?.supplier?.supplier_type}</div>
+          </div>
+        )}
+        {orderDetails?.status && (
+          <div className={styles.detailSection}>
+            <div className={styles.heading}>Order Status</div>
+            <div className={styles.content}>{orderDetails?.status}</div>
+          </div>
+        )}
+      </div>
+
+      {orderDetails?.items?.length > 0 && (
+        <div className={styles.driverSection}>
+          <AssignDriver orderItems={orderDetails?.items} />
+        </div>
+      )}
+
+      {(orderDetails?.payment_terms?.length > 0 ||
+        orderDetails?.status === "Completed" ||
+        orderDetails?.buyer_logistics_data ||
+        orderDetails?.supplier_logistics_data) && (
+        <div className={styles.paymentContainer}>
+          {(orderDetails?.payment_terms?.length > 0 ||
+            orderDetails?.status === "Completed") && (
+            <div className={styles.paymentInnerContainer}>
+              <span className={styles.mainHeading}>Payment</span>
+              {orderDetails?.payment_terms?.length > 0 && (
+                <div className={styles.paymentSection}>
+                  <div className={styles.heading}>Payment Terms</div>
+                  <div className={styles.content}>
+                    <ul className={styles.paymentUlSection}>
+                      {orderDetails?.payment_terms.map((data, i) => (
+                        <li key={i} className={styles.paymentText}>
+                          {data}.
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 </div>
-
-                <div className="buyer-order-details-top-order-cont">
-                  <div className="buyer-order-details-left-top-main-heading">
-                    Company Type
-                  </div>
-                  <div className="buyer-order-details-left-top-main-contents">
-                    {orderDetails?.supplier.supplier_type}
-                  </div>
-                </div>
-
-                <div className="buyer-order-details-top-order-cont">
-                  <div className="buyer-order-details-left-top-main-heading">
-                    Order Status
-                  </div>
-                  <div className="buyer-order-details-left-top-main-contents">
-                    {/* {orderDetails?.status?.charAt(0)?.toUpperCase() + orderDetails?.status?.slice(1) } */}
-                    {orderDetails?.status
-                      ?.split(" ")
-                      .map(
-                        (word) => word.charAt(0).toUpperCase() + word.slice(1)
+              )}
+              {orderDetails?.status === "Completed" &&
+                orderDetails?.invoices?.length > 0 && (
+                  <div className={styles.paymentSection}>
+                    <div className={styles.heading}>Payment Status</div>
+                    <div className={styles.content}>
+                      {orderDetails?.invoices.every(
+                        (invoice) => invoice.payment_status === "paid"
                       )
-                      .join(" ")}
+                        ? "100% Done"
+                        : `${Math.round(
+                            (orderDetails?.invoices.filter(
+                              (invoice) => invoice.payment_status === "paid"
+                            ).length /
+                              orderDetails?.invoices.length) *
+                              100
+                          )}% Completed`}
+                    </div>
                   </div>
-                </div>
-              </div>
+                )}
             </div>
-          </div>
-        </div>
-      </div>
-      {/* start the assign driver section */}
-      <div className="buyer-order-details-assign-driver-section">
-        <AssignDriver
-          orderItems={orderDetails?.items}
-          orderDetails={orderDetails}
-        />
-      </div>
-      {/* end the assign driver section */}
-      {orderDetails?.coordinators &&
-        Object.keys(orderDetails?.coordinators).length > 0 && (
-          <div className="active-order-details-left-bottom-containers">
-            <div className="active-order-details-left-bottom-vehichle">
-              <div className="active-order-details-left-bottom-vehicle-head">
-                Cost
-              </div>
-              <div className="active-order-details-left-bottom-vehicle-text">
-                12 USD
-              </div>
-            </div>
-            <div className="active-order-details-left-bottom-vehichle-no">
-              <div className="active-order-details-left-bottom-vehichle-no-head">
-                Shipment Price
-              </div>
-              <div className="active-order-details-left-bottom-vehichle-no-text">
-                8 USD
-              </div>
-            </div>
-            <div className="active-order-details-left-bottom-vehichle-no">
-              <div className="active-order-details-left-bottom-vehichle-no-head">
-                Shipment Time
-              </div>
-              <div className="active-order-details-left-bottom-vehichle-no-text">
-                12:00 PM
-              </div>
-            </div>
-            <div className="active-order-details-left-bottom-vehichle-no">
-              <div className="active-order-details-left-bottom-vehichle-no-head">
-                Preferred Time of Pickup
-              </div>
-              <div className="active-order-details-left-bottom-vehichle-no-text">
-                {
-                  orderDetails?.shipment_details?.supplier_details
-                    ?.prefered_pickup_time
-                }
-              </div>
-            </div>
-          </div>
-        )}
-      {/* end the main component heading */}
-      {/* start the main component heading */}
-      {orderDetails?.shipment_details &&
-        Object.keys(orderDetails?.shipment_details).length > 0 && (
-          <div className="active-order-details-middle-bottom-containers">
-            <div className="active-order-details-left-middle-vehichle-no">
-              <div className="active-order-details-middle-bottom-vehicle-head">
-                No. of Packages
-              </div>
-              <div className="active-order-details-middle-bottom-vehicle-text">
-                {orderDetails?.shipment_details?.shipment_details
-                  ?.no_of_packages || "5"}
-              </div>
-            </div>
-            <div className="active-order-details-left-middle-vehichle-no">
-              <div className="active-order-details-middle-bottom-vehicle-head">
-                Total Weight
-              </div>
-              <div className="active-order-details-middle-bottom-vehicle-text">
-                {orderDetails?.shipment_details?.shipment_details
-                  ?.total_weight || "4"}{" "}
-                Kg
-              </div>
-            </div>
-            <div className="buyer-order-details-left-top-containers">
-              <Link to={`/buyer/supplier-details/${orderDetails?.supplier_id}`}>
-                <div className="buyer-order-details-top-order-cont">
-                  <div className="buyer-order-details-left-top-main-heading">
-                    Width
-                  </div>
-                  <div className="buyer-order-details-left-top-main-contents">
-                    {orderDetails?.shipment_details?.shipment_details
-                      ?.breadth || "4"}{" "}
-                    cm
-                  </div>
-                </div>
-              </Link>
-              <div className="buyer-order-details-top-order-cont">
-                <div className="buyer-order-details-left-top-main-heading">
-                  Height
-                </div>
-                <div className="buyer-order-details-left-top-main-contents">
-                  {orderDetails?.shipment_details?.shipment_details?.height ||
-                    "4"}{" "}
-                  cm
-                </div>
-              </div>
-              <div className="buyer-order-details-top-order-cont">
-                <div className="buyer-order-details-left-top-main-heading">
-                  Length
-                </div>
-                <div className="buyer-order-details-left-top-main-contents">
-                  {orderDetails?.shipment_details?.shipment_details?.length ||
-                    "4"}{" "}
-                  cm
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-      {/* end the main component heading */}
-      {/* </>
+          )}
 
-            {/* Start the end section */}
-      <div className="buyer-order-details-payment-container">
-        <div className="buyer-order-details-payment-left-section">
-          <div className="buyer-order-details-payment-terms-cont">
-            <div className="buyer-order-details-payment-first-terms-cont">
-              <div className="buyer-order-details-payment-first-terms-heading">
-                Payment Terms
-              </div>
-              <div className="buyer-order-details-payment-first-terms-text">
-                <ul className="buyer-order-details-payment-ul-section">
-                  {orderDetails?.enquiry?.payment_terms?.map((data, i) => {
-                    return (
-                      <li className="buyer-order-details-payment-li-section">
-                        {data}.
-                      </li>
-                    );
-                  })}
-                </ul>
+          {orderDetails?.supplier_logistics_data && (
+            <div className={styles.pickupSection}>
+              <span className={styles.mainHeading}>Pickup Details</span>
+              <div className={styles.pickupInnerSection}>
+                {orderDetails?.supplier_logistics_data?.full_name && (
+                  <div className={styles.content}>
+                    {orderDetails?.supplier_logistics_data?.full_name}
+                    <span className={styles.details}>{orderDetails?.supplier_logistics_data?.address_type}</span>
+                  </div>
+                )}
+                {(orderDetails?.supplier_logistics_data?.company_reg_address ||
+                  orderDetails?.supplier_logistics_data?.locality ||
+                  orderDetails?.supplier_logistics_data?.land_mark ||
+                  orderDetails?.supplier_logistics_data?.country ||
+                  orderDetails?.supplier_logistics_data?.state ||
+                  orderDetails?.supplier_logistics_data?.city ||
+                  orderDetails?.supplier_logistics_data?.pincode) && (
+                  <div className={styles.content}>
+                    {orderDetails?.supplier_logistics_data?.company_reg_address || ""}
+                    {orderDetails?.supplier_logistics_data?.locality &&
+                      `, ${orderDetails?.supplier_logistics_data?.locality}`}
+                    {orderDetails?.supplier_logistics_data?.land_mark &&
+                      `, ${orderDetails?.supplier_logistics_data?.land_mark}`}
+                    {orderDetails?.supplier_logistics_data?.city &&
+                      `, ${orderDetails?.supplier_logistics_data?.city}`}
+                    {orderDetails?.supplier_logistics_data?.state &&
+                      `, ${orderDetails?.supplier_logistics_data?.state}`}
+                    {orderDetails?.supplier_logistics_data?.country &&
+                      `, ${orderDetails?.supplier_logistics_data?.country}`}
+                    {orderDetails?.supplier_logistics_data?.pincode &&
+                      `, ${orderDetails?.supplier_logistics_data?.pincode}`}
+                  </div>
+                )}
+                {orderDetails?.supplier_logistics_data?.mobile_number && (
+                  <div className={styles.content}>
+                    {orderDetails?.supplier_logistics_data?.mobile_number}
+                  </div>
+                )}
               </div>
             </div>
-          </div>
-        </div>
-        <div className="order-details-pickup-sec-container">
-          {orderDetails?.shipment_details &&
-            Object.keys(orderDetails?.shipment_details).length > 0 && (
-              <div className="active-order-details-payment-right-section">
-                <div className="active-order-details-payment-right-section-heading">
-                  Pickup Details
-                </div>
-                <div className="active-order-details-payment-right-details-row">
-                  <div className="active-order-details-right-details-row-one">
-                    <div className="active-order-details-right-pickupdata">
-                      <div className="active-order-details-right-pickdata-head">
-                        Consignor Name
-                      </div>
-                      <div className="active-order-details-right-pickdata-text">
-                        {orderDetails?.shipment_details?.supplier_details?.name}
-                      </div>
-                    </div>
-                    <div className="active-order-details-right-pickupdata">
-                      <div className="active-order-details-right-pickdata-head">
-                        Phone No.
-                      </div>
-                      <div className="active-order-details-right-pickdata-text">
-                        {
-                          orderDetails?.shipment_details?.supplier_details
-                            ?.mobile
-                        }
-                      </div>
-                    </div>
-                    <div className="active-order-details-right-pickupdata-address">
-                      <div className="active-order-details-right-pickdata-head">
-                        Address
-                      </div>
-                      <div className="active-order-details-right-pickdata-text">
-                        {
-                          orderDetails?.shipment_details?.supplier_details
-                            ?.address
-                        }
-                        ,
-                        {
-                          orderDetails?.shipment_details?.supplier_details
-                            ?.country
-                        }
-                        ,
-                        {
-                          orderDetails?.shipment_details?.supplier_details
-                            ?.state
-                        }
-                        ,
-                        {
-                          orderDetails?.shipment_details?.supplier_details
-                            ?.ciyt_disctrict
-                        }
-                        ,
-                        {
-                          orderDetails?.shipment_details?.supplier_details
-                            ?.pincode
-                        }
-                        .
-                      </div>
-                    </div>
+          )}
+
+          {(orderDetails?.buyer_logistics_data ||
+            orderDetails?.logistics_details?.drop_location) && (
+            <div className={styles.pickupSection}>
+              <span className={styles.mainHeading}>Drop Details</span>
+              <div className={styles.pickupInnerSection}>
+                {(orderDetails?.buyer_logistics_data?.full_name ||
+                  orderDetails?.logistics_details?.drop_location?.name) && (
+                  <div className={styles.content}>
+                    {orderDetails?.buyer_logistics_data?.full_name ||
+                      orderDetails?.logistics_details?.drop_location?.name}
+                    <span className={styles.details}>{orderDetails?.buyer_logistics_data?.address_type}</span>
                   </div>
+                )}
+                {(orderDetails?.buyer_logistics_data?.mobile_number ||
+                  orderDetails?.logistics_details?.drop_location?.mobile) && (
+                  <div className={styles.content}>
+                    {orderDetails?.buyer_logistics_data?.mobile_number ||
+                      orderDetails?.logistics_details?.drop_location?.mobile}
+                  </div>
+                )}
+                {(orderDetails?.buyer_logistics_data?.company_reg_address ||
+                  orderDetails?.logistics_details?.drop_location?.address) && (
+                  <div className={styles.content}>
+                    {orderDetails?.buyer_logistics_data?.company_reg_address ||
+                      orderDetails?.logistics_details?.drop_location?.address}
+                    {orderDetails?.buyer_logistics_data?.locality &&
+                      `, ${orderDetails?.buyer_logistics_data?.locality}`}
+                    {orderDetails?.buyer_logistics_data?.land_mark &&
+                      `, ${orderDetails?.buyer_logistics_data?.land_mark}`}
+                    {orderDetails?.buyer_logistics_data?.city &&
+                      `, ${orderDetails?.buyer_logistics_data?.city}`}
+                    {orderDetails?.buyer_logistics_data?.state &&
+                      `, ${orderDetails?.buyer_logistics_data?.state}`}
+                    {orderDetails?.buyer_logistics_data?.country &&
+                      `, ${orderDetails?.buyer_logistics_data?.country}`}
+                    {orderDetails?.buyer_logistics_data?.pincode &&
+                      `, ${orderDetails?.buyer_logistics_data?.pincode}`}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      <div className={styles.transportContainer}>
+        {(orderDetails?.buyer_logistics_data ||
+          orderDetails?.logistics_details) && (
+          <div className={styles.transportSection}>
+            <span className={styles.mainHeading}>Transport Details</span>
+            <div className={styles.transportInnerSection}>
+              {(orderDetails?.buyer_logistics_data?.mode_of_transport ||
+                orderDetails?.logistics_details?.prefered_mode) && (
+                <div className={styles.detailsInnerSection}>
+                  <div className={styles.heading}>Mode of Transport</div>
+                  <div className={styles.content}>
+                    {orderDetails?.buyer_logistics_data?.mode_of_transport ||
+                      orderDetails?.logistics_details?.prefered_mode}
+                  </div>
+                </div>
+              )}
+              {orderDetails?.buyer_logistics_data?.extra_services && (
+                <div className={styles.detailsInnerSection}>
+                  <div className={styles.heading}>Extra Services</div>
+                  <div className={styles.content}>
+                    {orderDetails?.buyer_logistics_data?.extra_services.length > 0
+                      ? orderDetails?.buyer_logistics_data?.extra_services.join(", ")
+                      : "None"}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {(orderDetails?.supplier_logistics_data?.pickup_date ||
+          orderDetails?.supplier_logistics_data?.pickup_time) && (
+          <div className={styles.transportSection}>
+            <span className={styles.mainHeading}>Pickup Slot</span>
+            <div className={styles.transportInnerSection}>
+              {orderDetails?.supplier_logistics_data?.pickup_date && (
+                <div className={styles.detailsInnerSection}>
+                  <div className={styles.heading}>Preferred Pickup Date:</div>
+                  <div className={styles.content}>
+                    {new Date(
+                      orderDetails?.supplier_logistics_data?.pickup_date
+                    ).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })}
+                  </div>
+                </div>
+              )}
+              {orderDetails?.supplier_logistics_data?.pickup_time && (
+                <div className={styles.detailsInnerSection}>
+                  <div className={styles.heading}>Preferred Pickup Time:</div>
+                  <div className={styles.content}>
+                    {orderDetails?.supplier_logistics_data?.pickup_time}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {orderDetails?.supplier_logistics_data?.package_information && (
+        <div className={styles.materialContainer}>
+          <div className={styles.billSection}>
+            <span className={styles.mainHeading}>Bills of Material</span>
+            {orderDetails?.supplier_logistics_data?.package_information
+              ?.total_no_of_packages && (
+              <div className={styles.detailSection}>
+                <div className={styles.heading}>No. of Packages</div>
+                <div className={styles.content}>
+                  {
+                    orderDetails?.supplier_logistics_data?.package_information
+                      ?.total_no_of_packages
+                  }
                 </div>
               </div>
             )}
-          {orderDetails?.logistics_details && (
-            <>
-              <hr className="active-order-details-right-pickupdata-hr" />
-              <div className="active-order-details-payment-right-section">
-                <div className="active-order-details-payment-right-section-heading">
-                  Drop Details
-                </div>
-                <div className="active-order-details-right-details-row-one">
-                  <div className="active-order-details-right-pickupdata">
-                    <div className="active-order-details-right-pickdata-head">
-                      Consignee Name
-                    </div>
-                    <div className="active-order-details-right-pickdata-text">
-                      {orderDetails?.logistics_details?.drop_location?.name}
-                    </div>
-                  </div>
-                  <div className="active-order-details-right-pickupdata">
-                    <div className="active-order-details-right-pickdata-head">
-                      Phone No.
-                    </div>
-                    <div className="active-order-details-right-pickdata-text">
-                      {orderDetails?.logistics_details?.drop_location?.mobile}
-                    </div>
-                  </div>
-                  <div className="active-order-details-right-pickupdata-address">
-                    <div className="active-order-details-right-pickdata-head">
-                      Address
-                    </div>
-                    <div className="active-order-details-right-pickdata-text">
-                      {orderDetails?.logistics_details?.drop_location?.address},
-                      {orderDetails?.logistics_details?.drop_location?.country},
-                      {orderDetails?.logistics_details?.drop_location?.state},
+          </div>
+          {orderDetails?.supplier_logistics_data?.package_information
+            ?.package_details && (
+            <div className={styles.volumeContainers}>
+              <span className={styles.mainHeading}>Package Details</span>
+              <div className={styles.volumeSections}>
+                {orderDetails?.supplier_logistics_data?.package_information
+                  ?.package_details[0]?.weight && (
+                  <div className={styles.detailSection}>
+                    <div className={styles.heading}>Total Packages Weight</div>
+                    <div className={styles.content}>
                       {
-                        orderDetails?.logistics_details?.drop_location
-                          ?.city_district
-                      }
-                      ,{orderDetails?.logistics_details?.drop_location?.pincode}
+                        orderDetails?.supplier_logistics_data?.package_information
+                          ?.package_details[0]?.weight
+                      }{" "}
+                      Kg
                     </div>
                   </div>
-                </div>
+                )}
+                {orderDetails?.supplier_logistics_data?.package_information
+                  ?.package_details[0]?.dimensions?.width && (
+                  <div className={styles.detailSection}>
+                    <div className={styles.heading}>Width</div>
+                    <div className={styles.content}>
+                      {
+                        orderDetails?.supplier_logistics_data?.package_information
+                          ?.package_details[0]?.dimensions?.width
+                      }{" "}
+                      cm
+                    </div>
+                  </div>
+                )}
+                {orderDetails?.supplier_logistics_data?.package_information
+                  ?.package_details[0]?.dimensions?.height && (
+                  <div className={styles.detailSection}>
+                    <div className={styles.heading}>Height</div>
+                    <div className={styles.content}>
+                      {
+                        orderDetails?.supplier_logistics_data?.package_information
+                          ?.package_details[0]?.dimensions?.height
+                      }{" "}
+                      cm
+                    </div>
+                  </div>
+                )}
+                {orderDetails?.supplier_logistics_data?.package_information
+                  ?.package_details[0]?.dimensions?.length && (
+                  <div className={styles.detailSection}>
+                    <div className={styles.heading}>Length</div>
+                    <div className={styles.content}>
+                      {
+                        orderDetails?.supplier_logistics_data?.package_information
+                          ?.package_details[0]?.dimensions?.length
+                      }{" "}
+                      cm
+                    </div>
+                  </div>
+                )}
+                {orderDetails?.supplier_logistics_data?.package_information
+                  ?.package_details[0]?.dimensions?.volume && (
+                  <div className={styles.detailSection}>
+                    <div className={styles.heading}>Total Volume</div>
+                    <div className={styles.content}>
+                      {
+                        orderDetails?.supplier_logistics_data?.package_information
+                          ?.package_details[0]?.dimensions?.volume
+                      }{" "}
+                      L
+                    </div>
+                  </div>
+                )}
               </div>
-            </>
+            </div>
           )}
         </div>
-      </div>
-      {/* end the section */}
-      {/* Start the assign driver section */}
+      )}
+
       {orderDetails?.status === "Completed" && (
-        <div className="buyer-order-details-codinator-section-cont">
-          <BuyerActiveCodinator productList={orderDetails?.items} />
+        <div className={styles.coordinatorSection}>
+          {orderDetails?.coordinators ? (
+            <BuyerActiveCodinator coordinators={orderDetails?.coordinators} />
+          ) : (
+            <span className={styles.content}>No coordinators assigned</span>
+          )}
         </div>
       )}
 
-      {orderDetails?.invoices && orderDetails?.invoices.length > 0 && (
-        <div className="buyer-order-details-invoice-list-section">
+      <div className={styles.invoiceListSection}>
+        {orderDetails?.invoices?.length > 0 ? (
           <OrderInvoiceList invoiceData={orderDetails?.invoices} />
-        </div>
-      )}
-      {/* End the assign driver section */}
-
-      {/* <CustomModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                onSubmit={handleModalSubmit}
-            /> */}
+        ) : (
+          <span className={styles.content}>No invoices available</span>
+        )}
+      </div>
     </div>
   );
 };

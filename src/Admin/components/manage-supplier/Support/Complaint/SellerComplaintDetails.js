@@ -16,7 +16,6 @@ const SellerComplaintDetails = () => {
 
     const renderImages = () => {
         if (supplierDetails?.support_image?.length > 0) {
-            // Render dynamic images
             return supplierDetails.support_image.map((image, index) => (
                 <img
                     key={index}
@@ -27,17 +26,6 @@ const SellerComplaintDetails = () => {
             ));
         }
     };
-    // const renderFiles = (files, type) => {
-    //     return files?.map((file, index) => (
-    //         <img
-    //             key={index}
-    //             src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/${type}/${file}`}
-    //             alt={type}
-    //             className='seller-details-document-image'
-    //         />
-    //     ));
-    // };
-    // End the modal and pdf url
     useEffect(() => {
         if (!adminIdSessionStorage && !adminIdLocalStorage) {
             localStorage.clear();
@@ -70,14 +58,12 @@ const SellerComplaintDetails = () => {
                     navigate('/admin/supplier-request')
                 }, 1000)
 
-                // setSupplierDetails(response.result)
             } else {
                 toast(response.message, { type: 'error' })
             }
         })
     }
     return (
-        <>
             <div className='seller-details-container'>
                 <div className='seller-details-inner-conatiner'>
                     <div className='seller-details-container-heading'>Complaint Details</div>
@@ -94,8 +80,6 @@ const SellerComplaintDetails = () => {
                                             <div className='seller-details-company-type-sec-head'>Supplier Name :</div>
                                             <div className='seller-details-company-type-sec-text'>{supplierDetails?.supplier?.supplier_name}</div>
                                         </div>
-                                    </div>
-                                    <div className='seller-details-uppar-right-container-section'>
                                         <div className='seller-details-company-type-section'>
                                             <div className='seller-details-company-type-sec-head'>Subject :</div>
                                             <div className='seller-details-company-type-sec-text'>{supplierDetails?.subject || 'N/A'}</div>
@@ -130,7 +114,6 @@ const SellerComplaintDetails = () => {
                     </div>
                 </div>
             </div>
-        </>
     )
 }
 

@@ -12,11 +12,8 @@ const BuyerComplaintDetails = () => {
     const adminIdSessionStorage = localStorage.getItem("admin_id");
     const adminIdLocalStorage = localStorage.getItem("admin_id");
     const [supplierDetails, setSupplierDetails] = useState()
-
-
     const renderImages = () => {
         if (supplierDetails?.support_image?.length > 0) {
-            // Render dynamic images
             return supplierDetails.support_image.map((image, index) => (
                 <img
                     key={index}
@@ -26,19 +23,8 @@ const BuyerComplaintDetails = () => {
                 />
             ));
         }
-        // Fallback to render static images if no dynamic images are available
     };
-    // const renderFiles = (files, type) => {
-    //     return files?.map((file, index) => (
-    //         <img
-    //             key={index}
-    //             src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/${type}/${file}`}
-    //             alt={type}
-    //             className='seller-details-document-image'
-    //         />
-    //     ));
-    // };
-    // End the modal and pdf url
+   
     useEffect(() => {
         if (!adminIdSessionStorage && !adminIdLocalStorage) {
             localStorage.clear();
@@ -60,7 +46,7 @@ const BuyerComplaintDetails = () => {
     const handleAcceptReject = (action) => {
         const obj = {
             admin_id: adminIdSessionStorage || adminIdLocalStorage,
-            // supplier_id: supplierId,
+           
             action
         }
 
@@ -71,14 +57,14 @@ const BuyerComplaintDetails = () => {
                     navigate('/admin/supplier-request')
                 }, 1000)
 
-                // setSupplierDetails(response.result)
+               
             } else {
                 toast(response.message, { type: 'error' })
             }
         })
     }
     return (
-        <>
+      
             <div className='seller-details-container'>
                 <div className='seller-details-inner-conatiner'>
                     <div className='seller-details-container-heading'>Complaint Details</div>
@@ -95,8 +81,6 @@ const BuyerComplaintDetails = () => {
                                             <div className='seller-details-company-type-sec-head'>Buyer Name :</div>
                                             <div className='seller-details-company-type-sec-text'>{supplierDetails?.buyer?.buyer_name}</div>
                                         </div>
-                                    </div>
-                                    <div className='seller-details-uppar-right-container-section'>
                                         <div className='seller-details-company-type-section'>
                                             <div className='seller-details-company-type-sec-head'>Subject :</div>
                                             <div className='seller-details-company-type-sec-text'>{supplierDetails?.subject || 'N/A'}</div>
@@ -130,7 +114,7 @@ const BuyerComplaintDetails = () => {
                     </div>
                 </div>
             </div>
-        </>
+       
     )
 }
 
