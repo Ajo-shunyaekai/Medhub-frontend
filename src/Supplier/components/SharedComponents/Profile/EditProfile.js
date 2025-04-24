@@ -134,6 +134,8 @@ const EditProfile = () => {
             localStorage.clear();
             navigate("/supplier/login");
           }, 100);
+        } else {
+          navigate(-1);
         }
       }
     },
@@ -466,7 +468,7 @@ const EditProfile = () => {
                       : styles.editInput
                   }
                   type="text"
-                  name="landmark"
+                  name="land_mark"
                   placeholder="Enter Landmark"
                   value={formik.values.land_mark}
                   readOnly={user?.profile_status == 0}
