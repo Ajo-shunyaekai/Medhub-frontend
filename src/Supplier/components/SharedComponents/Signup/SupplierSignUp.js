@@ -265,6 +265,7 @@ const SupplierSignUp = ({ socket }) => {
         !hasImage && !file ? `${imageType} image is Required` : "",
     }));
   };
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     const alphanumericNoSpaceRegex = /^[a-zA-Z0-9]*$/;
@@ -836,6 +837,11 @@ const SupplierSignUp = ({ socket }) => {
     handleSubmit();
   };
 
+  const parseDateString = (dateString) => {
+    const [day, month, year] = dateString.split("/");
+    return new Date(`${year}-${month}-${day}`);
+  };
+
   return (
     <>
       {showTnC ? (
@@ -1213,7 +1219,7 @@ const SupplierSignUp = ({ socket }) => {
                         License Expiry/Renewal Date
                         
                       </label>
-                      <InputMask
+                      {/* <InputMask
                         className="signup-form-section-input"
                         type="text"
                         mask="dd-mm-yyyy"
@@ -1224,10 +1230,23 @@ const SupplierSignUp = ({ socket }) => {
                         replacement={{ d: /\d/, m: /\d/, y: /\d/ }}
                         showMask
                         separate
-                      />
-
-                     
+                      />*/}
+                      <DatePicker
+                        className="signup-form-section-input"
+                        selected={formData.companyLicenseExpiry ? parseDateString(formData.companyLicenseExpiry) : null }
+                        onChange={(date) => {
+                          const formattedDate = date ? date.toLocaleDateString("en-GB") : "";
+                          handleChange({ target: { name: "companyLicenseExpiry", value: formattedDate } });
+                        }}
+                        dateFormat="dd/MM/yyyy"
+                        placeholderText="dd/MM/yyyy"
+                        minDate={new Date()}
+                        showYearDropdown
+                        scrollableYearDropdown
+                        disabledKeyboardNavigation={false}
+                      />                     
                     </div>
+                    
                     <div className="signup-form-section-div">
                       <label className="signup-form-section-label">
                         Tags<span className="labelstamp">*</span>
