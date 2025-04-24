@@ -1,5 +1,3 @@
-import * as Yup from "yup";
-
 // Initial values for the form
 export const initialValues = {
   activity_code: "",
@@ -27,7 +25,8 @@ export const initialValues = {
   license_image: [],
   license_imageNew: [],
   license_no: "",
-  medical_certificate: "",
+  medical_practitioner_image: [],
+  medical_practitioner_imageNew: [],
   city: "",
   company_reg_address: "",
   land_mark: "",
@@ -86,7 +85,7 @@ export const setInitFormValues = (formik, otherUserDetails) => {
       approx_yearly_purchase_value:
         otherUserDetails?.approx_yearly_purchase_value || [],
       license_no: otherUserDetails?.license_no || "",
-      medical_certificate: otherUserDetails?.medical_certificate || "",
+      medical_practitioner_image: otherUserDetails?.medical_certificate || "",
       city: registeredAddress?.city || "",
       country: registeredAddress?.country || "",
       company_reg_address: registeredAddress?.supplier_address || "",
@@ -132,22 +131,3 @@ export const buyererOptions = [
   { value: "Distributor", label: "Distributor" },
   { value: "Medical Practitioner", label: "Medical Practitioner" },
 ];
-
-// Validation schema using Yup
-export const validationSchema = Yup.object().shape({
-  supplier_type: Yup.string().required("Company Typeis required"),
-  buyer_type: Yup.string().required("Company Typeis required"),
-  cNCFileNDate: Yup.array()
-    .of(
-      Yup.object().shape({
-        file: Yup.mixed().required("File is required"),
-        date: Yup.date()
-          .required("Date is required")
-          .min(new Date(), "Date must be in the future"),
-      })
-    )
-    .min(1, "At least one certificate is required"),
-  licenseExpiry: Yup.date()
-    .nullable()
-    .min(new Date(), "License Expiry Date must be in the future"),
-});

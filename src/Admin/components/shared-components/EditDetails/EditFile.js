@@ -8,13 +8,14 @@ const useFileUpload = (
   fieldInputName,
   oldFieldName,
   setFieldValue,
+  setFieldTouched,
   initialValues,
   acceptTypes,
   maxFiles = 4,
   maxFilesCount = 4,
-  existingFiles = []
+  existingFiles = [],
+  formik
 ) => {
-  const [files, setFiles] = useState(existingFiles || []);
   const [filesOld, setFilesOld] = useState(existingFiles || []);
   const [filesNew, setFilesNew] = useState([]);
   const [filesMerged, setFilesMerged] = useState([]);
@@ -22,21 +23,28 @@ const useFileUpload = (
   const onDrop = useCallback(
     (acceptedFiles) => {
       setFilesNew((prev) => {
-        const totalFiles = [...prev, ...acceptedFiles].slice(0, maxFiles); // Limit to maxFiles
+        const totalFiles = [...prev, ...acceptedFiles].slice(0, maxFiles);
         if (acceptedFiles?.length + prev.length > maxFiles) {
           alert(
             `You can only upload a maximum of ${maxFilesCount} ${
               maxFilesCount != 1 ? "files" : "file"
             }.`
           );
-          return prev; // Keep previous files if limit exceeded
+          return prev;
         }
         // Update Formik state
         setFieldValue(fieldInputName, totalFiles);
         return totalFiles;
       });
     },
-    [fieldInputName, setFieldValue, maxFiles, maxFilesCount]
+    [
+      fieldInputName,
+      oldFieldName,
+      setFieldValue,
+      setFieldTouched,
+      maxFiles,
+      maxFilesCount,
+    ]
   );
 
   // Effect to handle initial file state
@@ -50,9 +58,32 @@ const useFileUpload = (
   useEffect(() => {
     const mergedFiles = [...filesOld, ...filesNew];
     if (JSON.stringify(mergedFiles) !== JSON.stringify(filesMerged)) {
-      setFilesMerged(mergedFiles); // Only update if the merged files are different
+      setFilesMerged(mergedFiles);
+
+      setFieldTouched(fieldInputName, true, false);
+      setFieldTouched(oldFieldName, true, false);
+
+      // ✅ If files are present, remove validation error
+      if (mergedFiles.length > 0) {
+        formik?.setFieldError(fieldInputName, undefined);
+        formik?.setFieldError(oldFieldName, undefined);
+      } else {
+        formik?.setFieldError(
+          fieldInputName,
+          `At least one ${oldFieldName} is required`
+        );
+      }
+
+      // Force revalidation
+      formik?.validateForm();
     }
-  }, [filesNew, filesOld, filesMerged]);
+  }, [
+    filesNew,
+    filesOld,
+    filesMerged,
+    existingFiles,
+    formik?.values?.[fieldInputName],
+  ]);
 
   const removeFile = (index, event, arrayToFilter) => {
     if (event) event.stopPropagation();
@@ -96,8 +127,10 @@ const useFileUpload = (
 
 // AddProductFileUpload Component
 const EditFile = ({
+  filePath,
   productDetails,
   setFieldValue,
+  setFieldTouched,
   initialValues,
   fieldInputName,
   oldFieldName,
@@ -109,20 +142,27 @@ const EditFile = ({
   acceptTypes, // Control accepted file types
   maxFiles = 4, // New prop to control maximum number of files
   maxFilesCount = 4, // New prop to control maximum number of files
+  formik,
 }) => {
   const tooltipId = `tooltip-${label.replace(/\s+/g, "-").toLowerCase()}`;
   const tooltipContent = tooltip || "Default tooltip text";
+  const [errorMsg, setErrorMsg] = useState(error);
+  useEffect(() => {
+    setErrorMsg(error || undefined);
+  }, [error]);
 
   // Call the useFileUpload hook with acceptTypes and maxFiles
   const fileUpload = useFileUpload(
     fieldInputName,
     oldFieldName,
     setFieldValue,
+    setFieldTouched,
     initialValues,
     acceptTypes,
     maxFiles,
     maxFilesCount,
-    existingFiles
+    existingFiles,
+    formik
   );
 
   const isImageOnly =
@@ -155,14 +195,11 @@ const EditFile = ({
           </p>
         </div>
       </div>
-      {/* {formik?.touched?.vat_reg_no &&
-                  formik?.errors?.vat_reg_no && ( */}
-      <span className={styles.error}>
-        {/* {formik?.errors?.vat_reg_no} */}
-        eeeeeeeee
-      </span>
-      {/* )} */}
-      {/* {error && <span className={styles.error}>{error}</span>} */}
+      {/* {<span className={styles.error}>{errorMsg}</span>} */}
+      {formik?.touched?.[fieldInputName] &&
+        formik?.errors?.[fieldInputName] && (
+          <span className={styles.error}>{formik.errors[fieldInputName]}</span>
+        )}
 
       {fileUpload?.filesMerged?.length > 0 && (
         <div className={styles.previewContainer}>
@@ -185,7 +222,7 @@ const EditFile = ({
                   <img
                     src={
                       isString
-                        ? `${process.env.REACT_APP_SERVER_URL}uploads/products/${file}`
+                        ? `${process.env.REACT_APP_SERVER_URL}uploads/${filePath}/${file}`
                         : URL.createObjectURL(file)
                     }
                     alt={fileName}

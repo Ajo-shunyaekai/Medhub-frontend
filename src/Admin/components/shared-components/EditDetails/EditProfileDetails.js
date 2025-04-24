@@ -23,10 +23,12 @@ import {
   setInitFormValues,
   supplierOptions,
 } from "./helper";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { parsePhoneNumber, isValidPhoneNumber } from "libphonenumber-js";
 import { fetchOtherUserData } from "../../../../redux/reducers/userDataSlice";
+import { editProfileDetails } from "../../../../redux/reducers/adminSlice";
+import { toast } from "react-toastify";
 
 // MultiSelectOption Component
 const MultiSelectOption = ({ children, ...props }) => (
@@ -52,6 +54,7 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
 };
 
 const EditProfileDetails = () => {
+  const navigate = useNavigate();
   const { userType, id } = useParams();
   const dispatch = useDispatch();
   const { otherUserDetails } = useSelector((state) => state?.userReducer);
@@ -59,120 +62,89 @@ const EditProfileDetails = () => {
   const [category, setCategory] = useState([]);
   // Country list for select
   const countries = countryList()?.getData();
+
   const validationSchema = Yup.object().shape({
-    // Conditionally required field
     supplier_type: Yup.string().when([], {
       is: () => userType === "supplier",
       then: (schema) => schema.required("Company Type is required."),
       otherwise: (schema) => schema.notRequired(),
     }),
-
     buyer_type: Yup.string().when([], {
       is: () => userType === "buyer",
       then: (schema) => schema.required("Company Type is required."),
       otherwise: (schema) => schema.notRequired(),
     }),
-
     supplier_name: Yup.string().when([], {
       is: () => userType === "supplier",
       then: (schema) => schema.required("Company Name is required."),
       otherwise: (schema) => schema.notRequired(),
     }),
-
     buyer_name: Yup.string().when([], {
       is: () => userType === "buyer",
       then: (schema) => schema.required("Company Name is required."),
       otherwise: (schema) => schema.notRequired(),
     }),
-
     registration_no: Yup.string().required(
       "Company Registration No. is required."
     ),
-
     vat_reg_no: Yup.string().required("GST/VAT Registration No. is required."),
-
     buyer_email: Yup.string().when([], {
       is: () => userType === "buyer",
       then: (schema) => schema.required("Company Email ID is required."),
       otherwise: (schema) => schema.notRequired(),
     }),
-
-    // // supplier_mobile: Yup.string().when([], {
-    // //   is: () => userType === "supplier",
-    // //   then: (schema) => schema.required("Company Phone No. is required."),
-    // //   otherwise: (schema) => schema.notRequired(),
-    // // }),
-
-    // // buyer_mobile: Yup.string().when([], {
-    // //   is: () => userType === "buyer",
-    // //   then: (schema) => schema.required("Company Phone No. is required."),
-    // //   otherwise: (schema) => schema.notRequired(),
-    // // }),
-
-    // // ✅ Conditionally required phone number validation
-    // ...(userType === "supplier"
-    //   ? {
-    //       supplier_mobile: Yup.string()
-    //         .required("Phone number is required")
-    //         .test("is-valid-phone", "Invalid phone number", (value) =>
-    //           isValidPhoneNumber(`+${value}`)
-    //         ),
-    //     }
-    //   : {
-    //       buyer_mobile: Yup.string()
-    //         .required("Phone number is required")
-    //         .test("is-valid-phone", "Invalid phone number", (value) =>
-    //           isValidPhoneNumber(`+${value}`)
-    //         ),
-    //     }),
     ...(userType === "supplier"
       ? {
-          supplier_mobile: Yup.string().test(
-            "phone-validation",
-            "Phone number is required",
-            function (value) {
-              const { supplier_country_code } = this.parent;
-              const fullNumber = supplier_country_code?.includes("+")?`${supplier_country_code || ""} ${
-                value || ""
-              }`:`+${supplier_country_code || ""} ${
-                value || ""
-              }`;
+          supplier_mobile: Yup.string()
+            .required("Company Phone No. is required")
+            .test(
+              "phone-validation",
+              "Company Phone No. is required",
+              function (value) {
+                const { supplier_country_code } = this.parent;
+                const fullNumber = supplier_country_code?.includes("+")
+                  ? `${supplier_country_code || ""} ${value || ""}`
+                  : `+${supplier_country_code || ""} ${value || ""}`;
 
-              if (!value && !supplier_country_code) {
-                return this.createError({
-                  message: "Phone number is required",
-                });
-              }
-
-              if (value && supplier_country_code) {
-                console.log("fullNumber", fullNumber);
-                if (!isValidPhoneNumber(fullNumber)) {
-                  return this.createError({ message: "Invalid phone number." });
+                if (!value && !supplier_country_code) {
+                  return this.createError({
+                    message: "Company Phone No. is required",
+                  });
                 }
-              }
 
-              return true;
-            }
-          ),
+                if (value && supplier_country_code) {
+                  if (!isValidPhoneNumber(fullNumber)) {
+                    return this.createError({
+                      message: "Invalid Company Phone No.",
+                    });
+                  }
+                }
+
+                return true;
+              }
+            ),
         }
       : {
           buyer_mobile: Yup.string().test(
             "phone-validation",
-            "Phone number is required",
+            "Company Phone No. is required",
             function (value) {
               const { buyer_country_code } = this.parent;
-              const fullNumber = buyer_country_code?.includes("+")?`${buyer_country_code || ""} ${value || ""}`:`+${buyer_country_code || ""} ${value || ""}`;
+              const fullNumber = buyer_country_code?.includes("+")
+                ? `${buyer_country_code || ""} ${value || ""}`
+                : `+${buyer_country_code || ""} ${value || ""}`;
 
               if (!value && !buyer_country_code) {
                 return this.createError({
-                  message: "Phone number is required",
+                  message: "Company Phone No. is required",
                 });
               }
 
               if (value && buyer_country_code) {
-                console.log("fullNumber", fullNumber);
                 if (!isValidPhoneNumber(fullNumber)) {
-                  return this.createError({ message: "Invalid phone number." });
+                  return this.createError({
+                    message: "Invalid Company Phone No.",
+                  });
                 }
               }
 
@@ -180,27 +152,308 @@ const EditProfileDetails = () => {
             }
           ),
         }),
+    supplier_address: Yup.string().when([], {
+      is: () => userType === "supplier",
+      then: (schema) => schema.required("Company Billing Address is required."),
+      otherwise: (schema) => schema.notRequired(),
+    }),
+    buyer_address: Yup.string().when([], {
+      is: () => userType === "buyer",
+      then: (schema) => schema.required("Company Billing Address is required."),
+      otherwise: (schema) => schema.notRequired(),
+    }),
+    locality: Yup.string().required("Area/Locality/Road Name is required."),
+    country: Yup.string().required("Country is required."),
+    country_of_origin: Yup.string().required("Country of Origin is required."),
+    tags: Yup.string().when([], {
+      is: () => userType === "supplier",
+      then: (schema) => schema.required("Tags are required."),
+      otherwise: (schema) => schema.notRequired(),
+    }),
+    categories: Yup.array().when([], {
+      is: () => userType === "supplier",
+      then: (schema) =>
+        schema
+          .min(1, "At least one category is required.")
+          .required("Categories are required."),
+      otherwise: (schema) => schema.notRequired(),
+    }),
+    description: Yup.string().required("About Company is required."),
+    // bank_details: Yup.string().required("Bank Details is required."),
+    bank_details: Yup.string().when([], {
+      is: () => userType === "supplier",
+      then: (schema) => schema.required("Bank Details is required"),
+      otherwise: (schema) => schema.notRequired(),
+    }),
+    activity_code: Yup.string().required(
+      "Business/Trade Activity Code is required."
+    ),
+    contact_person_name: Yup.string().required("Contact Name is required."),
+    contact_person_email: Yup.string().required("Email ID is required."),
+    ...(userType === "supplier"
+      ? {
+          contact_person_mobile_no: Yup.string()
+            .required("Mobile No. is required")
+            .test(
+              "phone-validation",
+              "Mobile No. is required",
+              function (value) {
+                const { contact_person_country_code } = this.parent;
+                const fullNumber = contact_person_country_code?.includes("+")
+                  ? `${contact_person_country_code || ""} ${value || ""}`
+                  : `+${contact_person_country_code || ""} ${value || ""}`;
 
-    cNCFileNDate: Yup.array()
+                if (!value && !contact_person_country_code) {
+                  return this.createError({
+                    message: "Mobile No. is required",
+                  });
+                }
+
+                if (value && contact_person_country_code) {
+                  if (!isValidPhoneNumber(fullNumber)) {
+                    return this.createError({
+                      message: "Invalid Mobile No.",
+                    });
+                  }
+                }
+
+                return true;
+              }
+            ),
+        }
+      : {
+          contact_person_mobile: Yup.string().test(
+            "phone-validation",
+            "Mobile No. is required",
+            function (value) {
+              const { contact_person_country_code } = this.parent;
+              const fullNumber = contact_person_country_code?.includes("+")
+                ? `${contact_person_country_code || ""} ${value || ""}`
+                : `+${contact_person_country_code || ""} ${value || ""}`;
+
+              if (!value && !contact_person_country_code) {
+                return this.createError({
+                  message: "Mobile No. is required",
+                });
+              }
+
+              if (value && contact_person_country_code) {
+                if (!isValidPhoneNumber(fullNumber)) {
+                  return this.createError({ message: "Invalid Mobile No." });
+                }
+              }
+
+              return true;
+            }
+          ),
+        }),
+    designation: Yup.string().required("Designation is required."),
+    certificateFileNDate: Yup.array().of(
+      Yup.object().shape({
+        file: Yup.mixed().test(
+          "file-required",
+          "Certificate file is required",
+          function (value) {
+            if (!value) return false;
+            // If file is an array, ensure it's not empty
+            if (Array.isArray(value)) return value.length > 0;
+            // If file is a string (existing file name), check it's not empty
+            if (typeof value === "string") return value.trim().length > 0;
+            // If file is a File object
+            if (typeof value === "object" && value.name) return true;
+            return false;
+          }
+        ),
+        date: Yup.mixed(), // optional or add validation if needed
+      })
+    ),
+    license_image: Yup.array().max(4, "You can upload up to 4 license image."),
+    license_imageNew: Yup.array()
+      .max(4, "You can upload up to 4 license image.")
       .of(
-        Yup.object().shape({
-          file: Yup.mixed().required("File is required."),
-          date: Yup.date()
-            .required("Date is required.")
-            .min(new Date(), "Date must be in the future"),
-        })
+        Yup.mixed()
+          .required("A file is required.")
+          .test(
+            "fileSize",
+            "File too large",
+            (value) => value && value.size <= 1024 * 1024 * 5 // Max 5MB
+          )
       )
-      .min(1, "At least one certificate is required."),
-    licenseExpiry: Yup.date()
-      .nullable()
-      .min(new Date(), "License Expiry Date must be in the future"),
+      .test(
+        "at-least-one-medical",
+        "At least one license image is required.",
+        function (value) {
+          const { license_image } = this.parent;
+          const totalLength =
+            (license_image?.length || 0) + (value?.length || 0);
+          return totalLength > 0;
+        }
+      ),
+    medical_practitioner_image: Yup.array().max(
+      4,
+      "You can upload up to 4 medical certificate."
+    ),
+
+    medical_practitioner_imageNew: Yup.array()
+      .max(4, "You can upload up to 4 medical certificates.")
+      .of(
+        Yup.mixed()
+          .required("A file is required.")
+          .test(
+            "fileSize",
+            "File too large",
+            (value) => value && value.size <= 1024 * 1024 * 5 // Max 5MB
+          )
+      )
+      .when(["supplier_type", "buyer_type"], {
+        is: (supplier_type, buyer_type) =>
+          (userType === "supplier" &&
+            supplier_type === "Medical Practitioner") ||
+          (userType === "buyer" && buyer_type === "Medical Practitioner"),
+        then: Yup.array()
+          .min(1, "At least one medical certificate is required.")
+          .test(
+            "at-least-one-medical",
+            "At least one medical certificate is required.",
+            function (value) {
+              const { medical_practitioner_image } = this.parent;
+              const totalLength =
+                (medical_practitioner_image?.length || 0) +
+                (value?.length || 0);
+              return totalLength > 0;
+            }
+          ),
+        otherwise: Yup.array().notRequired(), // No validation if not a "Medical Practitioner"
+      }),
+
+    // Supplier Image (only for supplier)
+    supplier_image: Yup.array().when([], {
+      is: () => userType === "supplier",
+      then: (schema) => schema.max(4, "You can upload up to 4 company images."),
+      otherwise: (schema) => schema.notRequired(),
+    }),
+    supplier_imageNew: Yup.array().when([], {
+      is: () => userType === "supplier",
+      then: (schema) =>
+        schema
+          .max(4, "You can upload up to 4 company images.")
+          .of(
+            Yup.mixed()
+              .required("A file is required.")
+              .test(
+                "fileSize",
+                "File too large",
+                (value) => value && value.size <= 1024 * 1024 * 5
+              )
+          )
+          .test(
+            "at-least-one-supplier-image",
+            "At least one company image is required.",
+            function (value) {
+              const { supplier_image } = this.parent;
+              const totalLength =
+                (supplier_image?.length || 0) + (value?.length || 0);
+              return totalLength > 0;
+            }
+          ),
+      otherwise: (schema) => schema.notRequired(),
+    }),
+
+    // Buyer Image (only for buyer)
+    buyer_image: Yup.array().when([], {
+      is: () => userType === "buyer",
+      then: (schema) => schema.max(4, "You can upload up to 4 company images."),
+      otherwise: (schema) => schema.notRequired(),
+    }),
+    buyer_imageNew: Yup.array().when([], {
+      is: () => userType === "buyer",
+      then: (schema) =>
+        schema
+          .max(4, "You can upload up to 4 company images.")
+          .of(
+            Yup.mixed()
+              .required("A file is required.")
+              .test(
+                "fileSize",
+                "File too large",
+                (value) => value && value.size <= 1024 * 1024 * 5
+              )
+          )
+          .test(
+            "at-least-one-buyer-image",
+            "At least one company image is required.",
+            function (value) {
+              const { buyer_image } = this.parent;
+              const totalLength =
+                (buyer_image?.length || 0) + (value?.length || 0);
+              return totalLength > 0;
+            }
+          ),
+      otherwise: (schema) => schema.notRequired(),
+    }),
   });
 
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
     onSubmit: (values) => {
+      const formData = new FormData();
+
+      // Append fields as usual
+      Object.keys(values).forEach((key) => {
+        const value = values[key];
+        // Fixing condition to check for 'productPricingDetails' and 'stockedInDetails'
+        if (key != "certificateFileNDate") {
+          if (Array.isArray(value)) {
+            // Append array items under the same key
+            value.forEach((item) => {
+              // If it's a file, append it with its index (to ensure uniqueness)
+              if (item instanceof File) {
+                formData.append(key, item); // appends the file
+              } else {
+                formData.append(key, item); // appends non-file array items
+              }
+            });
+          } else if (value) {
+            // Append regular fields (non-array)
+            formData.append(key, value);
+          }
+        }
+      });
+
+      const certificateFileNDateUpdated = JSON.stringify(
+        values?.certificateFileNDate?.map((section) => {
+          return {
+            date: section?.date || "",
+            file:
+              typeof section?.file == "string"
+                ? section?.file
+                : section?.file?.[0] || "",
+          };
+        })
+      );
+
+      formData.append(
+        "certificateFileNDate",
+        certificateFileNDateUpdated?.length == 0
+          ? [{ date: "", file: "" }]
+          : certificateFileNDateUpdated
+      );
+
+      formData.append(
+        "usertype",
+        userType == "supplier" ? "Supplier" : "Buyer"
+      );
       // Custom submit handler with e.preventDefault()
+
+      // Dispatch the editProfileDetails action (or any other submit action)
+      dispatch(editProfileDetails({ userType, id, values: formData })).then(
+        (response) => {
+          if (response?.meta.requestStatus === "fulfilled") {
+            navigate(-1);
+          }
+        }
+      );
     },
   });
 
@@ -227,101 +480,63 @@ const EditProfileDetails = () => {
     return value?.map((item) => item.label)?.join(", ");
   };
 
-  // // Define handlePhoneChange inside Formik to access setFieldValue
-  // const handlePhoneChange = (name, value) => {
-  //   try {
-  //     const phoneNumber = parsePhoneNumber(value);
-
-  //     // if (!value) {
-  //     //   formik.setFieldError(name, "Phone number is required.");
-  //     //   return;
-  //     // }
-
-  //     // if (!phoneNumber || !isValidPhoneNumber(value)) {
-  //     //   formik.setFieldError(name, "Invalid phone number");
-  //     //   return;
-  //     // }
-
-  //     // Extract the country code and national number from the parsed phone number
-  //     const countryCode = phoneNumber.countryCallingCode;
-  //     const nationalNumber = phoneNumber.nationalNumber;
-  //     const formattedNumber = `+${countryCode} ${nationalNumber}`;
-
-  //     // Update Formik field values
-  //     if (userType === "buyer") {
-  //       if (name === "buyer_mobile") {
-  //         formik.setFieldValue("buyer_country_code", countryCode);
-  //         formik.setFieldValue("buyer_mobile", nationalNumber);
-  //       } else if (name === "contact_person_mobile") {
-  //         formik.setFieldValue("contact_person_country_code", countryCode);
-  //         formik.setFieldValue("contact_person_mobile", nationalNumber);
-  //       }
-  //     } else if (userType === "supplier") {
-  //       if (name === "supplier_mobile") {
-  //         formik.setFieldValue("supplier_country_code", countryCode);
-  //         formik.setFieldValue("supplier_mobile", nationalNumber);
-  //       } else if (name === "contact_person_mobile_no") {
-  //         formik.setFieldValue("contact_person_country_code", countryCode);
-  //         formik.setFieldValue("contact_person_mobile_no", nationalNumber);
-  //       }
-  //     }
-
-  //     // Update the full phone number
-  //     if (formik.touched[name]) {
-  //       formik.setFieldValue(name, formattedNumber);
-  //     }
-  //   } catch (error) {
-  //     // if (formik.touched[name]) {
-  //     //   formik.setFieldError(name, "Invalid phone number");
-  //     // }
-  //   }
-  // };
+  // Define handlePhoneChange inside Formik to access setFieldValue
   const handlePhoneChange = (name, value) => {
-  try {
-    const phoneNumber = parsePhoneNumber(value);
+    try {
+      if (!value) {
+        formik.setFieldError(
+          name,
+          name == "buyer_mobile" || name == "supplier_mobile"
+            ? "Company Phone No. is required."
+            : "Mobile No. is required."
+        );
+        return;
+      }
 
-    // If nothing is entered yet, clear fields
-    if (!value || !phoneNumber) {
+      const phoneNumber = parsePhoneNumber(value);
+
+      // If nothing is entered yet, clear fields
+      if (!value || !phoneNumber) {
+        if (userType === "buyer") {
+          formik.setFieldValue("buyer_country_code", "");
+          formik.setFieldValue("buyer_mobile", "");
+        } else if (userType === "supplier") {
+          formik.setFieldValue("supplier_country_code", "");
+          formik.setFieldValue("supplier_mobile", "");
+        }
+        return;
+      }
+
+      // Extract components
+      const countryCode = phoneNumber.countryCallingCode;
+      const nationalNumber = phoneNumber.nationalNumber;
+
+      // Update Formik fields based on userType
       if (userType === "buyer") {
-        formik.setFieldValue("buyer_country_code", "");
-        formik.setFieldValue("buyer_mobile", "");
+        if (name === "buyer_mobile") {
+          formik.setFieldValue("buyer_country_code", countryCode);
+          formik.setFieldValue("buyer_mobile", nationalNumber);
+        } else if (name === "contact_person_mobile") {
+          formik.setFieldValue("contact_person_country_code", countryCode);
+          formik.setFieldValue("contact_person_mobile", nationalNumber);
+        }
       } else if (userType === "supplier") {
-        formik.setFieldValue("supplier_country_code", "");
-        formik.setFieldValue("supplier_mobile", "");
+        if (name === "supplier_mobile") {
+          formik.setFieldValue("supplier_country_code", countryCode);
+          formik.setFieldValue("supplier_mobile", nationalNumber);
+        } else if (name === "contact_person_mobile_no") {
+          formik.setFieldValue("contact_person_country_code", countryCode);
+          formik.setFieldValue("contact_person_mobile_no", nationalNumber);
+        }
       }
-      return;
+
+      // Touch the field to trigger validation
+      formik.setFieldTouched(name, true, false);
+    } catch (error) {
+      // Do not throw or set error here — let Yup handle it via validationSchema
+      console.warn("Phone parsing error:", error.message);
     }
-
-    // Extract components
-    const countryCode = phoneNumber.countryCallingCode;
-    const nationalNumber = phoneNumber.nationalNumber;
-
-    // Update Formik fields based on userType
-    if (userType === "buyer") {
-      if (name === "buyer_mobile") {
-        formik.setFieldValue("buyer_country_code", countryCode);
-        formik.setFieldValue("buyer_mobile", nationalNumber);
-      } else if (name === "contact_person_mobile") {
-        formik.setFieldValue("contact_person_country_code", countryCode);
-        formik.setFieldValue("contact_person_mobile", nationalNumber);
-      }
-    } else if (userType === "supplier") {
-      if (name === "supplier_mobile") {
-        formik.setFieldValue("supplier_country_code", countryCode);
-        formik.setFieldValue("supplier_mobile", nationalNumber);
-      } else if (name === "contact_person_mobile_no") {
-        formik.setFieldValue("contact_person_country_code", countryCode);
-        formik.setFieldValue("contact_person_mobile_no", nationalNumber);
-      }
-    }
-
-    // Touch the field to trigger validation
-    formik.setFieldTouched(name, true, false);
-  } catch (error) {
-    // Do not throw or set error here — let Yup handle it via validationSchema
-    console.warn("Phone parsing error:", error.message);
-  }
-};
+  };
 
   return (
     <div className={styles?.container}>
@@ -329,7 +544,31 @@ const EditProfileDetails = () => {
         <span className={styles?.heading}>Edit Profile Details</span>
       </div>
       <FormikProvider value={formik}>
-        <form className={styles?.form}>
+        <form
+          className={styles?.form}
+          onSubmit={async (e) => {
+            e.preventDefault(); // Prevent the default form submission behavior
+
+            // Wait for form validation to complete
+            const errors = await formik?.validateForm();
+
+            // Check if there are any validation errors after validation
+            if (Object.keys(errors).length > 0) {
+              // Mark all fields as touched
+              for (const property in errors) {
+                formik?.setFieldTouched(property, true);
+              }
+
+              // Log the touched fields (for debugging)
+              console.log("formik?.touched:", formik?.touched);
+              // Show error toast if there are validation errors
+              toast.error("Please fill the details correctly");
+            } else {
+              // Submit the form if no errors
+              formik.handleSubmit();
+            }
+          }}
+        >
           <div className={styles?.section}>
             <span className={styles?.formHead}>Company Details</span>
             <div className={styles?.formSection}>
@@ -781,6 +1020,8 @@ const EditProfileDetails = () => {
                     (option) =>
                       option.label === formik?.values?.country_of_origin
                   )}
+                  name="country_of_origin"
+                  onBlur={formik?.handleBlur}
                   onChange={(option) => {
                     formik?.setFieldValue("country_of_origin", option?.label);
                   }}
@@ -869,12 +1110,18 @@ const EditProfileDetails = () => {
                   name="license_expiry_date"
                   value={
                     formik?.values?.license_expiry_date
-                      ? new Date(formik?.values?.license_expiry_date)
+                      ? moment(
+                          formik?.values?.license_expiry_date,
+                          "DD/MM/YYYY"
+                        ).toDate()
                       : null
                   }
                   minDate={new Date()}
                   onChange={(date) => {
-                    formik?.setFieldValue(`license_expiry_date`, date);
+                    const formattedDate = date
+                      ? moment(date).format("DD/MM/YYYY")
+                      : null;
+                    formik?.setFieldValue(`license_expiry_date`, formattedDate);
                     formik?.setFieldTouched(`license_expiry_date`, true, true);
                   }}
                   onBlur={formik?.handleBlur}
@@ -994,27 +1241,29 @@ const EditProfileDetails = () => {
                   )}
               </div>
 
-              <div className={styles?.productContainer}>
-                <label className={styles?.formLabel}>
-                  Bank Details
-                  <span className={styles?.labelStamp}>*</span>
-                </label>
-                <Field
-                  as="textarea"
-                  className={styles?.formInput}
-                  placeholder="Enter Bank Details"
-                  name="bank_details"
-                  value={formik?.values?.bank_details}
-                  onChange={formik?.handleChange}
-                  onBlur={formik?.handleBlur}
-                />
-                {formik?.touched?.bank_details &&
-                  formik?.errors?.bank_details && (
-                    <span className={styles?.error}>
-                      {formik?.errors?.bank_details}
-                    </span>
-                  )}
-              </div>
+              {userType == "supplier" && (
+                <div className={styles?.productContainer}>
+                  <label className={styles?.formLabel}>
+                    Bank Details
+                    <span className={styles?.labelStamp}>*</span>
+                  </label>
+                  <Field
+                    as="textarea"
+                    className={styles?.formInput}
+                    placeholder="Enter Bank Details"
+                    name="bank_details"
+                    value={formik?.values?.bank_details}
+                    onChange={formik?.handleChange}
+                    onBlur={formik?.handleBlur}
+                  />
+                  {formik?.touched?.bank_details &&
+                    formik?.errors?.bank_details && (
+                      <span className={styles?.error}>
+                        {formik?.errors?.bank_details}
+                      </span>
+                    )}
+                </div>
+              )}
 
               <div className={styles?.productContainer}>
                 <label className={styles?.formLabel}>
@@ -1176,7 +1425,7 @@ const EditProfileDetails = () => {
                     }
                   }}
                 >
-                  Add More cc
+                  Add More
                 </span>
               )}
             </div>
@@ -1186,25 +1435,33 @@ const EditProfileDetails = () => {
                 key={`certification_${index}`}
                 className={styles?.formSection}
               >
-                <Field name={`certificateFileNDate.${index}.file`}>
-                  {({ field }) => (
-                    <EditCertificate
-                      fieldInputName={`certificateFileNDate.${index}.file`}
-                      setFieldValue={formik?.setFieldValue}
-                      initialValues={formik?.values}
-                      label="Upload Certificate"
-                      selectedFile={ele.file}
-                      preview={ele.preview}
-                      fileIndex={index}
-                      isEdit={false}
-                    />
-                  )}
-                </Field>
-                <span className={styles?.error}>
-                  {formik?.touched?.certificateFileNDate?.[index]?.file &&
-                    formik?.errors?.certificateFileNDate?.[index]?.file}
-                </span>
-
+                <div>
+                  <Field name={`certificateFileNDate.${index}.file`}>
+                    {({ field }) => (
+                      <EditCertificate
+                        filePath={
+                          userType == "supplier"
+                            ? "supplier/certificate_image"
+                            : "buyer/certificate_images"
+                        }
+                        formik={formik}
+                        fieldInputName={`certificateFileNDate.${index}.file`}
+                        setFieldValue={formik?.setFieldValue}
+                        setFieldTouched={formik?.setFieldTouched}
+                        initialValues={formik?.values}
+                        label="Upload Certificate"
+                        selectedFile={ele.file}
+                        preview={ele.preview}
+                        fileIndex={index}
+                        isEdit={false}
+                      />
+                    )}
+                  </Field>
+                  <span className={styles?.error}>
+                    {formik?.touched?.certificateFileNDate?.[index]?.file &&
+                      formik?.errors?.certificateFileNDate?.[index]?.file}
+                  </span>
+                </div>
                 <div className={styles?.productContainer}>
                   <label className={styles?.formLabel}>Date of Expiry</label>
                   <div className={styles?.tooltipContainer}>
@@ -1214,12 +1471,19 @@ const EditProfileDetails = () => {
                       format="dd/MM/yyyy"
                       placeholder="dd/MM/yyyy"
                       name={`certificateFileNDate.${index}.date`}
-                      value={ele.date ? new Date(ele.date) : null}
+                      value={
+                        ele.date
+                          ? moment(ele.date, "DD/MM/YYYY").toDate()
+                          : null
+                      }
                       minDate={new Date()}
                       onChange={(date) => {
+                        const formattedDate = date
+                          ? moment(date).format("DD/MM/YYYY")
+                          : null;
                         formik?.setFieldValue(
                           `certificateFileNDate.${index}.date`,
-                          date
+                          formattedDate
                         );
                         formik?.setFieldTouched(
                           `certificateFileNDate.${index}.date`,
@@ -1257,18 +1521,18 @@ const EditProfileDetails = () => {
                       );
 
                       const updatedList =
-                        formik?.values?.certificateFileNDate.filter(
+                        formik?.values?.certificateFileNDate?.filter(
                           (_, elindex) => elindex !== index
                         );
                       const updatedList2 =
-                        formik?.values?.complianceFile.filter(
+                        formik?.values?.certificate_image?.filter(
                           (_, elindex) => elindex !== index
                         );
                       formik?.setFieldValue(
                         "certificateFileNDate",
                         updatedList
                       );
-                      formik?.setFieldValue("complianceFile", updatedList2);
+                      formik?.setFieldValue("certificate_image", updatedList2);
                     }}
                   >
                     <span className={styles?.formclose}>
@@ -1284,6 +1548,17 @@ const EditProfileDetails = () => {
             <span className={styles?.formHead}>Documents</span>
             <div className={styles?.formSection}>
               <EditFile
+                filePath={
+                  userType == "supplier"
+                    ? "supplier/supplierImage_files"
+                    : "buyer/buyer_images"
+                }
+                error={
+                  userType == "supplier"
+                    ? formik?.errors?.supplier_imageNew
+                    : formik?.errors?.buyer_imageNew
+                }
+                formik={formik}
                 productDetails={otherUserDetails}
                 maxFilesCount={1}
                 maxFiles={
@@ -1305,6 +1580,7 @@ const EditProfileDetails = () => {
                     : formik?.values?.buyer_image
                 }
                 setFieldValue={formik?.setFieldValue}
+                setFieldTouched={formik?.setFieldTouched}
                 initialValues={formik?.values}
                 label="Upload Company Logo"
                 acceptTypes={{
@@ -1316,6 +1592,13 @@ const EditProfileDetails = () => {
               />
 
               <EditFile
+                filePath={
+                  userType == "supplier"
+                    ? "supplier/license_image"
+                    : "buyer/license_images"
+                }
+                error={formik?.errors?.license_imageNew}
+                formik={formik}
                 productDetails={otherUserDetails}
                 maxFilesCount={4}
                 maxFiles={4 - (formik?.values?.license_image?.length || 0)}
@@ -1323,6 +1606,7 @@ const EditProfileDetails = () => {
                 oldFieldName="license_image"
                 existingFiles={formik?.values?.license_image}
                 setFieldValue={formik?.setFieldValue}
+                setFieldTouched={formik?.setFieldTouched}
                 initialValues={formik?.values}
                 label="Upload Trade License"
                 acceptTypes={{
@@ -1337,15 +1621,24 @@ const EditProfileDetails = () => {
                 ? formik?.values?.supplier_type
                 : formik?.values?.buyer_type) === "Medical Practitioner" && (
                 <EditFile
+                  filePath={
+                    userType == "supplier"
+                      ? "supplier/medical_practitioner_image"
+                      : "buyer/medical_practitioner_images"
+                  }
+                  error={formik?.errors?.medical_practitioner_imageNew}
+                  formik={formik}
                   productDetails={otherUserDetails}
                   maxFilesCount={4}
                   maxFiles={
-                    4 - (formik?.values?.medical_certificate?.length || 0)
+                    4 -
+                    (formik?.values?.medical_practitioner_image?.length || 0)
                   }
-                  fieldInputName="medical_certificateNew"
-                  oldFieldName="medical_certificate"
-                  existingFiles={formik?.values?.medical_certificate}
+                  fieldInputName="medical_practitioner_imageNew"
+                  oldFieldName="medical_practitioner_image"
+                  existingFiles={formik?.values?.medical_practitioner_image}
                   setFieldValue={formik?.setFieldValue}
+                  setFieldTouched={formik?.setFieldTouched}
                   initialValues={formik?.values}
                   label="Upload Medical Practitioner Certificate"
                   acceptTypes={{
