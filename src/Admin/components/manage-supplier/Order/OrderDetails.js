@@ -30,7 +30,6 @@ const OrderDetails = () => {
         `order/get-specific-order-details/${orderId}`,
         obj
       );
-      console.log("API Response:", response); // Debug the response
       if (response?.code === 200) {
         setOrderDetails(response.result);
       } else {
