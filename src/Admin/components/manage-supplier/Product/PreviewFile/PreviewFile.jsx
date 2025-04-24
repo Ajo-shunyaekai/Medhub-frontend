@@ -9,15 +9,16 @@ import {
 import DataTable from "react-data-table-component";
 import styles from "./PreviewFile.module.css";
 import FileUploadModal from "../FileUpload/FileUpload";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
  
 function PreviewFile() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+    const { supplierId } = useParams();
   const [open, setOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [hasErrorEntries, setHasErrorEntries] = useState(false);
-  const [isErrorFreeDataUploaded, setIsErrorFreeDataUploaded] = useState(false); // New state to track error-free data upload status
+  const [isErrorFreeDataUploaded, setIsErrorFreeDataUploaded] = useState(false);
   const { previewProducts } = useSelector((state) => state?.productReducer);
  
   const hasRowError = (row) => Object.values(row).some((cell) => cell?.error);
@@ -42,7 +43,7 @@ function PreviewFile() {
     dispatch(csvDownload(previewProducts?.entriesWithErrors)).then(
       (response) => {
         if (response?.meta.requestStatus === "fulfilled") {
-          navigate("/admin/preview-file");
+          navigate(`/admin/supplier/${supplierId}/preview-file`);
         }
       }
     );
@@ -51,7 +52,7 @@ function PreviewFile() {
   const handleBulkUpload = () => {
     if (selectedFile) {
       const bulkFormData = new FormData();
-      bulkFormData.append("supplier_id", localStorage.getItem("_id"));
+      bulkFormData.append("supplier_id", supplierId);
       bulkFormData.append("csvfile", selectedFile);
  
       dispatch(previewBulkProducts(bulkFormData)).then((response) => {
@@ -68,7 +69,7 @@ function PreviewFile() {
       return {
         ...ele,
         supplier_id: {
-          value: localStorage.getItem("_id"),
+          value: supplierId,
         },
       };
     });
@@ -77,7 +78,7 @@ function PreviewFile() {
         setHasErrorEntries(false);
         setIsErrorFreeDataUploaded(true);
         previewProducts?.entriesWithErrors?.length == 0 &&
-          navigate("/admin/product/new-product");
+          navigate(`/admin/supplier/${supplierId}/products/new`);
       }
     });
   };

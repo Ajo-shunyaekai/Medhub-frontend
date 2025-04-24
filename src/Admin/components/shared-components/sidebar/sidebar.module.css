@@ -258,7 +258,7 @@ body {
 }
 
 main {
-  width: 85%;
+  width: 90%;
   height: 100vh;
   padding: 10px 20px;
   background-color: #f9f9fa;
@@ -272,7 +272,6 @@ main {
 ;
     flex-direction: column;
     gap: 20px;
-  width: 15% !important;
   min-width: 200px !important;
   background-attachment: fixed;
   overflow: scroll;

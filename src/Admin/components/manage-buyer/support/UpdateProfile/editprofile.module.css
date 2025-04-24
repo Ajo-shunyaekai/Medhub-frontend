@@ -152,7 +152,7 @@
 /* style the edit profile details container */
 .editProfileContainer {
   width: 100%;
-  max-width: 90%;
+  max-width: 98%;
   height: 100vh;
   overflow: scroll;
   background-attachment: fixed;

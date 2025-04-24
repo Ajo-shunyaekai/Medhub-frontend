@@ -70,3 +70,8 @@
     font-weight: 500;
     color: #4f4f4f !important;
 }
+.buttonContainer{
+    display: flex;
+    gap: 10px;
+    cursor: pointer !important;
+}
