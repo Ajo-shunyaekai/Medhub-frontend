@@ -939,6 +939,11 @@ const SignUp = ({ socket }) => {
     return placeholderButtonLabel;
   };
 
+  const parseDateString = (dateString) => {
+    const [day, month, year] = dateString.split("/");
+    return new Date(`${year}-${month}-${day}`);
+  };
+
   return (
     <>
       {showTnC ? (
@@ -1303,7 +1308,7 @@ const SignUp = ({ socket }) => {
                       <label className="signup-form-section-label">
                         License Expiry/Renewal Date
                       </label>
-                      <InputMask
+                      {/* <InputMask
                         className="signup-form-section-input"
                         type="text"
                         mask="dd-mm-yyyy"
@@ -1314,7 +1319,21 @@ const SignUp = ({ socket }) => {
                         replacement={{ d: /\d/, m: /\d/, y: /\d/ }}
                         showMask
                         separate
-                      />
+                      /> */}
+                      <DatePicker
+                        className="signup-form-section-input"
+                        selected={formData.companyLicenseExpiry ? parseDateString(formData.companyLicenseExpiry) : null }
+                        onChange={(date) => {
+                          const formattedDate = date ? date.toLocaleDateString("en-GB") : "";
+                          handleChange({ target: { name: "companyLicenseExpiry", value: formattedDate } });
+                        }}
+                        dateFormat="dd/MM/yyyy"
+                        placeholderText="dd/MM/yyyy"
+                        minDate={new Date()}
+                        showYearDropdown
+                        scrollableYearDropdown
+                        disabledKeyboardNavigation={false}
+                      />   
                       {/* {errors.companyLicenseExpiry && (
                         <div className="signup__errors">
                           {errors.companyLicenseExpiry}
