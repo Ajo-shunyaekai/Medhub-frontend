@@ -3,13 +3,13 @@ import DataTable from 'react-data-table-component';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import styles from '../../../../assets/style/table.module.css';
 import '../../../../assets/style/table.css'
-import ProductImage from '../../../../assets/Images/productImage.png'
-import { Link } from "react-router-dom";
+import { TbEdit } from "react-icons/tb";
+import { Link, useParams} from "react-router-dom";
 import PaginationComponent from '../../../shared-components/Pagination/Pagination';
 
 const SecondaryProductList = ({ products, totalItems, currentPage, itemsPerPage, handlePageChange }) => {
   const serverUrl = process.env.REACT_APP_SERVER_URL;
-
+   const { supplierId } = useParams();
   // Define columns for the DataTable
   const columns = [
     {
@@ -54,11 +54,18 @@ const SecondaryProductList = ({ products, totalItems, currentPage, itemsPerPage,
     {
       name: 'Actions',
       cell: (row) => (
+        <div className={styles.buttonContainer}>
         <Link to={`/admin/product-details/${row._id}`}>
         <div className={styles.activeBtn}>
           <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
         </div>
       </Link>
+       <Link to={`/admin/supplier/${supplierId}/edit-product/${row._id}`}>
+       <div className={styles.activeBtn}>
+         <TbEdit className={styles['table-icon']} />
+       </div>
+     </Link>
+     </div>
       ),
       ignoreRowClick: true,
       allowOverflow: true,

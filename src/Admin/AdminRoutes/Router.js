@@ -262,7 +262,8 @@ const SupplierEditProfileDetails = lazy(() =>
 const Product = lazy(() => import("../components/manage-supplier/Product/List/Product.js"));
 const NewProduct = lazy(() =>import("../components/manage-supplier/Product/List/NewProductList.js"));
 const SecondaryProduct = lazy(() =>import("../components/manage-supplier/Product/List/SecondaryProductList.js"));
-// const AddProduct = lazy(() =>import("../components/manage-supplier/Product/AddProduct/Addproduct.js"));
+const AddProduct = lazy(() =>import("../components/manage-supplier/Product/AddProduct/AddProduct.js"));
+const EditProduct = lazy(() =>import("../components/manage-supplier/Product/AddProduct/EditAddProduct.js"));
 const PreviewFile = lazy(() =>import("../components/manage-supplier/Product/PreviewFile/PreviewFile.jsx"));
 // End supplier individual product routes
 const socket = io.connect(process.env.REACT_APP_SERVER_URL);
@@ -451,7 +452,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "preview-file",
+        path: "supplier/:supplierId/preview-file",
         element: (
           <Suspense fallback={<Loader />}>
             <PreviewFile socket={socket} />
@@ -1095,14 +1096,23 @@ const router = createBrowserRouter([
       },
     ],
   },
-  // {
-  //   path: "add-product",
-  //   element: (
-  //     <Suspense fallback={<Loader />}>
-  //       <AddProduct socket={socket} />
-  //     </Suspense>
-  //   ),
-  // },
+
+  {
+    path: "supplier/:supplierId/edit-product/:id",
+    element: (
+      <Suspense fallback={<Loader />}>
+        <EditProduct socket={socket} />
+      </Suspense>
+    ),
+  },
+  {
+    path: "supplier/:supplierId/add-product",
+    element: (
+      <Suspense fallback={<Loader />}>
+        <AddProduct socket={socket} />
+      </Suspense>
+    ),
+  },
  
  // end Supplier product section
       

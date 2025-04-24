@@ -1,33 +1,6 @@
 import React, { useState } from 'react';
-import Pagination from 'react-js-pagination';
-import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
-import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import moment from "moment-timezone";
-
-// Static data array
-const staticItems = [
-  {
-    product_id: 'MED001',
-    medicine_details: { medicine_name: 'Paracetamol' },
-    quantity_required: 50,
-    unit_price: 10.5,
-    target_price: '15 USD',
-    est_delivery_days: '5 days',
-    status: 'Quotation submitted',
-    created_at: '2024-09-10T10:00:00Z'
-  },
-  {
-    product_id: 'MED002',
-    medicine_details: { medicine_name: 'Ibuprofen' },
-    quantity_required: 100,
-    unit_price: 12,
-    target_price: '20 USD',
-    est_delivery_days: '3 days',
-    status: 'In Progress',
-    created_at: '2024-09-09T09:30:00Z'
-  },
-  // Add more static data as required
-];
+import PaginationComponent from '../../../shared-components/Pagination/Pagination'; // Import the PaginationComponent
 
 const InquiryOngoingList = ({ items, inquiryDetails }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -66,7 +39,6 @@ const InquiryOngoingList = ({ items, inquiryDetails }) => {
               </td>
               <td className='tables-td-cont'>
                 <div className="table-second-container">
-                  <span className="table-g-section">{item?.medicine_details?.general?.name?.charAt(0).toUpperCase()}</span>
                   <div className="table-g-section-content">
                     <span className="table-g-driver-name">Product Name</span>
                     <span className="table-g-not-name">{item?.medicine_details?.general?.name}</span>
@@ -89,11 +61,11 @@ const InquiryOngoingList = ({ items, inquiryDetails }) => {
                 <div className="table-g-section-content">
                   <span className="table-g-driver-name">Target Price</span>
                   <span className="table-g-not-name">
-                  {item.target_price
-                        ? item.target_price.toLowerCase().includes('usd')
-                            ? item.target_price.replace(/days/i, 'USD')
-                            : `${item.target_price} USD` 
-                        : '-'}
+                    {item.target_price
+                      ? item.target_price.toLowerCase().includes('usd')
+                        ? item.target_price.replace(/days/i, 'USD')
+                        : `${item.target_price} USD`
+                      : '-'}
                   </span>
                 </div>
               </td>
@@ -101,11 +73,11 @@ const InquiryOngoingList = ({ items, inquiryDetails }) => {
                 <div className="table-g-section-content">
                   <span className="table-g-driver-name">Est. Delivery Time</span>
                   <span className="table-g-not-name">
-                  {item.est_delivery_days
-                        ? item.est_delivery_days.toLowerCase().includes('days')
-                            ? item.est_delivery_days.replace(/days/i, 'Days')
-                            : `${item.est_delivery_days} Days` 
-                        : ''}
+                    {item.est_delivery_days
+                      ? item.est_delivery_days.toLowerCase().includes('days')
+                        ? item.est_delivery_days.replace(/days/i, 'Days')
+                        : `${item.est_delivery_days} Days`
+                      : ''}
                   </span>
                 </div>
               </td>
@@ -125,24 +97,14 @@ const InquiryOngoingList = ({ items, inquiryDetails }) => {
         </tbody>
       </table>
 
-      {/* Pagination section */}
-      <div className='pagi-container'>
-        <Pagination
-          activePage={currentPage}
-          itemsCountPerPage={ordersPerPage}
-          totalItemsCount={items?.length}
-          pageRangeDisplayed={5}
-          onChange={handlePageChange}
-          itemClass="page-item"
-          linkClass="page-link"
-          prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
-          nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
-          hideFirstLastPages={true}
-        />
-        <div className='pagi-total'>
-          Total Items: {items?.length}
-        </div>
-      </div>
+      {/* Pagination section using PaginationComponent */}
+      <PaginationComponent
+        activePage={currentPage}
+        itemsCountPerPage={ordersPerPage}
+        totalItemsCount={items?.length}
+        pageRangeDisplayed={5}
+        onChange={handlePageChange}
+      />
     </div>
   );
 };
