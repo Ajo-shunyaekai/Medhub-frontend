@@ -11,6 +11,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* MultiSelectDropdown Css */
+.css-1dyz3mf {
+  height: 80px !important;
+  overflow-y: auto !important;
+}
+
 /* a:hover {
   color: currentColor !important;
   text-decoration: none !important;
