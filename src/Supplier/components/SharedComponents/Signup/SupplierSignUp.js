@@ -265,6 +265,7 @@ const SupplierSignUp = ({ socket }) => {
         !hasImage && !file ? `${imageType} image is Required` : "",
     }));
   };
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     const alphanumericNoSpaceRegex = /^[a-zA-Z0-9]*$/;
@@ -345,11 +346,20 @@ const SupplierSignUp = ({ socket }) => {
       (name === "companyName" ||
         name === "companyEmail" ||
         name === "email" ||
-        name === "companyAddress" ||
+        // name === "companyAddress" ||
         name === "locality" ||
         name === "landMark") &&
       value.length > 50
     ) {
+      setErrors((prevState) => ({
+        ...prevState,
+        [name]: ``,
+      }));
+      return;
+    }
+
+    if((name === "companyAddress") &&
+    value.length > 150 ) {
       setErrors((prevState) => ({
         ...prevState,
         [name]: ``,
@@ -383,10 +393,10 @@ const SupplierSignUp = ({ socket }) => {
       }
     }
 
-    if (name === "description" && value.length > 1000) {
+    if (name === "description" && value.length > 2000) {
       setErrors((prevState) => ({
         ...prevState,
-        description: "Description cannot exceed 1000 characters",
+        description: "Description cannot exceed 2000 characters",
       }));
     } else if (
       (name === "contactPersonName" ||
@@ -598,7 +608,6 @@ const SupplierSignUp = ({ socket }) => {
         formErrors.certificateFileNDate = fileErrors.join(", ");
       }
     }
-    console.log('formErrors',formErrors)
     setErrors(formErrors);
 
     return Object.keys(formErrors).length === 0;
@@ -835,6 +844,11 @@ const SupplierSignUp = ({ socket }) => {
   const handleFormSubmit = (event) => {
     event.preventDefault();
     handleSubmit();
+  };
+
+  const parseDateString = (dateString) => {
+    const [day, month, year] = dateString.split("/");
+    return new Date(`${year}-${month}-${day}`);
   };
 
   return (
@@ -1214,7 +1228,7 @@ const SupplierSignUp = ({ socket }) => {
                         License Expiry/Renewal Date
                         
                       </label>
-                      <InputMask
+                      {/* <InputMask
                         className="signup-form-section-input"
                         type="text"
                         mask="dd-mm-yyyy"
@@ -1225,10 +1239,23 @@ const SupplierSignUp = ({ socket }) => {
                         replacement={{ d: /\d/, m: /\d/, y: /\d/ }}
                         showMask
                         separate
-                      />
-
-                     
+                      />*/}
+                      <DatePicker
+                        className="signup-form-section-input"
+                        selected={formData.companyLicenseExpiry ? parseDateString(formData.companyLicenseExpiry) : null }
+                        onChange={(date) => {
+                          const formattedDate = date ? date.toLocaleDateString("en-GB") : "";
+                          handleChange({ target: { name: "companyLicenseExpiry", value: formattedDate } });
+                        }}
+                        dateFormat="dd/MM/yyyy"
+                        placeholderText="dd/MM/yyyy"
+                        minDate={new Date()}
+                        showYearDropdown
+                        scrollableYearDropdown
+                        disabledKeyboardNavigation={false}
+                      />                     
                     </div>
+                    
                     <div className="signup-form-section-div">
                       <label className="signup-form-section-label">
                         Tags<span className="labelstamp">*</span>

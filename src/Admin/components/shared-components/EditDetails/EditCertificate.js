@@ -22,11 +22,11 @@ const useFileUpload = (
   const onDrop = useCallback(
     (acceptedFiles) => {
       setFieldValue(fieldInputName, acceptedFiles);
-      const updatedComplianceFiles = [
-        ...(initialValues?.complianceFileNew || []),
+      const updatedcertificate_images = [
+        ...(initialValues?.certificate_imageNew || []),
         ...acceptedFiles,
       ];
-      setFieldValue("complianceFileNew", updatedComplianceFiles);
+      setFieldValue("certificate_imageNew", updatedcertificate_images);
       setFilesNew((prev) => {
         const totalFiles = [...prev, ...acceptedFiles].slice(0, 4); // Limit to maxFiles (4 in this case)
         return totalFiles;
@@ -40,26 +40,26 @@ const useFileUpload = (
     if (arrayToFilter == "new") {
       // we will remove from new array
       setFilesNew([]);
-      const indexToRemove = initialValues?.complianceFile?.findIndex(
+      const indexToRemove = initialValues?.certificate_image?.findIndex(
         (ele, index) => JSON.stringify(ele) == file
       );
-      const filteredValues = initialValues?.complianceFile?.filter(
+      const filteredValues = initialValues?.certificate_image?.filter(
         // (_, index) => index != indexToRemove
         (_, index) => JSON.stringify(_) != file
       )?.length;
       if (filteredValues > 1) {
         setFieldValue(
-          "complianceFileNew",
+          "certificate_imageNew",
 
-          initialValues?.complianceFileNew?.filter(
+          initialValues?.certificate_imageNew?.filter(
             (_, index) => index != indexToRemove
           )
         );
       } else {
         setFieldValue(
-          "complianceFileNew",
+          "certificate_imageNew",
 
-          initialValues?.complianceFileNew?.filter(
+          initialValues?.certificate_imageNew?.filter(
             // (_, index) => index != indexToRemove
             (_, index) => JSON.stringify(_) != file
           )
@@ -68,27 +68,27 @@ const useFileUpload = (
     } else {
       // we will remove from old and new array
       setFilesNew([]);
-      const indexToRemove = initialValues?.complianceFileNew?.findIndex(
+      const indexToRemove = initialValues?.certificate_imageNew?.findIndex(
         (ele, index) => JSON.stringify(ele) == file
       );
-      const filteredValues = initialValues?.complianceFileNew?.filter(
+      const filteredValues = initialValues?.certificate_imageNew?.filter(
         // (_, index) => index != indexToRemove
         (_, index) => JSON.stringify(_) != file
       )?.length;
       if (filteredValues > 1) {
         setFieldValue(
-          "complianceFile",
+          "certificate_image",
 
-          initialValues?.complianceFile?.filter(
+          initialValues?.certificate_image?.filter(
             (_, index) => index != indexToRemove
             // (_, index) => JSON.stringify(_) != file
           )
         );
       } else {
         setFieldValue(
-          "complianceFile",
+          "certificate_image",
 
-          initialValues?.complianceFile?.filter(
+          initialValues?.certificate_image?.filter(
             // (_, index) => index != indexToRemove
             (_, index) => JSON.stringify(_) != file
           )
@@ -123,8 +123,9 @@ const useFileUpload = (
   };
 };
 
-// EditComplianceNCertification Component
+// EditCertificate Component
 const EditCertificate = ({
+  filePath,
   setFieldValue,
   fieldInputName,
   initialValues,
@@ -136,6 +137,7 @@ const EditCertificate = ({
   selectedFile,
   fileIndex,
   isEdit,
+  formik,
 }) => {
   const tooltipId = `tooltip-${label.replace(/\s+/g, "-").toLowerCase()}`;
   const tooltipContent = tooltip || "Default tooltip text";
@@ -152,6 +154,11 @@ const EditCertificate = ({
     isEdit
   );
 
+  useEffect(() => {
+    // Force revalidation
+    formik?.validateForm();
+  }, [selectedFile]);
+
   const isImageOnly =
     acceptTypes &&
     Object.keys(acceptTypes).every((type) => type?.startsWith("image/"));
@@ -161,12 +168,7 @@ const EditCertificate = ({
 
   return (
     <div className={styles.compliancesContainer}>
-      {showLabel && (
-        <label className={styles.formLabel}>
-          {label}
-          <span className={styles?.labelStamp}>*</span>
-        </label>
-      )}
+      {showLabel && <label className={styles.formLabel}>{label}</label>}
       <div className={styles.tooltipContainer}>
         <div {...fileUpload?.getRootProps({ className: styles.uploadBox })}>
           <input {...fileUpload?.getInputProps()} />
@@ -181,13 +183,6 @@ const EditCertificate = ({
                 }`}
           </p>
         </div>
-        {/* {formik?.touched?.vat_reg_no &&
-                  formik?.errors?.vat_reg_no && ( */}
-        <span className={styles.error}>
-          {/* {formik?.errors?.vat_reg_no} */}
-          eeeeeeeee
-        </span>
-        {/* )} */}
       </div>
       {(typeof fileUpload?.selectedFile == "string"
         ? [fileUpload?.selectedFile]
@@ -219,7 +214,7 @@ const EditCertificate = ({
                   <img
                     src={
                       typeof file === "string"
-                        ? `${process.env.REACT_APP_SERVER_URL}uploads/products/${file}`
+                        ? `${process.env.REACT_APP_SERVER_URL}uploads/${filePath}/${file}`
                         : URL.createObjectURL(file)
                     }
                     alt={file?.name}

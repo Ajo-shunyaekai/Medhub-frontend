@@ -16,7 +16,7 @@ import logo from "../../../assets/images/navibluelogo.svg";
 import SuccessModal from "./SuccessModal";
 import ImageUploaders from "./ImageUploader";
 import { parsePhoneNumberFromString, isValidNumber } from "libphonenumber-js";
-import Cross from "../../../assets/images/Icon.svg"
+import Cross from "../../../assets/images/Icon.svg";
 import { InputMask } from "@react-input/mask";
 import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
@@ -132,7 +132,7 @@ const SignUp = ({ socket }) => {
     operationCountries: [],
     interestedIn: "",
     companyLicenseNo: "",
-    companyTaxNo: "",
+    // companyTaxNo: "",
     yearlyPurchaseValue: "",
     companyLicenseExpiry: "",
     description: "",
@@ -432,7 +432,8 @@ const SignUp = ({ socket }) => {
     if (
       (name === "companyName" ||
         name === "companyEmail" ||
-        (name === "email") | (name === "companyAddress") ||
+        (name === "email") || 
+        // (name === "companyAddress") ||
         name === "locality" ||
         name === "landMark") &&
       value.length > 50
@@ -444,12 +445,21 @@ const SignUp = ({ socket }) => {
       return;
     }
 
+    if((name === "companyAddress") &&
+    value.length > 150 ) {
+      setErrors((prevState) => ({
+        ...prevState,
+        [name]: ``,
+      }));
+      return;
+    }
+
     if (
       [
         "registrationNo",
         "vatRegistrationNo",
         "companyLicenseNo",
-        "companyTaxNo",
+        // "companyTaxNo",
       ].includes(name)
     ) {
       if (value.length > 16) {
@@ -488,10 +498,10 @@ const SignUp = ({ socket }) => {
       }
     }
 
-    if (name === "description" && value.length > 1000) {
+    if (name === "description" && value.length > 2000) {
       setErrors((prevState) => ({
         ...prevState,
-        description: "Description cannot exceed 1000 characters",
+        description: "Description cannot exceed 2000 characters",
       }));
     } else if (
       (name === "contactPersonName" ||
@@ -716,7 +726,6 @@ const SignUp = ({ socket }) => {
         formErrors.certificateFileNDate = fileErrors.join(", ");
       }
     }
-    console.log('formErrors',formErrors)
     setErrors(formErrors);
 
     return Object.keys(formErrors).length === 0;
@@ -795,7 +804,7 @@ const SignUp = ({ socket }) => {
       countryLabels.forEach((item) =>
         formDataToSend.append("country_of_operation[]", item)
       );
-      formDataToSend.append("tax_no", formData.companyTaxNo);
+      // formDataToSend.append("tax_no", formData.companyTaxNo);
       formDataToSend.append("activity_code", formData.activityCode);
       formDataToSend.append("usertype", formData.usertype || "Buyer");
       // New data fields
@@ -940,6 +949,11 @@ const SignUp = ({ socket }) => {
     return placeholderButtonLabel;
   };
 
+  const parseDateString = (dateString) => {
+    const [day, month, year] = dateString.split("/");
+    return new Date(`${year}-${month}-${day}`);
+  };
+
   return (
     <>
       {showTnC ? (
@@ -1034,7 +1048,7 @@ const SignUp = ({ socket }) => {
                     </div>
                     <div className="signup-form-section-div">
                       <label className="signup-form-section-label">
-                      GST/VAT Registration Number
+                        GST/VAT Registration Number
                         <span className="labelstamp">*</span>
                       </label>
                       <div className="signup-tooltip-class">
@@ -1304,7 +1318,7 @@ const SignUp = ({ socket }) => {
                       <label className="signup-form-section-label">
                         License Expiry/Renewal Date
                       </label>
-                      <InputMask
+                      {/* <InputMask
                         className="signup-form-section-input"
                         type="text"
                         mask="dd-mm-yyyy"
@@ -1315,7 +1329,21 @@ const SignUp = ({ socket }) => {
                         replacement={{ d: /\d/, m: /\d/, y: /\d/ }}
                         showMask
                         separate
-                      />
+                      /> */}
+                      <DatePicker
+                        className="signup-form-section-input"
+                        selected={formData.companyLicenseExpiry ? parseDateString(formData.companyLicenseExpiry) : null }
+                        onChange={(date) => {
+                          const formattedDate = date ? date.toLocaleDateString("en-GB") : "";
+                          handleChange({ target: { name: "companyLicenseExpiry", value: formattedDate } });
+                        }}
+                        dateFormat="dd/MM/yyyy"
+                        placeholderText="dd/MM/yyyy"
+                        minDate={new Date()}
+                        showYearDropdown
+                        scrollableYearDropdown
+                        disabledKeyboardNavigation={false}
+                      />   
                       {/* {errors.companyLicenseExpiry && (
                         <div className="signup__errors">
                           {errors.companyLicenseExpiry}
@@ -1593,12 +1621,12 @@ const SignUp = ({ socket }) => {
 
                     <div className="signup-document-section">
                       <div className="signup-add-button-section">
-                      <button
-                        className="signup-document-head"
-                        onClick={(e) => addNewSection(e)}
-                      >
-                        Add
-                      </button>
+                        <button
+                          className="signup-document-head"
+                          onClick={(e) => addNewSection(e)}
+                        >
+                          Add
+                        </button>
                       </div>
                       {certificateFileNDate.map((section, index) => (
                         <div key={index} className="document-inner-section">
@@ -1608,31 +1636,35 @@ const SignUp = ({ socket }) => {
                               <span className="labelstamp">*</span>
                             </label>
                             <div className="file-preview-container">
-                            <CertificateUploader
-                              onUploadStatusChange={(status) =>
-                                handleImageUpload(status, index)
-                              }
-                              filePreviews={section.file}
-                              setFilePreviews={(files) => setfile(files, index)}
-                              reset={resetUploaders}
-                              allowMultiple={false}
-                              showTooltip={true}
-                              tooltipMessage="Certificate could be any company based compliance certificates: ISO, Heath and Safety, WDA."
-                              certificateFileNDate={certificateFileNDate}
-                              setCertificateFileNDate={setCertificateFileNDate}
-                              cNCFileArray={cNCFileArray}
-                              setCNCFileArray={setCNCFileArray}
-                              cNCFileError={cNCFileError}
-                              setCNCFileError={setCNCFileError}
-                              mainIndex={index}
-                            />
-                            {cNCFileError?.[index] && (
-                              <div className="signup_document_errors">
-                                {cNCFileError?.[index]}
-                              </div>
-                            )}
+                              <CertificateUploader
+                                onUploadStatusChange={(status) =>
+                                  handleImageUpload(status, index)
+                                }
+                                filePreviews={section.file}
+                                setFilePreviews={(files) =>
+                                  setfile(files, index)
+                                }
+                                reset={resetUploaders}
+                                allowMultiple={false}
+                                showTooltip={true}
+                                tooltipMessage="Certificate could be any company based compliance certificates: ISO, Heath and Safety, WDA."
+                                certificateFileNDate={certificateFileNDate}
+                                setCertificateFileNDate={
+                                  setCertificateFileNDate
+                                }
+                                cNCFileArray={cNCFileArray}
+                                setCNCFileArray={setCNCFileArray}
+                                cNCFileError={cNCFileError}
+                                setCNCFileError={setCNCFileError}
+                                mainIndex={index}
+                              />
+                              {cNCFileError?.[index] && (
+                                <div className="signup_document_errors">
+                                  {cNCFileError?.[index]}
+                                </div>
+                              )}
+                            </div>
                           </div>
-</div>
                           <div className="signup-form-section-div">
                             <label className="signup-form-section-label">
                               Expiry Date
@@ -1655,7 +1687,11 @@ const SignUp = ({ socket }) => {
                               onClick={() => removeSection(index)}
                               className="signup-cross-button"
                             >
-                              <img src={Cross} alt="cross" className="cross-icon"/>
+                              <img
+                                src={Cross}
+                                alt="cross"
+                                className="cross-icon"
+                              />
                             </div>
                           )}
                         </div>
