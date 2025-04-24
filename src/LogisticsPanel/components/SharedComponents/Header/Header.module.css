@@ -51,6 +51,63 @@ ul {
   font-weight: bold;
 }
 
+.dropdown {
+  /* position: relative; */
+}
+
+.dropdownToggle {
+  cursor: pointer;
+  display: block;
+  color: #282f86;
+}
+
+.dropdownMenu {
+  display: none;
+  position: absolute;
+  background-color: white;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  list-style: none;
+  padding: 10px 0;
+  z-index: 999;
+  border-radius: 10px;
+}
+
+.dropdown:hover .dropdownMenu {
+  display: block;
+}
+
+.dropdownMenu li {
+  padding: 5px 20px;
+}
+
+.dropdownMenu li:hover {
+  background-color: #f1f1f1;
+}
+
+
+.dropdownToggleMobile {
+  cursor: pointer;
+  display: block;
+  color: #fff;
+  font-size: 14px;
+}
+
+.dropdownMenuMobile {
+  display: none;
+  list-style: none;
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 5px;
+}
+
+.dropdown:hover .dropdownMenuMobile {
+  display: block;
+}
+
+.dropdownMenuMobile li {
+  padding: 5px 5px;
+}
+
 .menus {
   display: flex;
   column-gap: 20px;

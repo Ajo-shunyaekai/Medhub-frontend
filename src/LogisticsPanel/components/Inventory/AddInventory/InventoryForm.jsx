@@ -54,7 +54,7 @@ function InventoryForm() {
     };
 
   return (
-    <Main title='Inventory'>
+    <Main title='Add Inventory'>
         <div className={styles.inventoryContainer}>
             <form>
                 <Card>
