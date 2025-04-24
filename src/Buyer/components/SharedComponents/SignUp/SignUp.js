@@ -432,7 +432,8 @@ const SignUp = ({ socket }) => {
     if (
       (name === "companyName" ||
         name === "companyEmail" ||
-        (name === "email") | (name === "companyAddress") ||
+        (name === "email") || 
+        // (name === "companyAddress") ||
         name === "locality" ||
         name === "landMark") &&
       value.length > 50
@@ -440,6 +441,15 @@ const SignUp = ({ socket }) => {
       setErrors((prevState) => ({
         ...prevState,
         [name]: "",
+      }));
+      return;
+    }
+
+    if((name === "companyAddress") &&
+    value.length > 150 ) {
+      setErrors((prevState) => ({
+        ...prevState,
+        [name]: ``,
       }));
       return;
     }
@@ -488,10 +498,10 @@ const SignUp = ({ socket }) => {
       }
     }
 
-    if (name === "description" && value.length > 1000) {
+    if (name === "description" && value.length > 2000) {
       setErrors((prevState) => ({
         ...prevState,
-        description: "Description cannot exceed 1000 characters",
+        description: "Description cannot exceed 2000 characters",
       }));
     } else if (
       (name === "contactPersonName" ||
