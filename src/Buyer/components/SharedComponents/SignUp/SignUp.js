@@ -16,7 +16,7 @@ import logo from "../../../assets/images/navibluelogo.svg";
 import SuccessModal from "./SuccessModal";
 import ImageUploaders from "./ImageUploader";
 import { parsePhoneNumberFromString, isValidNumber } from "libphonenumber-js";
-import Cross from "../../../assets/images/Icon.svg"
+import Cross from "../../../assets/images/Icon.svg";
 import { InputMask } from "@react-input/mask";
 import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
@@ -132,7 +132,7 @@ const SignUp = ({ socket }) => {
     operationCountries: [],
     interestedIn: "",
     companyLicenseNo: "",
-    companyTaxNo: "",
+    // companyTaxNo: "",
     yearlyPurchaseValue: "",
     companyLicenseExpiry: "",
     description: "",
@@ -449,7 +449,7 @@ const SignUp = ({ socket }) => {
         "registrationNo",
         "vatRegistrationNo",
         "companyLicenseNo",
-        "companyTaxNo",
+        // "companyTaxNo",
       ].includes(name)
     ) {
       if (value.length > 16) {
@@ -661,8 +661,8 @@ const SignUp = ({ socket }) => {
     }
     if (!formData.yearlyPurchaseValue)
       formErrors.yearlyPurchaseValue = "Yearly Purchase Value is Required";
-    if (!formData.companyTaxNo)
-      formErrors.companyTaxNo = "Company Tax No. is Required";
+    // if (!formData.companyTaxNo)
+    //   formErrors.companyTaxNo = "Company Tax No. is Required";
     if (!formData.interestedIn)
       formErrors.interestedIn = "Interested In  is Required";
     // if (!isChecked) formErrors.terms = 'You must agree to the terms and conditions';
@@ -795,7 +795,7 @@ const SignUp = ({ socket }) => {
       countryLabels.forEach((item) =>
         formDataToSend.append("country_of_operation[]", item)
       );
-      formDataToSend.append("tax_no", formData.companyTaxNo);
+      // formDataToSend.append("tax_no", formData.companyTaxNo);
       formDataToSend.append("activity_code", formData.activityCode);
       formDataToSend.append("usertype", formData.usertype || "Buyer");
       // New data fields
@@ -1034,7 +1034,7 @@ const SignUp = ({ socket }) => {
                     </div>
                     <div className="signup-form-section-div">
                       <label className="signup-form-section-label">
-                      GST/VAT Registration Number
+                        GST/VAT Registration Number
                         <span className="labelstamp">*</span>
                       </label>
                       <div className="signup-tooltip-class">
@@ -1593,12 +1593,12 @@ const SignUp = ({ socket }) => {
 
                     <div className="signup-document-section">
                       <div className="signup-add-button-section">
-                      <button
-                        className="signup-document-head"
-                        onClick={(e) => addNewSection(e)}
-                      >
-                        Add
-                      </button>
+                        <button
+                          className="signup-document-head"
+                          onClick={(e) => addNewSection(e)}
+                        >
+                          Add
+                        </button>
                       </div>
                       {certificateFileNDate.map((section, index) => (
                         <div key={index} className="document-inner-section">
@@ -1608,31 +1608,35 @@ const SignUp = ({ socket }) => {
                               <span className="labelstamp">*</span>
                             </label>
                             <div className="file-preview-container">
-                            <CertificateUploader
-                              onUploadStatusChange={(status) =>
-                                handleImageUpload(status, index)
-                              }
-                              filePreviews={section.file}
-                              setFilePreviews={(files) => setfile(files, index)}
-                              reset={resetUploaders}
-                              allowMultiple={false}
-                              showTooltip={true}
-                              tooltipMessage="Certificate could be any company based compliance certificates: ISO, Heath and Safety, WDA."
-                              certificateFileNDate={certificateFileNDate}
-                              setCertificateFileNDate={setCertificateFileNDate}
-                              cNCFileArray={cNCFileArray}
-                              setCNCFileArray={setCNCFileArray}
-                              cNCFileError={cNCFileError}
-                              setCNCFileError={setCNCFileError}
-                              mainIndex={index}
-                            />
-                            {cNCFileError?.[index] && (
-                              <div className="signup_document_errors">
-                                {cNCFileError?.[index]}
-                              </div>
-                            )}
+                              <CertificateUploader
+                                onUploadStatusChange={(status) =>
+                                  handleImageUpload(status, index)
+                                }
+                                filePreviews={section.file}
+                                setFilePreviews={(files) =>
+                                  setfile(files, index)
+                                }
+                                reset={resetUploaders}
+                                allowMultiple={false}
+                                showTooltip={true}
+                                tooltipMessage="Certificate could be any company based compliance certificates: ISO, Heath and Safety, WDA."
+                                certificateFileNDate={certificateFileNDate}
+                                setCertificateFileNDate={
+                                  setCertificateFileNDate
+                                }
+                                cNCFileArray={cNCFileArray}
+                                setCNCFileArray={setCNCFileArray}
+                                cNCFileError={cNCFileError}
+                                setCNCFileError={setCNCFileError}
+                                mainIndex={index}
+                              />
+                              {cNCFileError?.[index] && (
+                                <div className="signup_document_errors">
+                                  {cNCFileError?.[index]}
+                                </div>
+                              )}
+                            </div>
                           </div>
-</div>
                           <div className="signup-form-section-div">
                             <label className="signup-form-section-label">
                               Expiry Date
@@ -1655,7 +1659,11 @@ const SignUp = ({ socket }) => {
                               onClick={() => removeSection(index)}
                               className="signup-cross-button"
                             >
-                              <img src={Cross} alt="cross" className="cross-icon"/>
+                              <img
+                                src={Cross}
+                                alt="cross"
+                                className="cross-icon"
+                              />
                             </div>
                           )}
                         </div>

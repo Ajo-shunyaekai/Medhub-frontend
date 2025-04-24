@@ -161,7 +161,7 @@ const SupplierDetails = () => {
                 <div className='buyer-details-inner-conatiner'>
                     <div className='buyer-details-edit-button-container'>
                         <span className='buyer-details-container-heading'>Supplier ID: {supplierDetails?.supplier_id}</span>
-                        {/* {supplierDetails?.account_status !== 2 && (
+                        {supplierDetails?.account_status !== 2 && (
                             <>
                                 <div className='buyer-details-product-list-section'>
                                     <Link to='/admin/product/new-product'>
@@ -172,7 +172,7 @@ const SupplierDetails = () => {
                                     </Link>
                                 </div>
                             </>
-                        )} */}
+                        )}
                     </div>
                     <div className='buyer-details-left-inner-container'>
                         <div className='buyer-details-left-uppar-section'>
