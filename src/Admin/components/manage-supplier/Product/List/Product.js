@@ -107,7 +107,6 @@ const Product = () => {
           `product?market=${marketType}&supplier_id=${supplierId}&page_no=${currentPage}&page_size=${itemsPerPage}`
         )
       );
-      console.log("API Response:", response);
       if (response.meta.requestStatus === "fulfilled") {
         setTotalItems(response.payload?.totalItems);
         setLoading(false);

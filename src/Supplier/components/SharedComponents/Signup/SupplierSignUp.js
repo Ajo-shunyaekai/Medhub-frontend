@@ -598,7 +598,6 @@ const SupplierSignUp = ({ socket }) => {
         formErrors.certificateFileNDate = fileErrors.join(", ");
       }
     }
-    console.log('formErrors',formErrors)
     setErrors(formErrors);
 
     return Object.keys(formErrors).length === 0;

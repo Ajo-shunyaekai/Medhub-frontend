@@ -560,7 +560,6 @@ const EditProfileDetails = () => {
               }
 
               // Log the touched fields (for debugging)
-              console.log("formik?.touched:", formik?.touched);
               // Show error toast if there are validation errors
               toast.error("Please fill the details correctly");
             } else {

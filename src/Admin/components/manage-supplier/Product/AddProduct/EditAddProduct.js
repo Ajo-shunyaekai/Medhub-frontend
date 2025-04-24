@@ -573,7 +573,6 @@ const EditAddProduct = ({ placeholder }) => {
             if (Object.keys(formik.errors).length === 0) {
               formik.handleSubmit();
             } else {
-              console.log('formik.errors', formik.errors)
               // If validation errors exist or no change, show the error message
               toast.error("Please fill the required fields correctly.");
             }
