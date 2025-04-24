@@ -152,7 +152,7 @@
 /* style the edit profile details container */
 .editProfileContainer {
   width: 100%;
-  max-width: 90%;
+  max-width: 98%;
   height: 100vh;
   overflow: scroll;
   background-attachment: fixed;
@@ -208,7 +208,7 @@
   word-wrap: break-word;
   word-break: break-word;
   overflow-wrap: break-word;
-  color: #282f86;
+  color: #99a0ac;
   font-size: 15px;
   font-weight: 500;
 }

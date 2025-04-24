@@ -7,7 +7,7 @@ import Loader from '../../shared-components/Loader/Loader';
 import moment from 'moment/moment';
 import PaginationComponent from '../../shared-components/Pagination/Pagination';
 import styles from '../../../assets/style/table.module.css';
-import '../../../assets/style/table.css'
+import '../../../assets/style/table.css';
 
 const SellerRequest = () => {
     const navigate = useNavigate();
@@ -17,13 +17,13 @@ const SellerRequest = () => {
     const filterValue = queryParams.get('filterValue');
 
     const adminIdSessionStorage = localStorage.getItem("admin_id");
-    const adminIdLocalStorage   = localStorage.getItem("admin_id");
+    const adminIdLocalStorage = localStorage.getItem("admin_id");
 
     const [loading, setLoading] = useState(true);
     const [sellerRequestList, setSellerRequestList] = useState([]);
     const [totalRequests, setTotalRequests] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
-    const listPerPage = 10;
+    const listPerPage = 10; 
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -35,18 +35,19 @@ const SellerRequest = () => {
             navigate('/admin/login');
             return;
         }
+
         const obj = {
             admin_id: adminIdSessionStorage || adminIdLocalStorage,
             filterKey: 'pending',
             filterValue: filterValue,
             pageNo: currentPage,
-            pageSize: listPerPage,
+            pageSize: listPerPage, 
         };
 
         postRequestWithToken('admin/get-supplier-reg-req-list', obj, async (response) => {
             if (response?.code === 200) {
-                setSellerRequestList(response.result.data)
-                setTotalRequests(response.result.totalItems)
+                setSellerRequestList(response.result.data);
+                setTotalRequests(response.result.totalItems);
             } else {
                 console.error('Error fetching supplier requests:', response.message);
             }
@@ -62,64 +63,50 @@ const SellerRequest = () => {
         }
         setLoading(false);
     };
-
-    // Define columns for react-data-table-component
     const columns = [
         {
             name: 'Date',
             selector: (row) => moment(row.createdAt).format('DD/MM/YYYY'),
             sortable: true,
-            // width: '120px',
         },
         {
             name: 'Registration No.',
             selector: (row) => row.registration_no,
             sortable: true,
-            // width: '200px',
         },
         {
             name: 'GST/VAT Registration No.',
             selector: (row) => row.vat_reg_no,
             sortable: true,
-            // width: '200px',
         },
         {
             name: 'Company Name',
             selector: (row) => row.supplier_name,
             sortable: true,
-            // width: '200px',
         },
         {
             name: 'Company Type',
             selector: (row) => row.supplier_type,
             sortable: true,
-            // width: '150px',
         },
-       
         {
             name: 'Country of Origin',
             selector: (row) => row.country_of_origin,
             sortable: true,
-            // width: '150px',
         },
-        // {
-        //     name: 'Company Tax No.',
-        //     selector: (row) => row.tax_no,
-        //     sortable: true,
-        //     // width: '150px',
-        // },
         {
             name: 'Action',
             cell: (row) => (
                 <Link to={`/admin/supplier-request-details/${row.supplier_id}`}>
                     <div className={styles.activeBtn}>
-                    <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
+                        <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                     </div>
                 </Link>
             ),
             center: true,
         },
     ];
+
     return (
         <section className={styles.container}>
             {loading ? (
@@ -132,24 +119,20 @@ const SellerRequest = () => {
                             Download
                         </button>
                     </header>
-                   
-                        <DataTable
-                            columns={columns}
-                            data={sellerRequestList}
-                            // customStyles={customStyles}
-                            noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
-                            persistTableHead
-                            pagination={false} // Disable built-in pagination
-                        />
-                 
-                   
-                        <PaginationComponent
-                            activePage={currentPage}
-                            itemsCountPerPage={listPerPage}
-                            totalItemsCount={totalRequests}
-                            pageRangeDisplayed={10}
-                            onChange={handlePageChange}
-                        />
+                    <DataTable
+                        columns={columns}
+                        data={sellerRequestList}
+                        noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
+                        persistTableHead
+                        pagination={false} 
+                    />
+                    <PaginationComponent
+                        activePage={currentPage}
+                        itemsCountPerPage={listPerPage} 
+                        totalItemsCount={totalRequests}
+                        pageRangeDisplayed={10}
+                        onChange={handlePageChange}
+                    />
                 </>
             )}
         </section>

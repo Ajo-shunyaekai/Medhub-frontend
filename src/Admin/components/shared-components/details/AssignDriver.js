@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import '../../../assets/style/orderdetails.css'
 import PaginationComponent from '../../shared-components/Pagination/Pagination';
 
 const AssignDriver = ({ orderItems, orderDetails }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const ordersPerPage = 3;
-    const data = orderItems && orderItems.length > 0 ? orderItems : []; // Added fallback to empty array
+    const data = orderItems && orderItems.length > 0 ? orderItems : [];
 
     const indexOfLastOrder = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;

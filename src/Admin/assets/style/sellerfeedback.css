@@ -105,11 +105,16 @@
     gap: 1rem;
 }
 .seller-details-company-type-sec-head{
-    font-size: 14px;
+    color: #5e676f !important;
+    font-size: 18px;
     font-weight: 500;
 }
 .seller-details-company-type-sec-text{
-    font-size: 14px;
+    font-size: 15px;
+    font-weight: 500;
+    overflow-wrap: break-word;
+    white-space: normal;
+    word-break: break-word;
     color: #99a0ac;
 }
 .seller-details-company-type-section{
@@ -123,10 +128,11 @@
     height: auto;
 }
 .seller-details-uppar-right-container-section{
-    display: flex;
+    display: flex
+;
     justify-content: start;
     align-items: center;
-    gap: 2rem;
+    gap: 20px;
 }
 .seller-details-company-logo-section img{
     width: 100%;
@@ -151,12 +157,17 @@
 }
 
 .seller-details-description-head {
-    font-size: 14px;
+    color: #5e676f !important;
+    font-size: 18px;
     font-weight: 500;
 }
 
 .seller-details-description-content {
-    font-size: 13px;
+    font-size: 15px;
+    font-weight: 500;
+    overflow-wrap: break-word;
+    white-space: normal;
+    word-break: break-word;
     color: #99a0ac;
 }
 

@@ -1,115 +1,97 @@
 import React, { useState } from 'react';
-import Pagination from 'react-js-pagination';
-import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
-import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
-import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import DataTable from 'react-data-table-component';
 import { Link } from 'react-router-dom';
+import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
+import PaginationComponent from '../Pagination/Pagination';
+import styles from '../../../assets/style/table.module.css';
+import '../../../assets/style/table.css'
 
-const OrderInvoiceList = ({invoiceData}) => {
+const OrderInvoiceList = ({ invoiceData }) => {
     const [currentPage, setCurrentPage] = useState(1);
-    const ordersPerPage = 5; 
-
-    const data =  invoiceData;
-
-    const indexOfLastOrder  = currentPage * ordersPerPage;
+    const ordersPerPage = 10;
+    const indexOfLastOrder = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-    const currentOrders     = data.slice(indexOfFirstOrder, indexOfLastOrder);
-
+    const currentOrders = invoiceData.slice(indexOfFirstOrder, indexOfLastOrder);
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
+    const columns = [
+        {
+            name: 'Invoice No.',
+            selector: (row) => row.invoice_no,
+            sortable: true,
 
+        },
+        {
+            name: 'Order ID',
+            selector: (row) => row.order_id,
+            sortable: true,
+
+        },
+        {
+            name: 'Supplier Name',
+            selector: (row) => row.supplier_name,
+            sortable: true,
+
+        },
+        {
+            name: 'Amount',
+            selector: (row) => row.total_payable_amount,
+            sortable: true,
+            cell: (row) => (
+                <>
+                    {row.total_payable_amount !== null && row.total_payable_amount !== undefined
+                        ? `${row.total_payable_amount} USD`
+                        : ''}
+                </>
+            ),
+        },
+        {
+            name: 'Status',
+            selector: (row) => row.invoice_status,
+            sortable: true,
+            cell: (row) => (
+                <>
+                    {row.invoice_status.charAt(0).toUpperCase() + row.invoice_status.slice(1)}
+                </>
+            ),
+        },
+        {
+            name: 'Action',
+            cell: (row) => (
+
+                <Link to={`/admin/buyer-invoice-details/${row.invoice_id}`}>
+                    <div className={styles.activeBtn}>
+                        <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
+                    </div>
+                </Link>
+
+            ),
+            ignoreRowClick: true,
+            allowOverflow: true,
+            button: true,
+            sortable: false,
+        },
+    ];
     return (
-        <div className="card-body">
-            <div>
-                <div className="table-assign-driver-heading">Invoice List</div>
-            </div>
-            <table className="table">
-                <tbody>
-
-                       {
-                        currentOrders.map((invoice, i) => (
-                            <tr key={i}>
-                                <td className='tables-td'>
-                                    <div className="table-g-section-content">
-                                        <span className="table-g-driver-name">Invoice No.</span>
-                                        <span className="table-g-not-names">{invoice.invoice_no }</span>
-                                    </div>
-                                </td>
-                                <td className='tables-td-cont' >
-                                    <div className="table-second-container">
-                                        <div className="table-g-section-content">
-                                            <span className="table-g-driver-name">Order ID</span>
-                                            <span className="table-g-not-name">{invoice.order_id}</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td className='tables-td'>
-                                    <div className="table-g-section-content">
-                                        <span className="table-g-driver-name">Supplier Name</span>
-                                        <span className="table-g-not-name">{invoice.supplier_name}</span>
-                                    </div>
-                                </td>
-                                <td className='tables-td'>
-                                    <div className="table-g-section-content">
-                                        <span className="table-g-driver-name">Amount</span>
-                                        <span className="table-g-not-name">
-                                           {invoice.total_payable_amount !== null && invoice.total_payable_amount !== undefined
-                                            ? `${invoice.total_payable_amount} USD`
-                                            : ''}
-                                        </span>
-                                    </div>
-                                </td>
-                                <td className='tables-td'>
-                                    <div className="table-g-section-content">
-                                        <span className="table-g-driver-name">Status</span>
-                                        <span className="table-g-not-name">
-                                        {invoice.invoice_status.charAt(0).toUpperCase() + invoice.invoice_status.slice(1)}
-                                        </span>
-                                    </div>
-                                </td>
-                                <td className='tables-td'>
-                                    <div className="table-g-section-content">
-                                        <span className="table-g-driver-name">Action</span>
-                                        <span className="table-g-not-name"><Link to={`/admin/buyer-invoice-details/${invoice.invoice_id}`}>
-                                            <div className='invoice-details-button-column'>
-                                                <VisibilityOutlinedIcon className='invoice-view' />
-                                            </div>
-                                        </Link></span>
-                                    </div>
-                                </td>
-                            </tr>
-                        ))
-                    }
-                    
-                </tbody>
-            </table>
-            <div className='pagi-container'>
-                <Pagination
-                    activePage={currentPage}
-                    itemsCountPerPage={ordersPerPage}
-                    totalItemsCount={data.length}
-                    pageRangeDisplayed={5}
-                    onChange={handlePageChange}
-                    itemClass="page-item"
-                    linkClass="page-link"
-                    prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
-                    nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
-                    hideFirstLastPages={true}
-                />
-                <div className='pagi-total'>
-                    <div>Total Items: {data.length}</div>
-                </div>
-            </div>
+        <div className={styles.mainInvoicecontainer}>
+            <span className={styles.title}>Invoice List</span>
+            <DataTable
+                columns={columns}
+                data={currentOrders}
+                persistTableHead
+                noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
+                pagination={false}
+            />
+            <PaginationComponent
+                activePage={currentPage}
+                itemsCountPerPage={ordersPerPage}
+                totalItemsCount={invoiceData.length}
+                pageRangeDisplayed={5}
+                onChange={handlePageChange}
+            />
         </div>
     );
 };
 
 export default OrderInvoiceList;
-
-
-
-
-
-
-
