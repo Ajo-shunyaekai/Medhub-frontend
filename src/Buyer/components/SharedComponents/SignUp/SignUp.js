@@ -802,7 +802,7 @@ const SignUp = ({ socket }) => {
       formDataToSend.append("vat_reg_no", formData.vatRegistrationNo);
       // formDataToSend.append('country_of_operation', countryLabels);
       countryLabels.forEach((item) =>
-        formDataToSend.append("country_of_operation[]", item)
+        formDataToSend.append("country_of_operation", item)
       );
       // formDataToSend.append("tax_no", formData.companyTaxNo);
       formDataToSend.append("activity_code", formData.activityCode);
