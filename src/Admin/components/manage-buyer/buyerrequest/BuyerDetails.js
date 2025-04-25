@@ -192,7 +192,7 @@ const BuyerDetails = () => {
                                 <div className='buyer-details-company-logo-container'>
                                     <div className='buyer-details-company-logo-section'>
                                         <img src={`${process.env.REACT_APP_SERVER_URL}uploads/buyer/buyer_images/${buyerDetails?.buyer_image[0]}`} alt='CompanyLogo' />
-                                        {/* src={`${process.env.REACT_APP_SERVER_URL}uploads/buyer/buyer_images/${poDetails?.buyer_details[0]?.buyer_image[0]}`} */}
+                                        {/* src={`${process.env.REACT_APP_SERVER_URL}uploads/buyer/buyer_images/${poDetails?.buyer_details?.[0]?.buyer_image?.[0]}`} */}
                                     </div>
                                 </div>
                                 <div className='buyer-details-uppar-right-main-section'>
