@@ -588,27 +588,55 @@ const SupplierSignUp = ({ socket }) => {
 
     if (!formData.locality) formErrors.locality = "Locality is Required";
     if (!formData.country) formErrors.country = "Country is Required";
-    if (Array.isArray(certificateFileNDate) && certificateFileNDate.length > 0) {
-      const fileErrors = [];
-
-      certificateFileNDate.forEach((item, index) => {
-        if (!item.file) {
-          fileErrors.push(`File is required for entry ${index + 1}`);
-          const fileErrorArr = cNCFileError || [];
-          fileErrorArr[index] = `File is required.`;
-          setCNCFileError(fileErrorArr);
-        } else {
-          // fileErrors.push("");
-          const fileErrorArr = cNCFileError || [];
-          fileErrorArr[index] = "";
-          setCNCFileError(fileErrorArr);
+    if (
+      selectedCompanyType?.value !== "service provider" 
+      // && !formData.medicalCertificateImage
+    ) {
+      // formErrors.medicalCertificateImage =
+      //   "Medical Certificate Image is Required";
+      if (Array.isArray(certificateFileNDate) && certificateFileNDate.length > 0) {
+        const fileErrors = [];
+  
+        certificateFileNDate.forEach((item, index) => {
+          if (!item.file) {
+            fileErrors.push(`File is required for entry ${index + 1}`);
+            const fileErrorArr = cNCFileError || [];
+            fileErrorArr[index] = `File is required.`;
+            setCNCFileError(fileErrorArr);
+          } else {
+            // fileErrors.push("");
+            const fileErrorArr = cNCFileError || [];
+            fileErrorArr[index] = "";
+            setCNCFileError(fileErrorArr);
+          }
+        });
+  
+        if (fileErrors.length > 0) {
+          formErrors.certificateFileNDate = fileErrors.join(", ");
         }
-      });
-
-      if (fileErrors.length > 0) {
-        formErrors.certificateFileNDate = fileErrors.join(", ");
       }
     }
+    // if (Array.isArray(certificateFileNDate) && certificateFileNDate.length > 0) {
+    //   const fileErrors = [];
+
+    //   certificateFileNDate.forEach((item, index) => {
+    //     if (!item.file) {
+    //       fileErrors.push(`File is required for entry ${index + 1}`);
+    //       const fileErrorArr = cNCFileError || [];
+    //       fileErrorArr[index] = `File is required.`;
+    //       setCNCFileError(fileErrorArr);
+    //     } else {
+    //       // fileErrors.push("");
+    //       const fileErrorArr = cNCFileError || [];
+    //       fileErrorArr[index] = "";
+    //       setCNCFileError(fileErrorArr);
+    //     }
+    //   });
+
+    //   if (fileErrors.length > 0) {
+    //     formErrors.certificateFileNDate = fileErrors.join(", ");
+    //   }
+    // }
     setErrors(formErrors);
 
     return Object.keys(formErrors).length === 0;
@@ -1538,6 +1566,7 @@ const SupplierSignUp = ({ socket }) => {
                         </div>
                       )}
                     </div>
+                    {selectedCompanyType?.value !== "service provider" && (
                     <div className="signup-document-section">
                     <div className="signup-add-button-section">
                       <button
@@ -1607,6 +1636,7 @@ const SupplierSignUp = ({ socket }) => {
                         </div>
                       ))}
                     </div>
+                    )}
                     {selectedCompanyType?.value === "medical practitioner" && (
                       <div className="signup-form-section-div">
                         <label className="signup-form-section-label">
