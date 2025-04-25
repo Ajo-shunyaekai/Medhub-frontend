@@ -1246,6 +1246,7 @@ const SignUp = ({ socket }) => {
                       <label className="signup-form-section-label">
                         Sales Person Name
                       </label>
+                      <div className="signup-tooltip-class">
                       <input
                         className="signup-form-section-input"
                         type="text"
@@ -1254,6 +1255,19 @@ const SignUp = ({ socket }) => {
                         value={formData.salesPersonName}
                         onChange={handleChange}
                       />
+                      <span
+                        className="email-info-icon"
+                        data-tooltip-id="company-name-tooltip"
+                        data-tooltip-content="Provide Medhub Global Sales Person Name"
+                      >
+                        <img
+                          src={Information}
+                          className="tooltip-icons"
+                          alt="information"
+                        />
+                      </span>
+                      <Tooltip id="company-name-tooltip" />
+                    </div>
                     </div>
                     <div className="signup-form-section-div">
                       <label className="signup-form-section-label">
@@ -1377,7 +1391,7 @@ const SignUp = ({ socket }) => {
                         className="signup-form-section-input"
                         type="text"
                         name="yearlyPurchaseValue"
-                        placeholder="Enter Approx. Yearly Purchase Value"
+                        placeholder="Enter Approx. Yearly Purchase Value in USD"
                         value={formData.yearlyPurchaseValue}
                         onChange={handleChange}
                       />
