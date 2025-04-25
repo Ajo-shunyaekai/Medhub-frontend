@@ -23,8 +23,6 @@ const EditProfileDetails = ({ socket }) => {
     (state) => state?.adminReducer || {}
   );
   const { user } = useSelector((state) => state?.userReducer || {});
-
-  // Helper functions to handle field values and change status
   const getFieldValue = (field) => {
     if (!field) return "";
     return typeof field === "object" && field.value !== undefined ? field.value : field;

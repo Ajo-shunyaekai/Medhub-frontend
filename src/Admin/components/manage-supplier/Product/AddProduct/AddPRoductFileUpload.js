@@ -138,14 +138,11 @@ const AddProductFileUpload = ({
         )}
       </div>
       {error && <span className={styles.error}>{error}</span>}
-      {/* Common class for all file previews */}
       <div className={styles.filePreviewContainer}>
         {fileUpload?.filesMerged?.map((file, index) => {
           const isString = typeof file === "string";
           const fileName = isString ? file : file?.name;
           const fileExtension = fileName?.split(".").pop()?.toLowerCase();
-
-          // Type checks
           const isImage = ["jpeg", "jpg", "png", "gif", "bmp", "webp"].includes(
             fileExtension
           );
@@ -170,7 +167,6 @@ const AddProductFileUpload = ({
                 : `${process.env.REACT_APP_SERVER_URL}uploads/products/${file}`
               : URL.createObjectURL(file);
           } else {
-            // If not image or PDF, fallback image
             imageSrc = fallbackImage;
           }
 

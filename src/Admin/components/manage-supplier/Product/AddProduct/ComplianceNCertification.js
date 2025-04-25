@@ -20,38 +20,33 @@ const useFileUpload = (
   const onDrop = useCallback(
     (acceptedFiles) => {
       setFieldValue(fieldInputName, acceptedFiles);
-      // setFieldValue("complianceFile", [...initialValues?.complianceFile, ...acceptedFiles]);
+    
       
       setFilesMerged2((prev) => {
-        const totalFiles = [...prev, ...acceptedFiles].slice(0, 4); // Limit to maxFiles
-        // Update Formik state
-        // setFieldValue("complianceFile", totalFiles);
+        const totalFiles = [...prev, ...acceptedFiles].slice(0, 4); 
+      
         return totalFiles;
       });
-      setFilesMerged(acceptedFiles); // Set the accepted files
+      setFilesMerged(acceptedFiles);
 
       const updatedComplianceFiles = [
-        ...(initialValues?.complianceFile || []), // Use `values` instead of `initialValues`
-        ...acceptedFiles, // Add all the accepted files
+        ...(initialValues?.complianceFile || []),
+        ...acceptedFiles, 
       ];
 
-      // Update Formik's field value with the new files
       setFieldValue("complianceFile", updatedComplianceFiles);
     },
     [fieldInputName, setFieldValue]
   );
-
-  // Effect to handle initial file state
   useEffect(() => {
     if (selectedFile?.length > 0) {
-      setFilesMerged(selectedFile); // Set the existing files
+      setFilesMerged(selectedFile); 
     }
   }, [selectedFile]);
 
-  // Effect to handle initial file state
   useEffect(() => {
     if (initialValues?.complianceFile?.length > 0) {
-      setFilesMerged2(initialValues?.complianceFile); // Set the existing files
+      setFilesMerged2(initialValues?.complianceFile); 
     }
   }, [initialValues?.complianceFile]);
 
@@ -59,8 +54,8 @@ const useFileUpload = (
     event.stopPropagation();
     const updatedFiles = filesMerged.filter((_, i) => i !== index);
     setFilesMerged(updatedFiles);
-    setFieldValue(fieldInputName, updatedFiles); // Update Formik field with the new files
-    setFieldValue("complianceFile", initialValues?.complianceFile?.filter((_, i) => i !== fileIndex)); // Update Formik field with the new files
+    setFieldValue(fieldInputName, updatedFiles);
+    setFieldValue("complianceFile", initialValues?.complianceFile?.filter((_, i) => i !== fileIndex)); 
   };
 
   const defaultAccept = {
@@ -74,14 +69,13 @@ const useFileUpload = (
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: acceptTypes || defaultAccept, // Use provided acceptTypes or fallback to default
-    multiple: maxFiles > 1, // Allow multiple only if maxFiles > 1
+    accept: acceptTypes || defaultAccept, 
+    multiple: maxFiles > 1, 
   });
 
   return { filesMerged, getRootProps, getInputProps, isDragActive, removeFile };
 };
 
-// ComplianceNCertification Component
 const ComplianceNCertification = ({
   setFieldValue,
   fieldInputName,
@@ -89,15 +83,14 @@ const ComplianceNCertification = ({
   label,
   tooltip,
   showLabel = true,
-  acceptTypes, // Control accepted file types
-  maxFiles = 1, // New prop to control maximum number of files
+  acceptTypes, 
+  maxFiles = 1, 
   selectedFile,
   fileIndex,
 }) => {
   const tooltipId = `tooltip-${label.replace(/\s+/g, "-").toLowerCase()}`;
   const tooltipContent = tooltip || "Default tooltip text";
 
-  // Call the useFileUpload hook with acceptTypes and maxFiles
   const fileUpload = useFileUpload(
     fieldInputName,
     setFieldValue,
@@ -144,11 +137,10 @@ const ComplianceNCertification = ({
       {fileUpload?.filesMerged?.length > 0 && (
         <div className={styles.previewContainer}>
           {fileUpload?.filesMerged?.map((file, index) => {
-            // Determine the file extension based on whether it's a File object or string
             const fileExtension =
               typeof file === "string"
-                ? file.split(".").pop().toLowerCase() // If it's a string (e.g., an existing file path)
-                : file?.name.split(".").pop().toLowerCase(); // If it's a File object
+                ? file.split(".").pop().toLowerCase() 
+                : file?.name.split(".").pop().toLowerCase();
 
             const isImage =
               fileExtension === "jpeg" ||

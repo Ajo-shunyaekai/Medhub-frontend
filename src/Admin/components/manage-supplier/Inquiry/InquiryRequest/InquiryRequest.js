@@ -6,7 +6,6 @@ import moment from 'moment-timezone';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import PaginationComponent from '../../../shared-components/Pagination/Pagination';
 import styles from '../../../../assets/style/table.module.css';
-import '../../../../assets/style/table.css'
 
 const InquiryRequest = ({ inquiryList, totalInquiries, currentPage, inquiriesPerPage, handlePageChange }) => {
   const columns = [
@@ -30,7 +29,7 @@ const InquiryRequest = ({ inquiryList, totalInquiries, currentPage, inquiriesPer
     },
     {
         name: 'Status',
-        selector: row => row.enquiry_status || '', // Fallback to empty string for sorting
+        selector: row => row.enquiry_status || '',
         sortable: true,
         cell: row => (
           <div>
@@ -39,7 +38,7 @@ const InquiryRequest = ({ inquiryList, totalInquiries, currentPage, inquiriesPer
                   .split(' ')
                   .map(word => word.charAt(0).toUpperCase() + word.slice(1))
                   .join(' ')
-              : 'N/A'} {/* Fallback display if enquiry_status is undefined/null */}
+              : 'N/A'} 
           </div>
         ),
       },
@@ -60,6 +59,40 @@ const InquiryRequest = ({ inquiryList, totalInquiries, currentPage, inquiriesPer
   ];
   return (
     <div className={styles.container}>
+       <style>
+                {`
+                    .rdt_Table {
+                       border: none;
+    background-color: unset !important;
+                    }
+                        .rdt_TableRow{
+                      background-color: #ffffff !important;
+    border-bottom: none !important;
+                        }
+                    .rdt_TableHeadRow {
+                            background-color: #f9f9fa;
+    font-weight: bold;
+    border-bottom: none !important;
+                    }
+    .rdt_TableBody{
+    gap:10px !important;
+    }
+                    .rdt_TableCol {
+                        text-align: center;
+                        color: #333;
+                    }
+                    .rdt_TableCell {
+                       
+                           text-align: center;
+    color: #99a0ac;
+    font-weight: 500 !important;
+                    }
+                    .rdt_TableCellStatus {
+                        text-align: center;
+                        color: #333;
+                    }
+                `}
+            </style>
           <DataTable
             columns={columns}
             data={inquiryList}

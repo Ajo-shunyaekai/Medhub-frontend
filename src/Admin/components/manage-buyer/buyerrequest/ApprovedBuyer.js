@@ -6,8 +6,6 @@ import { postReqCSVDownload, postRequestWithToken } from '../../../api/Requests'
 import Loader from '../../shared-components/Loader/Loader';
 import PaginationComponent from '../../shared-components/Pagination/Pagination';
 import styles from '../../../assets/style/table.module.css';
-import '../../../assets/style/table.css'
-
 const ApprovedBuyer = () => {
     const navigate = useNavigate();
     const location = useLocation();
@@ -30,7 +28,7 @@ const ApprovedBuyer = () => {
             navigate("/admin/login");
             return;
         }
-        
+
         const obj = {
             admin_id: adminIdSessionStorage || adminIdLocalStorage,
             filterKey: 'accepted',
@@ -53,10 +51,9 @@ const ApprovedBuyer = () => {
         const obj = {
             filterKey: 'accepted'
         };
-        
+
         const result = await postReqCSVDownload('admin/get-buyer-list-csv', obj, 'buyer_list.csv');
         if (!result?.success) {
-            // Optionally show error to user
         }
         setLoading(false);
     };
@@ -66,19 +63,19 @@ const ApprovedBuyer = () => {
             name: 'Buyer ID',
             selector: row => row.buyer_id,
             sortable: true,
-           
+
         },
         {
             name: 'Registration No',
             selector: row => row.registration_no,
             sortable: true,
-          
+
         },
         {
             name: 'GST/VAT Registration No',
             selector: row => row.vat_reg_no,
             sortable: true,
-           
+
         },
         {
             name: 'Buyer Name',
@@ -89,22 +86,22 @@ const ApprovedBuyer = () => {
             name: 'Buyer Type',
             selector: row => row.buyer_type,
             sortable: true,
-           
+
         },
         {
             name: "Mobile No.",
             selector: (row) => `${row.buyer_country_code} ${row.buyer_mobile}`,
             sortable: true,
-          },
+        },
         {
             name: 'Status',
             selector: row => row.account_status,
             sortable: true,
             cell: row => (
                 <div className={styles.tableText}>
-                    {row.account_status ? 
-                        (row.account_status === 1 ? 'Accepted' : 
-                        (row.account_status === 2 ? 'Rejected' : 'Pending')) : 
+                    {row.account_status ?
+                        (row.account_status === 1 ? 'Accepted' :
+                            (row.account_status === 2 ? 'Rejected' : 'Pending')) :
                         ''
                     }
                 </div>
@@ -114,7 +111,7 @@ const ApprovedBuyer = () => {
             name: 'Action',
             cell: row => (
                 <Link to={`/admin/buyer-details/${row.buyer_id}`}>
-                     <div className={styles.activeBtn}>
+                    <div className={styles.activeBtn}>
                         <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                     </div>
                 </Link>
@@ -122,10 +119,44 @@ const ApprovedBuyer = () => {
         }
     ];
 
-   
+
 
     return (
         <section className={styles.container}>
+            <style>
+                {`
+                    .rdt_Table {
+                       border: none;
+    background-color: unset !important;
+                    }
+                        .rdt_TableRow{
+                      background-color: #ffffff !important;
+    border-bottom: none !important;
+                        }
+                    .rdt_TableHeadRow {
+                            background-color: #f9f9fa;
+    font-weight: bold;
+    border-bottom: none !important;
+                    }
+    .rdt_TableBody{
+    gap:10px !important;
+    }
+                    .rdt_TableCol {
+                        text-align: center;
+                        color: #333;
+                    }
+                    .rdt_TableCell {
+                       
+                           text-align: center;
+    color: #99a0ac;
+    font-weight: 500 !important;
+                    }
+                    .rdt_TableCellStatus {
+                        text-align: center;
+                        color: #333;
+                    }
+                `}
+            </style>
             {loading ? (
                 <Loader />
             ) : (
@@ -136,21 +167,21 @@ const ApprovedBuyer = () => {
                             Download
                         </button>
                     </header>
-                        <DataTable
-                            columns={columns}
-                            data={buyerList}
-                            noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
-                            persistTableHead
-                            pagination={false}
-                        />
-                        <PaginationComponent
-                            activePage={currentPage}
-                            itemsCountPerPage={listPerPage}
-                            totalItemsCount={totalBuyers}
-                            pageRangeDisplayed={10}
-                            onChange={setCurrentPage}
-                        />
-                   
+                    <DataTable
+                        columns={columns}
+                        data={buyerList}
+                        noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
+                        persistTableHead
+                        pagination={false}
+                    />
+                    <PaginationComponent
+                        activePage={currentPage}
+                        itemsCountPerPage={listPerPage}
+                        totalItemsCount={totalBuyers}
+                        pageRangeDisplayed={10}
+                        onChange={setCurrentPage}
+                    />
+
                 </>
             )}
         </section >

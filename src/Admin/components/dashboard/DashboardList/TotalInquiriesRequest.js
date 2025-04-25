@@ -5,10 +5,8 @@ import moment from 'moment/moment';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import PaginationComponent from '../../shared-components/Pagination/Pagination';
 import styles from '../../../assets/style/table.module.css';
-import '../../../assets/style/table.css'
 
 const TotalInquiriesRequest = ({ list, totalList, currentPage, ordersPerPage, handlePageChange, activeLink }) => {
-  // Define columns for DataTable
   const columns = [
     {
       name: 'Inquiry ID',
@@ -55,6 +53,40 @@ const TotalInquiriesRequest = ({ list, totalList, currentPage, ordersPerPage, ha
 
   return (
     <div className={styles.container}>
+        <style>
+                {`
+                    .rdt_Table {
+                       border: none;
+    background-color: unset !important;
+                    }
+                        .rdt_TableRow{
+                      background-color: #ffffff !important;
+    border-bottom: none !important;
+                        }
+                    .rdt_TableHeadRow {
+                            background-color: #f9f9fa;
+    font-weight: bold;
+    border-bottom: none !important;
+                    }
+    .rdt_TableBody{
+    gap:10px !important;
+    }
+                    .rdt_TableCol {
+                        text-align: center;
+                        color: #333;
+                    }
+                    .rdt_TableCell {
+                       
+                           text-align: center;
+    color: #99a0ac;
+    font-weight: 500 !important;
+                    }
+                    .rdt_TableCellStatus {
+                        text-align: center;
+                        color: #333;
+                    }
+                `}
+            </style>
             <DataTable
               columns={columns}
               data={list}

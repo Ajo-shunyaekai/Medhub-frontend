@@ -31,7 +31,7 @@ const BuyerTransactionDetails = () => {
 
   
   return (
-    <>
+ 
       <div className='transaction-details-container'>
         <div className='transaction-details-inner-conatiner'>
           <div className='transaction-details-container-heading'>Buyer Transaction Details</div>
@@ -107,7 +107,7 @@ const BuyerTransactionDetails = () => {
           </div>
         </div>
       </div>
-    </>
+   
   )
 }
 

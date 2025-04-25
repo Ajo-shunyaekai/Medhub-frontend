@@ -54,8 +54,8 @@ const SellerInquiryDetails = () => {
     const [counterChecked, setCounterChecked] = useState(false)
     const [quotationItems, setQuotationItems] = useState([])
 
-    const email = inquiryDetails?.buyer?.contact_person_email; // This could also be derived from props or context
-    const subject = `Inquiry about Inquiry ${inquiryDetails?.enquiry_id || 'unknown'}`; // Ensure inquiryId is included if it's available
+    const email = inquiryDetails?.buyer?.contact_person_email; 
+    const subject = `Inquiry about Inquiry ${inquiryDetails?.enquiry_id || 'unknown'}`; 
 
     const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
 

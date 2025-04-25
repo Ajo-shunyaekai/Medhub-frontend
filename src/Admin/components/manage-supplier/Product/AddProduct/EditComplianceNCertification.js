@@ -41,13 +41,11 @@ const useFileUpload = (
   const removeFile = (index, event, arrayToFilter, file) => {
     event.stopPropagation();
     if (arrayToFilter == "new") {
-      // we will remove from new array
       setFilesNew([]);
       const indexToRemove = initialValues?.complianceFile?.findIndex(
         (ele, index) => JSON.stringify(ele) == file
       );
       const filteredValues = initialValues?.complianceFile?.filter(
-        // (_, index) => index != indexToRemove
         (_, index) => JSON.stringify(_) != file
       )?.length;
       if (filteredValues > 1) {
@@ -64,7 +62,7 @@ const useFileUpload = (
           "complianceFileNew",
          
           initialValues?.complianceFileNew?.filter(
-            // (_, index) => index != indexToRemove
+            
             (_, index) => JSON.stringify(_) != file
           )
         );
@@ -76,7 +74,7 @@ const useFileUpload = (
         (ele, index) => JSON.stringify(ele) == file
       );
       const filteredValues = initialValues?.complianceFileNew?.filter(
-        // (_, index) => index != indexToRemove
+       
         (_, index) => JSON.stringify(_) != file
       )?.length;
       if (filteredValues > 1) {
@@ -85,7 +83,7 @@ const useFileUpload = (
         
           initialValues?.complianceFile?.filter(
             (_, index) => index != indexToRemove
-            // (_, index) => JSON.stringify(_) != file
+           
           )
         );
       } else {
@@ -93,7 +91,7 @@ const useFileUpload = (
           "complianceFile",
          
           initialValues?.complianceFile?.filter(
-            // (_, index) => index != indexToRemove
+           
             (_, index) => JSON.stringify(_) != file
           )
         );

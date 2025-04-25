@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import PaginationComponent from '../../shared-components/Pagination/Pagination';
 import styles from '../../../assets/style/table.module.css';
-import '../../../assets/style/table.css'
 
 const SellerActiveInvoiceList = ({ invoiceData }) => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -78,6 +77,40 @@ const SellerActiveInvoiceList = ({ invoiceData }) => {
 
     return (
         <div className={styles.mainInvoicecontainer}>
+            <style>
+                {`
+                    .rdt_Table {
+                       border: none;
+    background-color: unset !important;
+                    }
+                        .rdt_TableRow{
+                      background-color: #ffffff !important;
+    border-bottom: none !important;
+                        }
+                    .rdt_TableHeadRow {
+                            background-color: #f9f9fa;
+    font-weight: bold;
+    border-bottom: none !important;
+                    }
+    .rdt_TableBody{
+    gap:10px !important;
+    }
+                    .rdt_TableCol {
+                        text-align: center;
+                        color: #333;
+                    }
+                    .rdt_TableCell {
+                       
+                           text-align: center;
+    color: #99a0ac;
+    font-weight: 500 !important;
+                    }
+                    .rdt_TableCellStatus {
+                        text-align: center;
+                        color: #333;
+                    }
+                `}
+            </style>
                  <span className={styles.title}>Invoice List</span>
                
                 <DataTable

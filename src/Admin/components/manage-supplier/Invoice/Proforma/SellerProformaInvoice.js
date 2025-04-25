@@ -5,7 +5,6 @@ import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import moment from 'moment/moment';
 import PaginationComponent from '../../../shared-components/Pagination/Pagination';
 import styles from '../../../../assets/style/table.module.css';
-import '../../../../assets/style/table.css'
 
 const SellerProformaInvoice = ({ invoiceList, totalItems, currentPage, listPerPage, handlePageChange }) => {
     const columns = [
@@ -17,7 +16,7 @@ const SellerProformaInvoice = ({ invoiceList, totalItems, currentPage, listPerPa
         },
         {
             name: 'PO Date',
-            selector: row => row.created_at, // Use raw date for sorting
+            selector: row => row.created_at, 
             sortable: true,
             cell: row => <div>{moment(row.created_at).format("DD/MM/YYYY")}</div>,
         },
@@ -51,7 +50,40 @@ const SellerProformaInvoice = ({ invoiceList, totalItems, currentPage, listPerPa
 
     return (
         <div className={styles.container}>
-
+  <style>
+                {`
+                    .rdt_Table {
+                       border: none;
+    background-color: unset !important;
+                    }
+                        .rdt_TableRow{
+                      background-color: #ffffff !important;
+    border-bottom: none !important;
+                        }
+                    .rdt_TableHeadRow {
+                            background-color: #f9f9fa;
+    font-weight: bold;
+    border-bottom: none !important;
+                    }
+    .rdt_TableBody{
+    gap:10px !important;
+    }
+                    .rdt_TableCol {
+                        text-align: center;
+                        color: #333;
+                    }
+                    .rdt_TableCell {
+                       
+                           text-align: center;
+    color: #99a0ac;
+    font-weight: 500 !important;
+                    }
+                    .rdt_TableCellStatus {
+                        text-align: center;
+                        color: #333;
+                    }
+                `}
+            </style>
             <DataTable
                 columns={columns}
                 data={invoiceList}

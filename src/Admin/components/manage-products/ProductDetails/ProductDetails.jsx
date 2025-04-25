@@ -31,13 +31,13 @@ const ProductDetails = () => {
   };
 
   const formatDate = (dateString) => {
-    if (!dateString) return ""; // Handle empty or undefined dates
+    if (!dateString) return "";
 
     const dateObj = new Date(dateString);
-    if (isNaN(dateObj)) return ""; // Handle invalid dates
+    if (isNaN(dateObj)) return ""; 
 
     const day = String(dateObj.getDate()).padStart(2, "0");
-    const month = String(dateObj.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+    const month = String(dateObj.getMonth() + 1).padStart(2, "0"); 
     const year = dateObj.getFullYear();
 
     return `${day}-${month}-${year}`;
@@ -386,7 +386,7 @@ const ProductDetails = () => {
                           Date of Manufacture
                         </span>
                         <span className={styles.medicineText}>
-                          {/* {productDetail?.inventoryDetails?.date} */}
+                          
                           {formatDate(productDetail?.inventoryDetails?.date)}
                         </span>
                       </div>
@@ -487,7 +487,7 @@ const ProductDetails = () => {
                 Medical Equipment and Devices
               </span>
               <div className={styles.innerSection}>
-                {/* Basic Details */}
+               
                 {["interoperability", "laserType"].some(getCategoryData) && (
                   <div className={styles.mainSection}>
                     {getCategoryData("interoperability") && (
@@ -622,7 +622,7 @@ const ProductDetails = () => {
             <div className={styles.mainContainer}>
               <span className={styles.innerHead}>Pharmaceuticals</span>
               <div className={styles.innerSection}>
-                {/* Basic Details */}
+               
                 {["genericName", "strength", "otcClassification"].some(
                   getCategoryData
                 ) && (

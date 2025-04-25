@@ -50,8 +50,6 @@ const DetailsBuyerRequest = () => {
         return files.map((item, index) => {
             const serverUrl = process.env.REACT_APP_SERVER_URL;
             let file, date;
-
-            // Check if item is an object (from certificateFileNDate) or a string (from certificate_image)
             if (hasDate) {
                 file = item.file;
                 date = item.date;
@@ -187,7 +185,7 @@ const DetailsBuyerRequest = () => {
                 setTimeout(() => {
                     navigate('/admin/buyer-request')
                 }, 500)
-                // setSupplierDetails(response.result)
+              
             } else {
                 setLoading(false);
                 setRejectLoading(false);
@@ -199,7 +197,7 @@ const DetailsBuyerRequest = () => {
         setIsModalOpen(true);
     };
     return (
-        <>
+      
             <div className='buyer-details-container'>
                 <div className='buyer-details-inner-conatiner'>
                     <div className='buyer-details-container-heading'>Buyer ID: {buyerDetails?.buyer_id}</div>
@@ -443,7 +441,7 @@ const DetailsBuyerRequest = () => {
                     </div>
 
                     <div className='buyer-details-container'>
-                        {/* Rest of your JSX content */}
+                      
                         <div className='buyer-details-button-containers'>
                             <div
                                 className='buyer-details-button-accept'
@@ -476,7 +474,7 @@ const DetailsBuyerRequest = () => {
                     </div>
                 </div>
             </div>
-        </>
+      
     )
 }
 

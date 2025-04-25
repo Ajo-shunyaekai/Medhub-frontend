@@ -85,7 +85,7 @@ function SellerInvoiceDetails() {
                                                             (invoiceDetails?.supplier_registered_address?.city || invoiceDetails?.supplier_registered_address?.state || invoiceDetails?.supplier_registered_address?.pincode || invoiceDetails?.supplier_registered_address?.country) &&
                                                             <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac' }}>{invoiceDetails?.supplier_registered_address?.city} {invoiceDetails?.supplier_registered_address?.state} {invoiceDetails?.supplier_registered_address?.pincode} {invoiceDetails?.supplier_registered_address?.country} </p>
                                                         }
-                                                        {/* <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>United Arab Emirates</p> */}
+                                                      
                                                         <td style={{ display: 'flex', justifyContent: 'start' }}>
                                                             <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>VAT Reg No :</p>
                                                             <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>&nbsp;{invoiceDetails?.supplier_vat_reg_no}</p>
@@ -100,7 +100,7 @@ function SellerInvoiceDetails() {
                                                             (invoiceDetails?.buyer_registered_address?.city || invoiceDetails?.buyer_registered_address?.state || invoiceDetails?.buyer_registered_address?.pincode || invoiceDetails?.buyer_registered_address?.country) &&
                                                             <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac' }}>{invoiceDetails?.buyer_registered_address?.city} {invoiceDetails?.buyer_registered_address?.state} {invoiceDetails?.buyer_registered_address?.pincode} {invoiceDetails?.buyer_registered_address?.country} </p>
                                                         }
-                                                        {/* <p style={{ fontSize: '13px', color: '#99a0ac', lineHeight: '16px', textAlign: 'end', paddingTop: '6px' }}>Dubai (United Arab Emirates)</p> */}
+                                                       
                                                         <td style={{ display: 'flex', justifyContent: 'end' }}>
                                                             <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>VAT Reg No :</p>
                                                             <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>&nbsp;{invoiceDetails?.buyer_vat_reg_no}</p>

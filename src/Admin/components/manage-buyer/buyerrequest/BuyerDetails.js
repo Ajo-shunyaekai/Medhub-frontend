@@ -17,9 +17,6 @@ const BuyerDetails = () => {
     const adminIdSessionStorage = localStorage.getItem("admin_id");
     const adminIdLocalStorage = localStorage.getItem("admin_id");
     const [buyerDetails, setBuyerDetails] = useState()
-
-
-    // Start the modal and pdf url
     const [open, setOpen] = useState(false);
     const [pdfUrl, setPdfUrl] = useState(null);
     const openModal = (url) => {
@@ -42,8 +39,6 @@ const BuyerDetails = () => {
         return files.map((item, index) => {
             const serverUrl = process.env.REACT_APP_SERVER_URL;
             let file, date;
-
-            // Check if item is an object (from certificateFileNDate) or a string (from certificate_image)
             if (hasDate) {
                 file = item.file;
                 date = item.date;
@@ -121,13 +116,6 @@ const BuyerDetails = () => {
             }
         });
     };
-
-
-
-
-    // End the modal and pdf url
-
-
     useEffect(() => {
         const getBuyerDetails = async () => {
             if (!adminIdSessionStorage && !adminIdLocalStorage) {
@@ -166,14 +154,14 @@ const BuyerDetails = () => {
                 setTimeout(() => {
                     navigate('/admin/buyer-request')
                 }, 1000)
-                // setbuyerDetails(response.result)
+                
             } else {
                 toast(response.message, { type: 'error' })
             }
         })
     }
     return (
-        <>
+       
             <div className='buyer-details-container'>
                 <div className='buyer-details-inner-conatiner'>
                     <div className='buyer-details-edit-button-container'>
@@ -191,8 +179,8 @@ const BuyerDetails = () => {
                             <div className='buyer-details-uppar-main-logo-section'>
                                 <div className='buyer-details-company-logo-container'>
                                     <div className='buyer-details-company-logo-section'>
-                                        <img src={`${process.env.REACT_APP_SERVER_URL}uploads/buyer/buyer_images/${buyerDetails?.buyer_image[0]}`} alt='CompanyLogo' />
                                         {/* src={`${process.env.REACT_APP_SERVER_URL}uploads/buyer/buyer_images/${poDetails?.buyer_details?.[0]?.buyer_image?.[0]}`} */}
+
                                     </div>
                                 </div>
                                 <div className='buyer-details-uppar-right-main-section'>
@@ -310,26 +298,7 @@ const BuyerDetails = () => {
 
 
                                 )}
-                                {/* {buyerDetails?.account_status !== 2 && (
-                                    <>
-                                        <div className='buyer-details-inner-section'>
-                                            <div className='buyer-details-inner-head'>Payment Status :</div>
-                                            <div className='buyer-details-inner-text-button'>Done</div>
-                                        </div>
-                                        <div className='buyer-details-inner-section'>
-                                            <div className='buyer-details-inner-head'>Payment Plan :</div>
-                                            <div className='buyer-details-inner-text'>Monthly</div>
-                                        </div>
-                                        <div className='buyer-details-inner-section'>
-                                            <div className='buyer-details-inner-head'>Promotion Name:</div>
-                                            <div className='buyer-details-inner-text'>Supplier</div>
-                                        </div>
-                                        <div className='buyer-details-inner-section'>
-                                            <div className='buyer-details-inner-head'>Renewal Date :</div>
-                                            <div className='buyer-details-inner-text'>12-12-2024</div>
-                                        </div>
-                                    </>
-                                )} */}
+                              
                             </div>
                             <div className='buyer-details-inner-left-section'>
                                 <div className='buyer-details-inner-section'>
@@ -483,13 +452,12 @@ const BuyerDetails = () => {
                     </div>
 
                     <div className='buyer-details-button-containers'>
-                        {/* <div className='buyer-details-button-reject'  onClick={() => {handleAcceptReject('reject')}}>Reject</div>
-                        <div className='buyer-details-button-accept'  onClick={() => {handleAcceptReject('accept')}}>Accept</div> */}
+                       
 
                     </div>
                 </div>
             </div>
-        </>
+       
     )
 }
 

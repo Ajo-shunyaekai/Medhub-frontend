@@ -1,17 +1,13 @@
 import React, { useState } from 'react';
 import moment from "moment-timezone";
-import PaginationComponent from '../../../shared-components/Pagination/Pagination'; // Import the PaginationComponent
+import PaginationComponent from '../../../shared-components/Pagination/Pagination';
 
 const InquiryOngoingList = ({ items, inquiryDetails }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const ordersPerPage = 3; // Number of orders to display per page
-
-  // Logic to slice orders for pagination
+  const ordersPerPage = 3; 
   const indexOfLastOrder = currentPage * ordersPerPage;
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
   const currentOrders = items?.slice(indexOfFirstOrder, indexOfLastOrder);
-
-  // Function to handle page change
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
@@ -96,8 +92,6 @@ const InquiryOngoingList = ({ items, inquiryDetails }) => {
           ))}
         </tbody>
       </table>
-
-      {/* Pagination section using PaginationComponent */}
       <PaginationComponent
         activePage={currentPage}
         itemsCountPerPage={ordersPerPage}
