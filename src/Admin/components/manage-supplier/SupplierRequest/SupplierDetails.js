@@ -156,7 +156,7 @@ const SupplierDetails = () => {
         })
     }
     return (
-        <>
+       
             <div className='buyer-details-container'>
                 <div className='buyer-details-inner-conatiner'>
                     <div className='buyer-details-edit-button-container'>
@@ -445,7 +445,7 @@ const SupplierDetails = () => {
                     </div>
                 </div>
             </div>
-        </>
+        
     )
 }
 

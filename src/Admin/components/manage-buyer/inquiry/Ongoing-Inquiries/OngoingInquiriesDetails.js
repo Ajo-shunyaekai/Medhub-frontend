@@ -2,38 +2,16 @@ import React, { useEffect, useState } from "react";
 import "../../../../assets/style/ongoinginquiriesdetails.css";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import moment from "moment-timezone";
-import { toast } from "react-toastify";
 import InquiryOngoingList from "./InquiryOngoingList";
 import InquiryProductList from "./InquiryProductList";
 import { postRequestWithToken } from "../../../../api/Requests";
-
-
 const OngoingInquiriesDetails = () => {
   const adminIdSessionStorage = localStorage.getItem("admin_id");
     const adminIdLocalStorage   = localStorage.getItem("admin_id");
-
     const { inquiryId } = useParams()
     const navigate = useNavigate();
-    const [paymentTerms, setPaymentTerms] = useState(['']);
-
-    const [loading, setLoading] = useState(false);
     const [inquiryDetails, setInquiryDetails] = useState()
-
-    const handleAddTerm = () => {
-        setPaymentTerms([...paymentTerms, '']);
-    };
-
-    const handleTermChange = (index, value) => {
-        const updatedTerms = [...paymentTerms];
-        updatedTerms[index] = value;
-        setPaymentTerms(updatedTerms);
-    };
-
-    const handleRemoveTerm = (index) => {
-        const updatedTerms = paymentTerms.filter((_, i) => i !== index);
-        setPaymentTerms(updatedTerms);
-    };
-
+  
     useEffect(() => {
         if (!adminIdSessionStorage && !adminIdLocalStorage) {
             localStorage.clear();
@@ -68,8 +46,8 @@ const OngoingInquiriesDetails = () => {
     const [counterChecked, setCounterChecked] = useState(false)
     const [quotationItems, setQuotationItems] = useState([])
 
-    const email = inquiryDetails?.buyer?.contact_person_email; // This could also be derived from props or context
-    const subject = `Inquiry about Inquiry ${inquiryDetails?.enquiry_id || 'unknown'}`; // Ensure inquiryId is included if it's available
+    const email = inquiryDetails?.buyer?.contact_person_email;
+    const subject = `Inquiry about Inquiry ${inquiryDetails?.enquiry_id || 'unknown'}`; 
 
     const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
   return (
@@ -118,13 +96,11 @@ const OngoingInquiriesDetails = () => {
           </div>
         </div>
       </div>
-      {/* Start the return enquiry section */}
       {inquiryDetails?.quotation_items?.length > 0 ? (
         <div className="ongoing-details-assign-driver-section">
           <InquiryProductList  
              inquiryDetails = {inquiryDetails}
              items={inquiryDetails?.items}
-            //  quotationItems = {inquiryDetails?.quotation_items}
              setAcceptChecked={setAcceptChecked}
              setCounterChecked={setCounterChecked}
              setQuotationItems={setQuotationItems}
@@ -158,7 +134,6 @@ const OngoingInquiriesDetails = () => {
          ) : (
           ""
         )}
-      {/* start the assign driver section */}
       <div className="inquiries-details-assign-driver-section">
         <InquiryOngoingList 
            items={inquiryDetails?.items}

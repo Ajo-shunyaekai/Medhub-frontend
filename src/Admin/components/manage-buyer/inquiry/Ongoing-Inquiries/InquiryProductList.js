@@ -1,43 +1,21 @@
 import React, { useState } from 'react';
 import moment from 'moment-timezone';
-import PaginationComponent from '../../../shared-components/Pagination/Pagination'; // Import the custom PaginationComponent
+import PaginationComponent from '../../../shared-components/Pagination/Pagination';
 
-const InquiryProductList = ({ orderItems, quotationItems, handleAccept, handleReject, inquiryDetails }) => {
+const InquiryProductList = ({ orderItems, quotationItems,inquiryDetails }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const ordersPerPage = 5;
     const data = orderItems?.length > 0 ? orderItems : quotationItems?.length > 0 ? quotationItems : [];
     const indexOfLastOrder = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
     const currentOrders = data.slice(indexOfFirstOrder, indexOfLastOrder);
-
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
-
-    const [acceptedItems, setAcceptedItems] = useState([]);
-    const [rejectedItems, setRejectedItems] = useState([]);
-
-    const handleAcceptClick = (item, status) => {
-        setAcceptedItems([...acceptedItems, item]);
-        setRejectedItems(rejectedItems.filter((rejItem) => rejItem.productId !== item.productId));
-        handleAccept(item, status);
-    };
-
-    const handleRejectClick = (item, status) => {
-        setRejectedItems([...rejectedItems, item]);
-        setAcceptedItems(acceptedItems.filter((accItem) => accItem.productId !== item.productId));
-        handleReject(item, status);
-    };
-
-    const isAccepted = (item) => acceptedItems.some((accItem) => accItem.productId === item.productId);
-    const isRejected = (item) => rejectedItems.some((rejItem) => rejItem.productId === item.productId);
-
     const dateToDisplay =
         inquiryDetails?.quotation_items_created_at ||
         inquiryDetails?.quotation_items_updated_at ||
         moment().toISOString();
-
-    // Format the date
     const formattedDate = moment(dateToDisplay)
         .tz('Asia/Kolkata')
         .format('DD/MM/YYYY HH:mm:ss');
@@ -129,8 +107,6 @@ const InquiryProductList = ({ orderItems, quotationItems, handleAccept, handleRe
                     ))}
                 </tbody>
             </table>
-
-            {/* Use PaginationComponent */}
             <PaginationComponent
                 activePage={currentPage}
                 itemsCountPerPage={ordersPerPage}

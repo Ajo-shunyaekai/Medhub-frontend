@@ -3,7 +3,6 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import DataTable from 'react-data-table-component';
 import PaginationComponent from '../../shared-components/Pagination/Pagination';
 import styles from '../../../assets/style/table.module.css';
-import '../../../assets/style/table.css'
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import { postReqCSVDownload, postRequestWithToken } from '../../../api/Requests';
 import Loader from '../../shared-components/Loader/Loader';
@@ -56,7 +55,7 @@ const BuyerRequest = () => {
         setLoading(true);
         const result = await postReqCSVDownload('admin/get-buyer-list-csv', {}, 'buyer_list.csv');
         if (!result?.success) {
-            // Optionally show error to user
+          
         }
         setLoading(false);
     };
@@ -116,6 +115,40 @@ const BuyerRequest = () => {
 
     return (
         <section className={styles.container}>
+              <style>
+                {`
+                    .rdt_Table {
+                       border: none;
+    background-color: unset !important;
+                    }
+                        .rdt_TableRow{
+                      background-color: #ffffff !important;
+    border-bottom: none !important;
+                        }
+                    .rdt_TableHeadRow {
+                            background-color: #f9f9fa;
+    font-weight: bold;
+    border-bottom: none !important;
+                    }
+    .rdt_TableBody{
+    gap:10px !important;
+    }
+                    .rdt_TableCol {
+                        text-align: center;
+                        color: #333;
+                    }
+                    .rdt_TableCell {
+                       
+                           text-align: center;
+    color: #99a0ac;
+    font-weight: 500 !important;
+                    }
+                    .rdt_TableCellStatus {
+                        text-align: center;
+                        color: #333;
+                    }
+                `}
+            </style>
             {loading ? (
                 <Loader />
             ) : (

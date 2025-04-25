@@ -27,8 +27,6 @@ const InquiriesDashList = () => {
         return "request";
     }
   };
-
-  // const activeLink = getActiveLinkFromPath(location.pathname);
   const [activeLink, setActiveLink] = useState(
     getActiveLinkFromPath(location.pathname)
   );
@@ -57,8 +55,6 @@ const InquiriesDashList = () => {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-
-  // Fetch the inquiry or PO list based on activeLink and currentPage
   const fetchData = async () => {
     if (!adminIdSessionStorage && !adminIdLocalStorage) {
       localStorage.clear();
@@ -100,7 +96,6 @@ const InquiriesDashList = () => {
     }
   };
 
-  // First useEffect: Calls fetchData when activeLink changes
   useEffect(() => {
     fetchData();
   }, [activeLink, currentPage]);

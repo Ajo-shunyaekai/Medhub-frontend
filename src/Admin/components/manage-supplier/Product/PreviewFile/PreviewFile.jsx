@@ -173,12 +173,7 @@ function PreviewFile() {
                         key,
                         heading
                       )}px`,
-                      // style: {
-                      //   textAlign: "left",
-                      //   overflow: "hidden",
-                      //   textOverflow: "ellipsis",
-                      //   whiteSpace: "nowrap",
-                      // },
+                     
                       cell: (row) => {
                         const hasError = row[key]?.error;
                         return (

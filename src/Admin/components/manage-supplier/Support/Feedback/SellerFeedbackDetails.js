@@ -16,7 +16,7 @@ const SellerFeedbackDetails = () => {
 
     const renderImages = () => {
         if (supplierDetails?.support_image?.length > 0) {
-            // Render dynamic images
+           
             return supplierDetails.support_image.map((image, index) => (
                 <img
                     key={index}
@@ -59,7 +59,6 @@ const SellerFeedbackDetails = () => {
                     navigate('/admin/supplier-request')
                 }, 1000)
 
-                // setSupplierDetails(response.result)
             } else {
                 toast(response.message, { type: 'error' })
             }
@@ -109,7 +108,7 @@ const SellerFeedbackDetails = () => {
                                 <div className='seller-details-card-container'>
                                     <div className='seller-details-company-logo-heading'>Images</div>
                                     <div className='seller-details-company-img-container'>
-                                        {/* {renderStaticImages()} */}
+                                       
                                         {renderImages()}
                                     </div>
                                 </div>
