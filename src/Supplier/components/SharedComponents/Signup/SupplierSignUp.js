@@ -228,6 +228,7 @@ const SupplierSignUp = ({ socket }) => {
   const companyTypeOptions = [
     { value: "manufacturer", label: "Manufacturer" },
     { value: "distributor", label: "Distributor" },
+    {value: "service provider", label: "Service Provider"},
     {
       value: "medical practitioner",
       label: "Medical Practitioner",
@@ -559,11 +560,11 @@ const SupplierSignUp = ({ socket }) => {
     }
 
     // if (!formData.delivertime) formErrors.delivertime = 'Estimated Delivery Time is Required';
-    if (!formData.tags) formErrors.tags = "Tags are Required";
+    // if (!formData.tags) formErrors.tags = "Tags are Required";
     if (!formData.description)
       formErrors.description = "Description is Required";
-    if (formData.tags.split(",").map((tag) => tag.trim()).length > 5)
-      formErrors.tags = "You can only enter up to 5 tags";
+    // if (formData.tags.split(",").map((tag) => tag.trim()).length > 5)
+    //   formErrors.tags = "You can only enter up to 5 tags";
     if (formData.description.length > 1000)
       formErrors.description = "Description cannot exceed 1000 characters";
 
@@ -1258,7 +1259,8 @@ const SupplierSignUp = ({ socket }) => {
                     
                     <div className="signup-form-section-div">
                       <label className="signup-form-section-label">
-                        Tags<span className="labelstamp">*</span>
+                        Tags
+                        {/* <span className="labelstamp">*</span> */}
                       </label>
                       <input
                         className="signup-form-section-input"
@@ -1507,6 +1509,8 @@ const SupplierSignUp = ({ socket }) => {
                         imageType="logo"
                         reset={resetUploaders}
                         allowMultiple={false}
+                        showTooltip={true}
+                        tooltipMessage="Only JPEG and PNG image formats are allowed."
                       />
                       {errors.logoImage && (
                         <div className="signup__errors">{errors.logoImage}</div>
@@ -1525,6 +1529,8 @@ const SupplierSignUp = ({ socket }) => {
                         imageType="license"
                         reset={resetUploaders}
                         allowMultiple={true}
+                        showTooltip={true}
+                        tooltipMessage="Only PDF and Docx formats are allowed."
                       />
                       {errors.licenseImage && (
                         <div className="signup__errors">

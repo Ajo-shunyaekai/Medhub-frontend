@@ -156,7 +156,7 @@ font-weight: 500;
   outline: none !important;
   border: none !important;
   margin-bottom: 0px !important;
-  padding: 11px !important;
+  padding: 10px !important;
   font-size: 13px !important;
   border-color: transparent !important;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
@@ -354,8 +354,9 @@ font-weight: 500;
 .react-international-phone-input-container .react-international-phone-input {
   border: none !important;
   width: 100% !important;
-  height: auto !important;
-  padding: 10px 12px 10px 8px !important;
+  /* height: auto !important;
+  padding: 10px 12px 10px 8px !important; */
+  padding: 20px 12px !important;
   font-size: 14px !important;
   color: #5e676f !important;
   font-weight: 500 !important;
@@ -363,8 +364,9 @@ font-weight: 500;
 }
 
 .react-international-phone-country-selector-button {
-  height: auto !important;
-  padding: 10px 0px 10px 8px !important;
+  /* height: auto !important;
+  padding: 10px 0px 10px 8px !important; */
+  padding: 20px 12px;
   border: none !important;
   font-size: 14px !important;
   color: #5e676f !important;
@@ -523,9 +525,9 @@ font-weight: 500;
     width: 58%;
   }
 
-  .signup-form-section-input {
+  /* .signup-form-section-input {
     padding: 10px !important;
-  }
+  } */
 
   .signup-form-section-div {
     row-gap: 4px;
@@ -535,13 +537,13 @@ font-weight: 500;
     padding: 8px !important;
   }
 
-  .react-international-phone-country-selector-button {
+  /* .react-international-phone-country-selector-button {
     padding: 8px 0px 10px 8px !important;
   }
 
   .react-international-phone-input-container .react-international-phone-input {
     padding: 8px 8px 10px 8px !important;
-  }
+  } */
 
   .css-1r4vtzz {
     width: 100% !important;

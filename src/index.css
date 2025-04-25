@@ -18,6 +18,11 @@ code {
   overflow-y: auto !important;
 }
 
+/* Select Dropdown Css */
+.css-hlgwow {
+  padding: 1px 8px !important;
+}
+
 /* a:hover {
   color: currentColor !important;
   text-decoration: none !important;

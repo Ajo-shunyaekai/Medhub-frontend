@@ -24,7 +24,7 @@ const BuyerPurchasedOrderDetails = () => {
       purchaseOrder_id : purchaseOrderId,
     }
 
-    postRequestWithToken('admin/get-po-details', obj, async (response) => {
+    postRequestWithToken('purchaseorder/get-po-details', obj, async (response) => {
         if (response?.code === 200) {
             setPoDetails(response.result)
         } else {
@@ -74,7 +74,7 @@ const BuyerPurchasedOrderDetails = () => {
               <div className={styles['purchased-order-container']}>
                 <tr>
                   <td>
-                    <img src={`${process.env.REACT_APP_SERVER_URL}uploads/buyer/buyer_images/${poDetails?.buyer_details[0]?.buyer_image[0]}`}
+                    <img src={`${process.env.REACT_APP_SERVER_URL}uploads/buyer/buyer_images/${poDetails?.buyer_details?.[0]?.buyer_image?.[0]}`}
                       alt="companylogo" className={styles['purchange-logo']} />
                   </td>
                 </tr>
