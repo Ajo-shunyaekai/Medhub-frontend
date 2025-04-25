@@ -1584,6 +1584,8 @@ const SignUp = ({ socket }) => {
                         imageType="license"
                         reset={resetUploaders}
                         allowMultiple={true}
+                        showTooltip={true}
+                        tooltipMessage="Only PDF and Docx formats are allowed."
                       />
                       {errors.licenseImage && (
                         <div className="signup__errors">
@@ -1603,6 +1605,8 @@ const SignUp = ({ socket }) => {
                         imageType="logo"
                         reset={resetUploaders}
                         allowMultiple={false}
+                        showTooltip={true}
+                        tooltipMessage="Only JPEG and PNG image formats are allowed."
                       />
                       {errors.logoImage && (
                         <div className="signup__errors">{errors.logoImage}</div>

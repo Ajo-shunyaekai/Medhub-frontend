@@ -3,7 +3,13 @@ import UploadImage from '../../../assets/images/uplaod.svg';
 import CrossIcon from '../../../assets/images/Icon.svg';
 import PDFIcon from '../../../assets/images/pdf-icon.svg';
 import styles from './imageuploader.module.css';
-const ImageUploader = ({ onUploadStatusChange, imageType, reset, allowMultiple, filePreviews, setFilePreviews }) => {
+import Information from '../../../assets/images/infomation.svg';
+import { Tooltip } from "react-tooltip";
+
+const ImageUploader = ({ onUploadStatusChange, imageType, reset, allowMultiple, filePreviews, setFilePreviews,
+    showTooltip = false,
+    tooltipMessage = "Upload your trade license documents (PDF/DOCX, max 5MB)"
+ }) => {
     const fileInputRef = useRef(null);
     // const [filePreviews, setFilePreviews] = useState([]);
     const [uploading, setUploading] = useState(false);
@@ -128,6 +134,19 @@ const ImageUploader = ({ onUploadStatusChange, imageType, reset, allowMultiple, 
                         <img src={UploadImage} alt="Upload" className={styles['upload-icon']} />
                         <p className={styles['upload-text']}>Click here to Upload Files</p>
                     </>
+                )}
+                {showTooltip && (
+                    <div className={styles['tooltip-container']}>
+                        <span
+                            className="email-info-icon"
+                            data-tooltip-id={`upload-tooltip-${imageType}`}
+                            data-tooltip-content={tooltipMessage}
+                            data-tooltip-place="top"
+                        >
+                            <img src={Information} className='tooltip-icons' alt='information' />
+                        </span>
+                        <Tooltip id={`upload-tooltip-${imageType}`} />
+                    </div>
                 )}
                 </div>
                 <input
