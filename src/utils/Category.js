@@ -257,7 +257,7 @@ const categoriesData = [
           ?.concat(["Other"]),
       },
       {
-        name: "Elderly Care Products",
+        name: "Care Products",
         anotherCategories: [
           "Walkers and Rollators",
           "Canes and Quad Canes",
@@ -310,6 +310,7 @@ const categoriesData = [
           "Large-Button Cell Phones",
           "Video Calling Devices (e.g., simplified tablets)",
           "Voice-Activated Assistants (e.g., Alexa, Google Home)",
+          "Waste Disposal",
           "Services",
         ]
           ?.sort()
@@ -1618,7 +1619,7 @@ const categoriesData = [
           ?.concat(["Other"]),
       },
       {
-        name: "Elderly Care Products",
+        name: "Care Products",
         anotherCategories: [
           "Adjustable Beds",
           "Bedside Commodes",
@@ -1627,6 +1628,7 @@ const categoriesData = [
           "Bathing Aids",
           "Incontinence Products",
           "Pressure Relief Cushions",
+          "Waste Disposal",
           "Services",
         ]
           ?.sort()

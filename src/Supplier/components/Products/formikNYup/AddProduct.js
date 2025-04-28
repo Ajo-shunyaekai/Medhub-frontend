@@ -238,7 +238,7 @@ const productValidationSchema = Yup.object({
             "Monitoring Devices",
             "Mobility Aids",
             "Respiratory Care",
-            "Elderly Care Products",
+            "Care Products",
           ],
           "Invalid Subcategory for Medical Equipment and Devices"
         )
@@ -422,7 +422,7 @@ const productValidationSchema = Yup.object({
             "Mobility Aids",
             "Respiratory Care",
             "Patient Monitoring Devices",
-            "Elderly Care Products",
+            "Care Products",
           ],
           "Invalid Subcategory for Home Healthcare Products"
         )

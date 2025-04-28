@@ -218,7 +218,7 @@ const ProductDetails = () => {
                   </span>
                 </div>
               )}
-              {productDetail?.general?.tax && (
+              {productDetail?.general?.unit_tax && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Tax%</span>
                   <span className={styles.medicineText}>

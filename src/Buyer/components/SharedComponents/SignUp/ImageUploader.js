@@ -138,12 +138,12 @@ const ImageUploader = ({ onUploadStatusChange, imageType, reset, allowMultiple, 
                 {showTooltip && (
                     <div className={styles['tooltip-container']}>
                         <span
-                            className="email-info-icon"
+                            className={styles.emailInfoIcon}
                             data-tooltip-id={`upload-tooltip-${imageType}`}
                             data-tooltip-content={tooltipMessage}
                             data-tooltip-place="top"
                         >
-                            <img src={Information} className='tooltip-icons' alt='information' />
+                            <img src={Information}  className={styles.tooltipIcons} alt='information' />
                         </span>
                         <Tooltip id={`upload-tooltip-${imageType}`} />
                     </div>
@@ -167,7 +167,7 @@ const ImageUploader = ({ onUploadStatusChange, imageType, reset, allowMultiple, 
                 {filePreviews?.map((file) => (
                     <div key={file.name} className={styles['file-container']}>
                         <div className={styles['file-wrapper']} onClick={() => openModal(file.preview, file.type)}>
-                            {file.type.startsWith('image') ? (
+                            {file?.type?.startsWith('image') ? (
                                 <img src={file.preview} alt={file.name} className={styles['uploaded-image']} />
                             ) : (
                                 <img src={PDFIcon} alt="PDF" className={styles['pdf-icon']} />
@@ -180,7 +180,7 @@ const ImageUploader = ({ onUploadStatusChange, imageType, reset, allowMultiple, 
                     </div>
                 ))}
             </div>
-            {modalOpen && modalContent && modalContent.type.startsWith('image') && (
+            {modalOpen && modalContent && modalContent?.type?.startsWith('image') && (
                 <div className={styles['modal']} onClick={closeModal}>
                     <div className={styles['modal-content']} onClick={(e) => e.stopPropagation()}>
                         <span className={styles['close']} onClick={closeModal}>&times;</span>
