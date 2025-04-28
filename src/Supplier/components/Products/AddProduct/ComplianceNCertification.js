@@ -36,7 +36,7 @@ const useFileUpload = (
       ];
 
       // Update Formik's field value with the new files
-      setFieldValue("complianceFile", updatedComplianceFiles);
+      // setFieldValue("complianceFile", updatedComplianceFiles);
     },
     [fieldInputName, setFieldValue]
   );
@@ -60,7 +60,7 @@ const useFileUpload = (
     const updatedFiles = filesMerged.filter((_, i) => i !== index);
     setFilesMerged(updatedFiles);
     setFieldValue(fieldInputName, updatedFiles); // Update Formik field with the new files
-    setFieldValue("complianceFile", initialValues?.complianceFile?.filter((_, i) => i !== fileIndex)); // Update Formik field with the new files
+    // setFieldValue("complianceFile", initialValues?.complianceFile?.filter((_, i) => i !== fileIndex)); // Update Formik field with the new files
   };
 
   const defaultAccept = {

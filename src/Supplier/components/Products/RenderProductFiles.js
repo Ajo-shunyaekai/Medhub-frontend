@@ -139,13 +139,13 @@ const RenderProductFiles = ({ files }) => {
   : `${process.env.REACT_APP_SERVER_URL}/`;
 
 return files?.map((file, index) => {
-  const fileUrl = file.startsWith("http")
+  const fileUrl = file?.startsWith("http")
     ? file
     : `${baseUrl}uploads/products/${file}`;
 
   const isImage = isImageExtension(fileUrl);
-  const isPdf = fileUrl.toLowerCase().endsWith(".pdf");
-  const isDocx = fileUrl.toLowerCase().endsWith(".docx");
+  const isPdf = fileUrl?.toLowerCase()?.endsWith(".pdf");
+  const isDocx = fileUrl?.toLowerCase()?.endsWith(".docx");
 
   if (isImage) {
     return (

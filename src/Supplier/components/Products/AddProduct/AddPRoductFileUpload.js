@@ -27,7 +27,9 @@ const useFileUpload = (
         const totalFiles = [...prev, ...acceptedFiles].slice(0, maxFiles); // Limit to maxFiles
         if (acceptedFiles?.length + prev.length > maxFiles) {
           alert(
-            `You can only upload a maximum of 4 files.`
+            `You can only upload a maximum of ${maxFiles} ${
+              maxFiles != 1 ? "files" : "file"
+            }.`
           );
           return prev; // Keep previous files if limit exceeded
         }

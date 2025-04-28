@@ -256,8 +256,8 @@ const AddProduct = ({ placeholder }) => {
   };
 
   const handleCancel = () => {
-    navigate("/supplier/product")
-  }
+    navigate("/supplier/product");
+  };
 
   return (
     <div className={styles.container}>
@@ -272,7 +272,7 @@ const AddProduct = ({ placeholder }) => {
         validationSchema={productValidationSchema}
         validateOnBlur={true}
         onSubmit={(values) => {
-          setLoading(true)
+          setLoading(true);
           // Create a new FormData object
           const formData = new FormData();
 
@@ -337,12 +337,30 @@ const AddProduct = ({ placeholder }) => {
               },
             ]
           );
+          const cNCFileNDateUpdated2 = values?.cNCFileNDate?.map((section) => ({
+            date: section?.date || "",
+            file: section?.file?.[0] || "",
+          })) || [
+            {
+              date: "",
+              file: "",
+            },
+          ];
 
           formData.append("stockedInDetails", stockedInDetailsUpdated);
           formData.append(
             "productPricingDetails",
             productPricingDetailsUpdated
           );
+          if (
+            JSON.stringify(values?.complianceFile) !=
+            JSON.stringify(cNCFileNDateUpdated2?.map((file) => file?.file))
+          ) {
+            // fisetFieldValue("complianceFile", []);
+            cNCFileNDateUpdated2?.forEach((file) =>
+              formData.append("complianceFile", file?.file)
+            );
+          }
           formData.append("cNCFileNDate", cNCFileNDateUpdated);
 
           // dispatch(addProduct(formData));
@@ -351,7 +369,7 @@ const AddProduct = ({ placeholder }) => {
               navigate("/supplier/product"); // Change this to your desired route
               setLoading(false)
             }
-            setLoading(false)
+            setLoading(false);
           });
           // setSubmitting(false); // Important to reset form submission state
         }}
@@ -6460,8 +6478,7 @@ const AddProduct = ({ placeholder }) => {
                           />
                         </div>
                         <span className={styles.error}>
-                          {touched.productPricingDetails?.[index]
-                            ?.quantityTo &&
+                          {touched.productPricingDetails?.[index]?.quantityTo &&
                             errors.productPricingDetails?.[index]?.quantityTo}
                         </span>
                       </div>

@@ -1112,7 +1112,12 @@ const EditProfileDetails = () => {
                       ? moment(
                           formik?.values?.license_expiry_date,
                           "DD/MM/YYYY"
-                        ).toDate()
+                        ).isValid()
+                        ? moment(
+                            formik?.values?.license_expiry_date,
+                            "DD/MM/YYYY"
+                          ).toDate()
+                        : null
                       : null
                   }
                   minDate={new Date()}
@@ -1471,7 +1476,7 @@ const EditProfileDetails = () => {
                       placeholder="dd/MM/yyyy"
                       name={`certificateFileNDate.${index}.date`}
                       value={
-                        ele.date
+                        ele.date && moment(ele.date, "DD/MM/YYYY").isValid()
                           ? moment(ele.date, "DD/MM/YYYY").toDate()
                           : null
                       }
