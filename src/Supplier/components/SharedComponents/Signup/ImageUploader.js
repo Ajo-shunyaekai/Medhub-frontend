@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Tooltip } from "react-tooltip"; // Removed TooltipProvider as it's not needed
+import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 import Information from '../../../assets/images/infomation.svg';
 import UploadImage from '../../../assets/images/uplaod.svg';
@@ -136,12 +136,12 @@ const ImageUploader = ({
                     {showTooltip && (
                         <div className={styles['tooltip-container']}>
                             <span
-                                className="email-info-icon"
+                                className={styles.emailInfoIcon}
                                 data-tooltip-id={`upload-tooltip-${imageType}`}
                                 data-tooltip-content={tooltipMessage}
-                                data-tooltip-place="top" // Position tooltip above
+                                data-tooltip-place="top"
                             >
-                                <img src={Information} className='tooltip-icons' alt='information' />
+                                <img src={Information} className={styles.tooltipIcons} alt='information' />
                             </span>
                             <Tooltip id={`upload-tooltip-${imageType}`} />
                         </div>
