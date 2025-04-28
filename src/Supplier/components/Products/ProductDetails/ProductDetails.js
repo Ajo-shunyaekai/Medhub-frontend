@@ -222,7 +222,7 @@ const ProductDetails = () => {
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Tax%</span>
                   <span className={styles.medicineText}>
-                    {productDetail?.general?.tax}
+                    {productDetail?.general?.unit_tax}
                   </span>
                 </div>
               )}
@@ -339,6 +339,18 @@ const ProductDetails = () => {
         </div>
 
         {/* End general information section */}
+         {/* Start Short description */}
+         {productDetail?.general?.aboutManufacturer && (
+          <div className={styles.mainContainer}>
+            <div className={styles.manufacturerDescriptionSection}>
+              <span className={styles.medicineHead}>About Manufacturer</span>
+              <span
+                className={styles.medicineDescriptionContent}
+              >{productDetail?.general?.aboutManufacturer}</span>
+            </div>
+          </div>
+        )}
+        {/* End the Short description */}
 
         {/* Start product description */}
         {productDetail?.general?.description && (
@@ -3163,63 +3175,19 @@ const ProductDetails = () => {
 
         {/* End the category details section */}
 
-        {/* Start product image section */}
-        {/* {productDetail?.general?.image?.length > 0 && (
-          <div className={styles.mainContainer}>
-            <span className={styles.innerHead}>Product Images</span>
-            <div className={styles.productImageSection}>
-              {productDetail?.general?.image?.map((img) => (
-                <div className={styles.imageContainer}>
-                  <img
-                    className={styles.imageSection}
-                    src={
-                      !productDetail?.bulkUpload
-                        ? `${process.env.REACT_APP_SERVER_URL}uploads/products/${img}`
-                        : { img }
-                    }
-                    alt="image"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        )} */}
+      
 
         {productDetail?.general?.image?.length > 0 && (
           <div className={styles.mainContainer}>
             <span className={styles.innerHead}>Product Images</span>
             <div className={styles.productImageSection}>
-              {/* {productDetail?.general?.image?.map((img, index) => {
-                const imgUrl = !productDetail?.bulkUpload
-                  ? `${process.env.REACT_APP_SERVER_URL}uploads/products/${img}`
-                  : img;
-
-                // Check if the image URL is valid
-                const isValidUrl = isValidHttpUrl(imgUrl);
-                const isImage = isImageExtension(imgUrl); // Check if the URL ends with an image extension
-
-                return (
-                  <div className={styles.imageContainer} key={index}>
-                    <img
-                      className={styles.imageSection}
-                      src={isValidUrl || isImage ? imgUrl : fallbackImageUrl} // Use fallback if not valid
-                      alt="Product Image"
-                      onError={(e) => {
-                        e.target.onerror = null; // Prevent infinite loop on error
-                        e.target.src = fallbackImageUrl; // Fallback to default image on error
-                      }}
-                    />
-                  </div>
-                );
-              })} */}
-
               {productDetail?.general?.image?.map((img, index) => {
                 const baseUrl = process.env.REACT_APP_SERVER_URL?.endsWith("/")
                   ? process.env.REACT_APP_SERVER_URL
                   : `${process.env.REACT_APP_SERVER_URL}/`;
 
                 // If not a full URL, prepend base path
-                const imgUrl = img.startsWith("http")
+                const imgUrl = img?.startsWith("http")
                   ? img
                   : `${baseUrl}uploads/products/${img}`;
 
@@ -3401,16 +3369,7 @@ const ProductDetails = () => {
                   )}
                 </div>
               )}
-              {productDetail?.general?.aboutManufacturer && (
-                <div className={styles.manufacturerDescriptionSection}>
-                  <span className={styles.medicineHead}>
-                    About Manufacturer
-                  </span>
-                  <span className={styles.medicineContent}>
-                    {productDetail?.general?.aboutManufacturer}
-                  </span>
-                </div>
-              )}
+             
             </div>
           </div>
         )}
