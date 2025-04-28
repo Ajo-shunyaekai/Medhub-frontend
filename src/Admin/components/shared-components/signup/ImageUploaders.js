@@ -106,7 +106,7 @@ const ImageUploaders = ({ onUploadStatusChange }) => {
                 {filePreviews.map((file) => (
                     <div key={file.name} className={styles['file-container']}>
                         <div className={styles['file-wrapper']} onClick={() => openModal(file.preview, file.type)}>
-                            {file.preview.startsWith('data:image') ? (
+                            {file.preview?.startsWith('data:image') ? (
                                 <img src={file.preview} alt={file.name} className={styles['uploaded-image']} />
                             ) : (
                                 <img src={PDFIcon} alt="PDF" className={styles['pdf-icon']} />

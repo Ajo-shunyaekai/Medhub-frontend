@@ -85,19 +85,19 @@ const SupplierDashboard = () => {
                                     <div className='buyer-panel-top-text'>{orderSummary?.enquiryCount || 0}</div>
                                
                             </Link>
-                            <Link className='buyer-panel-top-content-section' to='/buyer/purchased-orders-list'>
+                            <Link className='buyer-panel-top-content-section' to='/supplier/purchased-orders-list'>
                                
                                     <div className='buyer-panel-top-head'>Purchased Orders</div>
                                     <div className='buyer-panel-top-text'>{orderSummary?.purchaseOrderCount || 0}</div>
                                 
                             </Link>
-                            <Link className='buyer-panel-top-content-section' to='/buyer/active-orders'>
+                            <Link className='buyer-panel-top-content-section' to='/supplier/ongoing-orders'>
                                 
                                     <div className='buyer-panel-top-head'>Active Orders</div>
                                     <div className='buyer-panel-top-text'>{orderSummary?.orderDetails?.activeCount[0]?.count || 0}</div>
                                
                             </Link>
-                            <Link className='buyer-panel-top-content-section' to='/buyer/completed-order'>
+                            <Link className='buyer-panel-top-content-section' to='/supplier/completed-orders'>
                                
                                     <div className='buyer-panel-top-head'>Completed Orders</div>
                                     <div className='buyer-panel-top-text'>{orderSummary?.orderDetails?.completedCount[0]?.count || 0}</div>
