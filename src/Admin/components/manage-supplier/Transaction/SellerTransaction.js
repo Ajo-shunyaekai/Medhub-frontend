@@ -37,8 +37,8 @@ const SellerTransaction = () => {
 
         postRequestWithToken('admin/get-transaction-list', obj, async (response) => {
             if (response?.code === 200) {
-                setTransactionList(response.result.data);
-                setTotalList(response.result.totalItems);
+                setTransactionList(response.result.data || []);
+                setTotalList(response.result.totalItems || 0);
             }
             setLoading(false);
         });
@@ -49,13 +49,11 @@ const SellerTransaction = () => {
             name: 'Transaction ID',
             selector: row => row.transaction_id,
             sortable: true,
-
         },
         {
             name: 'Buyer Name',
             selector: row => row.buyer_name,
             sortable: true,
-
         },
         {
             name: 'Total Amount',
@@ -65,13 +63,12 @@ const SellerTransaction = () => {
                 <div className={styles.tableCell}>
                     {row.total_amount_paid ? `${row.total_amount_paid} USD` : '-'}
                 </div>
-            )
+            ),
         },
         {
             name: 'Payment Mode',
             selector: row => row.mode_of_payment,
             sortable: true,
-
         },
         {
             name: 'Status',
@@ -81,54 +78,51 @@ const SellerTransaction = () => {
                 <div className={styles.tableCell}>
                     {row.status?.charAt(0).toUpperCase() + row.status?.slice(1)}
                 </div>
-            )
+            ),
         },
         {
             name: 'Action',
             cell: row => (
-                
-                    <a href={`/admin/supplier-transaction-details/${row.invoice_id}`}>
-                        <div className={styles.activeBtn}>
-                            <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
-                        </div>
-                    </a>
-               
+                <a href={`/admin/supplier-transaction-details/${row.invoice_id}`}>
+                    <div className={styles.activeBtn}>
+                        <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
+                    </div>
+                </a>
             ),
             ignoreRowClick: true,
             allowOverflow: true,
-            button: true
-        }
+            button: true,
+        },
     ];
 
     return (
         <div className={styles.container}>
- <style>
+            <style>
                 {`
                     .rdt_Table {
-                       border: none;
-    background-color: unset !important;
+                        border: none;
+                        background-color: unset !important;
                     }
-                        .rdt_TableRow{
-                      background-color: #ffffff !important;
-    border-bottom: none !important;
-                        }
+                    .rdt_TableRow {
+                        background-color: #ffffff !important;
+                        border-bottom: none !important;
+                    }
                     .rdt_TableHeadRow {
-                            background-color: #f9f9fa;
-    font-weight: bold;
-    border-bottom: none !important;
+                        background-color: #f9f9fa;
+                        font-weight: bold;
+                        border-bottom: none !important;
                     }
-    .rdt_TableBody{
-    gap:10px !important;
-    }
+                    .rdt_TableBody {
+                        gap: 10px !important;
+                    }
                     .rdt_TableCol {
                         text-align: center;
                         color: #333;
                     }
                     .rdt_TableCell {
-                       
-                           text-align: center;
-    color: #99a0ac;
-    font-weight: 500 !important;
+                        text-align: center;
+                        color: #99a0ac;
+                        font-weight: 500 !important;
                     }
                     .rdt_TableCellStatus {
                         text-align: center;
@@ -140,10 +134,7 @@ const SellerTransaction = () => {
                 <Loader />
             ) : (
                 <>
-
                     <span className={styles.title}>Supplier Transaction List</span>
-
-
                     <DataTable
                         columns={columns}
                         data={transactionList}

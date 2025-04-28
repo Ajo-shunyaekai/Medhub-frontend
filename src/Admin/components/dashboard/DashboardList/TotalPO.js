@@ -8,7 +8,6 @@ import Loader from '../../shared-components/Loader/Loader';
 import PaginationComponent from '../../shared-components/Pagination/Pagination';
 import styles from '../../../assets/style/table.module.css';
 
-
 const TotalPO = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -62,13 +61,11 @@ const TotalPO = () => {
       name: "PO ID",
       selector: (row) => row.purchaseOrder_id,
       sortable: true,
-
     },
     {
       name: "Inquiry ID",
       selector: (row) => row.enquiry_id,
       sortable: true,
-
     },
     {
       name: "PO Date",
@@ -84,9 +81,9 @@ const TotalPO = () => {
         <div>
           {row.po_status
             ? row.po_status
-              .split(" ")
-              .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-              .join(" ")
+                .split(" ")
+                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(" ")
             : ""}
         </div>
       ),
@@ -108,47 +105,45 @@ const TotalPO = () => {
 
   return (
     <section className={styles.container}>
-       <style>
-                {`
-                    .rdt_Table {
-                       border: none;
-    background-color: unset !important;
-                    }
-                        .rdt_TableRow{
-                      background-color: #ffffff !important;
-    border-bottom: none !important;
-                        }
-                    .rdt_TableHeadRow {
-                            background-color: #f9f9fa;
-    font-weight: bold;
-    border-bottom: none !important;
-                    }
-    .rdt_TableBody{
-    gap:10px !important;
-    }
-                    .rdt_TableCol {
-                        text-align: center;
-                        color: #333;
-                    }
-                    .rdt_TableCell {
-                       
-                           text-align: center;
-    color: #99a0ac;
-    font-weight: 500 !important;
-                    }
-                    .rdt_TableCellStatus {
-                        text-align: center;
-                        color: #333;
-                    }
-                `}
-            </style>
+      <style>
+        {`
+          .rdt_Table {
+            border: none;
+            background-color: unset !important;
+          }
+          .rdt_TableRow {
+            background-color: #ffffff !important;
+            border-bottom: none !important;
+          }
+          .rdt_TableHeadRow {
+            background-color: #f9f9fa;
+            font-weight: bold;
+            border-bottom: none !important;
+          }
+          .rdt_TableBody {
+            gap: 10px !important;
+          }
+          .rdt_TableCol {
+            text-align: center;
+            color: #333;
+          }
+          .rdt_TableCell {
+            text-align: center;
+            color: #99a0ac;
+            font-weight: 500 !important;
+          }
+          .rdt_TableCellStatus {
+            text-align: center;
+            color: #333;
+          }
+        `}
+      </style>
       {loading ? (
         <Loader />
       ) : (
         <>
           <header className={styles.header}>
             <span className={styles.title}>Total Purchased Orders</span>
-
           </header>
 
           <DataTable
@@ -159,16 +154,18 @@ const TotalPO = () => {
             pagination={false}
             responsive
           />
-          <PaginationComponent
-            activePage={currentPage}
-            itemsCountPerPage={listPerPage}
-            totalItemsCount={totalList}
-            pageRangeDisplayed={10}
-            onChange={handlePageChange}
-          />
+          {list.length > 0 && totalList > 0 && (
+            <PaginationComponent
+              activePage={currentPage}
+              itemsCountPerPage={listPerPage}
+              totalItemsCount={totalList}
+              pageRangeDisplayed={10}
+              onChange={handlePageChange}
+            />
+          )}
         </>
       )}
-    </section >
+    </section>
   );
 };
 

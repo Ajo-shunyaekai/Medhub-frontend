@@ -6,6 +6,7 @@ import { postReqCSVDownload, postRequestWithToken } from '../../../api/Requests'
 import Loader from '../../shared-components/Loader/Loader';
 import PaginationComponent from '../../shared-components/Pagination/Pagination';
 import styles from '../../../assets/style/table.module.css';
+
 const ApprovedBuyer = () => {
     const navigate = useNavigate();
     const location = useLocation();
@@ -44,7 +45,7 @@ const ApprovedBuyer = () => {
             }
             setLoading(false);
         });
-    }, [currentPage]);
+    }, [currentPage, filterValue, adminIdSessionStorage, adminIdLocalStorage, navigate]);
 
     const handleDownload = async () => {
         setLoading(true);
@@ -54,6 +55,7 @@ const ApprovedBuyer = () => {
 
         const result = await postReqCSVDownload('admin/get-buyer-list-csv', obj, 'buyer_list.csv');
         if (!result?.success) {
+            // Handle error if needed
         }
         setLoading(false);
     };
@@ -63,19 +65,16 @@ const ApprovedBuyer = () => {
             name: 'Buyer ID',
             selector: row => row.buyer_id,
             sortable: true,
-
         },
         {
             name: 'Registration No',
             selector: row => row.registration_no,
             sortable: true,
-
         },
         {
             name: 'GST/VAT Registration No',
             selector: row => row.vat_reg_no,
             sortable: true,
-
         },
         {
             name: 'Buyer Name',
@@ -86,7 +85,6 @@ const ApprovedBuyer = () => {
             name: 'Buyer Type',
             selector: row => row.buyer_type,
             sortable: true,
-
         },
         {
             name: "Mobile No.",
@@ -99,10 +97,10 @@ const ApprovedBuyer = () => {
             sortable: true,
             cell: row => (
                 <div className={styles.tableText}>
-                    {row.account_status ?
-                        (row.account_status === 1 ? 'Accepted' :
-                            (row.account_status === 2 ? 'Rejected' : 'Pending')) :
-                        ''
+                    {row.account_status
+                        ? (row.account_status === 1 ? 'Accepted' :
+                            row.account_status === 2 ? 'Rejected' : 'Pending')
+                        : ''
                     }
                 </div>
             ),
@@ -119,37 +117,34 @@ const ApprovedBuyer = () => {
         }
     ];
 
-
-
     return (
         <section className={styles.container}>
             <style>
                 {`
                     .rdt_Table {
-                       border: none;
-    background-color: unset !important;
+                        border: none;
+                        background-color: unset !important;
                     }
-                        .rdt_TableRow{
-                      background-color: #ffffff !important;
-    border-bottom: none !important;
-                        }
+                    .rdt_TableRow {
+                        background-color: #ffffff !important;
+                        border-bottom: none !important;
+                    }
                     .rdt_TableHeadRow {
-                            background-color: #f9f9fa;
-    font-weight: bold;
-    border-bottom: none !important;
+                        background-color: #f9f9fa;
+                        font-weight: bold;
+                        border-bottom: none !important;
                     }
-    .rdt_TableBody{
-    gap:10px !important;
-    }
+                    .rdt_TableBody {
+                        gap: 10px !important;
+                    }
                     .rdt_TableCol {
                         text-align: center;
                         color: #333;
                     }
                     .rdt_TableCell {
-                       
-                           text-align: center;
-    color: #99a0ac;
-    font-weight: 500 !important;
+                        text-align: center;
+                        color: #99a0ac;
+                        font-weight: 500 !important;
                     }
                     .rdt_TableCellStatus {
                         text-align: center;
@@ -174,17 +169,18 @@ const ApprovedBuyer = () => {
                         persistTableHead
                         pagination={false}
                     />
-                    <PaginationComponent
-                        activePage={currentPage}
-                        itemsCountPerPage={listPerPage}
-                        totalItemsCount={totalBuyers}
-                        pageRangeDisplayed={10}
-                        onChange={setCurrentPage}
-                    />
-
+                    {buyerList.length > 0 && (
+                        <PaginationComponent
+                            activePage={currentPage}
+                            itemsCountPerPage={listPerPage}
+                            totalItemsCount={totalBuyers}
+                            pageRangeDisplayed={10}
+                            onChange={setCurrentPage}
+                        />
+                    )}
                 </>
             )}
-        </section >
+        </section>
     );
 };
 

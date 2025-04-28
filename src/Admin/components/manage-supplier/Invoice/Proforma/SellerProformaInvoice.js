@@ -12,7 +12,6 @@ const SellerProformaInvoice = ({ invoiceList, totalItems, currentPage, listPerPa
             name: 'Invoice No.',
             selector: row => row.invoice_no,
             sortable: true,
-
         },
         {
             name: 'PO Date',
@@ -24,13 +23,11 @@ const SellerProformaInvoice = ({ invoiceList, totalItems, currentPage, listPerPa
             name: 'Order ID',
             selector: row => row.order_id,
             sortable: true,
-
         },
         {
             name: 'Customer Name',
             selector: row => row.buyer_name,
             sortable: true,
-
         },
         {
             name: 'Action',
@@ -50,33 +47,32 @@ const SellerProformaInvoice = ({ invoiceList, totalItems, currentPage, listPerPa
 
     return (
         <div className={styles.container}>
-  <style>
+            <style>
                 {`
                     .rdt_Table {
-                       border: none;
-    background-color: unset !important;
+                        border: none;
+                        background-color: unset !important;
                     }
-                        .rdt_TableRow{
-                      background-color: #ffffff !important;
-    border-bottom: none !important;
-                        }
+                    .rdt_TableRow {
+                        background-color: #ffffff !important;
+                        border-bottom: none !important;
+                    }
                     .rdt_TableHeadRow {
-                            background-color: #f9f9fa;
-    font-weight: bold;
-    border-bottom: none !important;
+                        background-color: #f9f9fa;
+                        font-weight: bold;
+                        border-bottom: none !important;
                     }
-    .rdt_TableBody{
-    gap:10px !important;
-    }
+                    .rdt_TableBody {
+                        gap: 10px !important;
+                    }
                     .rdt_TableCol {
                         text-align: center;
                         color: #333;
                     }
                     .rdt_TableCell {
-                       
-                           text-align: center;
-    color: #99a0ac;
-    font-weight: 500 !important;
+                        text-align: center;
+                        color: #99a0ac;
+                        font-weight: 500 !important;
                     }
                     .rdt_TableCellStatus {
                         text-align: center;
@@ -93,15 +89,15 @@ const SellerProformaInvoice = ({ invoiceList, totalItems, currentPage, listPerPa
                 responsive
             />
 
-
-            <PaginationComponent
-                activePage={currentPage}
-                itemsCountPerPage={listPerPage}
-                totalItemsCount={totalItems}
-                pageRangeDisplayed={10}
-                onChange={handlePageChange}
-            />
-
+            {invoiceList && invoiceList.length > 0 && (
+                <PaginationComponent
+                    activePage={currentPage}
+                    itemsCountPerPage={listPerPage}
+                    totalItemsCount={totalItems}
+                    pageRangeDisplayed={10}
+                    onChange={handlePageChange}
+                />
+            )}
         </div>
     );
 };

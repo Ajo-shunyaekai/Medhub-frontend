@@ -12,26 +12,21 @@ const ActiveBuyerOrder = ({ orderList, totalOrders, currentPage, ordersPerPage, 
             name: 'Order ID',
             selector: row => row.order_id,
             sortable: true,
-
         },
         {
             name: 'Date',
             selector: row => moment(row.created_at).format("DD/MM/YYYY"),
             sortable: true,
-
         },
         {
             name: 'Supplier Name',
             selector: row => row.supplier?.supplier_name || 'N/A',
             sortable: true,
-
-
         },
         {
             name: 'Quantity',
             selector: row => row.items.reduce((total, item) => total + (item.quantity || item.quantity_required), 0),
             sortable: true,
-
         },
         {
             name: 'Status',
@@ -64,30 +59,29 @@ const ActiveBuyerOrder = ({ orderList, totalOrders, currentPage, ordersPerPage, 
             <style>
                 {`
                     .rdt_Table {
-                       border: none;
-    background-color: unset !important;
+                        border: none;
+                        background-color: unset !important;
                     }
-                        .rdt_TableRow{
-                      background-color: #ffffff !important;
-    border-bottom: none !important;
-                        }
+                    .rdt_TableRow {
+                        background-color: #ffffff !important;
+                        border-bottom: none !important;
+                    }
                     .rdt_TableHeadRow {
-                            background-color: #f9f9fa;
-    font-weight: bold;
-    border-bottom: none !important;
+                        background-color: #f9f9fa;
+                        font-weight: bold;
+                        border-bottom: none !important;
                     }
-    .rdt_TableBody{
-    gap:10px !important;
-    }
+                    .rdt_TableBody {
+                        gap: 10px !important;
+                    }
                     .rdt_TableCol {
                         text-align: center;
                         color: #333;
                     }
                     .rdt_TableCell {
-                       
-                           text-align: center;
-    color: #99a0ac;
-    font-weight: 500 !important;
+                        text-align: center;
+                        color: #99a0ac;
+                        font-weight: 500 !important;
                     }
                     .rdt_TableCellStatus {
                         text-align: center;
@@ -103,15 +97,16 @@ const ActiveBuyerOrder = ({ orderList, totalOrders, currentPage, ordersPerPage, 
                 pagination={false}
                 responsive
             />
-            <PaginationComponent
-                activePage={currentPage}
-                itemsCountPerPage={ordersPerPage}
-                totalItemsCount={totalOrders}
-                pageRangeDisplayed={10}
-                onChange={handlePageChange}
-            />
+            {orderList.length > 0 && (
+                <PaginationComponent
+                    activePage={currentPage}
+                    itemsCountPerPage={ordersPerPage}
+                    totalItemsCount={totalOrders}
+                    pageRangeDisplayed={10}
+                    onChange={handlePageChange}
+                />
+            )}
         </div>
-
     );
 };
 

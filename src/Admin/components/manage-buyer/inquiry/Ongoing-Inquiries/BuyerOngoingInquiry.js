@@ -12,20 +12,17 @@ const BuyerOngoingInquiry = ({ inquiryList, totalInquiries, currentPage, inquiri
             name: 'Inquiry ID',
             selector: row => row.enquiry_id,
             sortable: true,
-
         },
         {
             name: 'Date',
             selector: row => row.created_at,
             sortable: true,
             cell: row => <div>{moment(row.created_at).format("DD/MM/YYYY")}</div>,
-
         },
         {
             name: 'Supplier Name',
             selector: row => row.supplier?.supplier_name,
             sortable: true,
-
         },
         {
             name: 'Status',
@@ -36,7 +33,6 @@ const BuyerOngoingInquiry = ({ inquiryList, totalInquiries, currentPage, inquiri
                     {row.enquiry_status?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
                 </div>
             ),
-
         },
         {
             name: 'Action',
@@ -59,29 +55,28 @@ const BuyerOngoingInquiry = ({ inquiryList, totalInquiries, currentPage, inquiri
             <style>
                 {`
                     .rdt_Table {
-                       border: none;
-    background-color: unset !important;
+                        border: none;
+                        background-color: unset !important;
                     }
-                        .rdt_TableRow{
-                      background-color: #ffffff !important;
-    border-bottom: none !important;
-                        }
+                    .rdt_TableRow {
+                        background-color: #ffffff !important;
+                        border-bottom: none !important;
+                    }
                     .rdt_TableHeadRow {
-                            background-color: #f9f9fa;
-    font-weight: bold;
-    border-bottom: none !important;
+                        background-color: #f9f9fa;
+                        font-weight: bold;
+                        border-bottom: none !important;
                     }
-    .rdt_TableBody{
-    gap:10px !important;
-    }
+                    .rdt_TableBody {
+                        gap: 10px !important;
+                    }
                     .rdt_TableCol {
                         text-align: center;
                         color: #333;
                     }
                     .rdt_TableCell {
-                       
                         text-align: center;
-                       color: #99a0ac;
+                        color: #99a0ac;
                     }
                     .rdt_TableCellStatus {
                         text-align: center;
@@ -97,13 +92,15 @@ const BuyerOngoingInquiry = ({ inquiryList, totalInquiries, currentPage, inquiri
                 pagination={false}
                 responsive
             />
-            <PaginationComponent
-                activePage={currentPage}
-                itemsCountPerPage={inquiriesPerPage}
-                totalItemsCount={totalInquiries}
-                pageRangeDisplayed={10}
-                onChange={handlePageChange}
-            />
+            {inquiryList && inquiryList.length > 0 && (
+                <PaginationComponent
+                    activePage={currentPage}
+                    itemsCountPerPage={inquiriesPerPage}
+                    totalItemsCount={totalInquiries}
+                    pageRangeDisplayed={10}
+                    onChange={handlePageChange}
+                />
+            )}
         </div>
     );
 };

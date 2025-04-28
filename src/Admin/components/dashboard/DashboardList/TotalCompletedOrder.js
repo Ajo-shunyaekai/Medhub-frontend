@@ -58,7 +58,6 @@ const TotalCompletedOrder = () => {
       name: "Order ID",
       selector: (row) => row.order_id,
       sortable: true,
-     
     },
     {
       name: "Date",
@@ -70,13 +69,11 @@ const TotalCompletedOrder = () => {
       name: "Supplier Name",
       selector: (row) => row.supplier_name,
       sortable: true,
-     
     },
     {
       name: "Buyer Name",
       selector: (row) => row.buyer_name,
       sortable: true,
-     
     },
     {
       name: "Quantity",
@@ -112,7 +109,7 @@ const TotalCompletedOrder = () => {
       name: "Action",
       cell: (row) => (
         <Link to={`/admin/order-details/${row.order_id}`}>
-            <div className={styles.activeBtn}>
+          <div className={styles.activeBtn}>
             <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
           </div>
         </Link>
@@ -126,66 +123,65 @@ const TotalCompletedOrder = () => {
   return (
     <section className={styles.container}>
       <style>
-                {`
-                    .rdt_Table {
-                       border: none;
-    background-color: unset !important;
-                    }
-                        .rdt_TableRow{
-                      background-color: #ffffff !important;
-    border-bottom: none !important;
-                        }
-                    .rdt_TableHeadRow {
-                            background-color: #f9f9fa;
-    font-weight: bold;
-    border-bottom: none !important;
-                    }
-    .rdt_TableBody{
-    gap:10px !important;
-    }
-                    .rdt_TableCol {
-                        text-align: center;
-                        color: #333;
-                    }
-                    .rdt_TableCell {
-                       
-                           text-align: center;
-    color: #99a0ac;
-    font-weight: 500 !important;
-                    }
-                    .rdt_TableCellStatus {
-                        text-align: center;
-                        color: #333;
-                    }
-                `}
-            </style>
+        {`
+          .rdt_Table {
+            border: none;
+            background-color: unset !important;
+          }
+          .rdt_TableRow {
+            background-color: #ffffff !important;
+            border-bottom: none !important;
+          }
+          .rdt_TableHeadRow {
+            background-color: #f9f9fa;
+            font-weight: bold;
+            border-bottom: none !important;
+          }
+          .rdt_TableBody {
+            gap: 10px !important;
+          }
+          .rdt_TableCol {
+            text-align: center;
+            color: #333;
+          }
+          .rdt_TableCell {
+            text-align: center;
+            color: #99a0ac;
+            font-weight: 500 !important;
+          }
+          .rdt_TableCellStatus {
+            text-align: center;
+            color: #333;
+          }
+        `}
+      </style>
       {loading ? (
         <Loader />
       ) : (
         <>
-                <header className={styles.header}>
-                  <span className={styles.title}>Total Complete Orders</span>
-                </header>
-       
-              <DataTable
-                columns={columns}
-                data={orderList}
-                noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
-                persistTableHead
-                pagination={false}
-                responsive
-               
-              />
-              <PaginationComponent
-                activePage={currentPage}
-                itemsCountPerPage={ordersPerPage}
-                totalItemsCount={totalOrders}
-                pageRangeDisplayed={10}
-                onChange={handlePageChange}
-              />
-           </>
+          <header className={styles.header}>
+            <span className={styles.title}>Total Complete Orders</span>
+          </header>
+          <DataTable
+            columns={columns}
+            data={orderList}
+            noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
+            persistTableHead
+            pagination={false}
+            responsive
+          />
+          {orderList.length > 0 && (
+            <PaginationComponent
+              activePage={currentPage}
+              itemsCountPerPage={ordersPerPage}
+              totalItemsCount={totalOrders}
+              pageRangeDisplayed={10}
+              onChange={handlePageChange}
+            />
+          )}
+        </>
       )}
-      </section >
+    </section>
   );
 };
 
