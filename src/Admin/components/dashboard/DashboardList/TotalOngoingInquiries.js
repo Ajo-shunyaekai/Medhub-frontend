@@ -12,7 +12,6 @@ const TotalOngoingInquiries = ({ list, totalList, currentPage, ordersPerPage, ha
             name: 'Inquiry ID',
             selector: row => row.enquiry_id,
             sortable: true,
-           
         },
         {
             name: 'Date',
@@ -24,7 +23,6 @@ const TotalOngoingInquiries = ({ list, totalList, currentPage, ordersPerPage, ha
             name: 'Supplier Name',
             selector: row => row.supplier?.supplier_name,
             sortable: true,
-           
         },
         {
             name: 'Status',
@@ -41,8 +39,8 @@ const TotalOngoingInquiries = ({ list, totalList, currentPage, ordersPerPage, ha
             cell: row => (
                 <Link to={`/admin/ongoing-inquiries-details/${row.enquiry_id}`}>
                     <div className={styles.activeBtn}>
-                               <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
-                             </div>
+                        <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
+                    </div>
                 </Link>
             ),
             ignoreRowClick: true,
@@ -53,33 +51,32 @@ const TotalOngoingInquiries = ({ list, totalList, currentPage, ordersPerPage, ha
 
     return (
         <div className={styles.container}>
-           <style>
+            <style>
                 {`
                     .rdt_Table {
-                       border: none;
-    background-color: unset !important;
+                        border: none;
+                        background-color: unset !important;
                     }
-                        .rdt_TableRow{
-                      background-color: #ffffff !important;
-    border-bottom: none !important;
-                        }
+                    .rdt_TableRow {
+                        background-color: #ffffff !important;
+                        border-bottom: none !important;
+                    }
                     .rdt_TableHeadRow {
-                            background-color: #f9f9fa;
-    font-weight: bold;
-    border-bottom: none !important;
+                        background-color: #f9f9fa;
+                        font-weight: bold;
+                        border-bottom: none !important;
                     }
-    .rdt_TableBody{
-    gap:10px !important;
-    }
+                    .rdt_TableBody {
+                        gap: 10px !important;
+                    }
                     .rdt_TableCol {
                         text-align: center;
                         color: #333;
                     }
                     .rdt_TableCell {
-                       
-                           text-align: center;
-    color: #99a0ac;
-    font-weight: 500 !important;
+                        text-align: center;
+                        color: #99a0ac;
+                        font-weight: 500 !important;
                     }
                     .rdt_TableCellStatus {
                         text-align: center;
@@ -87,14 +84,15 @@ const TotalOngoingInquiries = ({ list, totalList, currentPage, ordersPerPage, ha
                     }
                 `}
             </style>
-                <DataTable
-                    columns={columns}
-                    data={list}
-                    persistTableHead
-                    noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
-                    pagination={false}
-                    responsive
-                />
+            <DataTable
+                columns={columns}
+                data={list}
+                persistTableHead
+                noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
+                pagination={false}
+                responsive
+            />
+            {list && list.length > 0 && (
                 <PaginationComponent
                     activePage={currentPage}
                     itemsCountPerPage={ordersPerPage}
@@ -102,8 +100,8 @@ const TotalOngoingInquiries = ({ list, totalList, currentPage, ordersPerPage, ha
                     pageRangeDisplayed={10}
                     onChange={handlePageChange}
                 />
-            </div>
-       
+            )}
+        </div>
     );
 };
 

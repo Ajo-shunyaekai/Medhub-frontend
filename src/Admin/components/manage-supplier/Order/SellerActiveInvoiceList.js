@@ -22,19 +22,16 @@ const SellerActiveInvoiceList = ({ invoiceData }) => {
             name: 'Invoice No.',
             selector: row => row.invoice_no,
             sortable: true,
-           
         },
         {
             name: 'Order ID',
             selector: row => row.order_id,
             sortable: true,
-           
         },
         {
             name: 'Buyer Name',
             selector: row => row.buyer_name,
             sortable: true,
-           
         },
         {
             name: 'Amount',
@@ -61,13 +58,11 @@ const SellerActiveInvoiceList = ({ invoiceData }) => {
         {
             name: 'Action',
             cell: row => (
-                
-                    <Link to={`/admin/supplier-invoice-details/${row.invoice_id}`}>
-                        <div className={styles.activeBtn}>
-                            <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
-                        </div>
-                    </Link>
-              
+                <Link to={`/admin/supplier-invoice-details/${row.invoice_id}`}>
+                    <div className={styles.activeBtn}>
+                        <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
+                    </div>
+                </Link>
             ),
             ignoreRowClick: true,
             allowOverflow: true,
@@ -80,30 +75,29 @@ const SellerActiveInvoiceList = ({ invoiceData }) => {
             <style>
                 {`
                     .rdt_Table {
-                       border: none;
-    background-color: unset !important;
+                        border: none;
+                        background-color: unset !important;
                     }
-                        .rdt_TableRow{
-                      background-color: #ffffff !important;
-    border-bottom: none !important;
-                        }
+                    .rdt_TableRow {
+                        background-color: #ffffff !important;
+                        border-bottom: none !important;
+                    }
                     .rdt_TableHeadRow {
-                            background-color: #f9f9fa;
-    font-weight: bold;
-    border-bottom: none !important;
+                        background-color: #f9f9fa;
+                        font-weight: bold;
+                        border-bottom: none !important;
                     }
-    .rdt_TableBody{
-    gap:10px !important;
-    }
+                    .rdt_TableBody {
+                        gap: 10px !important;
+                    }
                     .rdt_TableCol {
                         text-align: center;
                         color: #333;
                     }
                     .rdt_TableCell {
-                       
-                           text-align: center;
-    color: #99a0ac;
-    font-weight: 500 !important;
+                        text-align: center;
+                        color: #99a0ac;
+                        font-weight: 500 !important;
                     }
                     .rdt_TableCellStatus {
                         text-align: center;
@@ -111,15 +105,15 @@ const SellerActiveInvoiceList = ({ invoiceData }) => {
                     }
                 `}
             </style>
-                 <span className={styles.title}>Invoice List</span>
-               
-                <DataTable
-                    columns={columns}
-                    data={currentOrders}
-                    persistTableHead
-                        noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
-                        pagination={false}
-                />
+            <span className={styles.title}>Invoice List</span>
+            <DataTable
+                columns={columns}
+                data={currentOrders}
+                persistTableHead
+                noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
+                pagination={false}
+            />
+            {invoiceData.length > 0 && (
                 <PaginationComponent
                     activePage={currentPage}
                     itemsCountPerPage={itemsPerPage}
@@ -127,7 +121,8 @@ const SellerActiveInvoiceList = ({ invoiceData }) => {
                     pageRangeDisplayed={5}
                     onChange={handlePageChange}
                 />
-            </div>
+            )}
+        </div>
     );
 };
 

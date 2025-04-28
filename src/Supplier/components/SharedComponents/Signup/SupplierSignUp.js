@@ -781,10 +781,10 @@ const SupplierSignUp = ({ socket }) => {
       formDataToSend.append("registration_no", formData.registrationNo);
       formDataToSend.append("vat_reg_no", formData.vatRegistrationNo);
       countryLabels.forEach((item) =>
-        formDataToSend.append("country_of_operation[]", item)
+        formDataToSend.append("country_of_operation", item)
       );
       categoryLabels.forEach((item) =>
-        formDataToSend.append("categories[]", item)
+        formDataToSend.append("categories", item)
       );
       formDataToSend.append("tax_no", formData.companyTaxNo);
       formDataToSend.append("activity_code", formData.activityCode);

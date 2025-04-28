@@ -12,13 +12,11 @@ const PurchasedOrder = ({ poList, totalList, currentPage, listPerPage, handlePag
             name: 'PO ID',
             selector: row => row.purchaseOrder_id,
             sortable: true,
-
         },
         {
             name: 'Inquiry ID',
             selector: row => row.enquiry_id,
             sortable: true,
-
         },
         {
             name: 'PO Date',
@@ -29,13 +27,11 @@ const PurchasedOrder = ({ poList, totalList, currentPage, listPerPage, handlePag
                     {moment(row.created_at).format('DD/MM/YYYY')}
                 </div>
             ),
-
         },
         {
             name: 'Buyer Name',
             selector: row => row.buyer?.buyer_name,
             sortable: true,
-
         },
         {
             name: 'Status',
@@ -70,33 +66,32 @@ const PurchasedOrder = ({ poList, totalList, currentPage, listPerPage, handlePag
 
     return (
         <div className={styles.container}>
- <style>
+            <style>
                 {`
                     .rdt_Table {
-                       border: none;
-    background-color: unset !important;
+                        border: none;
+                        background-color: unset !important;
                     }
-                        .rdt_TableRow{
-                      background-color: #ffffff !important;
-    border-bottom: none !important;
-                        }
+                    .rdt_TableRow {
+                        background-color: #ffffff !important;
+                        border-bottom: none !important;
+                    }
                     .rdt_TableHeadRow {
-                            background-color: #f9f9fa;
-    font-weight: bold;
-    border-bottom: none !important;
+                        background-color: #f9f9fa;
+                        font-weight: bold;
+                        border-bottom: none !important;
                     }
-    .rdt_TableBody{
-    gap:10px !important;
-    }
+                    .rdt_TableBody {
+                        gap: 10px !important;
+                    }
                     .rdt_TableCol {
                         text-align: center;
                         color: #333;
                     }
                     .rdt_TableCell {
-                       
-                           text-align: center;
-    color: #99a0ac;
-    font-weight: 500 !important;
+                        text-align: center;
+                        color: #99a0ac;
+                        font-weight: 500 !important;
                     }
                     .rdt_TableCellStatus {
                         text-align: center;
@@ -111,8 +106,8 @@ const PurchasedOrder = ({ poList, totalList, currentPage, listPerPage, handlePag
                 noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
                 pagination={false}
             />
-            {poList?.length > 0 && (
-
+           
+            {poList && poList.length > 0 && (
                 <PaginationComponent
                     activePage={currentPage}
                     itemsCountPerPage={listPerPage}
@@ -120,9 +115,7 @@ const PurchasedOrder = ({ poList, totalList, currentPage, listPerPage, handlePag
                     pageRangeDisplayed={5}
                     onChange={handlePageChange}
                 />
-
             )}
-
         </div>
     );
 };

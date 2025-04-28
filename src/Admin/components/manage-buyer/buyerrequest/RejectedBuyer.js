@@ -68,13 +68,11 @@ const RejectedBuyer = () => {
             name: 'Registration No',
             selector: row => row.registration_no,
             sortable: true,
-
         },
         {
             name: 'GST/VAT Registration No',
             selector: row => row.vat_reg_no,
             sortable: true,
-
         },
         {
             name: 'Buyer Name',
@@ -85,14 +83,12 @@ const RejectedBuyer = () => {
             name: 'Buyer Type',
             selector: row => row.buyer_type,
             sortable: true,
-
         },
         {
             name: "Mobile No.",
             selector: (row) => `${row.buyer_country_code} ${row.buyer_mobile}`,
             sortable: true,
-          },
-
+        },
         {
             name: 'Status',
             selector: (row) =>
@@ -104,7 +100,6 @@ const RejectedBuyer = () => {
                             : 'Pending'
                     : 'Status Unknown',
             sortable: true,
-
         },
         {
             name: 'Action',
@@ -115,39 +110,37 @@ const RejectedBuyer = () => {
                     </div>
                 </Link>
             ),
-
         },
     ];
 
     return (
         <div className={styles.container}>
-             <style>
+            <style>
                 {`
                     .rdt_Table {
-                       border: none;
-    background-color: unset !important;
+                        border: none;
+                        background-color: unset !important;
                     }
-                        .rdt_TableRow{
-                      background-color: #ffffff !important;
-    border-bottom: none !important;
-                        }
+                    .rdt_TableRow {
+                        background-color: #ffffff !important;
+                        border-bottom: none !important;
+                    }
                     .rdt_TableHeadRow {
-                            background-color: #f9f9fa;
-    font-weight: bold;
-    border-bottom: none !important;
+                        background-color: #f9f9fa;
+                        font-weight: bold;
+                        border-bottom: none !important;
                     }
-    .rdt_TableBody{
-    gap:10px !important;
-    }
+                    .rdt_TableBody {
+                        gap: 10px !important;
+                    }
                     .rdt_TableCol {
                         text-align: center;
                         color: #333;
                     }
                     .rdt_TableCell {
-                       
-                           text-align: center;
-    color: #99a0ac;
-    font-weight: 500 !important;
+                        text-align: center;
+                        color: #99a0ac;
+                        font-weight: 500 !important;
                     }
                     .rdt_TableCellStatus {
                         text-align: center;
@@ -160,12 +153,11 @@ const RejectedBuyer = () => {
             ) : (
                 <>
                     <header className={styles.header}>
-                        <span className={styles.title}> Rejected Buyer</span>
+                        <span className={styles.title}>Rejected Buyer</span>
                         <button className={styles.button} onClick={handleDownload}>
                             Download
                         </button>
                     </header>
-
 
                     <DataTable
                         columns={columns}
@@ -173,16 +165,18 @@ const RejectedBuyer = () => {
                         noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
                         persistTableHead
                         pagination={false}
-
                     />
 
-                    <PaginationComponent
-                        activePage={currentPage}
-                        itemsCountPerPage={listPerPage}
-                        totalItemsCount={totalBuyers}
-                        pageRangeDisplayed={10}
-                        onChange={handlePageChange}
-                    />
+                    {/* Conditionally render PaginationComponent */}
+                    {totalBuyers > 0 && (
+                        <PaginationComponent
+                            activePage={currentPage}
+                            itemsCountPerPage={listPerPage}
+                            totalItemsCount={totalBuyers}
+                            pageRangeDisplayed={10}
+                            onChange={handlePageChange}
+                        />
+                    )}
                 </>
             )}
         </div>

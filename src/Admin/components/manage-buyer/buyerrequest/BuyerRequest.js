@@ -55,7 +55,7 @@ const BuyerRequest = () => {
         setLoading(true);
         const result = await postReqCSVDownload('admin/get-buyer-list-csv', {}, 'buyer_list.csv');
         if (!result?.success) {
-          
+            // Handle error if needed
         }
         setLoading(false);
     };
@@ -65,42 +65,32 @@ const BuyerRequest = () => {
             name: 'Date',
             selector: row => moment(row.createdAt).format("DD/MM/YYYY"),
             sortable: true,
-
         },
         {
             name: 'Registration No.',
             selector: row => row.registration_no,
             sortable: true,
-
         },
         {
             name: 'GST/VAT Registration Number',
             selector: row => row.vat_reg_no,
             sortable: true,
-
         },
         {
             name: 'Company Name',
             selector: row => row.buyer_name,
             sortable: true,
-
         },
         {
             name: 'Company Type',
             selector: row => row.buyer_type,
             sortable: true,
-
         },
-       
-       
         {
             name: 'Country of Origin',
             selector: row => row.country_of_origin,
             sortable: true,
-
         },
-      
-
         {
             name: 'Action',
             cell: row => (
@@ -115,33 +105,32 @@ const BuyerRequest = () => {
 
     return (
         <section className={styles.container}>
-              <style>
+            <style>
                 {`
                     .rdt_Table {
-                       border: none;
-    background-color: unset !important;
+                        border: none;
+                        background-color: unset !important;
                     }
-                        .rdt_TableRow{
-                      background-color: #ffffff !important;
-    border-bottom: none !important;
-                        }
+                    .rdt_TableRow {
+                        background-color: #ffffff !important;
+                        border-bottom: none !important;
+                    }
                     .rdt_TableHeadRow {
-                            background-color: #f9f9fa;
-    font-weight: bold;
-    border-bottom: none !important;
+                        background-color: #f9f9fa;
+                        font-weight: bold;
+                        border-bottom: none !important;
                     }
-    .rdt_TableBody{
-    gap:10px !important;
-    }
+                    .rdt_TableBody {
+                        gap: 10px !important;
+                    }
                     .rdt_TableCol {
                         text-align: center;
                         color: #333;
                     }
                     .rdt_TableCell {
-                       
-                           text-align: center;
-    color: #99a0ac;
-    font-weight: 500 !important;
+                        text-align: center;
+                        color: #99a0ac;
+                        font-weight: 500 !important;
                     }
                     .rdt_TableCellStatus {
                         text-align: center;
@@ -167,13 +156,15 @@ const BuyerRequest = () => {
                         persistTableHead
                         pagination={false}
                     />
-                    <PaginationComponent
-                        activePage={currentPage}
-                        itemsCountPerPage={listPerPage}
-                        totalItemsCount={totalRequests}
-                        pageRangeDisplayed={10}
-                        onChange={handlePageChange}
-                    />
+                    {buyerRequestList.length > 0 && (
+                        <PaginationComponent
+                            activePage={currentPage}
+                            itemsCountPerPage={listPerPage}
+                            totalItemsCount={totalRequests}
+                            pageRangeDisplayed={10}
+                            onChange={handlePageChange}
+                        />
+                    )}
                 </>
             )}
         </section>

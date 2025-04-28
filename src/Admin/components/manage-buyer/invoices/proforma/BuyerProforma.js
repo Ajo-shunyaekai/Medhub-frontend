@@ -23,7 +23,6 @@ const BuyerProforma = ({ invoiceList, totalItems, currentPage, listPerPage, hand
             name: 'Order ID',
             selector: row => row.order_id,
             sortable: true,
-           
         },
         {
             name: 'Customer Name',
@@ -34,7 +33,7 @@ const BuyerProforma = ({ invoiceList, totalItems, currentPage, listPerPage, hand
             name: 'Action',
             cell: row => (
                 <Link to={`/admin/buyer-proforma-details/${row.order_id}`}>
-                   <div className={styles.activeBtn}>
+                    <div className={styles.activeBtn}>
                         <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                     </div>
                 </Link>
@@ -45,35 +44,35 @@ const BuyerProforma = ({ invoiceList, totalItems, currentPage, listPerPage, hand
             sortable: false,
         },
     ];
+
     return (
         <div className={styles.container}>
-          <style>
+            <style>
                 {`
                     .rdt_Table {
-                       border: none;
-    background-color: unset !important;
+                        border: none;
+                        background-color: unset !important;
                     }
-                        .rdt_TableRow{
-                      background-color: #ffffff !important;
-    border-bottom: none !important;
-                        }
+                    .rdt_TableRow {
+                        background-color: #ffffff !important;
+                        border-bottom: none !important;
+                    }
                     .rdt_TableHeadRow {
-                            background-color: #f9f9fa;
-    font-weight: bold;
-    border-bottom: none !important;
+                        background-color: #f9f9fa;
+                        font-weight: bold;
+                        border-bottom: none !important;
                     }
-    .rdt_TableBody{
-    gap:10px !important;
-    }
+                    .rdt_TableBody {
+                        gap: 10px !important;
+                    }
                     .rdt_TableCol {
                         text-align: center;
                         color: #333;
                     }
                     .rdt_TableCell {
-                       
-                           text-align: center;
-    color: #99a0ac;
-    font-weight: 500 !important;
+                        text-align: center;
+                        color: #99a0ac;
+                        font-weight: 500 !important;
                     }
                     .rdt_TableCellStatus {
                         text-align: center;
@@ -81,24 +80,24 @@ const BuyerProforma = ({ invoiceList, totalItems, currentPage, listPerPage, hand
                     }
                 `}
             </style>
-                <DataTable
-                    columns={columns}
-                    data={invoiceList}
-                    persistTableHead
+            <DataTable
+                columns={columns}
+                data={invoiceList}
+                persistTableHead
                 noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
                 pagination={false}
                 responsive
+            />
+            {invoiceList && invoiceList.length > 0 && (
+                <PaginationComponent
+                    activePage={currentPage}
+                    itemsCountPerPage={listPerPage}
+                    totalItemsCount={totalItems}
+                    pageRangeDisplayed={10}
+                    onChange={handlePageChange}
                 />
-               
-                    <PaginationComponent
-                        activePage={currentPage}
-                        itemsCountPerPage={listPerPage}
-                        totalItemsCount={totalItems}
-                        pageRangeDisplayed={10}
-                        onChange={handlePageChange}
-                    />
-                </div>
-           
+            )}
+        </div>
     );
 };
 

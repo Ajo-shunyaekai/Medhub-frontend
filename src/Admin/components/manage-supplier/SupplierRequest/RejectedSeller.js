@@ -8,7 +8,7 @@ import { apiRequests } from "../../../../api";
 import PaginationComponent from '../../shared-components/Pagination/Pagination';
 import styles from '../../../assets/style/table.module.css';
 
-const RejectedOrders = () => {
+const RejectedSuppliers = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -27,17 +27,19 @@ const RejectedOrders = () => {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+
   const handleDownload = async () => {
     setLoading(true);
     const obj = {
-        filterKey: 'rejected'
-    }
+      filterKey: 'rejected'
+    };
     const result = await postReqCSVDownload('admin/get-supplier-list-csv', obj, 'supplier_list.csv');
     if (!result?.success) {
-        console.error('Error downloading CSV');
+      console.error('Error downloading CSV');
     }
     setLoading(false);
-};
+  };
+
   useEffect(() => {
     const fetchSupplierList = async () => {
       if (!adminIdSessionStorage && !adminIdLocalStorage) {
@@ -60,8 +62,11 @@ const RejectedOrders = () => {
       );
 
       if (response?.code === 200) {
-        setSellerList(response.result.data);
-        setTotalSellers(response.result.totalItems);
+        setSellerList(response.result.data || []);
+        setTotalSellers(response.result.totalItems || 0);
+      } else {
+        setSellerList([]);
+        setTotalSellers(0);
       }
       setLoading(false);
     };
@@ -80,33 +85,27 @@ const RejectedOrders = () => {
       name: 'Registration No.',
       selector: row => row.registration_no,
       sortable: true,
-
-  },
-  {
+    },
+    {
       name: 'GST/VAT Registration No.',
       selector: row => row.vat_reg_no,
       sortable: true,
-
-  },
-  {
+    },
+    {
       name: 'Supplier Name',
       selector: row => row.supplier_name,
       sortable: true,
-
-  },
-  {
+    },
+    {
       name: 'Supplier Type',
       selector: row => row.supplier_type,
       sortable: true,
-
-  },
-   
+    },
     {
       name: "Mobile No.",
       selector: (row) => `${row.supplier_country_code} ${row.supplier_mobile}`,
       sortable: true,
     },
-  
     {
       name: "Status",
       selector: (row) =>
@@ -133,42 +132,42 @@ const RejectedOrders = () => {
       button: true,
     },
   ];
+
   return (
     <div className={`${styles.container} auth`}>
-        <style>
-                {`
-                    .rdt_Table {
-                       border: none;
-    background-color: unset !important;
-                    }
-                        .rdt_TableRow{
-                      background-color: #ffffff !important;
-    border-bottom: none !important;
-                        }
-                    .rdt_TableHeadRow {
-                            background-color: #f9f9fa;
-    font-weight: bold;
-    border-bottom: none !important;
-                    }
-    .rdt_TableBody{
-    gap:10px !important;
-    }
-                    .rdt_TableCol {
-                        text-align: center;
-                        color: #333;
-                    }
-                    .rdt_TableCell {
-                       
-                           text-align: center;
-    color: #99a0ac;
-    font-weight: 500 !important;
-                    }
-                    .rdt_TableCellStatus {
-                        text-align: center;
-                        color: #333;
-                    }
-                `}
-            </style>
+      <style>
+        {`
+          .rdt_Table {
+            border: none;
+            background-color: unset !important;
+          }
+          .rdt_TableRow {
+            background-color: #ffffff !important;
+            border-bottom: none !important;
+          }
+          .rdt_TableHeadRow {
+            background-color: #f9f9fa;
+            font-weight: bold;
+            border-bottom: none !important;
+          }
+          .rdt_TableBody {
+            gap: 10px !important;
+          }
+          .rdt_TableCol {
+            text-align: center;
+            color: #333;
+          }
+          .rdt_TableCell {
+            text-align: center;
+            color: #99a0ac;
+            font-weight: 500 !important;
+          }
+          .rdt_TableCellStatus {
+            text-align: center;
+            color: #333;
+          }
+        `}
+      </style>
       {loading ? (
         <Loader />
       ) : (
@@ -182,7 +181,7 @@ const RejectedOrders = () => {
           <DataTable
             columns={columns}
             data={sellerList}
-            pagination={false}
+            pagination={false} // Disable built-in pagination
             noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
             persistTableHead
           />
@@ -201,4 +200,4 @@ const RejectedOrders = () => {
   );
 };
 
-export default RejectedOrders;
+export default RejectedSuppliers;

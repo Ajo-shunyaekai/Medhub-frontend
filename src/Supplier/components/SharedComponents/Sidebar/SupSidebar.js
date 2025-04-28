@@ -10,25 +10,19 @@ import invoice from '../../../assets/images/invoice.svg'
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import Badge from '@mui/material/Badge';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import TocOutlinedIcon from '@mui/icons-material/TocOutlined';
-import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
-import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutlined';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import SupportAgentOutlinedIcon from '@mui/icons-material/SupportAgentOutlined';
-import SubscriptionsOutlinedIcon from '@mui/icons-material/SubscriptionsOutlined';
 import moment from "moment"
 // Mobile sidebar
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import { useDispatch } from 'react-redux';
 import { logoutUser } from '../../../../redux/reducers/userDataSlice';
- 
- 
 const SupSidebar = ({ children, dragWindow,
     invoiceCount, notificationList, count, handleClick
 }) => {
@@ -43,11 +37,6 @@ const SupSidebar = ({ children, dragWindow,
         setIsDropOpen(!isDropOpen);
         setIsIconOpen(!isIconOpen);
     };
- 
-    const [refresh, setRefresh] = useState(false)
- 
-    // notification code here
-    const [notificationText, setIsNotificationText] = useState('Lorem ipsum dolor sit amet consectetur adipisicing elit  ');
  
     // Search bar toggle function
     const [isSearchVisible, setSearchVisible] = useState(false);
@@ -72,14 +61,7 @@ const SupSidebar = ({ children, dragWindow,
         };
     }, []);
  
-    const toggleFullScreen = () => {
-        if (!isFullScreen) {
-            document.documentElement.requestFullscreen();
-        } else {
-            document.exitFullscreen();
-        }
-        setIsFullScreen(!isFullScreen);
-    };
+   
  
     // Notification and profile dropdown code here
     const [isNotificationOpen, setIsNotificationOpen] = useState(false);
@@ -131,10 +113,6 @@ const SupSidebar = ({ children, dragWindow,
         event.stopPropagation();
         handleSignout(); // Your logout function
         setIsProfileOpen(false);
-        // setTimeout(() => {
-        //     localStorage.clear();
-        //     navigate("supplier/login");
-        // }, 0);
     };
 
     const handleClickOutside = (event) => {
@@ -237,11 +215,7 @@ const SupSidebar = ({ children, dragWindow,
                                 Completed Orders
                             </Link>
  
-                            <Link to="/supplier/deleted-order" className={styles.sidebar_text} activeclassname={styles.active} style={{ width: '170px' }}>
-                                <img src={order_list} alt="order icon" style={{ padding: '6px 6px 0px 10px' }
-                                } />
-                                Deleted Orders
-                            </Link>
+                           
                         </div>
                     )
                     }
@@ -311,7 +285,6 @@ const SupSidebar = ({ children, dragWindow,
         if (event === 'enquiry') {
             updateStatusApi(notificationId);
         }
-        // handleClick(notificationId, event);
     };
  
  
@@ -440,30 +413,17 @@ const SupSidebar = ({ children, dragWindow,
                                             </div>
                                             <div className={styles.profile_wrapper_mid}>
                                                 <div>
-                                                    {/* <Link
-                                                        to={`/supplier/profile/${localStorage?.getItem("_id")}`}
-                                                        onClick={() => setIsProfileOpen(false)} // Close dropdown on click
-                                                    > */}
+                                                   
                                                         <div className={styles.profile_text} onMouseDown={handleProfileClick}>Profile</div>
-                                                    {/* </Link> */}
+                                                   
                                                 </div>
  
-                                                <div>
-                                                    {/* <Link
-                                                        to="/supplier/subscription"
-                                                        onClick={() => setIsProfileOpen(false)}
-                                                    > */}
-                                                        {/* <div className={styles.profile_text} onMouseDown={handleSubscriptionClick}>Subscription</div> */}
-                                                    {/* </Link> */}
-                                                </div>
+                                                
                                             </div>
  
                                             <div
                                                 className={styles.profile_sign_out}
-                                                // onClick={() => {
-                                                //     handleSignout();
-                                                //     setIsProfileOpen(false); // Close dropdown on sign out
-                                                // }}
+                                               
                                                 onMouseDown={handleSignOutClick}
                                             >
                                                 Sign out
@@ -471,10 +431,7 @@ const SupSidebar = ({ children, dragWindow,
                                         </div>
                                     </div>
                                 )}
-                                {/* <MenuOutlinedIcon
-                                    className={styles.nav_icon_color_two_3}
-                                    onClick={toggleDrawer(true)}
-                                /> */}
+                               
                             </div>
                             <div ref={profileRef}>
                                 <MenuOutlinedIcon
@@ -508,36 +465,6 @@ const SupSidebar = ({ children, dragWindow,
                             <div className={styles.icon}><LocalMallOutlinedIcon style={{ color: '#14bae4', fontSize: '22px' }} /></div>
                             <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Add Products</div>
                         </Link>
-                        {/* <div className={`${styles.dropdown} ${styles.sidebars_section}`}>
-                            <div className={styles.dropdownToggle} onClick={toggleDropdown}>
- 
-                                <div className={styles.icon}>
-                                    <LocalMallOutlinedIcon style={{ color: '#14bae4' }} />
-                                </div>
-                                <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Products</div>
-                                {isOpen && (
-                                    isIconOpen
-                                        ? <KeyboardArrowUpOutlinedIcon style={{ color: '#5e676f' }} />
-                                        : <KeyboardArrowDownOutlinedIcon style={{ color: '#5e676f' }} />
-                                )}
-                            </div>
-                            {isOpen && isDropOpen && (
-                                <div className={styles.dropdownContent}>
-                                    <Link to="/supplier/product" className={styles.sidebar_text} activeclassname={styles.active}>
-                                        <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
-                                        <div className={styles.sidebar_text}></div>
-                                    </Link>
-                                    <Link to="/supplier/pending-products-list" className={styles.sidebar_text} activeclassname={styles.active}>
-                                        <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
-                                        <div className={styles.sidebar_text}>Pending Products</div>
-                                    </Link>
-                                </div>
-                            )}
-                        </div>
-  */}
-                        {/* end the dropdown container */}
- 
- 
  
                         <Link to="/supplier/inquiry-purchase-orders" className={`${styles.sidebar_text} ${styles.desktop_order_btn}`} activeclassname={styles.active}>
                             <div className={styles.icon}><ManageSearchIcon style={{ color: '#20c997', fontSize: '22px' }} /></div>
@@ -580,11 +507,6 @@ const SupSidebar = ({ children, dragWindow,
  
                         </div>
  
-                        {/* <Link to="/supplier/subscription" className={styles.sidebar_text} activeclassname={styles.active}>
-                            <div className={styles.icon}><SubscriptionsOutlinedIcon style={{ color: '#14bae4', }} /></div>
-                            <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Subscription</div>
-                        </Link> */}
- 
                         <Link to="/supplier/invoice" className={styles.sidebar_text} activeclassname={styles.active}>
                             <div className={styles.icon}><DescriptionOutlinedIcon style={{ color: '#F54394' }} /></div>
                             <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Invoice</div>
@@ -597,16 +519,16 @@ const SupSidebar = ({ children, dragWindow,
                     </ div > : ''
                 }
                 <main>
-                    <Outlet />
+                    <Outlet/>
                 </main>
             </ div >
  
             {/* Mobile Sidebar code start from here */}
-            < div >
+           
                 <Drawer open={open} onClose={toggleDrawer(false)}>
                     {DrawerList}
                 </Drawer>
-            </div >
+         
  
         </>
     );

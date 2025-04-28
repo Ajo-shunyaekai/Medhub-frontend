@@ -70,9 +70,11 @@
 }
 
 .no-data {
+    width: 100%;
     font-size: 14px;
     font-weight: 500;
     color: #4f4f4f !important;
+    padding: 16px;
 }
 
 .buttonContainer {

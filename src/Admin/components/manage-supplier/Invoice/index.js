@@ -3,9 +3,7 @@ import SellerInvoice from "./SellerInvoice"
 
 const SellerInvoices = () => {
   return (
-   <>
    <SellerInvoice/>
-   </>
   )
 }
 

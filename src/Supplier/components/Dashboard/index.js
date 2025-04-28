@@ -3,9 +3,7 @@ import Dashboard from "./SupplierDashboard"
 
 const SupplierDashbaord = () => {
   return (
-    <div>
         <Dashboard/>
-    </div>
   )
 }
 

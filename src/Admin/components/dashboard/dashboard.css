@@ -98,6 +98,7 @@ body {
   row-gap: 6px;
 }
 .top-head {
+  font-weight: 500;
   color: #99a0ac;
   font-size: 0.825rem;
 }
@@ -129,7 +130,8 @@ body {
   row-gap: 12px;
 }
 .bottom-head {
-  color: #5e676f !important;
+  font-weight: 500;
+  color: #99a0ac !important;
   font-size: 0.825rem;
 }
 .bottom-text {
@@ -148,6 +150,7 @@ body {
   row-gap: 20px;
 }
 .left-head {
+  font-weight: 500;
   color: #99a0ac;
   font-size: 0.825rem;
 }
@@ -184,8 +187,9 @@ body {
   font-size: 12px;
 }
 .admin-left-bottom-head {
+  font-weight: 500;
   font-size: 0.825rem;  
-    color: #5e676f !important;
+    color: #99a0ac !important;
 }
 .cart-right-main-container {
   background-color: white;
@@ -200,6 +204,7 @@ body {
   padding: 6px 12px;
 }
 .right-head {
+  font-weight: 500;
   color: #99a0ac;
   font-size: 0.825rem;
 }
@@ -226,6 +231,8 @@ body {
   font-size: 12px;
 }
 .country-name {
+  font-weight: 500;
+  color: #99a0ac;
   font-size: 0.825rem;
 }
 .main-bottom-cart-container {
@@ -272,6 +279,7 @@ body {
   row-gap: 8px;
 }
 .bottom-text-head {
+  font-weight: 500;
   color: #99a0ac !important;
   font-size: 0.825rem;
 }
@@ -307,10 +315,12 @@ body {
   row-gap: 8px;
 }
 .bottom-cont-left-head {
+  font-weight: 500;
   color: #99a0ac;
   font-size: 12px;
 }
 .bottom-cont-left-num {
+  font-weight: 500;
   color: #99a0ac;
   font-size: 12px;
 }
@@ -319,6 +329,7 @@ body {
   color: #f54394;
 }
 .bottom-cont-right-sections-head {
+  font-weight: 500;
   color: #99a0ac;
   font-size: 0.825rem;
 }
@@ -327,6 +338,7 @@ color: #5e676f;
   font-size: 18px;
 }
 .bottom-cont-right-sec-head {
+  font-weight: 500;
   color: #99a0ac;
   font-size: 12px;
 }

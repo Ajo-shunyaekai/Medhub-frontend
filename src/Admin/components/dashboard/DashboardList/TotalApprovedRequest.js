@@ -7,7 +7,6 @@ import Loader from '../../shared-components/Loader/Loader';
 import PaginationComponent from '../../shared-components/Pagination/Pagination';
 import styles from '../../../assets/style/table.module.css';
 
-
 const TotalApprovedRequest = () => {
     const navigate = useNavigate();
     const location = useLocation();
@@ -95,33 +94,32 @@ const TotalApprovedRequest = () => {
 
     return (
         <div className={styles.container}>
-             <style>
+            <style>
                 {`
                     .rdt_Table {
-                       border: none;
-    background-color: unset !important;
+                        border: none;
+                        background-color: unset !important;
                     }
-                        .rdt_TableRow{
-                      background-color: #ffffff !important;
-    border-bottom: none !important;
-                        }
+                    .rdt_TableRow {
+                        background-color: #ffffff !important;
+                        border-bottom: none !important;
+                    }
                     .rdt_TableHeadRow {
-                            background-color: #f9f9fa;
-    font-weight: bold;
-    border-bottom: none !important;
+                        background-color: #f9f9fa;
+                        font-weight: bold;
+                        border-bottom: none !important;
                     }
-    .rdt_TableBody{
-    gap:10px !important;
-    }
+                    .rdt_TableBody {
+                        gap: 10px !important;
+                    }
                     .rdt_TableCol {
                         text-align: center;
                         color: #333;
                     }
                     .rdt_TableCell {
-                       
-                           text-align: center;
-    color: #99a0ac;
-    font-weight: 500 !important;
+                        text-align: center;
+                        color: #99a0ac;
+                        font-weight: 500 !important;
                     }
                     .rdt_TableCellStatus {
                         text-align: center;
@@ -135,7 +133,6 @@ const TotalApprovedRequest = () => {
                 <>
                     <header className={styles.header}>
                         <span className={styles.title}>Total Approved Request List</span>
-
                     </header>
 
                     <DataTable
@@ -146,13 +143,16 @@ const TotalApprovedRequest = () => {
                         pagination={false}
                         responsive
                     />
-                    <PaginationComponent
-                        activePage={currentPage}
-                        itemsCountPerPage={listPerPage}
-                        totalItemsCount={totalRequests}
-                        pageRangeDisplayed={10}
-                        onChange={handlePageChange}
-                    />
+                    {/* Conditionally render PaginationComponent */}
+                    {requestList.length > 0 && totalRequests > 0 && (
+                        <PaginationComponent
+                            activePage={currentPage}
+                            itemsCountPerPage={listPerPage}
+                            totalItemsCount={totalRequests}
+                            pageRangeDisplayed={10}
+                            onChange={handlePageChange}
+                        />
+                    )}
                 </>
             )}
         </div>

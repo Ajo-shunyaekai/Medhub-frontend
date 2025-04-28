@@ -57,27 +57,22 @@ const TotalRequestList = () => {
             name: 'Registration Type',
             selector: (row) => row.registration_type,
             sortable: true,
-           
         },
         {
             name: 'Company Type',
             selector: (row) => row.buyer_type || row.supplier_type,
             sortable: true,
-            
         },
         {
             name: 'Company Name',
             selector: (row) => row.buyer_name || row.supplier_name,
             sortable: true,
-            
         },
         {
             name: 'Country of Origin',
             selector: (row) => row.country_of_origin,
             sortable: true,
-            
         },
-      
         {
             name: 'Status',
             selector: (row) => row.status || 'Pending',
@@ -95,8 +90,8 @@ const TotalRequestList = () => {
                     }
                 >
                     <div className={styles.activeBtn}>
-                                           <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
-                                       </div>
+                        <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
+                    </div>
                 </Link>
             ),
             ignoreRowClick: true,
@@ -110,30 +105,29 @@ const TotalRequestList = () => {
             <style>
                 {`
                     .rdt_Table {
-                       border: none;
-    background-color: unset !important;
+                        border: none;
+                        background-color: unset !important;
                     }
-                        .rdt_TableRow{
-                      background-color: #ffffff !important;
-    border-bottom: none !important;
-                        }
+                    .rdt_TableRow {
+                        background-color: #ffffff !important;
+                        border-bottom: none !important;
+                    }
                     .rdt_TableHeadRow {
-                            background-color: #f9f9fa;
-    font-weight: bold;
-    border-bottom: none !important;
+                        background-color: #f9f9fa;
+                        font-weight: bold;
+                        border-bottom: none !important;
                     }
-    .rdt_TableBody{
-    gap:10px !important;
-    }
+                    .rdt_TableBody {
+                        gap: 10px !important;
+                    }
                     .rdt_TableCol {
                         text-align: center;
                         color: #333;
                     }
                     .rdt_TableCell {
-                       
-                           text-align: center;
-    color: #99a0ac;
-    font-weight: 500 !important;
+                        text-align: center;
+                        color: #99a0ac;
+                        font-weight: 500 !important;
                     }
                     .rdt_TableCellStatus {
                         text-align: center;
@@ -145,18 +139,17 @@ const TotalRequestList = () => {
                 <Loader />
             ) : (
                 <>
-                <header className={styles.header}>
-                                        <span className={styles.title}>Total Request List</span>
-                                       
-                                    </header>
-               
-                        <DataTable
-                            columns={columns}
-                            data={requestList}
-                            noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
-                            persistTableHead
-                            pagination={false}
-                        />
+                    <header className={styles.header}>
+                        <span className={styles.title}>Total Request List</span>
+                    </header>
+                    <DataTable
+                        columns={columns}
+                        data={requestList}
+                        noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
+                        persistTableHead
+                        pagination={false}
+                    />
+                    {requestList.length > 0 && totalRequests > 0 && (
                         <PaginationComponent
                             activePage={currentPage}
                             itemsCountPerPage={listPerPage}
@@ -164,11 +157,11 @@ const TotalRequestList = () => {
                             pageRangeDisplayed={10}
                             onChange={handlePageChange}
                         />
-             </>      
+                    )}
+                </>
             )}
-        </section >
+        </section>
     );
- 
 };
 
 export default TotalRequestList;
