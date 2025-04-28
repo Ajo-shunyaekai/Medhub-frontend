@@ -1,6 +1,6 @@
 .container {
   width: 100%;
-  max-width: 90%;
+  max-width: 98%;
   height: 100vh;
   overflow: scroll;
   background-attachment: fixed;
@@ -307,7 +307,7 @@
   flex-direction: column;
   row-gap: 20px;
   width: 100%;
-  max-width: 1500px;
+  max-width: 98%;
   overflow: scroll;
   background-attachment: fixed;
   scrollbar-width: none;

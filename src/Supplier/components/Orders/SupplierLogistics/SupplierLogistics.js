@@ -162,15 +162,13 @@ const SupplierLogistics = ({socket}) => {
           ),
       }),
     }),
-    // validateOnMount: false,
-    // validateOnBlur: true,
-    // validateOnChange: false,
+   
     onSubmit: async (values) => {
       try {
         let apiPayload;
         setLoading(true)
         if (address?.length > 1) {
-          // Use displayAddress data when using existing address
+         
           apiPayload = {
             order_id: orderId,
             supplier_id: supplierId,
@@ -247,7 +245,7 @@ const SupplierLogistics = ({socket}) => {
           socket.emit('shipmentDetailsSubmitted', {
             buyerId : orderDetails?.buyer_id, 
             orderId  : orderId,
-            // poId : purchaseOrderId,
+           
             message    : `Pickup details submitted for ${orderId}`,
             link       : process.env.REACT_APP_PUBLIC_URL
         });
@@ -318,26 +316,17 @@ const SupplierLogistics = ({socket}) => {
     formik.setFieldValue("packages", updatedPackages);
   };
 
-  // Handle dimension input change
-  // const handleDimensionChange = (id, dimension, value) => {
-  //   const updatedPackages = formik.values.packages.map((pkg) =>
-  //     pkg.id === id
-  //       ? { ...pkg, dimensions: { ...pkg.dimensions, [dimension]: value } }
-  //       : pkg
-  //   );
-  //   formik.setFieldValue("packages", updatedPackages);
-  // };
+
 
   const handleDimensionChange = (id, dimension, value) => {
     const updatedPackages = formik.values.packages.map((pkg) => {
       if (pkg.id === id) {
-        // Create new dimensions object with updated dimension
+       
         const newDimensions = {
           ...pkg.dimensions,
           [dimension]: value,
         };
 
-        // Calculate volume if all dimensions are present and are valid numbers
         let volume = "";
         if (
           newDimensions.length &&
@@ -354,7 +343,6 @@ const SupplierLogistics = ({socket}) => {
           ).toFixed(2);
         }
 
-        // Return updated package with new dimensions and calculated volume
         return {
           ...pkg,
           dimensions: newDimensions,
@@ -364,7 +352,7 @@ const SupplierLogistics = ({socket}) => {
       return pkg;
     });
 
-    // Update both dimensions and volume in formik
+ 
     formik.setFieldValue("packages", updatedPackages);
   };
 
@@ -505,7 +493,7 @@ const SupplierLogistics = ({socket}) => {
     } catch (error) {
       toast.error("Failed to fetch user address details.");
     } finally {
-      // setIsLoading(false);
+    
     }
   };
 

@@ -52,8 +52,6 @@ const SupplierAddAddress = () => {
         .test("is-valid-phone", "Invalid phone number", (value) => {
           try {
             const phoneNumber = parsePhoneNumber(value);
-
-            // Validate phone number and return true if it's valid, false if not
             return phoneNumber && phoneNumber.isValid();
           } catch (error) {
             // If parsing fails, mark it as invalid

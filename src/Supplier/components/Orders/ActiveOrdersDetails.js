@@ -205,7 +205,6 @@ const ActiveOrdersDetails = ({ socket }) => {
             {/* End the section */}
 
             {/* start the main component heading */}
-            {/* {orderDetails?.coordinators && Object.keys(orderDetails?.coordinators).length > 0 && ( */}
             <div className='active-order-details-left-bottom-containers'>
                 <div className='active-order-details-left-bottom-vehichle'>
                     <span className='active-order-transportation-heading'>Transport Details</span>

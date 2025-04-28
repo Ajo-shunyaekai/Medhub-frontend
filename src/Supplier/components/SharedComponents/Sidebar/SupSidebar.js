@@ -18,7 +18,6 @@ import TocOutlinedIcon from '@mui/icons-material/TocOutlined';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import SupportAgentOutlinedIcon from '@mui/icons-material/SupportAgentOutlined';
 import moment from "moment"
-// Mobile sidebar
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import { useDispatch } from 'react-redux';
@@ -37,14 +36,10 @@ const SupSidebar = ({ children, dragWindow,
         setIsDropOpen(!isDropOpen);
         setIsIconOpen(!isIconOpen);
     };
- 
-    // Search bar toggle function
     const [isSearchVisible, setSearchVisible] = useState(false);
     const toggleSearchBar = () => {
         setSearchVisible(!isSearchVisible);
     };
- 
-    // Add full screen code
     const [isFullScreen, setIsFullScreen] = useState(false);
  
     useEffect(() => {
@@ -54,16 +49,11 @@ const SupSidebar = ({ children, dragWindow,
         };
  
         document.addEventListener('fullscreenchange', handleFullScreenChange);
- 
-        // Cleanup the event listener on component unmount
         return () => {
             document.removeEventListener('fullscreenchange', handleFullScreenChange);
         };
     }, []);
- 
-   
- 
-    // Notification and profile dropdown code here
+
     const [isNotificationOpen, setIsNotificationOpen] = useState(false);
     const [isProfileOpen, setIsProfileOpen] = useState(false);
  
@@ -72,13 +62,13 @@ const SupSidebar = ({ children, dragWindow,
  
     const NotificationDropdown = () => {
         setIsNotificationOpen(!isNotificationOpen);
-        setIsProfileOpen(false); // Close profile dropdown if open
-        handleClick(); // for notification status update
+        setIsProfileOpen(false); 
+        handleClick();
     };
  
     const ProfileDropdown = () => {
         setIsProfileOpen(!isProfileOpen);
-        setIsNotificationOpen(false); // Close notification dropdown if open
+        setIsNotificationOpen(false); 
     };
  
     const handleSignout = async () => {
@@ -237,21 +227,18 @@ const SupSidebar = ({ children, dragWindow,
     // ======================
     const [sidebarWidth, setSidebarWidth] = useState(0);
     useEffect(() => {
-        // Function to calculate sidebar width
+      
         const calculateSidebarWidth = () => {
             const width = document.querySelector('.sidebar')?.offsetWidth;
             setSidebarWidth(width);
         };
  
-        // Call the function initially and on window resize
         calculateSidebarWidth();
         window.addEventListener('resize', calculateSidebarWidth);
- 
-        // Cleanup on unmount
         return () => {
             window.removeEventListener('resize', calculateSidebarWidth);
         };
-    }, []); // Empty dependency array to run this effect only once on mount
+    }, []); 
     // ======================
  
     

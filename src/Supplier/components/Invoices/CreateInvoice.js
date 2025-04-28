@@ -143,10 +143,6 @@ const CreateInvoice = ({ socket }) => {
         const bankDetailsArray = data?.supplier?.bank_details?.split(",") || [];
         const [bankName, accountNo, sortCode] = bankDetailsArray.map((v) => v.trim());
 
-          // const vatPercentage = 20;
-          // const vatAmount = parseFloat(data.total_due_amount) * (vatPercentage / 100);
-          // const totalPayableAmount = (parseFloat(data.total_due_amount) + vatAmount).toFixed(2);
-
           setFormData((prevFormData) => ({
             ...prevFormData,
             orderId: data.order_id,
@@ -155,15 +151,13 @@ const CreateInvoice = ({ socket }) => {
             supplierId: data.supplier_id,
             supplierName: data?.supplier?.supplier_name,
             supplierEmail: data?.supplier?.supplier_email,
-            // supplierCountry: data.supplier_country,
             supplierCountry:
               {
                 label: data?.supplier?.country_of_origin,
                 value: data?.supplier?.country_of_origin,
               } || null,
             supplierAddress: data?.supplier?.supplier_address,
-            // supplierMobile: data?.supplier?.supplier_mobile,
-            // supplierCountryCode: data?.supplier?.supplier_country_code,
+           
             supplierMobile: formattedSupplierMobile,
             supplierContactPersonMobile:
               data?.supplier?.contact_person_mobile_no,
@@ -179,8 +173,7 @@ const CreateInvoice = ({ socket }) => {
                 value: data?.buyer?.country_of_origin,
               } || null,
             buyerAddress: data?.buyer?.buyer_address,
-            // buyerMobile: data?.buyer?.buyer_mobile,
-            // buyerCountryCode: data?.buyer?.buyer_country_code,
+          
             buyerMobile: formattedBuyerMobile,
             buyerContactPersonMobile: data?.buyer?.contact_person_mobile,
             buyerContactPersonCountryCode:
@@ -188,7 +181,7 @@ const CreateInvoice = ({ socket }) => {
             buyerVatRegNo: data?.buyer?.vat_reg_no,
             orderItems: data?.items,
             grandTotal: data?.pending_amount,
-            // totalPayableAmount: data?.pending_amount,
+           
             bankName: bankName || "",
             accountNo: accountNo || "",
             sortCode: sortCode || "",
@@ -325,10 +318,10 @@ const CreateInvoice = ({ socket }) => {
             socket.emit("createInvoice", {
               buyerId: formData?.buyerId,
               orderId: orderId,
-              // poId : purchaseOrderId,
+             
               message: `Invoice Created for ${orderId}`,
               link: process.env.REACT_APP_PUBLIC_URL,
-              // send other details if needed
+             
             });
             setTimeout(() => {
               navigate("/supplier/invoice/pending");
@@ -350,41 +343,7 @@ const CreateInvoice = ({ socket }) => {
     resetForm();
   };
 
-  // const handlePhoneChange = (value) => {
-  //     if (value) {
-  //         // Parse the phone number
-  //         const phoneNumber = parsePhoneNumberFromString(value);
-
-  //         if (phoneNumber) {
-  //             // Extract country code and national number
-  //             const countryCode = phoneNumber.countryCallingCode;
-  //             const mobile = phoneNumber.nationalNumber;
-
-  //             // Format the phone number as +{code}-{mobile}
-  //             const formattedMobile = `+${countryCode}-${mobile}`;
-
-  //             // Update the state with formatted mobile number
-  //             setFormData(prevFormData => ({
-  //                 ...prevFormData,
-  //                 supplierCountryCode: countryCode,
-  //                 supplierMobile: formattedMobile,
-  //             }));
-  //         } else {
-  //             setFormData(prevFormData => ({
-  //                 ...prevFormData,
-  //                 supplierCountryCode: '',
-  //                 supplierMobile: '',
-  //             }));
-  //         }
-  //     } else {
-  //         // Handle case when the value is empty
-  //         setFormData(prevFormData => ({
-  //             ...prevFormData,
-  //             supplierCountryCode: '',
-  //             supplierMobile: '',
-  //         }));
-  //     }
-  // };
+  
 
   const handlePhoneChange = (value, type) => {
     try {
@@ -401,14 +360,14 @@ const CreateInvoice = ({ socket }) => {
         console.error("Invalid phone number");
         setFormData((prevState) => ({
           ...prevState,
-          [type]: "", // Clear the field if invalid
+          [type]: "", 
         }));
       }
     } catch (error) {
       console.error("Error parsing phone number:", error);
       setFormData((prevState) => ({
         ...prevState,
-        [type]: "", // Clear the field if an error occurs
+        [type]: "", 
       }));
     }
   };
@@ -418,7 +377,7 @@ const CreateInvoice = ({ socket }) => {
     0
   );
   return (
-    <>
+   
       <div className={styles["create-invoice-container"]}>
         <div className={styles["create-invoice-heading"]}>Create Invoice</div>
         <form className={styles["craete-invoice-form"]} onSubmit={handleSubmit}>
@@ -497,7 +456,7 @@ const CreateInvoice = ({ socket }) => {
                   defaultCountry="uk"
                   name="phoneinput"
                   value={formData.supplierMobile}
-                  // onChange={handlePhoneChange}
+                 
                   onChange={(value) =>
                     handlePhoneChange(value, "supplierMobile")
                   }
@@ -634,7 +593,7 @@ const CreateInvoice = ({ socket }) => {
                   options={countries}
                   autoComplete="off"
                   value={formData.buyerCountry}
-                  // onChange={handleBuyerCountryOriginChange}
+                
                   isDisabled={true}
                 />
                 {errors.buyerCountry && (
@@ -823,7 +782,7 @@ const CreateInvoice = ({ socket }) => {
           </div>
         </form>
       </div>
-    </>
+    
   );
 };
 
