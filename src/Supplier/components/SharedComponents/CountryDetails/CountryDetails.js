@@ -4,8 +4,6 @@ import styles from './countryDetails.module.css';
 const CountryDetails = ({countryData}) => {
     const [countries, setCountries] = useState([]);
     const [filteredCountries, setFilteredCountries] = useState([]);
-
-    // Function to fetch country data from the API
     const fetchCountries = async () => {
         try {
             const response = await fetch('https://restcountries.com/v3.1/all');
@@ -15,13 +13,9 @@ const CountryDetails = ({countryData}) => {
             console.error('Error fetching country data:', error);
         }
     };
-
-    // Fetch country data when the component mounts
     useEffect(() => {
         fetchCountries();
     }, []);
-
-    // Filter countries based on countryData prop
     useEffect(() => {
         if (countries.length > 0 && countryData?.length > 0) {
             const filtered = countries.filter(country => countryData.includes(country.name.common));
@@ -30,7 +24,7 @@ const CountryDetails = ({countryData}) => {
     }, [countries, countryData]);
 
     return (
-        <>
+       
             <ul className={styles.container}>
                 {filteredCountries.map(country => (
                     <li key={country.name.common}>
@@ -41,7 +35,7 @@ const CountryDetails = ({countryData}) => {
                     </li>
                 ))}
             </ul>
-        </>
+      
     );
 }
 

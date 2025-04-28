@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import "./inquirypurchaseorder.css";
-import order_list from "../../assets/images/dashboard/order_list.svg";
+import styles from "../../assets/style/secondsidebar.module.css";
+import { BiPurchaseTagAlt } from "react-icons/bi";
 import OnGoingOrder from "./InquiryRequest/OnGoingOrder";
 import PurchasedOrder from "./PurchasedOrder/PurchasedOrder";
 import { postRequestWithToken } from "../../api/Requests";
@@ -17,7 +17,7 @@ const InquiryPurchaseOrder = () => {
   const [inquiryList, setInquiryList] = useState([]);
   const [totalInquiries, setTotalInquiries] = useState();
   const [currentPage, setCurrentPage] = useState(1);
-  const inquiryPerPage = 5;
+  const inquiryPerPage = 10;
 
   const [poList, setPOList] = useState([]);
   const [totalPoList, setTotalPoList] = useState();
@@ -79,12 +79,6 @@ const InquiryPurchaseOrder = () => {
         setInquiryList(response.result.data);
         setTotalInquiries(response.result.totalItems);
       }
-      // postRequestWithToken(`enquiry/get-all-enquiry-list?pageNo=${currentPage}&pageSize=${inquiryPerPage}&status=${status}`, obj, async (response) => {
-      //     if (response?.code == 200) {
-      //         setInquiryList(response.result.data)
-      //         setTotalInquiries(response.result.totalItems)
-      //     }
-      // })
     } catch (error) {
     } finally {
       setLoading(false);
@@ -115,40 +109,35 @@ const InquiryPurchaseOrder = () => {
       {loading ? (
         <Loader />
       ) : (
-        <div className="inquiry-purchase-main-container">
-          <div className="inquiry-purchase-name">
-            Inquiry & Purchased Orders
+        <div className={styles.container}>
+        <div className={styles.header}>
+          <div className={styles.title}>
+          Inquiry & Purchased Orders
           </div>
-          <div className="inquiry-purchase-container">
-            <div className="inquiry-purchase-container-left">
+        </div>
+        
+        <div className={styles.content}>
+        <div className={styles.sidebar}>
               <div
-                onClick={() => handleLinkClick("ongoing")}
-                className={
-                  activeLink === "ongoing"
-                    ? "active inquiry-purchase-left-wrapper"
-                    : "inquiry-purchase-left-wrapper"
-                }
+               onClick={() => handleLinkClick("ongoing")}
+               className={`${styles.tab} ${activeLink === "ongoing" ? "active" : ""}`}
               >
-                <img src={order_list} alt="inquiry-purchase icon" />
-                <div className="inquiry-content-navbar">Inquiry Request</div>
+               <BiPurchaseTagAlt
+                  className={styles.icon}
+                />
+                <div className={styles.text}>Inquiry Request</div>
               </div>
               <div
-                onClick={() => handleLinkClick("purchased")}
-                className={
-                  activeLink === "purchased"
-                    ? "active inquiry-purchase-left-wrapper"
-                    : "inquiry-purchase-left-wrapper"
-                }
+                 onClick={() => handleLinkClick("purchased")}
+                 className={`${styles.tab} ${activeLink === "purchased" ? "active" : ""}`}
               >
-                <img src={order_list} alt="inquiry-purchase icon" />
-                <div className="inquiry-content-navbar">Purchased Orders</div>
+               <BiPurchaseTagAlt
+                  className={styles.icon}
+                />
+                <div className={styles.text}>Purchased Orders</div>
               </div>
             </div>
-            <div className="inquiry-purchase-container-right">
-              <div
-                responsive="xl"
-                className="inquiry-purchase-table-responsive"
-              >
+            <div className={styles.main}>
                 {activeLink === "ongoing" && (
                   <OnGoingOrder
                     inquiryList={inquiryList}
@@ -172,7 +161,6 @@ const InquiryPurchaseOrder = () => {
               </div>
             </div>
           </div>
-        </div>
       )}
     </>
   );

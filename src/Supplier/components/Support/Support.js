@@ -155,7 +155,7 @@ const Support = () => {
         <div className={styles['support-main-container']}>
             <div className={styles['support-heading']}>Support</div>
             <div className={styles['support-container']}>
-                <div className={styles['support-page']}>
+                
                     <div className={styles['faq-section']}>
                         <div className={styles['support-btn-container']}>
                             <div onClick={toggleFeedbackForm}>
@@ -179,7 +179,6 @@ const Support = () => {
                                 <div className={styles['form-main-container']}>
                                     <div className={styles['form-heading']}>Enquiry Form</div>
                                     <form className={styles['form-main-form-section']} 
-                                    //   onSubmit={handleSubmit}
                                     onSubmit={handleFeedbackSubmit}
 
                                     >
@@ -210,10 +209,6 @@ const Support = () => {
 
                                             <div className={styles['form-support-image']}>
                                                 <SupportImageUpload
-                                                    // images={feedbackImages}
-                                                    // setImages={setFeedbackImages}
-                                                    // errorMessage={imageError}
-                                                    // clearImageError={clearFeedbackImageError}
                                                     images={feedbackImages}
                                                     setImages={setFeedbackImages}
                                                     errorMessage={imageError}
@@ -245,7 +240,6 @@ const Support = () => {
                                 <div className={styles['form-main-container']}>
                                     <div className={styles['form-heading']}>Complaint Form</div>
                                     <form className={styles['form-main-form-section']} 
-                                    //    onSubmit={complaintSubmit}
                                     onSubmit={handleComplaintSubmit}
                                        >
                                         <div className={styles['form-container']}>
@@ -275,10 +269,7 @@ const Support = () => {
 
                                             <div className={styles['form-support-image']}>
                                                 <SupportImageUpload
-                                                    // images={compImages}
-                                                    // setImages={setCompImages}
-                                                    // errorMessage={compImageError}
-                                                    // clearImageError={clearComplaintImageError}
+                                                  
                                                     images={compImages}
                                                     setImages={setCompImages}
                                                     errorMessage={imageError}
@@ -306,7 +297,7 @@ const Support = () => {
                             )
                         }
                     </div>
-                </div>
+               
                 <FaqSupport />
             </div>
         </div>

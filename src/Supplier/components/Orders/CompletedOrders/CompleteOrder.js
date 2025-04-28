@@ -1,203 +1,133 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import '../order.css';
-import '../activeOrder.css'
-import Pagination from "react-js-pagination";
+import DataTable from 'react-data-table-component';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
-import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
-import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import OrderCancel from '../OrderCancel';
 import moment from 'moment/moment';
-
+import PaginationComponent from "../../SharedComponents/Pagination/Pagination"
+import styles from "../../../assets/style/table.module.css";
 
 const CompleteOrder = ({ orderList, totalOrders, currentPage, ordersPerPage, handlePageChange, activeLink }) => {
-    const [show, setShow] = useState(false);
     const [modal, setModal] = useState(false);
-
-    // Alloted Order JSON file
-    const [allotedOrders, setAllotedOrders] = useState([
-        {
-            "order_id": "000001",
-            "date": {
-                "date": "12/12/2019",
-            },
-            "source_destination": {
-                "source": "Pharmaceutical Pvt Ltd",
-            },
-            "number_of_TRWB": 4,
-            "commodity": {
-                "name": "Steel",
-                "quantity": "(20 Ton)"
-            },
-            "status": "Order Placed"
-        },
-        {
-            "order_id": "000002",
-            "date": {
-                "date": "12/12/2019",
-            },
-            "source_destination": {
-                "source": "Pharmaceutical Pvt Ltd",
-            },
-            "number_of_TRWB": 4,
-            "commodity": {
-                "name": "Steel",
-                "quantity": "(20 Ton)"
-            },
-            "status": "Order Placed"
-        },
-        {
-            "order_id": "000003",
-            "date": {
-                "date": "12/12/2019",
-            },
-            "source_destination": {
-                "source": "Pharmaceutical Pvt Ltd",
-            },
-            "number_of_TRWB": 4,
-            "commodity": {
-                "name": "Steel",
-                "quantity": "(20 Ton)"
-            },
-            "status": "Order Placed"
-        },
-        {
-            "order_id": "000004",
-            "date": {
-                "date": "12/12/2019",
-            },
-            "source_destination": {
-                "source": "Pharmaceutical Pvt Ltd",
-            },
-            "number_of_TRWB": 4,
-            "commodity": {
-                "name": "Steel",
-                "quantity": "(20 Ton)"
-            },
-            "status": "Order Placed"
-        },
-    ]);
-
     const [selectedOrderId, setSelectedOrderId] = useState(null);
 
     const showModal = (orderId) => {
-        setSelectedOrderId(orderId)
-        setModal(!modal)
-    }
-    // const [currentPage, setCurrentPage] = useState(1);
-    // const ordersPerPage = 2;
-    const indexOfLastOrder = currentPage * ordersPerPage;
-    const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-    const currentOrders = allotedOrders.slice(indexOfFirstOrder, indexOfLastOrder);
+        setSelectedOrderId(orderId);
+        setModal(!modal);
+    };
 
-    // const handlePageChange = (pageNumber) => {
-    //     setCurrentPage(pageNumber);
-    // };
+    // Define columns for react-data-table-component
+    const columns = [
+        {
+            name: 'Order ID',
+            selector: (row) => row.order_id,
+            sortable: true,
 
-    // const totalPages = Math.ceil(allotedOrders.length / ordersPerPage);
+        },
+        {
+            name: 'Date',
+            selector: (row) => row.created_at,
+            sortable: true,
+            cell: (row) => <div>{moment(row.created_at).format('DD/MM/YYYY')}</div>,
+        },
+        {
+            name: 'Buyer Name',
+            selector: (row) => row.buyer?.buyer_name,
+            sortable: true,
+
+        },
+        {
+            name: 'Quantity',
+            selector: (row) => row.items.reduce((total, item) => total + (item?.quantity || item?.quantity_required), 0),
+            sortable: true,
+
+        },
+        {
+            name: 'Status',
+            selector: (row) => row.order_status,
+            sortable: true,
+            cell: (row) => (
+                <div>
+                    {row.order_status.charAt(0).toUpperCase() + row.order_status.slice(1)}
+                </div>
+            ),
+        },
+        {
+            name: 'Action',
+            cell: (row) => (
+
+                <Link to={`/supplier/active-orders-details/${row.order_id}`}>
+                    <div className={styles.activeBtn}>
+                        <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
+                    </div>
+                </Link>
+
+            ),
+            ignoreRowClick: true,
+            allowOverflow: true,
+            button: true,
+        },
+    ];
+
 
     return (
-        <>
-            <div className='order-main-container'>
-                <div className="order-name-2"> Order Request</div>
-                <div className="order-container">
-                    <div className="order-container-right-section">
-                        <div className='order-inner-container-section'>
-                            <table className="table-container">
-                                <thead className='order-container-thead'>
-                                    <tr className='order-container-tr'>
-                                        <th className=" text-muted order-container-th"><div className="order-container-head"> Order ID</div></th>
-                                        <th className=" order-container-th"> <div className="order-container-head"> Date</div></th>
-                                        <th className="order-container-ths"><div className="order-container-heads">Buyer Name</div></th>
-                                        <th className="order-container-th"><div className="order-container-head">Quantity</div></th>
-                                        <th className="order-container-th"><div className="order-container-head">Status</div></th>
-                                        <th className="order-container-th-action"><div className="order-container-head">Action</div></th>
-                                    </tr>
-                                </thead>
+        <div className={styles.container}>
+            <style>
+                {`
+              .rdt_Table {
+                  border: none;
+                  background-color: unset !important;
+              }
+              .rdt_TableRow {
+                  background-color: #ffffff !important;
+                  border-bottom: none !important;
+              }
+              .rdt_TableHeadRow {
+                  background-color: #f9f9fa;
+                  font-weight: bold;
+                  border-bottom: none !important;
+              }
+              .rdt_TableBody {
+                  gap: 10px !important;
+              }
+              .rdt_TableCol {
+                  text-align: center;
+                  color: #333;
+              }
+              .rdt_TableCell {
+                  text-align: center;
+                  color: #99a0ac;
+                  font-weight: 500 !important;
+              }
+              .rdt_TableCellStatus {
+                  text-align: center;
+                  color: #333;
+              }
+          `}
+            </style>
 
-                                {
-                                    orderList && orderList.length > 0 ? (
-                                        orderList?.map((order, i) => {
-                                            const totalQuantity = order.items.reduce((total, item) => {
-                                                return total + (item?.quantity || item?.quantity_required);
-                                            }, 0);
-                                            const orderedDate = moment(order.created_at).format("DD/MM/YYYY")
-                                            return (
-                                                <tbody className='order-container-tbody' key={order.order_id}>
-                                                    <tr className="order-section-tr" >
-                                                        <td className='order-section-td'>
-                                                            <div className="order-section-heading">{order.order_id}</div>
-                                                        </td>
-                                                        <td className='order-section-td'>
-                                                            <div className="order-section-heading">{orderedDate}</div>
-                                                        </td>
-                                                        <td className='order-section-tds'>
-                                                            <div className="order-section-heading">{order?.buyer?.buyer_name}</div>
-                                                        </td>
-                                                        <td className='order-section-td'>
-                                                            <div className="order-section-heading">{totalQuantity}</div>
-                                                        </td>
-                                                        <td className='order-section-td'>
-                                                            <div className="order-section-heading">{order?.order_status.charAt(0).toUpperCase() + order?.order_status.slice(1)}</div>
-                                                        </td>
-                                                        <td className='order-section-button-cont'>
-                                                            <div className='order-section-button'>
+            <DataTable
+                columns={columns}
+                data={orderList}
+                persistTableHead
+                noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
+                pagination={false}
+                responsive
+            />
 
-                                                                <Link to={`/supplier/active-orders-details/${order.order_id}`}>
-                                                                    <div className='order-section-view'>
-                                                                        <RemoveRedEyeOutlinedIcon className='table-icon' />
-                                                                    </div>
-                                                                </Link>
+            {modal && <OrderCancel setModal={setModal} orderId={selectedOrderId} activeLink={activeLink} />}
+            {orderList.length > 0 && (
+                <PaginationComponent
+                    activePage={currentPage}
+                    itemsCountPerPage={ordersPerPage}
+                    totalItemsCount={totalOrders}
+                    pageRangeDisplayed={5}
+                    onChange={handlePageChange}
+                />
+            )}
+        </div>
 
-                                                                {/* <div className='order-section-delete'>
-                                                                        <HighlightOffIcon className='order-section-off' onClick={() => showModal(order.order_id)}/>
-                                                                    </div> */}
-
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            )
-                                        })
-                                    ) : (
-                                        <>
-                                            <div className='pending-products-no-orders'>
-                                                No Completed Orders
-                                            </div>
-                                        </>
-                                    )
-                                }
-                            </table>
-                        </div>
-                        {modal && <OrderCancel setModal={setModal} orderId={selectedOrderId} activeLink={activeLink} />}
-                        {
-                            orderList.length > 0 && (
-                                <div className='pagi-container'>
-                                    <Pagination
-                                        activePage={currentPage}
-                                        itemsCountPerPage={ordersPerPage}
-                                        totalItemsCount={totalOrders}
-                                        pageRangeDisplayed={5}
-                                        onChange={handlePageChange}
-                                        itemClass="page-item"
-                                        linkClass="page-link"
-                                        prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
-                                        nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
-                                        hideFirstLastPages={true}
-                                    />
-                                    <div className='pagi-total'>
-                                        <div className='pagi-total'>
-                                            {/* Total Items: {totalOrders} */}
-                                            Total Items: {totalOrders}
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-                    </div>
-                </div>
-            </div>
-        </>
-    )
-}
+    );
+};
 
 export default CompleteOrder;

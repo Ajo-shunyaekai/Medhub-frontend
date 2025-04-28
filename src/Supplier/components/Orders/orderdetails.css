@@ -247,7 +247,8 @@
 }
 
 .active-order-details-invoice-list-section {
-  margin-top: -14.6rem;
+  margin-top: -13.8rem;
+  margin-bottom: 24rem;
 }
 
 .active-order-details-middle-bottom-containers {
@@ -430,7 +431,7 @@
 
 .table-g-driver-name {
   color: #5e676f;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
 }
 .table-g-not-names {
@@ -659,7 +660,7 @@
 
 .details-payment-inner-text {
   color: #5e676f;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
 }
 

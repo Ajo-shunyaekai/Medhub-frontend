@@ -144,8 +144,8 @@ return files?.map((file, index) => {
     : `${baseUrl}uploads/products/${file}`;
 
   const isImage = isImageExtension(fileUrl);
-  const isPdf = fileUrl.toLowerCase().endsWith(".pdf");
-  const isDocx = fileUrl.toLowerCase().endsWith(".docx");
+  const isPdf = fileUrl?.toLowerCase()?.endsWith(".pdf");
+  const isDocx = fileUrl?.toLowerCase()?.endsWith(".docx");
 
   if (isImage) {
     return (
