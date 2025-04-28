@@ -519,7 +519,7 @@ const EditCreatePO = ({ socket }) => {
 
     // Extract the country code and the mobile number
     for (let code of countryCodes) {
-      if (value.startsWith(code)) {
+      if (value?.startsWith(code)) {
         countryCode = code.replace("+", "");
         mobileNumber = value.substring(code.length);
         break;

@@ -1,111 +1,131 @@
 .container {
-    width: 100%;
-    max-width: 90%;
-    margin: auto;
-    padding: 20px;
-    line-height: 2;
+  width: 100%;
+  max-width: 90%;
+  margin: auto;
+  padding: 20px;
+  line-height: 2;
 }
 
 #conditionToDownload {
-    width: 100%;
-    min-height: 100%;
-    overflow: hidden;
+  width: 100%;
+  min-height: 100%;
+  overflow: hidden;
 }
 
 .title {
-    text-align: center;
-    margin-top: 11px;
-    margin-bottom: 10px !important;
+  text-align: center;
+  margin-top: 11px;
+  margin-bottom: 10px !important;
 }
 
 .sectionTitle {
-    font-size: 24px;
-    margin-top: 10px;
+  font-size: 24px;
+  margin-top: 10px;
 }
 
 .sectionContentTitle {
-    font-size: 20px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+  font-size: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .termscondition {
-    color: #3498db !important;
-    font-weight: 500 !important;
-    font-size: 16px !important;
-    cursor: pointer !important;
+  color: #3498db !important;
+  font-weight: 500 !important;
+  font-size: 16px !important;
+  cursor: pointer !important;
+}
+
+.signupFormContButton {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  column-gap: 20px;
+}
+.signupFormButtonSubmit {
+  border: none !important;
+  outline: none !important;
+  background: linear-gradient(to left, #00dcff, #0075ce);
+  color: white;
+  padding: 6px 22px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer !important;
 }
 
 .modalOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    overflow: scroll;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: scroll;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
 .modalBox {
-    background: white;
-    width: 80%;
-    height: 600px;
-    overflow: scroll;
-    background-attachment: fixed;
-    scrollbar-width: none;
-    margin: auto;
-    padding: 20px 40px;
-    position: relative;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  background: white;
+  width: 80%;
+  height: 600px;
+  overflow: scroll;
+  background-attachment: fixed;
+  scrollbar-width: none;
+  margin: auto;
+  padding: 20px 40px;
+  position: relative;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 .closeButton {
-    background: none;
-    border: none;
-    font-size: 30px;
-    position: absolute;
-    top: -10px;
-    right: 10px;
-    cursor: pointer !important;
+  background: none;
+  border: none;
+  font-size: 30px;
+  position: absolute;
+  top: -10px;
+  right: 10px;
+  cursor: pointer !important;
 }
 
 .headSection {
-    display: flex;
-    justify-content: end;
-    cursor: pointer !important;
+  display: flex;
+  justify-content: end;
+  cursor: pointer !important;
 }
 
 .conditionDownload {
-    display: flex;
-    background: linear-gradient(to left, #00dcff, #0075ce);
-    color: white;
-    padding: 5px 18px;
-    border-radius: 4px;
-    font-size: 14px;
-    border: none !important;
-    cursor: pointer !important;
+  display: flex;
+  background: linear-gradient(to left, #00dcff, #0075ce);
+  color: white;
+  padding: 5px 18px;
+  border-radius: 4px;
+  font-size: 14px;
+  border: none !important;
+  cursor: pointer !important;
 }
 
 .termsContainer {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 .loading-spinner {
-    border: 4px solid rgba(0, 0, 0, 0.1);
-    border-left-color: #000; /* Spinner color */
-    border-radius: 50%;
-    width: 16px;
-    height: 16px;
-    animation: spin 1s linear infinite;
-    margin: 0 auto;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #000; /* Spinner color */
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
-  
-  @keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
-  }
+}

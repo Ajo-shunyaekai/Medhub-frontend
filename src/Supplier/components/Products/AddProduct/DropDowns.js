@@ -345,7 +345,9 @@ export const addProductValidationSchema = Yup.object({
   countryOfOrigin: Yup.string().required(
     "Manufacturer Country of Origin is required."
   ),
-  model: Yup.string().required("Part/Model Number is required."),
+  model: Yup.string()
+  .required("Part/Model Number is required.")
+  .matches(/^[a-zA-Z0-9\s\-\/]+$/, "Part/Model Number can only contain letters, numbers, spaces, hyphens (-), and slashes (/)."),
   image: Yup.array()
     .max(4, "You can upload up to 4 images.")
     .of(
@@ -357,7 +359,9 @@ export const addProductValidationSchema = Yup.object({
           (value) => value && value.size <= 1024 * 1024 * 5
         ) // Max 5MB
     ),
-  form: Yup.string().required("Product Type/Form is required."),
+  form: Yup.string()
+  .required("Product Type/Form is required.")
+  .matches(/^[a-zA-Z0-9\s]+$/, "Product Type/Form must be alphanumeric (letters, numbers, and spaces only)."),
   quantity: Yup.number().required("Product Quantity is required."),
 
   // volumn: Yup.string().required("Product Size/Volumn is required."),
@@ -681,7 +685,7 @@ export const addProductValidationSchema = Yup.object({
           "Monitoring Devices",
           "Mobility Aids",
           "Respiratory Care",
-          "Elderly Care Products",
+          "Care Products",
         ],
         "Invalid Subcategory"
       ),
@@ -839,7 +843,7 @@ export const addProductValidationSchema = Yup.object({
           "Mobility Aids",
           "Respiratory Care",
           "Patient Monitoring Devices",
-          "Elderly Care Products",
+          "Care Products",
         ],
         "Invalid Subcategory"
       ),
@@ -1263,7 +1267,9 @@ export const editProductValidationSchema = Yup.object({
   countryOfOrigin: Yup.string().required(
     "Manufacturer Country of Origin is required."
   ),
-  model: Yup.string().required("Part/Model Number is required."),
+  model: Yup.string()
+  .required("Part/Model Number is required.")
+  .matches(/^[a-zA-Z0-9\s\-\/]+$/, "Part/Model Number can only contain letters, numbers, spaces, hyphens (-), and slashes (/)."),
   image: Yup.array().max(4, "You can upload up to 4 images."),
   // .of(
   // Yup.string().required("A file path is required.") // Since it's now a string
@@ -1279,11 +1285,19 @@ export const editProductValidationSchema = Yup.object({
           (value) => value && value.size <= 1024 * 1024 * 5 // Max 5MB
         )
     ),
-  form: Yup.string().required("Product Type/Form is required."),
+  form: Yup.string()
+  .required("Product Type/Form is required.")
+  .matches(/^[a-zA-Z0-9\s]+$/, "Product Type/Form must be alphanumeric (letters, numbers, and spaces only)."),
   quantity: Yup.number().required("Product Quantity is required."),
-  weight: Yup.number().required("Product Weight is required."),
+  weight: Yup.number()
+  .typeError("Product Weight must be a number.")
+  .positive("Product Weight must be greater than 0")
+  .required("Product Weight is required."),
   unit: Yup.string().required("Product Weight Unit is required."),
-  unit_tax: Yup.string().required("Tax Percentage is required."),
+  unit_tax: Yup.number()
+  .typeError("Tax must be a number.")
+  .positive("Tax must be greater than 0")
+  .required("Tax Percentage is required."),
   // packageType: Yup.string().required("Product Packaging Type is required."),
   // packageMaterial: Yup.string().required(
   //   "Product Packaging Material is required."
@@ -1609,7 +1623,7 @@ export const editProductValidationSchema = Yup.object({
           "Monitoring Devices",
           "Mobility Aids",
           "Respiratory Care",
-          "Elderly Care Products",
+          "Care Products",
         ],
         "Invalid Subcategory"
       ),
@@ -1764,7 +1778,7 @@ export const editProductValidationSchema = Yup.object({
           "Mobility Aids",
           "Respiratory Care",
           "Patient Monitoring Devices",
-          "Elderly Care Products",
+          "Care Products",
         ],
         "Invalid Subcategory"
       ),

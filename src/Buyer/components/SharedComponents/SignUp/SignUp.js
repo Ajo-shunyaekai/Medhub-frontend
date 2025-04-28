@@ -12,6 +12,7 @@ import { Country, State, City } from "country-state-city";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
 import "./signup.css";
+import styles from './signup.module.css';
 import logo from "../../../assets/images/navibluelogo.svg";
 import SuccessModal from "./SuccessModal";
 import ImageUploaders from "./ImageUploader";
@@ -965,24 +966,24 @@ const SignUp = ({ socket }) => {
         />
       ) : (
         <>
-          <div className="signup-container">
-            <div className="signup-logo-section">
+          <div className={styles.signupContainer}>
+            <div className={styles.signupLogoSection}>
               <img src={logo} alt="Signup Logo" />
             </div>
-            <div className="signup-form-section">
-              <div className="signup-form-section-heading">
+            <div className={styles.signupFormSection}>
+              <div className={styles.signupFormSectionHeading}>
                 Buyer Registration
               </div>
               <form
-                className="signup-form-container"
+                className={styles.signupFormContainer}
                 onSubmit={handleFormSubmit}
               >
-                <div className="signup-form-section-container">
-                  <div className="signup-inner-heading">Company Details</div>
-                  <div className="signup-form-inner-div-section">
-                    <div className="signup-form-section-div">
-                      <label className="signup-form-section-label">
-                        Company Type<span className="labelstamp">*</span>
+                <div className={styles.signupFormSectionContainer}>
+                  <div className={styles.signupInnerHeading}>Company Details</div>
+                  <div className={styles.signupFormInnerDivSection}>
+                    <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
+                        Company Type<span className={styles.labelStamp}>*</span>
                       </label>
                       <Select
                         value={selectedCompanyType}
@@ -990,18 +991,18 @@ const SignUp = ({ socket }) => {
                         options={companyTypeOptions}
                       />
                       {errors.companyType && (
-                        <div className="signup__errors">
+                        <div className={styles.signupErrors}>
                           {errors.companyType}
                         </div>
                       )}
                     </div>
-                    <div className="signup-form-section-div">
-                      <label className="signup-form-section-label">
-                        Company Name<span className="labelstamp">*</span>
+                    <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
+                        Company Name<span className={styles.labelStamp}>*</span>
                       </label>
-                      <div className="signup-tooltip-class">
+                      <div className={styles.signupTooltipClass}>
                         <input
-                          className="signup-form-section-input"
+                          className={styles.signupFormSectionInput}
                           type="text"
                           name="companyName"
                           placeholder="Enter Company Name"
@@ -1009,31 +1010,31 @@ const SignUp = ({ socket }) => {
                           onChange={handleChange}
                         />
                         <span
-                          className="email-info-icon"
+                          className={styles.emailInfoIcon}
                           data-tooltip-id="company-name-tooltip"
                           data-tooltip-content="Provide your legal entity name, matching with the company registration certificate."
                         >
                           <img
                             src={Information}
-                            className="tooltip-icons"
+                            className={styles.tooltipIcons}
                             alt="information"
                           />
                         </span>
                         <Tooltip id="company-name-tooltip" />
                       </div>
                       {errors.companyName && (
-                        <div className="signup__errors">
+                        <div className={styles.signupErrors}>
                           {errors.companyName}
                         </div>
                       )}
                     </div>
-                    <div className="signup-form-section-div">
-                      <label className="signup-form-section-label">
+                    <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
                         Company Registration Number
-                        <span className="labelstamp">*</span>
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <input
-                        className="signup-form-section-input"
+                        className={styles.signupFormSectionInput}
                         type="text"
                         name="registrationNo"
                         placeholder="Enter Company Registration Number"
@@ -1041,19 +1042,19 @@ const SignUp = ({ socket }) => {
                         onChange={handleChange}
                       />
                       {errors.registrationNo && (
-                        <div className="signup__errors">
+                        <div className={styles.signupErrors}>
                           {errors.registrationNo}
                         </div>
                       )}
                     </div>
-                    <div className="signup-form-section-div">
-                      <label className="signup-form-section-label">
+                    <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
                         GST/VAT Registration Number
-                        <span className="labelstamp">*</span>
+                        <span className={styles.labelStamp}>*</span>
                       </label>
-                      <div className="signup-tooltip-class">
+                      <div className={styles.signupTooltipClass}>
                         <input
-                          className="signup-form-section-input"
+                          className={styles.signupFormSectionInput}
                           type="text"
                           name="vatRegistrationNo"
                           placeholder="Enter GST/VAT Registration Number"
@@ -1061,30 +1062,30 @@ const SignUp = ({ socket }) => {
                           onChange={handleChange}
                         />
                         <span
-                          className="email-info-icon"
+                          className={styles.emailInfoIcon}
                           data-tooltip-id="company-name-tooltip"
                           data-tooltip-content="Provide your GST/VAT Registration Number"
                         >
                           <img
                             src={Information}
-                            className="tooltip-icons"
+                            className={styles.tooltipIcons}
                             alt="information"
                           />
                         </span>
                         <Tooltip id="company-name-tooltip" />
                       </div>
                       {errors.vatRegistrationNo && (
-                        <div className="signup__errors">
+                        <div className={styles.signupErrors}>
                           {errors.vatRegistrationNo}
                         </div>
                       )}
                     </div>
-                    <div className="signup-form-section-div">
-                      <label className="signup-form-section-label">
-                        Company Email ID<span className="labelstamp">*</span>
+                    <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
+                        Company Email ID<span className={styles.labelStamp}>*</span>
                       </label>
                       <input
-                        className="signup-form-section-input"
+                        className={styles.signupFormSectionInput}
                         type="text"
                         name="companyEmail"
                         placeholder="Enter Company Email ID"
@@ -1092,18 +1093,18 @@ const SignUp = ({ socket }) => {
                         onChange={handleChange}
                       />
                       {errors.companyEmail && (
-                        <div className="signup__errors">
+                        <div className={styles.signupErrors}>
                           {errors.companyEmail}
                         </div>
                       )}
                     </div>
 
-                    <div className="signup-form-section-div">
-                      <label className="signup-form-section-label">
-                        Company Phone No.<span className="labelstamp">*</span>
+                    <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
+                        Company Phone No.<span className={styles.labelStamp}>*</span>
                       </label>
                       <PhoneInput
-                        className="signup-form-section-phone-input"
+                        className={styles.signupFormSectionPhoneInput}
                         defaultCountry="gb"
                         name="companyPhone"
                         value={companyPhone}
@@ -1113,18 +1114,18 @@ const SignUp = ({ socket }) => {
                         }}
                       />
                       {errors.companyPhone && (
-                        <div className="signup__errors">
+                        <div className={styles.signupErrors}>
                           {errors.companyPhone}
                         </div>
                       )}
                     </div>
-                    <div className="signup-form-section-div">
-                      <label className="signup-form-section-label">
+                    <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
                         Company Billing Address
-                        <span className="labelstamp">*</span>
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <input
-                        className="signup-form-section-input"
+                        className={styles.signupFormSectionInput}
                         type="text"
                         name="companyAddress"
                         placeholder="Enter Company Billing Address"
@@ -1132,18 +1133,18 @@ const SignUp = ({ socket }) => {
                         onChange={handleChange}
                       />
                       {errors.companyAddress && (
-                        <div className="signup__errors">
+                        <div className={styles.signupErrors}>
                           {errors.companyAddress}
                         </div>
                       )}
                     </div>
-                    <div className="signup-form-section-div">
-                      <label className="signup-form-section-label">
+                    <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
                         Area/Locality/Road Name
-                        <span className="labelstamp">*</span>
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <input
-                        className="signup-form-section-input"
+                        className={styles.signupFormSectionInput}
                         type="text"
                         name="locality"
                         placeholder="Enter Area/Locality/Road Name"
@@ -1151,15 +1152,15 @@ const SignUp = ({ socket }) => {
                         onChange={handleChange}
                       />
                       {errors.locality && (
-                        <div className="signup__errors">{errors.locality}</div>
+                        <div className={styles.signupErrors}>{errors.locality}</div>
                       )}
                     </div>
-                    <div className="signup-form-section-div">
-                      <label className="signup-form-section-label">
+                    <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
                         Landmark
                       </label>
                       <input
-                        className="signup-form-section-input"
+                        className={styles.signupFormSectionInput}
                         type="text"
                         name="landMark"
                         placeholder="Enter Landmark"
@@ -1168,9 +1169,9 @@ const SignUp = ({ socket }) => {
                       />
                       {/* {errors.companyAddress && <div className='signup__errors'>{errors.companyAddress}</div>} */}
                     </div>
-                    <div className="signup-form-section-div">
-                      <label className="signup-form-section-label">
-                        Country<span className="labelstamp">*</span>
+                    <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
+                        Country<span className={styles.labelStamp}>*</span>
                       </label>
                       <Select
                         options={Country.getAllCountries()}
@@ -1181,11 +1182,11 @@ const SignUp = ({ socket }) => {
                         placeholder="Select Country"
                       />
                       {errors.country && (
-                        <div className="signup__errors">{errors.country}</div>
+                        <div className={styles.signupErrors}>{errors.country}</div>
                       )}
                     </div>
-                    <div className="signup-form-section-div">
-                      <label className="signup-form-section-label">
+                    <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
                         State/Province
                       </label>
                       <Select
@@ -1206,8 +1207,8 @@ const SignUp = ({ socket }) => {
                         placeholder="Select State"
                       />
                     </div>
-                    <div className="signup-form-section-div">
-                      <label className="signup-form-section-label">
+                    <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
                         City/Town
                       </label>
                       <Select
@@ -1229,12 +1230,12 @@ const SignUp = ({ socket }) => {
                         placeholder="Select City"
                       />
                     </div>
-                    <div className="signup-form-section-div">
-                      <label className="signup-form-section-label">
+                    <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
                         Pincode/Postcode
                       </label>
                       <input
-                        className="signup-form-section-input"
+                        className={styles.signupFormSectionInput}
                         type="text"
                         name="pincode"
                         placeholder="Enter Pincode/Postcode"
@@ -1242,13 +1243,13 @@ const SignUp = ({ socket }) => {
                         onChange={handleChange}
                       />
                     </div>
-                    <div className="signup-form-section-div">
-                      <label className="signup-form-section-label">
+                    <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
                         Sales Person Name
                       </label>
-                      <div className="signup-tooltip-class">
+                      <div className={styles.signupTooltipClass}>
                       <input
-                        className="signup-form-section-input"
+                        className={styles.signupFormSectionInput}
                         type="text"
                         name="salesPersonName"
                         placeholder="Enter Sales Person Name"
@@ -1256,25 +1257,25 @@ const SignUp = ({ socket }) => {
                         onChange={handleChange}
                       />
                       <span
-                        className="email-info-icon"
+                        className={styles.emailInfoIcon}
                         data-tooltip-id="company-name-tooltip"
                         data-tooltip-content="Provide Medhub Global Sales Person Name"
                       >
                         <img
                           src={Information}
-                          className="tooltip-icons"
+                          className={styles.tooltipIcons}
                           alt="information"
                         />
                       </span>
                       <Tooltip id="company-name-tooltip" />
                     </div>
                     </div>
-                    <div className="signup-form-section-div">
-                      <label className="signup-form-section-label">
-                        Country of Origin<span className="labelstamp">*</span>
+                    <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
+                        Country of Origin<span className={styles.labelStamp}>*</span>
                       </label>
                       <Select
-                        className="signup-forms-sections-select"
+                        className={styles.signupFormsSectionsSelect}
                         options={countries}
                         value={countries.find(
                           (option) => option.value === formData.originCountry
@@ -1283,19 +1284,19 @@ const SignUp = ({ socket }) => {
                         // onChange={(selectedOption) => setFormData({ ...formData, originCountry: selectedOption.value })}
                       />
                       {errors.originCountry && (
-                        <div className="signup__errors">
+                        <div className={styles.signupErrors}>
                           {errors.originCountry}
                         </div>
                       )}
                     </div>
-                    <div className="signup-form-section-div">
-                      <label className="signup-form-section-label">
+                    <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
                         Country of Operation
-                        <span className="labelstamp">*</span>
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       {countries.length > 0 && (
                         <MultiSelectDropdown
-                          className="signup-forms-sections-select"
+                          className={styles.signupFormsSectionsSelect}
                           options={countries}
                           value={formData.operationCountries}
                           onChange={handleOperationCountriesChange}
@@ -1304,18 +1305,18 @@ const SignUp = ({ socket }) => {
                         />
                       )}
                       {errors.operationCountries && (
-                        <div className="signup__errors">
+                        <div className={styles.signupErrors}>
                           {errors.operationCountries}
                         </div>
                       )}
                     </div>
 
-                    <div className="signup-form-section-div">
-                      <label className="signup-form-section-label">
+                    <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
                         Company License No.
                       </label>
                       <input
-                        className="signup-form-section-input"
+                        className={styles.signupFormSectionInput}
                         type="text"
                         name="companyLicenseNo"
                         placeholder="Enter License No."
@@ -1323,17 +1324,17 @@ const SignUp = ({ socket }) => {
                         onChange={handleChange}
                       />
                       {/* {errors.companyLicenseNo && (
-                        <div className="signup__errors">
+                        <div className={styles.signupErrors}>
                           {errors.companyLicenseNo}
                         </div>
                       )} */}
                     </div>
-                    <div className="signup-form-section-div">
-                      <label className="signup-form-section-label">
+                    <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
                         License Expiry/Renewal Date
                       </label>
                       {/* <InputMask
-                        className="signup-form-section-input"
+                        className={styles.signupFormSectionInput}
                         type="text"
                         mask="dd-mm-yyyy"
                         placeholder="DD-MM-YYYY"
@@ -1345,7 +1346,7 @@ const SignUp = ({ socket }) => {
                         separate
                       /> */}
                       <DatePicker
-                        className="signup-form-section-input"
+                        className={styles.signupFormSectionInput}
                         selected={formData.companyLicenseExpiry ? parseDateString(formData.companyLicenseExpiry) : null }
                         onChange={(date) => {
                           const formattedDate = date ? date.toLocaleDateString("en-GB") : "";
@@ -1359,17 +1360,17 @@ const SignUp = ({ socket }) => {
                         disabledKeyboardNavigation={false}
                       />   
                       {/* {errors.companyLicenseExpiry && (
-                        <div className="signup__errors">
+                        <div className={styles.signupErrors}>
                           {errors.companyLicenseExpiry}
                         </div>
                       )} */}
                     </div>
-                    {/* <div className="signup-form-section-div">
-                      <label className="signup-form-section-label">
-                        Company Tax No.<span className="labelstamp">*</span>
+                    {/* <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
+                        Company Tax No.<span className={styles.labelStamp}>*</span>
                       </label>
                       <input
-                        className="signup-form-section-input"
+                        className={styles.signupFormSectionInput}
                         type="text"
                         name="companyTaxNo"
                         placeholder="Enter Company Tax No."
@@ -1377,18 +1378,18 @@ const SignUp = ({ socket }) => {
                         onChange={handleChange}
                       />
                       {errors.companyTaxNo && (
-                        <div className="signup__errors">
+                        <div className={styles.signupErrors}>
                           {errors.companyTaxNo}
                         </div>
                       )}
                     </div> */}
-                    <div className="signup-form-section-div">
-                      <label className="signup-form-section-label">
+                    <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
                         Approx. Yearly Purchase Value
-                        <span className="labelstamp">*</span>
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <input
-                        className="signup-form-section-input"
+                        className={styles.signupFormSectionInput}
                         type="text"
                         name="yearlyPurchaseValue"
                         placeholder="Enter Approx. Yearly Purchase Value in USD"
@@ -1396,14 +1397,14 @@ const SignUp = ({ socket }) => {
                         onChange={handleChange}
                       />
                       {errors.yearlyPurchaseValue && (
-                        <div className="signup__errors">
+                        <div className={styles.signupErrors}>
                           {errors.yearlyPurchaseValue}
                         </div>
                       )}
                     </div>
-                    <div className="signup-form-section-div">
-                      <label className="signup-form-section-label">
-                        Interested In<span className="labelstamp">*</span>
+                    <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
+                        Interested In<span className={styles.labelStamp}>*</span>
                       </label>
                       <MultiSelectDropdown
                         options={category}
@@ -1411,19 +1412,19 @@ const SignUp = ({ socket }) => {
                         onChange={handleMultiSelectChange}
                       />
                       {errors.interestedIn && (
-                        <div className="signup__errors">
+                        <div className={styles.signupErrors}>
                           {errors.interestedIn}
                         </div>
                       )}
                     </div>
 
-                    <div className="signup-form-section-div">
-                      <label className="signup-form-section-label">
-                        About Company<span className="labelstamp">*</span>
+                    <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
+                        About Company<span className={styles.labelStamp}>*</span>
                       </label>
-                      <div className="signup-tooltip-class">
+                      <div className={styles.signupTooltipClass}>
                         <textarea
-                          className="signup-form-section-input"
+                          className={styles.signupFormSectionInput}
                           name="description"
                           rows="2"
                           cols="50"
@@ -1432,32 +1433,32 @@ const SignUp = ({ socket }) => {
                           onChange={handleChange}
                         />
                         <span
-                          className="info-icon"
+                          className={styles.infoIcon}
                           data-tooltip-id="about-company-tooltip"
                           data-tooltip-content="Provide a brief description about your company."
                         >
                           <img
                             src={Information}
-                            className="tooltip-icons"
+                            className={styles.tooltipIcons}
                             alt="information"
                           />
                         </span>
                         <Tooltip id="about-company-tooltip" />
                       </div>
                       {errors.description && (
-                        <div className="signup__errors">
+                        <div className={styles.signupErrors}>
                           {errors.description}
                         </div>
                       )}
                     </div>
-                    <div className="signup-form-section-div">
-                      <label className="signup-form-section-label">
+                    <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
                         {" "}
                         Business/Trade Activity Code
-                        <span className="labelstamp">*</span>
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <textarea
-                        className="signup-form-section-input"
+                        className={styles.signupFormSectionInput}
                         name="activityCode"
                         rows="2"
                         cols="50"
@@ -1466,22 +1467,22 @@ const SignUp = ({ socket }) => {
                         onChange={handleChange}
                       />
                       {errors.activityCode && (
-                        <div className="signup__errors">
+                        <div className={styles.signupErrors}>
                           {errors.activityCode}
                         </div>
                       )}
                     </div>
                   </div>
                 </div>
-                <div className="signup-form-section-container">
-                  <div className="signup-inner-heading">Contact Details</div>
-                  <div className="signup-form-inner-div-section">
-                    <div className="signup-form-section-div">
-                      <label className="signup-form-section-label">
-                        Contact Name<span className="labelstamp">*</span>
+                <div className={styles.signupFormSectionContainer}>
+                  <div className={styles.signupInnerHeading}>Contact Details</div>
+                  <div className={styles.signupFormInnerDivSection}>
+                    <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
+                        Contact Name<span className={styles.labelStamp}>*</span>
                       </label>
                       <input
-                        className="signup-form-section-input"
+                        className={styles.signupFormSectionInput}
                         type="text"
                         name="contactPersonName"
                         placeholder="Enter Contact Name"
@@ -1490,19 +1491,19 @@ const SignUp = ({ socket }) => {
                         onChange={handleChange}
                       />
                       {errors.contactPersonName && (
-                        <div className="signup__errors">
+                        <div className={styles.signupErrors}>
                           {errors.contactPersonName}
                         </div>
                       )}
                     </div>
 
-                    <div className="signup-form-section-div">
-                      <label className="signup-form-section-label">
-                        Email ID<span className="labelstamp">*</span>
+                    <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
+                        Email ID<span className={styles.labelStamp}>*</span>
                       </label>
-                      <div className="signup-tooltip-class">
+                      <div className={styles.signupTooltipClass}>
                         <input
-                          className="signup-form-section-input"
+                          className={styles.signupFormSectionInput}
                           type="text"
                           name="email"
                           placeholder="Enter Email ID"
@@ -1510,29 +1511,29 @@ const SignUp = ({ socket }) => {
                           onChange={handleChange}
                         />
                         <span
-                          className="email-info-icon"
+                          className={styles.emailInfoIcon}
                           data-tooltip-id="email-tooltip"
                           data-tooltip-content="Enter a valid email address for communication."
                         >
                           <img
                             src={Information}
-                            className="tooltip-icons"
+                            className={styles.tooltipIcons}
                             alt="information"
                           />
                         </span>
                         <Tooltip id="email-tooltip" />
                       </div>
                       {errors.email && (
-                        <div className="signup__errors">{errors.email}</div>
+                        <div className={styles.signupErrors}>{errors.email}</div>
                       )}
                     </div>
-                    <div className="signup-form-section-div">
-                      <label className="signup-form-section-label">
-                        Mobile No.<span className="labelstamp">*</span>
+                    <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
+                        Mobile No.<span className={styles.labelStamp}>*</span>
                       </label>
-                      <div className="signup-tooltip-class">
+                      <div className={styles.signupTooltipClass}>
                         <PhoneInput
-                          className="signup-form-section-phone-input"
+                          className={styles.signupFormSectionPhoneInput}
                           defaultCountry="gb"
                           name="mobile"
                           value={mobile}
@@ -1542,29 +1543,29 @@ const SignUp = ({ socket }) => {
                           }}
                         />
                         <span
-                          className="email-info-icon"
+                          className={styles.emailInfoIcon}
                           data-tooltip-id="mobile-tooltip"
                           data-tooltip-content="Provide your mobile number, including the country code."
                         >
                           <img
                             src={Information}
-                            className="tooltip-icons"
+                            className={styles.tooltipIcons}
                             alt="information"
                           />
                         </span>
                         <Tooltip id="mobile-tooltip" />
                       </div>
                       {errors.mobile && (
-                        <div className="signup__errors">{errors.mobile}</div>
+                        <div className={styles.signupErrors}>{errors.mobile}</div>
                       )}
                     </div>
-                    <div className="signup-form-section-div">
-                      <label className="signup-form-section-label">
-                        Designation<span className="labelstamp">*</span>
+                    <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
+                        Designation<span className={styles.labelStamp}>*</span>
                       </label>
-                      <div className="signup-tooltip-class">
+                      <div className={styles.signupTooltipClass}>
                         <input
-                          className="signup-form-section-input"
+                          className={styles.signupFormSectionInput}
                           type="text"
                           name="designation"
                           placeholder="Enter Designation"
@@ -1572,33 +1573,33 @@ const SignUp = ({ socket }) => {
                           onChange={handleChange}
                         />
                         <span
-                          className="email-info-icon"
+                          className={styles.emailInfoIcon}
                           data-tooltip-id="designation-tooltip"
                           data-tooltip-content="Mention your professional designation."
                         >
                           <img
                             src={Information}
-                            className="tooltip-icons"
+                            className={styles.tooltipIcons}
                             alt="information"
                           />
                         </span>
                         <Tooltip id="designation-tooltip" />
                       </div>
                       {errors.designation && (
-                        <div className="signup__errors">
+                        <div className={styles.signupErrors}>
                           {errors.designation}
                         </div>
                       )}
                     </div>
                   </div>
                 </div>
-                <div className="signup-form-section-container">
-                  <div className="signup-inner-heading">Documents</div>
-                  <div className="signup-form-inner-div-section">
-                    <div className="signup-form-section-div">
-                      <label className="signup-form-section-label">
+                <div className={styles.signupFormSectionContainer}>
+                  <div className={styles.signupInnerHeading}>Documents</div>
+                  <div className={styles.signupFormInnerDivSection}>
+                    <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
                         Upload Trade License
-                        <span className="labelstamp">*</span>
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       {/* <ImageUploaders onUploadStatusChange={handleImageUpload} imageType="license" reset={resetUploaders} allowMultiple={true} /> */}
                       <ImageUploaders
@@ -1612,14 +1613,14 @@ const SignUp = ({ socket }) => {
                         tooltipMessage="Only PDF and Docx formats are allowed."
                       />
                       {errors.licenseImage && (
-                        <div className="signup__errors">
+                        <div className={styles.signupErrors}>
                           {errors.licenseImage}
                         </div>
                       )}
                     </div>
-                    <div className="signup-form-section-div">
-                      <label className="signup-form-section-label">
-                        Upload Company Logo<span className="labelstamp">*</span>
+                    <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
+                        Upload Company Logo<span className={styles.labelStamp}>*</span>
                       </label>
                       {/* <ImageUploaders onUploadStatusChange={handleImageUpload} imageType="logo" reset={resetUploaders} allowMultiple={false} /> */}
                       <ImageUploaders
@@ -1633,27 +1634,27 @@ const SignUp = ({ socket }) => {
                         tooltipMessage="Only JPEG and PNG image formats are allowed."
                       />
                       {errors.logoImage && (
-                        <div className="signup__errors">{errors.logoImage}</div>
+                        <div className={styles.signupErrors}>{errors.logoImage}</div>
                       )}
                     </div>
 
-                    <div className="signup-document-section">
-                      <div className="signup-add-button-section">
+                    <div className={styles.signupDocumentSection}>
+                      <div className={styles.signupAddButtonSection}>
                         <button
-                          className="signup-document-head"
+                          className={styles.signupDocumentHead}
                           onClick={(e) => addNewSection(e)}
                         >
                           Add
                         </button>
                       </div>
                       {certificateFileNDate.map((section, index) => (
-                        <div key={index} className="document-inner-section">
-                          <div className="signup-form-section-div">
-                            <label className="signup-form-section-label">
+                        <div key={index} className={styles.documentInnerSection}>
+                          <div className={styles.signupFormSectionDiv}>
+                            <label className={styles.signupFormSectionLabel}>
                               Upload Certificate
-                              <span className="labelstamp">*</span>
+                              <span className={styles.labelStamp}>*</span>
                             </label>
-                            <div className="file-preview-container">
+                            <div className={styles.filePreviewContainer}>
                               <CertificateUploader
                                 onUploadStatusChange={(status) =>
                                   handleImageUpload(status, index)
@@ -1677,18 +1678,18 @@ const SignUp = ({ socket }) => {
                                 mainIndex={index}
                               />
                               {cNCFileError?.[index] && (
-                                <div className="signup_document_errors">
+                                <div className={`mt-1 ${styles.signupErrors}`}>
                                   {cNCFileError?.[index]}
                                 </div>
                               )}
                             </div>
                           </div>
-                          <div className="signup-form-section-div">
-                            <label className="signup-form-section-label">
+                          <div className={styles.signupFormSectionDiv}>
+                            <label className={styles.signupFormSectionLabel}>
                               Expiry Date
                             </label>
                             <DatePicker
-                              className="signup-form-section-input"
+                              className={styles.signupFormSectionInput}
                               selected={section.date}
                               onChange={(date) => handleDateChange(date, index)}
                               dateFormat="dd/MM/yyyy"
@@ -1703,12 +1704,12 @@ const SignUp = ({ socket }) => {
                           {certificateFileNDate.length > 1 && (
                             <div
                               onClick={() => removeSection(index)}
-                              className="signup-cross-button"
+                              className={styles.signupCrossButton}
                             >
                               <img
                                 src={Cross}
                                 alt="cross"
-                                className="cross-icon"
+                               className={styles.crossIcon}
                               />
                             </div>
                           )}
@@ -1716,10 +1717,10 @@ const SignUp = ({ socket }) => {
                       ))}
                     </div>
                     {selectedCompanyType?.value === "medical practitioner" && (
-                      <div className="signup-form-section-div">
-                        <label className="signup-form-section-label">
+                      <div className={styles.signupFormSectionDiv}>
+                        <label className={styles.signupFormSectionLabel}>
                           Upload a Medical Practitioner Certificate
-                          <span className="labelstamp">*</span>
+                          <span className={styles.labelStamp}>*</span>
                         </label>
                         <ImageUploaders
                           onUploadStatusChange={handleImageUpload}
@@ -1730,40 +1731,40 @@ const SignUp = ({ socket }) => {
                           allowMultiple={true}
                         />
                         {errors.medicalCertificateImage && (
-                          <div className="signup__errors">
+                          <div className={styles.signupErrors}>
                             {errors.medicalCertificateImage}
                           </div>
                         )}
                       </div>
                     )}
 
-                    <div className="signup-form-section-checkbox">
+                    <div className={styles.signupFormSectionCheckbox}>
                       {/* <Link to='/buyer/terms-and-conditions' > */}
                       <div
-                        className="termscondition"
+                        className={styles.termsCondition}
                         onClick={() => setShowTnC(true)}
                       >
-                        Terms & Conditions<span className="labelstamp">*</span>
+                        Terms & Conditions<span className={styles.labelStamp}>*</span>
                       </div>
                       {/* </Link> */}
                     </div>
                   </div>
                 </div>
-                <div className="signup-form-cont-button">
+                <div className={styles.signupFormContButton}>
                   <div
-                    className="signup-form-button-cancel"
+                    className={styles.signupFormButtonCancel}
                     onClick={handleCancel}
                   >
                     Cancel
                   </div>
                   <button
                     type="submit"
-                    className="signup-form-button-submit"
+                    className={styles.signupFormButtonSubmit}
                     disabled={loading}
                   >
                     {/* Submit */}
                     {loading ? (
-                      <div className="loading-spinner"></div>
+                      <div className={styles.loadingSpinner}></div>
                     ) : (
                       "Submit"
                     )}

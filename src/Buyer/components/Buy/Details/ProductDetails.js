@@ -496,7 +496,7 @@ const ProductDetails = () => {
               : `${process.env.REACT_APP_SERVER_URL}/`;
 
             // If not a full URL, prepend base path
-            const imgUrl = img.startsWith("http")
+            const imgUrl = img?.startsWith("http")
               ? img
               : `${baseUrl}uploads/products/${img}`;
 

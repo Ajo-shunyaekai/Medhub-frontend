@@ -218,11 +218,11 @@ const ProductDetails = () => {
                   </span>
                 </div>
               )}
-              {productDetail?.general?.tax && (
+              {productDetail?.general?.unit_tax && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Tax%</span>
                   <span className={styles.medicineText}>
-                    {productDetail?.general?.tax}
+                    {productDetail?.general?.unit_tax}
                   </span>
                 </div>
               )}
@@ -3219,7 +3219,7 @@ const ProductDetails = () => {
                   : `${process.env.REACT_APP_SERVER_URL}/`;
 
                 // If not a full URL, prepend base path
-                const imgUrl = img.startsWith("http")
+                const imgUrl = img?.startsWith("http")
                   ? img
                   : `${baseUrl}uploads/products/${img}`;
 
