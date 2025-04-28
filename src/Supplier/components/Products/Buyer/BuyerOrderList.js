@@ -1,78 +1,118 @@
-import React from 'react'
-import '../ProductDetails/buyerdetails.css'
+import React from 'react';
+import DataTable from 'react-data-table-component';
 import { Link } from 'react-router-dom';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import moment from 'moment/moment';
+import PaginationComponent from '../../SharedComponents/Pagination/Pagination';
+import styles from '../../../assets/style/table.module.css';
 
-const BuyerOrderList = ({orderList, totalOrders, currentPage, ordersPerPage, handleOrderPageChange}) => {
-    const orders = [
-        { id: 'PR1234567', price: '588 USD', quantity: 100 },
-        { id: 'PR1234568', price: '700 USD', quantity: 50 },
-        { id: 'PR1234569', price: '1200 USD', quantity: 200 },
-        { id: 'PR1234570', price: '300 USD', quantity: 150 },
+const BuyerOrderList = ({ orderList }) => {
+    const getTotalQuantity = (items) => {
+        return items.reduce((total, item) => total + (item.quantity || item.quantity_required), 0);
+    };
+
+    const columns = [
+        {
+            name: 'Order ID',
+            selector: (row) => row.order_id,
+            sortable: true,
+        },
+        {
+            name: 'Date',
+            selector: (row) => row.created_at,
+            sortable: true,
+            cell: (row) => (
+                <span>
+                    {moment(row.created_at).format('DD/MM/YYYY')}
+                </span>
+            ),
+        },
+        {
+            name: 'Quantity',
+            selector: (row) => getTotalQuantity(row.items),
+            sortable: true,
+        },
+        {
+            name: 'Action',
+            cell: (row) => (
+                <Link to={`/supplier/active-orders-details/${row.order_id}`}>
+                    <div className={styles.activeBtn}>
+                        <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
+                    </div>
+                </Link>
+            ),
+            ignoreRowClick: true,
+            allowOverflow: true,
+            button: true,
+        },
     ];
 
-    return (
-        <div className="supply-card-body">
-            <div>
-                <div className="table-assign-supply-heading">Order List</div>
-            </div>
-            <div className='supply-order-list-main-section'>
-                <table className="supply-table">
-                    <thead className='supply-details-thead-section'>
-                        <tr>
-                            <td className='supply-tdss'>Order ID</td>
-                            <td className='supply-tdss'>Date</td>
-                            <td className='supply-tdss'>Quantity</td>
-                            <td className='supply-button-tdss'>Action</td>
-                        </tr>
-                    </thead>
-                    <tbody className='supply-table-tbody'>
-                        {/* {orders.map((order, index) => ( */}
-                        {
-                            orderList && orderList.length > 0 ? (
-                            orderList?.map((order,i) => {
-                                const totalQuantity = order.items.reduce((total, item) => {
-                                    return total + item.quantity || item.quantity_required;
-                                  }, 0);
-                                  const orderedDate = moment(order.created_at).format("DD/MM/YYYY")
-                                return (
-                            <tr className='supply-table-tr' key={i}>
-                                <td className='supply-td'>
-                                    <div className="table-supply-section-content">
-                                        <span className="table-g-supply-text">{order.order_id}</span>
-                                    </div>
-                                </td>
-                                <td className='supply-td'>
-                                    <div className="table-supply-section-content">
-                                        <span className="table-g-supply-text">{orderedDate}</span>
-                                    </div>
-                                </td>
-                                <td className='supply-td'>
-                                    <div className="table-supply-section-content">
-                                        <span className="table-g-supply-text">{totalQuantity || 100}</span>
-                                    </div>
-                                </td>
-                                <td className='supply-button-td'>
-                                    <div className="table-supply-section-content">
-                                        <Link to={`/supplier/active-orders-details/${order.order_id }`}>
-                                            <div className='table-supply-section-view'>
-                                                <RemoveRedEyeOutlinedIcon className='table-supply-section-eye' />
-                                            </div>
-                                        </Link>
-                                    </div>
-                                </td>
-                            </tr>
-                             )
-                            }) 
-                            ) : 'no orders'
-                        }
-                        {/* ))} */}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    )
-}
+    const [currentPage, setCurrentPage] = React.useState(1);
+    const itemsPerPage = 10;
 
-export default BuyerOrderList
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
+
+    const paginatedData = orderList
+        ? orderList.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+        : [];
+
+    return (
+        <div className={styles.container}>
+            <style>
+                {`
+            .rdt_Table {
+                border: none;
+                background-color: unset !important;
+            }
+            .rdt_TableRow {
+                background-color: #ffffff !important;
+                border-bottom: none !important;
+            }
+            .rdt_TableHeadRow {
+                background-color: #f9f9fa;
+                font-weight: bold;
+                border-bottom: none !important;
+            }
+            .rdt_TableBody {
+                gap: 10px !important;
+            }
+            .rdt_TableCol {
+                text-align: center;
+                color: #333;
+            }
+            .rdt_TableCell {
+                text-align: center;
+                color: #99a0ac;
+                font-weight: 500 !important;
+            }
+            .rdt_TableCellStatus {
+                text-align: center;
+                color: #333;
+            }
+        `}
+            </style>
+            <span className={styles.title}>Order List</span>
+            <DataTable
+                columns={columns}
+                data={paginatedData}
+                persistTableHead
+                noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
+                pagination={false}
+                responsive
+            />
+            {orderList && orderList.length > 0 && (
+                <PaginationComponent
+                    activePage={currentPage}
+                    itemsCountPerPage={itemsPerPage}
+                    totalItemsCount={orderList.length}
+                    pageRangeDisplayed={5}
+                    onChange={handlePageChange}
+                />
+            )}
+        </div>
+    );
+};
+
+export default BuyerOrderList;

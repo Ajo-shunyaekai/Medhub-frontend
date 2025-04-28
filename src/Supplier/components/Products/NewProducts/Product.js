@@ -18,13 +18,9 @@ const Product = () => {
     const [loading, setLoading] = useState(true);
     const [totalItems, setTotalItems] = useState()
     const [currentPage, setCurrentPage] = useState(1)
-    const itemsPerPage = 5
-
-    // Open Modal
+    const itemsPerPage = 10
     const [open, setOpen]                 = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
-
-    // Display Download and update button
     const path            = location.pathname.split('/').filter(Boolean);;
     const lastPart        = path[path.length - 1];
     const showButtonGroup = lastPart === 'newproduct' ||  lastPart === 'product';
@@ -115,7 +111,6 @@ const Product = () => {
     
 
     return (
-        <>
             <div className={styles.productContainer}>
                 <div className={styles.productHead}>
                     Products
@@ -170,7 +165,6 @@ const Product = () => {
                 />
                 )}
             </div>
-        </>
     )
 }
 

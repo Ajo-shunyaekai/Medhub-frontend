@@ -1,41 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "../../../assets/style/dashboardorder.css";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
-import { postRequestWithToken } from "../../../api/Requests";
+import { apiRequests } from "../../../../api";
 import moment from "moment/moment";
 import OrderCancel from "../../Orders/OrderCancel";
-import Pagination from "react-js-pagination";
-import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
-import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
-import { Table } from "react-bootstrap";
 import { toast } from "react-toastify";
-import { apiRequests } from "../../../../api";
+import DataTable from "react-data-table-component";
+import PaginationComponent from "../../SharedComponents/Pagination/Pagination"
+import styles from "../../../assets/style/table.module.css";
 
 const InquiryRequestList = () => {
   const navigate = useNavigate();
-
-  const [show, setShow] = useState(false);
-
   const [modal, setModal] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
+  const [inquiryList, setInquiryList] = useState([]);
+  const [totalInquiries, setTotalInquiries] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const ordersPerPage =10;
 
   const showModal = (orderId) => {
     setSelectedOrderId(orderId);
     setModal(!modal);
   };
-
-  const [orderList, setOrderList] = useState([]);
-  const [totalOrders, setTotalOrders] = useState();
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const ordersPerPage = 5;
-
-  const [inquiryList, setInquiryList] = useState([]);
-  const [totalInquiries, setTotalInquiries] = useState();
-
-  const indexOfLastOrder = currentPage * ordersPerPage;
-  const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -58,10 +44,10 @@ const InquiryRequestList = () => {
         pageNo: currentPage,
         pageSize: ordersPerPage,
       };
-      
+
       try {
         const response = await apiRequests.getRequest(
-          `enquiry/get-all-enquiry-list?pageNo=${currentPage}&pageSize=${ordersPerPage}&filterKey=${"completed"}`
+          `enquiry/get-all-enquiry-list?pageNo=${currentPage}&pageSize=${ordersPerPage}&filterKey=completed`
         );
         if (response?.code === 200) {
           setInquiryList(response.result.data);
@@ -69,137 +55,129 @@ const InquiryRequestList = () => {
         } else {
           toast(response.message, { type: "error" });
         }
-      } catch (error) {}
+      } catch (error) {
+        console.error("Error fetching inquiry list:", error);
+      }
     };
     fetchInquiryList();
-  }, [currentPage]);
-  return (
-    <>
-      <div className="completed-order-main-container">
-        <div className="completed-order-main-head">Inquiry Request</div>
-        <div className="completed-order-container">
-          <div className="completed-order-container-right-2">
-            <Table
-              responsive="xxl"
-              className="completed-order-table-responsive"
-            >
-              <thead>
-                <div
-                  className="completed-table-row-container m-0"
-                  style={{ backgroundColor: "transparent" }}
-                >
-                  <div className="table-row-item table-order-1">
-                    <span className="completed-header-text-color">
-                      Inquiry ID{" "}
-                    </span>
-                  </div>
-                  <div className="completed-table-row-item completed-table-order-1">
-                    <span className="completed-header-text-color">Date </span>
-                  </div>
-                  <div className="completed-table-row-item completed-table-order-2">
-                    <span className="completed-header-text-color">
-                      Buyer Name
-                    </span>
-                  </div>
-                  <div className="completed-table-row-item completed-table-order-1">
-                    <span className="completed-header-text-color">Status</span>
-                  </div>
-                  <div className="completed-table-row-item completed-table-order-1">
-                    <span className="completed-header-text-color">Action</span>
-                  </div>
-                </div>
-              </thead>
+  }, [currentPage, navigate]);
 
-              <tbody className="bordered">
-                {inquiryList?.length > 0 ? (
-                  inquiryList.map((order, index) => (
-                    <div className="completed-table-row-container" key={index}>
-                      <div className="completed-table-row-item completed-table-order-1">
-                        <div className="completed-table-text-color">
-                          {order.enquiry_id}
-                        </div>
-                      </div>
-
-                      <div className="completed-table-row-item completed-table-order-1">
-                        <div className="completed-table-text-color">
-                          {moment(order?.created_at).format("DD/MM/YYYY")}
-                        </div>
-                      </div>
-                      <div className="completed-table-row-item  completed-table-order-2">
-                        <div className="table-text-color">
-                          {order.buyer.buyer_name}
-                        </div>
-                      </div>
-                      <div className="completed-table-row-item completed-table-order-1">
-                        <div className="completed-table-text-color">
-                          {order?.enquiry_status
-                            ?.split(" ")
-                            .map(
-                              (word) =>
-                                word.charAt(0).toUpperCase() + word.slice(1)
-                            )
-                            .join(" ")}
-                        </div>
-                      </div>
-                      <div className="completed-table-row-item  completed-order-table-btn completed-table-order-1">
-                        <Link
-                          to={`/supplier/inquiry-request-details/${order.enquiry_id}`}
-                        >
-                          <div className="completed-order-table completed-order-table-view ">
-                            <RemoveRedEyeOutlinedIcon className="table-icon" />
-                          </div>
-                        </Link>
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <>
-                    <div className="pending-products-no-orders">
-                      No Inquiry Request
-                    </div>
-                  </>
-                )}
-              </tbody>
-            </Table>
-            {inquiryList?.length > 0 && (
-              <div className="completed-pagi-container">
-                <Pagination
-                  activePage={currentPage}
-                  itemsCountPerPage={ordersPerPage}
-                  totalItemsCount={totalInquiries}
-                  pageRangeDisplayed={5}
-                  onChange={handlePageChange}
-                  itemClass="page-item"
-                  linkClass="page-link"
-                  prevPageText={
-                    <KeyboardDoubleArrowLeftIcon style={{ fontSize: "15px" }} />
-                  }
-                  nextPageText={
-                    <KeyboardDoubleArrowRightIcon
-                      style={{ fontSize: "15px" }}
-                    />
-                  }
-                  hideFirstLastPages={true}
-                />
-                <div className="completed-pagi-total">
-                  Total Items: {totalInquiries}
-                </div>
-              </div>
-            )}
-
-            {modal === true ? (
-              <OrderCancel
-                setModal={setModal}
-                orderId={selectedOrderId}
-                activeLink={"completed"}
-              />
-            ) : (
-              ""
-            )}
-          </div>
+  const columns = [
+    {
+      name: "Inquiry ID",
+      selector: (row) => row.enquiry_id,
+      sortable: true,
+     
+    },
+    {
+      name: "Date",
+      selector: (row) => row.created_at,
+      sortable: true,
+      cell: (row) => (
+        <>
+          {moment(row.created_at).format("DD/MM/YYYY")}
+          </>
+        
+      ),
+    },
+    {
+      name: "Buyer Name",
+      selector: (row) => row.buyer.buyer_name,
+      sortable: true,
+     
+    },
+    {
+      name: "Status",
+      selector: (row) => row.enquiry_status,
+      sortable: true,
+      cell: (row) => (
+        <div>
+          {row.enquiry_status
+            ?.split(" ")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" ")}
         </div>
-      </div>
-    </>
+      ),
+    },
+    {
+      name: "Action",
+      cell: (row) => (
+       
+          <Link to={`/supplier/inquiry-request-details/${row.enquiry_id}`}>
+          <div className={styles.activeBtn}>
+                        <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
+                    </div>
+          </Link>
+       
+      ),
+      ignoreRowClick: true,
+      allowOverflow: true,
+      button: true,
+      sortable: false,
+    },
+  ];
+
+  return (
+    <div className={styles.container}>
+    <style>
+        {`
+            .rdt_Table {
+                border: none;
+                background-color: unset !important;
+            }
+            .rdt_TableRow {
+                background-color: #ffffff !important;
+                border-bottom: none !important;
+            }
+            .rdt_TableHeadRow {
+                background-color: #f9f9fa;
+                font-weight: bold;
+                border-bottom: none !important;
+            }
+            .rdt_TableBody {
+                gap: 10px !important;
+            }
+            .rdt_TableCol {
+                text-align: center;
+                color: #333;
+            }
+            .rdt_TableCell {
+                text-align: center;
+                color: #99a0ac;
+                font-weight: 500 !important;
+            }
+            .rdt_TableCellStatus {
+                text-align: center;
+                color: #333;
+            }
+        `}
+    </style>
+    <span className={styles.title}>Inquiry Request</span>
+          <DataTable
+            columns={columns}
+            data={inquiryList}
+            persistTableHead
+            noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
+            pagination={false}
+            responsive
+          />
+          {inquiryList.length > 0 && totalInquiries > 0 && (
+            <PaginationComponent
+              activePage={currentPage}
+              itemsCountPerPage={ordersPerPage}
+              totalItemsCount={totalInquiries}
+              pageRangeDisplayed={5}
+              onChange={handlePageChange}
+            />
+          )}
+          {modal && (
+            <OrderCancel
+              setModal={setModal}
+              orderId={selectedOrderId}
+              activeLink={"completed"}
+            />
+          )}
+        </div>
   );
 };
 

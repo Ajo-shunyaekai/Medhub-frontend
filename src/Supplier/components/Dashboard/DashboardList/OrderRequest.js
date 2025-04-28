@@ -1,43 +1,85 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "../../style/dashboardorder.css";
-import Table from "react-bootstrap/Table";
-import Pagination from "react-js-pagination";
+import DataTable from "react-data-table-component";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
-import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
-import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
-import { postRequestWithToken } from "../../api/Requests";
-import OrderCancel from "../OrderCancel";
 import moment from "moment/moment";
+import OrderCancel from "../OrderCancel";
+import PaginationComponent from "../../SharedComponents/Pagination/Pagination"
+import styles from "../../../assets/style/table.module.css";
 
 const OrderRequest = () => {
   const navigate = useNavigate();
-
   const [show, setShow] = useState(false);
-
   const [modal, setModal] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
+  const [orderList, setOrderList] = useState([]);
+  const [totalOrders, setTotalOrders] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const ordersPerPage = 10;
 
   const showModal = (orderId) => {
     setSelectedOrderId(orderId);
     setModal(!modal);
   };
 
-  const [orderList, setOrderList] = useState([]);
-  const [totalOrders, setTotalOrders] = useState();
+  // Define columns for React Data Table
+  const columns = [
+    {
+      name: "Order ID",
+      selector: (row) => row.order_id,
+      sortable: true,
+     
+    },
+    {
+      name: "Date",
+      selector: (row) => row.created_at,
+      sortable: true,
+      cell: (row) => (
+        <div>{moment(row.created_at).format("DD/MM/YYYY")}</div>
+      ),
+    },
+    {
+      name: "Buyer Name",
+      selector: (row) => row?.buyer?.buyer_name || "Needhi Pharma",
+      sortable: true,
+     
+    },
+    {
+      name: "Quantity",
+      selector: (row) =>
+        row.items.reduce((total, item) => total + item.quantity, 0),
+      sortable: true,
+     
+    },
+    {
+      name: "Status",
+      selector: (row) => row.order_status,
+      sortable: true,
+      cell: (row) => (
+        <div>
+          {row?.order_status?.charAt(0).toUpperCase() +
+            row?.order_status?.slice(1)}
+        </div>
+      ),
+    },
+    {
+      name: "Action",
+      cell: (row) => (
+        <Link to={`/supplier/order-details/${row?.order_id}`}>
+        <div className={styles.activeBtn}>
+                        <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
+                    </div>
+        </Link>
+      ),
+      ignoreRowClick: true,
+      allowOverflow: true,
+      button: true,
+    },
+  ];
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const ordersPerPage = 2;
-  const indexOfLastOrder = currentPage * ordersPerPage;
-  const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-  // const currentOrders     = activeOrders.slice(indexOfFirstOrder, indexOfLastOrder);
-
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
+  // Fetch orders
   useEffect(() => {
-    const fetchOrderLst = async () => {
+    const fetchOrderList = async () => {
       const supplierIdSessionStorage = localStorage.getItem("supplier_id");
       const supplierIdLocalStorage = localStorage.getItem("supplier_id");
 
@@ -55,159 +97,95 @@ const OrderRequest = () => {
       };
 
       try {
-        const response = await apiRequests.getRequest(
-          `order/get-all-order-list?filterKey=${"pending"}&pageNo=${currentPage}&pageSize=${ordersPerPage}`
+        // Replace with your actual API call
+        const response = await fetch(
+          `https://your-api-endpoint/order/get-all-order-list?filterKey=pending&pageNo=${currentPage}&pageSize=${ordersPerPage}`
         );
-        if (response?.code === 200) {
-            setOrderList(response.result.data);
-            setTotalOrders(response.result.totalItems);
+        const data = await response.json();
+        if (data?.code === 200) {
+          setOrderList(data.result.data);
+          setTotalOrders(data.result.totalItems);
         } else {
+          setOrderList([]);
+          setTotalOrders(0);
         }
       } catch (error) {
-      } finally {
+        console.error("Error fetching orders:", error);
+        setOrderList([]);
+        setTotalOrders(0);
       }
     };
-    fetchOrderLst()
-  }, [currentPage]);
+    fetchOrderList();
+  }, [currentPage, navigate]);
+
+  // Handle page change for pagination
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   return (
-    <>
-      <div className="completed-order-main-container">
-        <div className="completed-order-main-head">Order Request</div>
-        <div className="completed-order-container">
-          <div className="completed-order-container-right-2">
-            <Table
-              responsive="xxl"
-              className="completed-order-table-responsive"
-            >
-              <thead>
-                <div
-                  className="completed-table-row-container m-0"
-                  style={{ backgroundColor: "transparent" }}
-                >
-                  <div className="table-row-item table-order-1">
-                    <span className="completed-header-text-color">
-                      Order ID{" "}
-                    </span>
-                  </div>
-                  <div className="completed-table-row-item completed-table-order-1">
-                    <span className="completed-header-text-color">Date </span>
-                  </div>
-                  <div className="completed-table-row-item completed-table-order-2">
-                    <span className="completed-header-text-color">
-                      Buyer Name
-                    </span>
-                  </div>
-                  <div className="completed-table-row-item completed-table-order-1">
-                    <span className="completed-header-text-color">
-                      Quantity
-                    </span>
-                  </div>
-                  <div className="completed-table-row-item completed-table-order-1">
-                    <span className="completed-header-text-color">Status </span>
-                  </div>
-                  <div className="completed-table-row-item completed-table-order-1">
-                    <span className="completed-header-text-color">Action </span>
-                  </div>
-                </div>
-              </thead>
-
-              <tbody className="bordered">
-                {orderList && orderList.length > 0 ? (
-                  orderList.map((order, i) => {
-                    const totalQuantity = order.items.reduce((total, item) => {
-                      return total + item.quantity;
-                    }, 0);
-                    const orderedDate = moment(order.created_at).format(
-                      "DD/MM/YYYY"
-                    );
-                    return (
-                      <div className="completed-table-row-container">
-                        <div className="completed-table-row-item completed-table-order-1">
-                          <div className="completed-table-text-color">
-                            {order.order_id}
-                          </div>
-                        </div>
-
-                        <div className="completed-table-row-item completed-table-order-1">
-                          <div className="completed-table-text-color">
-                            {orderedDate}
-                          </div>
-                        </div>
-                        <div className="completed-table-row-item  completed-table-order-2">
-                          <div className="table-text-color">
-                            {order?.buyer?.buyer_name || "Needhi Pharma"}
-                          </div>
-                        </div>
-                        <div className="completed-table-row-item completed-table-order-1">
-                          <div className="completed-table-text-color">
-                            {totalQuantity}
-                          </div>
-                        </div>
-                        <div className="completed-table-row-item completed-table-order-1">
-                          <div className="completed-table-text-color">
-                            {order?.order_status?.charAt(0).toUpperCase() +
-                              order?.order_status?.slice(1)}
-                          </div>
-                        </div>
-                        <div className="completed-table-row-item  completed-order-table-btn completed-table-order-1">
-                          <Link
-                            to={`/supplier/order-details/${order?.order_id}`}
-                          >
-                            <div className="completed-order-table completed-order-table-view ">
-                              <RemoveRedEyeOutlinedIcon className="table-icon" />
-                            </div>
-                          </Link>
-                        </div>
-                      </div>
-                    );
-                  })
-                ) : (
-                  <>
-                    <div className="pending-products-no-orders">
-                      No Order Request
-                    </div>
-                  </>
-                )}
-              </tbody>
-            </Table>
-            {orderList.length > 0 && (
-              <div className="pagi-container">
-                <Pagination
-                  activePage={currentPage}
-                  itemsCountPerPage={ordersPerPage}
-                  totalItemsCount={totalOrders}
-                  pageRangeDisplayed={5}
-                  onChange={handlePageChange}
-                  itemClass="page-item"
-                  linkClass="page-link"
-                  prevPageText={
-                    <KeyboardDoubleArrowLeftIcon style={{ fontSize: "15px" }} />
-                  }
-                  nextPageText={
-                    <KeyboardDoubleArrowRightIcon
-                      style={{ fontSize: "15px" }}
-                    />
-                  }
-                  hideFirstLastPages={true}
-                />
-                <div className="pagi-total">
-                  <div className="pagi-total">Total Items: {totalOrders}</div>
-                </div>
-              </div>
-            )}
-            {modal === true ? (
-              <OrderCancel
-                setModal={setModal}
-                orderId={selectedOrderId}
-                activeLink={"pending"}
-              />
-            ) : (
-              ""
-            )}
-          </div>
-        </div>
+    <div className={styles.container}>
+        <style>
+            {`
+                .rdt_Table {
+                    border: none;
+                    background-color: unset !important;
+                }
+                .rdt_TableRow {
+                    background-color: #ffffff !important;
+                    border-bottom: none !important;
+                }
+                .rdt_TableHeadRow {
+                    background-color: #f9f9fa;
+                    font-weight: bold;
+                    border-bottom: none !important;
+                }
+                .rdt_TableBody {
+                    gap: 10px !important;
+                }
+                .rdt_TableCol {
+                    text-align: center;
+                    color: #333;
+                }
+                .rdt_TableCell {
+                    text-align: center;
+                    color: #99a0ac;
+                    font-weight: 500 !important;
+                }
+                .rdt_TableCellStatus {
+                    text-align: center;
+                    color: #333;
+                }
+            `}
+        </style>
+        <span className={styles.title}>Order Request</span>
+     
+        <DataTable
+          columns={columns}
+          data={orderList}
+          persistTableHead
+            noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
+            pagination={false}
+            responsive
+        />
+        {orderList.length > 0 && totalOrders > 0 && (
+          <PaginationComponent
+            activePage={currentPage}
+            itemsCountPerPage={ordersPerPage}
+            totalItemsCount={totalOrders}
+            pageRangeDisplayed={5}
+            onChange={handlePageChange}
+          />
+        )}
+        {modal && (
+          <OrderCancel
+            setModal={setModal}
+            orderId={selectedOrderId}
+            activeLink={"pending"}
+          />
+        )}
       </div>
-    </>
+   
   );
 };
 

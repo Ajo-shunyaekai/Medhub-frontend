@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
-import styles from "./invoice.module.css";
+import styles from "../../assets/style/secondsidebar.module.css";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import PendingInvoice from "./PendingInvoices/PendingInvoice";
 import PaidInvoice from "./PaidInvoices/CompleteInvoice";
-import { postRequestWithToken } from "../../api/Requests";
 import ProformaList from "./ProformaInvoices/ProformaList";
 import Loader from "../SharedComponents/Loader/Loader";
 import { toast } from "react-toastify";
@@ -19,7 +18,7 @@ const Invoice = () => {
   const [invoiceList, setInvoiceList] = useState([]);
   const [totalInvoices, setTotalInvoices] = useState();
   const [currentPage, setCurrentPage] = useState(1);
-  const invoicesPerPage = 5;
+  const invoicesPerPage = 10;
 
   useEffect(() => {
     const getActiveLinkFromPath = (path) => {
@@ -57,8 +56,6 @@ const Invoice = () => {
       page_no: currentPage,
       limit: invoicesPerPage,
     };
-
-    // Call a different API for Proforma Invoices (when activeIndex is 2)
     if (activeIndex === 2) {
       const fetchOrderList = async () => {
         try {
@@ -130,53 +127,40 @@ const Invoice = () => {
       {loading ? (
         <Loader />
       ) : (
-        <div className={styles["invoice-container"]}>
-          <div className={styles["complete-container-invoice-section"]}>
-            <div className={styles["complete-conatiner-head"]}>Invoices</div>
-            {/* {activeIndex === 0 && (
-                    <Link to='/supplier/create-invoice'>
-                        <div className={styles['complete-conatiner-create-invoice']}>Create Invoice</div>
-                    </Link>
-                )} */}
+        <div className={styles.container}>
+        <div className={styles.header}>
+          <div className={styles.title}>
+          Invoices
           </div>
-          <div className={styles["invoice-wrapper"]}>
-            <div className={styles["invoice-wrapper-left"]}>
+        </div>
+        <div className={styles.content}>
+        <div className={styles.sidebar}>
               <div
                 onClick={() => handleLinkClick("pending")}
-                className={`${activeIndex === 0 ? styles.active : ""} ${
-                  styles["invoice-wrapper-left-text"]
-                }`}
+                className={`${activeIndex === 0 ? styles.active : ""} ${styles.tab}`}
               >
-                <DescriptionOutlinedIcon
-                  className={styles["invoice-wrapper-left-icons"]}
-                />
-                <div className={styles.invoiceHeading}>Pending Invoices</div>
+                <DescriptionOutlinedIcon className={styles.icon} />
+                                <div className={styles.text}>Pending Invoices</div>
+                
               </div>
               <div
                 onClick={() => handleLinkClick("paid")}
-                className={`${activeIndex === 1 ? styles.active : ""} ${
-                  styles["invoice-wrapper-left-text"]
-                }`}
+                className={`${activeIndex === 1 ? styles.active : ""} ${styles.tab}`}
               >
-                <DescriptionOutlinedIcon
-                  className={styles["invoice-wrapper-left-icons"]}
-                />
-                <div className={styles.invoiceHeading}>Paid Invoices</div>
+                <DescriptionOutlinedIcon className={styles.icon} />
+                <div className={styles.text}>Paid Invoices</div>
+               
               </div>
 
               <div
                 onClick={() => handleLinkClick("active")}
-                className={`${activeIndex === 2 ? styles.active : ""} ${
-                  styles["invoice-wrapper-left-text"]
-                }`}
+                className={`${activeIndex === 2 ? styles.active : ""} ${styles.tab}`}
               >
-                <DescriptionOutlinedIcon
-                  className={styles["invoice-wrapper-left-icons"]}
-                />
-                <div className={styles.invoiceHeading}>Proforma Invoices</div>
+                <DescriptionOutlinedIcon className={styles.icon} />
+                <div className={styles.text}>Proforma Invoices</div>
               </div>
             </div>
-            <div className={styles["invoice-wrapper-right"]}>
+            <div className={styles.main}>
               {activeIndex === 0 && (
                 <PendingInvoice
                   invoiceList={invoiceList}

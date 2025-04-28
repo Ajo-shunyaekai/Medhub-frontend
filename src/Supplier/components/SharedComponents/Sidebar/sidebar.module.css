@@ -331,6 +331,7 @@ main {
 
 .sidebar_text {
   width: 180px;
+  font-weight: 500;
   font-size: 14px;
   display: flex;
   color: #5e676f;

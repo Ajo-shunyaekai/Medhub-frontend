@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
-import Pagination from 'react-js-pagination';
-import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
-import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+import PaginationComponent from '../../SharedComponents/Pagination/Pagination';
 
 const ActiveAssignDriver = ({ productList = [] }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const ordersPerPage = 5;
-    
+
     if (!productList.length) {
         return <div>No products available</div>;
     }
 
-    const indexOfLastOrder  = currentPage * ordersPerPage;
+    const indexOfLastOrder = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-    const currentOrders     = productList.slice(indexOfFirstOrder, indexOfLastOrder);
+    const currentOrders = productList.slice(indexOfFirstOrder, indexOfLastOrder);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -35,10 +33,10 @@ const ActiveAssignDriver = ({ productList = [] }) => {
                                 </div>
                             </td>
                             <td className='tables-td-cont'>
-                                    <div className="table-g-section-content">
-                                        <span className="table-g-driver-name">Product Name</span>
-                                        <span className="table-g-not-name">{order.medicine_name || order.product_name}</span>
-                                    </div>
+                                <div className="table-g-section-content">
+                                    <span className="table-g-driver-name">Product Name</span>
+                                    <span className="table-g-not-name">{order.medicine_name || order.product_name}</span>
+                                </div>
                             </td>
                             <td className='tables-td'>
                                 <div className="table-g-section-content">
@@ -71,21 +69,13 @@ const ActiveAssignDriver = ({ productList = [] }) => {
                 </tbody>
             </table>
             <div className='pagi-container'>
-                <Pagination
+                <PaginationComponent
                     activePage={currentPage}
                     itemsCountPerPage={ordersPerPage}
                     totalItemsCount={productList.length}
                     pageRangeDisplayed={5}
                     onChange={handlePageChange}
-                    itemClass="page-item"
-                    linkClass="page-link"
-                    prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
-                    nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
-                    hideFirstLastPages={true}
                 />
-                <div className='pagi-total'>
-                    <div className='pagination-total-items'>Total Items: {productList.length}</div>
-                </div>
             </div>
         </div>
     );
