@@ -321,11 +321,11 @@ const TermsAndConditions = ({ setShowTnC, setIsChecked }) => {
                 <div className={styles.termscondition} onClick={openModal}>Privacy Policy</div>
                 <PrivacyPolicyModal isOpen={isModalOpen} onClose={closeModal} />
             </div>
-            <div className="signup-form-cont-button">
+            <div className={styles.signupFormContButton}>
                 {!accepted && (
                     <button
                         type="button"
-                        className="signup-form-button-submit"
+                        className={styles.signupFormButtonSubmit}
                         onClick={handleAccept}
                     >
                         Accept

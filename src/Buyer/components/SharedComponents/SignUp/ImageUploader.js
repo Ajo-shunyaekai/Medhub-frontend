@@ -138,12 +138,12 @@ const ImageUploader = ({ onUploadStatusChange, imageType, reset, allowMultiple, 
                 {showTooltip && (
                     <div className={styles['tooltip-container']}>
                         <span
-                            className="email-info-icon"
+                            className={styles.emailInfoIcon}
                             data-tooltip-id={`upload-tooltip-${imageType}`}
                             data-tooltip-content={tooltipMessage}
                             data-tooltip-place="top"
                         >
-                            <img src={Information} className='tooltip-icons' alt='information' />
+                            <img src={Information}  className={styles.tooltipIcons} alt='information' />
                         </span>
                         <Tooltip id={`upload-tooltip-${imageType}`} />
                     </div>
