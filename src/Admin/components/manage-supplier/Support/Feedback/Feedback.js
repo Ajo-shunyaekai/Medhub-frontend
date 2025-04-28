@@ -11,13 +11,11 @@ const Feedback = ({ supportList, handlePageChange, currentPage, totalItems, list
             name: 'Feedback ID',
             selector: row => row.support_id || 'ID Not Provided',
             sortable: true,
-           
         },
         {
             name: 'Subject',
             selector: row => row.order_id || row.subject || 'N/A',
             sortable: true,
-           
         },
         {
             name: 'Message',
@@ -25,15 +23,13 @@ const Feedback = ({ supportList, handlePageChange, currentPage, totalItems, list
             sortable: true,
             grow: 2,
             wrap: true,
-          
         },
         {
             name: 'Action',
             sortable: false,
-          
             cell: row => (
                 <Link to={`/admin/supplier-enquiry-details/${row.support_id}`}>
-                  <div className={styles.activeBtn}>
+                    <div className={styles.activeBtn}>
                         <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                     </div>
                 </Link>
@@ -44,35 +40,35 @@ const Feedback = ({ supportList, handlePageChange, currentPage, totalItems, list
             sortable: false,
         }
     ];
+
     return (
-            <div className={styles.container}>
-               <style>
+        <div className={styles.container}>
+            <style>
                 {`
                     .rdt_Table {
-                       border: none;
-    background-color: unset !important;
+                        border: none;
+                        background-color: unset !important;
                     }
-                        .rdt_TableRow{
-                      background-color: #ffffff !important;
-    border-bottom: none !important;
-                        }
+                    .rdt_TableRow {
+                        background-color: #ffffff !important;
+                        border-bottom: none !important;
+                    }
                     .rdt_TableHeadRow {
-                            background-color: #f9f9fa;
-    font-weight: bold;
-    border-bottom: none !important;
+                        background-color: #f9f9fa;
+                        font-weight: bold;
+                        border-bottom: none !important;
                     }
-    .rdt_TableBody{
-    gap:10px !important;
-    }
+                    .rdt_TableBody {
+                        gap: 10px !important;
+                    }
                     .rdt_TableCol {
                         text-align: center;
                         color: #333;
                     }
                     .rdt_TableCell {
-                       
-                           text-align: center;
-    color: #99a0ac;
-    font-weight: 500 !important;
+                        text-align: center;
+                        color: #99a0ac;
+                        font-weight: 500 !important;
                     }
                     .rdt_TableCellStatus {
                         text-align: center;
@@ -80,14 +76,15 @@ const Feedback = ({ supportList, handlePageChange, currentPage, totalItems, list
                     }
                 `}
             </style>
-                <DataTable
-                    columns={columns}
-                    data={supportList}
-                    persistTableHead
-                    noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
-                    pagination={false}
-                    responsive
-                />
+            <DataTable
+                columns={columns}
+                data={supportList}
+                persistTableHead
+                noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
+                pagination={false}
+                responsive
+            />
+            {supportList && supportList.length > 0 && (
                 <PaginationComponent
                     activePage={currentPage}
                     itemsCountPerPage={listPerPage}
@@ -95,7 +92,8 @@ const Feedback = ({ supportList, handlePageChange, currentPage, totalItems, list
                     pageRangeDisplayed={10}
                     onChange={handlePageChange}
                 />
-            </div>
+            )}
+        </div>
     );
 };
 

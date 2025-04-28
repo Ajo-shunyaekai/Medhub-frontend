@@ -3,9 +3,7 @@ import SellerOrder from "./SellerOrder"
 
 const SellerOrders = () => {
   return (
-  <>
   <SellerOrder/>
-  </>
   )
 }
 

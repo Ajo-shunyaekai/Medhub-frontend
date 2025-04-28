@@ -12,20 +12,17 @@ const BuyerPurchasedOrder = ({ poList, totalList, currentPage, listPerPage, hand
       name: 'PO ID',
       selector: row => row.purchaseOrder_id,
       sortable: true,
-     
     },
     {
       name: 'Inquiry ID',
       selector: row => row.enquiry_id,
       sortable: true,
-    
     },
     {
       name: 'Date',
       selector: row => row.created_at,
       sortable: true,
       cell: row => <div>{moment(row.created_at).format('DD/MM/YYYY')}</div>,
-     
     },
     {
       name: 'Supplier Name',
@@ -46,70 +43,71 @@ const BuyerPurchasedOrder = ({ poList, totalList, currentPage, listPerPage, hand
       name: 'Action',
       cell: row => (
         <Link to={`/admin/buyer-purchased-order-details/${row.purchaseOrder_id}`}>
-         <div className={styles.activeBtn}>
-                        <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
-                    </div>
+          <div className={styles.activeBtn}>
+            <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
+          </div>
         </Link>
       ),
       ignoreRowClick: true,
-            allowOverflow: true,
-            button: true,
-            sortable: false,
+      allowOverflow: true,
+      button: true,
+      sortable: false,
     },
   ];
 
   return (
-      <div className={styles.container}>
-         <style>
-                {`
-                    .rdt_Table {
-                       border: none;
-    background-color: unset !important;
-                    }
-                        .rdt_TableRow{
-                      background-color: #ffffff !important;
-    border-bottom: none !important;
-                        }
-                    .rdt_TableHeadRow {
-                            background-color: #f9f9fa;
-    font-weight: bold;
-    border-bottom: none !important;
-                    }
-    .rdt_TableBody{
-    gap:10px !important;
-    }
-                    .rdt_TableCol {
-                        text-align: center;
-                        color: #333;
-                    }
-                    .rdt_TableCell {
-                       
-                           text-align: center;
-    color: #99a0ac;
-    font-weight: 500 !important;
-                    }
-                    .rdt_TableCellStatus {
-                        text-align: center;
-                        color: #333;
-                    }
-                `}
-            </style>
-          <DataTable
-            columns={columns}
-            data={poList}
-            persistTableHead
-            noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
-            pagination={false}
-            responsive
-          />
-            <PaginationComponent
-              activePage={currentPage}
-              itemsCountPerPage={listPerPage}
-              totalItemsCount={totalList}
-              pageRangeDisplayed={10}
-              onChange={handlePageChange}
-            />
-          </div>
+    <div className={styles.container}>
+      <style>
+        {`
+          .rdt_Table {
+            border: none;
+            background-color: unset !important;
+          }
+          .rdt_TableRow {
+            background-color: #ffffff !important;
+            border-bottom: none !important;
+          }
+          .rdt_TableHeadRow {
+            background-color: #f9f9fa;
+            font-weight: bold;
+            border-bottom: none !important;
+          }
+          .rdt_TableBody {
+            gap: 10px !important;
+          }
+          .rdt_TableCol {
+            text-align: center;
+            color: #333;
+          }
+          .rdt_TableCell {
+            text-align: center;
+            color: #99a0ac;
+            font-weight: 500 !important;
+          }
+          .rdt_TableCellStatus {
+            text-align: center;
+            color: #333;
+          }
+        `}
+      </style>
+      <DataTable
+        columns={columns}
+        data={poList}
+        persistTableHead
+        noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
+        pagination={false}
+        responsive
+      />
+      {poList && poList.length > 0 && (
+        <PaginationComponent
+          activePage={currentPage}
+          itemsCountPerPage={listPerPage}
+          totalItemsCount={totalList}
+          pageRangeDisplayed={10}
+          onChange={handlePageChange}
+        />
+      )}
+    </div>
   );
 };
 

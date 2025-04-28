@@ -117,28 +117,7 @@ const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject, i
                                             </div>
                                         </td>
                                     )}
-                                    {/* <td className='tables-tds'>
-                                <div className="table-g-section-content-button">
-                                    <span className="table-g-not-name-button" onClick={() => handleAccept(item.product_id, item._id)}>Accept</span>
-                                    <span className="table-g-not-reject-buttons" onClick={() => handleReject(item.product_id, item._id)}>Reject</span>
-                                </div>
-                        </td> */}
-
-                                    {/* <td className='tables-tds'>
-                                <div className="table-g-section-content-button">
-                                    {isAccepted(item) ? (
-                                        <span className="table-g-not-name-button accepted">Accepted</span>
-                                    ) : isRejected(item) ? (
-                                        <span className="table-g-not-reject-buttons rejected">Rejected</span>
-                                    ) : (
-                                        <>
-                                            <span className="table-g-not-name-button" onClick={() => handleAcceptClick(item)}>Accept</span>
-                                            <span className="table-g-not-reject-buttons" onClick={() => handleRejectClick(item)}>Reject</span>
-                                        </>
-                                    )}
-                                </div>
-                            </td> */}
-
+                                   
                                     <td className='tables-tds'>
                                         <div className="table-g-section-content-button">
                                             {item.status === 'pending' ? (

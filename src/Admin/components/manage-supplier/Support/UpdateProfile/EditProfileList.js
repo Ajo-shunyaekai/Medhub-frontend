@@ -25,19 +25,16 @@ const EditProfileList = () => {
       name: "Supplier ID",
       selector: (row) => row.user_id,
       sortable: true,
-
     },
     {
       name: "Supplier Name",
       selector: (row) => row.name,
       sortable: true,
-
     },
     {
       name: "Status",
       selector: (row) => row.editReqStatus,
       sortable: true,
-
     },
     {
       name: "Action",
@@ -74,40 +71,39 @@ const EditProfileList = () => {
 
   return (
     <div className={styles.container}>
-        <style>
-                {`
-                    .rdt_Table {
-                       border: none;
-    background-color: unset !important;
-                    }
-                        .rdt_TableRow{
-                      background-color: #ffffff !important;
-    border-bottom: none !important;
-                        }
-                    .rdt_TableHeadRow {
-                            background-color: #f9f9fa;
-    font-weight: bold;
-    border-bottom: none !important;
-                    }
-    .rdt_TableBody{
-    gap:10px !important;
-    }
-                    .rdt_TableCol {
-                        text-align: center;
-                        color: #333;
-                    }
-                    .rdt_TableCell {
-                       
-                           text-align: center;
-    color: #99a0ac;
-    font-weight: 500 !important;
-                    }
-                    .rdt_TableCellStatus {
-                        text-align: center;
-                        color: #333;
-                    }
-                `}
-            </style>
+      <style>
+        {`
+          .rdt_Table {
+            border: none;
+            background-color: unset !important;
+          }
+          .rdt_TableRow {
+            background-color: #ffffff !important;
+            border-bottom: none !important;
+          }
+          .rdt_TableHeadRow {
+            background-color: #f9f9fa;
+            font-weight: bold;
+            border-bottom: none !important;
+          }
+          .rdt_TableBody {
+            gap: 10px !important;
+          }
+          .rdt_TableCol {
+            text-align: center;
+            color: #333;
+          }
+          .rdt_TableCell {
+            text-align: center;
+            color: #99a0ac;
+            font-weight: 500 !important;
+          }
+          .rdt_TableCellStatus {
+            text-align: center;
+            color: #333;
+          }
+        `}
+      </style>
       <DataTable
         columns={columns}
         data={currentReqsForDisplay}
@@ -116,7 +112,7 @@ const EditProfileList = () => {
         pagination={false}
         responsive
       />
-      {profileEditReqs?.length > 0 && (
+      {profileEditReqs?.length > reqsPerPage && (
         <PaginationComponent
           activePage={currentPage}
           itemsCountPerPage={reqsPerPage}

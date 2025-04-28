@@ -3,9 +3,7 @@ import SellerInquiry from "./SellerInquiry"
 
 const SellerInquiryRequests = () => {
   return (
-    <>
     <SellerInquiry/>
-    </>
   )
 }
 

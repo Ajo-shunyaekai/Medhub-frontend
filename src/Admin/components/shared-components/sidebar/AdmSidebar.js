@@ -5,12 +5,10 @@ import order_list from "../../../assets/Images/dashboard/order_list.svg";
 import DeliverLogo from "../../../assets/Images/logo.svg";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import CropFreeOutlinedIcon from "@mui/icons-material/CropFreeOutlined";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import TocOutlinedIcon from "@mui/icons-material/TocOutlined";
-import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import LocalMallOutlinedIcon from "@mui/icons-material/LocalMallOutlined";
 import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
@@ -189,7 +187,7 @@ const AdmSidebar = ({
         activeclassname={styles.active}
       >
         <div className={styles.icon}>
-          <HomeOutlinedIcon style={{ color: "#282f86", fontSize: "20px" }} />
+          <HomeOutlinedIcon style={{ color: "#282f86",  fontSize: "22px" }} />
         </div>
         <div
           style={{ display: isOpen ? "block" : "none" }}
@@ -204,7 +202,7 @@ const AdmSidebar = ({
           <div className={styles.sidebar_text} onClick={toggleAccordion}>
             <div className={styles.icon}>
               {" "}
-              <TocOutlinedIcon style={{ color: "#31c971", fontSize: "20px" }} />
+              <TocOutlinedIcon style={{ color: "#31c971",  fontSize: "22px" }} />
             </div>
             <div >Orders</div>
           </div>
@@ -245,7 +243,7 @@ const AdmSidebar = ({
               onClick={toggleSellerDropdown}
             >
               <LocalMallOutlinedIcon
-                style={{ color: "#14bae4", fontSize: "20px" }}
+                style={{ color: "#14bae4",  fontSize: "22px" }}
               />
               <div
                 className={styles.dropdownText}
@@ -333,7 +331,7 @@ const AdmSidebar = ({
           <div className={styles.dropdown}>
             <div className={styles.dropdownToggle} onClick={toggleDropdown}>
               <LocalShippingOutlinedIcon
-                style={{ color: "#31c971", fontSize: "20px" }}
+                style={{ color: "#31c971",  fontSize: "22px" }}
               />
               <div
                 className={styles.dropdownText}
@@ -420,7 +418,7 @@ const AdmSidebar = ({
               onClick={toggleManageDropdown}
             >
               <DescriptionOutlinedIcon
-                style={{ color: "#f4c414", fontSize: "20px" }}
+                style={{ color: "#f4c414",  fontSize: "22px" }}
               />
               <div
                 className={styles.dropdownText}
@@ -649,7 +647,7 @@ const AdmSidebar = ({
             >
               <div className={styles.icon}>
                 <HomeOutlinedIcon
-                  style={{ color: "#282f86", fontSize: "20px" }}
+                  style={{ color: "#282f86",  fontSize: "22px" }}
                 />
               </div>
               <div
@@ -714,7 +712,7 @@ const AdmSidebar = ({
                 onClick={toggleSellerDropdown}
               >
                 <LocalMallOutlinedIcon
-                  style={{ color: "#14bae4", fontSize: "20px" }}
+                  style={{ color: "#14bae4",  fontSize: "22px" }}
                 />
                 <div
                   className={styles.dropdownText}
@@ -822,7 +820,7 @@ const AdmSidebar = ({
             <div className={styles.dropdown}>
               <div className={styles.dropdownToggle} onClick={toggleDropdown}>
                 <LocalShippingOutlinedIcon
-                  style={{ color: "#31c971", fontSize: "20px" }}
+                  style={{ color: "#31c971",  fontSize: "22px" }}
                 />
                 <div
                   className={styles.dropdownText}
@@ -932,7 +930,7 @@ const AdmSidebar = ({
                 onClick={toggleManageDropdown}
               >
                 <DescriptionOutlinedIcon
-                  style={{ color: "#f4c414", fontSize: "20px" }}
+                  style={{ color: "#f4c414",  fontSize: "22px" }}
                 />
                 <div
                   className={styles.dropdownText}

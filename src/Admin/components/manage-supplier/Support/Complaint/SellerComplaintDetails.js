@@ -105,7 +105,6 @@ const SellerComplaintDetails = () => {
                                 <div className='seller-details-card-container'>
                                     <div className='seller-details-company-logo-heading'>Images</div>
                                     <div className='seller-details-company-img-container'>
-                                        {/* {renderStaticImages()} */}
                                         {renderImages()}
                                     </div>
                                 </div>

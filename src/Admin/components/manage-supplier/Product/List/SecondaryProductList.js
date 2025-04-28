@@ -3,12 +3,13 @@ import DataTable from 'react-data-table-component';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import styles from '../../../../assets/style/table.module.css';
 import { TbEdit } from "react-icons/tb";
-import { Link, useParams} from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import PaginationComponent from '../../../shared-components/Pagination/Pagination';
 
 const SecondaryProductList = ({ products, totalItems, currentPage, itemsPerPage, handlePageChange }) => {
   const serverUrl = process.env.REACT_APP_SERVER_URL;
-   const { supplierId } = useParams();
+  const { supplierId } = useParams();
+
   // Define columns for the DataTable
   const columns = [
     {
@@ -16,7 +17,7 @@ const SecondaryProductList = ({ products, totalItems, currentPage, itemsPerPage,
       selector: row => row.product_id,
       sortable: true,
       wrap: true,
-  },
+    },
     {
       name: 'Name',
       selector: (row) => row.general.name,
@@ -47,24 +48,24 @@ const SecondaryProductList = ({ products, totalItems, currentPage, itemsPerPage,
       selector: row => {
         const stockValues = row.inventoryDetails?.[0]?.stock ? [row.inventoryDetails[0].stock] : ['N/A'];
         return stockValues[0];
-    },
-    sortable: true,
+      },
+      sortable: true,
     },
     {
       name: 'Actions',
       cell: (row) => (
         <div className={styles.buttonContainer}>
-        <Link to={`/admin/product-details/${row._id}`}>
-        <div className={styles.activeBtn}>
-          <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
+          <Link to={`/admin/product-details/${row._id}`}>
+            <div className={styles.activeBtn}>
+              <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
+            </div>
+          </Link>
+          <Link to={`/admin/supplier/${supplierId}/edit-product/${row._id}`}>
+            <div className={styles.activeBtn}>
+              <TbEdit className={styles['table-icon']} />
+            </div>
+          </Link>
         </div>
-      </Link>
-       <Link to={`/admin/supplier/${supplierId}/edit-product/${row._id}`}>
-       <div className={styles.activeBtn}>
-         <TbEdit className={styles['table-icon']} />
-       </div>
-     </Link>
-     </div>
       ),
       ignoreRowClick: true,
       allowOverflow: true,
@@ -72,51 +73,51 @@ const SecondaryProductList = ({ products, totalItems, currentPage, itemsPerPage,
       sortable: false,
     },
   ];
+
   return (
     <div className={styles.container}>
       <style>
-                {`
-                    .rdt_Table {
-                       border: none;
-    background-color: unset !important;
-                    }
-                        .rdt_TableRow{
-                      background-color: #ffffff !important;
-    border-bottom: none !important;
-                        }
-                    .rdt_TableHeadRow {
-                            background-color: #f9f9fa;
-    font-weight: bold;
-    border-bottom: none !important;
-                    }
-    .rdt_TableBody{
-    gap:10px !important;
-    }
-                    .rdt_TableCol {
-                        text-align: center;
-                        color: #333;
-                    }
-                    .rdt_TableCell {
-                       
-                           text-align: center;
-    color: #99a0ac;
-    font-weight: 500 !important;
-                    }
-                    .rdt_TableCellStatus {
-                        text-align: center;
-                        color: #333;
-                    }
-                `}
-            </style>
+        {`
+          .rdt_Table {
+            border: none;
+            background-color: unset !important;
+          }
+          .rdt_TableRow {
+            background-color: #ffffff !important;
+            border-bottom: none !important;
+          }
+          .rdt_TableHeadRow {
+            background-color: #f9f9fa;
+            font-weight: bold;
+            border-bottom: none !important;
+          }
+          .rdt_TableBody {
+            gap: 10px !important;
+          }
+          .rdt_TableCol {
+            text-align: center;
+            color: #333;
+          }
+          .rdt_TableCell {
+            text-align: center;
+            color: #99a0ac;
+            font-weight: 500 !important;
+          }
+          .rdt_TableCellStatus {
+            text-align: center;
+            color: #333;
+          }
+        `}
+      </style>
       <DataTable
-          columns={columns}
-          data={products}
-          persistTableHead
-          noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
-          pagination={false}
-          responsive
-        />
-      {products?.length > 0 && (
+        columns={columns}
+        data={products}
+        persistTableHead
+        noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
+        pagination={false}
+        responsive
+      />
+      {products?.length > 0 && totalItems > 0 && (
         <PaginationComponent
           activePage={currentPage}
           itemsCountPerPage={itemsPerPage}
@@ -125,7 +126,7 @@ const SecondaryProductList = ({ products, totalItems, currentPage, itemsPerPage,
           onChange={handlePageChange}
         />
       )}
-      </div>
+    </div>
   );
 };
 
