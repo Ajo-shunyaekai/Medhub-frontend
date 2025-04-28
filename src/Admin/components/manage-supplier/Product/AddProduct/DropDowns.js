@@ -598,7 +598,7 @@ export const addProductValidationSchema = Yup.object({
           "Monitoring Devices",
           "Mobility Aids",
           "Respiratory Care",
-          "Elderly Care Products",
+          "Care Products",
         ],
         "Invalid Subcategory"
       ),
@@ -756,7 +756,7 @@ export const addProductValidationSchema = Yup.object({
           "Mobility Aids",
           "Respiratory Care",
           "Patient Monitoring Devices",
-          "Elderly Care Products",
+          "Care Products",
         ],
         "Invalid Subcategory"
       ),
@@ -1430,7 +1430,7 @@ export const editProductValidationSchema = Yup.object({
           "Monitoring Devices",
           "Mobility Aids",
           "Respiratory Care",
-          "Elderly Care Products",
+          "Care Products",
         ],
         "Invalid Subcategory"
       ),
@@ -1585,7 +1585,7 @@ export const editProductValidationSchema = Yup.object({
           "Mobility Aids",
           "Respiratory Care",
           "Patient Monitoring Devices",
-          "Elderly Care Products",
+          "Care Products",
         ],
         "Invalid Subcategory"
       ),
