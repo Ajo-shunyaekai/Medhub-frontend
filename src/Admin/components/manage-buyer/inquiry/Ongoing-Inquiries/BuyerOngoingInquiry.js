@@ -71,15 +71,15 @@ const BuyerOngoingInquiry = ({ inquiryList, totalInquiries, currentPage, inquiri
                         gap: 10px !important;
                     }
                     .rdt_TableCol {
-                        text-align: center;
+                            
                         color: #333;
                     }
                     .rdt_TableCell {
-                        text-align: center;
+                            
                         color: #99a0ac;
                     }
                     .rdt_TableCellStatus {
-                        text-align: center;
+                            
                         color: #333;
                     }
                 `}
