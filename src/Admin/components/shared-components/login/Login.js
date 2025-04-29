@@ -201,7 +201,6 @@ const Login = ({socket}) => {
                         {/* <button type='button' className='login-form-main-cancel' onClick={handleCancel}>Cancel</button> */}
                         <button type='submit' 
                         className='login-form-main-login'
-                        style={{marginTop:'10px'}}
                         disabled={loading}
                         >
                             {loading ? (
