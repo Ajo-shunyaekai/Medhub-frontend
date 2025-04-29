@@ -10,7 +10,7 @@ import styles from '../../../../assets/style/table.module.css';
 
 const EditProfileList = () => {
   const dispatch = useDispatch();
-  const { profileEditReqs } = useSelector((state) => state?.adminReducer);
+  const { profileEditReqs, loading } = useSelector((state) => state?.adminReducer);
 
   const [currentPage, setCurrentPage] = useState(1);
   const reqsPerPage = 10;
@@ -58,16 +58,26 @@ const EditProfileList = () => {
     );
   }, [dispatch]);
 
+  // Debugging: Log profileEditReqs to ensure data is available
+  console.log("profileEditReqs:", profileEditReqs);
+  console.log("currentPage:", currentPage);
+
+  // Calculate the current data slice
+  const indexOfLastReq = currentPage * reqsPerPage;
+  const indexOfFirstReq = indexOfLastReq - reqsPerPage;
+  const currentReqsForDisplay = Array.isArray(profileEditReqs)
+    ? profileEditReqs.slice(indexOfFirstReq, indexOfLastReq)
+    : [];
+
+  // Handle page change
   const handlePageChange = (pageNumber) => {
+    console.log("Changing to page:", pageNumber); // Debug page change
     setCurrentPage(pageNumber);
   };
 
-  const indexOfLastReq = currentPage * reqsPerPage;
-  const indexOfFirstReq = indexOfLastReq - reqsPerPage;
-  const currentReqsForDisplay = profileEditReqs.slice(
-    indexOfFirstReq,
-    indexOfLastReq
-  );
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className={styles.container}>
@@ -117,7 +127,7 @@ const EditProfileList = () => {
           activePage={currentPage}
           itemsCountPerPage={reqsPerPage}
           totalItemsCount={profileEditReqs?.length || 0}
-          pageRangeDisplayed={5}
+          pageRangeDisplayed={10}
           onChange={handlePageChange}
         />
       )}

@@ -1439,7 +1439,7 @@ const EditProfileDetails = () => {
                 key={`certification_${index}`}
                 className={styles?.formSection}
               >
-                <div>
+                
                   <Field name={`certificateFileNDate.${index}.file`}>
                     {({ field }) => (
                       <EditCertificate
@@ -1465,7 +1465,7 @@ const EditProfileDetails = () => {
                     {formik?.touched?.certificateFileNDate?.[index]?.file &&
                       formik?.errors?.certificateFileNDate?.[index]?.file}
                   </span>
-                </div>
+                
                 <div className={styles?.productContainer}>
                   <label className={styles?.formLabel}>Date of Expiry</label>
                   <div className={styles?.tooltipContainer}>
