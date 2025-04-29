@@ -267,9 +267,6 @@ body::first-letter {
   justify-content: start;
   align-items: center;
 }
-.line-chart {
-  width: 42vw !important;
-}
 
 /* Style the circular bar */
 .circular-bar-container {

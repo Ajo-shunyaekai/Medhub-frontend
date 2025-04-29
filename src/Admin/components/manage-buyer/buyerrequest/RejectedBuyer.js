@@ -84,11 +84,11 @@ const RejectedBuyer = () => {
             selector: row => row?.buyer_type,
             sortable: true,
         },
-        {
-            name: "Mobile No.",
-            selector: (row) => `${row?.buyer_country_code} ${row?.buyer_mobile}`,
-            sortable: true,
-        },
+        // {
+        //     name: "Mobile No.",
+        //     selector: (row) => `${row?.buyer_country_code} ${row?.buyer_mobile}`,
+        //     sortable: true,
+        // },
         {
             name: 'Status',
             selector: (row) =>
@@ -134,16 +134,16 @@ const RejectedBuyer = () => {
                         gap: 10px !important;
                     }
                     .rdt_TableCol {
-                        text-align: center;
+                            
                         color: #333;
                     }
                     .rdt_TableCell {
-                        text-align: center;
+                            
                         color: #99a0ac;
                         font-weight: 500 !important;
                     }
                     .rdt_TableCellStatus {
-                        text-align: center;
+                            
                         color: #333;
                     }
                 `}
@@ -151,7 +151,7 @@ const RejectedBuyer = () => {
             {loading ? (
                 <Loader />
             ) : (
-                <>
+                <div className={styles.tableMainContainer}>
                     <header className={styles.header}>
                         <span className={styles.title}>Rejected Buyer</span>
                         <button className={styles.button} onClick={handleDownload}>
@@ -177,7 +177,7 @@ const RejectedBuyer = () => {
                             onChange={handlePageChange}
                         />
                     )}
-                </>
+                </div>
             )}
         </div>
     );

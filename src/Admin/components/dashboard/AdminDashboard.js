@@ -23,7 +23,7 @@ const AdminDashboard = () => {
 
     const [countryData, setCountryData] = useState([]);
     const [dashboardData, setDashboard] = useState()
-    const [filterValue, setFilterValue] = useState('') 
+    const [filterValue, setFilterValue] = useState('')
 
     useEffect(() => {
         if (!adminIdSessionStorage && !adminIdLocalStorage) {
@@ -48,131 +48,102 @@ const AdminDashboard = () => {
     }, [])
 
     return (
-        <div className='dashboard-section'>
-            <div className='dashboard-heading'>Dashboard</div>
-            <div className='analystic-button' >
-                <div className='buttons'>Analytics</div>
+
+        <div className='buyer-panel-dashboard-section'>
+            <div className='buyer-panel-dashboard-heading'>Dashboard</div>
+            <div className='buyer-panel-analystic-button' >
+                <div className='buyer-panel-buttons'>Analytics</div>
             </div>
-            {/* start the card container */}
-            <div className='cart-main-container'>
-                <div className='cart-left-main-container'>
-                    <div className='cart-left-top-section'>
-                        <div className='cart-top-right-section'>
-                            <div className='top-container'>
-                                <Link
-                                    to={`/admin/buyer-request?filterValue=${filterValue}`}
-                                >
-                                    <div className='top-content-section'>
-                                        <div className='top-head'>No. of Buyer Request</div>
-                                        <div className='top-text'>{dashboardData?.buyerRegisReqCount.count || 0}</div>
-                                    </div>
+            <div className='buyer-panel-cart-main-container'>
+                <div className='buyer-panel-cart-left-main-container'>
+                    <div className='buyer-panel-cart-left-top-section'>
+                        <div className='buyer-panel-cart-top-right-section'>
+                            <div className='buyer-panel-top-container'>
+                                <Link className='buyer-panel-top-content-section' to={`/admin/buyer-request?filterValue=${filterValue}`}>
+
+                                    <div className='buyer-panel-top-head'>No. of Buyer Request</div>
+                                    <div className='buyer-panel-top-text'>{dashboardData?.buyerRegisReqCount.count || 0}</div>
+
                                 </Link>
+                                <Link className='buyer-panel-top-content-section' to={`/admin/supplier-request?filterValue=${filterValue}`}>
 
-                                <Link
+                                    <div className='buyer-panel-top-head'>No. of Supplier Request</div>
+                                    <div className='buyer-panel-top-text'>{dashboardData?.supplierRegisReqCount.count || 0}</div>
 
-                                    to={`/admin/supplier-request?filterValue=${filterValue}`}
-                                >
-                                    <div className='top-content-section'>
-                                        <div className='top-head'>No. of Supplier Request</div>
-                                        <div className='top-text'>{dashboardData?.supplierRegisReqCount.count || 0}</div>
-                                    </div>
                                 </Link>
-                                <Link
+                                <Link className='buyer-panel-top-content-section' to={`/admin/total-request-list?filterValue=${filterValue}`}>
 
-                                    to={`/admin/total-request-list?filterValue=${filterValue}`}
-                                >
-                                    <div className='top-content-section'>
-                                        <div className='top-head'>Total Request</div>
-                                        <div className='top-text'>
-                                            {(Number(dashboardData?.buyerRegisReqCount.count) || 0) + (Number(dashboardData?.supplierRegisReqCount.count) || 0)}
-                                        </div>
-                                    </div>
+                                    <div className='buyer-panel-top-head'>Total Request</div>
+                                    <div className='buyer-panel-top-text'> {(Number(dashboardData?.buyerRegisReqCount.count) || 0) + (Number(dashboardData?.supplierRegisReqCount.count) || 0)}</div>
+
                                 </Link>
                             </div>
-                            <div className='bottom-container'>
-                                <Link
-                                    className='bottom-cart-cont'
-                                    to={`/admin/rejected-buyer?filterValue=${filterValue}`}
-                                >
+                            <div className='buyer-panel-bottom-container'>
+                                <Link className='buyer-panel-bottom-cart-cont' to={`/admin/rejected-buyer?filterValue=${filterValue}`}>
 
-                                    <div className='bottom-head'>Rejected Buyer:<span className='bottom-text'> {dashboardData?.buyerRejectedReqCount?.count || 0}</span></div>
-                                    <div className='bottom-graph'>
+                                    <div className='buyer-panel-bottom-head'>Rejected Buyer: <span className='buyer-panel-bottom-text'>{dashboardData?.buyerRejectedReqCount?.count || 0}</span></div>
+                                    <div className='buyer-panel-bottom-graph'>
                                         <ProgressBar />
-
                                     </div>
-                                </Link>
-                                <Link
-                                    className='bottom-cart-cont'
-                                    to={`/admin/rejected-supplier?filterValue=${filterValue}`}
-                                >
 
-                                    <div className='bottom-head'>Rejected Supplier:<span className='bottom-text'> {dashboardData?.supplierRejectedReqCount?.count || 0}</span></div>
-                                    <div className='bottom-graph'>
+                                </Link>
+                                <Link className='buyer-panel-bottom-cart-cont' to={`/admin/rejected-supplier?filterValue=${filterValue}`}>
+
+                                    <div className='buyer-panel-bottom-head'>Rejected Supplier: <span className='buyer-panel-bottom-text'>{dashboardData?.supplierRejectedReqCount?.count || 0}</span></div>
+                                    <div className='buyer-panel-bottom-graph'>
                                         <OrangeBar />
                                     </div>
 
                                 </Link>
                             </div>
                         </div>
-                        <div className='cart-top-left-section'>
-                            <div className='left-head'>Total Commission</div>
-                            <div className='circular-process'>
+                        <div className='buyer-panel-cart-top-left-section'>
+                            <div className='buyer-panel-left-head'>Total Commission</div>
+                            <div className='buyer-panel-circular-process'>
                                 <CircularBar />
                             </div>
                         </div>
                     </div>
-                    <div className='admin-cart-left-bottom-section'>
-                        <div className='admin-cart-left-bottom-container'>
-                            <Link
-                               
-                                to={`/admin/approved-buyer?filterValue=${filterValue}`}
-                            >
-                                <div className='admin-left-bottom-cart-top'>
-                                    <span className='admin-left-bottom-pert'>{dashboardData?.buyerAcceptedReqCount?.count || 0}</span>
-                                   
-                                </div>
+                    <div className='admin-panel-cart-left-bottom-section'>
+                        <Link className='admin-panel-cart-left-bottom-container' to={`/admin/approved-buyer?filterValue=${filterValue}`}>
 
-                                <div className='admin-left-bottom-head'>Approved Buyer</div>
-                                <div className='admin-line-chart-graph'>
-                                    <ConversionChart />
-                                </div>
-                            </Link>
-                        </div>
-                        <div className='admin-cart-left-bottom-container'>
-                            <Link
-                                to={`/admin/approved-supplier?filterValue=${filterValue}`}
-                            >
-                                <div className='admin-left-bottom-cart-top'>
-                                    <span className='admin-left-bottom-pert'>{dashboardData?.supplierAcceptedReqCount?.count || 0}</span>
-                                </div>
+                            <div className='admin-panel-left-bottom-cart-top'>
+                                <span className='admin-panel-left-bottom-pert'>{dashboardData?.buyerAcceptedReqCount?.count || 0}</span>
+                            </div>
+                            <div className='admin-panel-left-bottom-head'>Approved Buyer</div>
+                            <div className='admin-panel-line-chart-graph'>
+                                <ConversionChart />
+                            </div>
 
-                                <div className='admin-left-bottom-head'>Approved Supplier</div>
-                                <div className='admin-line-chart-graph'>
-                                    <SearchEngineChart />
-                                </div>
-                            </Link>
-                        </div>
-                        <div className='admin-cart-left-bottom-container'>
-                            <Link
+                        </Link>
+                        <Link className='admin-panel-cart-left-bottom-container' to={`/admin/approved-supplier?filterValue=${filterValue}`}>
 
-                                to={`/admin/total-approved-request?filterValue=${filterValue}`}
-                            >
-                                <div className='admin-left-bottom-cart-top'>
-                                    <span className='admin-left-bottom-pert'>
-                                        {(Number(dashboardData?.buyerAcceptedReqCount.count) || 0) + (Number(dashboardData?.supplierAcceptedReqCount.count) || 0)}
-                                    </span>
+                            <div className='admin-panel-left-bottom-cart-top'>
+                                <span className='admin-panel-left-bottom-pert'>{dashboardData?.supplierAcceptedReqCount?.count || 0}</span>
+                            </div>
+                            <div className='admin-panel-left-bottom-head'>Approved Supplier</div>
+                            <div className='admin-panel-line-chart-graph'>
+                                <SearchEngineChart />
+                            </div>
 
-                                </div>
-                                <div className='admin-left-bottom-head'>Total Approved Request</div>
-                                <div className='admin-line-chart-graph'>
-                                    <DirectlyChart />
-                                </div>
-                            </Link>
-                        </div>
+                        </Link>
+
+                        <Link className='admin-panel-cart-left-bottom-container' to={`/admin/total-approved-request?filterValue=${filterValue}`}>
+
+                            <div className='admin-panel-left-bottom-cart-top'>
+                                <span className='admin-panel-left-bottom-pert'> {(Number(dashboardData?.buyerAcceptedReqCount.count) || 0) + (Number(dashboardData?.supplierAcceptedReqCount.count) || 0)}</span>
+                            </div>
+                            <div className='admin-panel-left-bottom-head'>Total Approved Request</div>
+                            <div className='admin-panel-line-chart-graph'>
+                                <DirectlyChart />
+                            </div>
+
+                        </Link>
+
                     </div>
                 </div>
-                <div className='cart-right-main-container'>
-                    <div className='map-container'>
+                <div className='buyer-panel-cart-right-main-container'>
+                    <div className='buyer-panel-map-container'>
                         <WorldMap
                             color="red"
                             value-suffix="people"
@@ -180,88 +151,87 @@ const AdminDashboard = () => {
                             data={countryData}
                         />
                     </div>
-                    <div className='right-head'>Top Buyer and Supplier Countries</div>
-                    <div className='right-country-section'>
-                        <div className='country-sect'>
-                            <span className='country-names'>{countryData[0]?.country}</span>
-                            <span className='country-price'>{countryData[0]?.value}</span>
-                        </div>
-                        <div className='country-sect'>
-                            <span className='country-name'>{countryData[1]?.country}</span>
-                            <span className='country-price'>{countryData[1]?.value}</span>
-                        </div>
-                        <div className='country-sect'>
-                            <span className='country-name'>{countryData[2]?.country}</span>
-                            <span className='country-price'> {countryData[2]?.value}</span>
-                        </div>
+                    <div className='buyer-panel-right-head'>Top Buyer and Supplier Countries</div>
+                    <div className='buyer-panel-right-country-section'>
+                        {countryData?.slice(0, 2).map((data, index) => (
+                            <div className='buyer-panel-country-sect' key={index}>
+                                <span className='buyer-panel-country-names'>{countryData[0]?.country}</span>
+                                <span className='buyer-panel-country-price'>{countryData[0]?.value}</span>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>
-            {/* end the card conatiner */}
+
+
             {/* start the bottom container */}
             <div className='main-bottom-cart-container'>
                 <div className='bottom-section-left-cont'>
-                    <Link className='bottom-section-containers'
+                    <Link
                         to={`/admin/inquiries-section/request?filterValue=${filterValue}`}
                     >
-                        <div className='bottom-first-sections'>
-                            <div className='bottom-img-cont'>
-                                <img src={Trending} alt='img' />
-                            </div>
-                            <div className='bottom-text-cont'>
-                                <div className='bottom-text-head'>Total Inquiries</div>
-                                <div className='bottom-text-pect'>{dashboardData?.inquiryCount || 0}</div>
-                            </div>
+                        <div className='bottom-text-cont'>
+                            <div className='buyer-panel-top-head'>Total Inquiries</div>
+                            <div className='buyer-panel-top-text'>{dashboardData?.inquiryCount || 0}</div>
+                        </div>
+
+                        <div className='bottom-arrow-cont'>
+                            <img src={Arrow} alt='img' />
+                        </div>
+                    </Link>
+                </div>
+
+                <div className='bottom-section-left-cont'>
+                    <Link
+
+                        to={`/admin/total-PO?filterValue=${filterValue}`}
+                    >
+                        <div className='bottom-text-cont'>
+                            <div className='buyer-panel-top-head'>Total PO</div>
+                            <div className='buyer-panel-top-text'>{dashboardData?.poCount || 0}</div>
+
+                        </div>
+                        <div className='bottom-arrow-cont'>
+                            <img src={Arrow} alt='img' />
+                        </div>
+                    </Link>
+
+                </div>
+                <div className='bottom-section-left-cont'>
+                    <Link
+
+                        to={`/admin/total-active-orders?filterValue=${filterValue}`}
+                    >
+                        <div className='bottom-text-cont'>
+                            <div className='buyer-panel-top-head'>Total Active Orders</div>
+                            <div className='buyer-panel-top-text'>{dashboardData?.orderCount || 0}</div>
+
                         </div>
                         <div className='bottom-arrow-cont'>
                             <img src={Arrow} alt='img' />
                         </div>
                     </Link>
                 </div>
-                <div className='bottom-section-right-cont'>
-                    <div className='bottom-cont-left-sec'>
-                        <div className='bottom-cont-left-head'>Orders</div>
-                        <div className='bottom-cont-left-cart'>
-                            <Link
+                <div className='bottom-section-left-cont'>
+                    <Link
 
-                                to={`/admin/total-PO?filterValue=${filterValue}`}
-                            >
-                                <div className='bottom-cont-left-one'>
-                                    <div className='bottom-cont-left-text'>{dashboardData?.poCount || 0}</div>
-                                    <div className='bottom-cont-left-num'>Total PO</div>
-                                </div>
-                            </Link>
-                            <Link
+                        to={`/admin/total-completed-order?filterValue=${filterValue}`}
+                    >
+                        <div className='bottom-text-cont'>
+                            <div className='buyer-panel-top-head'>Total Completed Orders</div>
+                            <div className='buyer-panel-top-text'>{dashboardData?.completedOrderPercentage || 0}</div>
 
-                                to={`/admin/total-active-orders?filterValue=${filterValue}`}
-                            >
-                                <div className='bottom-cont-left-one'>
-                                    <div className='bottom-cont-left-texts'>{dashboardData?.orderCount || 0}</div>
-                                    <div className='bottom-cont-left-num'>Total Active Orders</div>
-                                </div>
-                            </Link>
-                            <Link
-
-                                to={`/admin/total-completed-order?filterValue=${filterValue}`}
-                            >
-                                <div className='bottom-cont-left-one'>
-                                    <div className='bottom-cont-left-text'>{dashboardData?.completedOrderPercentage || 0}</div>
-                                    <div className='bottom-cont-left-num'>Total Completed Orders</div>
-                                </div>
-                            </Link>
                         </div>
-                    </div>
-                    <div className='bottom-cont-right-sec'>
-                        <div className='bottom-cont-right-sec-head'>This week</div>
-                        <div className='bottom-cont-right-sec-completion'>
-                            <div className='bottom-cont-right-sections-head'>Invoices</div>
-                            <div className='bottom-cont-right-sect-progress'> <PinkBar /> <span className='bottom-cont-right-cont-pinkbar'>{dashboardData?.invoiceCount || 0}</span> </div>
+                        <div className='bottom-arrow-cont'>
+                            <img src={Arrow} alt='img' />
                         </div>
-                    </div>
+                    </Link>
                 </div>
             </div>
+
             {/* end the botom container */}
         </div>
+
 
     )
 }
