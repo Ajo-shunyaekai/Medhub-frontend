@@ -86,11 +86,11 @@ const ApprovedBuyer = () => {
             selector: row => row?.buyer_type,
             sortable: true,
         },
-        {
-            name: "Mobile No.",
-            selector: (row) => `${row?.buyer_country_code} ${row?.buyer_mobile}`,
-            sortable: true,
-        },
+        // {
+        //     name: "Mobile No.",
+        //     selector: (row) => `${row?.buyer_country_code} ${row?.buyer_mobile}`,
+        //     sortable: true,
+        // },
         {
             name: 'Status',
             selector: row => row?.account_status,
@@ -138,16 +138,16 @@ const ApprovedBuyer = () => {
                         gap: 10px !important;
                     }
                     .rdt_TableCol {
-                        text-align: center;
+                            
                         color: #333;
                     }
                     .rdt_TableCell {
-                        text-align: center;
+                            
                         color: #99a0ac;
                         font-weight: 500 !important;
                     }
                     .rdt_TableCellStatus {
-                        text-align: center;
+                            
                         color: #333;
                     }
                 `}
@@ -155,7 +155,7 @@ const ApprovedBuyer = () => {
             {loading ? (
                 <Loader />
             ) : (
-                <>
+                <div className={styles.tableMainContainer}>
                     <header className={styles.header}>
                         <span className={styles.title}>Approved Buyer</span>
                         <button className={styles.button} onClick={handleDownload}>
@@ -178,7 +178,7 @@ const ApprovedBuyer = () => {
                             onChange={setCurrentPage}
                         />
                     )}
-                </>
+                </div>
             )}
         </section>
     );

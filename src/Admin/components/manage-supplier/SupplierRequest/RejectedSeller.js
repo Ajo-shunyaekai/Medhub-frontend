@@ -154,16 +154,16 @@ const RejectedSuppliers = () => {
             gap: 10px !important;
           }
           .rdt_TableCol {
-            text-align: center;
+                
             color: #333;
           }
           .rdt_TableCell {
-            text-align: center;
+                
             color: #99a0ac;
             font-weight: 500 !important;
           }
           .rdt_TableCellStatus {
-            text-align: center;
+                
             color: #333;
           }
         `}
@@ -171,7 +171,7 @@ const RejectedSuppliers = () => {
       {loading ? (
         <Loader />
       ) : (
-        <>
+        <div className={styles.tableMainContainer}>
           <header className={styles.header}>
             <span className={styles.title}>Rejected Supplier</span>
             <button className={styles.button} onClick={handleDownload}>
@@ -194,7 +194,7 @@ const RejectedSuppliers = () => {
               onChange={handlePageChange}
             />
           )}
-        </>
+        </div>
       )}
     </div>
   );

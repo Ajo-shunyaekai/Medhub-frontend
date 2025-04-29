@@ -389,9 +389,7 @@ body::first-letter {
   font-size: 13px;
   line-height: 13px;
 }
-.line-chart {
-  width: 42vw !important;
-}
+
 /* Style the circular bar */
 .circular-bar-container {
   position: relative !important;
@@ -460,9 +458,7 @@ body::first-letter {
   .graph-right-container {
     width: 67%;
   }
-  .line-chart {
-    width: 52vw !important;
-  }
+
   .checkbox-heading-graph {
     white-space: nowrap;
     overflow: hidden;
@@ -598,9 +594,7 @@ body::first-letter {
   .graph-check-section {
     width: 86vw;
   }
-  .line-chart {
-    width: 90vw !important;
-  }
+ 
 }
 @media screen and (max-width: 580px) {
   .cart-left-bottom-section {
@@ -615,9 +609,7 @@ body::first-letter {
   .graph-check-section {
     width: 78vw;
   }
-  .line-chart {
-    width: 100vw !important;
-  }
+ 
 }
 @media screen and (max-width: 400px) {
   .cart-left-bottom-container {
