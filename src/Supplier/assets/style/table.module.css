@@ -12,7 +12,13 @@
     margin: auto;
     margin-bottom: 20rem !important;
 }
-
+.tableMainContainer{
+    margin-bottom: 20rem;
+    display: flex
+;
+    flex-direction: column;
+    gap: 20px;
+}
 .mainInvoicecontainer {
     background-color: #fff;
     border-radius: 4px;
