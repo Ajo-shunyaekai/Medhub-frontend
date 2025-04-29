@@ -11,38 +11,38 @@ const SupplyOrderList = ({ orderList, totalOrders, currentPage, ordersPerPage, h
   const columns = [
     {
       name: 'Order ID',
-      selector: row => row.order_id || 'ORD-8723RD213fd',
+      selector: row => row?.order_id || 'ORD-8723RD213fd',
       sortable: true,
       cell: row => (
         <div className={styles.orderStatusText}>
-          {row.order_id || 'ORD-8723RD213fd'}
+          {row?.order_id || 'ORD-8723RD213fd'}
         </div>
       ),
     },
     {
       name: 'Date',
-      selector: row => row.created_at,
+      selector: row => row?.created_at,
       sortable: true,
       cell: row => (
         <div className={styles.orderStatusText}>
-          {moment(row.created_at).format("DD/MM/YYYY") || '22/05/2024'}
+          {moment(row?.created_at).format("DD/MM/YYYY") || '22/05/2024'}
         </div>
       ),
     },
     {
       name: 'Status',
-      selector: row => row.order_status,
+      selector: row => row?.order_status,
       sortable: true,
       cell: row => (
         <div className={styles.orderStatusText}>
-          {row.order_status?.charAt(0).toUpperCase() + row.order_status?.slice(1) || 'Pending'}
+          {row?.order_status?.charAt(0)?.toUpperCase() + row?.order_status?.slice(1) || 'Pending'}
         </div>
       ),
     },
     {
       name: 'Action',
       cell: row => (
-        <Link to={`/buyer/order-details/${row.order_id || `ORD-8723RD213fd`}`}>
+        <Link to={`/buyer/order-details/${row?.order_id || `ORD-8723RD213fd`}`}>
           <div className={styles.orderViewAction}>
             <RemoveRedEyeOutlinedIcon className={styles.viewIcon} />
           </div>

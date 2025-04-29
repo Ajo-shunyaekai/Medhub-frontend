@@ -21,7 +21,7 @@ const Product = () => {
     const itemsPerPage = 10
     const [open, setOpen]                 = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
-    const path            = location.pathname.split('/').filter(Boolean);;
+    const path            = location.pathname?.split('/').filter(Boolean);;
     const lastPart        = path[path.length - 1];
     const showButtonGroup = lastPart === 'newproduct' ||  lastPart === 'product';
 
@@ -78,19 +78,19 @@ const Product = () => {
     const handleUpdateProductUpload = () => {
     if (selectedFile) {
         const bulkFormData = new FormData();
-        bulkFormData.append("supplier_id", localStorage.getItem("_id"));
+        bulkFormData.append("supplier_id", localStorage?.getItem("_id"));
         bulkFormData.append("csvfile", selectedFile);
         dispatch(bulkUpload(bulkFormData));
     }
     };
 
     useEffect(() => {
-        const supplierIdSessionStorage = localStorage.getItem("supplier_id");
-        const supplierIdLocalStorage = localStorage.getItem("supplier_id");
-        const supplier_id = localStorage.getItem("_id") || localStorage.getItem("_id");
+        const supplierIdSessionStorage = localStorage?.getItem("supplier_id");
+        const supplierIdLocalStorage = localStorage?.getItem("supplier_id");
+        const supplier_id = localStorage?.getItem("_id") || localStorage?.getItem("_id");
 
         if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-            localStorage.clear();
+            localStorage?.clear();
             navigate("/supplier/login");
             return;
         }

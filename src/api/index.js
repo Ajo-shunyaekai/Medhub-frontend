@@ -28,23 +28,23 @@ export const apiRequests = {
         data: {},
         headers: {
           authorization: process.env.REACT_APP_Authorization,
-          accesstoken: localStorage.getItem("token"),
-          token1: localStorage.getItem("token1"),
-          token2: localStorage.getItem("token2"),
-          buyer_id: localStorage.getItem("buyer_id"),
-          supplier_id: localStorage.getItem("supplier_id"),
-          admin_id: localStorage.getItem("admin_id"),
-          partner_id: localStorage.getItem("partner_id"),
+          accesstoken: localStorage?.getItem("token"),
+          token1: localStorage?.getItem("token1"),
+          token2: localStorage?.getItem("token2"),
+          buyer_id: localStorage?.getItem("buyer_id"),
+          supplier_id: localStorage?.getItem("supplier_id"),
+          admin_id: localStorage?.getItem("admin_id"),
+          partner_id: localStorage?.getItem("partner_id"),
           "Content-Type": "application/json",
-          usertype: localStorage.getItem("buyer_id")
+          usertype: localStorage?.getItem("buyer_id")
             ? "Buyer"
-            : localStorage.getItem("supplier_id")
+            : localStorage?.getItem("supplier_id")
             ? "Supplier"
-            : localStorage.getItem("admin_id")
+            : localStorage?.getItem("admin_id")
             ? "Admin"
-            : localStorage.getItem("seller_id")
+            : localStorage?.getItem("seller_id")
             ? "Seller"
-            : localStorage.getItem("partner_id")
+            : localStorage?.getItem("partner_id")
             ? "Logistics"
             : undefined,
         },
@@ -55,8 +55,8 @@ export const apiRequests = {
       if (err?.response?.status === 401) {
         toast.error("Session Expired. Please login again.");
         setTimeout(() => {
-          localStorage.clear();
-          window.location.reload();
+          localStorage?.clear();
+          window?.location?.reload();
           return;
         }, 1000);
       }
@@ -90,8 +90,8 @@ export const apiRequests = {
       if (err?.response?.status === 401) {
         toast.error("Session Expired. Please login again.");
         setTimeout(() => {
-          localStorage.clear();
-          window.location.reload();
+          localStorage?.clear();
+          window?.location?.reload();
           return;
         }, 1000);
       }
@@ -110,22 +110,22 @@ export const apiRequests = {
         url: URL,
         data: requestData,
         headers: {
-          accesstoken: localStorage.getItem("token"),
-          token1: localStorage.getItem("token1"),
-          token2: localStorage.getItem("token2"),
-          buyer_id: localStorage.getItem("buyer_id"),
-          supplier_id: localStorage.getItem("supplier_id"),
-          admin_id: localStorage.getItem("admin_id"),
+          accesstoken: localStorage?.getItem("token"),
+          token1: localStorage?.getItem("token1"),
+          token2: localStorage?.getItem("token2"),
+          buyer_id: localStorage?.getItem("buyer_id"),
+          supplier_id: localStorage?.getItem("supplier_id"),
+          admin_id: localStorage?.getItem("admin_id"),
           "Content-Type": "application/json",
-          usertype: localStorage.getItem("buyer_id")
+          usertype: localStorage?.getItem("buyer_id")
             ? "Buyer"
-            : localStorage.getItem("supplier_id")
+            : localStorage?.getItem("supplier_id")
             ? "Supplier"
-            : localStorage.getItem("admin_id")
+            : localStorage?.getItem("admin_id")
             ? "Admin"
-            : localStorage.getItem("seller_id")
+            : localStorage?.getItem("seller_id")
             ? "Seller"
-            : localStorage.getItem("partner_id")
+            : localStorage?.getItem("partner_id")
             ? "Logistics"
             : undefined,
         },
@@ -136,8 +136,8 @@ export const apiRequests = {
       if (err?.response?.status === 401) {
         toast.error("Session Expired. Please login again.");
         setTimeout(() => {
-          localStorage.clear();
-          window.location.reload();
+          localStorage?.clear();
+          window?.location?.reload();
           return;
         }, 1000);
       }
@@ -156,23 +156,23 @@ export const apiRequests = {
         url: URL,
         data: requestData,
         headers: {
-          accesstoken: localStorage.getItem("token"),
-          token1: localStorage.getItem("token1"),
-          token2: localStorage.getItem("token2"),
-          buyer_id: localStorage.getItem("buyer_id"),
-          supplier_id: localStorage.getItem("supplier_id"),
-          admin_id: localStorage.getItem("admin_id"),
-          partner_id: localStorage.getItem("partner_id"),
+          accesstoken: localStorage?.getItem("token"),
+          token1: localStorage?.getItem("token1"),
+          token2: localStorage?.getItem("token2"),
+          buyer_id: localStorage?.getItem("buyer_id"),
+          supplier_id: localStorage?.getItem("supplier_id"),
+          admin_id: localStorage?.getItem("admin_id"),
+          partner_id: localStorage?.getItem("partner_id"),
           "Content-Type": "multipart/form-data",
-          usertype: localStorage.getItem("buyer_id")
+          usertype: localStorage?.getItem("buyer_id")
             ? "Buyer"
-            : localStorage.getItem("supplier_id")
+            : localStorage?.getItem("supplier_id")
             ? "Supplier"
-            : localStorage.getItem("admin_id")
+            : localStorage?.getItem("admin_id")
             ? "Admin"
-            : localStorage.getItem("seller_id")
+            : localStorage?.getItem("seller_id")
             ? "Seller"
-            : localStorage.getItem("partner_id")
+            : localStorage?.getItem("partner_id")
             ? "Logistics"
             : undefined,
         },
@@ -183,8 +183,8 @@ export const apiRequests = {
       if (err?.response?.status === 401) {
         toast.error("Session Expired. Please login again.");
         setTimeout(() => {
-          localStorage.clear();
-          window.location.reload();
+          localStorage?.clear();
+          window?.location?.reload();
           return;
         }, 1000);
       }
@@ -205,22 +205,22 @@ export const apiRequests = {
           headers: {
             "Content-Type": "application/json",
             authorization: process.env.REACT_APP_Authorization,
-            accesstoken: localStorage.getItem("token"),
-            token1: localStorage.getItem("token1"),
-            token2: localStorage.getItem("token2"),
-            buyer_id: localStorage.getItem("buyer_id"),
-            supplier_id: localStorage.getItem("supplier_id"),
-            admin_id: localStorage.getItem("admin_id"),
-            partner_id: localStorage.getItem("partner_id"),
-            usertype: localStorage.getItem("buyer_id")
+            accesstoken: localStorage?.getItem("token"),
+            token1: localStorage?.getItem("token1"),
+            token2: localStorage?.getItem("token2"),
+            buyer_id: localStorage?.getItem("buyer_id"),
+            supplier_id: localStorage?.getItem("supplier_id"),
+            admin_id: localStorage?.getItem("admin_id"),
+            partner_id: localStorage?.getItem("partner_id"),
+            usertype: localStorage?.getItem("buyer_id")
               ? "Buyer"
-              : localStorage.getItem("supplier_id")
+              : localStorage?.getItem("supplier_id")
               ? "Supplier"
-              : localStorage.getItem("admin_id")
+              : localStorage?.getItem("admin_id")
               ? "Admin"
-              : localStorage.getItem("seller_id")
+              : localStorage?.getItem("seller_id")
               ? "Seller"
-              : localStorage.getItem("partner_id")
+              : localStorage?.getItem("partner_id")
               ? "Logistics"
               : undefined,
           }, // Include the headers
@@ -240,8 +240,8 @@ export const apiRequests = {
       if (err?.response?.status === 401) {
         toast.error("Session Expired. Please login again.");
         setTimeout(() => {
-          localStorage.clear();
-          window.location.reload();
+          localStorage?.clear();
+          window?.location?.reload();
           return;
         }, 1000);
       }
@@ -262,20 +262,20 @@ export const apiRequests = {
         data: requestData,
         headers: {
           authorization: process.env.REACT_APP_Authorization,
-          accesstoken: localStorage.getItem("token"),
-          token1: localStorage.getItem("token1"),
-          token2: localStorage.getItem("token2"),
-          buyer_id: localStorage.getItem("buyer_id"),
-          supplier_id: localStorage.getItem("supplier_id"),
-          admin_id: localStorage.getItem("admin_id"),
+          accesstoken: localStorage?.getItem("token"),
+          token1: localStorage?.getItem("token1"),
+          token2: localStorage?.getItem("token2"),
+          buyer_id: localStorage?.getItem("buyer_id"),
+          supplier_id: localStorage?.getItem("supplier_id"),
+          admin_id: localStorage?.getItem("admin_id"),
           "Content-Type": "application/json",
-          usertype: localStorage.getItem("buyer_id")
+          usertype: localStorage?.getItem("buyer_id")
             ? "Buyer"
-            : localStorage.getItem("supplier_id")
+            : localStorage?.getItem("supplier_id")
             ? "Supplier"
-            : localStorage.getItem("admin_id")
+            : localStorage?.getItem("admin_id")
             ? "Admin"
-            : localStorage.getItem("seller_id")
+            : localStorage?.getItem("seller_id")
             ? "Seller"
             : undefined,
         },
@@ -286,8 +286,8 @@ export const apiRequests = {
       if (err?.response?.status === 401) {
         toast.error("Session Expired. Please login again.");
         setTimeout(() => {
-          localStorage.clear();
-          window.location.reload();
+          localStorage?.clear();
+          window?.location?.reload();
           return;
         }, 1000);
       }
@@ -306,20 +306,20 @@ export const apiRequests = {
         url: URL,
         headers: {
           authorization: process.env.REACT_APP_Authorization,
-          accesstoken: localStorage.getItem("token"),
-          token1: localStorage.getItem("token1"),
-          token2: localStorage.getItem("token2"),
-          buyer_id: localStorage.getItem("buyer_id"),
-          supplier_id: localStorage.getItem("supplier_id"),
-          admin_id: localStorage.getItem("admin_id"),
+          accesstoken: localStorage?.getItem("token"),
+          token1: localStorage?.getItem("token1"),
+          token2: localStorage?.getItem("token2"),
+          buyer_id: localStorage?.getItem("buyer_id"),
+          supplier_id: localStorage?.getItem("supplier_id"),
+          admin_id: localStorage?.getItem("admin_id"),
           "Content-Type": "application/json",
-          usertype: localStorage.getItem("buyer_id")
+          usertype: localStorage?.getItem("buyer_id")
             ? "Buyer"
-            : localStorage.getItem("supplier_id")
+            : localStorage?.getItem("supplier_id")
             ? "Supplier"
-            : localStorage.getItem("admin_id")
+            : localStorage?.getItem("admin_id")
             ? "Admin"
-            : localStorage.getItem("seller_id")
+            : localStorage?.getItem("seller_id")
             ? "Seller"
             : undefined,
         },
@@ -330,8 +330,8 @@ export const apiRequests = {
       if (err?.response?.status === 401) {
         toast.error("Session Expired. Please login again.");
         setTimeout(() => {
-          localStorage.clear();
-          window.location.reload();
+          localStorage?.clear();
+          window?.location?.reload();
           return;
         }, 1000);
       }

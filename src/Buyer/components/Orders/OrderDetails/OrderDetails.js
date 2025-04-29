@@ -14,8 +14,8 @@ const OrderDetails = ({ socket }) => {
   const { orderId } = useParams();
   const navigate = useNavigate();
 
-  const buyerIdSessionStorage = localStorage.getItem("buyer_id");
-  const buyerIdLocalStorage = localStorage.getItem("buyer_id");
+  const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
+  const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
 
   const [loading, setLoading] = useState(false);
   const [activeButton, setActiveButton] = useState("1h");
@@ -24,7 +24,7 @@ const OrderDetails = ({ socket }) => {
 
   const fetchData = async () => {
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-      localStorage.clear();
+      localStorage?.clear();
       navigate("/buyer/login");
       return;
     }
@@ -59,7 +59,7 @@ const OrderDetails = ({ socket }) => {
 
   const handleModalSubmit = (data) => {
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-      localStorage.clear();
+      localStorage?.clear();
       navigate("/buyer/login");
       return;
     }

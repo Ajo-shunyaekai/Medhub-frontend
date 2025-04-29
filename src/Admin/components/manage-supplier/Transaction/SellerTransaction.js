@@ -9,7 +9,7 @@ import styles from '../../../assets/style/table.module.css';
 
 const SellerTransaction = () => {
     const navigate = useNavigate();
-    const adminId = localStorage.getItem("admin_id");
+    const adminId = localStorage?.getItem("admin_id");
 
     const [loading, setLoading] = useState(true);
     const [transactionList, setTransactionList] = useState([]);
@@ -23,7 +23,7 @@ const SellerTransaction = () => {
 
     useEffect(() => {
         if (!adminId) {
-            localStorage.clear();
+            localStorage?.clear();
             navigate("/admin/login");
             return;
         }
@@ -47,43 +47,43 @@ const SellerTransaction = () => {
     const columns = [
         {
             name: 'Transaction ID',
-            selector: row => row.transaction_id,
+            selector: row => row?.transaction_id,
             sortable: true,
         },
         {
             name: 'Buyer Name',
-            selector: row => row.buyer_name,
+            selector: row => row?.buyer_name,
             sortable: true,
         },
         {
             name: 'Total Amount',
-            selector: row => row.total_amount_paid,
+            selector: row => row?.total_amount_paid,
             sortable: true,
             cell: row => (
                 <div className={styles.tableCell}>
-                    {row.total_amount_paid ? `${row.total_amount_paid} USD` : '-'}
+                    {row?.total_amount_paid ? `${row?.total_amount_paid} USD` : '-'}
                 </div>
             ),
         },
         {
             name: 'Payment Mode',
-            selector: row => row.mode_of_payment,
+            selector: row => row?.mode_of_payment,
             sortable: true,
         },
         {
             name: 'Status',
-            selector: row => row.status,
+            selector: row => row?.status,
             sortable: true,
             cell: row => (
                 <div className={styles.tableCell}>
-                    {row.status?.charAt(0).toUpperCase() + row.status?.slice(1)}
+                    {row?.status?.charAt(0)?.toUpperCase() + row?.status?.slice(1)}
                 </div>
             ),
         },
         {
             name: 'Action',
             cell: row => (
-                <a href={`/admin/supplier-transaction-details/${row.invoice_id}`}>
+                <a href={`/admin/supplier-transaction-details/${row?.invoice_id}`}>
                     <div className={styles.activeBtn}>
                         <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                     </div>

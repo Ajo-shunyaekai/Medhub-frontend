@@ -17,13 +17,13 @@ const ImageUploader = ({onUploadStatusChange}) => {
         if (file) {
             const reader = new FileReader();
             reader.onload = () => {
-                setImagePreview(reader.result);
+                setImagePreview(reader?.result);
                 setUploading(false);
                 setIsLoading(false);
             };
             setUploading(true);
             setIsLoading(true);
-            setImageName(file.name);
+            setImageName(file?.name);
             onUploadStatusChange(true, file);
             reader.readAsDataURL(file);
         }

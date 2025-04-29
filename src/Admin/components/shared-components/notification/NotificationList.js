@@ -10,8 +10,8 @@ import moment from 'moment/moment';
 
 const NotificationList = () => {
     const navigate = useNavigate();
-    const adminIdSessionStorage = localStorage.getItem("admin_id");
-    const adminIdLocalStorage   = localStorage.getItem("admin_id");
+    const adminIdSessionStorage = localStorage?.getItem("admin_id");
+    const adminIdLocalStorage   = localStorage?.getItem("admin_id");
 
     const [notificationList, setNotificationList] = useState([]);
     const [count, setCount] = useState(0);
@@ -26,7 +26,7 @@ const NotificationList = () => {
 
     useEffect(() => {
         if( !adminIdSessionStorage && !adminIdLocalStorage) {
-            localStorage.clear();
+            localStorage?.clear();
             navigate("/admin/login");
         }
         const obj = {

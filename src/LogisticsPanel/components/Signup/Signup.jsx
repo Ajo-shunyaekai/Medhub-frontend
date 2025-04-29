@@ -79,13 +79,13 @@ function Signup() {
         toast.error(response.message);
       } else {
         const { accessToken, refreshToken } = response.data;
-        localStorage.setItem("token1", accessToken);
-        localStorage.setItem("token2", refreshToken);
+        localStorage?.setItem("token1", accessToken);
+        localStorage?.setItem("token2", refreshToken);
         Cookies.set("accessToken", accessToken);
         Cookies.set("refreshToken", refreshToken);
 
         Object.entries(response.data).forEach(([key, value]) => {
-          localStorage.setItem(key, value);
+          localStorage?.setItem(key, value);
         });
 
         setTimeout(() => navigate("/logistics"), 500);

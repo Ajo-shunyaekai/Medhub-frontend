@@ -67,7 +67,7 @@ const PendingOrder = ({orderList, totalOrders, currentPage, ordersPerPage, handl
                                         orderList?.map((order,i) => {
 
                                             const totalQuantity = order.items.reduce((total, item) => {
-                                                return total + item.quantity;
+                                                return total + item?.quantity;
                                               }, 0);
 
                                               const orderedDate = moment(order.created_at).format("DD/MM/YYYY")

@@ -67,7 +67,7 @@ const CompleteOrder = ({ orderList, totalOrders, currentPage, ordersPerPage, han
                                                             <div className="order-section-heading">{totalQuantity}</div>
                                                         </td>
                                                         <td className='order-section-td'>
-                                                            <div className="order-section-heading">{order?.order_status.charAt(0).toUpperCase() + order?.order_status.slice(1)}</div>
+                                                            <div className="order-section-heading">{order?.order_status?.charAt(0)?.toUpperCase() + order?.order_status.slice(1)}</div>
                                                         </td>
                                                         <td className='order-section-button-cont'>
                                                             <div className='order-section-button'>

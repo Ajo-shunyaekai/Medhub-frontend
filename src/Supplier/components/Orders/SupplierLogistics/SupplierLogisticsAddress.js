@@ -21,7 +21,7 @@ const SupplierLogisticsAddress = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    localStorage.setItem("selectedAddress", JSON.stringify(selectedAddress));
+    localStorage?.setItem("selectedAddress", JSON.stringify(selectedAddress));
   }, [selectedAddress]);
 
   useEffect(() => {

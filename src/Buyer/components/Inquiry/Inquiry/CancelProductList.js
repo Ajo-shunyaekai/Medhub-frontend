@@ -32,7 +32,7 @@ const CancelProductList = ({items, inquiryDetails}) => {
               <td className='tables-td-cont'>
                 <div className="table-second-container">
                    {/* {item.unit_price} USD */}
-                {/* <span className="table-g-section">{item?.medicine_details?.medicine_name?.charAt(0).toUpperCase()}</span> */}
+                {/* <span className="table-g-section">{item?.medicine_details?.medicine_name?.charAt(0)?.toUpperCase()}</span> */}
                   <div className="table-g-section-content">
                     <span className="table-g-driver-name">Product Name</span>
                     <span className="table-g-not-name">{item?.medicine_details?.medicine_name}</span>
@@ -42,7 +42,7 @@ const CancelProductList = ({items, inquiryDetails}) => {
               <td className='tables-td'>
                 <div className="table-g-section-content">
                   <span className="table-g-driver-name">Quantity</span>
-                  <span className="table-g-not-name">{item.quantity_required}</span>
+                  <span className="table-g-not-name">{item?.quantity_required}</span>
                 </div>
               </td>
               <td className='tables-td'>
@@ -87,7 +87,7 @@ const CancelProductList = ({items, inquiryDetails}) => {
                 <div className="table-g-section-content">
                     <span className="table-g-driver-name">Status</span>
                     <span className="table-g-not-name">
-                      {item?.status?.charAt(0).toUpperCase() + item?.status?.slice(1)}
+                      {item?.status?.charAt(0)?.toUpperCase() + item?.status?.slice(1)}
                     </span>
                 </div>
               </td>

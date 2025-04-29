@@ -88,7 +88,7 @@ const ComplianceNCertification = ({
   selectedFile,
   fileIndex,
 }) => {
-  const tooltipId = `tooltip-${label.replace(/\s+/g, "-").toLowerCase()}`;
+  const tooltipId = `tooltip-${label.replace(/\s+/g, "-")?.toLowerCase()}`;
   const tooltipContent = tooltip || "Default tooltip text";
 
   const fileUpload = useFileUpload(
@@ -139,8 +139,8 @@ const ComplianceNCertification = ({
           {fileUpload?.filesMerged?.map((file, index) => {
             const fileExtension =
               typeof file === "string"
-                ? file.split(".").pop().toLowerCase() 
-                : file?.name.split(".").pop().toLowerCase();
+                ? file?.split(".")?.pop()?.toLowerCase() 
+                : file?.name?.split(".")?.pop()?.toLowerCase();
 
             const isImage =
               fileExtension === "jpeg" ||

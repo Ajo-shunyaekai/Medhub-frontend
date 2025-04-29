@@ -12,7 +12,7 @@ import SubscriptionRoutes from './SubscriptionPlan/LandingSubscription'
 
 
 const activekey = () => {
-    var res          = window.location.pathname;
+    var res          = window?.location?.pathname;
     var baseUrl      = ''; 
     baseUrl          = baseUrl.split("/");
     res              = res.split("/");

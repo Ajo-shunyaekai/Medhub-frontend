@@ -139,7 +139,7 @@ const AddProduct = ({ placeholder }) => {
     // Dimension field validation
     if (name === "dimension") {
       // Allow only numbers, "x", and "."
-      value = value.replace(/[^0-9x.]/g, "").toLowerCase();
+      value = value.replace(/[^0-9x.]/g, "")?.toLowerCase();
 
       // Prevent multiple consecutive "x"
       value = value.replace(/x{2,}/g, "x");
@@ -244,7 +244,7 @@ const AddProduct = ({ placeholder }) => {
   const handleBulkUpload = () => {
     if (selectedFile) {
       const bulkFormData = new FormData();
-      bulkFormData.append("supplier_id", localStorage.getItem("_id"));
+      bulkFormData.append("supplier_id", localStorage?.getItem("_id"));
       bulkFormData.append("csvfile", selectedFile);
 
       dispatch(previewBulkProducts(bulkFormData)).then((response) => {
@@ -299,7 +299,7 @@ const AddProduct = ({ placeholder }) => {
               }
             }
           });
-          formData.append("supplier_id", localStorage.getItem("_id"));
+          formData.append("supplier_id", localStorage?.getItem("_id"));
 
           const stockedInDetailsUpdated = JSON.stringify(
             values?.stockedInDetails?.map((section) => ({

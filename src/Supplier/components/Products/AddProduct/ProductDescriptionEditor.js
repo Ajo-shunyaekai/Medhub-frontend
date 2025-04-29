@@ -84,12 +84,12 @@ const RichTextEditor = ({
 
         //     input.onchange = function () {
         //       const file = this.files[0];
-        //       const fileName = file.name;
+        //       const fileName = file?.name;
         //       const reader = new FileReader();
         //       reader.onload = () => {
         //         const html = `
         //           <div class="image-wrapper">
-        //             <img src="${reader.result}" alt="${fileName}" />
+        //             <img src="${reader?.result}" alt="${fileName}" />
         //             <div class="image-caption">${fileName}</div>
         //           </div>
         //         `;

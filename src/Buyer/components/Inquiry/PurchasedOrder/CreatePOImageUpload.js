@@ -13,7 +13,7 @@ const CreatePOImageUpload = () => {
         const file = event.target.files[0];
 
         if (file) {
-            const isValidType = ['image/png', 'image/jpeg', 'image/jpg'].includes(file.type);
+            const isValidType = ['image/png', 'image/jpeg', 'image/jpg'].includes(file?.type);
             const isValidSize = file.size <= 2 * 1024 * 1024;
 
             if (!isValidType) {
@@ -29,7 +29,7 @@ const CreatePOImageUpload = () => {
             setErrorMessage('');
             const reader = new FileReader();
             reader.onloadend = () => {
-                setSelectedImage(reader.result);
+                setSelectedImage(reader?.result);
             };
             reader.readAsDataURL(file);
         }

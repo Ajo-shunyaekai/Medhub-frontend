@@ -721,7 +721,7 @@ const SupplierSignUp = ({ socket }) => {
   };
 
   const handleCancel = () => {
-    localStorage.clear();
+    localStorage?.clear();
     navigate("/supplier/login");
   };
 

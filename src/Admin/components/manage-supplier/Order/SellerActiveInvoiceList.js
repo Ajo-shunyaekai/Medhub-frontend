@@ -20,45 +20,45 @@ const SellerActiveInvoiceList = ({ invoiceData }) => {
     const columns = [
         {
             name: 'Invoice No.',
-            selector: row => row.invoice_no,
+            selector: row => row?.invoice_no,
             sortable: true,
         },
         {
             name: 'Order ID',
-            selector: row => row.order_id,
+            selector: row => row?.order_id,
             sortable: true,
         },
         {
             name: 'Buyer Name',
-            selector: row => row.buyer_name,
+            selector: row => row?.buyer_name,
             sortable: true,
         },
         {
             name: 'Amount',
-            selector: row => row.total_payable_amount,
+            selector: row => row?.total_payable_amount,
             sortable: true,
             cell: row => (
                 <div>
-                    {row.total_payable_amount !== null && row.total_payable_amount !== undefined
-                        ? `${row.total_payable_amount} USD`
+                    {row?.total_payable_amount !== null && row?.total_payable_amount !== undefined
+                        ? `${row?.total_payable_amount} USD`
                         : ''}
                 </div>
             )
         },
         {
             name: 'Status',
-            selector: row => row.invoice_status,
+            selector: row => row?.invoice_status,
             sortable: true,
             cell: row => (
                 <div>
-                    {row.invoice_status.charAt(0).toUpperCase() + row.invoice_status.slice(1)}
+                    {row?.invoice_status?.charAt(0)?.toUpperCase() + row?.invoice_status.slice(1)}
                 </div>
             )
         },
         {
             name: 'Action',
             cell: row => (
-                <Link to={`/admin/supplier-invoice-details/${row.invoice_id}`}>
+                <Link to={`/admin/supplier-invoice-details/${row?.invoice_id}`}>
                     <div className={styles.activeBtn}>
                         <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                     </div>

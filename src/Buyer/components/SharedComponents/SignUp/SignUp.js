@@ -739,7 +739,7 @@ const SignUp = ({ socket }) => {
   }, [resetUploaders]);
 
   const handleCancel = () => {
-    localStorage.clear();
+    localStorage?.clear();
     navigate("/buyer/login");
   };
 

@@ -114,7 +114,7 @@ const EditAddProduct = ({ placeholder }) => {
       });
 
       // Append the supplier ID
-      const supplierId = localStorage.getItem("_id");
+      const supplierId = localStorage?.getItem("_id");
       if (supplierId) {
         formData.append("supplier_id", supplierId);
       } else {
@@ -231,7 +231,7 @@ const EditAddProduct = ({ placeholder }) => {
     // Dimension field validation
     if (name === "dimension") {
       // Allow only numbers, "x", and "."
-      value = value.replace(/[^0-9x.]/g, "").toLowerCase();
+      value = value.replace(/[^0-9x.]/g, "")?.toLowerCase();
 
       // Prevent multiple consecutive "x"
       value = value.replace(/x{2,}/g, "x");

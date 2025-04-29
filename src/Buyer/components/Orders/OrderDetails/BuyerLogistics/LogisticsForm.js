@@ -23,8 +23,8 @@ const LogisticsForm = ({socket}) => {
     (state) => state?.addressReducer
   );
 
-  const buyerIdSessionStorage = localStorage.getItem('buyer_id');
-  const buyerIdLocalStorage = localStorage.getItem('buyer_id');
+  const buyerIdSessionStorage = localStorage?.getItem('buyer_id');
+  const buyerIdLocalStorage = localStorage?.getItem('buyer_id');
   const [orderDetails, setOrderDetails] = useState()
   const [loading, setLoading] = useState(false);
   const [displayAddress, setDisplayAddress] = useState(address?.[0] || {});
@@ -281,7 +281,7 @@ const LogisticsForm = ({socket}) => {
 
   const fetchData = async () => {
           if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-              localStorage.clear();
+              localStorage?.clear();
               navigate('/buyer/login');
               return;
           }

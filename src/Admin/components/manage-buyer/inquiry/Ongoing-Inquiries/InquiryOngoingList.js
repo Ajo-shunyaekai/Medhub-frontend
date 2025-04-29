@@ -44,7 +44,7 @@ const InquiryOngoingList = ({ items, inquiryDetails }) => {
               <td className='tables-td'>
                 <div className="table-g-section-content">
                   <span className="table-g-driver-name">Quantity Req.</span>
-                  <span className="table-g-not-name">{item.quantity_required}</span>
+                  <span className="table-g-not-name">{item?.quantity_required}</span>
                 </div>
               </td>
               <td className='tables-td'>
@@ -83,7 +83,7 @@ const InquiryOngoingList = ({ items, inquiryDetails }) => {
                   <span className="table-g-not-name">
                     {item.status === 'Quotation submitted'
                       ? 'Quotation Received'
-                      : item?.status?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
+                      : item?.status?.split(' ').map(word => word?.charAt(0)?.toUpperCase() + word?.slice(1)).join(' ')
                     }
                   </span>
                 </div>

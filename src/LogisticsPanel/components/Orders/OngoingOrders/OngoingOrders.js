@@ -71,7 +71,7 @@ const OngoingOrders = ({ list, totalList, currentPage, listPerPage, handlePageCh
                                                         </td>
                                                         <td className='order-section-td'>
                                                             <div className="order-section-heading">
-                                                            {order?.status?.charAt(0).toUpperCase() + order?.status?.slice(1)}
+                                                            {order?.status?.charAt(0)?.toUpperCase() + order?.status?.slice(1)}
                                                             </div>
                                                         </td>
                                                         <td className='order-section-button-cont'>

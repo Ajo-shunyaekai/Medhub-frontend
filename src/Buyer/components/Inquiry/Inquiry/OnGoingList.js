@@ -42,7 +42,7 @@ const AssignDriver = ({ items, inquiryDetails }) => {
               </td>
               <td className='tables-td-cont'>
                 <div className="table-second-container">
-                  {/* <span className="table-g-section">{item?.medicine_details?.general?.name?.charAt(0).toUpperCase()}</span> */}
+                  {/* <span className="table-g-section">{item?.medicine_details?.general?.name?.charAt(0)?.toUpperCase()}</span> */}
                   <div className="table-g-section-content">
                     <span className="table-g-driver-name">Product Name</span>
                     <span className="table-g-not-name">{item?.medicine_details?.general?.name}</span>
@@ -52,7 +52,7 @@ const AssignDriver = ({ items, inquiryDetails }) => {
               <td className='tables-td'>
                 <div className="table-g-section-content">
                   <span className="table-g-driver-name">Quantity Req.</span>
-                  <span className="table-g-not-name">{item.quantity_required}</span>
+                  <span className="table-g-not-name">{item?.quantity_required}</span>
                 </div>
               </td>
               <td className='tables-td'>
@@ -95,7 +95,7 @@ const AssignDriver = ({ items, inquiryDetails }) => {
                   <span className="table-g-not-name">
                     {item.status === 'Quotation submitted'
                       ? 'Quotation Received'
-                      : item?.status?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
+                      : item?.status?.split(' ').map(word => word?.charAt(0)?.toUpperCase() + word?.slice(1)).join(' ')
                     }
                   </span>
                 </div>

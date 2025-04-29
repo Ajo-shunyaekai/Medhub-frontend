@@ -9,43 +9,43 @@ const BuyerPending = ({ invoiceList, totalItems, currentPage, listPerPage, handl
     const columns = [
         {
             name: 'Invoice No.',
-            selector: row => row.invoice_no,
+            selector: row => row?.invoice_no,
             sortable: true,
         },
         {
             name: 'Order ID',
-            selector: row => row.order_id,
+            selector: row => row?.order_id,
             sortable: true,
         },
         {
             name: 'Supplier Name',
-            selector: row => row.supplier_name,
+            selector: row => row?.supplier_name,
             sortable: true,
         },
         {
             name: 'Total Amount',
-            selector: row => row.total_payable_amount,
+            selector: row => row?.total_payable_amount,
             sortable: true,
             cell: row => (
                 <div>
-                    {row.total_payable_amount ? `${row.total_payable_amount} USD` : ''}
+                    {row?.total_payable_amount ? `${row?.total_payable_amount} USD` : ''}
                 </div>
             ),
         },
         {
             name: 'Status',
-            selector: row => row.status,
+            selector: row => row?.status,
             sortable: true,
             cell: row => (
                 <div>
-                    {row.status ? `${row.status.charAt(0).toUpperCase()}${row.status.slice(1)}` : ''}
+                    {row?.status ? `${row?.status?.charAt(0)?.toUpperCase()}${row?.status.slice(1)}` : ''}
                 </div>
             ),
         },
         {
             name: 'Action',
             cell: row => (
-                <Link to={`/admin/buyer-invoice-details/${row.invoice_id}`}>
+                <Link to={`/admin/buyer-invoice-details/${row?.invoice_id}`}>
                     <div className={styles.activeBtn}>
                         <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                     </div>

@@ -28,11 +28,11 @@ const DashboardOngoing = () => {
 
   useEffect(() => {
     const fetchOrderList = async () => {
-      const supplierIdSessionStorage = localStorage.getItem("supplier_id");
-      const supplierIdLocalStorage = localStorage.getItem("supplier_id");
+      const supplierIdSessionStorage = localStorage?.getItem("supplier_id");
+      const supplierIdLocalStorage = localStorage?.getItem("supplier_id");
 
       if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-        localStorage.clear();
+        localStorage?.clear();
         navigate("/supplier/login");
         return;
       }
@@ -55,24 +55,24 @@ const DashboardOngoing = () => {
   const columns = [
     {
       name: "Order ID",
-      selector: (row) => row.order_id,
+      selector: (row) => row?.order_id,
       sortable: true,
     },
     {
       name: "Date",
-      selector: (row) => moment(row.created_at).format("DD/MM/YYYY"),
+      selector: (row) => moment(row?.created_at).format("DD/MM/YYYY"),
       sortable: true,
     },
     {
       name: "Buyer Name",
-      selector: (row) => row.buyer.buyer_name,
+      selector: (row) => row?.buyer.buyer_name,
       sortable: true,
     },
     {
       name: "Quantity",
       selector: (row) =>
-        row.items.reduce(
-          (total, item) => total + (item.quantity || item.quantity_required),
+        row?.items?.reduce(
+          (total, item) => total + (item?.quantity || item?.quantity_required),
           0
         ),
       sortable: true,
@@ -80,14 +80,14 @@ const DashboardOngoing = () => {
     {
       name: "Status",
       selector: (row) =>
-        row.status.charAt(0).toUpperCase() + row.status.slice(1),
+        row?.status?.charAt(0)?.toUpperCase() + row?.status.slice(1),
       sortable: true,
     },
     {
       name: "Action",
       cell: (row) => (
         <div className={styles.actionColumn}>
-          <Link to={`/supplier/active-orders-details/${row.order_id}`}>
+          <Link to={`/supplier/active-orders-details/${row?.order_id}`}>
           <div className={styles.activeBtn}>
                         <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                     </div>

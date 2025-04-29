@@ -170,7 +170,7 @@ const AdmSidebar = ({
     const response = await  dispatch(logoutUser({}));
     if(response.meta.requestStatus === "fulfilled") {
     setTimeout(() => {
-      localStorage.clear();
+      localStorage?.clear();
       navigate("/admin/login");
     }, 500);
     }

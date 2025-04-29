@@ -38,11 +38,11 @@ const CompletedOrders = () => {
 
   useEffect(() => {
     const fetchOrderList = async () => {
-      const buyerIdSessionStorage = localStorage.getItem("buyer_id");
-      const buyerIdLocalStorage = localStorage.getItem("buyer_id");
+      const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
+      const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
 
       if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-        localStorage.clear();
+        localStorage?.clear();
         navigate("/buyer/login");
         return;
       }
@@ -115,7 +115,7 @@ const CompletedOrders = () => {
                 {orderList && orderList?.length > 0 ? (
                   orderList?.map((order, i) => {
                     const totalQuantity = order.items.reduce((total, item) => {
-                      return total + (item.quantity || item.quantity_required);
+                      return total + (item?.quantity || item?.quantity_required);
                     }, 0);
                     const orderedDate = moment(order.created_at).format(
                       "DD/MM/YYYY"
@@ -151,7 +151,7 @@ const CompletedOrders = () => {
                         </div>
                         <div className="completed-table-row-item completed-table-order-1">
                           <div className="completed-table-text-color">
-                            {order?.order_status?.charAt(0).toUpperCase() +
+                            {order?.order_status?.charAt(0)?.toUpperCase() +
                               order?.order_status?.slice(1)}
                           </div>
                         </div>

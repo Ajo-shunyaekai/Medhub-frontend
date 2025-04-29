@@ -9,8 +9,8 @@ import styles from '../../../assets/style/table.module.css';
 
 const BuyerTransaction = () => {
     const navigate = useNavigate();
-    const adminIdSessionStorage = localStorage.getItem("admin_id");
-    const adminIdLocalStorage = localStorage.getItem("admin_id");
+    const adminIdSessionStorage = localStorage?.getItem("admin_id");
+    const adminIdLocalStorage = localStorage?.getItem("admin_id");
 
     const [loading, setLoading] = useState(true);
     const [transactionList, setTransactionList] = useState([]);
@@ -24,7 +24,7 @@ const BuyerTransaction = () => {
 
     useEffect(() => {
         if (!adminIdSessionStorage && !adminIdLocalStorage) {
-            localStorage.clear();
+            localStorage?.clear();
             navigate("/admin/login");
             return;
         }
@@ -47,33 +47,33 @@ const BuyerTransaction = () => {
     const columns = [
         {
             name: 'Transaction ID',
-            selector: row => row.transaction_id,
+            selector: row => row?.transaction_id,
             sortable: true,
         },
         {
             name: 'Supplier Name',
-            selector: row => row.supplier_name,
+            selector: row => row?.supplier_name,
             sortable: true,
         },
         {
             name: 'Total Amount',
-            selector: row => row.total_amount_paid ? `${row.total_amount_paid} USD` : 'Amount Not Provided',
+            selector: row => row?.total_amount_paid ? `${row?.total_amount_paid} USD` : 'Amount Not Provided',
             sortable: true,
         },
         {
             name: 'Payment Mode',
-            selector: row => row.mode_of_payment || 'Mode Not Provided',
+            selector: row => row?.mode_of_payment || 'Mode Not Provided',
             sortable: true,
         },
         {
             name: 'Status',
-            selector: row => row.status ? row.status.charAt(0).toUpperCase() + row.status.slice(1) : 'Status Unknown',
+            selector: row => row?.status ? row?.status?.charAt(0)?.toUpperCase() + row?.status.slice(1) : 'Status Unknown',
             sortable: true,
         },
         {
             name: 'Action',
             cell: row => (
-                <Link to={`/admin/buyer-transaction-details/${row.invoice_id}`}>
+                <Link to={`/admin/buyer-transaction-details/${row?.invoice_id}`}>
                     <div className={styles.activeBtn}>
                         <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                     </div>

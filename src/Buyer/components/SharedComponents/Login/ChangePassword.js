@@ -67,7 +67,7 @@ const ChangePassword = ({ step, setStep }) => {
         }
         toast.success("Password Changed Successfully!");
         setLoading(false)
-        localStorage.clear();
+        localStorage?.clear();
         navigate(`/buyer/login`);
       }}
       validateOnBlur={true}

@@ -92,9 +92,9 @@ const Product = () => {
   };
 
   useEffect(() => {
-    const admin_id = localStorage.getItem("_id");
+    const admin_id = localStorage?.getItem("_id");
     if (!admin_id) {
-      localStorage.clear();
+      localStorage?.clear();
       navigate("/admin/login");
       return;
     }

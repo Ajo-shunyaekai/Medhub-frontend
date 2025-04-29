@@ -8,34 +8,34 @@ import styles from '../../../assets/style/table.module.css';
 
 const BuyerOrderList = ({ orderList }) => {
     const getTotalQuantity = (items) => {
-        return items.reduce((total, item) => total + (item.quantity || item.quantity_required), 0);
+        return items.reduce((total, item) => total + (item?.quantity || item?.quantity_required), 0);
     };
 
     const columns = [
         {
             name: 'Order ID',
-            selector: (row) => row.order_id,
+            selector: (row) => row?.order_id,
             sortable: true,
         },
         {
             name: 'Date',
-            selector: (row) => row.created_at,
+            selector: (row) => row?.created_at,
             sortable: true,
             cell: (row) => (
                 <span>
-                    {moment(row.created_at).format('DD/MM/YYYY')}
+                    {moment(row?.created_at).format('DD/MM/YYYY')}
                 </span>
             ),
         },
         {
             name: 'Quantity',
-            selector: (row) => getTotalQuantity(row.items),
+            selector: (row) => getTotalQuantity(row?.items),
             sortable: true,
         },
         {
             name: 'Action',
             cell: (row) => (
-                <Link to={`/supplier/active-orders-details/${row.order_id}`}>
+                <Link to={`/supplier/active-orders-details/${row?.order_id}`}>
                     <div className={styles.activeBtn}>
                         <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                     </div>

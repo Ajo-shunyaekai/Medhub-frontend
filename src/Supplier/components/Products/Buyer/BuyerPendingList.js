@@ -21,11 +21,11 @@ const BuyerPendingList = () => {
     };
 
     useEffect(() => {
-        const supplierIdSessionStorage = localStorage.getItem("supplier_id");
-        const supplierIdLocalStorage = localStorage.getItem("supplier_id");
+        const supplierIdSessionStorage = localStorage?.getItem("supplier_id");
+        const supplierIdLocalStorage = localStorage?.getItem("supplier_id");
 
         if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-            localStorage.clear();
+            localStorage?.clear();
             navigate("/supplier/login");
             return;
         }
@@ -52,26 +52,26 @@ const BuyerPendingList = () => {
     const columns = [
         {
             name: 'Order ID',
-            selector: row => row.order_id,
+            selector: row => row?.order_id,
             sortable: true,
 
         },
         {
             name: 'Date',
-            selector: row => moment(row.created_at).format("DD/MM/YYYY"),
+            selector: row => moment(row?.created_at).format("DD/MM/YYYY"),
             sortable: true,
 
         },
         {
             name: 'Quantity',
-            selector: row => row.items.reduce((total, item) => total + item.quantity, 0),
+            selector: row => row?.items?.reduce((total, item) => total + item?.quantity, 0),
             sortable: true,
 
         },
         {
             name: 'Price',
             selector: row => {
-                const totalPrice = row.items.reduce((price, item) => {
+                const totalPrice = row?.items?.reduce((price, item) => {
                     const itemPrice = parseFloat(item.price.match(/[\d.]+/)[0]);
                     return price + itemPrice;
                 }, 0);
@@ -82,14 +82,14 @@ const BuyerPendingList = () => {
         },
         {
             name: 'Status',
-            selector: row => row.order_status,
+            selector: row => row?.order_status,
             sortable: true,
 
         },
         {
             name: 'Action',
             cell: row => (
-                <Link to={`/supplier/active-orders-details/${row.order_id}`}>
+                <Link to={`/supplier/active-orders-details/${row?.order_id}`}>
                     <div className={styles.activeBtn}>
                         <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                     </div>

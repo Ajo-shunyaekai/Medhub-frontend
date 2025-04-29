@@ -85,7 +85,7 @@ function Header({  notificationList, count }) {
         const response = await  dispatch(logoutUser({}));
         if(response.meta.requestStatus === "fulfilled") {
         setTimeout(() => {
-            localStorage.clear();
+            localStorage?.clear();
             navigate('/logistics/login')
         }, 500);
         }
@@ -101,19 +101,19 @@ return (
                 
                 <ul className={`${styles.links}`}>
                     <li><NavLink className={() => (location.pathname === "/logistics" ? styles.activeLink : "")}                      to="/logistics" end >Dashboard</NavLink></li>
-                    <li><NavLink className={() => (location.pathname.startsWith("/logistics/order") ? styles.activeLink : "")}        to="/logistics/order">Order</NavLink></li>
-                    <li><NavLink className={() => (location.pathname.startsWith("/logistics/pickup-order") ? styles.activeLink : "")} to="/logistics/pickup-order">Pickup Order</NavLink></li>
-                    {/* <li><NavLink className={() => (location.pathname.startsWith("/logistics/inventory") ? styles.activeLink : "")}    to="/logistics/inventory">Inventory</NavLink></li>
-                    <li><NavLink className={() => (location.pathname.startsWith("/logistics/add-vehicle") ? styles.activeLink : "")}  to="/logistics/add-vehicle">Add Vehicle</NavLink></li>
-                    <li><NavLink className={() => (location.pathname.startsWith("/logistics/vehicle-list") ? styles.activeLink : "")} to="/logistics/vehicle-list">Vehicle List</NavLink></li> */}
+                    <li><NavLink className={() => (location?.pathname?.startsWith("/logistics/order") ? styles.activeLink : "")}        to="/logistics/order">Order</NavLink></li>
+                    <li><NavLink className={() => (location?.pathname?.startsWith("/logistics/pickup-order") ? styles.activeLink : "")} to="/logistics/pickup-order">Pickup Order</NavLink></li>
+                    {/* <li><NavLink className={() => (location?.pathname?.startsWith("/logistics/inventory") ? styles.activeLink : "")}    to="/logistics/inventory">Inventory</NavLink></li>
+                    <li><NavLink className={() => (location?.pathname?.startsWith("/logistics/add-vehicle") ? styles.activeLink : "")}  to="/logistics/add-vehicle">Add Vehicle</NavLink></li>
+                    <li><NavLink className={() => (location?.pathname?.startsWith("/logistics/vehicle-list") ? styles.activeLink : "")} to="/logistics/vehicle-list">Vehicle List</NavLink></li> */}
                     <li className={styles.dropdown}>
                         <span className={`${styles.dropdownToggle} dropdown-toggle`}>Inventory </span>
                         <ul className={styles.dropdownMenu}>
                             <li>
-                                <NavLink className={() => (location.pathname.startsWith("/logistics/add-inventory") ? styles.activeLink : "")} to="/logistics/add-inventory">Add Inventory</NavLink>
+                                <NavLink className={() => (location?.pathname?.startsWith("/logistics/add-inventory") ? styles.activeLink : "")} to="/logistics/add-inventory">Add Inventory</NavLink>
                             </li>
                             <li>
-                                <NavLink className={() => (location.pathname.startsWith("/logistics/inventory-list") ? styles.activeLink : "")} to="/logistics/inventory-list">Inventory List</NavLink>
+                                <NavLink className={() => (location?.pathname?.startsWith("/logistics/inventory-list") ? styles.activeLink : "")} to="/logistics/inventory-list">Inventory List</NavLink>
                             </li>
                         </ul>
                     </li>
@@ -121,15 +121,15 @@ return (
                         <span className={`${styles.dropdownToggle} dropdown-toggle`}>Vehicle </span>
                         <ul className={styles.dropdownMenu}>
                             <li>
-                                <NavLink className={() => (location.pathname.startsWith("/logistics/add-vehicle") ? styles.activeLink : "")} to="/logistics/add-vehicle">Add Vehicle</NavLink>
+                                <NavLink className={() => (location?.pathname?.startsWith("/logistics/add-vehicle") ? styles.activeLink : "")} to="/logistics/add-vehicle">Add Vehicle</NavLink>
                             </li>
                             <li>
-                                <NavLink className={() => (location.pathname.startsWith("/logistics/vehicle-list") ? styles.activeLink : "")} to="/logistics/vehicle-list">Vehicle List</NavLink>
+                                <NavLink className={() => (location?.pathname?.startsWith("/logistics/vehicle-list") ? styles.activeLink : "")} to="/logistics/vehicle-list">Vehicle List</NavLink>
                             </li>
                         </ul>
                     </li>
-                    <li><NavLink className={() => (location.pathname.startsWith("/logistics/shipment") ? styles.activeLink : "")}     to="/logistics/shipment">Shipment</NavLink></li>
-                    <li><NavLink className={() => (location.pathname.startsWith("/logistics/tracking") ? styles.activeLink : "")}     to="/logistics/tracking">Tracking</NavLink></li>
+                    <li><NavLink className={() => (location?.pathname?.startsWith("/logistics/shipment") ? styles.activeLink : "")}     to="/logistics/shipment">Shipment</NavLink></li>
+                    <li><NavLink className={() => (location?.pathname?.startsWith("/logistics/tracking") ? styles.activeLink : "")}     to="/logistics/tracking">Tracking</NavLink></li>
                 </ul>
 
                 <div className={`${styles.menus}`}>
@@ -237,28 +237,28 @@ return (
                     <NavLink className={() => (location.pathname === "/logistics" ? styles.activeLink : "")} to="/logistics" end onClick={toggleDrawer}>Dashboard</NavLink>
                 </li>
                 <li>
-                    <NavLink className={() => (location.pathname.startsWith("/logistics/order") ? styles.activeLink : "")} to="/logistics/order" end onClick={toggleDrawer}>Order</NavLink>
+                    <NavLink className={() => (location?.pathname?.startsWith("/logistics/order") ? styles.activeLink : "")} to="/logistics/order" end onClick={toggleDrawer}>Order</NavLink>
                 </li>
                 <li>
-                    <NavLink className={() => (location.pathname.startsWith("/logistics/pickup-order") ? styles.activeLink : "")} to="/logistics/pickup-order" end onClick={toggleDrawer}>Pickup Order</NavLink>
+                    <NavLink className={() => (location?.pathname?.startsWith("/logistics/pickup-order") ? styles.activeLink : "")} to="/logistics/pickup-order" end onClick={toggleDrawer}>Pickup Order</NavLink>
                 </li>
                 {/* <li>
-                    <NavLink className={() => (location.pathname.startsWith("/logistics/inventory") ? styles.activeLink : "")} to="/logistics/inventory" end onClick={toggleDrawer}>Inventory</NavLink>
+                    <NavLink className={() => (location?.pathname?.startsWith("/logistics/inventory") ? styles.activeLink : "")} to="/logistics/inventory" end onClick={toggleDrawer}>Inventory</NavLink>
                 </li>
                 <li>
-                    <NavLink className={() => (location.pathname.startsWith("/logistics/add-vehicle") ? styles.activeLink : "")} to="/logistics/add-vehicle" end onClick={toggleDrawer}>Add Vehicle</NavLink>
+                    <NavLink className={() => (location?.pathname?.startsWith("/logistics/add-vehicle") ? styles.activeLink : "")} to="/logistics/add-vehicle" end onClick={toggleDrawer}>Add Vehicle</NavLink>
                 </li>
                 <li>
-                    <NavLink className={() => (location.pathname.startsWith("/logistics/vehicle-list") ? styles.activeLink : "")} to="/logistics/vehicle-list" end onClick={toggleDrawer}>Vehicle List</NavLink>
+                    <NavLink className={() => (location?.pathname?.startsWith("/logistics/vehicle-list") ? styles.activeLink : "")} to="/logistics/vehicle-list" end onClick={toggleDrawer}>Vehicle List</NavLink>
                 </li> */}
                 <li className={styles.dropdown}>
                     <span className={`${styles.dropdownToggleMobile} dropdown-toggle`}>Inventory </span>
                     <ul className={styles.dropdownMenuMobile}>
                         <li>
-                            <NavLink className={() => (location.pathname.startsWith("/logistics/add-inventory") ? styles.activeLink : "")} to="/logistics/add-inventory" onClick={toggleDrawer}>Add Inventory</NavLink>
+                            <NavLink className={() => (location?.pathname?.startsWith("/logistics/add-inventory") ? styles.activeLink : "")} to="/logistics/add-inventory" onClick={toggleDrawer}>Add Inventory</NavLink>
                         </li>
                         <li>
-                            <NavLink className={() => (location.pathname.startsWith("/logistics/inventory-list") ? styles.activeLink : "")} to="/logistics/inventory-list" onClick={toggleDrawer}>Inventory List</NavLink>
+                            <NavLink className={() => (location?.pathname?.startsWith("/logistics/inventory-list") ? styles.activeLink : "")} to="/logistics/inventory-list" onClick={toggleDrawer}>Inventory List</NavLink>
                         </li>
                     </ul>
                 </li>
@@ -266,18 +266,18 @@ return (
                     <span className={`${styles.dropdownToggleMobile} dropdown-toggle`}>Vehicle </span>
                     <ul className={styles.dropdownMenuMobile}>
                         <li>
-                            <NavLink className={() => (location.pathname.startsWith("/logistics/add-vehicle") ? styles.activeLink : "")} to="/logistics/add-vehicle" onClick={toggleDrawer}>Add Vehicle</NavLink>
+                            <NavLink className={() => (location?.pathname?.startsWith("/logistics/add-vehicle") ? styles.activeLink : "")} to="/logistics/add-vehicle" onClick={toggleDrawer}>Add Vehicle</NavLink>
                         </li>
                         <li>
-                            <NavLink className={() => (location.pathname.startsWith("/logistics/vehicle-list") ? styles.activeLink : "")} to="/logistics/vehicle-list" onClick={toggleDrawer}>Vehicle List</NavLink>
+                            <NavLink className={() => (location?.pathname?.startsWith("/logistics/vehicle-list") ? styles.activeLink : "")} to="/logistics/vehicle-list" onClick={toggleDrawer}>Vehicle List</NavLink>
                         </li>
                     </ul>
                 </li>
                 <li>
-                    <NavLink className={() => (location.pathname.startsWith("/logistics/shipment") ? styles.activeLink : "")} to="/logistics/shipment" end onClick={toggleDrawer}>Shipment</NavLink>
+                    <NavLink className={() => (location?.pathname?.startsWith("/logistics/shipment") ? styles.activeLink : "")} to="/logistics/shipment" end onClick={toggleDrawer}>Shipment</NavLink>
                 </li>
                 <li>
-                    <NavLink className={() => (location.pathname.startsWith("/logistics/tracking") ? styles.activeLink : "")} to="/logistics/tracking" end onClick={toggleDrawer}>Tracking</NavLink>
+                    <NavLink className={() => (location?.pathname?.startsWith("/logistics/tracking") ? styles.activeLink : "")} to="/logistics/tracking" end onClick={toggleDrawer}>Tracking</NavLink>
                 </li>
             </ul>
         </Drawer>

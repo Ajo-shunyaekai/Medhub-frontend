@@ -28,11 +28,11 @@ const VehicleList = () => {
   };
 
   const fetchData = async () => {
-    const partnerIdSessionStorage = localStorage.getItem("partner_id");
-    const partnerIdLocalStorage = localStorage.getItem("partner_id");
+    const partnerIdSessionStorage = localStorage?.getItem("partner_id");
+    const partnerIdLocalStorage = localStorage?.getItem("partner_id");
 
     if (!partnerIdSessionStorage && !partnerIdLocalStorage) {
-      localStorage.clear();
+      localStorage?.clear();
       navigate("/logistics/login");
       return;
     }
@@ -105,7 +105,7 @@ const VehicleList = () => {
                                                       </td>
                                                       <td className='order-section-td'>
                                                           <div className="order-section-heading">
-                                                          {order?.status?.charAt(0).toUpperCase() + order?.status?.slice(1)}
+                                                          {order?.status?.charAt(0)?.toUpperCase() + order?.status?.slice(1)}
                                                           </div>
                                                       </td>
                                                       <td className='order-section-button-cont'>

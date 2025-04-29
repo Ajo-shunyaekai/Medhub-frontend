@@ -122,7 +122,7 @@ const AddProductFileUpload = ({
   acceptTypes, // Control accepted file types
   maxFiles = 4, // New prop to control maximum number of files
 }) => {
-  const tooltipId = `tooltip-${label.replace(/\s+/g, "-").toLowerCase()}`;
+  const tooltipId = `tooltip-${label.replace(/\s+/g, "-")?.toLowerCase()}`;
   const tooltipContent = tooltip || "Default tooltip text";
 
   // Call the useFileUpload hook with acceptTypes and maxFiles
@@ -180,8 +180,8 @@ const AddProductFileUpload = ({
             // Determine the file extension based on whether it's a File object or string
             const fileExtension =
               typeof file == "string"
-                ? file.split(".").pop().toLowerCase()
-                : file?.name.split(".").pop().toLowerCase();
+                ? file?.split(".")?.pop()?.toLowerCase()
+                : file?.name?.split(".")?.pop()?.toLowerCase();
 
             const isImage =
               fileExtension === "jpeg" ||
@@ -239,8 +239,8 @@ const AddProductFileUpload = ({
             const isString = typeof file == "string";
             const fileName = isString ? file : file?.name;
             const fileExtension = isString
-              ? file.split(".").pop().toLowerCase()
-              : fileName?.split(".").pop().toLowerCase();
+              ? file?.split(".")?.pop()?.toLowerCase()
+              : fileName?.split(".")?.pop()?.toLowerCase();
 
             const isImage = ["jpeg", "png", "jpg", "gif", "bmp"].includes(
               fileExtension
@@ -286,7 +286,7 @@ const AddProductFileUpload = ({
 {fileUpload?.filesMerged?.map((file, index) => {
   const isString = typeof file === "string";
   const fileName = isString ? file : file?.name;
-  const fileExtension = fileName?.split(".").pop()?.toLowerCase();
+  const fileExtension = fileName?.split(".")?.pop()?.toLowerCase();
 
   // Type checks
   const isImage = ["jpeg", "jpg", "png", "gif", "bmp", "webp"].includes(fileExtension);

@@ -20,11 +20,11 @@ const BuyerActiveList = () => {
     };
 
     useEffect(() => {
-        const supplierIdSessionStorage = localStorage.getItem('supplier_id');
-        const supplierIdLocalStorage = localStorage.getItem('supplier_id');
+        const supplierIdSessionStorage = localStorage?.getItem('supplier_id');
+        const supplierIdLocalStorage = localStorage?.getItem('supplier_id');
 
         if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-            localStorage.clear();
+            localStorage?.clear();
             navigate('/supplier/login');
             return;
         }
@@ -51,39 +51,39 @@ const BuyerActiveList = () => {
     const columns = [
         {
             name: 'Order ID',
-            selector: (row) => row.order_id,
+            selector: (row) => row?.order_id,
             sortable: true,
            
         },
         {
             name: 'Date',
-            selector: (row) => row.created_at,
+            selector: (row) => row?.created_at,
             sortable: true,
             cell: (row) => (
                 <div >
-                    {moment(row.created_at).format('DD/MM/YYYY')}
+                    {moment(row?.created_at).format('DD/MM/YYYY')}
                 </div>
             ),
         },
         {
             name: 'Quantity',
             selector: (row) =>
-                row.items.reduce((total, item) => {
-                    return total + (item.quantity_required || item.quantity);
+                row?.items?.reduce((total, item) => {
+                    return total + (item?.quantity_required || item?.quantity);
                 }, 0),
             sortable: true,
            
         },
         {
             name: 'Status',
-            selector: (row) => row.status,
+            selector: (row) => row?.status,
             sortable: true,
            
         },
         {
             name: 'Action',
             cell: (row) => (
-                <Link to={`/supplier/active-orders-details/${row.order_id}`}>
+                <Link to={`/supplier/active-orders-details/${row?.order_id}`}>
                    <div className={styles.activeBtn}>
                         <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                     </div>

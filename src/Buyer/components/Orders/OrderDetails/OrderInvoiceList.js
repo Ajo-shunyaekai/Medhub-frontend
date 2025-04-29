@@ -71,7 +71,7 @@ const OrderInvoiceList = ({invoiceData}) => {
                                     <div className="table-g-section-content">
                                         <span className="table-g-driver-name">Status</span>
                                         <span className="table-g-not-name">
-                                        {invoice.invoice_status.charAt(0).toUpperCase() + invoice.invoice_status.slice(1)}
+                                        {invoice.invoice_status?.charAt(0)?.toUpperCase() + invoice.invoice_status.slice(1)}
                                         </span>
                                     </div>
                                 </td>

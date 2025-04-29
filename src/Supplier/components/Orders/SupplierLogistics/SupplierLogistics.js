@@ -372,7 +372,7 @@ const SupplierLogistics = ({socket}) => {
     return orderData.items.map((item) => ({
       value: item.product_id,
       label: item.medicine_name,
-      quantity: item.quantity_required,
+      quantity: item?.quantity_required,
       strength: item.strength,
     }));
   }, [orderData]);
@@ -519,11 +519,11 @@ const SupplierLogistics = ({socket}) => {
   }, [updatedAddress, address]);
 
   const fetchData = async () => {
-          const supplierIdSessionStorage = localStorage.getItem("supplier_id");
-          const supplierIdLocalStorage = localStorage.getItem("supplier_id");
+          const supplierIdSessionStorage = localStorage?.getItem("supplier_id");
+          const supplierIdLocalStorage = localStorage?.getItem("supplier_id");
   
           if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-              localStorage.clear();
+              localStorage?.clear();
               navigate("/supplier/login");
               return;
           }

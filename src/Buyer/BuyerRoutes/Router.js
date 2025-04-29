@@ -175,8 +175,8 @@ const socket = io.connect(process.env.REACT_APP_SERVER_URL, {
  
 export function NotificationProvider({ children }) {
   const dispatch = useDispatch();
-  const buyerIdSessionStorage = localStorage.getItem("buyer_id");
-  const buyerIdLocalStorage = localStorage.getItem("buyer_id");
+  const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
+  const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
   const [notificationList, setNotificationList] = useState([]);
   const [count, setCount] = useState(0);
   const [invoiceCount, setInvoiceCount] = useState(0);
@@ -184,7 +184,7 @@ export function NotificationProvider({ children }) {
   const navigate = useNavigate();
   const location = useLocation();
   const buyerId =
-    localStorage.getItem("buyer_id") || localStorage.getItem("buyer_id");
+    localStorage?.getItem("buyer_id") || localStorage?.getItem("buyer_id");
  
   const showNotification = (title, options, url) => {
     if (Notification.permission === "granted") {
@@ -243,7 +243,7 @@ export function NotificationProvider({ children }) {
  
   useEffect(() => {
     if (!buyerId && location.pathname !== "/buyer/sign-up") {
-      localStorage.clear();
+      localStorage?.clear();
       navigate("/buyer/login");
     }
   }, [buyerId, location.pathname]);
@@ -285,9 +285,9 @@ export function NotificationProvider({ children }) {
   }, [buyerId]);
  
   useEffect(() => {
-    localStorage.getItem("_id") &&
-      dispatch(fetchUserData(localStorage.getItem("_id")));
-  }, [localStorage.getItem("_id")]);
+    localStorage?.getItem("_id") &&
+      dispatch(fetchUserData(localStorage?.getItem("_id")));
+  }, [localStorage?.getItem("_id")]);
  
   return (
     <Sidebar

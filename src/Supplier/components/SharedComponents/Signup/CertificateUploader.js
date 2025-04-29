@@ -194,8 +194,8 @@ const CertificateUploader = ({
             const file = item?.file || item;
             const fileExtension =
               typeof file === "string"
-                ? file.split(".").pop().toLowerCase()
-                : file?.name.split(".").pop().toLowerCase();
+                ? file?.split(".")?.pop()?.toLowerCase()
+                : file?.name?.split(".")?.pop()?.toLowerCase();
 
             const isImage =
               fileExtension === "jpeg" ||

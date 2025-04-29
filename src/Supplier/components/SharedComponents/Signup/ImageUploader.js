@@ -39,14 +39,14 @@ const ImageUploader = ({
         let validFiles;
 
         if (imageType === 'logo') {
-            validFiles = files.filter(file => file.type === 'image/jpeg' || file.type === 'image/png').slice(0, 1);
+            validFiles = files.filter(file => file?.type === 'image/jpeg' || file?.type === 'image/png').slice(0, 1);
             if (files.length > 1 || validFiles.length === 0) {
                 setErrorMessage('Only JPEG/PNG format is allowed');
                 return;
             }
         } else {
             validFiles = files.filter(file => {
-                const isValidType = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'].includes(file.type);
+                const isValidType = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'].includes(file?.type);
                 const isValidSize = file.size <= 5 * 1024 * 1024;
                 return isValidType && isValidSize;
             });
@@ -62,15 +62,15 @@ const ImageUploader = ({
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
                 reader.onload = () => {
-                    const newFileName = file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-                        ? file.name.endsWith('.docx') ? file.name : `${file.name.split('.')[0]}.docx`
-                        : file.name;
+                    const newFileName = file?.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                        ? file?.name?.endsWith('.docx') ? file?.name : `${file?.name?.split('.')[0]}.docx`
+                        : file?.name;
 
                     resolve({
                         name: newFileName,
-                        preview: reader.result,
-                        type: file.type,
-                        file: new File([file], newFileName, { type: file.type })
+                        preview: reader?.result,
+                        type: file?.type,
+                        file: new File([file], newFileName, { type: file?.type })
                     });
                 };
                 reader.onerror = reject;
@@ -98,7 +98,7 @@ const ImageUploader = ({
     const handleFileRemove = (fileName, event) => {
         event.stopPropagation();
         setFilePreviews(prev => {
-            const updatedPreviews = prev.filter(file => file.name !== fileName);
+            const updatedPreviews = prev.filter(file => file?.name !== fileName);
             onUploadStatusChange(updatedPreviews.length > 0, updatedPreviews.map(file => file.file), imageType);
             return updatedPreviews;
         });
@@ -163,21 +163,21 @@ const ImageUploader = ({
             )}
             <div className={styles['file-previews']}>
                 {filePreviews.map((file) => (
-                    <div key={file.name} className={styles['file-container']}>
-                        <div className={styles['file-wrapper']} onClick={() => openModal(file.preview, file.type)}>
+                    <div key={file?.name} className={styles['file-container']}>
+                        <div className={styles['file-wrapper']} onClick={() => openModal(file?.preview, file?.type)}>
                             {file?.type?.startsWith('image') ? (
-                                <img src={file.preview} alt={file.name} className={styles['uploaded-image']} />
+                                <img src={file?.preview} alt={file?.name} className={styles['uploaded-image']} />
                             ) : (
                                 <img src={PDFIcon} alt="PDF" className={styles['pdf-icon']} />
                             )}
                             <div className={styles['file-info']}>
-                                <span className={styles['image-file-name']}>{file.name}</span>
+                                <span className={styles['image-file-name']}>{file?.name}</span>
                             </div>
                             <img
                                 src={CrossIcon}
                                 alt="Remove"
                                 className={styles['remove-icon']}
-                                onClick={(event) => handleFileRemove(file.name, event)}
+                                onClick={(event) => handleFileRemove(file?.name, event)}
                             />
                         </div>
                     </div>

@@ -9,8 +9,8 @@ function ProformaDetailsPage() {
   const { orderId } = useParams();
   const navigate = useNavigate();
 
-  const buyerIdSessionStorage = localStorage.getItem("buyer_id");
-  const buyerIdLocalStorage = localStorage.getItem("buyer_id");
+  const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
+  const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
 
   const [orderDetails, setOrderDetails] = useState();
   const [bankDetails, setBankDetails] = useState({
@@ -22,7 +22,7 @@ function ProformaDetailsPage() {
   useEffect(() => {
     const fetchOrderDetails = async () => {
       if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-        localStorage.clear();
+        localStorage?.clear();
         navigate("/buyer/login");
         return;
       }
@@ -88,7 +88,7 @@ function ProformaDetailsPage() {
     // Function to handle messages from parent window
     const handleMessage = (event) => {
       // Only accept messages from our own domain
-      if (event.origin !== window.location.origin) return;
+      if (event.origin !== window?.location?.origin) return;
 
       // Check if this is a download request
       if (event.data && event.data.type === "DOWNLOAD_INVOICE") {
@@ -98,7 +98,7 @@ function ProformaDetailsPage() {
             type: "INVOICE_READY",
             orderId: orderId,
           },
-          window.location.origin
+          window?.location?.origin
         );
 
         // You could also trigger download directly
@@ -118,7 +118,7 @@ function ProformaDetailsPage() {
             type: "INVOICE_READY",
             orderId: orderId,
           },
-          window.location.origin
+          window?.location?.origin
         );
       }, 500);
     }
@@ -625,7 +625,7 @@ function ProformaDetailsPage() {
                                           fontSize: "13px",
                                         }}
                                       >
-                                        {item.quantity_required}
+                                        {item?.quantity_required}
                                       </p>
                                     </td>
                                     <td

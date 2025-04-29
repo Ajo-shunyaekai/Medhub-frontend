@@ -8,14 +8,14 @@ const SellerPurchasedOrderDetails = () => {
   const { purchaseOrderId } = useParams()
   const navigate = useNavigate()
 
-  const adminIdSessionStorage = localStorage.getItem("admin_id");
-  const adminIdLocalStorage   = localStorage.getItem("admin_id");
+  const adminIdSessionStorage = localStorage?.getItem("admin_id");
+  const adminIdLocalStorage   = localStorage?.getItem("admin_id");
 
   const [poDetails, setPoDetails] = useState()
 
   useEffect(() => {
     if (!adminIdSessionStorage && !adminIdLocalStorage) {
-        localStorage.clear();
+        localStorage?.clear();
         navigate("/buyer/login");
         return;
     }
@@ -158,7 +158,7 @@ const SellerPurchasedOrderDetails = () => {
                                   <p style={{ fontWeight: 500, fontSize: '14px' }}>{item.medicine_name}</p>
                                 </td>
                                 <td style={{ paddingBlock: '12px' }}>
-                                  <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.quantity_required}</p>
+                                  <p style={{ fontWeight: 500, fontSize: '13px' }}>{item?.quantity_required}</p>
                                 </td>
                                 <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
                                   <p style={{ fontWeight: 500, fontSize: '13px' }}>{item?.counter_price || item?.target_price} USD</p>

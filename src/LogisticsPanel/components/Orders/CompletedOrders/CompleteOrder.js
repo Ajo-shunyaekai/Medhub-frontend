@@ -65,7 +65,7 @@ const CompleteOrder = ({ list, totallist, currentPage, listPerPage, handlePageCh
                                                             <div className="order-section-heading">{order.buyerDetails?.[0]?.buyer_name}</div>
                                                         </td>
                                                         <td className='order-section-td'>
-                                                            <div className="order-section-heading">{order?.status?.charAt(0).toUpperCase() + order?.status?.slice(1)}</div>
+                                                            <div className="order-section-heading">{order?.status?.charAt(0)?.toUpperCase() + order?.status?.slice(1)}</div>
                                                         </td>
                                                         <td className='order-section-button-cont'>
                                                             <div className='order-section-button'>

@@ -33,11 +33,11 @@ const OngoingInquiriesList = () => {
 
   useEffect(() => {
     const fetchInquiryList = async () => {
-      const buyerIdSessionStorage = localStorage.getItem("buyer_id");
-      const buyerIdLocalStorage = localStorage.getItem("buyer_id");
+      const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
+      const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
 
       if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-        localStorage.clear();
+        localStorage?.clear();
         navigate("/buyer/login");
         return;
       }
@@ -135,7 +135,7 @@ const OngoingInquiriesList = () => {
                             ?.split(" ")
                             .map(
                               (word) =>
-                                word.charAt(0).toUpperCase() + word.slice(1)
+                                word?.charAt(0)?.toUpperCase() + word?.slice(1)
                             )
                             .join(" ")}
                     </td>

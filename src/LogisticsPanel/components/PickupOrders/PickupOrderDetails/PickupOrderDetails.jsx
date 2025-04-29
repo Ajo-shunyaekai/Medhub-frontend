@@ -11,8 +11,8 @@ const PickupOrderDetails = () => {
   const { requestId } = useParams();
   const navigate = useNavigate();
 
-  const partnerIdSessionStorage = localStorage.getItem("partner_id");
-  const partnerIdLocalStorage = localStorage.getItem("partner_id");
+  const partnerIdSessionStorage = localStorage?.getItem("partner_id");
+  const partnerIdLocalStorage = localStorage?.getItem("partner_id");
 
   const [loading, setLoading] = useState(false);
   const [requestDetails, setRequestDetails] = useState();
@@ -21,7 +21,7 @@ const PickupOrderDetails = () => {
 
   const handleAccept = async () => {
     if (!partnerIdSessionStorage && !partnerIdLocalStorage) {
-      localStorage.clear();
+      localStorage?.clear();
       navigate("/logistics/login");
       return;
     }
@@ -58,7 +58,7 @@ const PickupOrderDetails = () => {
 
   const fetchData = async () => {
     if (!partnerIdSessionStorage && !partnerIdLocalStorage) {
-      localStorage.clear();
+      localStorage?.clear();
       navigate("/logistics/login");
       return;
     }

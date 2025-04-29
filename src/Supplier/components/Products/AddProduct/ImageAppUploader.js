@@ -40,7 +40,7 @@ const ImageUploaders = ({ image, setImage }) => {
             const file = files[i];
 
             if (file) {
-                const isValidType = ['image/png', 'image/jpeg', 'image/jpg'].includes(file.type);
+                const isValidType = ['image/png', 'image/jpeg', 'image/jpg'].includes(file?.type);
                 const isValidSize = file.size <= 2 * 1024 * 1024;
 
                 if (!isValidType) {

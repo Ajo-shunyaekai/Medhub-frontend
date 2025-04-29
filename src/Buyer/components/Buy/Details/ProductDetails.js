@@ -144,13 +144,13 @@ const ProductDetails = () => {
 
   const handleSubmit = (values, { resetForm }) => {
     setLoading(true);
-    const buyerIdSessionStorage = localStorage.getItem("buyer_id");
-    const buyerIdLocalStorage = localStorage.getItem("buyer_id");
+    const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
+    const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
     const buyerId =
-      localStorage.getItem("_id") || localStorage.getItem("_id");
+      localStorage?.getItem("_id") || localStorage?.getItem("_id");
 
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-      localStorage.clear();
+      localStorage?.clear();
       navigate("/buyer/login");
       return;
     }
@@ -171,7 +171,7 @@ const ProductDetails = () => {
     postRequestWithToken("buyer/add-to-list", obj, async (response) => {
       if (response?.code === 200) {
         toast(response.message, { type: "success" });
-        localStorage.setItem("list_count", response.result.listCount);
+        localStorage?.setItem("list_count", response.result.listCount);
         dispatch(updateInquiryCartCount(response.result.listCount));
         setTimeout(() => {
           navigate("/buyer/send-inquiry");

@@ -38,11 +38,11 @@ const Invoice = () => {
   }, [location.pathname]);
 
   useEffect(() => {
-    const supplierIdSessionStorage = localStorage.getItem("supplier_id");
-    const supplierIdLocalStorage = localStorage.getItem("supplier_id");
+    const supplierIdSessionStorage = localStorage?.getItem("supplier_id");
+    const supplierIdLocalStorage = localStorage?.getItem("supplier_id");
 
     if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-      localStorage.clear();
+      localStorage?.clear();
       navigate("/supplier/login");
       return;
     }

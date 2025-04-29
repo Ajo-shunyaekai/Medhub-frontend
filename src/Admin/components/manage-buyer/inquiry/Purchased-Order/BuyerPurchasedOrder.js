@@ -10,39 +10,39 @@ const BuyerPurchasedOrder = ({ poList, totalList, currentPage, listPerPage, hand
   const columns = [
     {
       name: 'PO ID',
-      selector: row => row.purchaseOrder_id,
+      selector: row => row?.purchaseOrder_id,
       sortable: true,
     },
     {
       name: 'Inquiry ID',
-      selector: row => row.enquiry_id,
+      selector: row => row?.enquiry_id,
       sortable: true,
     },
     {
       name: 'Date',
-      selector: row => row.created_at,
+      selector: row => row?.created_at,
       sortable: true,
-      cell: row => <div>{moment(row.created_at).format('DD/MM/YYYY')}</div>,
+      cell: row => <div>{moment(row?.created_at).format('DD/MM/YYYY')}</div>,
     },
     {
       name: 'Supplier Name',
-      selector: row => row.supplier?.supplier_name || '',
+      selector: row => row?.supplier?.supplier_name || '',
       sortable: true,
     },
     {
       name: 'Status',
-      selector: row => row.po_status,
+      selector: row => row?.po_status,
       sortable: true,
       cell: row => (
         <div className={styles.tableText}>
-          {row.po_status ? row.po_status.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : ''}
+          {row?.po_status ? row?.po_status.split(' ').map(word => word?.charAt(0)?.toUpperCase() + word?.slice(1)).join(' ') : ''}
         </div>
       ),
     },
     {
       name: 'Action',
       cell: row => (
-        <Link to={`/admin/buyer-purchased-order-details/${row.purchaseOrder_id}`}>
+        <Link to={`/admin/buyer-purchased-order-details/${row?.purchaseOrder_id}`}>
           <div className={styles.activeBtn}>
             <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
           </div>

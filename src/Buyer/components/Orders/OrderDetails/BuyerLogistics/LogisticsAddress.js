@@ -66,7 +66,7 @@ const LogisticsAddress = () => {
   const [addresses, setAddresses] = useState(initialAddresses);
 
   useEffect(() => {
-    localStorage.setItem("selectedAddress", JSON.stringify(selectedAddress));
+    localStorage?.setItem("selectedAddress", JSON.stringify(selectedAddress));
   }, [selectedAddress]);
 
   const addressesPerPage = 4;

@@ -15,8 +15,8 @@ const SellerRequest = () => {
     const queryParams = new URLSearchParams(location.search);
     const filterValue = queryParams.get('filterValue');
 
-    const adminIdSessionStorage = localStorage.getItem("admin_id");
-    const adminIdLocalStorage = localStorage.getItem("admin_id");
+    const adminIdSessionStorage = localStorage?.getItem("admin_id");
+    const adminIdLocalStorage = localStorage?.getItem("admin_id");
 
     const [loading, setLoading] = useState(true);
     const [sellerRequestList, setSellerRequestList] = useState([]);
@@ -30,7 +30,7 @@ const SellerRequest = () => {
 
     useEffect(() => {
         if (!adminIdSessionStorage && !adminIdLocalStorage) {
-            localStorage.clear();
+            localStorage?.clear();
             navigate('/admin/login');
             return;
         }
@@ -66,38 +66,38 @@ const SellerRequest = () => {
     const columns = [
         {
             name: 'Date',
-            selector: (row) => moment(row.createdAt).format('DD/MM/YYYY'),
+            selector: (row) => moment(row?.createdAt).format('DD/MM/YYYY'),
             sortable: true,
         },
         {
             name: 'Registration No.',
-            selector: (row) => row.registration_no,
+            selector: (row) => row?.registration_no,
             sortable: true,
         },
         {
             name: 'GST/VAT Registration No.',
-            selector: (row) => row.vat_reg_no,
+            selector: (row) => row?.vat_reg_no,
             sortable: true,
         },
         {
             name: 'Company Name',
-            selector: (row) => row.supplier_name,
+            selector: (row) => row?.supplier_name,
             sortable: true,
         },
         {
             name: 'Company Type',
-            selector: (row) => row.supplier_type,
+            selector: (row) => row?.supplier_type,
             sortable: true,
         },
         {
             name: 'Country of Origin',
-            selector: (row) => row.country_of_origin,
+            selector: (row) => row?.country_of_origin,
             sortable: true,
         },
         {
             name: 'Action',
             cell: (row) => (
-                <Link to={`/admin/supplier-request-details/${row.supplier_id}`}>
+                <Link to={`/admin/supplier-request-details/${row?.supplier_id}`}>
                     <div className={styles.activeBtn}>
                         <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                     </div>
