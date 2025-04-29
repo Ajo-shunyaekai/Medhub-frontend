@@ -14,6 +14,15 @@ const Profile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
+  const documentsArray = [
+    { headings: "Trade License", keyword: "license_image" },
+    { headings: "Tax Certificate", keyword: "tax_image" },
+    { headings: "Certificate", keyword: "certificate_image" },
+    {
+      headings: "Medical Practitioner",
+      keyword: "medical_certificate",
+    },
+  ];
 
   const extractFileName = (url) => (url ? url.split("/")?.pop() : "Unknown");
   const renderFiles = (files, type) => {
@@ -25,7 +34,9 @@ const Profile = () => {
     }
 
     return files.map((file, index) => {
-      const fileUrl = `${process.env.REACT_APP_SERVER_URL}/uploads/supplier/supplier_image_files/${file}`;
+      const fileUrl = file?.startsWith("http")
+        ? file
+        : `${process.env.REACT_APP_SERVER_URL}/uploads/supplier/supplier_image_files/${file}`;
 
       if (file?.endsWith(".pdf")) {
         return (
@@ -107,9 +118,13 @@ const Profile = () => {
       </div>
       <div className={styles.profileContainer}>
         <div className={styles.imgSection}>
-          {user?.supplier_image && (
+          {user?.supplier_image?.[0] && (
             <img
-              src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/supplier_image_files/${user?.supplier_image}`}
+              src={
+                user?.supplier_image?.[0]?.startsWith("http")
+                  ? user?.supplier_image?.[0]
+                  : `${process.env.REACT_APP_SERVER_URL}uploads/supplier/supplier_image_files/${user?.supplier_image?.[0]}`
+              }
               alt="supplier Profile"
               className={styles.profileImage}
             />
@@ -294,36 +309,21 @@ const Profile = () => {
       <div className={styles.documentContainer}>
         <div className={styles.documentMainHeading}>Documents</div>
         <div className={styles.documentSection}>
-          <div className={styles.documentInnerSection}>
-            <div className={styles.documentDocName}>Trade License</div>
-            <div className={styles.documentDocContent}>
-              {renderFiles(user?.license_image, "Trade License")}
-            </div>
-          </div>
-
-          {/* Tax Certificate */}
-          <div className={styles.documentInnerSection}>
-            <div className={styles.documentDocName}>Tax Certificate</div>
-            <div className={styles.documentDocContent}>
-              {renderFiles(user?.tax_image, "Tax Certificate")}
-            </div>
-          </div>
-
-          {/* Certificate */}
-          <div className={styles.documentInnerSection}>
-            <div className={styles.documentDocName}>Certificate</div>
-            <div className={styles.documentDocContent}>
-              {renderFiles(user?.certificate_image, "Certificate")}
-            </div>
-          </div>
-
-          {/* Medical Practitioner */}
-          <div className={styles.documentInnerSection}>
-            <div className={styles.documentDocName}>Medical Practitioner</div>
-            <div className={styles.documentDocContent}>
-              {renderFiles(user?.medical_certificate, "Medical Practitioner")}
-            </div>
-          </div>
+          {documentsArray?.map(
+            (ele, index) =>
+              user?.[ele?.keyword]?.length > 0 && (
+                <div className={styles.documentInnerSection}>
+                  <div className={styles.documentDocName}>{ele?.headings}</div>
+                  <div className={styles.documentDocContent}>
+                    {renderFiles(user?.[ele?.keyword], ele?.headings)}
+                    {ele?.headings == "Certificate" &&
+                      user?.certificateFileNDate?.[index]?.date && (
+                        <p>{user?.certificateFileNDate?.[index]?.date}</p>
+                      )}
+                  </div>
+                </div>
+              )
+          )}
         </div>
       </div>
       ;
