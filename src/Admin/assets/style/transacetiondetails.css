@@ -107,12 +107,17 @@
     gap: 1rem;
 }
 .transaction-details-company-type-sec-head{
-    font-size: 14px;
+    color: #5e676f !important;
+    font-size: 16px;
     font-weight: 500;
 }
 .transaction-details-company-type-sec-text{
-    font-size: 14px;
     color: #99a0ac;
+    font-size: 14px;
+    font-weight: 500;
+    overflow-wrap: break-word;
+    white-space: normal;
+    word-break: break-word;
 }
 .transaction-details-company-type-section{
     background-color: #ffffff;
@@ -290,7 +295,8 @@
     
 }
 .transaction-details-company-logo-heading{
-    font-size: 14px;
+    color: #5e676f !important;
+    font-size: 16px;
     font-weight: 500;
 }
 .transaction-details-inner-head {

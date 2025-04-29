@@ -21,7 +21,6 @@ const NewProductList = ({ products, totalItems, currentPage, itemsPerPage, handl
             name: 'Product Name',
             selector: row => row?.general.name || 'Unnamed Product',
             sortable: true,
-            wrap: true,
         },
         {
             name: 'Category',
@@ -92,16 +91,13 @@ const NewProductList = ({ products, totalItems, currentPage, itemsPerPage, handl
                         gap: 10px !important;
                     }
                     .rdt_TableCol {
-                        text-align: center;
                         color: #333;
                     }
                     .rdt_TableCell {
-                        text-align: center;
                         color: #99a0ac;
                         font-weight: 500 !important;
                     }
                     .rdt_TableCellStatus {
-                        text-align: center;
                         color: #333;
                     }
                 `}
