@@ -144,20 +144,21 @@ const OrderRequest = () => {
                     gap: 10px !important;
                 }
                 .rdt_TableCol {
-                    text-align: center;
+                       
                     color: #333;
                 }
                 .rdt_TableCell {
-                    text-align: center;
+                       
                     color: #99a0ac;
                     font-weight: 500 !important;
                 }
                 .rdt_TableCellStatus {
-                    text-align: center;
+                       
                     color: #333;
                 }
             `}
         </style>
+        <div className={styles.tableMainContainer}>
         <span className={styles.title}>Order Request</span>
      
         <DataTable
@@ -184,6 +185,7 @@ const OrderRequest = () => {
             activeLink={"pending"}
           />
         )}
+        </div>
       </div>
    
   );

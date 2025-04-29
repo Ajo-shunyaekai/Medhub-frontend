@@ -121,20 +121,21 @@ const DashboardOngoing = () => {
                     gap: 10px !important;
                 }
                 .rdt_TableCol {
-                    text-align: center;
+                       
                     color: #333;
                 }
                 .rdt_TableCell {
-                    text-align: center;
+                       
                     color: #99a0ac;
                     font-weight: 500 !important;
                 }
                 .rdt_TableCellStatus {
-                    text-align: center;
+                       
                     color: #333;
                 }
             `}
         </style>
+        <div className={styles.tableMainContainer}>
          <span className={styles.title}>Active Orders</span>
      
      
@@ -162,6 +163,7 @@ const DashboardOngoing = () => {
             activeLink={"active"}
           />
         )}
+        </div>
       </div>
   );
 };
