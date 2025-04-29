@@ -29,11 +29,11 @@ const InquiryRequestList = () => {
 
   useEffect(() => {
     const fetchInquiryList = async () => {
-      const supplierIdSessionStorage = localStorage.getItem("supplier_id");
-      const supplierIdLocalStorage = localStorage.getItem("supplier_id");
+      const supplierIdSessionStorage = localStorage?.getItem("supplier_id");
+      const supplierIdLocalStorage = localStorage?.getItem("supplier_id");
 
       if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-        localStorage.clear();
+        localStorage?.clear();
         navigate("/supplier/login");
         return;
       }
@@ -65,36 +65,36 @@ const InquiryRequestList = () => {
   const columns = [
     {
       name: "Inquiry ID",
-      selector: (row) => row.enquiry_id,
+      selector: (row) => row?.enquiry_id,
       sortable: true,
      
     },
     {
       name: "Date",
-      selector: (row) => row.created_at,
+      selector: (row) => row?.created_at,
       sortable: true,
       cell: (row) => (
         <>
-          {moment(row.created_at).format("DD/MM/YYYY")}
+          {moment(row?.created_at).format("DD/MM/YYYY")}
           </>
         
       ),
     },
     {
       name: "Buyer Name",
-      selector: (row) => row.buyer.buyer_name,
+      selector: (row) => row?.buyer.buyer_name,
       sortable: true,
      
     },
     {
       name: "Status",
-      selector: (row) => row.enquiry_status,
+      selector: (row) => row?.enquiry_status,
       sortable: true,
       cell: (row) => (
         <div>
-          {row.enquiry_status
+          {row?.enquiry_status
             ?.split(" ")
-            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .map((word) => word?.charAt(0)?.toUpperCase() + word?.slice(1))
             .join(" ")}
         </div>
       ),
@@ -103,7 +103,7 @@ const InquiryRequestList = () => {
       name: "Action",
       cell: (row) => (
        
-          <Link to={`/supplier/inquiry-request-details/${row.enquiry_id}`}>
+          <Link to={`/supplier/inquiry-request-details/${row?.enquiry_id}`}>
           <div className={styles.activeBtn}>
                         <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                     </div>

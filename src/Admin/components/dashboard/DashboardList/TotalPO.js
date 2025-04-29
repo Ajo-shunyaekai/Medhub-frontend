@@ -15,8 +15,8 @@ const TotalPO = () => {
   const queryParams = new URLSearchParams(location.search);
   const filterValue = queryParams.get("filterValue");
 
-  const adminIdSessionStorage = localStorage.getItem("admin_id");
-  const adminIdLocalStorage = localStorage.getItem("admin_id");
+  const adminIdSessionStorage = localStorage?.getItem("admin_id");
+  const adminIdLocalStorage = localStorage?.getItem("admin_id");
 
   const [loading, setLoading] = useState(true);
   const [list, setList] = useState([]);
@@ -30,7 +30,7 @@ const TotalPO = () => {
 
   const fetchData = () => {
     if (!adminIdSessionStorage && !adminIdLocalStorage) {
-      localStorage.clear();
+      localStorage?.clear();
       navigate("/admin/login");
       return;
     }
@@ -59,30 +59,30 @@ const TotalPO = () => {
   const columns = [
     {
       name: "PO ID",
-      selector: (row) => row.purchaseOrder_id,
+      selector: (row) => row?.purchaseOrder_id,
       sortable: true,
     },
     {
       name: "Inquiry ID",
-      selector: (row) => row.enquiry_id,
+      selector: (row) => row?.enquiry_id,
       sortable: true,
     },
     {
       name: "PO Date",
-      selector: (row) => row.created_at,
+      selector: (row) => row?.created_at,
       sortable: true,
-      cell: (row) => <div>{moment(row.created_at).format("DD/MM/YYYY")}</div>,
+      cell: (row) => <div>{moment(row?.created_at).format("DD/MM/YYYY")}</div>,
     },
     {
       name: "Status",
-      selector: (row) => row.po_status,
+      selector: (row) => row?.po_status,
       sortable: true,
       cell: (row) => (
         <div>
-          {row.po_status
-            ? row.po_status
+          {row?.po_status
+            ? row?.po_status
                 .split(" ")
-                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                .map((word) => word?.charAt(0)?.toUpperCase() + word?.slice(1))
                 .join(" ")
             : ""}
         </div>
@@ -91,7 +91,7 @@ const TotalPO = () => {
     {
       name: "Action",
       cell: (row) => (
-        <Link to={`/admin/buyer-purchased-order-details/${row.purchaseOrder_id}`}>
+        <Link to={`/admin/buyer-purchased-order-details/${row?.purchaseOrder_id}`}>
           <div className={styles.activeBtn}>
             <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
           </div>

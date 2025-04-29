@@ -9,8 +9,8 @@ import { toast } from "react-toastify";
 import { apiRequests } from "../../../../api";
 
 const OnGoingInquiriesDetails = () => {
-  const buyerIdSessionStorage = localStorage.getItem("buyer_id");
-  const buyerIdLocalStorage = localStorage.getItem("buyer_id");
+  const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
+  const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
  
   const { inquiryId } = useParams();
   const navigate = useNavigate();
@@ -37,7 +37,7 @@ const OnGoingInquiriesDetails = () => {
  
   useEffect(() => {
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-      localStorage.clear();
+      localStorage?.clear();
       navigate("/buyer/login");
       return;
     }
@@ -64,8 +64,8 @@ const OnGoingInquiriesDetails = () => {
       setAcceptedItems(acceptedItems);
       setRejectedItems(rejectedItems);
  
-      localStorage.setItem("acceptedQuotationItems", JSON.stringify(acceptedItems));
-      localStorage.setItem("rejectedQuotationItems", JSON.stringify(rejectedItems));
+      localStorage?.setItem("acceptedQuotationItems", JSON.stringify(acceptedItems));
+      localStorage?.setItem("rejectedQuotationItems", JSON.stringify(rejectedItems));
       // postRequestWithToken(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj, async (response) => {
       //   if (response?.code === 200) {
       //     setInquiryDetails(response?.result);
@@ -82,8 +82,8 @@ const OnGoingInquiriesDetails = () => {
       //     setAcceptedItems(acceptedItems);
       //     setRejectedItems(rejectedItems);
  
-      //     localStorage.setItem("acceptedQuotationItems", JSON.stringify(acceptedItems));
-      //     localStorage.setItem("rejectedQuotationItems", JSON.stringify(rejectedItems));
+      //     localStorage?.setItem("acceptedQuotationItems", JSON.stringify(acceptedItems));
+      //     localStorage?.setItem("rejectedQuotationItems", JSON.stringify(rejectedItems));
       //   } else {
       //   }
       // }
@@ -107,7 +107,7 @@ const OnGoingInquiriesDetails = () => {
  
   const handleAccept = (item, status) => {
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-      localStorage.clear();
+      localStorage?.clear();
       navigate("/buyer/login");
       return;
     }
@@ -128,14 +128,14 @@ const OnGoingInquiriesDetails = () => {
           setInquiryDetails(response?.result);
           setAcceptedItems((prevItems) => {
             const updatedItems = [...prevItems, item];
-            localStorage.setItem("acceptedQuotationItems", JSON.stringify(updatedItems));
+            localStorage?.setItem("acceptedQuotationItems", JSON.stringify(updatedItems));
             return updatedItems;
           });
           setRejectedItems((prevItems) => {
             const updatedItems = prevItems.filter(
               (rejItem) => rejItem._id !== item._id
             );
-            localStorage.setItem("rejectedQuotationItems", JSON.stringify(updatedItems)
+            localStorage?.setItem("rejectedQuotationItems", JSON.stringify(updatedItems)
             );
             return updatedItems;
           });
@@ -144,14 +144,14 @@ const OnGoingInquiriesDetails = () => {
           //   setInquiryDetails(response?.result);
           //   setAcceptedItems((prevItems) => {
           //     const updatedItems = [...prevItems, item];
-          //     localStorage.setItem("acceptedQuotationItems", JSON.stringify(updatedItems));
+          //     localStorage?.setItem("acceptedQuotationItems", JSON.stringify(updatedItems));
           //     return updatedItems;
           //   });
           //   setRejectedItems((prevItems) => {
           //     const updatedItems = prevItems.filter(
           //       (rejItem) => rejItem._id !== item._id
           //     );
-          //     localStorage.setItem("rejectedQuotationItems", JSON.stringify(updatedItems)
+          //     localStorage?.setItem("rejectedQuotationItems", JSON.stringify(updatedItems)
           //     );
           //     return updatedItems;
           //   });
@@ -171,7 +171,7 @@ const OnGoingInquiriesDetails = () => {
  
   const handleReject = (item, status) => {
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-      localStorage.clear();
+      localStorage?.clear();
       navigate("/buyer/login");
       return;
     }
@@ -196,7 +196,7 @@ const OnGoingInquiriesDetails = () => {
               setInquiryDetails(response?.result);
               setRejectedItems((prevItems) => {
                   const updatedItems = [...prevItems, item];
-                  localStorage.setItem(
+                  localStorage?.setItem(
                       "rejectedQuotationItems",
                       JSON.stringify(updatedItems)
                     );
@@ -206,7 +206,7 @@ const OnGoingInquiriesDetails = () => {
                       const updatedItems = prevItems.filter(
                           (accItem) => accItem._id !== item._id
                         );
-                        localStorage.setItem(
+                        localStorage?.setItem(
                             "acceptedQuotationItems",
                             JSON.stringify(updatedItems)
                           );
@@ -220,7 +220,7 @@ const OnGoingInquiriesDetails = () => {
             //     setInquiryDetails(response?.result);
             //     setRejectedItems((prevItems) => {
             //       const updatedItems = [...prevItems, item];
-            //       localStorage.setItem(
+            //       localStorage?.setItem(
             //         "rejectedQuotationItems",
             //         JSON.stringify(updatedItems)
             //       );
@@ -230,7 +230,7 @@ const OnGoingInquiriesDetails = () => {
             //       const updatedItems = prevItems.filter(
             //         (accItem) => accItem._id !== item._id
             //       );
-            //       localStorage.setItem(
+            //       localStorage?.setItem(
             //         "acceptedQuotationItems",
             //         JSON.stringify(updatedItems)
             //       );

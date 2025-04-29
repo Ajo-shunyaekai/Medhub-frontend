@@ -8,15 +8,15 @@ function ProformaInvoiceDetails() {
   const { orderId } = useParams();
   const navigate = useNavigate();
 
-  const adminIdSessionStorage = localStorage.getItem("admin_id");
-  const adminIdLocalStorage = localStorage.getItem("admin_id");
+  const adminIdSessionStorage = localStorage?.getItem("admin_id");
+  const adminIdLocalStorage = localStorage?.getItem("admin_id");
 
   const [orderDetails, setOrderDetails] = useState();
 
   useEffect(() => {
     const getOrderDetails = async () => {
       if (!adminIdSessionStorage && !adminIdLocalStorage) {
-        localStorage.clear();
+        localStorage?.clear();
         navigate("/admin/login");
         return;
       }
@@ -564,7 +564,7 @@ function ProformaInvoiceDetails() {
                                           fontSize: "13px",
                                         }}
                                       >
-                                        {item.quantity_required}
+                                        {item?.quantity_required}
                                       </p>
                                     </td>
                                     <td

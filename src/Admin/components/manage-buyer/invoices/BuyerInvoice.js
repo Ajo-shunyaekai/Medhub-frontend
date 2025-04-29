@@ -12,8 +12,8 @@ const BuyerInvoice = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const adminIdSessionStorage = localStorage.getItem("admin_id");
-  const adminIdLocalStorage = localStorage.getItem("admin_id");
+  const adminIdSessionStorage = localStorage?.getItem("admin_id");
+  const adminIdLocalStorage = localStorage?.getItem("admin_id");
 
   const getActiveLinkFromPath = (path) => {
     switch (path) {
@@ -55,7 +55,7 @@ const BuyerInvoice = () => {
 
   useEffect(() => {
     if (!adminIdSessionStorage && !adminIdLocalStorage) {
-      localStorage.clear();
+      localStorage?.clear();
       navigate("/admin/login");
       return;
     }

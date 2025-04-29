@@ -118,7 +118,7 @@ const AddProduct = ({ placeholder }) => {
     let { value, name } = e.target;
     value = value.slice(0, Number(textLimit));
     if (name === "dimension") {
-      value = value.replace(/[^0-9x.]/g, "").toLowerCase();
+      value = value.replace(/[^0-9x.]/g, "")?.toLowerCase();
       value = value.replace(/x{2,}/g, "x");
       const parts = value.split("x").map((part, index) => {
         part = part.replace(/^(\d{1,5})\.(\d{0,2}).*/, "$1.$2");

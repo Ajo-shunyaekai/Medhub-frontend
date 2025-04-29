@@ -7,8 +7,8 @@ import { toast } from 'react-toastify';
 import { apiRequests } from '../../../../api';
 
 const CancelInquiryList = () => {
-    const buyerIdSessionStorage = localStorage.getItem("buyer_id");
-    const buyerIdLocalStorage = localStorage.getItem("buyer_id");
+    const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
+    const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
  
     const { inquiryId } = useParams();
     const navigate = useNavigate();
@@ -91,7 +91,7 @@ const CancelInquiryList = () => {
     useEffect(() => {
         const fetchData = async () => {
             if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-                localStorage.clear();
+                localStorage?.clear();
                 navigate("/buyer/login");
                 return;
             }

@@ -82,7 +82,7 @@ const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject, i
                                     <td className='tables-tds'>
                                         <div className="table-g-section-content">
                                             <span className="table-g-driver-name">Quantity Req.</span>
-                                            <span className="table-g-not-name">{item.quantity || item.quantity_required || item.quantity}</span>
+                                            <span className="table-g-not-name">{item?.quantity || item?.quantity_required || item?.quantity}</span>
                                         </div>
                                     </td>
                                     <td className='tables-tds'>
@@ -127,7 +127,7 @@ const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject, i
                                             <div className="table-g-section-content">
                                                 <span className="table-g-driver-name">Status</span>
                                                 <span className="table-g-not-name">
-                                                    {item?.status?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') || '-'}
+                                                    {item?.status?.split(' ').map(word => word?.charAt(0)?.toUpperCase() + word?.slice(1)).join(' ') || '-'}
                                                 </span>
                                             </div>
                                         </td>

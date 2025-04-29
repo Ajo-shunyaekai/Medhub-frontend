@@ -21,11 +21,11 @@ const SupplierActive = () => {
     };
 
     useEffect(() => {
-        const buyerIdSessionStorage = localStorage.getItem("buyer_id");
-        const buyerIdLocalStorage = localStorage.getItem("buyer_id");
+        const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
+        const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
 
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-            localStorage.clear();
+            localStorage?.clear();
             navigate("/buyer/login");
             return;
         }
@@ -49,35 +49,35 @@ const SupplierActive = () => {
     const columns = [
         {
             name: 'Order ID',
-            selector: row => row.order_id,
+            selector: row => row?.order_id,
             sortable: true,
-            cell: row => <div className={styles.tableText}>{row.order_id}</div>,
+            cell: row => <div className={styles.tableText}>{row?.order_id}</div>,
         },
         {
             name: 'Date',
-            selector: row => row.created_at,
+            selector: row => row?.created_at,
             sortable: true,
-            cell: row => <div className={styles.tableText}>{moment(row.created_at).format("DD/MM/YYYY")}</div>,
+            cell: row => <div className={styles.tableText}>{moment(row?.created_at).format("DD/MM/YYYY")}</div>,
         },
         {
             name: 'Quantity',
-            selector: row => row.items.reduce((total, item) => total + (item.quantity_required || item.quantity), 0),
+            selector: row => row?.items?.reduce((total, item) => total + (item?.quantity_required || item?.quantity), 0),
             sortable: true,
             cell: row => {
-                const totalQuantity = row.items.reduce((total, item) => total + (item.quantity_required || item.quantity), 0);
+                const totalQuantity = row?.items?.reduce((total, item) => total + (item?.quantity_required || item?.quantity), 0);
                 return <div className={styles.tableText}>{totalQuantity}</div>;
             },
         },
         {
             name: 'Status',
-            selector: row => row.status,
+            selector: row => row?.status,
             sortable: true,
-            cell: row => <div className={styles.tableText}>{row.status}</div>,
+            cell: row => <div className={styles.tableText}>{row?.status}</div>,
         },
         {
             name: 'Action',
             cell: row => (
-                <Link to={`/buyer/order-details/${row.order_id}`}>
+                <Link to={`/buyer/order-details/${row?.order_id}`}>
                     <div className={styles.actionBtn}>
                         <RemoveRedEyeOutlinedIcon className={styles.icon} />
                     </div>

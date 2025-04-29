@@ -9,8 +9,8 @@ import styles from "../../../assets/style/table.module.css";
 
 const NotificationList = () => {
     const navigate = useNavigate();
-    const supplierIdSessionStorage = localStorage.getItem("supplier_id");
-    const supplierIdLocalStorage = localStorage.getItem("supplier_id");
+    const supplierIdSessionStorage = localStorage?.getItem("supplier_id");
+    const supplierIdLocalStorage = localStorage?.getItem("supplier_id");
 
     const [notificationList, setNotificationList] = useState([]);
     const [count, setCount] = useState(0);
@@ -23,7 +23,7 @@ const NotificationList = () => {
 
     useEffect(() => {
         if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-            localStorage.clear();
+            localStorage?.clear();
             navigate("/supplier/login");
             return;
         }
@@ -82,10 +82,10 @@ const NotificationList = () => {
                 navigate(`/supplier/secondary-product-details/${eventId}`);
                 break;
             case 'Profile Edit Approved':
-                navigate(`/supplier/profile/${localStorage.getItem('_id')}`);
+                navigate(`/supplier/profile/${localStorage?.getItem('_id')}`);
                 break;
             case 'Profile Edit Rejected':
-                navigate(`/supplier/profile/${localStorage.getItem('_id')}`);
+                navigate(`/supplier/profile/${localStorage?.getItem('_id')}`);
                 break;
             default:
                 navigate('/supplier/');
@@ -96,26 +96,26 @@ const NotificationList = () => {
     const columns = [
         {
             name: 'From',
-            selector: row => row.from === 'admin' ? 'Admin' : row.buyer?.buyer_name || 'N/A',
+            selector: row => row?.from === 'admin' ? 'Admin' : row?.buyer?.buyer_name || 'N/A',
             sortable: true,
         },
         {
             name: 'Date',
-            selector: row => row.createdAt,
+            selector: row => row?.createdAt,
             sortable: true,
             width: '250px',
             cell: row => (
                 <div>
-                    {moment(row.createdAt).format("DD/MM/YYYY HH:mm")}
+                    {moment(row?.createdAt).format("DD/MM/YYYY HH:mm")}
                     <span>
-                        ({moment(row.createdAt).fromNow()})
+                        ({moment(row?.createdAt).fromNow()})
                     </span>
                 </div>
             ),
         },
         {
             name: 'Message',
-            selector: row => row.message,
+            selector: row => row?.message,
             sortable: true,
             wrap: true,
         },
@@ -125,7 +125,7 @@ const NotificationList = () => {
             cell: row => (
                 <div
                     className={styles.actionButton}
-                    onClick={() => handleNavigation(row.notification_id, row.event, row.event_id, row.link_id)}
+                    onClick={() => handleNavigation(row?.notification_id, row?.event, row?.event_id, row?.link_id)}
                 >
                     <div className={styles.activeBtn}>
                         <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />

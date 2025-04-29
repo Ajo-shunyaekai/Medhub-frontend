@@ -26,11 +26,11 @@ function InvoiceDesign() {
  
     useEffect(() => {
         const fetchData = async () => {
-            const supplierIdSessionStorage = localStorage.getItem("supplier_id");
-            const supplierIdLocalStorage = localStorage.getItem("supplier_id");
+            const supplierIdSessionStorage = localStorage?.getItem("supplier_id");
+            const supplierIdLocalStorage = localStorage?.getItem("supplier_id");
  
             if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-                localStorage.clear();
+                localStorage?.clear();
                 navigate("/supplier/login");
                 return;
             }
@@ -55,14 +55,14 @@ function InvoiceDesign() {
           
             const handleMessage = (event) => {
                
-                if (event.origin !== window.location.origin) return;
+                if (event.origin !== window?.location?.origin) return;
              
                 if (event.data && event.data.type === "DOWNLOAD_INVOICE") {
                    
                     window.parent.postMessage({
                         type: "INVOICE_READY",
                         invoiceId: invoiceId
-                    }, window.location.origin);
+                    }, window?.location?.origin);
                     
                  
                 }
@@ -76,7 +76,7 @@ function InvoiceDesign() {
                     window.parent.postMessage({
                         type: "INVOICE_READY", 
                         invoiceId: invoiceId
-                    }, window.location.origin);
+                    }, window?.location?.origin);
                 }, 500);
             }
             
@@ -170,7 +170,7 @@ function InvoiceDesign() {
                                                                                 <p style={{ fontWeight: 500, fontSize: '14px' }}>{item.medicine_name}</p>
                                                                             </td>
                                                                             <td style={{ paddingBlock: '12px' }}>
-                                                                                <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.quantity_required}</p>
+                                                                                <p style={{ fontWeight: 500, fontSize: '13px' }}>{item?.quantity_required}</p>
                                                                             </td>
                                                                             <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
                                                                                 <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.counter_price || item.target_price} USD</p>

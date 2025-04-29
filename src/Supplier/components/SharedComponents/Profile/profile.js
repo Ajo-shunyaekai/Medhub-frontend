@@ -15,7 +15,7 @@ const Profile = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const extractFileName = (url) => (url ? url.split("/").pop() : "Unknown");
+  const extractFileName = (url) => (url ? url.split("/")?.pop() : "Unknown");
   const renderFiles = (files, type) => {
     if (!Array.isArray(files)) {
       if (!files || files === "") {
@@ -27,7 +27,7 @@ const Profile = () => {
     return files.map((file, index) => {
       const fileUrl = `${process.env.REACT_APP_SERVER_URL}/uploads/supplier/supplier_image_files/${file}`;
 
-      if (file.endsWith(".pdf")) {
+      if (file?.endsWith(".pdf")) {
         return (
           <div key={index} className={styles.pdfSection}>
             <FaFilePdf
@@ -45,10 +45,10 @@ const Profile = () => {
           </div>
         );
       } else if (
-        file.endsWith(
+        file?.endsWith(
           ".vnd.openxmlformats-officedocument.wordprocessingml.document"
         ) ||
-        file.endsWith(".docx")
+        file?.endsWith(".docx")
       ) {
         const docxFileName = file.replace(
           ".vnd.openxmlformats-officedocument.wordprocessingml.document",
@@ -97,7 +97,7 @@ const Profile = () => {
         <div className={styles.MainHeading}>Profile</div>
         <Link
           to={`/supplier/edit-profile/${
-            user?._id || localStorage.getItem("_id")
+            user?._id || localStorage?.getItem("_id")
           }`}
         >
           <div className={styles.EditButtonSection}>

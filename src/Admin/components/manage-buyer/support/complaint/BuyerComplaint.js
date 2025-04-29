@@ -9,24 +9,24 @@ const BuyerComplaint = ({ supportList, handlePageChange, currentPage, totalItems
     const columns = [
         {
             name: 'Complaint ID',
-            selector: row => row.support_id || 'ID Not Provided',
+            selector: row => row?.support_id || 'ID Not Provided',
             sortable: true,
         },
         {
             name: 'Subject',
-            selector: row => row.order_id || row.subject || 'N/A',
+            selector: row => row?.order_id || row?.subject || 'N/A',
             sortable: true,
         },
         {
             name: 'Message',
-            selector: row => row.reason || row.message || 'N/A',
+            selector: row => row?.reason || row?.message || 'N/A',
             sortable: true,
             wrap: true,
         },
         {
             name: 'Action',
             cell: row => (
-                <Link to={`/admin/buyer-complaint-details/${row.support_id}`}>
+                <Link to={`/admin/buyer-complaint-details/${row?.support_id}`}>
                     <div className={styles.activeBtn}>
                         <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                     </div>

@@ -11,8 +11,8 @@ import Loader from '../../shared-components/Loader/Loader';
 const SellerSupport = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const adminIdSessionStorage = localStorage.getItem("admin_id");
-    const adminIdLocalStorage = localStorage.getItem("admin_id");
+    const adminIdSessionStorage = localStorage?.getItem("admin_id");
+    const adminIdLocalStorage = localStorage?.getItem("admin_id");
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1)
     const [supportList, setSupportList] = useState([])
@@ -52,7 +52,7 @@ const SellerSupport = () => {
     };
     useEffect(() => {
         if (!adminIdSessionStorage && !adminIdLocalStorage) {
-            localStorage.clear();
+            localStorage?.clear();
             navigate("/admin/login");
             return;
         }

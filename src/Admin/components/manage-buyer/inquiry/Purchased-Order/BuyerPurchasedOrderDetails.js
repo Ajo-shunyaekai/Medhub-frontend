@@ -8,14 +8,14 @@ const BuyerPurchasedOrderDetails = () => {
   const { purchaseOrderId } = useParams()
   const navigate = useNavigate()
 
-  const adminIdSessionStorage = localStorage.getItem("admin_id");
-  const adminIdLocalStorage   = localStorage.getItem("admin_id");
+  const adminIdSessionStorage = localStorage?.getItem("admin_id");
+  const adminIdLocalStorage   = localStorage?.getItem("admin_id");
 
   const [poDetails, setPoDetails] = useState()
 
   useEffect(() => {
     if (!adminIdSessionStorage && !adminIdLocalStorage) {
-        localStorage.clear();
+        localStorage?.clear();
         navigate("/admin/login");
         return;
     }

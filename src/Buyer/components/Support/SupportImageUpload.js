@@ -31,7 +31,7 @@ const ImageUploaders = ({images, setImages, ErrorMessage, clearImageError}) => {
     //         const file = files[i];
 
     //         if (file) {
-    //             const isValidType = ['image/png', 'image/jpeg', 'image/jpg'].includes(file.type);
+    //             const isValidType = ['image/png', 'image/jpeg', 'image/jpg'].includes(file?.type);
 
     //             if (!isValidType) {
     //                 setErrorMessage('Invalid file type. Only PNG, JPEG, and JPG are allowed.');
@@ -133,7 +133,7 @@ const ImageUploaders = ({images, setImages, ErrorMessage, clearImageError}) => {
             const file = files[i];
 
             if (file) {
-                const isValidType = ['image/png', 'image/jpeg', 'image/jpg'].includes(file.type);
+                const isValidType = ['image/png', 'image/jpeg', 'image/jpg'].includes(file?.type);
 
                 if (!isValidType) {
                     setErrorMessage('Invalid file type. Only PNG, JPEG, and JPG are allowed.');

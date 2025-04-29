@@ -33,7 +33,7 @@ const ProformaList = ({
                 type: "DOWNLOAD_INVOICE",
                 orderId: orderId,
               },
-              window.location.origin
+              window?.location?.origin
             );
           }
         } catch (error) {
@@ -48,7 +48,7 @@ const ProformaList = ({
 
   useEffect(() => {
     const handleIframeMessage = (event) => {
-      if (event.origin !== window.location.origin) return;
+      if (event.origin !== window?.location?.origin) return;
 
       if (event.data && event.data.type === "INVOICE_READY") {
         const iframeDocument =
@@ -82,31 +82,31 @@ const ProformaList = ({
   const columns = [
     {
       name: "PO Date & Time",
-      selector: (row) => row.created_at,
+      selector: (row) => row?.created_at,
       sortable: true,
       cell: (row) => (
         <span className={styles.itemTitle}>
-          {moment(row.created_at).format("DD/MM/YYYY")}
+          {moment(row?.created_at).format("DD/MM/YYYY")}
           <br />
-          {moment(row.created_at).format("HH:mm:ss")}
+          {moment(row?.created_at).format("HH:mm:ss")}
         </span>
       ),
     },
     {
       name: "Invoice No.",
-      selector: (row) => row.invoice_no,
+      selector: (row) => row?.invoice_no,
       sortable: true,
       
     },
     {
       name: "Order ID",
-      selector: (row) => row.order_id,
+      selector: (row) => row?.order_id,
       sortable: true,
     
     },
     {
       name: "Customer Name",
-      selector: (row) => row.buyer_name,
+      selector: (row) => row?.buyer_name,
       sortable: true,
      
     },
@@ -114,7 +114,7 @@ const ProformaList = ({
       name: "Action",
       cell: (row) => (
         <div className={styles.buttonContainer}>
-          <Link to={`/supplier/proforma-invoice-details/${row.order_id}`}>
+          <Link to={`/supplier/proforma-invoice-details/${row?.order_id}`}>
           <div className={styles.activeBtn}>
                                   <VisibilityOutlinedIcon className={styles['table-icon']} />
                                 </div>
@@ -122,9 +122,9 @@ const ProformaList = ({
           </Link>
           <div
             className={styles.downloadButton}
-            onClick={() => handleDownload(row.order_id)}
+            onClick={() => handleDownload(row?.order_id)}
           >
-            {downloadingOrderId === row.order_id ? (
+            {downloadingOrderId === row?.order_id ? (
               <ThreeDots height="20" width="20" color="blue" ariaLabel="loading" />
             ) : (
               <div className={styles.activeBtn}>

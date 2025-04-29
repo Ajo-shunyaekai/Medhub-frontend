@@ -3,7 +3,7 @@ import { FaFilePdf, FaFileWord } from "react-icons/fa";
 import styles from "./productdetail.module.css";
  
 const extractFileName = (url) => {
-  return url.split("/").pop();
+  return url.split("/")?.pop();
 };
  
 const RenderProductFiles = ({ files }) => {

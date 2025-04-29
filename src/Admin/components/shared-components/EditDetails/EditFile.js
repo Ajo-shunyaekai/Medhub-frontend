@@ -144,7 +144,7 @@ const EditFile = ({
   maxFilesCount = 4, // New prop to control maximum number of files
   formik,
 }) => {
-  const tooltipId = `tooltip-${label.replace(/\s+/g, "-").toLowerCase()}`;
+  const tooltipId = `tooltip-${label.replace(/\s+/g, "-")?.toLowerCase()}`;
   const tooltipContent = tooltip || "Default tooltip text";
   const [errorMsg, setErrorMsg] = useState(error);
   useEffect(() => {
@@ -208,8 +208,8 @@ const EditFile = ({
             const isString = typeof file == "string";
             const fileName = isString ? file : file?.name;
             const fileExtension = isString
-              ? file.split(".").pop().toLowerCase()
-              : fileName?.split(".").pop().toLowerCase();
+              ? file?.split(".")?.pop()?.toLowerCase()
+              : fileName?.split(".")?.pop()?.toLowerCase();
 
             const isImage = ["jpeg", "png", "jpg", "gif", "bmp"].includes(
               fileExtension

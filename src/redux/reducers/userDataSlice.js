@@ -52,10 +52,10 @@ export const loginUser = createAsyncThunk(
       }
       const { data } = await response;
       for (let x in data) {
-        localStorage.setItem(`${x}`, data[x]);
+        localStorage?.setItem(`${x}`, data[x]);
         if (x == "registeredAddress") {
           for (let y in data[x]) {
-            localStorage.setItem(`${y}`, data[x][y]);
+            localStorage?.setItem(`${y}`, data[x][y]);
           }
         }
       }

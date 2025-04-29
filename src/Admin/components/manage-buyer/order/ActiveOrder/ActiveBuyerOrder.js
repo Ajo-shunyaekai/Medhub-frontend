@@ -10,38 +10,38 @@ const ActiveBuyerOrder = ({ orderList, totalOrders, currentPage, ordersPerPage, 
     const columns = [
         {
             name: 'Order ID',
-            selector: row => row.order_id,
+            selector: row => row?.order_id,
             sortable: true,
         },
         {
             name: 'Date',
-            selector: row => moment(row.created_at).format("DD/MM/YYYY"),
+            selector: row => moment(row?.created_at).format("DD/MM/YYYY"),
             sortable: true,
         },
         {
             name: 'Supplier Name',
-            selector: row => row.supplier?.supplier_name || 'N/A',
+            selector: row => row?.supplier?.supplier_name || 'N/A',
             sortable: true,
         },
         {
             name: 'Quantity',
-            selector: row => row.items.reduce((total, item) => total + (item.quantity || item.quantity_required), 0),
+            selector: row => row?.items?.reduce((total, item) => total + (item?.quantity || item?.quantity_required), 0),
             sortable: true,
         },
         {
             name: 'Status',
-            selector: row => row.status,
+            selector: row => row?.status,
             sortable: true,
             cell: row => (
                 <div>
-                    {row.status?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                    {row?.status?.split(' ').map(word => word?.charAt(0)?.toUpperCase() + word?.slice(1)).join(' ')}
                 </div>
             ),
         },
         {
             name: 'Action',
             cell: row => (
-                <Link to={`/admin/order-details/${row.order_id}`}>
+                <Link to={`/admin/order-details/${row?.order_id}`}>
                     <div className={styles.activeBtn}>
                         <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                     </div>

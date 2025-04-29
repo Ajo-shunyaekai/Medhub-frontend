@@ -93,11 +93,11 @@ const CompleteInvoicesList = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const buyerIdSessionStorage = localStorage.getItem("buyer_id");
-      const buyerIdLocalStorage = localStorage.getItem("buyer_id");
+      const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
+      const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
 
       if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-        localStorage.clear();
+        localStorage?.clear();
         navigate("/buyer/login");
         return;
       }
@@ -145,7 +145,7 @@ const CompleteInvoicesList = () => {
                 type: "DOWNLOAD_INVOICE",
                 invoiceId: invoiceId,
               },
-              window.location.origin
+              window?.location?.origin
             );
           }
         } catch (error) {
@@ -162,7 +162,7 @@ const CompleteInvoicesList = () => {
   useEffect(() => {
     // Listen for messages from the iframe
     const handleIframeMessage = (event) => {
-      if (event.origin !== window.location.origin) return;
+      if (event.origin !== window?.location?.origin) return;
 
       if (event.data && event.data.type === "INVOICE_READY") {
         const iframeDocument =
@@ -280,7 +280,7 @@ const CompleteInvoicesList = () => {
                         </div>
                         <div className="completed-table-row-item completed-table-order-1">
                           <div className="completed-table-text-color">
-                            {invoice.status?.charAt(0).toUpperCase() +
+                            {invoice.status?.charAt(0)?.toUpperCase() +
                               invoice?.status?.slice(1)}
                           </div>
                         </div>

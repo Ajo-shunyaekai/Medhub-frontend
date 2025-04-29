@@ -27,8 +27,8 @@ const SupSidebar = ({ children, dragWindow,
 }) => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const supplierIdSessionStorage = localStorage.getItem("supplier_id");
-    const supplierIdLocalStorage = localStorage.getItem("supplier_id");
+    const supplierIdSessionStorage = localStorage?.getItem("supplier_id");
+    const supplierIdLocalStorage = localStorage?.getItem("supplier_id");
     const [isDropOpen, setIsDropOpen] = useState(false);
     const [isIconOpen, setIsIconOpen] = useState(false);
  
@@ -77,7 +77,7 @@ const SupSidebar = ({ children, dragWindow,
         const response = await  dispatch(logoutUser({}));
         if(response.meta.requestStatus === "fulfilled") {
         setTimeout(() => {
-            localStorage.clear();
+            localStorage?.clear();
             navigate('/supplier/login')
         }, 500);
         }
@@ -260,8 +260,8 @@ const SupSidebar = ({ children, dragWindow,
             editsecondarymedicinerequest: `/supplier/pending-products-list`,
             editnewmedicine: `/supplier/product-details/${eventId}`,
             editsecondarymedicine: `/supplier/secondary-product-details/${eventId}`,
-            "Profile Edit Approved": `/supplier/profile/${localStorage.getItem('_id')}`,
-            "Profile Edit Rejected": `/supplier/profile/${localStorage.getItem('_id')}`,
+            "Profile Edit Approved": `/supplier/profile/${localStorage?.getItem('_id')}`,
+            "Profile Edit Rejected": `/supplier/profile/${localStorage?.getItem('_id')}`,
         };
  
         const route = eventRoutes[event] || '/supplier/';
@@ -395,7 +395,7 @@ const SupSidebar = ({ children, dragWindow,
                                                     to="#"
                                                     onClick={() => setIsProfileOpen(false)} // Close dropdown on click
                                                 >
-                                                    {localStorage.getItem('supplier_name')}
+                                                    {localStorage?.getItem('supplier_name')}
                                                 </Link>
                                             </div>
                                             <div className={styles.profile_wrapper_mid}>

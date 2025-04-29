@@ -54,7 +54,7 @@ const InquiryProductList = ({ orderItems, quotationItems,inquiryDetails }) => {
                                 <div className="table-g-section-content">
                                     <span className="table-g-driver-name">Quantity Req.</span>
                                     <span className="table-g-not-name">
-                                        {item.quantity || item.quantity_required}
+                                        {item?.quantity || item?.quantity_required}
                                     </span>
                                 </div>
                             </td>
@@ -98,7 +98,7 @@ const InquiryProductList = ({ orderItems, quotationItems,inquiryDetails }) => {
                                     <span className="table-g-not-name">
                                         {item?.status
                                             ?.split(' ')
-                                            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                                            .map((word) => word?.charAt(0)?.toUpperCase() + word?.slice(1))
                                             .join(' ') || '-'}
                                     </span>
                                 </div>

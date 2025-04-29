@@ -35,11 +35,11 @@ const CompletedInvoicesList = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const supplierIdSessionStorage = localStorage.getItem("supplier_id");
-      const supplierIdLocalStorage = localStorage.getItem("supplier_id");
+      const supplierIdSessionStorage = localStorage?.getItem("supplier_id");
+      const supplierIdLocalStorage = localStorage?.getItem("supplier_id");
 
       if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-        localStorage.clear();
+        localStorage?.clear();
         navigate("/supplier/login");
         return;
       }
@@ -77,7 +77,7 @@ const CompletedInvoicesList = () => {
                 type: "DOWNLOAD_INVOICE",
                 invoiceId: invoiceId,
               },
-              window.location.origin
+              window?.location?.origin
             );
           }
         } catch (error) {
@@ -93,7 +93,7 @@ const CompletedInvoicesList = () => {
 
   useEffect(() => {
     const handleIframeMessage = (event) => {
-      if (event.origin !== window.location.origin) return;
+      if (event.origin !== window?.location?.origin) return;
 
       if (event.data && event.data.type === "INVOICE_READY") {
         const iframeDocument =
@@ -126,41 +126,41 @@ const CompletedInvoicesList = () => {
   const columns = [
     {
       name: "Invoice No",
-      selector: (row) => row.invoice_no,
+      selector: (row) => row?.invoice_no,
       sortable: true,
      
     },
     {
       name: "Order ID",
-      selector: (row) => row.order_id,
+      selector: (row) => row?.order_id,
       sortable: true,
   
     },
     {
       name: "Customer Name",
-      selector: (row) => row.buyer_name,
+      selector: (row) => row?.buyer_name,
       sortable: true,
      
     },
     {
       name: "Amount",
-      selector: (row) => row.total_payable_amount,
+      selector: (row) => row?.total_payable_amount,
       sortable: true,
-      cell: (row) => <div>{row.total_payable_amount} USD</div>,
+      cell: (row) => <div>{row?.total_payable_amount} USD</div>,
     },
     {
       name: "Payment Type",
-      selector: (row) => row.mode_of_payment,
+      selector: (row) => row?.mode_of_payment,
       sortable: true,
      
     },
     {
       name: "Status",
-      selector: (row) => row.status,
+      selector: (row) => row?.status,
       sortable: true,
       cell: (row) => (
         <div>
-          {row.status?.charAt(0).toUpperCase() + row.status?.slice(1)}
+          {row?.status?.charAt(0)?.toUpperCase() + row?.status?.slice(1)}
         </div>
       ),
     },
@@ -168,16 +168,16 @@ const CompletedInvoicesList = () => {
       name: "Action",
       cell: (row) => (
         <div className={styles.buttonContainer}>
-          <Link to={`/supplier/invoice-design/${row.invoice_id}`}>
+          <Link to={`/supplier/invoice-design/${row?.invoice_id}`}>
           <div className={styles.activeBtn}>
                         <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                     </div>
           </Link>
           <div
             className={styles.downloadButton}
-            onClick={() => handleDownload(row.invoice_id)}
+            onClick={() => handleDownload(row?.invoice_id)}
           >
-            {downloadingInvoiceId === row.invoice_id ? (
+            {downloadingInvoiceId === row?.invoice_id ? (
               <ThreeDots height="20" width="20" color="blue" ariaLabel="loading" />
             ) : (
               <div className={styles.activeBtn}>

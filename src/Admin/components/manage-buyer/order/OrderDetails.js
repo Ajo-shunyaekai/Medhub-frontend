@@ -13,9 +13,9 @@ const OrderDetails = () => {
   const [error, setError] = useState(null);
 
   const fetchData = async () => {
-    const adminId = localStorage.getItem("admin_id");
+    const adminId = localStorage?.getItem("admin_id");
     if (!adminId) {
-      localStorage.clear();
+      localStorage?.clear();
       navigate("/admin/login");
       return;
     }

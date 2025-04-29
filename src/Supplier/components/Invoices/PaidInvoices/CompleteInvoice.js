@@ -33,7 +33,7 @@ const CompleteInvoice = ({
                 type: "DOWNLOAD_INVOICE",
                 invoiceId: invoiceId,
               },
-              window.location.origin
+              window?.location?.origin
             );
           }
         } catch (error) {
@@ -49,7 +49,7 @@ const CompleteInvoice = ({
 
   useEffect(() => {
     const handleIframeMessage = (event) => {
-      if (event.origin !== window.location.origin) return;
+      if (event.origin !== window?.location?.origin) return;
 
       if (event.data && event.data.type === "INVOICE_READY") {
         const iframeDocument =
@@ -105,40 +105,40 @@ const CompleteInvoice = ({
     },
     {
       name: "Invoice No.",
-      selector: (row) => row.invoice_no,
+      selector: (row) => row?.invoice_no,
       sortable: true,
     },
     {
       name: "Order ID",
-      selector: (row) => row.order_id,
+      selector: (row) => row?.order_id,
       sortable: true,
     },
     {
       name: "Customer Name",
-      selector: (row) => row.buyer_name,
+      selector: (row) => row?.buyer_name,
       sortable: true,
     },
     {
       name: "Amount",
-      selector: (row) => `${row.total_payable_amount} USD`,
+      selector: (row) => `${row?.total_payable_amount} USD`,
       sortable: true,
     },
     {
       name: "Payment Type",
-      selector: (row) => row.mode_of_payment,
+      selector: (row) => row?.mode_of_payment,
       sortable: true,
     },
     {
       name: "Status",
       selector: (row) =>
-        row.status?.charAt(0).toUpperCase() + row.status?.slice(1),
+        row?.status?.charAt(0)?.toUpperCase() + row?.status?.slice(1),
       sortable: true,
     },
     {
       name: "Action",
       cell: (row) => (
         <div className={styles.buttonContainer}>
-          <Link to={`/supplier/invoice-design/${row.invoice_id}`}>
+          <Link to={`/supplier/invoice-design/${row?.invoice_id}`}>
             <div className={styles.activeBtn}>
               <VisibilityOutlinedIcon className={styles['table-icon']} />
             </div>
@@ -146,9 +146,9 @@ const CompleteInvoice = ({
           </Link>
           <div
             className={styles.invoiceDetailsButtonColumnDownload}
-            onClick={() => handleDownload(row.invoice_id)}
+            onClick={() => handleDownload(row?.invoice_id)}
           >
-            {downloadingInvoiceId === row.invoice_id ? (
+            {downloadingInvoiceId === row?.invoice_id ? (
               <ThreeDots height="20" width="20" color="blue" ariaLabel="loading" />
             ) : (
               <div className={styles.activeBtn}>

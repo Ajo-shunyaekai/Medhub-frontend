@@ -20,11 +20,11 @@ const BuyerCompletedList = () => {
     };
 
     useEffect(() => {
-        const supplierIdSessionStorage = localStorage.getItem('supplier_id');
-        const supplierIdLocalStorage = localStorage.getItem('supplier_id');
+        const supplierIdSessionStorage = localStorage?.getItem('supplier_id');
+        const supplierIdLocalStorage = localStorage?.getItem('supplier_id');
 
         if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-            localStorage.clear();
+            localStorage?.clear();
             navigate('/supplier/login');
             return;
         }
@@ -52,29 +52,29 @@ const BuyerCompletedList = () => {
     const columns = [
         {
             name: 'Order ID',
-            selector: (row) => row.order_id,
+            selector: (row) => row?.order_id,
             sortable: true,
         },
         {
             name: 'Date',
-            selector: (row) => moment(row.created_at).format('DD/MM/YYYY'),
+            selector: (row) => moment(row?.created_at).format('DD/MM/YYYY'),
             sortable: true,
         },
         {
             name: 'Quantity',
             selector: (row) =>
-                row.items.reduce((total, item) => total + (item.quantity_required || item.quantity), 0),
+                row?.items?.reduce((total, item) => total + (item?.quantity_required || item?.quantity), 0),
             sortable: true,
         },
         {
             name: 'Status',
-            selector: (row) => row.status,
+            selector: (row) => row?.status,
             sortable: true,
         },
         {
             name: 'Action',
             cell: (row) => (
-                <Link to={`/supplier/active-orders-details/${row.order_id}`}>
+                <Link to={`/supplier/active-orders-details/${row?.order_id}`}>
                    <div className={styles.activeBtn}>
                         <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                     </div>

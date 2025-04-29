@@ -316,12 +316,12 @@ const EditCreatePO = ({ socket }) => {
   const [loading, setLoading] = useState(false);
   const [poDetails, setPoDetails] = useState();
 
-  const buyerIdSessionStorage = localStorage.getItem("buyer_id");
-  const buyerIdLocalStorage = localStorage.getItem("buyer_id");
+  const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
+  const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
 
   useEffect(() => {
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-      localStorage.clear();
+      localStorage?.clear();
       navigate("/buyer/login");
       return;
     }
@@ -456,7 +456,7 @@ const EditCreatePO = ({ socket }) => {
     e.preventDefault();
 
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-      localStorage.clear();
+      localStorage?.clear();
       navigate("/buyer/login");
       return;
     }

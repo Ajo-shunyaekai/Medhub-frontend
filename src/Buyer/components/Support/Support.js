@@ -59,11 +59,11 @@ const Support = () => {
     
         const submitSupportForm = ({ subject, message, images, type, endpoint, resetForm }) => {
             setLoading(true)
-            const buyerIdSessionStorage = localStorage.getItem("buyer_id");
-            const buyerIdLocalStorage = localStorage.getItem("buyer_id");
+            const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
+            const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
 
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-            localStorage.clear();
+            localStorage?.clear();
             navigate("/buyer/login");
             return;
         }
@@ -192,11 +192,11 @@ const Support = () => {
 
     // const handleSubmit = (event) => {
 
-    //     const buyerIdSessionStorage = localStorage.getItem("buyer_id");
-    //     const buyerIdLocalStorage = localStorage.getItem("buyer_id");
+    //     const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
+    //     const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
 
     //     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-    //         localStorage.clear();
+    //         localStorage?.clear();
     //         navigate("/buyer/login");
     //         return;
     //     }
@@ -230,11 +230,11 @@ const Support = () => {
     // };
 
     // const complaintSubmit = (event) => {
-    //     const buyerIdSessionStorage = localStorage.getItem("buyer_id");
-    //     const buyerIdLocalStorage = localStorage.getItem("buyer_id");
+    //     const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
+    //     const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
 
     //     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-    //         localStorage.clear();
+    //         localStorage?.clear();
     //         navigate("/buyer/login");
     //         return;
     //     }
@@ -292,7 +292,7 @@ const Support = () => {
                                     Complaint
                                 </div>
                             </div>
-                            <Link to={`/buyer/edit-profile/${localStorage.getItem("_id")}`}>
+                            <Link to={`/buyer/edit-profile/${localStorage?.getItem("_id")}`}>
                                 <div className={`${styles['support-btn']} ${activeButton === 'profile' && styles.active}`}>
                                     Update Profile
                                 </div>

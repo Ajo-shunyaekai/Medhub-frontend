@@ -22,8 +22,8 @@ const ProformaInvoice = ({ socket }) => {
   const { purchaseOrderId } = useParams();
   const navigate = useNavigate();
 
-  const supplierIdSessionStorage = localStorage.getItem("supplier_id");
-  const supplierIdLocalStorage = localStorage.getItem("supplier_id");
+  const supplierIdSessionStorage = localStorage?.getItem("supplier_id");
+  const supplierIdLocalStorage = localStorage?.getItem("supplier_id");
 
   const [loading, setLoading] = useState(false);
   const [currentDate, setCurrentDate] = useState("");
@@ -138,7 +138,7 @@ const ProformaInvoice = ({ socket }) => {
 
   useEffect(() => {
     if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-      localStorage.clear();
+      localStorage?.clear();
       navigate("/supplier/login");
       return;
     }
@@ -325,7 +325,7 @@ const ProformaInvoice = ({ socket }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-      localStorage.clear();
+      localStorage?.clear();
       navigate("/supplier/login");
       return;
     }
@@ -533,7 +533,7 @@ const ProformaInvoice = ({ socket }) => {
   };
 
   const tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 1);
+  tomorrow?.setDate(tomorrow?.getDate() + 1);
 
   useEffect(() => {
     const grandTotalCalc = orderItems?.reduce((accumulator, item) => {

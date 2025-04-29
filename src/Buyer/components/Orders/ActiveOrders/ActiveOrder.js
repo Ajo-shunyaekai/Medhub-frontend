@@ -125,7 +125,7 @@ const ActiveOrder = ({ orderList, totalOrders, currentPage, ordersPerPage, handl
                                     orderList && orderList.length > 0 ? (
                                         orderList?.map((order, i) => {
                                             const totalQuantity = order.items.reduce((total, item) => {
-                                                return total + (item.quantity_required || item.quantity);
+                                                return total + (item?.quantity_required || item?.quantity);
                                             }, 0);
                                             const orderedDate = moment(order.created_at).format("DD/MM/YYYY")
                                             return (
@@ -145,7 +145,7 @@ const ActiveOrder = ({ orderList, totalOrders, currentPage, ordersPerPage, handl
                                                         </td>
                                                         <td className='order-section-td'>
                                                             <div className="order-section-heading">
-                                                                {/* {order?.status?.charAt(0).toUpperCase() + order?.status.slice(1)  } */}
+                                                                {/* {order?.status?.charAt(0)?.toUpperCase() + order?.status.slice(1)  } */}
                                                                 {order?.status}
                                                             </div>
                                                         </td>

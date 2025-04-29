@@ -7,13 +7,13 @@ import { postRequestWithToken } from '../../../api/Requests';
 const SellerTransactionDetails = () => {
   const { invoiceId }                               = useParams()
   const navigate                                    = useNavigate()
-  const adminIdSessionStorage                       = localStorage.getItem("admin_id");
-  const adminIdLocalStorage                         = localStorage.getItem("admin_id");
+  const adminIdSessionStorage                       = localStorage?.getItem("admin_id");
+  const adminIdLocalStorage                         = localStorage?.getItem("admin_id");
   const [transactionDetails, setTransactionDetails] = useState()
 
   useEffect(() => {
     if (!adminIdSessionStorage && !adminIdLocalStorage) {
-      localStorage.clear();
+      localStorage?.clear();
       navigate("/admin/login");
       return;
     }
@@ -76,7 +76,7 @@ const SellerTransactionDetails = () => {
                                 <div className='transaction-details-company-type-sec-head'>Status:</div>
                                 <div className='transaction-details-company-type-sec-text'>
                                   {/* {supplierDetails?.status} */}
-                                  {transactionDetails?.status?.charAt(0).toUpperCase() + transactionDetails?.status.slice(1)  }
+                                  {transactionDetails?.status?.charAt(0)?.toUpperCase() + transactionDetails?.status.slice(1)  }
                                   </div>
                               </div>
                             </div>

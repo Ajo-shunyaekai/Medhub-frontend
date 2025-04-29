@@ -94,9 +94,9 @@ const BuySeller = ({ active }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const buyerId = localStorage.getItem("buyer_id") || localStorage.getItem("buyer_id");
+                const buyerId = localStorage?.getItem("buyer_id") || localStorage?.getItem("buyer_id");
                 if (!buyerId) {
-                    localStorage.clear();
+                    localStorage?.clear();
                     navigate("/buyer/login");
                     return;
                 }
@@ -124,9 +124,9 @@ const BuySeller = ({ active }) => {
     }, [searchKey, filterCountry, currentPage, active, companyType, navigate]);
 
     useEffect(() => {
-        const buyerId = localStorage.getItem("buyer_id") || localStorage.getItem("buyer_id");
+        const buyerId = localStorage?.getItem("buyer_id") || localStorage?.getItem("buyer_id");
         if (!buyerId) {
-            localStorage.clear();
+            localStorage?.clear();
             navigate("/buyer/login");
             return;
         }

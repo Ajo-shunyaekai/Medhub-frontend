@@ -11,8 +11,8 @@ import moment from 'moment/moment';
 const NotificationList = () => {
    
     const navigate = useNavigate();
-    const buyerIdSessionStorage = localStorage.getItem("buyer_id");
-    const buyerIdLocalStorage = localStorage.getItem("buyer_id");
+    const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
+    const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
 
     const [list, setList] = useState()
     const [totalItems, setTotalItems] = useState()
@@ -31,7 +31,7 @@ const NotificationList = () => {
 
     useEffect(() => {
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-            localStorage.clear();
+            localStorage?.clear();
             navigate("/buyer/login");
             return;
         }
@@ -66,10 +66,10 @@ const NotificationList = () => {
                 navigate(`/buyer/invoice/Pending-Invoice`);
                 break; 
                 case 'Profile Edit Approved':
-                    navigate(`/buyer/profile/${localStorage.getItem('_id')}`);
+                    navigate(`/buyer/profile/${localStorage?.getItem('_id')}`);
                     break; 
                 case 'Profile Edit Rejected':
-                    navigate(`/buyer/profile/${localStorage.getItem('_id')}`);
+                    navigate(`/buyer/profile/${localStorage?.getItem('_id')}`);
                     break; 
             default:
                 navigate('/buyer/');

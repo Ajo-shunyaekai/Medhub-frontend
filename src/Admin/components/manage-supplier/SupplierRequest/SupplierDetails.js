@@ -13,8 +13,8 @@ import { apiRequests } from '../../../../api/index';
 const SupplierDetails = () => {
     const { supplierId } = useParams()
     const navigate = useNavigate()
-    const adminIdSessionStorage = localStorage.getItem("admin_id");
-    const adminIdLocalStorage = localStorage.getItem("admin_id");
+    const adminIdSessionStorage = localStorage?.getItem("admin_id");
+    const adminIdLocalStorage = localStorage?.getItem("admin_id");
     const [supplierDetails, setSupplierDetails] = useState()
     const [open, setOpen] = useState(false);
     const [pdfUrl, setPdfUrl] = useState(null);
@@ -27,7 +27,7 @@ const SupplierDetails = () => {
         setPdfUrl(null);
     };
     const extractFileName = (url) => {
-        return url.split('/').pop();
+        return url.split('/')?.pop();
     };
     const renderFiles = (files, type, hasDate = false) => {
         const serverUrl = process.env.REACT_APP_SERVER_URL;
@@ -39,7 +39,7 @@ const SupplierDetails = () => {
         return files.map((item, index) => {
             const file = isObjectArray ? item.file : item;
             const date = isObjectArray ? item.date : null;
-            if (file.endsWith('.pdf')) {
+            if (file?.endsWith('.pdf')) {
                 return (
                     <div key={`${file}-${index}`} className='buyer-details-pdf-section'>
                         <FaFilePdf
@@ -65,8 +65,8 @@ const SupplierDetails = () => {
                 );
             }
             else if (
-                file.endsWith('.vnd.openxmlformats-officedocument.wordprocessingml.document') ||
-                file.endsWith('.docx')
+                file?.endsWith('.vnd.openxmlformats-officedocument.wordprocessingml.document') ||
+                file?.endsWith('.docx')
             ) {
                 const docxFileName = file.replace(
                     '.vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -115,7 +115,7 @@ const SupplierDetails = () => {
     useEffect(() => {
         const getSupplierDeatils = async () => {
             if (!adminIdSessionStorage && !adminIdLocalStorage) {
-                localStorage.clear();
+                localStorage?.clear();
                 navigate("/admin/login");
                 return;
             }

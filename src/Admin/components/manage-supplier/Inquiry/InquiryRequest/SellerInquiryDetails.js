@@ -5,8 +5,8 @@ import { postRequestWithToken } from '../../../../api/Requests';
 import SellerInquiryProductList from './SellerInquiryProductList';
 
 const SellerInquiryDetails = () => {
-    const adminIdSessionStorage = localStorage.getItem("admin_id");
-    const adminIdLocalStorage   = localStorage.getItem("admin_id");
+    const adminIdSessionStorage = localStorage?.getItem("admin_id");
+    const adminIdLocalStorage   = localStorage?.getItem("admin_id");
 
     const { inquiryId } = useParams()
     const navigate = useNavigate();
@@ -32,7 +32,7 @@ const SellerInquiryDetails = () => {
 
     useEffect(() => {
         if (!adminIdSessionStorage && !adminIdLocalStorage) {
-            localStorage.clear();
+            localStorage?.clear();
             navigate("/admin/login");
             return;
         }

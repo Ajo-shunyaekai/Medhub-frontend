@@ -19,8 +19,8 @@ const PaymentSuccessful = () => {
     (state) => state?.subscriptionReducer
   );
 
-  // Access the query params from the URL using window.location.search
-  const queryParams = new URLSearchParams(window.location.search);
+  // Access the query params from the URL using window?.location?.search
+  const queryParams = new URLSearchParams(window?.location?.search);
   const sessionId = queryParams?.get("session_id");
 
   // Function to generate the PDF from React PDF Renderer

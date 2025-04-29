@@ -52,7 +52,7 @@ const ProformaInvoice = ({
                 type: "DOWNLOAD_INVOICE",
                 orderId: orderId,
               },
-              window.location.origin
+              window?.location?.origin
             );
           }
         } catch (error) {
@@ -101,7 +101,7 @@ const ProformaInvoice = ({
   useEffect(() => {
     // Listen for messages from the iframe
     const handleIframeMessage = (event) => {
-      if (event.origin !== window.location.origin) return;
+      if (event.origin !== window?.location?.origin) return;
 
       if (event.data && event.data.type === "INVOICE_READY") {
         const iframeDocument =
@@ -133,11 +133,11 @@ const ProformaInvoice = ({
   }, []);
 
   useEffect(() => {
-    const buyerIdSessionStorage = localStorage.getItem("buyer_id");
-    const buyerIdLocalStorage = localStorage.getItem("buyer_id");
+    const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
+    const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
 
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-      localStorage.clear();
+      localStorage?.clear();
       navigate("/buyer/login");
       return;
     }

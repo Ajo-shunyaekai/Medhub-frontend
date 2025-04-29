@@ -11,8 +11,8 @@ import moment from 'moment/moment';
 const NotificationList = () => {
    
     const navigate = useNavigate();
-    const buyerIdSessionStorage = localStorage.getItem("buyer_id");
-    const buyerIdLocalStorage = localStorage.getItem("buyer_id");
+    const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
+    const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
 
     const [list, setList] = useState()
     const [totalItems, setTotalItems] = useState()
@@ -31,7 +31,7 @@ const NotificationList = () => {
 
     useEffect(() => {
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-            localStorage.clear();
+            localStorage?.clear();
             navigate("/buyer/login");
             return;
         }

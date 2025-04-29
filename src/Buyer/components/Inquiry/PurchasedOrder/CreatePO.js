@@ -72,8 +72,8 @@ const CreatePO = ({ socket }) => {
     orderItems: [],
   });
 
-  const buyerIdSessionStorage = localStorage.getItem("buyer_id");
-  const buyerIdLocalStorage = localStorage.getItem("buyer_id");
+  const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
+  const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
   let grandTotalAmount = 0;
 
   useEffect(() => {
@@ -96,8 +96,8 @@ const CreatePO = ({ socket }) => {
     setCurrentDate(formattedDate);
     setPONumber(generatedInvoiceNumber);
 
-    const storedItems = localStorage.getItem("acceptedQuotationItems");
-    const rejectedItems = localStorage.getItem("rejectedQuotationItems");
+    const storedItems = localStorage?.getItem("acceptedQuotationItems");
+    const rejectedItems = localStorage?.getItem("rejectedQuotationItems");
     if (storedItems) {
       try {
         const parsedItems = JSON.parse(storedItems);
@@ -132,7 +132,7 @@ const CreatePO = ({ socket }) => {
   useEffect(() => {
     const fetchData = async () => {
       if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-        localStorage.clear();
+        localStorage?.clear();
         navigate("/buyer/login");
         return;
       }
@@ -311,7 +311,7 @@ const CreatePO = ({ socket }) => {
     e.preventDefault();
 
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-      localStorage.clear();
+      localStorage?.clear();
       navigate("/buyer/login");
       return;
     }
@@ -322,7 +322,7 @@ const CreatePO = ({ socket }) => {
         const est_delivery_days = item.est_delivery_days;
         const unitTax = item.medicine_details?.general?.unit_tax || 0;
         const totalPrice =
-          (item?.counter_price || item?.target_price) * item.quantity_required;
+          (item?.counter_price || item?.target_price) * item?.quantity_required;
         const totalTax = totalPrice * (unitTax / 100);
         const totalAmount = totalPrice + totalTax;
         // const totalAmount = totalPrice + (unitTax / 100);
@@ -942,7 +942,7 @@ const CreatePO = ({ socket }) => {
             const unitTax = item?.medicine_details?.general?.unit_tax || 0;
             const totalPrice =
               (item?.counter_price || item?.target_price) *
-              item.quantity_required;
+              item?.quantity_required;
             const totalTax = totalPrice * (unitTax / 100);
             const totalAmount = totalPrice + totalTax;
             grandTotalAmount += totalAmount;

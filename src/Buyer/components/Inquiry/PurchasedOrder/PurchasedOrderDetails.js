@@ -8,14 +8,14 @@ const PurchasedOrderDetails = () => {
   const { purchaseOrderId } = useParams();
   const navigate = useNavigate();
  
-  const buyerIdSessionStorage = localStorage.getItem("buyer_id");
-  const buyerIdLocalStorage = localStorage.getItem("buyer_id");
+  const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
+  const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
  
   const [poDetails, setPoDetails] = useState();
  
   useEffect(() => {
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-      localStorage.clear();
+      localStorage?.clear();
       navigate("/buyer/login");
       return;
     }
@@ -489,7 +489,7 @@ const PurchasedOrderDetails = () => {
                                         fontSize: "13px",
                                       }}
                                     >
-                                      {item.quantity_required}
+                                      {item?.quantity_required}
                                     </p>
                                   </td>
                                   <td

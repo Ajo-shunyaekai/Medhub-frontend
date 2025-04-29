@@ -22,11 +22,11 @@ const SuplierCompleted = () => {
     };
 
     useEffect(() => {
-        const buyerIdSessionStorage = localStorage.getItem("buyer_id");
-        const buyerIdLocalStorage = localStorage.getItem("buyer_id");
+        const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
+        const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
 
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-            localStorage.clear();
+            localStorage?.clear();
             navigate("/buyer/login");
             return;
         }
@@ -79,7 +79,7 @@ const SuplierCompleted = () => {
                                 {orderList.length > 0 ? (
                                     orderList.map((order, i) => {
                                         const totalQuantity = order.items.reduce((total, item) => {
-                                            return total + (item.quantity_required || item.quantity);
+                                            return total + (item?.quantity_required || item?.quantity);
                                         }, 0);
 
                                         const orderedDate = moment(order.created_at).format("DD/MM/YYYY");

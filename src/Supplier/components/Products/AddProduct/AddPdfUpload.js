@@ -26,7 +26,7 @@ const AddPdfUpload = ({ invoiceImage, setInvoiceImage }) => {
         }
 
         if (file) {
-            const isValidType = file.type === 'application/pdf';
+            const isValidType = file?.type === 'application/pdf';
             const isValidSize = file.size <= 5 * 1024 * 1024;
 
             if (!isValidType) {
@@ -57,7 +57,7 @@ const AddPdfUpload = ({ invoiceImage, setInvoiceImage }) => {
     const handlePdfClick2 = (pdf) => {
         const reader = new FileReader();
         reader.onload = () => {
-            setSelectedPdf(reader.result);
+            setSelectedPdf(reader?.result);
             setShowModal(true);
         };
         reader.readAsDataURL(pdf);

@@ -73,15 +73,15 @@ import CompleteInvoicesList from './dashboard/CompleteInvoicesList.js';
 import PendingInvoicesList from './dashboard/PendingInvoicesList.js';
 
 const BuyerSidebar = () => {
-    const buyerIdSessionStorage = localStorage.getItem('buyer_id');
-    const buyerIdLocalStorage   = localStorage.getItem('buyer_id');
+    const buyerIdSessionStorage = localStorage?.getItem('buyer_id');
+    const buyerIdLocalStorage   = localStorage?.getItem('buyer_id');
 
     const socket = io.connect(process.env.REACT_APP_SERVER_URL);
     const location = useLocation();
     
 
     const activeKey = () => {
-        const res = window.location.pathname.split("/");
+        const res = window?.location?.pathname?.split("/");
         return res.length > 1 ? `/${res[1]}` : "/";
     };
     const navigate = useNavigate();
@@ -105,7 +105,7 @@ const BuyerSidebar = () => {
 
     useEffect(() => {
         if (!buyerIdSessionStorage && !buyerIdLocalStorage && location.pathname !== '/buyer/sign-up') {
-            localStorage.clear();
+            localStorage?.clear();
             navigate("/buyer/login");
         }
     }, [location.pathname]); 

@@ -14,19 +14,19 @@ const SecondaryProductList = ({ products, totalItems, currentPage, itemsPerPage,
   const columns = [
     {
       name: 'Product ID',
-      selector: row => row.product_id,
+      selector: row => row?.product_id,
       sortable: true,
       wrap: true,
     },
     {
       name: 'Name',
-      selector: (row) => row.general.name,
+      selector: (row) => row?.general.name,
       sortable: true,
-      cell: (row) => row.general.name || 'Unnamed Product',
+      cell: (row) => row?.general.name || 'Unnamed Product',
     },
     {
       name: 'Category',
-      selector: (row) => row.category,
+      selector: (row) => row?.category,
       sortable: true,
       cell: (row) =>
         row?.category
@@ -40,13 +40,13 @@ const SecondaryProductList = ({ products, totalItems, currentPage, itemsPerPage,
     },
     {
       name: 'Total Quantity',
-      selector: (row) => row.general.quantity,
-      cell: (row) => row.general.quantity || '0',
+      selector: (row) => row?.general.quantity,
+      cell: (row) => row?.general.quantity || '0',
     },
     {
       name: 'Stock Status',
       selector: row => {
-        const stockValues = row.inventoryDetails?.[0]?.stock ? [row.inventoryDetails[0].stock] : ['N/A'];
+        const stockValues = row?.inventoryDetails?.[0]?.stock ? [row?.inventoryDetails[0].stock] : ['N/A'];
         return stockValues[0];
       },
       sortable: true,
@@ -55,12 +55,12 @@ const SecondaryProductList = ({ products, totalItems, currentPage, itemsPerPage,
       name: 'Actions',
       cell: (row) => (
         <div className={styles.buttonContainer}>
-          <Link to={`/admin/product-details/${row._id}`}>
+          <Link to={`/admin/product-details/${row?._id}`}>
             <div className={styles.activeBtn}>
               <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
             </div>
           </Link>
-          <Link to={`/admin/supplier/${supplierId}/edit-product/${row._id}`}>
+          <Link to={`/admin/supplier/${supplierId}/edit-product/${row?._id}`}>
             <div className={styles.activeBtn}>
               <TbEdit className={styles['table-icon']} />
             </div>

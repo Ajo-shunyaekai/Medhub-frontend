@@ -30,28 +30,28 @@ const EditProfileList = () => {
   const columns = [
     {
       name: "Date & Time",
-      selector: (row) => formatDate(row.createdAt),
+      selector: (row) => formatDate(row?.createdAt),
       sortable: true,
     },
     {
       name: "Buyer ID",
-      selector: (row) => row.user_id,
+      selector: (row) => row?.user_id,
       sortable: true,
     },
     {
       name: "Buyer Name",
-      selector: (row) => row.name,
+      selector: (row) => row?.name,
       sortable: true,
     },
     {
       name: "Status",
-      selector: (row) => row.editReqStatus,
+      selector: (row) => row?.editReqStatus,
       sortable: true,
     },
     {
       name: "Action",
       cell: (row) => (
-        <Link to={`/admin/buyer-edit-profile-details/${row._id}`}>
+        <Link to={`/admin/buyer-edit-profile-details/${row?._id}`}>
           <div className={styles.activeBtn}>
             <RemoveRedEyeOutlinedIcon className={styles["table-icon"]} />
           </div>

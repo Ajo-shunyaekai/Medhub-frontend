@@ -53,7 +53,7 @@ function NewLogisticsProductList({ productList }) {
                 </td>
                 <td className={styles.td}>
                   <div className={styles.tableContent}>
-                    <span>{item.quantity}</span>
+                    <span>{item?.quantity}</span>
                   </div>
                 </td>
                 {/* <td className={styles.td}>

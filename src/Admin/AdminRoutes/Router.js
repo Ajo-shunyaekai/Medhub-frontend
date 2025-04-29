@@ -271,8 +271,8 @@ const socket = io.connect(process.env.REACT_APP_SERVER_URL);
 export function NotificationProvider({ children }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const adminIdSessionStorage = localStorage.getItem("admin_id");
-  const adminIdLocalStorage = localStorage.getItem("admin_id");
+  const adminIdSessionStorage = localStorage?.getItem("admin_id");
+  const adminIdLocalStorage = localStorage?.getItem("admin_id");
 
   const [notificationList, setNotificationList] = useState([]);
   const [count, setCount] = useState();
@@ -404,15 +404,15 @@ export function NotificationProvider({ children }) {
 
   useEffect(() => {
     if (!adminIdSessionStorage && !adminIdLocalStorage) {
-      localStorage.clear();
+      localStorage?.clear();
       navigate("/admin/login");
     }
   }, [adminIdSessionStorage, adminIdLocalStorage, navigate]);
 
   useEffect(() => {
-    localStorage.getItem("_id") &&
-      dispatch(fetchUserData(localStorage.getItem("_id")));
-  }, [localStorage.getItem("_id")]);
+    localStorage?.getItem("_id") &&
+      dispatch(fetchUserData(localStorage?.getItem("_id")));
+  }, [localStorage?.getItem("_id")]);
 
   return (
     <AdmSidebar
