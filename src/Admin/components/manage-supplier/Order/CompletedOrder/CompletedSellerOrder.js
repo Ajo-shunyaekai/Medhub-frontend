@@ -10,34 +10,34 @@ const CompletedSellerOrder = ({ orderList, totalOrders, currentPage, ordersPerPa
   const columns = [
     {
       name: 'Order ID',
-      selector: (row) => row.order_id,
+      selector: (row) => row?.order_id,
       sortable: true,
     },
     {
       name: 'Date',
-      selector: (row) => moment(row.created_at).format('DD/MM/YYYY'),
+      selector: (row) => moment(row?.created_at).format('DD/MM/YYYY'),
       sortable: true,
     },
     {
       name: 'Buyer Name',
-      selector: (row) => row.buyer?.buyer_name || 'N/A',
+      selector: (row) => row?.buyer?.buyer_name || 'N/A',
       sortable: true,
     },
     {
       name: 'Quantity',
       selector: (row) =>
-        row.items.reduce((total, item) => total + (item.quantity || item.quantity_required), 0),
+        row?.items?.reduce((total, item) => total + (item?.quantity || item?.quantity_required), 0),
       sortable: true,
     },
     {
       name: 'Status',
-      selector: (row) => (row.order_status ? 'Completed' : ''),
+      selector: (row) => (row?.order_status ? 'Completed' : ''),
       sortable: true,
     },
     {
       name: 'Action',
       cell: (row) => (
-        <Link to={`/admin/supplier-order-details/${row.order_id}`}>
+        <Link to={`/admin/supplier-order-details/${row?.order_id}`}>
           <div className={styles.activeBtn}>
             <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
           </div>

@@ -13,13 +13,13 @@ const NewProductList = ({ products, totalItems, currentPage, itemsPerPage, handl
     const columns = [
         {
             name: 'Product ID',
-            selector: row => row.product_id,
+            selector: row => row?.product_id,
             sortable: true,
             wrap: true,
         },
         {
             name: 'Product Name',
-            selector: row => row.general.name || 'Unnamed Product',
+            selector: row => row?.general.name || 'Unnamed Product',
             sortable: true,
             wrap: true,
         },
@@ -37,13 +37,13 @@ const NewProductList = ({ products, totalItems, currentPage, itemsPerPage, handl
         },
         {
             name: 'Quantity',
-            selector: row => row.general.quantity || '0',
+            selector: row => row?.general.quantity || '0',
             sortable: true,
         },
         {
             name: 'Stock Status',
             selector: row => {
-                const stockValues = row.inventoryDetails?.[0]?.stock ? [row.inventoryDetails[0].stock] : ['N/A'];
+                const stockValues = row?.inventoryDetails?.[0]?.stock ? [row?.inventoryDetails[0].stock] : ['N/A'];
                 return stockValues[0];
             },
             sortable: true,
@@ -52,12 +52,12 @@ const NewProductList = ({ products, totalItems, currentPage, itemsPerPage, handl
             name: 'Action',
             selector: row => (
                 <div className={styles.buttonContainer}>
-                    <Link to={`/admin/product-details/${row._id}`}>
+                    <Link to={`/admin/product-details/${row?._id}`}>
                         <div className={styles.activeBtn}>
                             <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                         </div>
                     </Link>
-                    <Link to={`/admin/supplier/${supplierId}/edit-product/${row._id}`}>
+                    <Link to={`/admin/supplier/${supplierId}/edit-product/${row?._id}`}>
                         <div className={styles.activeBtn}>
                             <TbEdit className={styles['table-icon']} />
                         </div>

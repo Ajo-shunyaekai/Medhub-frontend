@@ -29,11 +29,11 @@ const PurchasedOrdersList = () => {
   };
 
   useEffect(() => {
-    const supplierIdSessionStorage = localStorage.getItem("supplier_id");
-    const supplierIdLocalStorage = localStorage.getItem("supplier_id");
+    const supplierIdSessionStorage = localStorage?.getItem("supplier_id");
+    const supplierIdLocalStorage = localStorage?.getItem("supplier_id");
 
     if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-      localStorage.clear();
+      localStorage?.clear();
       navigate("/supplier/login");
       return;
     }
@@ -59,38 +59,38 @@ const PurchasedOrdersList = () => {
   const columns = [
     {
       name: "PO ID",
-      selector: (row) => row.purchaseOrder_id,
+      selector: (row) => row?.purchaseOrder_id,
       sortable: true,
     },
     {
       name: "Inquiry ID",
-      selector: (row) => row.enquiry_id,
+      selector: (row) => row?.enquiry_id,
       sortable: true,
     },
     {
       name: "PO Date",
-      selector: (row) => row.po_date,
+      selector: (row) => row?.po_date,
       sortable: true,
     },
     {
       name: "Buyer Name",
-      selector: (row) => row.buyer_name,
+      selector: (row) => row?.buyer_name,
       sortable: true,
     },
     {
       name: "Status",
       selector: (row) =>
-        row.po_status.charAt(0).toUpperCase() + row.po_status.slice(1),
+        row?.po_status?.charAt(0)?.toUpperCase() + row?.po_status.slice(1),
       sortable: true,
     },
     {
       name: "Action",
       cell: (row) => (
         <div className={styles.buttonContainer}>
-          <Link to={`/supplier/proforma-invoice/${row.purchaseOrder_id}`}>
+          <Link to={`/supplier/proforma-invoice/${row?.purchaseOrder_id}`}>
             <button className={styles.orderButton}>Make Order</button>
           </Link>
-          <Link to={`/supplier/purchased-order-details/${row.purchaseOrder_id}`}>
+          <Link to={`/supplier/purchased-order-details/${row?.purchaseOrder_id}`}>
           <div className={styles.activeBtn}>
                         <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                     </div>

@@ -61,7 +61,7 @@ const PendingInvoice = ({
                 type: "DOWNLOAD_INVOICE",
                 invoiceId: invoiceId,
               },
-              window.location.origin
+              window?.location?.origin
             );
           }
         } catch (error) {
@@ -110,7 +110,7 @@ const PendingInvoice = ({
   useEffect(() => {
     // Listen for messages from the iframe
     const handleIframeMessage = (event) => {
-      if (event.origin !== window.location.origin) return;
+      if (event.origin !== window?.location?.origin) return;
 
       if (event.data && event.data.type === "INVOICE_READY") {
         const iframeDocument =
@@ -142,11 +142,11 @@ const PendingInvoice = ({
   }, []);
 
   useEffect(() => {
-    const buyerIdSessionStorage = localStorage.getItem("buyer_id");
-    const buyerIdLocalStorage = localStorage.getItem("buyer_id");
+    const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
+    const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
 
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-      localStorage.clear();
+      localStorage?.clear();
       navigate("/buyer/login");
       return;
     }
@@ -198,7 +198,7 @@ const PendingInvoice = ({
                     </td>
                     <td className="flex">
                       <span className="item-title text-color">
-                        {invoice.status?.charAt(0).toUpperCase() +
+                        {invoice.status?.charAt(0)?.toUpperCase() +
                           invoice?.status?.slice(1)}
                       </span>
                     </td>

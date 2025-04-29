@@ -6,15 +6,15 @@ import InquiryOngoingList from "./InquiryOngoingList";
 import InquiryProductList from "./InquiryProductList";
 import { postRequestWithToken } from "../../../../api/Requests";
 const OngoingInquiriesDetails = () => {
-  const adminIdSessionStorage = localStorage.getItem("admin_id");
-    const adminIdLocalStorage   = localStorage.getItem("admin_id");
+  const adminIdSessionStorage = localStorage?.getItem("admin_id");
+    const adminIdLocalStorage   = localStorage?.getItem("admin_id");
     const { inquiryId } = useParams()
     const navigate = useNavigate();
     const [inquiryDetails, setInquiryDetails] = useState()
   
     useEffect(() => {
         if (!adminIdSessionStorage && !adminIdLocalStorage) {
-            localStorage.clear();
+            localStorage?.clear();
             navigate("/admin/login");
             return;
         }

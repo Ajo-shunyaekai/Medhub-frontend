@@ -17,8 +17,8 @@ const SupplierRequestDetails = () => {
     const [supplierDetails, setSupplierDetails] = useState();
     const { supplierId } = useParams();
     const navigate = useNavigate();
-    const adminIdSessionStorage = localStorage.getItem("admin_id");
-    const adminIdLocalStorage = localStorage.getItem("admin_id");
+    const adminIdSessionStorage = localStorage?.getItem("admin_id");
+    const adminIdLocalStorage = localStorage?.getItem("admin_id");
     const [loading, setLoading] = useState(false);
     const [rejectLoading, setRejectLoading] = useState(false)
     const [open, setOpen] = useState(false);
@@ -44,7 +44,7 @@ const SupplierRequestDetails = () => {
         setPdfUrl(null);
     };
     const extractFileName = (url) => {
-        return url.split('/').pop();
+        return url.split('/')?.pop();
     };
     const renderFiles = (files, type, hasDate = false) => {
         const serverUrl = process.env.REACT_APP_SERVER_URL;
@@ -56,7 +56,7 @@ const SupplierRequestDetails = () => {
         return files.map((item, index) => {
             const file = isObjectArray ? item.file : item;
             const date = isObjectArray ? item.date : null;
-            if (file.endsWith('.pdf')) {
+            if (file?.endsWith('.pdf')) {
                 return (
                     <div key={`${file}-${index}`} className='buyer-details-pdf-section'>
                         <FaFilePdf
@@ -82,8 +82,8 @@ const SupplierRequestDetails = () => {
                 );
             }
             else if (
-                file.endsWith('.vnd.openxmlformats-officedocument.wordprocessingml.document') ||
-                file.endsWith('.docx')
+                file?.endsWith('.vnd.openxmlformats-officedocument.wordprocessingml.document') ||
+                file?.endsWith('.docx')
             ) {
                 const docxFileName = file.replace(
                     '.vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -132,7 +132,7 @@ const SupplierRequestDetails = () => {
     useEffect(() => {
         const getSupplierdetails = async () => {
             if (!adminIdSessionStorage && !adminIdLocalStorage) {
-                localStorage.clear();
+                localStorage?.clear();
                 navigate("/admin/login");
                 return;
             }

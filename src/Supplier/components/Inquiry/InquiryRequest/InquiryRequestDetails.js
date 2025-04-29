@@ -8,8 +8,8 @@ import { toast } from 'react-toastify';
 import { apiRequests } from '../../../../api';
 
 const InquiryRequestDetails = ({socket}) => {
-    const supplierIdSessionStorage = localStorage.getItem("supplier_id");
-    const supplierIdLocalStorage = localStorage.getItem("supplier_id");
+    const supplierIdSessionStorage = localStorage?.getItem("supplier_id");
+    const supplierIdLocalStorage = localStorage?.getItem("supplier_id");
  
     const { inquiryId } = useParams()
     const navigate = useNavigate();
@@ -36,7 +36,7 @@ const InquiryRequestDetails = ({socket}) => {
     useEffect(() => {
         const fetchData = async ()=>{
             if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-                localStorage.clear();
+                localStorage?.clear();
                 navigate("/supplier/login");
                 return;
             }
@@ -66,7 +66,7 @@ const InquiryRequestDetails = ({socket}) => {
  
     const handleSubmitQuotation = () => {
         if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-            localStorage.clear();
+            localStorage?.clear();
             navigate("/supplier/login");
             return;
         }
@@ -92,7 +92,7 @@ const InquiryRequestDetails = ({socket}) => {
             counter_price: item.counterPrice?.toString(),
             unit_price: item.unit_price,
             unit_tax: item.unit_tax,
-            quantity_required: item.quantity_required,
+            quantity_required: item?.quantity_required,
             target_price: item.target_price,
             accepted: item.accepted
         }));

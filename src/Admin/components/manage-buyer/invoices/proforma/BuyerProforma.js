@@ -10,29 +10,29 @@ const BuyerProforma = ({ invoiceList, totalItems, currentPage, listPerPage, hand
     const columns = [
         {
             name: 'Invoice No.',
-            selector: row => row.invoice_no,
+            selector: row => row?.invoice_no,
             sortable: true,
         },
         {
             name: 'PO Date',
-            selector: row => row.created_at,
+            selector: row => row?.created_at,
             sortable: true,
-            cell: row => <div>{moment(row.created_at).format("DD/MM/YYYY")}</div>,
+            cell: row => <div>{moment(row?.created_at).format("DD/MM/YYYY")}</div>,
         },
         {
             name: 'Order ID',
-            selector: row => row.order_id,
+            selector: row => row?.order_id,
             sortable: true,
         },
         {
             name: 'Customer Name',
-            selector: row => row.supplier_name,
+            selector: row => row?.supplier_name,
             sortable: true,
         },
         {
             name: 'Action',
             cell: row => (
-                <Link to={`/admin/buyer-proforma-details/${row.order_id}`}>
+                <Link to={`/admin/buyer-proforma-details/${row?.order_id}`}>
                     <div className={styles.activeBtn}>
                         <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                     </div>

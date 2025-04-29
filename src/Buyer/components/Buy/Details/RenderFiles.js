@@ -5,7 +5,7 @@ import PDFIcon from '../../../assets/images/pdf.png';
 import DocxIcon from '../../../assets/images/doc.png'
  
 const extractFileName = (url) => {
-  return url.split("/").pop();
+  return url.split("/")?.pop();
 };
 
 const fallbackImageUrl = "https://medhub.shunyaekai.com/uploads/fallbackImage.jpg";
@@ -20,7 +20,7 @@ const isImageExtension = (fileName) => {
 //   return files?.map((file, index) => {
 //     const serverUrl = process.env.REACT_APP_SERVER_URL;
  
-//     if (file.endsWith(".pdf")) {
+//     if (file?.endsWith(".pdf")) {
 //       return (
 //         <div key={index} className={styles.uploadFileContainer}>
 //           <FaFilePdf
@@ -42,10 +42,10 @@ const isImageExtension = (fileName) => {
 //         </div>
 //       );
 //     } else if (
-//       file.endsWith(
+//       file?.endsWith(
 //         ".vnd.openxmlformats-officedocument.wordprocessingml.document"
 //       ) ||
-//       file.endsWith(".docx")
+//       file?.endsWith(".docx")
 //     ) {
 //       const docxFileName = file.replace(
 //         ".vnd.openxmlformats-officedocument.wordprocessingml.document",
@@ -95,8 +95,8 @@ return files?.map((file, index) => {
     : `${baseUrl}uploads/products/${file}`;
 
   const isImage = isImageExtension(fileUrl);
-  const isPdf = fileUrl.toLowerCase().endsWith(".pdf");
-  const isDocx = fileUrl.toLowerCase().endsWith(".docx");
+  const isPdf = fileUrl?.toLowerCase()?.endsWith(".pdf");
+  const isDocx = fileUrl?.toLowerCase()?.endsWith(".docx");
 
   if (isImage) {
     return (

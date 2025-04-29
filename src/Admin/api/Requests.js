@@ -16,8 +16,8 @@ export const postRequest = async (URL, requestData, callback) => {
     if (err?.response?.status === 401) {
       toast.error("Session Expired. Please login again.");
       setTimeout(() => {
-        localStorage.clear();
-        window.location.reload();
+        localStorage?.clear();
+        window?.location?.reload();
         return;
       }, 1000);
     }
@@ -36,15 +36,15 @@ export const postRequestWithFile = async (URL, requestData, callback) => {
       url: URL,
       data: requestData,
       headers: {
-        // "accesstoken" : localStorage.getItem('buyer_token') || localStorage.getItem('buyer_token'),
+        // "accesstoken" : localStorage?.getItem('buyer_token') || localStorage?.getItem('buyer_token'),
         "Content-Type": "multipart/form-data",
-        usertype: localStorage.getItem("buyer_id")
+        usertype: localStorage?.getItem("buyer_id")
           ? "Buyer"
-          : localStorage.getItem("supplier_id")
+          : localStorage?.getItem("supplier_id")
           ? "Supplier"
-          : localStorage.getItem("admin_id")
+          : localStorage?.getItem("admin_id")
           ? "Admin"
-          : localStorage.getItem("seller_id")
+          : localStorage?.getItem("seller_id")
           ? "Seller"
           : undefined,
       },
@@ -55,8 +55,8 @@ export const postRequestWithFile = async (URL, requestData, callback) => {
     if (err?.response?.status === 401) {
       toast.error("Session Expired. Please login again.");
       setTimeout(() => {
-        localStorage.clear();
-        window.location.reload();
+        localStorage?.clear();
+        window?.location?.reload();
         return;
       }, 1000);
     }
@@ -77,18 +77,18 @@ export const postRequestWithToken = async (URL, requestData, callback) => {
       data: requestData,
       // withCredentials : true,
       headers: {
-        accesstoken: localStorage.getItem("token"),
-        token1: localStorage.getItem("token1"),
-        token2: localStorage.getItem("token2"),
+        accesstoken: localStorage?.getItem("token"),
+        token1: localStorage?.getItem("token1"),
+        token2: localStorage?.getItem("token2"),
         // accesstoken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiV2VkIEp1bCAxNyAyMDI0IDEzOjIyOjQzIEdNVCswNTMwIChJbmRpYSBTdGFuZGFyZCBUaW1lKSIsImVtYWlsIjoiYWRtaW5Ac2h1bnlhZWthaS50ZWNoIiwiaWF0IjoxNzIxMjAyNzYzfQ.7KnHj1ywbLqb7B8OzrIuRmScx_gzM8y-7iCi2L3PWLk',
         "Content-Type": "application/json",
-        usertype: localStorage.getItem("buyer_id")
+        usertype: localStorage?.getItem("buyer_id")
           ? "Buyer"
-          : localStorage.getItem("supplier_id")
+          : localStorage?.getItem("supplier_id")
           ? "Supplier"
-          : localStorage.getItem("admin_id")
+          : localStorage?.getItem("admin_id")
           ? "Admin"
-          : localStorage.getItem("seller_id")
+          : localStorage?.getItem("seller_id")
           ? "Seller"
           : undefined,
       },
@@ -99,8 +99,8 @@ export const postRequestWithToken = async (URL, requestData, callback) => {
     if (err?.response?.status === 401) {
       toast.error("Session Expired. Please login again.");
       setTimeout(() => {
-        localStorage.clear();
-        window.location.reload();
+        localStorage?.clear();
+        window?.location?.reload();
         return;
       }, 1000);
     }
@@ -123,18 +123,18 @@ export const postRequestWithTokenAndFile = async (
       url: URL,
       data: requestData,
       headers: {
-        accesstoken: localStorage.getItem("token"),
-        token1: localStorage.getItem("token1"),
-        token2: localStorage.getItem("token2"),
-        buyer_id: localStorage.getItem("buyer_id"),
+        accesstoken: localStorage?.getItem("token"),
+        token1: localStorage?.getItem("token1"),
+        token2: localStorage?.getItem("token2"),
+        buyer_id: localStorage?.getItem("buyer_id"),
         "Content-Type": "multipart/form-data",
-        usertype: localStorage.getItem("buyer_id")
+        usertype: localStorage?.getItem("buyer_id")
           ? "Buyer"
-          : localStorage.getItem("supplier_id")
+          : localStorage?.getItem("supplier_id")
           ? "Supplier"
-          : localStorage.getItem("admin_id")
+          : localStorage?.getItem("admin_id")
           ? "Admin"
-          : localStorage.getItem("seller_id")
+          : localStorage?.getItem("seller_id")
           ? "Seller"
           : undefined,
       },
@@ -144,8 +144,8 @@ export const postRequestWithTokenAndFile = async (
     if (err?.response?.status === 401) {
       toast.error("Session Expired. Please login again.");
       setTimeout(() => {
-        localStorage.clear();
-        window.location.reload();
+        localStorage?.clear();
+        window?.location?.reload();
         return;
       }, 1000);
     }
@@ -165,22 +165,22 @@ export const postReqCSVDownload = async (URL, requestData, fileName) => {
         headers: {
           "Content-Type": "application/json",
           authorization: process.env.REACT_APP_Authorization,
-          accesstoken: localStorage.getItem("token"),
-          token1: localStorage.getItem("token1"),
-          token2: localStorage.getItem("token2"),
-          buyer_id: localStorage.getItem("buyer_id"),
-          supplier_id: localStorage.getItem("supplier_id"),
-          admin_id: localStorage.getItem("admin_id"),
-          partner_id: localStorage.getItem("partner_id"),
-          usertype: localStorage.getItem("buyer_id")
+          accesstoken: localStorage?.getItem("token"),
+          token1: localStorage?.getItem("token1"),
+          token2: localStorage?.getItem("token2"),
+          buyer_id: localStorage?.getItem("buyer_id"),
+          supplier_id: localStorage?.getItem("supplier_id"),
+          admin_id: localStorage?.getItem("admin_id"),
+          partner_id: localStorage?.getItem("partner_id"),
+          usertype: localStorage?.getItem("buyer_id")
             ? "Buyer"
-            : localStorage.getItem("supplier_id")
+            : localStorage?.getItem("supplier_id")
             ? "Supplier"
-            : localStorage.getItem("admin_id")
+            : localStorage?.getItem("admin_id")
             ? "Admin"
-            : localStorage.getItem("seller_id")
+            : localStorage?.getItem("seller_id")
             ? "Seller"
-            : localStorage.getItem("partner_id")
+            : localStorage?.getItem("partner_id")
             ? "Logistics"
             : undefined,
         }, // Include the headers
@@ -200,8 +200,8 @@ export const postReqCSVDownload = async (URL, requestData, fileName) => {
     if (err?.response?.status === 401) {
       toast.error("Session Expired. Please login again.");
       setTimeout(() => {
-        localStorage.clear();
-        window.location.reload();
+        localStorage?.clear();
+        window?.location?.reload();
         return;
       }, 1000);
     }

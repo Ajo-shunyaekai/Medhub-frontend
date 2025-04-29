@@ -9,8 +9,8 @@ import moment from 'moment-timezone';
 const SellerFeedbackDetails = () => {
     const { supportId } = useParams()
     const navigate = useNavigate()
-    const adminIdSessionStorage = localStorage.getItem("admin_id");
-    const adminIdLocalStorage = localStorage.getItem("admin_id");
+    const adminIdSessionStorage = localStorage?.getItem("admin_id");
+    const adminIdLocalStorage = localStorage?.getItem("admin_id");
     const [supplierDetails, setSupplierDetails] = useState()
 
 
@@ -29,7 +29,7 @@ const SellerFeedbackDetails = () => {
     };
     useEffect(() => {
         if (!adminIdSessionStorage && !adminIdLocalStorage) {
-            localStorage.clear();
+            localStorage?.clear();
             navigate("/admin/login");
             return;
         }

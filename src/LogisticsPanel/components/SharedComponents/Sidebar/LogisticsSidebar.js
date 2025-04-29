@@ -117,7 +117,7 @@ const Sidebar = ({  notificationList, count, handleClick }) => {
         const response = await  dispatch(logoutUser({}));
         if(response.meta.requestStatus === "fulfilled") {
         setTimeout(() => {
-            localStorage.clear();
+            localStorage?.clear();
             navigate('/logistics/login')
         }, 500);
         }
@@ -257,8 +257,8 @@ const Sidebar = ({  notificationList, count, handleClick }) => {
                                                     to="#"
                                                     onClick={() => setIsProfileOpen(false)}
                                                 >
-                                                    {localStorage.getItem('buyer_name') ||
-                                                        localStorage.getItem('buyer_name')}
+                                                    {localStorage?.getItem('buyer_name') ||
+                                                        localStorage?.getItem('buyer_name')}
                                                 </Link>
                                             </div> */}
                                             <div className={styles.profile_wrapper_mid}>

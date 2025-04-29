@@ -92,7 +92,7 @@ const AddProductFileUpload = ({
   acceptTypes,
   maxFiles = 4,
 }) => {
-  const tooltipId = `tooltip-${label.replace(/\s+/g, "-").toLowerCase()}`;
+  const tooltipId = `tooltip-${label.replace(/\s+/g, "-")?.toLowerCase()}`;
   const tooltipContent = tooltip || "Default tooltip text";
 
   // Call the useFileUpload hook with acceptTypes and maxFiles
@@ -142,7 +142,7 @@ const AddProductFileUpload = ({
         {fileUpload?.filesMerged?.map((file, index) => {
           const isString = typeof file === "string";
           const fileName = isString ? file : file?.name;
-          const fileExtension = fileName?.split(".").pop()?.toLowerCase();
+          const fileExtension = fileName?.split(".")?.pop()?.toLowerCase();
           const isImage = ["jpeg", "jpg", "png", "gif", "bmp", "webp"].includes(
             fileExtension
           );

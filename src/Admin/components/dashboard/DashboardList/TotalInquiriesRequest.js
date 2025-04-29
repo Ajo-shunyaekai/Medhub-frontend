@@ -10,32 +10,32 @@ const TotalInquiriesRequest = ({ list, totalList, currentPage, ordersPerPage, ha
   const columns = [
     {
       name: 'Inquiry ID',
-      selector: (row) => row.enquiry_id,
+      selector: (row) => row?.enquiry_id,
       sortable: true,
     },
     {
       name: 'Date',
-      selector: (row) => moment(row.created_at).format('DD/MM/YYYY'),
+      selector: (row) => moment(row?.created_at).format('DD/MM/YYYY'),
       sortable: true,
     },
     {
       name: 'Buyer Name',
-      selector: (row) => row.buyer?.buyer_name || 'N/A',
+      selector: (row) => row?.buyer?.buyer_name || 'N/A',
       sortable: true,
     },
     {
       name: 'Status',
       selector: (row) =>
-        row.enquiry_status
+        row?.enquiry_status
           ?.split(' ')
-          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .map((word) => word?.charAt(0)?.toUpperCase() + word?.slice(1))
           .join(' ') || 'N/A',
       sortable: true,
     },
     {
       name: 'Action',
       cell: (row) => (
-        <Link to={`/admin/ongoing-inquiries-details/${row.enquiry_id}`}>
+        <Link to={`/admin/ongoing-inquiries-details/${row?.enquiry_id}`}>
           <div className={styles.activeBtn}>
             <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
           </div>

@@ -64,14 +64,14 @@ const ChangePassword = ({ step, setStep }) => {
         );
         if (response?.code != 200) {
           toast.error(response?.message);
-          localStorage.clear();
+          localStorage?.clear();
           navigate("supplier/login");
           setLoading(false)
           return;
         }
         toast.success("Password Changed Successfully!");
         setLoading(false)
-        localStorage.clear();
+        localStorage?.clear();
         navigate("/supplier/login");
       }}
       validateOnBlur={true}

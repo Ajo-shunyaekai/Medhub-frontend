@@ -5,12 +5,12 @@ import PDFIcon from '../../assets/images/pdf.png';
 import DocxIcon from '../../assets/images/doc.png'
  
 const extractFileName = (url) => {
-  return url.split("/").pop();
+  return url.split("/")?.pop();
 };
 
 const getExtension = (filename) => {
-  const parts = filename.split('.');
-  return parts.length > 1 ? parts.pop().toLowerCase() : '';
+  const parts = filename?.split('.');
+  return parts.length > 1 ? parts.pop()?.toLowerCase() : '';
 };
 
 const fallbackImageUrl = "https://medhub.shunyaekai.com/uploads/fallbackImage.jpg";

@@ -14,8 +14,8 @@ const TotalRequestList = () => {
     const queryParams = new URLSearchParams(location.search);
     const filterValue = queryParams.get('filterValue');
 
-    const adminIdSessionStorage = localStorage.getItem('admin_id');
-    const adminIdLocalStorage = localStorage.getItem('admin_id');
+    const adminIdSessionStorage = localStorage?.getItem('admin_id');
+    const adminIdLocalStorage = localStorage?.getItem('admin_id');
 
     const [loading, setLoading] = useState(true);
     const [requestList, setRequestList] = useState([]);
@@ -29,7 +29,7 @@ const TotalRequestList = () => {
 
     useEffect(() => {
         if (!adminIdSessionStorage && !adminIdLocalStorage) {
-            localStorage.clear();
+            localStorage?.clear();
             navigate('/admin/login');
             return;
         }
@@ -55,38 +55,38 @@ const TotalRequestList = () => {
     const columns = [
         {
             name: 'Registration Type',
-            selector: (row) => row.registration_type,
+            selector: (row) => row?.registration_type,
             sortable: true,
         },
         {
             name: 'Company Type',
-            selector: (row) => row.buyer_type || row.supplier_type,
+            selector: (row) => row?.buyer_type || row?.supplier_type,
             sortable: true,
         },
         {
             name: 'Company Name',
-            selector: (row) => row.buyer_name || row.supplier_name,
+            selector: (row) => row?.buyer_name || row?.supplier_name,
             sortable: true,
         },
         {
             name: 'Country of Origin',
-            selector: (row) => row.country_of_origin,
+            selector: (row) => row?.country_of_origin,
             sortable: true,
         },
         {
             name: 'Status',
-            selector: (row) => row.status || 'Pending',
+            selector: (row) => row?.status || 'Pending',
             sortable: true,
-            cell: (row) => <div>{row.status || 'Pending'}</div>,
+            cell: (row) => <div>{row?.status || 'Pending'}</div>,
         },
         {
             name: 'Action',
             cell: (row) => (
                 <Link
                     to={
-                        row.registration_type === 'Buyer'
-                            ? `/admin/buyer-request-details/${row.buyer_id}`
-                            : `/admin/supplier-request-details/${row.supplier_id}`
+                        row?.registration_type === 'Buyer'
+                            ? `/admin/buyer-request-details/${row?.buyer_id}`
+                            : `/admin/supplier-request-details/${row?.supplier_id}`
                     }
                 >
                     <div className={styles.activeBtn}>

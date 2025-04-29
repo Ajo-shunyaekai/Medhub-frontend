@@ -10,8 +10,8 @@ import { apiRequests } from "../../../../api";
 const SellerOrder = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const adminIdSessionStorage = localStorage.getItem("admin_id");
-  const adminIdLocalStorage = localStorage.getItem("admin_id");
+  const adminIdSessionStorage = localStorage?.getItem("admin_id");
+  const adminIdLocalStorage = localStorage?.getItem("admin_id");
   const getActiveLinkFromPath = (path) => {
     switch (path) {
       case "/admin/supplier-order/active":
@@ -52,7 +52,7 @@ const SellerOrder = () => {
   useEffect(() => {
     const fetchOrderList = async () => {
       if (!adminIdSessionStorage && !adminIdLocalStorage) {
-        localStorage.clear();
+        localStorage?.clear();
         navigate("/admin/login");
         return;
       }

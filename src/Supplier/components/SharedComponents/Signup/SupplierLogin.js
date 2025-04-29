@@ -61,17 +61,17 @@ const SupplierLogin = ({socket}) => {
                 }else{
                     const { accessToken, refreshToken} = response.data;
                     // Store tokens in cookies
-                    localStorage.setItem(`token1`, accessToken)
-                    localStorage.setItem(`token2`, refreshToken)
+                    localStorage?.setItem(`token1`, accessToken)
+                    localStorage?.setItem(`token2`, refreshToken)
                     Cookies.set('accessToken', accessToken,);
                     Cookies.set('refreshToken', refreshToken,);
 
                     const {data} = await response;
                     for (let x in data) {
-                        localStorage.setItem(`${x}`, data[x])
+                        localStorage?.setItem(`${x}`, data[x])
                         if(x =='registeredAddress'){
                             for (let y in data[x]) {
-                                localStorage.setItem(`${y}`, data[x][y])
+                                localStorage?.setItem(`${y}`, data[x][y])
                             }
                         }
                     }
@@ -157,7 +157,7 @@ const SupplierLogin = ({socket}) => {
     };
 
     useEffect(() => {
-        if ( localStorage.getItem("supplier_id") !== undefined && localStorage.getItem("supplier_id") ) {
+        if ( localStorage?.getItem("supplier_id") !== undefined && localStorage?.getItem("supplier_id") ) {
             navigate('/supplier');
         }
     }, []);

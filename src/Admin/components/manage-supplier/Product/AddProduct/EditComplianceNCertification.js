@@ -140,7 +140,7 @@ const EditComplianceNCertification = ({
   fileIndex,
   isEdit,
 }) => {
-  const tooltipId = `tooltip-${label.replace(/\s+/g, "-").toLowerCase()}`;
+  const tooltipId = `tooltip-${label.replace(/\s+/g, "-")?.toLowerCase()}`;
   const tooltipContent = tooltip || "Default tooltip text";
 
   // Call the useFileUpload hook with acceptTypes and maxFiles
@@ -201,8 +201,8 @@ const EditComplianceNCertification = ({
             // Determine the file extension based on whether it's a File object or string
             const fileExtension =
               typeof file === "string"
-                ? file.split(".").pop().toLowerCase() // If it's a string (e.g., an existing file path)
-                : file?.name.split(".").pop().toLowerCase(); // If it's a File object
+                ? file?.split(".")?.pop()?.toLowerCase() // If it's a string (e.g., an existing file path)
+                : file?.name?.split(".")?.pop()?.toLowerCase(); // If it's a File object
 
             const isImage =
               fileExtension === "jpeg" ||

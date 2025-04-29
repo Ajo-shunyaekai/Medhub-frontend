@@ -15,8 +15,8 @@ const TotalCompletedOrder = () => {
   const queryParams = new URLSearchParams(location.search);
   const filterValue = queryParams.get("filterValue");
 
-  const adminIdSessionStorage = localStorage.getItem("admin_id");
-  const adminIdLocalStorage = localStorage.getItem("admin_id");
+  const adminIdSessionStorage = localStorage?.getItem("admin_id");
+  const adminIdLocalStorage = localStorage?.getItem("admin_id");
 
   const [loading, setLoading] = useState(true);
   const [orderList, setOrderList] = useState([]);
@@ -31,7 +31,7 @@ const TotalCompletedOrder = () => {
   useEffect(() => {
     const fetchOrderList = async () => {
       if (!adminIdSessionStorage && !adminIdLocalStorage) {
-        localStorage.clear();
+        localStorage?.clear();
         navigate("/admin/login");
         return;
       }
@@ -56,37 +56,37 @@ const TotalCompletedOrder = () => {
   const columns = [
     {
       name: "Order ID",
-      selector: (row) => row.order_id,
+      selector: (row) => row?.order_id,
       sortable: true,
     },
     {
       name: "Date",
-      selector: (row) => row.created_at,
+      selector: (row) => row?.created_at,
       sortable: true,
-      cell: (row) => <div>{moment(row.created_at).format("DD/MM/YYYY")}</div>,
+      cell: (row) => <div>{moment(row?.created_at).format("DD/MM/YYYY")}</div>,
     },
     {
       name: "Supplier Name",
-      selector: (row) => row.supplier_name,
+      selector: (row) => row?.supplier_name,
       sortable: true,
     },
     {
       name: "Buyer Name",
-      selector: (row) => row.buyer_name,
+      selector: (row) => row?.buyer_name,
       sortable: true,
     },
     {
       name: "Quantity",
       selector: (row) =>
-        row.items.reduce(
-          (total, item) => total + (item.quantity || item.quantity_required),
+        row?.items?.reduce(
+          (total, item) => total + (item?.quantity || item?.quantity_required),
           0
         ),
       sortable: true,
       cell: (row) => (
         <div>
-          {row.items.reduce(
-            (total, item) => total + (item.quantity || item.quantity_required),
+          {row?.items?.reduce(
+            (total, item) => total + (item?.quantity || item?.quantity_required),
             0
           )}
         </div>
@@ -94,13 +94,13 @@ const TotalCompletedOrder = () => {
     },
     {
       name: "Status",
-      selector: (row) => row.status,
+      selector: (row) => row?.status,
       sortable: true,
       cell: (row) => (
         <div>
-          {row.status
+          {row?.status
             ?.split(" ")
-            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .map((word) => word?.charAt(0)?.toUpperCase() + word?.slice(1))
             .join(" ")}
         </div>
       ),
@@ -108,7 +108,7 @@ const TotalCompletedOrder = () => {
     {
       name: "Action",
       cell: (row) => (
-        <Link to={`/admin/order-details/${row.order_id}`}>
+        <Link to={`/admin/order-details/${row?.order_id}`}>
           <div className={styles.activeBtn}>
             <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
           </div>

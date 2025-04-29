@@ -20,35 +20,35 @@ const CompleteOrder = ({ orderList, totalOrders, currentPage, ordersPerPage, han
     const columns = [
         {
             name: 'Order ID',
-            selector: (row) => row.order_id,
+            selector: (row) => row?.order_id,
             sortable: true,
 
         },
         {
             name: 'Date',
-            selector: (row) => row.created_at,
+            selector: (row) => row?.created_at,
             sortable: true,
-            cell: (row) => <div>{moment(row.created_at).format('DD/MM/YYYY')}</div>,
+            cell: (row) => <div>{moment(row?.created_at).format('DD/MM/YYYY')}</div>,
         },
         {
             name: 'Buyer Name',
-            selector: (row) => row.buyer?.buyer_name,
+            selector: (row) => row?.buyer?.buyer_name,
             sortable: true,
 
         },
         {
             name: 'Quantity',
-            selector: (row) => row.items.reduce((total, item) => total + (item?.quantity || item?.quantity_required), 0),
+            selector: (row) => row?.items?.reduce((total, item) => total + (item?.quantity || item?.quantity_required), 0),
             sortable: true,
 
         },
         {
             name: 'Status',
-            selector: (row) => row.order_status,
+            selector: (row) => row?.order_status,
             sortable: true,
             cell: (row) => (
                 <div>
-                    {row.order_status.charAt(0).toUpperCase() + row.order_status.slice(1)}
+                    {row?.order_status?.charAt(0)?.toUpperCase() + row?.order_status.slice(1)}
                 </div>
             ),
         },
@@ -56,7 +56,7 @@ const CompleteOrder = ({ orderList, totalOrders, currentPage, ordersPerPage, han
             name: 'Action',
             cell: (row) => (
 
-                <Link to={`/supplier/active-orders-details/${row.order_id}`}>
+                <Link to={`/supplier/active-orders-details/${row?.order_id}`}>
                     <div className={styles.activeBtn}>
                         <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                     </div>

@@ -14,8 +14,8 @@ const ApprovedProduct = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const adminIdSessionStorage = localStorage.getItem("admin_id");
-  const adminIdLocalStorage = localStorage.getItem("admin_id");
+  const adminIdSessionStorage = localStorage?.getItem("admin_id");
+  const adminIdLocalStorage = localStorage?.getItem("admin_id");
 
   const getActiveLinkFromPath = (path) => {
     switch (path) {
@@ -59,7 +59,7 @@ const ApprovedProduct = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       if (!adminIdSessionStorage && !adminIdLocalStorage) {
-        localStorage.clear();
+        localStorage?.clear();
         navigate("/admin/login");
         return;
       }
@@ -87,7 +87,7 @@ const ApprovedProduct = () => {
 
   const handleDownload = () => {
     if (!adminIdSessionStorage && !adminIdLocalStorage) {
-      localStorage.clear();
+      localStorage?.clear();
       navigate("/admin/login");
       return;
     }

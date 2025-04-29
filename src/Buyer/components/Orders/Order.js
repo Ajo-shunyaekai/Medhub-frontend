@@ -55,11 +55,11 @@ const Order = () => {
     };
  
     const fetchData = async () => {
-        const buyerIdSessionStorage = localStorage.getItem("buyer_id");
-        const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
+        const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
+        const buyerIdLocalStorage   = localStorage?.getItem("buyer_id");
  
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-        localStorage.clear();
+        localStorage?.clear();
         navigate("/buyer/login");
         return;
         }

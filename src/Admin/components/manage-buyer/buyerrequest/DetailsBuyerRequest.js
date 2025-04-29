@@ -18,8 +18,8 @@ const DetailsBuyerRequest = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { buyerId } = useParams()
     const navigate = useNavigate()
-    const adminIdSessionStorage = localStorage.getItem("admin_id");
-    const adminIdLocalStorage = localStorage.getItem("admin_id");
+    const adminIdSessionStorage = localStorage?.getItem("admin_id");
+    const adminIdLocalStorage = localStorage?.getItem("admin_id");
     const [open, setOpen] = useState(false);
     const [pdfUrl, setPdfUrl] = useState(null);
     const [salesPersonName, setSalesPersonName] = useState("");
@@ -42,7 +42,7 @@ const DetailsBuyerRequest = () => {
         setPdfUrl(null);
     };
     const extractFileName = (url) => {
-        return url.split('/').pop();
+        return url.split('/')?.pop();
     };
     const renderFiles = (files, type, hasDate = false) => {
         if (!files) return null;
@@ -57,7 +57,7 @@ const DetailsBuyerRequest = () => {
                 file = item;
             }
 
-            if (file.endsWith('.pdf')) {
+            if (file?.endsWith('.pdf')) {
                 return (
                     <div key={index} className='buyer-details-pdf-section'>
                         <FaFilePdf
@@ -80,8 +80,8 @@ const DetailsBuyerRequest = () => {
                     </div>
                 );
             } else if (
-                file.endsWith('.vnd.openxmlformats-officedocument.wordprocessingml.document') ||
-                file.endsWith('.docx')
+                file?.endsWith('.vnd.openxmlformats-officedocument.wordprocessingml.document') ||
+                file?.endsWith('.docx')
             ) {
                 const docxFileName = file.replace(
                     '.vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -135,7 +135,7 @@ const DetailsBuyerRequest = () => {
     useEffect(() => {
         const getBuyerDetails = async () => {
             if (!adminIdSessionStorage && !adminIdLocalStorage) {
-                localStorage.clear();
+                localStorage?.clear();
                 navigate("/admin/login");
                 return;
             }

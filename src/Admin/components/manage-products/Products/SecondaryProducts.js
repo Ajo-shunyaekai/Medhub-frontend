@@ -21,7 +21,7 @@ const ApprovedSecondaryProducts = ({
     },
     {
       name: 'Product ID',
-      selector: (row) => row.product_id || 'N/A',
+      selector: (row) => row?.product_id || 'N/A',
       sortable: true,
     },
     {
@@ -32,7 +32,7 @@ const ApprovedSecondaryProducts = ({
     {
       name: 'Category',
       selector: (row) => {
-        const category = row.category || 'N/A';
+        const category = row?.category || 'N/A';
         return category
           .replace(/([a-z])([A-Z])/g, '$1 $2')
           .replace(/\b\w/g, (char) => char.toUpperCase());
@@ -41,7 +41,7 @@ const ApprovedSecondaryProducts = ({
     },
     {
       name: 'Total Quantity',
-      selector: (row) => row.general?.quantity || 'N/A',
+      selector: (row) => row?.general?.quantity || 'N/A',
       sortable: true,
     },
     {

@@ -15,8 +15,8 @@ const RejectedSuppliers = () => {
   const queryParams = new URLSearchParams(location.search);
   const filterValue = queryParams.get("filterValue");
 
-  const adminIdSessionStorage = localStorage.getItem("admin_id");
-  const adminIdLocalStorage = localStorage.getItem("admin_id");
+  const adminIdSessionStorage = localStorage?.getItem("admin_id");
+  const adminIdLocalStorage = localStorage?.getItem("admin_id");
 
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -43,7 +43,7 @@ const RejectedSuppliers = () => {
   useEffect(() => {
     const fetchSupplierList = async () => {
       if (!adminIdSessionStorage && !adminIdLocalStorage) {
-        localStorage.clear();
+        localStorage?.clear();
         navigate("/admin/login");
         return;
       }
@@ -78,41 +78,41 @@ const RejectedSuppliers = () => {
   const columns = [
     {
       name: "Supplier ID",
-      selector: (row) => row.supplier_id,
+      selector: (row) => row?.supplier_id,
       sortable: true,
     },
     {
       name: 'Registration No.',
-      selector: row => row.registration_no,
+      selector: row => row?.registration_no,
       sortable: true,
     },
     {
       name: 'GST/VAT Registration No.',
-      selector: row => row.vat_reg_no,
+      selector: row => row?.vat_reg_no,
       sortable: true,
     },
     {
       name: 'Supplier Name',
-      selector: row => row.supplier_name,
+      selector: row => row?.supplier_name,
       sortable: true,
     },
     {
       name: 'Supplier Type',
-      selector: row => row.supplier_type,
+      selector: row => row?.supplier_type,
       sortable: true,
     },
     {
       name: "Mobile No.",
-      selector: (row) => `${row.supplier_country_code} ${row.supplier_mobile}`,
+      selector: (row) => `${row?.supplier_country_code} ${row?.supplier_mobile}`,
       sortable: true,
     },
     {
       name: "Status",
       selector: (row) =>
-        row.account_status
-          ? row.account_status === 1
+        row?.account_status
+          ? row?.account_status === 1
             ? "Accepted"
-            : row.account_status === 2
+            : row?.account_status === 2
               ? "Rejected"
               : "Pending"
           : "",
@@ -121,7 +121,7 @@ const RejectedSuppliers = () => {
     {
       name: "Action",
       cell: (row) => (
-        <Link to={`/admin/supplier-details/${row.supplier_id}`}>
+        <Link to={`/admin/supplier-details/${row?.supplier_id}`}>
           <div className={styles.activeBtn}>
             <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
           </div>

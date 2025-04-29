@@ -25,10 +25,10 @@ function NewOrder() {
   };
 
   const fetchData = async () => {
-    const partnerId = localStorage.getItem("partner_id");
+    const partnerId = localStorage?.getItem("partner_id");
 
     if (!partnerId) {
-      localStorage.clear();
+      localStorage?.clear();
       window.location.href = "/logistics/login";
       return;
     }
@@ -161,11 +161,11 @@ function NewOrder() {
     };
 
     const fetchData = async ()=> {
-        const partnerIdSessionStorage = localStorage.getItem("partner_id");
-        const partnerIdLocalStorage   = localStorage.getItem("partner_id");
+        const partnerIdSessionStorage = localStorage?.getItem("partner_id");
+        const partnerIdLocalStorage   = localStorage?.getItem("partner_id");
     
         if (!partnerIdSessionStorage && !partnerIdLocalStorage) {
-        localStorage.clear();
+        localStorage?.clear();
         navigate("/logistics/login");
         return;
         }

@@ -18,11 +18,11 @@ const SupplierCompleted = () => {
   const ordersPerPage = 10;
 
     useEffect(() => {
-        const buyerIdSessionStorage = localStorage.getItem("buyer_id");
-        const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
+        const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
+        const buyerIdLocalStorage   = localStorage?.getItem("buyer_id");
 
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-      localStorage.clear();
+      localStorage?.clear();
       navigate("/buyer/login");
       return;
     }
@@ -48,40 +48,40 @@ const SupplierCompleted = () => {
   const columns = [
     {
       name: 'Order ID',
-      selector: row => row.order_id,
+      selector: row => row?.order_id,
       sortable: true,
-      cell: row => <div className={styles.tableCell}>{row.order_id}</div>,
+      cell: row => <div className={styles.tableCell}>{row?.order_id}</div>,
     },
     {
       name: 'Date',
-      selector: row => row.created_at,
+      selector: row => row?.created_at,
       sortable: true,
       cell: row => (
         <div className={styles.tableCell}>
-          {moment(row.created_at).format("DD/MM/YYYY")}
+          {moment(row?.created_at).format("DD/MM/YYYY")}
         </div>
       ),
     },
     {
       name: 'Quantity',
-      selector: row => row.items.reduce((total, item) => total + (item.quantity_required || item.quantity), 0),
+      selector: row => row?.items?.reduce((total, item) => total + (item?.quantity_required || item?.quantity), 0),
       sortable: true,
       cell: row => (
         <div className={styles.tableCell}>
-          {row.items.reduce((total, item) => total + (item.quantity_required || item.quantity), 0)}
+          {row?.items?.reduce((total, item) => total + (item?.quantity_required || item?.quantity), 0)}
         </div>
       ),
     },
     {
       name: 'Status',
-      selector: row => row.status,
+      selector: row => row?.status,
       sortable: true,
-      cell: row => <div className={styles.tableCell}>{row.status}</div>,
+      cell: row => <div className={styles.tableCell}>{row?.status}</div>,
     },
     {
       name: 'Action',
       cell: row => (
-         <Link to={`/buyer/order-details/${row.order_id}`}>
+         <Link to={`/buyer/order-details/${row?.order_id}`}>
         <div className={styles.actionBtn}>
             <RemoveRedEyeOutlinedIcon className={styles.icon} />
         </div>

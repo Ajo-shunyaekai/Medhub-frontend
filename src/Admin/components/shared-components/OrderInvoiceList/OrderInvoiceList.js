@@ -17,45 +17,45 @@ const OrderInvoiceList = ({ invoiceData }) => {
     const columns = [
         {
             name: 'Invoice No.',
-            selector: (row) => row.invoice_no,
+            selector: (row) => row?.invoice_no,
             sortable: true,
         },
         {
             name: 'Order ID',
-            selector: (row) => row.order_id,
+            selector: (row) => row?.order_id,
             sortable: true,
         },
         {
             name: 'Supplier Name',
-            selector: (row) => row.supplier_name,
+            selector: (row) => row?.supplier_name,
             sortable: true,
         },
         {
             name: 'Amount',
-            selector: (row) => row.total_payable_amount,
+            selector: (row) => row?.total_payable_amount,
             sortable: true,
             cell: (row) => (
                 <>
-                    {row.total_payable_amount !== null && row.total_payable_amount !== undefined
-                        ? `${row.total_payable_amount} USD`
+                    {row?.total_payable_amount !== null && row?.total_payable_amount !== undefined
+                        ? `${row?.total_payable_amount} USD`
                         : ''}
                 </>
             ),
         },
         {
             name: 'Status',
-            selector: (row) => row.invoice_status,
+            selector: (row) => row?.invoice_status,
             sortable: true,
             cell: (row) => (
                 <>
-                    {row.invoice_status.charAt(0).toUpperCase() + row.invoice_status.slice(1)}
+                    {row?.invoice_status?.charAt(0)?.toUpperCase() + row?.invoice_status.slice(1)}
                 </>
             ),
         },
         {
             name: 'Action',
             cell: (row) => (
-                <Link to={`/admin/buyer-invoice-details/${row.invoice_id}`}>
+                <Link to={`/admin/buyer-invoice-details/${row?.invoice_id}`}>
                     <div className={styles.activeBtn}>
                         <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                     </div>

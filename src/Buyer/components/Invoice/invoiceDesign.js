@@ -58,7 +58,7 @@ function InvoiceTemplate({ invoice }) {
         // Function to handle messages from parent window
         const handleMessage = (event) => {
             // Only accept messages from our own domain
-            if (event.origin !== window.location.origin) return;
+            if (event.origin !== window?.location?.origin) return;
             
             // Check if this is a download request
             if (event.data && event.data.type === "DOWNLOAD_INVOICE") {
@@ -66,7 +66,7 @@ function InvoiceTemplate({ invoice }) {
                 window.parent.postMessage({
                     type: "INVOICE_READY",
                     invoiceId: invoiceId
-                }, window.location.origin);
+                }, window?.location?.origin);
                 
                 // You could also trigger download directly
                 // handleDownload();
@@ -83,7 +83,7 @@ function InvoiceTemplate({ invoice }) {
                 window.parent.postMessage({
                     type: "INVOICE_READY", 
                     invoiceId: invoiceId
-                }, window.location.origin);
+                }, window?.location?.origin);
             }, 500);
         }
         
@@ -166,7 +166,7 @@ function InvoiceTemplate({ invoice }) {
                                                             <tbody>
                                                                 {(invoiceDetails && invoiceDetails?.items && invoiceDetails?.items?.length) ?
                                                                     invoiceDetails?.items?.map((item, i) => {
-                                                                        const totalPrice = item.quantity * 50;
+                                                                        const totalPrice = item?.quantity * 50;
                                                                         subtotal += totalPrice;
                                                                         vatAmount = subtotal * 0.20;
                                                                         return (
@@ -178,7 +178,7 @@ function InvoiceTemplate({ invoice }) {
                                                                                     <p style={{ fontWeight: 500, fontSize: '14px' }}>{item.medicine_name}</p>
                                                                                 </td>
                                                                                 <td style={{ paddingBlock: '12px' }}>
-                                                                                    <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.quantity_required}</p>
+                                                                                    <p style={{ fontWeight: 500, fontSize: '13px' }}>{item?.quantity_required}</p>
                                                                                 </td>
                                                                                 <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
                                                                                     <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.counter_price || item.target_price} USD</p>
@@ -194,7 +194,7 @@ function InvoiceTemplate({ invoice }) {
                                                                     })
                                                                     :
                                                                     invoice?.items?.map((item, i) => {
-                                                                        const totalPrice = item.quantity * 50;
+                                                                        const totalPrice = item?.quantity * 50;
                                                                         subtotal += totalPrice;
                                                                         vatAmount = subtotal * 0.20;
                                                                         return (
@@ -206,13 +206,13 @@ function InvoiceTemplate({ invoice }) {
                                                                                     <p style={{ fontWeight: 500, fontSize: '14px' }}>{item.product_name} (500mg)</p>
                                                                                 </td>
                                                                                 <td style={{ paddingBlock: '12px' }}>
-                                                                                    <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.quantity}</p>
+                                                                                    <p style={{ fontWeight: 500, fontSize: '13px' }}>{item?.quantity}</p>
                                                                                 </td>
                                                                                 <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
                                                                                     <p style={{ fontWeight: 500, fontSize: '13px' }}>50 USD</p>
                                                                                 </td>
                                                                                 <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
-                                                                                    <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.quantity * 50} USD</p>
+                                                                                    <p style={{ fontWeight: 500, fontSize: '13px' }}>{item?.quantity * 50} USD</p>
                                                                                 </td>
                                                                             </tr>
                                                                         );

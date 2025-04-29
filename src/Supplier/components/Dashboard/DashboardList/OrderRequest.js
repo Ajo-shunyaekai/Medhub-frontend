@@ -26,16 +26,16 @@ const OrderRequest = () => {
   const columns = [
     {
       name: "Order ID",
-      selector: (row) => row.order_id,
+      selector: (row) => row?.order_id,
       sortable: true,
      
     },
     {
       name: "Date",
-      selector: (row) => row.created_at,
+      selector: (row) => row?.created_at,
       sortable: true,
       cell: (row) => (
-        <div>{moment(row.created_at).format("DD/MM/YYYY")}</div>
+        <div>{moment(row?.created_at).format("DD/MM/YYYY")}</div>
       ),
     },
     {
@@ -47,17 +47,17 @@ const OrderRequest = () => {
     {
       name: "Quantity",
       selector: (row) =>
-        row.items.reduce((total, item) => total + item.quantity, 0),
+        row?.items?.reduce((total, item) => total + item?.quantity, 0),
       sortable: true,
      
     },
     {
       name: "Status",
-      selector: (row) => row.order_status,
+      selector: (row) => row?.order_status,
       sortable: true,
       cell: (row) => (
         <div>
-          {row?.order_status?.charAt(0).toUpperCase() +
+          {row?.order_status?.charAt(0)?.toUpperCase() +
             row?.order_status?.slice(1)}
         </div>
       ),
@@ -80,11 +80,11 @@ const OrderRequest = () => {
   // Fetch orders
   useEffect(() => {
     const fetchOrderList = async () => {
-      const supplierIdSessionStorage = localStorage.getItem("supplier_id");
-      const supplierIdLocalStorage = localStorage.getItem("supplier_id");
+      const supplierIdSessionStorage = localStorage?.getItem("supplier_id");
+      const supplierIdLocalStorage = localStorage?.getItem("supplier_id");
 
       if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-        localStorage.clear();
+        localStorage?.clear();
         navigate("/supplier/login");
         return;
       }

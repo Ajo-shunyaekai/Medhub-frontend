@@ -19,15 +19,15 @@ const ImageUploaders = ({ onUploadStatusChange }) => {
         const errorMessages = [];
 
         files.forEach((file) => {
-            const isValidType = ['image/png', 'image/jpeg', 'image/jpg', 'application/pdf'].includes(file.type);
+            const isValidType = ['image/png', 'image/jpeg', 'image/jpg', 'application/pdf'].includes(file?.type);
             const isValidSize = file.size <= 5 * 1024 * 1024;
 
             if (!isValidType) {
-                errorMessages.push(`${file.name}: Invalid file type. Only PNG, JPEG, JPG, and PDF are allowed.`);
+                errorMessages.push(`${file?.name}: Invalid file type. Only PNG, JPEG, JPG, and PDF are allowed.`);
             }
 
             if (!isValidSize) {
-                errorMessages.push(`${file.name}: File size exceeds the limit of 5MB.`);
+                errorMessages.push(`${file?.name}: File size exceeds the limit of 5MB.`);
             }
 
             if (isValidType && isValidSize) {
@@ -50,7 +50,7 @@ const ImageUploaders = ({ onUploadStatusChange }) => {
                 reader.onload = () => {
                     setFilePreviews((prevPreviews) => [
                         ...prevPreviews,
-                        { name: file.name, type: file.type, preview: reader.result },
+                        { name: file?.name, type: file?.type, preview: reader?.result },
                     ]);
                     setUploading(false);
                     setIsLoading(false);
@@ -65,7 +65,7 @@ const ImageUploaders = ({ onUploadStatusChange }) => {
         // Prevent the click event from propagating to the parent div
         event.stopPropagation();
 
-        setFilePreviews((prevPreviews) => prevPreviews.filter(file => file.name !== fileName));
+        setFilePreviews((prevPreviews) => prevPreviews.filter(file => file?.name !== fileName));
         onUploadStatusChange(false, null);
     };
 
@@ -104,17 +104,17 @@ const ImageUploaders = ({ onUploadStatusChange }) => {
             
             <div className={styles['file-previews']}>
                 {filePreviews.map((file) => (
-                    <div key={file.name} className={styles['file-container']}>
-                        <div className={styles['file-wrapper']} onClick={() => openModal(file.preview, file.type)}>
-                            {file.preview?.startsWith('data:image') ? (
-                                <img src={file.preview} alt={file.name} className={styles['uploaded-image']} />
+                    <div key={file?.name} className={styles['file-container']}>
+                        <div className={styles['file-wrapper']} onClick={() => openModal(file?.preview, file?.type)}>
+                            {file?.preview?.startsWith('data:image') ? (
+                                <img src={file?.preview} alt={file?.name} className={styles['uploaded-image']} />
                             ) : (
                                 <img src={PDFIcon} alt="PDF" className={styles['pdf-icon']} />
                             )}
                             <div className={styles['file-info']}>
-                                <span style={{marginRight:'10px', fontSize:'12px', cursor:'pointer'}}>{file.name}</span>
+                                <span style={{marginRight:'10px', fontSize:'12px', cursor:'pointer'}}>{file?.name}</span>
                             </div>
-                            <img src={CrossIcon} alt="Remove" className={styles['remove-icon']} onClick={(event) => handleFileRemove(file.name, event)} />
+                            <img src={CrossIcon} alt="Remove" className={styles['remove-icon']} onClick={(event) => handleFileRemove(file?.name, event)} />
                         </div>
                     </div>
                 ))}

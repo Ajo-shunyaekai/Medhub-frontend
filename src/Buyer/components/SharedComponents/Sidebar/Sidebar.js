@@ -155,7 +155,7 @@ const Sidebar = ({ children, dragWindow,
         const response = await  dispatch(logoutUser({}));
         if(response.meta.requestStatus === "fulfilled") {
         setTimeout(() => {
-            localStorage.clear();
+            localStorage?.clear();
             navigate('/buyer/login')
         }, 500);
         }
@@ -258,8 +258,8 @@ const Sidebar = ({ children, dragWindow,
             order: `/buyer/order-details/${eventId}`,
             purchaseorder: `/buyer/purchased-order-details/${linkId}`,
             invoice: `/buyer/invoice/Pending-Invoice`,
-            "Profile Edit Approved": `/buyer/profile/${localStorage.getItem('_id')}`,
-            "Profile Edit Rejected": `/buyer/profile/${localStorage.getItem('_id')}`,
+            "Profile Edit Approved": `/buyer/profile/${localStorage?.getItem('_id')}`,
+            "Profile Edit Rejected": `/buyer/profile/${localStorage?.getItem('_id')}`,
         };
 
         const route = eventRoutes[event] || "/buyer/";
@@ -412,8 +412,8 @@ const Sidebar = ({ children, dragWindow,
                                                     to="#"
                                                     onClick={() => setIsProfileOpen(false)} // Close dropdown on click
                                                 >
-                                                    {localStorage.getItem('buyer_name') ||
-                                                        localStorage.getItem('buyer_name')}
+                                                    {localStorage?.getItem('buyer_name') ||
+                                                        localStorage?.getItem('buyer_name')}
                                                 </Link>
                                             </div>
                                             <div className={styles.profile_wrapper_mid}>

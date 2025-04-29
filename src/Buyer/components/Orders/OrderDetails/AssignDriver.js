@@ -53,7 +53,7 @@ const AssignDriver = ({orderItems}) => {
                                     <td className='tables-td'>
                                         <div className="table-g-section-content">
                                             <span className="table-g-driver-name">Quantity</span>
-                                            <span className="table-g-not-name">{item.quantity_required || item.quantity}</span>
+                                            <span className="table-g-not-name">{item?.quantity_required || item?.quantity}</span>
                                         </div>
                                     </td>
                                     <td className='tables-td'>

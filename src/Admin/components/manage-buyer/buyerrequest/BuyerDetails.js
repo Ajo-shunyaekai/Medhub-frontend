@@ -14,8 +14,8 @@ import moment from 'moment/moment';
 const BuyerDetails = () => {
     const { buyerId } = useParams()
     const navigate = useNavigate()
-    const adminIdSessionStorage = localStorage.getItem("admin_id");
-    const adminIdLocalStorage = localStorage.getItem("admin_id");
+    const adminIdSessionStorage = localStorage?.getItem("admin_id");
+    const adminIdLocalStorage = localStorage?.getItem("admin_id");
     const [buyerDetails, setBuyerDetails] = useState()
     const [open, setOpen] = useState(false);
     const [pdfUrl, setPdfUrl] = useState(null);
@@ -28,7 +28,7 @@ const BuyerDetails = () => {
         setPdfUrl(null);
     };
     const extractFileName = (url) => {
-        return url.split('/').pop();
+        return url.split('/')?.pop();
     };
 
 
@@ -46,7 +46,7 @@ const BuyerDetails = () => {
                 file = item;
             }
 
-            if (file.endsWith('.pdf')) {
+            if (file?.endsWith('.pdf')) {
                 return (
                     <div key={index} className='buyer-details-pdf-section'>
                         <FaFilePdf
@@ -69,8 +69,8 @@ const BuyerDetails = () => {
                     </div>
                 );
             } else if (
-                file.endsWith('.vnd.openxmlformats-officedocument.wordprocessingml.document') ||
-                file.endsWith('.docx')
+                file?.endsWith('.vnd.openxmlformats-officedocument.wordprocessingml.document') ||
+                file?.endsWith('.docx')
             ) {
                 const docxFileName = file.replace(
                     '.vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -119,7 +119,7 @@ const BuyerDetails = () => {
     useEffect(() => {
         const getBuyerDetails = async () => {
             if (!adminIdSessionStorage && !adminIdLocalStorage) {
-                localStorage.clear();
+                localStorage?.clear();
                 navigate("/admin/login");
                 return;
             }

@@ -13,10 +13,10 @@ import { useDispatch } from 'react-redux';
 import { updateInquiryCartCount } from '../../../../redux/reducers/inquirySlice';
 
 const SendInquiry = ({socket}) => {
-  const buyerIdSessionStorage = localStorage.getItem("buyer_id");
-  const buyerIdLocalStorage = localStorage.getItem("buyer_id");
-  const buyerNameSessionStorage = localStorage.getItem("buyer_name");
-  const buyerNameLocalStorage = localStorage.getItem("buyer_name");
+  const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
+  const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
+  const buyerNameSessionStorage = localStorage?.getItem("buyer_name");
+  const buyerNameLocalStorage = localStorage?.getItem("buyer_name");
   const navigate = useNavigate();
   const dispatch = useDispatch()
 
@@ -27,7 +27,7 @@ const SendInquiry = ({socket}) => {
   const [list, setList] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
   const [refreshTrigger, setRefreshTrigger] = useState(false);
-  const [cartCount, setCartCount] = useState(localStorage.getItem("list_count"))
+  const [cartCount, setCartCount] = useState(localStorage?.getItem("list_count"))
 
   const handleCheckboxChange = (id) => {
     setCheckedState(prevState => ({
@@ -42,7 +42,7 @@ const SendInquiry = ({socket}) => {
 
   const handleRemoveItem = (listId, itemId) => {
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-      localStorage.clear();
+      localStorage?.clear();
       navigate("/buyer/login");
       return;
     }
@@ -58,7 +58,7 @@ const SendInquiry = ({socket}) => {
     postRequestWithToken('buyer/delete-list-item', obj, async (response) => {
       if (response?.code === 200) {
         // setCartCount(response.result.listCount)
-        localStorage.setItem('list_count', response.result.listCount)
+        localStorage?.setItem('list_count', response.result.listCount)
         dispatch(updateInquiryCartCount(response.result.listCount))
         toast(response.message, { type: "success" });
         setCheckedState({});
@@ -77,7 +77,7 @@ const SendInquiry = ({socket}) => {
 
   useEffect(() => {
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-      localStorage.clear();
+      localStorage?.clear();
       navigate("/buyer/login");
       return;
     }
@@ -110,7 +110,7 @@ const SendInquiry = ({socket}) => {
 
   const handleSendEnquiry = () => {
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-      localStorage.clear();
+      localStorage?.clear();
       navigate("/buyer/login");
       return;
     }
@@ -131,7 +131,7 @@ const SendInquiry = ({socket}) => {
             product_id: item.product_id || "",
             unit_price: item.unit_price || "",
             unit_tax: item.unit_tax || "",
-            quantity_required: item.quantity_required || "",
+            quantity_required: item?.quantity_required || "",
             est_delivery_days: item.est_delivery_days || "",
             target_price: item.target_price || "",
             total_quantity: item.total_quantity || 0
@@ -181,7 +181,7 @@ const SendInquiry = ({socket}) => {
         //   });
         // });
         navigate("/buyer/thank-you", { state: { from: 'order' } });
-        localStorage.setItem('list_count', response.result.listCount)
+        localStorage?.setItem('list_count', response.result.listCount)
         dispatch(updateInquiryCartCount(response.result.listCount))
 
       } else {

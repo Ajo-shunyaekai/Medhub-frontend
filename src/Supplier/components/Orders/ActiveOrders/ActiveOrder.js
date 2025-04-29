@@ -20,35 +20,35 @@ const ActiveOrder = ({ orderList, totalOrders, currentPage, ordersPerPage, handl
     const columns = [
         {
             name: 'Order ID',
-            selector: row => row.order_id,
+            selector: row => row?.order_id,
             sortable: true,
            
         },
         {
             name: 'Date',
-            selector: row => row.created_at,
+            selector: row => row?.created_at,
             sortable: true,
             cell: row => (
                 <div>
-                    {moment(row.created_at).format("DD/MM/YYYY")}
+                    {moment(row?.created_at).format("DD/MM/YYYY")}
                 </div>
             ),
         },
         {
             name: 'Buyer Name',
-            selector: row => row.buyer?.buyer_name,
+            selector: row => row?.buyer?.buyer_name,
             sortable: true,
            
         },
         {
             name: 'Quantity',
-            selector: row => row.items?.reduce((total, item) => total + (item.quantity || item.quantity_required), 0),
+            selector: row => row?.items?.reduce((total, item) => total + (item?.quantity || item?.quantity_required), 0),
             sortable: true,
            
         },
         {
             name: 'Status',
-            selector: row => row.status,
+            selector: row => row?.status,
             sortable: true,
           
         },
@@ -56,7 +56,7 @@ const ActiveOrder = ({ orderList, totalOrders, currentPage, ordersPerPage, handl
             name: 'Action',
             cell: row => (
                 <div className={styles.actionCell}>
-                    <Link to={`/supplier/active-orders-details/${row.order_id}`}>
+                    <Link to={`/supplier/active-orders-details/${row?.order_id}`}>
                     <div className={styles.activeBtn}>
                                   <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                                 </div>

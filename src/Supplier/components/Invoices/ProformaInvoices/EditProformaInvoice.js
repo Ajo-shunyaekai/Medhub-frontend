@@ -14,8 +14,8 @@ const EditProformaInvoice = () => {
   const { purchaseOrderId } = useParams();
   const navigate = useNavigate();
 
-  const supplierIdSessionStorage = localStorage.getItem("supplier_id");
-  const supplierIdLocalStorage = localStorage.getItem("supplier_id");
+  const supplierIdSessionStorage = localStorage?.getItem("supplier_id");
+  const supplierIdLocalStorage = localStorage?.getItem("supplier_id");
 
   const [currentDate, setCurrentDate] = useState("");
   const [dueDate, setDueDate] = useState("");
@@ -113,12 +113,12 @@ const EditProformaInvoice = () => {
     setDueDate(formattedDueDate);
     setValue("invoiceDueDate", formattedDueDate);
 
-    // const storedItems = localStorage.getItem('acceptedQuotationItems');
+    // const storedItems = localStorage?.getItem('acceptedQuotationItems');
   }, [setValue]);
 
   useEffect(() => {
     if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-      localStorage.clear();
+      localStorage?.clear();
       navigate("/supplier/login");
       return;
     }
@@ -197,7 +197,7 @@ const EditProformaInvoice = () => {
 
   const onSubmit = (data) => {
     if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-      localStorage.clear();
+      localStorage?.clear();
       navigate("/supplier/login");
       return;
     }
