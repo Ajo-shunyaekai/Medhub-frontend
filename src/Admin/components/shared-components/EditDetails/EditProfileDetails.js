@@ -1108,16 +1108,14 @@ const EditProfileDetails = () => {
                   placeholder="dd/MM/yyyy"
                   name="license_expiry_date"
                   value={
-                    formik?.values?.license_expiry_date
+                    moment(
+                      formik?.values?.license_expiry_date,
+                      "DD/MM/YYYY"
+                    ).isValid()
                       ? moment(
                           formik?.values?.license_expiry_date,
                           "DD/MM/YYYY"
-                        ).isValid()
-                        ? moment(
-                            formik?.values?.license_expiry_date,
-                            "DD/MM/YYYY"
-                          ).toDate()
-                        : null
+                        ).toDate()
                       : null
                   }
                   minDate={new Date()}
@@ -1125,8 +1123,8 @@ const EditProfileDetails = () => {
                     const formattedDate = date
                       ? moment(date).format("DD/MM/YYYY")
                       : null;
-                    formik?.setFieldValue(`license_expiry_date`, formattedDate);
-                    formik?.setFieldTouched(`license_expiry_date`, true, true);
+                    formik?.setFieldValue("license_expiry_date", formattedDate);
+                    formik?.setFieldTouched("license_expiry_date", true, true);
                   }}
                   onBlur={formik?.handleBlur}
                   disabledDate={(current) =>
@@ -1439,33 +1437,32 @@ const EditProfileDetails = () => {
                 key={`certification_${index}`}
                 className={styles?.formSection}
               >
-                
-                  <Field name={`certificateFileNDate.${index}.file`}>
-                    {({ field }) => (
-                      <EditCertificate
-                        filePath={
-                          userType == "supplier"
-                            ? "supplier/certificate_image"
-                            : "buyer/certificate_images"
-                        }
-                        formik={formik}
-                        fieldInputName={`certificateFileNDate.${index}.file`}
-                        setFieldValue={formik?.setFieldValue}
-                        setFieldTouched={formik?.setFieldTouched}
-                        initialValues={formik?.values}
-                        label="Upload Certificate"
-                        selectedFile={ele.file}
-                        preview={ele.preview}
-                        fileIndex={index}
-                        isEdit={false}
-                      />
-                    )}
-                  </Field>
-                  <span className={styles?.error}>
-                    {formik?.touched?.certificateFileNDate?.[index]?.file &&
-                      formik?.errors?.certificateFileNDate?.[index]?.file}
-                  </span>
-                
+                <Field name={`certificateFileNDate.${index}.file`}>
+                  {({ field }) => (
+                    <EditCertificate
+                      filePath={
+                        userType == "supplier"
+                          ? "supplier/certificate_image"
+                          : "buyer/certificate_images"
+                      }
+                      formik={formik}
+                      fieldInputName={`certificateFileNDate.${index}.file`}
+                      setFieldValue={formik?.setFieldValue}
+                      setFieldTouched={formik?.setFieldTouched}
+                      initialValues={formik?.values}
+                      label="Upload Certificate"
+                      selectedFile={ele.file}
+                      preview={ele.preview}
+                      fileIndex={index}
+                      isEdit={false}
+                    />
+                  )}
+                </Field>
+                <span className={styles?.error}>
+                  {formik?.touched?.certificateFileNDate?.[index]?.file &&
+                    formik?.errors?.certificateFileNDate?.[index]?.file}
+                </span>
+
                 <div className={styles?.productContainer}>
                   <label className={styles?.formLabel}>Date of Expiry</label>
                   <div className={styles?.tooltipContainer}>
@@ -1476,7 +1473,7 @@ const EditProfileDetails = () => {
                       placeholder="dd/MM/yyyy"
                       name={`certificateFileNDate.${index}.date`}
                       value={
-                        ele.date && moment(ele.date, "DD/MM/YYYY").isValid()
+                        moment(ele.date, "DD/MM/YYYY").isValid()
                           ? moment(ele.date, "DD/MM/YYYY").toDate()
                           : null
                       }
