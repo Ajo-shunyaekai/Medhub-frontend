@@ -190,7 +190,7 @@
 }
 
 .editProfileInnerHead {
-  font-size: 18px;
+  font-size: 16px;
   color: #5e676f !important;
   font-weight: 500;
 }
@@ -200,7 +200,7 @@
   word-break: break-word;
   overflow-wrap: break-word;
   color: #99a0ac;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 500;
 }
 .editProfileInnerTextHighlight {

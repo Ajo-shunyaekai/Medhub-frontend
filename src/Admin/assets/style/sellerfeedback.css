@@ -106,11 +106,11 @@
 }
 .seller-details-company-type-sec-head{
     color: #5e676f !important;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 500;
 }
 .seller-details-company-type-sec-text{
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 500;
     overflow-wrap: break-word;
     white-space: normal;
@@ -158,12 +158,12 @@
 
 .seller-details-description-head {
     color: #5e676f !important;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 500;
 }
 
 .seller-details-description-content {
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 500;
     overflow-wrap: break-word;
     white-space: normal;
@@ -298,7 +298,8 @@
     
 }
 .seller-details-company-logo-heading{
-    font-size: 14px;
+    color: #5e676f !important;
+    font-size: 16px;
     font-weight: 500;
 }
 .seller-details-inner-head {

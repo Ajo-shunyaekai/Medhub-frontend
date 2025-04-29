@@ -8,7 +8,7 @@ import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 const Feedback = ({ supportList, handlePageChange, currentPage, totalItems, listPerPage }) => {
     const columns = [
         {
-            name: 'Feedback ID',
+            name: 'Enquiry ID',
             selector: row => row?.support_id || 'ID Not Provided',
             sortable: true,
         },
