@@ -28,11 +28,8 @@ const ApprovedBuyer = lazy(() =>
 const RejectedBuyer = lazy(() =>
   import("../components/manage-buyer/buyerrequest/RejectedBuyer")
 );
-const BuyerRequestDetails = lazy(() =>
-  import("../components/manage-buyer/buyerrequest/DetailsBuyerRequest")
-);
 const BuyerDetails = lazy(() =>
-  import("../components/manage-buyer/buyerrequest/BuyerDetails")
+  import("../components/manage-buyer/buyerrequest/BuyerDetailsNew")
 );
 const BuyerInquiry = lazy(() =>
   import("../components/manage-buyer/inquiry/index")
@@ -159,11 +156,8 @@ const SellerComplaint = lazy(() =>
 const SellerFeedback = lazy(() =>
   import("../components/manage-supplier/Support/Feedback/Feedback")
 );
-const SellerRequestDetails = lazy(() =>
-  import("../components/manage-supplier/SupplierRequest/SupplierRequestDetails")
-);
 const SellerDetails = lazy(() =>
-  import("../components/manage-supplier/SupplierRequest/SupplierDetails")
+  import("../components/manage-supplier/SupplierRequest/SupplierDetailsNew")
 );
 const SellerTransactionDetails = lazy(() =>
   import("../components/manage-supplier/Transaction/SellerTransactionDetails")
@@ -234,9 +228,7 @@ const ApprovedNewProducts = lazy(() =>
   import("../components/manage-products/Products/NewProducts.js")
 );
 const ApprovedSecondaryProducts = lazy(() =>
-  import(
-    "../components/manage-products/Products/SecondaryProducts.js"
-  )
+  import("../components/manage-products/Products/SecondaryProducts.js")
 );
 const NotificationList = lazy(() =>
   import("../components/shared-components/notification/NotificationList")
@@ -247,24 +239,36 @@ const Profile = lazy(() =>
 const BuyerEditProfile = lazy(() =>
   import("../components/manage-buyer/support/UpdateProfile/EditProfileList")
 );
-const BuyerEditProfileDetails = lazy(() =>
-  import("../components/manage-buyer/support/UpdateProfile/EditProfileDetails")
+const BuyerProfileEditRequestDetails = lazy(() =>
+  import("../components/manage-buyer/support/UpdateProfile/ProfileEditRequestDetails")
 );
 const SupplierEditProfile = lazy(() =>
   import("../components/manage-supplier/Support/UpdateProfile/EditProfileList")
 );
-const SupplierEditProfileDetails = lazy(() =>
+const SupplierProfileEditRequestDetails = lazy(() =>
   import(
-    "../components/manage-supplier/Support/UpdateProfile/EditProfileDetails"
+    "../components/manage-supplier/Support/UpdateProfile/ProfileEditRequestDetails"
   )
 );
 // Start supplier individual product routes
-const Product = lazy(() => import("../components/manage-supplier/Product/List/Product.js"));
-const NewProduct = lazy(() =>import("../components/manage-supplier/Product/List/NewProductList.js"));
-const SecondaryProduct = lazy(() =>import("../components/manage-supplier/Product/List/SecondaryProductList.js"));
-const AddProduct = lazy(() =>import("../components/manage-supplier/Product/AddProduct/AddProduct.js"));
-const EditProduct = lazy(() =>import("../components/manage-supplier/Product/AddProduct/EditAddProduct.js"));
-const PreviewFile = lazy(() =>import("../components/manage-supplier/Product/PreviewFile/PreviewFile.jsx"));
+const Product = lazy(() =>
+  import("../components/manage-supplier/Product/List/Product.js")
+);
+const NewProduct = lazy(() =>
+  import("../components/manage-supplier/Product/List/NewProductList.js")
+);
+const SecondaryProduct = lazy(() =>
+  import("../components/manage-supplier/Product/List/SecondaryProductList.js")
+);
+const AddProduct = lazy(() =>
+  import("../components/manage-supplier/Product/AddProduct/AddProduct.js")
+);
+const EditProduct = lazy(() =>
+  import("../components/manage-supplier/Product/AddProduct/EditAddProduct.js")
+);
+const PreviewFile = lazy(() =>
+  import("../components/manage-supplier/Product/PreviewFile/PreviewFile.jsx")
+);
 // End supplier individual product routes
 const socket = io.connect(process.env.REACT_APP_SERVER_URL);
 
@@ -459,7 +463,7 @@ const router = createBrowserRouter([
           </Suspense>
         ),
       },
-    
+
       {
         path: "total-request-list",
         element: (
@@ -494,7 +498,7 @@ const router = createBrowserRouter([
           },
         ],
       },
-     
+
       {
         // path: "_id/edit",
         path: "edit-details/:userType/:id",
@@ -573,14 +577,6 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<Loader />}>
             <RejectedBuyer socket={socket} />
-          </Suspense>
-        ),
-      },
-      {
-        path: "buyer-request-details/:buyerId",
-        element: (
-          <Suspense fallback={<Loader />}>
-            <BuyerRequestDetails socket={socket} />
           </Suspense>
         ),
       },
@@ -716,7 +712,7 @@ const router = createBrowserRouter([
         path: "buyer-edit-profile-details/:id",
         element: (
           <Suspense fallback={<Loader />}>
-            <BuyerEditProfileDetails socket={socket} />
+            <BuyerProfileEditRequestDetails socket={socket} />
           </Suspense>
         ),
       },
@@ -949,15 +945,7 @@ const router = createBrowserRouter([
         path: "supplier-edit-profile-details/:id",
         element: (
           <Suspense fallback={<Loader />}>
-            <SupplierEditProfileDetails socket={socket} />
-          </Suspense>
-        ),
-      },
-      {
-        path: "supplier-request-details/:supplierId",
-        element: (
-          <Suspense fallback={<Loader />}>
-            <SellerRequestDetails socket={socket} />
+            <SupplierProfileEditRequestDetails socket={socket} />
           </Suspense>
         ),
       },
@@ -1069,54 +1057,52 @@ const router = createBrowserRouter([
         ),
       },
 
-  // start Supplier product section
-  {
-    path: "supplier/:supplierId/products",
-    element: (
-      <Suspense fallback={<Loader />}>
-        <Product socket={socket} />
-      </Suspense>
-    ),
-    children: [
+      // start Supplier product section
       {
-        path: "new",
+        path: "supplier/:supplierId/products",
         element: (
           <Suspense fallback={<Loader />}>
-            <NewProduct socket={socket} />
+            <Product socket={socket} />
           </Suspense>
         ),
+        children: [
+          {
+            path: "new",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <NewProduct socket={socket} />
+              </Suspense>
+            ),
+          },
+          {
+            path: "secondary",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <SecondaryProduct socket={socket} />
+              </Suspense>
+            ),
+          },
+        ],
       },
-      {
-        path: "secondary",
-        element: (
-          <Suspense fallback={<Loader />}>
-            <SecondaryProduct socket={socket} />
-          </Suspense>
-        ),
-      },
-    ],
-  },
 
-  {
-    path: "supplier/:supplierId/edit-product/:id",
-    element: (
-      <Suspense fallback={<Loader />}>
-        <EditProduct socket={socket} />
-      </Suspense>
-    ),
-  },
-  {
-    path: "supplier/:supplierId/add-product",
-    element: (
-      <Suspense fallback={<Loader />}>
-        <AddProduct socket={socket} />
-      </Suspense>
-    ),
-  },
- 
- // end Supplier product section
-      
-     
+      {
+        path: "supplier/:supplierId/edit-product/:id",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <EditProduct socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "supplier/:supplierId/add-product",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <AddProduct socket={socket} />
+          </Suspense>
+        ),
+      },
+
+      // end Supplier product section
     ],
   },
 ]);

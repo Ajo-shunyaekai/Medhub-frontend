@@ -14,12 +14,15 @@ import {
   updateProfileEditReqsDetail,
 } from "../../../../../redux/reducers/adminSlice";
 import { formatDate } from "../../../../../utils/dateFormatter";
-const getFieldValue = (value) => {
-  return value || "";
+const getFieldValue = (field) => {
+  if (!field) return "";
+  return typeof field === "object" && field.value !== undefined
+    ? field.value
+    : field;
 };
 
 const isFieldChanged = (field) => {
-  return false;
+  return typeof field === "object" && field.isChanged === true;
 };
 
 const EditProfileDetails = ({ socket }) => {
@@ -51,7 +54,10 @@ const EditProfileDetails = ({ socket }) => {
         });
         navigate("/admin/buyer-support/edit-profile");
       } else {
-        console.error("Failed to update profile request:", updatedProfileRequest.error);
+        console.error(
+          "Failed to update profile request:",
+          updatedProfileRequest.error
+        );
         alert("Failed to update profile request. Please try again.");
       }
     } catch (error) {
@@ -123,11 +129,7 @@ const EditProfileDetails = ({ socket }) => {
         <div className={styles.editProfileInnerContainer}>
           <span className={styles.editProfileInnerHead}>Status</span>
           <div className={styles.editprofileAddSec}>
-            <img
-              className={styles.editProfileImg}
-              src={Status}
-              alt="Status"
-            />
+            <img className={styles.editProfileImg} src={Status} alt="Status" />
             <span className={styles.editProfileInnerText}>
               {profileEditReqDetail?.editReqStatus || "N/A"}
             </span>
@@ -158,60 +160,103 @@ const EditProfileDetails = ({ socket }) => {
           <div className={styles.editprofileAddSec}>
             <FaRegAddressCard className={styles.icon} />
             <div className={styles.editProfileAddInnerSec}>
-              {getFieldValue(profileEditReqDetail?.registeredAddress?.company_reg_address) && (
+              {getFieldValue(
+                profileEditReqDetail?.registeredAddress?.company_reg_address
+              ) && (
                 <span
                   className={
-                    isFieldChanged(profileEditReqDetail?.registeredAddress?.company_reg_address)
+                    isFieldChanged(
+                      profileEditReqDetail?.registeredAddress
+                        ?.company_reg_address
+                    )
                       ? styles.editProfileInnerTextHighlight
                       : styles.editProfileInnerText
                   }
                 >
-                  {getFieldValue(profileEditReqDetail?.registeredAddress?.company_reg_address)}
+                  {getFieldValue(
+                    profileEditReqDetail?.registeredAddress?.company_reg_address
+                  )}
                 </span>
               )}
-              {getFieldValue(profileEditReqDetail?.registeredAddress?.locality) && (
+              {getFieldValue(
+                profileEditReqDetail?.registeredAddress?.locality
+              ) && (
                 <span
                   className={
-                    isFieldChanged(profileEditReqDetail?.registeredAddress?.locality)
+                    isFieldChanged(
+                      profileEditReqDetail?.registeredAddress?.locality
+                    )
                       ? styles.editProfileInnerTextHighlight
                       : styles.editProfileInnerText
                   }
                 >
-                  {getFieldValue(profileEditReqDetail?.registeredAddress?.locality)}
+                  {getFieldValue(
+                    profileEditReqDetail?.registeredAddress?.locality
+                  )}
                 </span>
               )}
-              {getFieldValue(profileEditReqDetail?.registeredAddress?.land_mark) && (
+              {getFieldValue(
+                profileEditReqDetail?.registeredAddress?.land_mark
+              ) && (
                 <span
                   className={
-                    isFieldChanged(profileEditReqDetail?.registeredAddress?.land_mark)
+                    isFieldChanged(
+                      profileEditReqDetail?.registeredAddress?.land_mark
+                    )
                       ? styles.editProfileInnerTextHighlight
                       : styles.editProfileInnerText
                   }
                 >
-                  {getFieldValue(profileEditReqDetail?.registeredAddress?.land_mark)}
+                  {getFieldValue(
+                    profileEditReqDetail?.registeredAddress?.land_mark
+                  )}
                 </span>
               )}
               {(getFieldValue(profileEditReqDetail?.registeredAddress?.city) ||
                 getFieldValue(profileEditReqDetail?.registeredAddress?.state) ||
-                getFieldValue(profileEditReqDetail?.registeredAddress?.pincode) ||
-                getFieldValue(profileEditReqDetail?.registeredAddress?.country)) && (
+                getFieldValue(
+                  profileEditReqDetail?.registeredAddress?.pincode
+                ) ||
+                getFieldValue(
+                  profileEditReqDetail?.registeredAddress?.country
+                )) && (
                 <span
                   className={
-                    isFieldChanged(profileEditReqDetail?.registeredAddress?.city) ||
-                    isFieldChanged(profileEditReqDetail?.registeredAddress?.state) ||
-                    isFieldChanged(profileEditReqDetail?.registeredAddress?.pincode) ||
-                    isFieldChanged(profileEditReqDetail?.registeredAddress?.country)
+                    isFieldChanged(
+                      profileEditReqDetail?.registeredAddress?.city
+                    ) ||
+                    isFieldChanged(
+                      profileEditReqDetail?.registeredAddress?.state
+                    ) ||
+                    isFieldChanged(
+                      profileEditReqDetail?.registeredAddress?.pincode
+                    ) ||
+                    isFieldChanged(
+                      profileEditReqDetail?.registeredAddress?.country
+                    )
                       ? styles.editProfileInnerTextHighlight
                       : styles.editProfileInnerText
                   }
                 >
                   {getFieldValue(profileEditReqDetail?.registeredAddress?.city)}
-                  {getFieldValue(profileEditReqDetail?.registeredAddress?.city) && ", "}
-                  {getFieldValue(profileEditReqDetail?.registeredAddress?.state)}
-                  {getFieldValue(profileEditReqDetail?.registeredAddress?.state) && " "}
-                  {getFieldValue(profileEditReqDetail?.registeredAddress?.pincode)}
-                  {getFieldValue(profileEditReqDetail?.registeredAddress?.pincode) && ", "}
-                  {getFieldValue(profileEditReqDetail?.registeredAddress?.country)}
+                  {getFieldValue(
+                    profileEditReqDetail?.registeredAddress?.city
+                  ) && ", "}
+                  {getFieldValue(
+                    profileEditReqDetail?.registeredAddress?.state
+                  )}
+                  {getFieldValue(
+                    profileEditReqDetail?.registeredAddress?.state
+                  ) && " "}
+                  {getFieldValue(
+                    profileEditReqDetail?.registeredAddress?.pincode
+                  )}
+                  {getFieldValue(
+                    profileEditReqDetail?.registeredAddress?.pincode
+                  ) && ", "}
+                  {getFieldValue(
+                    profileEditReqDetail?.registeredAddress?.country
+                  )}
                 </span>
               )}
             </div>
