@@ -577,7 +577,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "buyer-details/:buyerId",
+        path: "buyer-request-details/:buyerId",
         element: (
           <Suspense fallback={<Loader />}>
             <BuyerRequestDetails socket={socket} />
@@ -954,7 +954,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "supplier-details/:supplierId",
+        path: "supplier-request-details/:supplierId",
         element: (
           <Suspense fallback={<Loader />}>
             <SellerRequestDetails socket={socket} />
