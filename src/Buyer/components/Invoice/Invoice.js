@@ -68,7 +68,7 @@ const Invoice = ({ socket }) => {
       const fetchOrderList = async () => {
         try {
           const response = await apiRequests.getRequest(
-            `order/get-all-order-list?pageNo=${currentPage}&pageSize=${invoicesPerPage}&filterKey=${"filterKey"}`
+            `order/get-all-order-list?pageNo=${currentPage}&pageSize=${invoicesPerPage}&filterKey=${filterKey}`
           );
           if (response?.code === 200) {
             setInvoiceList(response.result.data);
@@ -78,6 +78,7 @@ const Invoice = ({ socket }) => {
           }
         } catch (error) {
         } finally {
+          setLoading(false);
         }
       };
       fetchOrderList();
