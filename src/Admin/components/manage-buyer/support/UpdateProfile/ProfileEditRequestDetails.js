@@ -23,7 +23,7 @@ const getFieldValue = (field) => {
 
 const isFieldChanged = (field) => {
   return typeof field === "object" && field.isChanged === true;
-};
+}
 
 const EditProfileDetails = ({ socket }) => {
   const { id } = useParams();

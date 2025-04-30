@@ -538,6 +538,10 @@ const EditProfileDetails = () => {
     }
   };
 
+  const handleCancel = () => {
+    navigate(-1);
+  }
+
   return (
     <div className={styles?.container}>
       <div className={styles?.headContainer}>
@@ -1654,7 +1658,9 @@ const EditProfileDetails = () => {
           </div>
 
           <div className={styles?.buttonContainer}>
-            <button type="button" className={styles?.buttonCancel}>
+            <button type="button" className={styles?.buttonCancel}
+            onClick={handleCancel}
+            >
               Cancel
             </button>
             <button type="submit" className={styles?.buttonSubmit}>
