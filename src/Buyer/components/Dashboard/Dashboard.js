@@ -129,7 +129,7 @@ const Dashboard = () => {
                         </div>
                     </div>
                     <div className='buyer-panel-cart-left-bottom-section'>
-                        <Link className='buyer-panel-cart-left-bottom-container' to='/buyer/invoice/Proforma-Invoice'>
+                        <Link className='buyer-panel-cart-left-bottom-container' to='/buyer/invoice/proforma-invoice'>
 
                             <div className='buyer-panel-left-bottom-cart-top'>
                                 <span className='buyer-panel-left-bottom-pert'>{orderSummary?.orderDetails?.activeCount?.[0]?.count || 0}</span>

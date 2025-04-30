@@ -23,11 +23,11 @@ const Invoice = ({ socket }) => {
   useEffect(() => {
     const getActiveLinkFromPath = (path) => {
       switch (path) {
-        case "/buyer/invoice/Pending-Invoice":
+        case "/buyer/invoice/pending-invoice":
           return 0;
-        case "/buyer/invoice/Paid-Invoice":
+        case "/buyer/invoice/paid-invoice":
           return 1;
-        case "/buyer/invoice/Proforma-Invoice":
+        case "/buyer/invoice/proforma-invoice":
           return 2;
         default:
           return 0;
@@ -111,19 +111,19 @@ const Invoice = ({ socket }) => {
     switch (link) {
       case "pending":
         setActiveIndex(0);
-        navigate("/buyer/invoice/Pending-Invoice");
+        navigate("/buyer/invoice/pending-invoice");
         break;
       case "paid":
         setActiveIndex(1);
-        navigate("/buyer/invoice/Paid-Invoice");
+        navigate("/buyer/invoice/paid-invoice");
         break;
       case "active":
         setActiveIndex(2);
-        navigate("/buyer/invoice/Proforma-Invoice");
+        navigate("/buyer/invoice/proforma-invoice");
         break;
       default:
         setActiveIndex(0);
-        navigate("/buyer/invoice/Pending-Invoice");
+        navigate("/buyer/invoice/pending-invoice");
     }
   };
 

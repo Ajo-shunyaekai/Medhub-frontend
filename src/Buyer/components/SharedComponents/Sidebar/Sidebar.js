@@ -257,7 +257,7 @@ const Sidebar = ({ children, dragWindow,
             enquiry: `/buyer/ongoing-inquiries-details/${eventId}`,
             order: `/buyer/order-details/${eventId}`,
             purchaseorder: `/buyer/purchased-order-details/${linkId}`,
-            invoice: `/buyer/invoice/Pending-Invoice`,
+            invoice: `/buyer/invoice/pending-invoice`,
             "Profile Edit Approved": `/buyer/profile/${localStorage?.getItem('_id')}`,
             "Profile Edit Rejected": `/buyer/profile/${localStorage?.getItem('_id')}`,
         };
@@ -300,7 +300,7 @@ const Sidebar = ({ children, dragWindow,
                                     <ShoppingCartCheckoutIcon className={styles.nav_icon_color} />
                                 </Link>
                             </Badge>
-                            <Link to='/buyer/invoice/Pending-Invoice'>
+                            <Link to='/buyer/invoice/pending-invoice'>
                                 <div className={styles.invoice_head}>
                                     <img
                                         className={styles.invoice_head_img}
@@ -435,7 +435,7 @@ const Sidebar = ({ children, dragWindow,
                                                 </div>
                                                 {/* <div className={styles.invoice_container}>
                                                     <Link
-                                                        to="/buyer/invoice/Pending-Invoice"
+                                                        to="/buyer/invoice/pending-invoice"
                                                         className={styles.invoice_container}
                                                         onClick={() => setIsProfileOpen(false)} 
                                                     >
