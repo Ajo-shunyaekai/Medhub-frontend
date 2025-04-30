@@ -144,128 +144,6 @@ const Support = () => {
             }
         };
 
-    // const validate = () => {
-    //     const errors = {};
-    //     if (!orderId) {
-    //         setOrderIdError('Order ID is Required');
-    //         errors.orderId = true;
-    //     } else {
-    //         setOrderIdError('');
-    //     }
-    //     if (!feedback) {
-    //         setFeedbackError('Feedback is Required');
-    //         errors.feedback = true;
-    //     } else {
-    //         setFeedbackError('');
-    //     }
-    //     if (feedbackImages.length === 0) {
-    //         setImageError('Please upload at least one image');
-    //         errors.image = true;
-    //     } else {
-    //         setImageError('');
-    //     }
-    //     return errors;
-    // };
-
-    // const compValidate = () => {
-    //     const errors = {};
-    //     if (!compOrderId) {
-    //         setCompOrderIdError('Order ID is Required');
-    //         errors.compOrderId = true;
-    //     } else {
-    //         setCompOrderIdError('');
-    //     }
-    //     if (!compFeedback) {
-    //         setCompFeedbackError('Feedback is Required');
-    //         errors.compFeedback = true;
-    //     } else {
-    //         setCompFeedbackError('');
-    //     }
-    //     if (compImages.length === 0) {
-    //         setCompImageError('Please upload at least one image');
-    //         errors.compImage = true;
-    //     } else {
-    //         setCompImageError('');
-    //     }
-    //     return errors;
-    // };
-
-    // const handleSubmit = (event) => {
-
-    //     const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
-    //     const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
-
-    //     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-    //         localStorage?.clear();
-    //         navigate("/buyer/login");
-    //         return;
-    //     }
-
-    //     event.preventDefault();
-    //     const errors = validate();
-    //     if (Object.keys(errors).length === 0) {
-    //         // const feedback_images = Array.from(feedbackImages).map(file => file);
-
-    //         const formData = new FormData();
-
-    //         formData.append('buyer_id', buyerIdSessionStorage || buyerIdLocalStorage);
-    //         formData.append('order_id', orderId);
-    //         formData.append('feedback', feedback);
-    //         formData.append('support_type', 'feedback');
-    //         formData.append('usertype', 'buyer');
-    //         Array.from(feedbackImages).forEach(file => formData.append('feedback_image', file))
-
-    //         postRequestWithTokenAndFile('order/submit-order-feedback', formData, async (response) => {
-    //             if (response?.code === 200) {
-    //                 toast(response.message, { type: "success" });
-    //                 setOrderId('')
-    //                 setFeedback('')
-    //                 setFeedbackImages([])
-    //             } else {
-    //                 toast(response.message, { type: "error" });
-    //             }
-    //         })
-
-    //     }
-    // };
-
-    // const complaintSubmit = (event) => {
-    //     const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
-    //     const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
-
-    //     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-    //         localStorage?.clear();
-    //         navigate("/buyer/login");
-    //         return;
-    //     }
-
-    //     event.preventDefault();
-    //     const errors = compValidate();
-    //     if (Object.keys(errors).length === 0) {
-    //         const complaint_images = Array.from(compImages).map(file => file);
-
-    //         const formData = new FormData();
-
-    //         formData.append('buyer_id', buyerIdSessionStorage || buyerIdLocalStorage);
-    //         formData.append('order_id', compOrderId);
-    //         formData.append('complaint', compFeedback);
-    //         formData.append('support_type', 'complaint');
-    //         formData.append('usertype', 'buyer');
-    //         Array.from(compImages).forEach(file => formData.append('complaint_image', file))
-
-    //         postRequestWithTokenAndFile('order/submit-order-complaint', formData, async (response) => {
-    //             if (response?.code === 200) {
-    //                 toast(response.message, { type: "success" });
-    //                 setCompOrderId('')
-    //                 setCompFeedback('')
-    //                 setCompImages([])
-    //             } else {
-    //                 toast(response.message, { type: "error" });
-    //             }
-    //         })
-    //     }
-    // };
-
     const clearFeedbackImageError = () => {
         setImageError('');
     };
@@ -305,7 +183,7 @@ const Support = () => {
                                 <div className={styles['form-main-container']}>
                                     <div className={styles['form-heading']}>Enquiry Form</div>
                                     <form className={styles['form-main-form-section']} 
-                                    // onSubmit={handleSubmit}
+                                   
                                     onSubmit={handleFeedbackSubmit}
                                     >
                                         <div className={styles['form-container']}>
@@ -335,10 +213,7 @@ const Support = () => {
 
                                             <div className={styles['form-support-image']}>
                                                 <SupportImageUpload
-                                                    // images={feedbackImages}
-                                                    // setImages={setFeedbackImages}
-                                                    // errorMessage={imageError}
-                                                    // clearImageError={clearFeedbackImageError}
+                                                   
                                                     images={feedbackImages}
                                                     setImages={setFeedbackImages}
                                                     errorMessage={imageError}
@@ -370,7 +245,7 @@ const Support = () => {
                                 <div className={styles['form-main-container']}>
                                     <div className={styles['form-heading']}>Complaint Form</div>
                                     <form className={styles['form-main-form-section']}
-                                    //  onSubmit={complaintSubmit}
+                                   
                                     onSubmit={handleComplaintSubmit}
                                      >
                                         <div className={styles['form-container']}>
@@ -400,10 +275,7 @@ const Support = () => {
 
                                             <div className={styles['form-support-image']}>
                                                 <SupportImageUpload
-                                                    // images={compImages}
-                                                    // setImages={setCompImages}
-                                                    // errorMessage={compImageError}
-                                                    // clearImageError={clearComplaintImageError}
+                                                  
                                                     images={compImages}
                                                     setImages={setCompImages}
                                                     errorMessage={imageError}

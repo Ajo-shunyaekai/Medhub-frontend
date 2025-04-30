@@ -170,9 +170,6 @@ const CreatePO = ({ socket }) => {
           data?.supplier?.supplier_address,
         supplierLocality: data?.supplier?.registered_address?.locality,
         supplierLandmark: data?.supplier?.registered_address?.land_mark,
-        // supplierCountry: data?.supplier?.registered_address?.country,
-        // supplierState: data?.supplier?.registered_address?.state,
-        // supplierCity: data?.supplier?.registered_address?.city,
         supplierPincode: data?.supplier?.registered_address?.pincode,
         supplierMobile: formattedSupplierMobile,
         supplierContactPersonMobile: data?.supplier?.contact_person_mobile_no,
@@ -187,9 +184,6 @@ const CreatePO = ({ socket }) => {
           data?.buyer?.buyer_address,
         buyerLocality: data?.buyer?.registered_address?.locality,
         buyerLandmark: data?.buyer?.registered_address?.land_mark,
-        // buyerCountry: data?.buyer?.registered_address?.country,
-        // buyerState: data?.buyer?.registered_address?.state,
-        // buyerCity: data?.buyer?.registered_address?.city,
         buyerPincode: data?.buyer?.registered_address?.pincode,
         buyerMobile: formattedBuyerMobile,
         buyerRegNo: data?.buyer?.registration_no,
@@ -325,7 +319,6 @@ const CreatePO = ({ socket }) => {
           (item?.counter_price || item?.target_price) * item?.quantity_required;
         const totalTax = totalPrice * (unitTax / 100);
         const totalAmount = totalPrice + totalTax;
-        // const totalAmount = totalPrice + (unitTax / 100);
 
         return {
           ...item,
@@ -445,10 +438,6 @@ const CreatePO = ({ socket }) => {
       }
     }
 
-    // if (countryCode === '971' && mobileNumber.length > 9) {
-    //     mobileNumber = mobileNumber.substring(0, 9);
-    // }
-
     // Validate the phone number based on the country code
     if (countryCode && mobileNumber) {
       isValidNumber = validatePhoneNumber(mobileNumber, countryCode);
@@ -503,7 +492,7 @@ const CreatePO = ({ socket }) => {
                 value={formData.buyerName}
                 onChange={handleChange}
                 readOnly
-                // {...register('buyerName', { validate: value => value.trim() !== '' || 'Buyer name is required' })}
+              
               />
               {errors.buyerName && (
                 <p style={{ color: "red" }}>{errors.buyerName}</p>
@@ -521,7 +510,7 @@ const CreatePO = ({ socket }) => {
                 value={formData.buyerRegNo}
                 onChange={handleChange}
                 readOnly
-                // {...register('buyerRegNo', { validate: value => value?.trim() !== '' || 'Buyer registration number is required' })}
+               
               />
               {errors.buyerRegNo && (
                 <p style={{ color: "red" }}>{errors.buyerRegNo}</p>
@@ -538,7 +527,7 @@ const CreatePO = ({ socket }) => {
                 placeholder="Enter Address"
                 value={formData.buyerAddress}
                 onChange={handleChange}
-                // readOnly
+               
               />
               {errors.buyerAddress && (
                 <p style={{ color: "red" }}>{errors.buyerAddress}</p>
@@ -557,7 +546,7 @@ const CreatePO = ({ socket }) => {
                     placeholder="Enter Area/Locality/Road Name"
                     value={formData.buyerLocality}
                     onChange={handleChange}
-                    // readOnly
+                    
                   />
                   {errors.buyerEmail && (
                     <p style={{ color: "red" }}>{errors.buyerEmail}</p>
@@ -574,7 +563,7 @@ const CreatePO = ({ socket }) => {
                     placeholder="Enter Locality"
                     value={formData.buyerLandmark}
                     onChange={handleChange}
-                    // readOnly
+                    
                   />
                   {errors.buyerEmail && (
                     <p style={{ color: "red" }}>{errors.buyerEmail}</p>
@@ -591,7 +580,7 @@ const CreatePO = ({ socket }) => {
                     value={selectedCountry}
                     onChange={handleCountryChange}
                     placeholder="Select Country"
-                    // isDisabled
+                   
                   />
                   {errors.buyerEmail && (
                     <p style={{ color: "red" }}>{errors.buyerEmail}</p>
@@ -617,7 +606,7 @@ const CreatePO = ({ socket }) => {
                     value={selectedState}
                     onChange={handleStateChange}
                     placeholder="Select State"
-                    // isDisabled
+                    
                   />
                   {errors.buyerEmail && (
                     <p style={{ color: "red" }}>{errors.buyerEmail}</p>
@@ -644,7 +633,7 @@ const CreatePO = ({ socket }) => {
                     value={selectedCity}
                     onChange={handleCityChange}
                     placeholder="Select City"
-                    // isDisabled
+                  
                   />
                   {errors.buyerEmail && (
                     <p style={{ color: "red" }}>{errors.buyerEmail}</p>
@@ -661,7 +650,7 @@ const CreatePO = ({ socket }) => {
                     placeholder="Enter Pincode"
                     value={formData.buyerPincode}
                     onChange={handleChange}
-                    // readOnly
+                    
                   />
                   {errors.buyerEmail && (
                     <p style={{ color: "red" }}>{errors.buyerEmail}</p>
@@ -680,7 +669,7 @@ const CreatePO = ({ socket }) => {
                 placeholder="Enter Email ID"
                 value={formData.buyerEmail}
                 readOnly
-                // {...register('supplierEmail', { validate: value => value?.trim() !== '' || 'Supplier email is required' })}
+               
               />
               {errors.buyerEmail && <p>{errors.buyerEmail.message}</p>}
             </div>
@@ -692,9 +681,9 @@ const CreatePO = ({ socket }) => {
                 className="signup-form-section-phone-input"
                 defaultCountry="ae"
                 name="buyerMobile"
-                // value={watch('buyerMobile')}
+              
                 value={formData.buyerMobile}
-                //  onChange={handleBuyerPhoneChange}
+             
                 onChange={(value) => handlePhoneChange(value, "buyerMobile")}
               />
               {errors.buyerMobile && (
@@ -716,8 +705,7 @@ const CreatePO = ({ socket }) => {
                 name="poDate"
                 value={currentDate}
                 readOnly
-                // {...register('poDate')}
-                // value={formData.buyerName}
+                
               />
             </div>
             <div className={styles["create-invoice-div-container"]}>
@@ -730,7 +718,7 @@ const CreatePO = ({ socket }) => {
                 name="poNumber"
                 value={poNumber}
                 readOnly
-                // {...register('poNumber')}
+             
               />
             </div>
             <div className={styles["create-invoice-div-container"]}>
@@ -790,7 +778,7 @@ const CreatePO = ({ socket }) => {
                     value={formData.supplierLocality}
                     onChange={handleChange}
                     readOnly
-                    // {...register('buyerEmail', { validate: value => value.trim() !== '' || 'Buyer email is required' })}
+                   
                   />
                   {errors.buyerEmail && (
                     <p style={{ color: "red" }}>{errors.buyerEmail}</p>
@@ -808,7 +796,7 @@ const CreatePO = ({ socket }) => {
                     value={formData.supplierLandmark}
                     onChange={handleChange}
                     readOnly
-                    // {...register('buyerEmail', { validate: value => value.trim() !== '' || 'Buyer email is required' })}
+                  
                   />
                   {errors.supplierLandmark && (
                     <p style={{ color: "red" }}>{errors.supplierLandmark}</p>
@@ -849,7 +837,7 @@ const CreatePO = ({ socket }) => {
                     getOptionLabel={(option) => option.name}
                     getOptionValue={(option) => option.isoCode}
                     value={supplierState}
-                    // onChange={handleStateChange}
+                  
                     placeholder="Select State"
                     isDisabled
                   />
@@ -876,11 +864,11 @@ const CreatePO = ({ socket }) => {
                     getOptionLabel={(option) => option.name}
                     getOptionValue={(option) => option.name}
                     value={supplierCity}
-                    // onChange={handleCityChange}
+                    
                     placeholder="Select City"
                     isDisabled
                   />
-                  {/* {errors.buyerEmail && <p style={{color: 'red'}}>{errors.buyerEmail}</p>} */}
+                
                 </div>
                 <div className={styles["create-invoice-div-container"]}>
                   <label className={styles["create-invoice-div-label"]}>
@@ -895,7 +883,7 @@ const CreatePO = ({ socket }) => {
                     onChange={handleChange}
                     readOnly
                   />
-                  {/* {errors.buyerEmail && <p style={{color: 'red'}}>{errors.buyerEmail}</p>} */}
+                
                 </div>
               </>
             )}
@@ -910,7 +898,7 @@ const CreatePO = ({ socket }) => {
                 placeholder="Enter Email ID"
                 value={formData.supplierEmail}
                 readOnly
-                // {...register('supplierEmail', { validate: value => value?.trim() !== '' || 'Supplier email is required' })}
+                
               />
               {errors.supplierEmail && <p>{errors.supplierEmail.message}</p>}
             </div>
@@ -922,11 +910,10 @@ const CreatePO = ({ socket }) => {
                 className="signup-form-section-phone-input"
                 defaultCountry="ae"
                 name="supplierMobile"
-                // value={watch('supplierMobile')}
+               
                 value={formData.supplierMobile}
                 disabled
-                // onChange={handleSupplierPhoneChange}
-                // onChange={(value) => handlePhoneChange(value, 'supplierMobile')}
+             
               />
               {errors.supplierMobile && <p>{errors.supplierMobile.message}</p>}
             </div>
@@ -959,8 +946,7 @@ const CreatePO = ({ socket }) => {
                       type="text"
                       name={`orderItems[${index}].productName`}
                       placeholder="Item Name"
-                      // defaultValue={item?.medicine_details?.medicine_name}
-                      // {...register(`orderItems[${index}].productName`, { validate: value => value.trim() !== '' || 'Product name is required' })}
+                     
                       value={
                         item?.medicine_details?.medicine_name ||
                         item?.medicine_details?.general?.name
@@ -980,8 +966,7 @@ const CreatePO = ({ socket }) => {
                       type="text"
                       name={`orderItems[${index}].quantity`}
                       placeholder="Enter Quantity"
-                      // defaultValue={item?.quantity_required}
-                      // {...register(`orderItems[${index}].quantity`, { validate: value => value.trim() !== '' || 'Quantity is required' })}
+                    
                       value={item?.quantity_required}
                       readOnly
                     />
@@ -998,8 +983,7 @@ const CreatePO = ({ socket }) => {
                       type="text"
                       name={`orderItems[${index}].unitPrice`}
                       placeholder="Enter Price"
-                      // defaultValue={item?.unit_price}
-                      // {...register(`orderItems[${index}].unitPrice`, { validate: value => value.trim() !== '' || 'Unit price is required' })}
+                      
                       value={item?.counter_price || item?.target_price}
                       readOnly
                     />
@@ -1032,8 +1016,7 @@ const CreatePO = ({ socket }) => {
                       type="text"
                       name={`orderItems[${index}].totalAmount`}
                       placeholder="Enter Total Amount"
-                      // defaultValue={item?.counter_price || item?.target_price}
-                      // {...register(`orderItems[${index}].totalAmount`, { validate: value => value.trim() !== '' || 'Total amount is required' })}
+                    
                       value={totalAmount.toFixed(2)}
                       readOnly
                     />
@@ -1062,7 +1045,7 @@ const CreatePO = ({ socket }) => {
                 cols="10"
                 placeholder="Enter Description"
                 onChange={handleChange}
-                // {...register('description')}
+                
               />
             </div>
           </div>
@@ -1077,7 +1060,7 @@ const CreatePO = ({ socket }) => {
             {loading ? <div className="loading-spinner"></div> : "Submit"}
           </button>
 
-          {/* <div className={styles['create-invoices-cancel']}>Cancel</div> */}
+         
         </div>
       </form>
     </div>

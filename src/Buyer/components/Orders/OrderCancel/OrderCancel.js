@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
-import style from './orderCancel.module.css';
 import CloseIcon from '@mui/icons-material/Close';
-import { postRequestWithToken } from '../../../../api/Requests';
 import { useNavigate } from 'react-router-dom';
 
 const OrderCancel = ({ setModal, orderId,  activeLink  }) => {
@@ -46,12 +43,6 @@ const OrderCancel = ({ setModal, orderId,  activeLink  }) => {
             reason     : reason
         }
 
-        // postRequestWithToken('buyer/order/cancel-order', obj, async (response) => {
-        //     if (response?.code === 200) {
-
-        //     } else {
-        //     }
-        //   })
         setModal(false)
     }
 
@@ -91,7 +82,6 @@ const OrderCancel = ({ setModal, orderId,  activeLink  }) => {
 
     return (
         <div>
-            {/* <Button onClick={toggleDrawer(true)}>Open drawer</Button> */}
             <Drawer anchor="right" open={open} onClose={toggleDrawer(false)}>
                 {DrawerList}
             </Drawer>

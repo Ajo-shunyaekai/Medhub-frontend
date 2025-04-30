@@ -1,29 +1,26 @@
+// NotificationList.jsx
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import './notificationlist.css';
-import Pagination from "react-js-pagination";
+import { useNavigate } from 'react-router-dom';
+import DataTable from 'react-data-table-component';
+import PaginationComponent from '../Pagination/pagination';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
-import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
-import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { postRequestWithToken } from '../../../../api/Requests';
 import moment from 'moment/moment';
+import styles from '../../../assets/style/table.module.css';
 
 const NotificationList = () => {
-   
     const navigate = useNavigate();
     const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
     const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
 
-    const [list, setList] = useState()
-    const [totalItems, setTotalItems] = useState()
-
-
+    const [list, setList] = useState([]);
+    const [totalItems, setTotalItems] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const ordersPerPage = 10;
 
     const indexOfLastOrder = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-    const notificationOrders = list?.slice(indexOfFirstOrder, indexOfFirstOrder + ordersPerPage);
+    const notificationOrders = list?.slice(indexOfFirstOrder, indexOfLastOrder);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -38,18 +35,18 @@ const NotificationList = () => {
 
         const obj = {
             buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
-            // pageNo: currentPage,
-            // pageSize: ordersPerPage
         };
 
         postRequestWithToken('buyer/get-notification-details-list', obj, (response) => {
             if (response?.code === 200) {
-                setList(response.result.data);
-                setTotalItems(response.result.totalItems);
+                setList(response.result.data || []);
+                setTotalItems(response.result.totalItems || 0);
             } else {
+                setList([]);
+                setTotalItems(0);
             }
         });
-    }, [currentPage]);
+    }, [currentPage, buyerIdSessionStorage, buyerIdLocalStorage, navigate]);
 
     const handleNavigation = (notificationId, event, eventId, linkId) => {
         switch (event) {
@@ -61,118 +58,121 @@ const NotificationList = () => {
                 break;
             case 'purchaseorder':
                 navigate(`/buyer/purchased-order-details/${linkId}`);
-                break; 
+                break;
             case 'invoice':
                 navigate(`/buyer/invoice/Pending-Invoice`);
-                break; 
-                case 'Profile Edit Approved':
-                    navigate(`/buyer/profile/${localStorage?.getItem('_id')}`);
-                    break; 
-                case 'Profile Edit Rejected':
-                    navigate(`/buyer/profile/${localStorage?.getItem('_id')}`);
-                    break; 
+                break;
+            case 'Profile Edit Approved':
+            case 'Profile Edit Rejected':
+                navigate(`/buyer/profile/${localStorage?.getItem('_id')}`);
+                break;
             default:
                 navigate('/buyer/');
                 break;
         }
     };
 
+    const columns = [
+        {
+            name: 'Supplier Name',
+            selector: row => row?.from === 'admin' ? 'Admin' : row?.supplier?.supplier_name || '-',
+            sortable: true,
+        },
+        {
+            name: 'Date',
+            selector: row => row?.createdAt,
+            sortable: true,
+            cell: row => (
+                <div>
+                    {moment(row?.createdAt).format("DD/MM/YYYY HH:mm")}
+                    <span>
+                        ({moment(row?.createdAt).fromNow()})
+                    </span>
+                </div>
+            ),
+        },
+        {
+            name: 'Message',
+            selector: row => row?.message || '-',
+            sortable: true,
+        },
+        {
+            name: 'Action',
+            cell: row => (
+             
+                     <div className={styles.activeBtn}   onClick={() => handleNavigation(row?.notification_id, row?.event, row?.event_id, row?.link_id)}>
+            <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
+          </div>
+                  
+                
+            ),
+            ignoreRowClick: true,
+            allowOverflow: true,
+            button: true,
+        },
+    ];
+
     return (
-        <div className='notification-main-container'>
-            <div className="notification-name-2">Notification List</div>
-            <div className="notification-container">
-                <div className="notification-container-right-section">
-                    <div className='notification-inner-container-section'>
-                        <table className="table-container">
-                            <thead className='notification-container-thead'>
-                                <tr className='notification-container-tr'>
-                                    <th className="notification-container-th"><div className="notification-container-head">Supplier Name</div></th>
-                                    <th className="notification-container-th"><div className="notification-container-head">Date</div></th>
-                                    <th className="notification-container-ths"><div className="notification-container-heads">Message</div></th>
-                                    <th className="notification-container-th"><div className="notification-container-head">Action</div></th>
-                                </tr>
-                            </thead>
-                            {
-                                notificationOrders?.map((notification, index) => {
-                                    let additionalInfo = '';
-
-                                    if (notification.event_type === 'Order created') {
-                                        additionalInfo = `for ${notification.connected_id}`;
-                                    } else if (notification.event_type === 'Shipment details submitted') {
-                                        additionalInfo = `for: ${notification.event_id}`;
-                                    } else if (notification.event_type === 'Enquiry quotation') {
-                                        additionalInfo = `from: ${notification.supplier?.supplier_name}`;
-                                    }
-
-                                    // let displayMessage = notification.message;
-                                    // if (notification.message === 'Enquiry quotation submitted') {
-                                    //     displayMessage = `Enquiry quotation received `;
-                                    // }
-
-                                    return (
-                                <tbody className='notification-container-tbody' key={index}>
-
-                                    <tr className="notification-section-tr" >
-                                        <td className='notification-section-td'>
-                                            <div className="notification-section-heading">
-                                                {/* {notification.supplier?.supplier_name} */}
-                                                {notification.from === 'admin' ? 'Admin' : notification.supplier?.supplier_name}
-                                            </div>
-                                        </td>
-                                        <td className='notification-section-td'>
-                                            <div className="notification-section-heading">
-                                                {/* {moment(notification.createdAt).format("DD/MM/YYYY")} */}
-                                                {moment(notification.createdAt).format("DD/MM/YYYY HH:mm")}
-                                                <span style={{ color: 'gray', fontSize: '12px', marginLeft: '8px' }}>
-                                                    ({moment(notification.createdAt).fromNow()})
-                                                </span>
-                                            </div>
-                                        </td>
-                                        <td className='notification-section-tds'>
-                                            <div className="notification-section-heading">
-                                                {notification.message} 
-                                                {/* {additionalInfo} */}
-                                            </div>
-                                        </td>
-                                        <td className='notification-section-button-cont'>
-                                            <div className='notification-section-button'>
-                                                
-                                                <div className='notification-section-view' 
-                                                onClick={() => handleNavigation(notification.notification_id, notification.event, notification.event_id, notification.link_id)}>
-                                                    <RemoveRedEyeOutlinedIcon className='table-icon' />
-                                                </div>
-                                                
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                </tbody>
-                                  );
-                                })
-                            }
-                        </table>
+        <div className={styles.container}>
+        <style>
+          {`
+            .rdt_Table {
+              border: none;
+              background-color: unset !important;
+            }
+            .rdt_TableRow {
+              background-color: #ffffff !important;
+              border-bottom: none !important;
+            }
+            .rdt_TableHeadRow {
+              background-color: #f9f9fa;
+              font-weight: bold;
+              border-bottom: none !important;
+            }
+            .rdt_TableBody {
+              gap: 10px !important;
+            }
+            .rdt_TableCol {
+               
+              color: #333;
+            }
+            .rdt_TableCell {
+               
+              color: #99a0ac;
+              font-weight: 500 !important;
+            }
+            .rdt_TableCellStatus {
+               
+              color: #333;
+            }
+          `}
+        </style>
+        <div className={styles.tableMainContainer}>
+            <header className={styles.header}>
+              <span className={styles.title}>Notification List</span>
+            </header>
+           
+                        <DataTable
+                            columns={columns}
+                            data={notificationOrders || []}
+                            noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
+                            persistTableHead
+                            pagination={false}
+                            responsive
+                        />
                     </div>
-                    <div className='pagi-container'>
-                        <Pagination
+                    {list?.length > 0 && (
+                        <PaginationComponent
                             activePage={currentPage}
                             itemsCountPerPage={ordersPerPage}
                             totalItemsCount={totalItems}
                             pageRangeDisplayed={5}
                             onChange={handlePageChange}
-                            itemClass="page-item"
-                            linkClass="page-link"
-                            prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
-                            nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
-                            hideFirstLastPages={true}
                         />
-                        <div className='pagi-total'>
-                            Total Items: {totalItems}
-                        </div>
-                    </div>
+                    )}
                 </div>
-            </div>
-        </div>
+          
     );
-}
+};
 
-export default NotificationList
+export default NotificationList;

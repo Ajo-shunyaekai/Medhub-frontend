@@ -566,7 +566,6 @@ const EditCreatePO = ({ socket }) => {
       </div>
       <form
         className={styles["create-po-main-form-container"]}
-        // onSubmit={handleSubmit(onSubmit)}
         onSubmit={handleSubmit}
       >
         <div className={styles["create-invoice-section"]}>
@@ -665,7 +664,7 @@ const EditCreatePO = ({ socket }) => {
                 name="poDate"
                 value={formData.poDate}
                 readOnly
-                // {...register('poDate')}
+              
               />
             </div>
             <div className={styles["create-invoice-div-container"]}>
@@ -677,9 +676,9 @@ const EditCreatePO = ({ socket }) => {
                 type="text"
                 name="poNumber"
                 value={formData.poNumber}
-                // value={poNumber}
+              
                 readOnly
-                // {...register('poNumber')}
+               
               />
             </div>
             <div className={styles["create-invoice-div-container"]}>
@@ -691,7 +690,7 @@ const EditCreatePO = ({ socket }) => {
                 placeholder="Enter Name"
                 value={formData.supplierName}
                 readOnly
-                // {...register('supplierName', { validate: value => value.trim() !== '' || 'Supplier name is required' })}
+               
               />
               {errors.supplierName && <p>{errors.supplierName.message}</p>}
             </div>
@@ -706,7 +705,7 @@ const EditCreatePO = ({ socket }) => {
                 placeholder="Enter Address"
                 value={formData.supplierAddress}
                 readOnly
-                // {...register('supplierAddress', { validate: value => value.trim() !== '' || 'Supplier address is required' })}
+               
               />
               {errors.supplierAddress && (
                 <p>{errors.supplierAddress.message}</p>
@@ -723,7 +722,7 @@ const EditCreatePO = ({ socket }) => {
                 placeholder="Enter Email ID"
                 value={formData.supplierEmail}
                 readOnly
-                // {...register('supplierEmail', { validate: value => value.trim() !== '' || 'Supplier email is required' })}
+              
               />
               {errors.supplierEmail && <p>{errors.supplierEmail.message}</p>}
             </div>
@@ -735,12 +734,11 @@ const EditCreatePO = ({ socket }) => {
                 className="signup-form-section-phone-input"
                 defaultCountry="ae"
                 name="supplierMobile"
-                // value={watch('supplierMobile')}
+              
                 value={formData.supplierMobile}
                 disabled
                 placeholder="Enter Mobile No."
-                // onChange={(value) => handlePhoneChange(value, 'supplierMobile')}
-                // {...register('supplierMobile', { validate: value => value.trim() !== '' || 'Supplier mobile number is required' })}
+              
               />
               {errors.supplierMobile && <p>{errors.supplierMobile.message}</p>}
             </div>
@@ -755,7 +753,7 @@ const EditCreatePO = ({ socket }) => {
                 placeholder="Enter Company Registration Number"
                 readOnly
                 value={formData.supplierRegNo}
-                // {...register('supplierRegNo', { validate: value => value.trim() !== '' || 'Supplier registration number is required' })}
+              
               />
               {errors.supplierRegNo && <p>{errors.supplierRegNo.message}</p>}
             </div>

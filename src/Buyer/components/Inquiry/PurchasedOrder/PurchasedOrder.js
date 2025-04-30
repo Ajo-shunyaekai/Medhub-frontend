@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import EditIcon from '@mui/icons-material/Edit';
-import Pagination from 'react-js-pagination';
-import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
-import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
-import '../ongoingorders.css';
+import DataTable from 'react-data-table-component';
+import PaginationComponent from "../../SharedComponents/Pagination/pagination";
+import styles from "../../../assets/style/table.module.css";
 
 const PurchasedOrder = ({ poList, totalPoList, currentPage, inquiryPerPage, handlePageChange, activeLink }) => {
   const [modal, setModal] = useState(false);
@@ -16,98 +15,115 @@ const PurchasedOrder = ({ poList, totalPoList, currentPage, inquiryPerPage, hand
     setModal(true);
   };
 
-  return (
-    <>
-      <div className="ongoing-container">
-        <div className="ongoing-container-right-section">
-          <div className='ongoing-inner-container-section'>
-            <table className="table-ongoing-container">
-              <thead className='ongoing-container-thead'>
-                <tr className='ongoing-container-tr'>
-                  <th className="ongoing-container-th">PO ID</th>
-                  <th className="ongoing-container-th">Inquiry ID</th>
-                  <th className="ongoing-container-th">Date</th>
-                  <th className="ongoing-container-large-th">Supplier Name</th>
-                  <th className="ongoing-container-th">Total Amount</th>
-                  <th className="ongoing-container-th">Action</th>
-                </tr>
-              </thead>
-              {poList?.length > 0 ? (
-                poList.map((data, i) => {
-                  const totalAmount = data.order_items.reduce((sum, item) => sum + parseFloat(item.total_amount), 0);
-                  return (
-                    <tbody key={data._id} className='ongoing-container-tbody'>
-                      <tr className="ongoing-section-tr">
-                        <td className='ongoing-section-td'>
-                          <div className="ongoing-section-heading">{data.purchaseOrder_id}</div>
-                        </td>
-                        <td className='ongoing-section-td'>
-                          <div className="ongoing-section-heading">{data.enquiry_id}</div>
-                        </td>
-                        <td className='ongoing-section-td'>
-                          <div className="ongoing-section-heading">{data.po_date}</div>
-                        </td>
-                        <td className='ongoing-section-large-td'>
-                          <div className="ongoing-section-heading">{data.supplier_name}</div>
-                        </td>
-                        <td className='ongoing-section-td'>
-                          <div className="ongoing-section-heading">{data.total_amount || totalAmount} USD</div>
-                        </td>
-                        <td className='ongoing-section-td'>
-                          <div className='ongoing-section-button'>
-                            <Link to={`/buyer/purchased-order-details/${data.purchaseOrder_id}`}>
-                              <div className='ongoing-section-view'>
-                                <RemoveRedEyeOutlinedIcon className='ongoing-section-eye' />
-                              </div>
-                            </Link>
-                            <Link to={`/buyer/edit-create-po/${data.purchaseOrder_id}`}>
-                              <div className='ongoing-section-delete' onClick={() => showModal(data)}>
-                                <EditIcon className='ongoing-section-off' />
-                              </div>
-                            </Link>
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  );
-                })
-              ) : (
-                <>
-                  <div className='pending-products-no-orders'>
-                    No Purchase Orders Available
-                  </div>
-                </>
-              )}
-            </table>
+  const columns = [
+    {
+      name: 'PO ID',
+      selector: row => row?.purchaseOrder_id,
+      sortable: true,
+    },
+    {
+      name: 'Inquiry ID',
+      selector: row => row?.enquiry_id,
+      sortable: true,
+    },
+    {
+      name: 'Date',
+      selector: row => row?.po_date,
+      sortable: true,
+    },
+    {
+      name: 'Supplier Name',
+      selector: row => row?.supplier_name,
+      sortable: true,
+      width: '200px',
+    },
+    {
+      name: 'Total Amount',
+      selector: row => {
+        const totalAmount = row?.order_items?.reduce((sum, item) => sum + parseFloat(item.total_amount || 0), 0);
+        return `${row.total_amount || totalAmount} USD`;
+      },
+      sortable: true,
+    },
+    {
+      name: 'Action',
+      cell: row => (
+        <div className={styles.buttonContainer}>
+          <Link to={`/buyer/purchased-order-details/${row?.purchaseOrder_id}`}>
+          <div className={styles.activeBtn}>
+            <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
           </div>
-          {modal && <ongoingCancel setModal={setModal} ongoing={selectedongoing} />}
-          {poList.length > 0 && (
-          <div className='pagi-container'>
-            <Pagination
-              activePage={currentPage}
-              itemsCountPerPage={inquiryPerPage}
-              totalItemsCount={totalPoList}
-              pageRangeDisplayed={5}
-              onChange={handlePageChange}
-              itemClass="page-item"
-              linkClass="page-link"
-              prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
-              nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
-              hideFirstLastPages={true}
-            />
-            <div className='pagi-total'>
-              Total Items: {totalPoList}
-            </div>
-          </div>
-          )}
+          </Link>
+          <Link to={`/buyer/edit-create-po/${row?.purchaseOrder_id}`}>
+          <div className={styles.activeBtn}>
+            <EditIcon className={styles['table-icon']} onClick={() => showModal(row)} />
+              </div>
+          </Link>
         </div>
+      ),
+      ignoreRowClick: true,
+      allowOverflow: true,
+      button: true,
+    },
+  ];
+
+  return (
+    <div className={styles.container}>
+    <style>
+      {`
+        .rdt_Table {
+          border: none;
+          background-color: unset !important;
+        }
+        .rdt_TableRow {
+          background-color: #ffffff !important;
+          border-bottom: none !important;
+        }
+        .rdt_TableHeadRow {
+          background-color: #f9f9fa;
+          font-weight: bold;
+          border-bottom: none !important;
+        }
+        .rdt_TableBody {
+          gap: 10px !important;
+        }
+        .rdt_TableCol {
+           
+          color: #333;
+        }
+        .rdt_TableCell {
+           
+          color: #99a0ac;
+          font-weight: 500 !important;
+        }
+        .rdt_TableCellStatus {
+           
+          color: #333;
+        }
+      `}
+    </style>
+    <div className={styles.tableMainContainer}>
+          <DataTable
+            columns={columns}
+            data={poList ?? []}
+            noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
+            persistTableHead
+            pagination={false}
+            responsive
+          />
+        {modal && <ongoingCancel setModal={setModal} ongoing={selectedongoing} />}
+        {poList?.length > 0 && (
+          <PaginationComponent
+            activePage={currentPage}
+            itemsCountPerPage={inquiryPerPage}
+            totalItemsCount={totalPoList}
+            pageRangeDisplayed={10}
+            onChange={handlePageChange}
+          />
+        )}
       </div>
-    </>
+      </div>
   );
-}
+};
 
 export default PurchasedOrder;
-
-
-
-

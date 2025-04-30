@@ -70,8 +70,6 @@ const OrderDetails = ({ socket }) => {
     } else if (data.customClearance) {
       type = "custom clearance";
     }
-
-    // Create the logistics_details object
     const logisticsDetails = {
       door_to_door: data.doorToDoor,
       custom_clearance: data.customClearance,
@@ -116,7 +114,6 @@ const OrderDetails = ({ socket }) => {
                 orderId: orderId,
                 message: `Logistics Booking Request for ${orderId}`,
                 link: process.env.REACT_APP_PUBLIC_URL,
-                // send other details if needed
               });
               setOrderDetails(response.result);
               onClose();
@@ -189,7 +186,6 @@ const OrderDetails = ({ socket }) => {
                     Order Status
                   </div>
                   <div className="buyers-order-details-left-top-main-contents">
-                    {/* {orderDetails?.status?.charAt(0)?.toUpperCase() + orderDetails?.status?.slice(1) } */}
                     {orderDetails?.status}
                   </div>
                 </div>
@@ -200,7 +196,7 @@ const OrderDetails = ({ socket }) => {
                     >
                       <div
                         className="buyers-order-details-left-top-main-heading-button"
-                        // onClick={() => setIsModalOpen(true)}
+                       
                       >
                         Book Logistics
                       </div>
@@ -220,11 +216,7 @@ const OrderDetails = ({ socket }) => {
       <div className="buyers-order-details-assign-driver-section">
         <AssignDriver orderItems={orderDetails?.items} />
       </div>
-      {/* end the assign driver section */}
-      {/* start the main component heading */}
-
-      {/* {orderDetails?.shipment_details && Object.keys(orderDetails?.shipment_details).length > 0 && (
-            <> */}
+     
 
       {orderDetails?.coordinators &&
         Object.keys(orderDetails?.coordinators).length > 0 && (
@@ -341,7 +333,7 @@ const OrderDetails = ({ socket }) => {
 
             {/* Start the end section */}
       <div className="buyers-order-details-payment-container">
-        {/* {orderDetails?.status === 'Shipment Details Submitted' || orderDetails?.status === 'Completed' && ( */}
+      
         <div className="buyers-order-details-payment-left-section">
           <div className="buyers-order-details-payment-terms-cont">
             <div className="buyers-order-details-payment-first-terms-cont">
@@ -365,10 +357,7 @@ const OrderDetails = ({ socket }) => {
         </div>
         {/* )} */}
         <div className="buyers-order-details-pickup-sec-container">
-          {/* {orderDetails?.shipment_details && Object.keys(orderDetails?.shipment_details).length > 0 && ( */}
-
-          {/* {(orderDetails?.shipment_details && Object.keys(orderDetails?.shipment_details).length > 0) ||
-                 (orderDetails?.supplier_logistics_data && Object.keys(orderDetails?.supplier_logistics_data).length > 0) && ( */}
+         
 
           {(orderDetails?.shipment_details?.supplier_details &&
             Object.keys(orderDetails.shipment_details.supplier_details).length >
@@ -478,16 +467,14 @@ const OrderDetails = ({ socket }) => {
       </div>
       {/* end the section */}
       {/* Start the assign driver section */}
-      {/* {orderDetails?.coordinators && Object.keys(orderDetails?.coordinators).length > 0 && ( */}
+   
       {orderDetails?.status === "Completed" && (
         <div className="buyers-order-details-codinator-section-cont">
           <BuyerActiveCodinator productList={orderDetails?.items} />
         </div>
       )}
 
-      {/* {
-                orderDetails?.order_status === 'completed' ?
-             } */}
+     
       {orderDetails?.invoices && orderDetails?.invoices.length > 0 && (
         <div className="buyers-order-details-invoice-list-section">
           <OrderInvoiceList invoiceData={orderDetails?.invoices} />
@@ -496,8 +483,7 @@ const OrderDetails = ({ socket }) => {
       {/* End the assign driver section */}
       <CustomModal
         isOpen={isModalOpen}
-        // onClose={() => setIsModalOpen(false)}
-        // onClose={onClose}
+       
         setIsModalOpen={setIsModalOpen}
         onSubmit={handleModalSubmit}
         setLoading={setLoading}

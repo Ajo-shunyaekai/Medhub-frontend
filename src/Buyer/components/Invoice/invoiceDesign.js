@@ -68,8 +68,7 @@ function InvoiceTemplate({ invoice }) {
                     invoiceId: invoiceId
                 }, window?.location?.origin);
                 
-                // You could also trigger download directly
-                // handleDownload();
+              
             }
         };
         
@@ -129,7 +128,7 @@ function InvoiceTemplate({ invoice }) {
                                                         <h1 style={{ fontSize: '14px', fontWeight: 500, paddingBottom: '3px' }}>From :</h1>
                                                         <p style={{ fontSize: '16px', fontWeight: 500, paddingBottom: '6px' }}>{invoiceDetails?.supplier_name}</p>
                                                         <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac' }}>{invoiceDetails?.supplier_address}</p>
-                                                        {/* Rest of supplier address details */}
+                                                       
                                                         <td style={{ display: 'flex', justifyContent: 'start' }}>
                                                             <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>VAT Reg No :</p>
                                                             <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>&nbsp;{invoiceDetails?.supplier_vat_reg_no}</p>
@@ -141,7 +140,7 @@ function InvoiceTemplate({ invoice }) {
                                                         <h1 style={{ fontSize: '14px', fontWeight: 500, paddingBottom: '3px', textAlign: 'end' }}>To :</h1>
                                                         <p style={{ fontSize: '16px', fontWeight: 500, paddingBottom: '6px', textAlign: 'end' }}>{invoiceDetails?.buyer_name}</p>
                                                         <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', textAlign: 'end' }}>{invoiceDetails?.buyer_address}</p>
-                                                        {/* Rest of buyer address details */}
+                                                       
                                                         <td style={{ display: 'flex', justifyContent: 'end' }}>
                                                             <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>VAT Reg No :</p>
                                                             <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>&nbsp;{invoiceDetails?.buyer_vat_reg_no}</p>
