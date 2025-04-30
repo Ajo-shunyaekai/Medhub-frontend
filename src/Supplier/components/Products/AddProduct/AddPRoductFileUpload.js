@@ -174,114 +174,7 @@ const AddProductFileUpload = ({
         )}
       </div>
       {error && <span className={styles.error}>{error}</span>}
-      {/* {fileUpload?.filesMerged?.length > 0 && (
-        <div className={styles.previewContainer}>
-          {fileUpload?.filesMerged?.map((file, index) => {
-            // Determine the file extension based on whether it's a File object or string
-            const fileExtension =
-              typeof file == "string"
-                ? file?.split(".")?.pop()?.toLowerCase()
-                : file?.name?.split(".")?.pop()?.toLowerCase();
-
-            const isImage =
-              fileExtension === "jpeg" ||
-              fileExtension === "png" ||
-              fileExtension === "jpg" ||
-              fileExtension === "gif" ||
-              fileExtension === "bmp";
-
-            const isPdf = fileExtension === "pdf";
-
-            return (
-              <div key={index} className={styles.filePreview}>
-                {isImage ? (
-                  <img
-                    src={
-                      typeof file == "string"
-                        ? `${process.env.REACT_APP_SERVER_URL}uploads/products/${file}`
-                        : URL.createObjectURL(file)
-                    }
-                    alt={file?.name}
-                    className={styles.previewImage}
-                  />
-                ) : isPdf ? (
-                  <FiFileText size={25} className={styles.fileIcon} />
-                ) : null}
-                <p className={styles.fileName}>
-                  {typeof file == "string" ? file : file?.name}
-                </p>
-                <button
-                  type="button"
-                  className={styles.removeButton}
-                  onClick={(event) =>
-                    fileUpload?.removeFile(
-                      index,
-                      event,
-                      typeof file == "string" ? "old" : "new"
-                    )
-                  }
-                  title={`Remove ${isImage ? "image" : isPdf ? "PDF" : "file"}`}
-                >
-                  <FiX size={15} className={styles.removeIcon} />
-                </button>
-              </div>
-            );
-          })}
-        </div>
-      )} */}
-
-
-
-      {/* {fileUpload?.filesMerged?.length > 0 && (
-        <div className={styles.previewContainer}>
-          {fileUpload?.filesMerged?.map((file, index) => {
-            // Check if file is a string or an object
-            const isString = typeof file == "string";
-            const fileName = isString ? file : file?.name;
-            const fileExtension = isString
-              ? file?.split(".")?.pop()?.toLowerCase()
-              : fileName?.split(".")?.pop()?.toLowerCase();
-
-            const isImage = ["jpeg", "png", "jpg", "gif", "bmp"].includes(
-              fileExtension
-            );
-            const isPdf = fileExtension === "pdf";
-
-            return (
-              <div key={index} className={styles.filePreview}>
-                {isImage ? (
-                  <img
-                    src={
-                      isString
-                        ? `${process.env.REACT_APP_SERVER_URL}uploads/products/${file}`
-                        : URL.createObjectURL(file)
-                    }
-                    alt={fileName}
-                    className={styles.previewImage}
-                  />
-                ) : isPdf ? (
-                  <FiFileText size={25} className={styles.fileIcon} />
-                ) : null}
-                <p className={styles.fileName}>{fileName}</p>
-                <button
-                  type="button"
-                  className={styles.removeButton}
-                  onClick={(event) =>
-                    fileUpload?.removeFile(
-                      index,
-                      event,
-                      isString ? "old" : "new"
-                    )
-                  }
-                  title={`Remove ${isImage ? "image" : isPdf ? "PDF" : "file"}`}
-                >
-                  <FiX size={15} className={styles.removeIcon} />
-                </button>
-              </div>
-            );
-          })}
-        </div>
-      )} */}
+      <div className={styles.filePreviewContainer}>
 
 {fileUpload?.filesMerged?.map((file, index) => {
   const isString = typeof file === "string";
@@ -347,6 +240,7 @@ const AddProductFileUpload = ({
 })}
 
 
+    </div>
     </div>
   );
 };

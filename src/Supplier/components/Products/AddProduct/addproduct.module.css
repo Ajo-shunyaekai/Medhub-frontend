@@ -504,6 +504,10 @@
   color: #5e676f;
   cursor: pointer !important;
 }
+.filePreviewContainer{
+  display: flex;
+      gap: 10px;
+}
 /* End image preview section */
 
 
