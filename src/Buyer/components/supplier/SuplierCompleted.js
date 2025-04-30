@@ -5,8 +5,8 @@ import { postRequestWithToken } from '../../../api/Requests';
 import moment from 'moment/moment';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import PaginationComponent from '../SharedComponents/Pagination/pagination';
-import styles from './supplieractive.module.css';
-import './table.css'
+import styles from '../../assets/style/table.module.css';
+
 
 const SupplierCompleted = () => {
   const { supplierId } = useParams();
@@ -17,9 +17,9 @@ const SupplierCompleted = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const ordersPerPage = 10;
 
-    useEffect(() => {
-        const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
-        const buyerIdLocalStorage   = localStorage?.getItem("buyer_id");
+  useEffect(() => {
+    const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
+    const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
 
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
       localStorage?.clear();
@@ -81,10 +81,10 @@ const SupplierCompleted = () => {
     {
       name: 'Action',
       cell: row => (
-         <Link to={`/buyer/order-details/${row?.order_id}`}>
-        <div className={styles.actionBtn}>
-            <RemoveRedEyeOutlinedIcon className={styles.icon} />
-        </div>
+        <Link to={`/buyer/order-details/${row?.order_id}`}>
+          <div className={styles.activeBtn}>
+            <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
+          </div>
         </Link>
       ),
       ignoreRowClick: true,
@@ -98,16 +98,51 @@ const SupplierCompleted = () => {
   };
 
   return (
-    <div className={styles.mainContainer}>
-      <div className={styles.mainHeader}>Completed Orders</div>
-      <div className={styles.container}>
-         <div className={styles.section}>
+    <div className={styles.container}>
+      <style>
+        {`
+      .rdt_Table {
+        border: none;
+        background-color: unset !important;
+      }
+      .rdt_TableRow {
+        background-color: #ffffff !important;
+        border-bottom: none !important;
+      }
+      .rdt_TableHeadRow {
+        background-color: #f9f9fa;
+        font-weight: bold;
+        border-bottom: none !important;
+      }
+      .rdt_TableBody {
+        gap: 10px !important;
+      }
+      .rdt_TableCol {
+         
+        color: #333;
+      }
+      .rdt_TableCell {
+         
+        color: #99a0ac;
+        font-weight: 500 !important;
+      }
+      .rdt_TableCellStatus {
+         
+        color: #333;
+      }
+    `}
+      </style>
+      <div className={styles.tableMainContainer}>
+        <header className={styles.header}>
+          <span className={styles.title}>Completed Orders</span>
+        </header>
         <DataTable
           columns={columns}
           data={orderList}
-        //   customStyles={customStyles}
-          noDataComponent={<div className={styles.noData}>No Data Available</div>}
+          noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
           persistTableHead
+          pagination={false}
+          responsive
         />
         {orderList.length > 0 && (
           <PaginationComponent
@@ -118,7 +153,6 @@ const SupplierCompleted = () => {
             onChange={handlePageChange}
           />
         )}
-      </div>
       </div>
     </div>
   );
