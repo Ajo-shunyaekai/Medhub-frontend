@@ -196,7 +196,6 @@ const ProductDetails = () => {
 
   return (
     <div className={styles.container} ref={containerRef}>
-      {/* <span className={styles.heading}>Product ID : </span> */}
       <div className={styles.section}>
         <div className={styles.ProductMainContainer}>
           <span className={styles.medicineName}>
@@ -338,6 +337,14 @@ const ProductDetails = () => {
                   </span>
                 </div>
               )}
+               {productDetail?.general?.unit_tax && (
+                <div className={styles.medicinesSection}>
+                  <span className={styles.medicineHead}>Tax%</span>
+                  <span className={styles.medicineText}>
+                    {productDetail?.general?.unit_tax}
+                  </span>
+                </div>
+              )}
               {productDetail?.general?.quantity && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Product Quantity</span>
@@ -450,6 +457,27 @@ const ProductDetails = () => {
 
         {/* End general information section */}
 
+        {productDetail?.general?.aboutManufacturer && (
+
+<div className={styles.mainContainer}>
+  <div className={styles.manufacturerDescriptionSection}>
+    <span className={styles.medicineHead}>Short Description</span>
+    <span
+      className={styles.medicineDescriptionContent}
+
+    >
+      {productDetail?.general?.aboutManufacturer}
+    </span>
+  </div>
+</div>
+
+
+
+
+)}
+
+
+
         {/* Start product description */}
         {productDetail?.general?.description && (
           <div className={styles.mainContainer}>
@@ -467,26 +495,7 @@ const ProductDetails = () => {
         {/* End the product description */}
         {/* Start product image section */}
 
-        {/* {productDetail?.general?.image?.length > 0 && (
-          <div className={styles.mainContainer}>
-            <span className={styles.innerHead}>Product Images</span>
-            <div className={styles.productImageSection}>
-              {productDetail?.general?.image?.map((img) => (
-                <div className={styles.imageContainer}>
-                  <img
-                    className={styles.imageSection}
-                    src={
-                      !productDetail?.bulkUpload
-                        ? `${process.env.REACT_APP_SERVER_URL}uploads/products/${img}`
-                        : { img }
-                    }
-                    alt="image"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        )} */}
+       
         <div className={styles.mainContainer}>
           <span className={styles.innerHead}>Product Images</span>
           <div className={styles.productImageSection}>
@@ -495,12 +504,10 @@ const ProductDetails = () => {
               ? process.env.REACT_APP_SERVER_URL
               : `${process.env.REACT_APP_SERVER_URL}/`;
 
-            // If not a full URL, prepend base path
             const imgUrl = img?.startsWith("http")
               ? img
               : `${baseUrl}uploads/products/${img}`;
 
-            // Check if it ends with image extension
             const isImageFile = isImageExtension(imgUrl);
           
             return (
@@ -3482,19 +3489,9 @@ const ProductDetails = () => {
                 </div>
               </div>
 
-              {/* {productDetail?.inventoryDetails?.inventoryList?.map((ele, index) => {
-                const options = Array.isArray(ele?.quantity)
-                  ? ele.quantity.map((qty) => ({ value: qty, label: qty }))
-                  : [{ value: ele?.quantity, label: ele?.quantity }];
-
-                return ( */}
+             
               <Formik
-                // key={index}
-                // initialValues={{
-                //   selectedQuantity: '',
-                //   quantityRequired: '',
-                //   targetPrice: ''
-                // }}
+              
                 initialValues={{
                   selectedQuantity: defaultOption.value,
                   price: defaultOption.price,
@@ -3503,78 +3500,10 @@ const ProductDetails = () => {
                   targetPrice: "",
                 }}
                 validationSchema={validationSchema}
-                // onSubmit={(values, { resetForm }) => {
-                //   // Add your submit logic here
-                // }}
+              
                 onSubmit={handleSubmit}
               >
-                {/* {({ handleReset, setFieldValue, errors, touched }) => (
-                      <Form className={styles.formSection}>
-                        <div className={styles.fromContainer}>
-                          <div className={styles.inventoryContainer}>
-                            <Select
-                              options={options}
-                              placeholder="Select Quantity"
-                              onChange={(option) => setFieldValue('selectedQuantity', option?.value || '')}
-                              className={errors.selectedQuantity && touched.selectedQuantity ? styles.errorSelect : ''}
-                            />
-                            <ErrorMessage
-                              name="selectedQuantity"
-                              component="span"
-                              className={styles.errorText}
-                            />
-                          </div>
-                          <div className={styles.inventoryContainer}>
-                            <span className={styles.inventoryInput} readOnly>
-                              {ele?.price}
-                            </span>
-                          </div>
-                          <div className={styles.inventoryContainer}>
-                            <span className={styles.inventoryInput} readOnly>
-                              {ele?.deliveryTime}
-                            </span>
-                          </div>
-                          <div className={styles.inventoryContainer}>
-                            <Field
-                              type="number"
-                              name="quantityRequired"
-                              className={styles.inventoryInput}
-                              placeholder="Enter quantity"
-                            />
-                            <ErrorMessage
-                              name="quantityRequired"
-                              component="span"
-                              className={styles.errorText}
-                            />
-                          </div>
-                          <div className={styles.inventoryContainer}>
-                            <Field
-                              type="number"
-                              name="targetPrice"
-                              className={styles.inventoryInput}
-                              placeholder="Enter target price"
-                            />
-                            <ErrorMessage
-                              name="targetPrice"
-                              component="span"
-                              className={styles.errorText}
-                            />
-                          </div>
-                        </div>
-                        <div className={styles.buttonContainer}>
-                          <button type="submit" className={styles.submitButton}>
-                            Add to List
-                          </button>
-                          <button
-                            type="button"
-                            className={styles.cancelButton}
-                            onClick={handleReset}
-                          >
-                            Cancel
-                          </button>
-                        </div>
-                      </Form>
-                    )} */}
+               
 
                 {({ setFieldValue, values, errors, touched }) => {
                   // Get the selected quantity details
@@ -3683,27 +3612,6 @@ const ProductDetails = () => {
         {/* End the product inventory section */}
       </div>
       <div className={styles.section}>
-        {/* <div className={styles.ProductMainContainer2}>
-          <SearchSection
-            inputValue={inputValue}
-            handleInputChange={handleInputChange}
-            handleProductSearch={handleProductSearch}
-            handleKeyDown={handleKeyDown}
-            placeholder="Search Products"
-          />
-        </div> */}
-
-        {/* <FilterSection
-          countryAvailable={
-            productDetail?.secondaryMarketDetails?.countryAvailable || []
-          }
-          handlePriceRange={handlePriceRange}
-          handleDeliveryTime={handleDeliveryTime}
-          handleStockedIn={handleStockedIn}
-          handleQuantity={handleQuantity}
-          handleReset={handleReset}
-        /> */}
-
         <ProductCard
           medicineList={medicineList}
           currentPage={currentPage}

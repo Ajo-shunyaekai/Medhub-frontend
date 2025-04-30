@@ -110,6 +110,7 @@ const OrderInvoiceList = ({ invoiceData }) => {
                 persistTableHead
                 noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
                 pagination={false}
+                responsive
             />
             {invoiceData.length > 0 && (
                 <PaginationComponent

@@ -165,6 +165,7 @@ const RejectedBuyer = () => {
                         noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
                         persistTableHead
                         pagination={false}
+                        responsive
                     />
 
                     {/* Conditionally render PaginationComponent */}

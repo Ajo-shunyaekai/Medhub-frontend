@@ -132,6 +132,7 @@ const BuyerTransaction = () => {
                         persistTableHead
                         noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
                         pagination={false}
+                        responsive
                     />
                     {transactionList.length > 0 && (
                         <PaginationComponent

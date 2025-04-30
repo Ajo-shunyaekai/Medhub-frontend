@@ -63,7 +63,7 @@ const MySupplier = () => {
                                         </div>
                                         <div className={styles.mySupplierCardContentSection}>
                                             <div className={styles.mySupplierNameHead}>{supplier?.supplier_details?.supplier_name}</div>
-                                            {/* <div className='mysupplier-description'>License No: {supplier?.supplier_details?.license_no || 'LIC-097342'}</div> */}
+                                          
                                             
                                             <div className={styles.mySupplierCardFirstSection}>
                                                 <div className={styles.mySupplierInnerCardSection}>
