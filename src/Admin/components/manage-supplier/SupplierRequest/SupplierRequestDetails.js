@@ -330,7 +330,7 @@ const SupplierRequestDetails = () => {
                                 </div>
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Category you Trade in :</div>
-                                    <div className='buyer-details-inner-text'>{supplierDetails?.license_expiry_date}</div>
+                                    <div className='buyer-details-inner-text'>{supplierDetails?.categories?.join(', ')}</div>
                                 </div>
 
                                 <div className='buyer-details-inner-section'>
