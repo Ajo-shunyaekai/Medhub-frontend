@@ -14,13 +14,16 @@ import {
   updateProfileEditReqsDetail,
 } from "../../../../../redux/reducers/adminSlice";
 import { formatDate } from "../../../../../utils/dateFormatter";
-const getFieldValue = (value) => {
-  return value || "";
+const getFieldValue = (field) => {
+  if (!field) return "";
+  return typeof field === "object" && field.value !== undefined
+    ? field.value
+    : field;
 };
 
 const isFieldChanged = (field) => {
-  return false;
-};
+  return typeof field === "object" && field.isChanged === true;
+}
 
 const EditProfileDetails = ({ socket }) => {
   const { id } = useParams();
