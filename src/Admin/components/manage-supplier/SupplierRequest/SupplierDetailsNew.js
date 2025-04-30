@@ -236,7 +236,7 @@ const SupplierDetailsNew = () => {
           <span className="buyer-details-container-heading">
             Supplier ID: {supplierDetails?.supplier_id}
           </span>
-          {supplierDetails?.account_status !== 2 && (
+          {supplierDetails?.account_status == 1 && (
             <>
               <div className="buyer-details-product-list-section">
                 <Link

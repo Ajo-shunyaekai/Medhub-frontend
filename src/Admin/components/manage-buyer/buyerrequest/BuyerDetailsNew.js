@@ -236,7 +236,7 @@ const BuyerDetailsNew = () => {
           <div className="buyer-details-container-heading">
             Buyer ID: {buyerDetails?.buyer_id}
           </div>
-          {buyerDetails?.account_status !== 2 && (
+          {buyerDetails?.account_status == 1 && (
             <>
               <Link to={`/admin/edit-details/buyer/${buyerDetails?._id}`}>
                 <span className="buyer-details-edit-button">Edit</span>
