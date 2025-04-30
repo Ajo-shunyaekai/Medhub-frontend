@@ -1561,7 +1561,7 @@ const EditAddProduct = ({ placeholder }) => {
                   )}
               </div>
 
-              <div className={styles.formInnerSection}>
+              <div className={styles.productContainer}>
                 <AddProductFileUpload
                   productDetails={productDetail}
                   maxFiles={4 - (formik?.values?.image?.length || 0)}
@@ -1587,7 +1587,7 @@ const EditAddProduct = ({ placeholder }) => {
                   }
                 />
               </div>
-              <div className={styles.formInnerSection}>
+              <div className={styles.productContainer}>
                 {formik?.values?.market === "secondary" && (
                   <AddProductFileUpload
                     productDetails={productDetail}
@@ -7866,6 +7866,7 @@ const EditAddProduct = ({ placeholder }) => {
           <div className={styles.section}>
             <span className={styles.formHead}>Health & Safety</span>
             <div className={styles.formSection}>
+              <div className={styles.productContainer}>
               <AddProductFileUpload
                 productDetails={productDetail}
                 maxFiles={4 - (formik?.values?.safetyDatasheet?.length || 0)}
@@ -7894,7 +7895,8 @@ const EditAddProduct = ({ placeholder }) => {
                   )
                 }
               />
-
+              </div>
+ <div className={styles.productContainer}>
               <AddProductFileUpload
                 productDetails={productDetail}
                 maxFiles={4 - (formik?.values?.healthHazardRating?.length || 0)}
@@ -7923,7 +7925,8 @@ const EditAddProduct = ({ placeholder }) => {
                   )
                 }
               />
-
+              </div>
+ <div className={styles.productContainer}>
               <AddProductFileUpload
                 productDetails={productDetail}
                 maxFiles={
@@ -7954,6 +7957,7 @@ const EditAddProduct = ({ placeholder }) => {
                   )
                 }
               />
+              </div>
             </div>
           </div>
 
@@ -7979,7 +7983,7 @@ const EditAddProduct = ({ placeholder }) => {
                   onBlur={formik?.handleBlur}
                 />
               </div>
-
+              <div className={styles.productContainer}>
               <AddProductFileUpload
                 productDetails={productDetail}
                 maxFiles={4 - (formik?.values?.guidelinesFile?.length || 0)}
@@ -8008,6 +8012,7 @@ const EditAddProduct = ({ placeholder }) => {
                   )
                 }
               />
+              </div>
               {/* )} */}
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>Other Information</label>
