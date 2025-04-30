@@ -67,7 +67,7 @@ function Header({  notificationList, count }) {
             enquiry: `/buyer/ongoing-inquiries-details/${eventId}`,
             order: `/buyer/order-details/${eventId}`,
             purchaseorder: `/buyer/purchased-order-details/${linkId}`,
-            invoice: `/buyer/invoice/Pending-Invoice`,
+            invoice: `/buyer/invoice/pending-invoice`,
         };
         const route = eventRoutes[event] || "/buyer/";
         setIsNotificationOpen(false);
