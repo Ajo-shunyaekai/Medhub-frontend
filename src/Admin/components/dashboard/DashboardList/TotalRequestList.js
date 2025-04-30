@@ -85,8 +85,8 @@ const TotalRequestList = () => {
                 <Link
                     to={
                         row?.registration_type === 'Buyer'
-                            ? `/admin/buyer-request-details/${row?.buyer_id}`
-                            : `/admin/supplier-request-details/${row?.supplier_id}`
+                            ? `/admin/buyer-details/${row?.buyer_id}`
+                            : `/admin/supplier-details/${row?.supplier_id}`
                     }
                 >
                     <div className={styles.activeBtn}>

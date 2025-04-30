@@ -55,10 +55,10 @@ const NotificationList = () => {
                 navigate(`/admin/edit-secondary-details/${eventId}`);
                 break;
             case 'buyerregistration':
-                navigate(`/admin/buyer-request-details/${eventId}`);
+                navigate(`/admin/buyer-details/${eventId}`);
                 break;
             case 'supplierregistration':
-                navigate(`/admin/supplier-request-details/${eventId}`);
+                navigate(`/admin/supplier-details/${eventId}`);
                 break;
             default:
                 navigate('/admin/');
