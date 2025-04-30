@@ -6,7 +6,6 @@ const FaqSupport = () => {
     return (
         <>
             <div className="support-heading">FAQ</div>
-            {/* <Accordion defaultActiveKey="0"> */}
             <div className='faq-container'>
 
                 < Accordion >

@@ -107,7 +107,7 @@ const ProductButton = () => {
                 </div>
             </div>
 
-            {/* Render ProductCard or OtherSuppliers based on active button */}
+         
             {activeButton === 'similar-products' && (
                 <ProductCard
                     medicineList={medicineList}

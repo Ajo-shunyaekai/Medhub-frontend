@@ -59,7 +59,6 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit,setLoading,loading,setIsMo
         if (!dropLocation.country) newErrors.country = 'Country is Required.';
         if (!dropLocation.cityDistrict) newErrors.cityDistrict = 'City is Required.';
         if (!dropLocation.state) newErrors.state = 'State is Required.';
-        // if (!dropLocation.pincode) newErrors.pincode = 'Pincode is Required.';
         return newErrors;
     };
 
@@ -71,7 +70,6 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit,setLoading,loading,setIsMo
         }
         onSubmit({ doorToDoor, customClearance, transportMode, dropLocation });
         reset();
-        // onClose();
     };
 
     const handleSelectChange = (value) => {
@@ -98,14 +96,6 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit,setLoading,loading,setIsMo
             setErrors((prevErrors) => ({ ...prevErrors, checkboxes: '' }));
         }
     };
-
-    // const handleContactInput = (value) => {
-    //     // Clean the phone number value (remove non-numeric characters)
-    //     const cleanedValue = value.replace(/[^0-9]/g, '');
-    //     handleInputChange('contact', cleanedValue);
-    // };
-
-
     const formatPhoneNumber = (value) => {
         const phoneNumber = parsePhoneNumberFromString(value);
         if (phoneNumber) {
@@ -123,12 +113,12 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit,setLoading,loading,setIsMo
             if (phoneRegex.test(value.replace(/\D/g, ''))) { // Remove non-digits for regex test
                 const formattedNumber = formatPhoneNumber(value);
                 handleInputChange('contact', formattedNumber );
-                // setFormData(prevState => ({ ...prevState, [name]: formattedNumber }));
+              
             } else {
-                // setErrors(prevState => ({ ...prevState, [name]: 'Invalid phone number' }));
+               
             }
         } else {
-            // Handle empty input if needed
+          
         }
     };
 
@@ -137,17 +127,13 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit,setLoading,loading,setIsMo
         handleInputChange('pincode', value);
     };
 
-    // const handleTextInput = (field, e) => {
-    //     const value = e.target.value.replace(/[^a-zA-Z\s]/g, '');
-    //     handleInputChange(field, value);
-    // };
     const handleTextInput = (field, e) => {
         const value = e.target.value;
 
         if (field === 'email') {
             handleInputChange(field, value);
         } else {
-            // For fields other than email, strip out invalid characters
+           
             const sanitizedValue = value.replace(/[^a-zA-Z\s]/g, '');
             handleInputChange(field, sanitizedValue);
         }
@@ -260,8 +246,7 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit,setLoading,loading,setIsMo
                                 defaultCountry="ae"
                                 name="contact"
                                 value={dropLocation.contact}
-                                // onChange={(e) => {handleContactInput(e)}}
-                                // onChange={handleContactInput}
+                              
                                 onChange={(value) => {
                                     const formattedValue = formatPhoneNumber(value);
                                     setCompanyPhone(formattedValue);
@@ -286,9 +271,7 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit,setLoading,loading,setIsMo
                                 <label className={styles['custom-modal-label-heading']}>Country</label>
                                 <CountrySelect
                                     className={styles['order-modal-input']}
-                                    // onChange={(e) => {
-                                    //     setCountryid(e.id);
-                                    // }}
+                                  
                                     onChange={handleCountryChange}
                                     placeHolder="Select Country"
                                 />
@@ -299,9 +282,7 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit,setLoading,loading,setIsMo
                                 <StateSelect
                                     className={styles['order-modal-input']}
                                     countryid={countryid}
-                                    // onChange={(e) => {
-                                    //     setstateid(e.id);
-                                    // }}
+                                 
                                     onChange={handleStateChange}
                                     placeHolder="Select State"
                                 />
@@ -315,8 +296,7 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit,setLoading,loading,setIsMo
                                     className={styles['order-modal-input']}
                                     countryid={countryid}
                                     stateid={stateid}
-                                    // onChange={(e) => {
-                                    // }}
+                                  
                                     onChange={handleCityChange}
                                     placeHolder="Select City"
                                 />
@@ -331,7 +311,7 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit,setLoading,loading,setIsMo
                                     value={dropLocation.pincode}
                                     onInput={handlePincodeInput}
                                 />
-                                {/* {errors.pincode && <div className={styles.error}>{errors.pincode}</div>} */}
+                               
                             </div>
                         </div>
                     </div>

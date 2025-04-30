@@ -71,13 +71,12 @@ const AddNewAddress = () => {
         .min(4, "Must be at least 4 digits")
         .max(10, "Must be at most 10 digits"),
       addressType: Yup.string().required("Address type is required"),
-      //   transportMode: Yup.string().required("Mode of transport is required"),
-      //   extraServices: Yup.array().of(Yup.string()),
+   
     }),
     onSubmit: async (values) => {
       try {
         const apiPayload = {
-          // order_id: orderId,
+         
           buyer_id: buyerId,
           full_name: values?.fullName,
           mobile_number: values?.mobileNumber,
@@ -89,8 +88,7 @@ const AddNewAddress = () => {
           country: values?.country?.label || values?.country,
           pincode: values?.pincode,
           address_type: values?.addressType,
-          // mode_of_transport: values?.transportMode,
-          // extra_services: values?.extraServices,
+        
         };
         const response = await dispatch(addAddress({ obj: apiPayload }));
         if (response.meta.requestStatus === "fulfilled") {
@@ -214,7 +212,7 @@ const AddNewAddress = () => {
                 value={formik.values.mobileNumber}
                 onChange={(value) => {
                   handlePhoneChange("mobileNumber", value);
-                  //   setMobile(value);
+                
                 }}
                 onBlur={formik.handleBlur}
               />
@@ -290,7 +288,7 @@ const AddNewAddress = () => {
                   })),
                   { value: "OTHER", label: "Other" },
                 ]}
-                value={selectedCountry} // Use selectedCountry here
+                value={selectedCountry} 
                 placeholder="Select Country"
                 name="country"
                 onChange={handleCountryChange}
@@ -314,7 +312,7 @@ const AddNewAddress = () => {
                             label: state.name,
                           })
                         ),
-                        { value: "OTHER", label: "Other" }, // Add "Other" option here
+                        { value: "OTHER", label: "Other" }, 
                       ]
                     : []
                 }

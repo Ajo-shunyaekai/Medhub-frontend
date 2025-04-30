@@ -1,125 +1,133 @@
+// OrderInvoiceList.jsx
 import React, { useState } from 'react';
-import Pagination from 'react-js-pagination';
-import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
-import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
-import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import DataTable from 'react-data-table-component';
 import { Link } from 'react-router-dom';
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import PaginationComponent from "../../SharedComponents/Pagination/pagination";
+import styles from "../../../assets/style/table.module.css";
 
-const OrderInvoiceList = ({invoiceData}) => {
-    const [currentPage, setCurrentPage] = useState(1);
-    const ordersPerPage = 4; 
+const OrderInvoiceList = ({ invoiceData }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const ordersPerPage = 5;
+
+  const columns = [
+    {
+      name: 'Invoice No.',
+      selector: row => row?.invoice_no,
+      sortable: true,
+     
+    },
+    {
+      name: 'Order ID',
+      selector: row => row?.order_id,
+      sortable: true,
+     
+    },
+    {
+      name: 'Supplier Name',
+      selector: row => row?.supplier_name,
+      sortable: true,
     
-    const OrderInvoice = [
-        { invoiceno: '1254124125', orderid: '1478523698', suppliername: 'Paramceutical Agency', amount: '250 USD', status:'Paid' },
-        { invoiceno: '1254124125', orderid: '1478523698', suppliername: 'Paramceutical Medical Shop', amount: '250 USD', status:'Paid' },
-        { invoiceno: '1254124125', orderid: '1478523698', suppliername: 'Paramceutical Agency', amount: '250 USD', status:'Paid' },
-        { invoiceno: '1254124125', orderid: '1478523698', suppliername: 'Paramceutical Agency', amount: '250 USD', status:'Paid' },
-        { invoiceno: '1254124125', orderid: '1478523698', suppliername: 'Paramceutical Agency', amount: '250 USD', status:'Paid' },
-        { invoiceno: '1254124125', orderid: '1478523698', suppliername: 'Paramceutical Agency', amount: '250 USD', status:'Paid' },
-        { invoiceno: '1254124125', orderid: '1478523698', suppliername: 'Paramceutical Agency', amount: '250 USD', status:'Paid' },
-    ];
+    },
+    {
+      name: 'Amount',
+      selector: row => row?.total_payable_amount,
+      sortable: true,
+    
+    },
+    {
+      name: 'Status',
+      selector: row => row?.invoice_status,
+      sortable: true,
+      cell: row => (
+        <span>
+          {row?.invoice_status?.charAt(0)?.toUpperCase() + row.invoice_status?.slice(1)}
+        </span>
+      ),
+    },
+    {
+      name: 'Action',
+      cell: row => (
+        <Link to={`/buyer/invoice-design/${row?.invoice_id}`}>
+             <div className={styles.activeBtn}>
+            <VisibilityOutlinedIcon className={styles['table-icon']} />
+          </div>
+        
+        </Link>
+      ),
+      ignoreRowClick: true,
+      allowOverflow: true,
+      button: true,
+    },
+  ];
 
-    const data =  invoiceData;
+  const indexOfLastOrder = currentPage * ordersPerPage;
+  const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+  const currentOrders = invoiceData?.slice(indexOfFirstOrder, indexOfLastOrder);
 
-    const indexOfLastOrder  = currentPage * ordersPerPage;
-    const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-    const currentOrders     = data.slice(indexOfFirstOrder, indexOfLastOrder);
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
-    const handlePageChange = (pageNumber) => {
-        setCurrentPage(pageNumber);
-    };
-
-    return (
-        <div className='inquiry-invoice-list-main-container'>
-        <div className="card-body">
-            <div>
-                <div className="table-assign-driver-heading">Invoice List</div>
-            </div>
-            <table className="table">
-                <tbody>
-
-                       {
-                        currentOrders.map((invoice, i) => (
-                            <tr key={i}>
-                                <td className='tables-td'>
-                                    <div className="table-g-section-content">
-                                        <span className="table-g-driver-name">Invoice No.</span>
-                                        <span className="table-g-not-names">{invoice.invoice_no }</span>
-                                    </div>
-                                </td>
-                                <td className='tables-td-cont' >
-                                    <div className="table-second-container">
-                                        <div className="table-g-section-content">
-                                            <span className="table-g-driver-name">Order ID</span>
-                                            <span className="table-g-not-name">{invoice.order_id}</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td className='tables-td'>
-                                    <div className="table-g-section-content">
-                                        <span className="table-g-driver-name">Supplier Name</span>
-                                        <span className="table-g-not-name">{invoice.supplier_name}</span>
-                                    </div>
-                                </td>
-                                <td className='tables-td'>
-                                    <div className="table-g-section-content">
-                                        <span className="table-g-driver-name">Amount</span>
-                                        <span className="table-g-not-name">{invoice.total_payable_amount}</span>
-                                    </div>
-                                </td>
-                                <td className='tables-td'>
-                                    <div className="table-g-section-content">
-                                        <span className="table-g-driver-name">Status</span>
-                                        <span className="table-g-not-name">
-                                        {invoice.invoice_status?.charAt(0)?.toUpperCase() + invoice.invoice_status.slice(1)}
-                                        </span>
-                                    </div>
-                                </td>
-                                <td className='tables-td'>
-                                    <div className="table-g-section-content">
-                                        <span className="table-g-driver-name">Action</span>
-                                        <span className="table-g-not-name"><Link to={`/buyer/invoice-design/${invoice.invoice_id}`}>
-                                            <div className='invoice-details-button-column'>
-                                                <div className='invoice-eye-buttons'>
-                                                <VisibilityOutlinedIcon className='invoice-view' />
-                                                </div>
-                                            </div>
-                                        </Link></span>
-                                    </div>
-                                </td>
-                            </tr>
-                        ))
-                    }
-                    
-                </tbody>
-            </table>
-            <div className='pagi-container'>
-                <Pagination
-                    activePage={currentPage}
-                    itemsCountPerPage={ordersPerPage}
-                    totalItemsCount={data.length}
-                    pageRangeDisplayed={5}
-                    onChange={handlePageChange}
-                    itemClass="page-item"
-                    linkClass="page-link"
-                    prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
-                    nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
-                    hideFirstLastPages={true}
-                />
-                <div className='pagi-total'>
-                    <div>Total Items: {data.length}</div>
-                </div>
-            </div>
-        </div>
-        </div>
-    );
+  return (
+    <div className={styles.container}>
+    <style>
+      {`
+        .rdt_Table {
+          border: none;
+          background-color: unset !important;
+        }
+        .rdt_TableRow {
+          background-color: #ffffff !important;
+          border-bottom: none !important;
+        }
+        .rdt_TableHeadRow {
+          background-color: #f9f9fa;
+          font-weight: bold;
+          border-bottom: none !important;
+        }
+        .rdt_TableBody {
+          gap: 10px !important;
+        }
+        .rdt_TableCol {
+           
+          color: #333;
+        }
+        .rdt_TableCell {
+           
+          color: #99a0ac;
+          font-weight: 500 !important;
+        }
+        .rdt_TableCellStatus {
+           
+          color: #333;
+        }
+      `}
+    </style>
+    <div className={styles.tableMainContainer}>
+        <header className={styles.header}>
+          <span className={styles.title}>Invoice List</span>
+        </header>
+        <DataTable
+          columns={columns}
+          data={currentOrders || []}
+          noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
+          persistTableHead
+          pagination={false}
+          responsive
+        />
+        {invoiceData?.length > 0 ? (
+          <PaginationComponent
+            activePage={currentPage}
+            itemsCountPerPage={ordersPerPage}
+            totalItemsCount={invoiceData?.length}
+            pageRangeDisplayed={5}
+            onChange={handlePageChange}
+          />
+        ) : null}
+      </div>
+    </div>
+  );
 };
 
 export default OrderInvoiceList;
-
-
-
-
-
-
-

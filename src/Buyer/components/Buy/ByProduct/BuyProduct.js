@@ -58,10 +58,6 @@ const BuyProduct = ({
     setCurrentPage(pageNumber);
   };
 
-  //   const handleCategoryFilter = (category) => {
-  //     setCurrentPage(1);
-  //     setFilterCategory(category);
-  //   };
 
   useEffect(() => {
     const buyerIdSessionStorage = localStorage?.getItem("buyer_id");

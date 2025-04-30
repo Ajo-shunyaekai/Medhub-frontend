@@ -1,39 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./dashboardorders.css";
-import Table from "react-bootstrap/Table";
-import Pagination from "react-js-pagination";
-import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
-import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
-import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
+import DataTable from "react-data-table-component";
+import PaginationComponent from "../../SharedComponents/Pagination/pagination";
+import styles from "../../../assets/style/table.module.css";
 import OrderCancel from "../../Orders/OrderCancel/OrderCancel";
-import { postRequestWithToken } from "../../../../api/Requests";
 import moment from "moment/moment";
+import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import { apiRequests } from "../../../../api";
 
 const CompletedOrders = () => {
   const navigate = useNavigate();
-
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
   const [modal, setModal] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
+  const [orderList, setOrderList] = useState([]);
+  const [totalOrders, setTotalOrders] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const ordersPerPage = 10;
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   const showModal = (orderId) => {
     setSelectedOrderId(orderId);
     setModal(!modal);
-  };
-
-  const [orderList, setOrderList] = useState([]);
-  const [totalOrders, setTotalOrders] = useState();
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const ordersPerPage = 5;
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
   };
 
   useEffect(() => {
@@ -56,171 +46,136 @@ const CompletedOrders = () => {
 
       try {
         const response = await apiRequests.getRequest(
-          `order/get-all-order-list?pageNo=${currentPage}&pageSize=${ordersPerPage}&filterKey=${"completed"}`
+          `order/get-all-order-list?pageNo=${currentPage}&pageSize=${ordersPerPage}&filterKey=completed`
         );
         if (response?.code === 200) {
-          setOrderList(response.result.data);
-          setTotalOrders(response.result.totalItems);
+          setOrderList(response.result.data || []);
+          setTotalOrders(response.result.totalItems || 0);
+        } else {
+          setOrderList([]);
+          setTotalOrders(0);
         }
       } catch (error) {
-      } finally {
+        setOrderList([]);
+        setTotalOrders(0);
       }
     };
     fetchOrderList();
-  }, [currentPage]);
+  }, [currentPage, navigate]);
+
+  const columns = [
+    {
+      name: "Order ID",
+      selector: (row) => row?.order_id,
+      sortable: true,
+    },
+    {
+      name: "Date",
+      selector: (row) => moment(row?.created_at).format("DD/MM/YYYY"),
+      sortable: true,
+    },
+    {
+      name: "Supplier Name",
+      selector: (row) => row?.supplier.supplier_name,
+      sortable: true,
+    },
+    {
+      name: "Quantity",
+      selector: (row) =>
+        row?.items.reduce(
+          (total, item) => total + (item?.quantity || item?.quantity_required),
+          0
+        ),
+      sortable: true,
+    },
+    {
+      name: "Status",
+      selector: (row) =>
+        row?.order_status?.charAt(0)?.toUpperCase() +
+        row?.order_status?.slice(1),
+      sortable: true,
+    },
+    {
+      name: "Action",
+      cell: (row) => (
+        <Link to={`/buyer/order-details/${row?.order_id}`}>
+          <div className={styles.activeBtn}>
+            <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
+          </div>
+        </Link>
+      ),
+      ignoreRowClick: true,
+      allowOverflow: true,
+      button: true,
+    },
+  ];
 
   return (
-    <>
-      <div className="completed-order-main-container">
-        <div className="completed-order-main-head"> Completed Orders</div>
-        <div className="completed-order-container">
-          <div className="completed-order-container-right-2">
-            <Table
-              responsive="xxl"
-              className="completed-order-table-responsive"
-            >
-              <thead>
-                <div
-                  className="completed-table-row-container m-0"
-                  style={{ backgroundColor: "transparent" }}
-                >
-                  <div className="table-row-item table-order-1">
-                    <span className="completed-header-text-color">
-                      Order ID{" "}
-                    </span>
-                  </div>
-                  <div className="completed-table-row-item completed-table-order-1">
-                    <span className="completed-header-text-color">Date </span>
-                  </div>
-                  <div className="completed-table-row-item completed-table-order-2">
-                    <span className="completed-header-text-color">
-                      Supplier Name{" "}
-                    </span>
-                  </div>
-                  <div className="completed-table-row-item completed-table-order-1">
-                    <span className="completed-header-text-color">
-                      Quantity
-                    </span>
-                  </div>
-                  <div className="completed-table-row-item completed-table-order-1">
-                    <span className="completed-header-text-color">Status </span>
-                  </div>
-                  <div className="completed-table-row-item completed-table-order-1">
-                    <span className="completed-header-text-color">Action </span>
-                  </div>
-                </div>
-              </thead>
-
-              <tbody className="bordered">
-                {orderList && orderList?.length > 0 ? (
-                  orderList?.map((order, i) => {
-                    const totalQuantity = order.items.reduce((total, item) => {
-                      return total + (item?.quantity || item?.quantity_required);
-                    }, 0);
-                    const orderedDate = moment(order.created_at).format(
-                      "DD/MM/YYYY"
-                    );
-                    return (
-                      <div className="completed-table-row-container">
-                        <div className="completed-table-row-item completed-table-order-1">
-                          <div className="completed-table-text-color">
-                            {order.order_id}
-                          </div>
-                        </div>
-
-                        <div className="completed-table-row-item completed-table-order-1">
-                          <div className="completed-table-text-color">
-                            {orderedDate}
-                          </div>
-                          <div className="completed-table-text-color-2">
-                            {order?.date?.time}
-                          </div>
-                        </div>
-                        <div className="completed-table-row-item  completed-table-order-2">
-                          <div className="table-text-color">
-                            {order.supplier.supplier_name}
-                          </div>
-                          <div className="table-text-color-2">
-                            {order?.source_destination?.destination}
-                          </div>
-                        </div>
-                        <div className="completed-table-row-item completed-table-order-1">
-                          <div className="completed-table-text-color">
-                            {totalQuantity}
-                          </div>
-                        </div>
-                        <div className="completed-table-row-item completed-table-order-1">
-                          <div className="completed-table-text-color">
-                            {order?.order_status?.charAt(0)?.toUpperCase() +
-                              order?.order_status?.slice(1)}
-                          </div>
-                        </div>
-                        <div className="completed-table-row-item  completed-order-table-btn completed-table-order-1">
-                          <Link to={`/buyer/order-details/${order.order_id}`}>
-                            <div
-                              className="completed-order-table completed-order-table-view "
-                              onClick={showModal}
-                            >
-                              <RemoveRedEyeOutlinedIcon className="table-icon" />
-                            </div>
-                          </Link>
-                          {/* <div className='completed-order-table completed-order-table-cancel' onClick={() => showModal(order.order_id)} >
-                                                        <HighlightOffIcon className="table-icon" />
-                                                    </div> */}
-                        </div>
-                      </div>
-                    );
-                  })
-                ) : (
-                  <>
-                    <div className="pending-products-no-orders">
-                      No Completed Orders
-                    </div>
-                  </>
-                )}
-              </tbody>
-            </Table>
-
-            {modal === true ? (
-              <OrderCancel
-                setModal={setModal}
-                orderId={selectedOrderId}
-                activeLink={"completed"}
-              />
-            ) : (
-              ""
-            )}
-            {orderList.length > 0 && (
-              <div className="completed-pagi-container">
-                <Pagination
-                  activePage={currentPage}
-                  itemsCountPerPage={ordersPerPage}
-                  totalItemsCount={totalOrders}
-                  pageRangeDisplayed={5}
-                  onChange={handlePageChange}
-                  itemClass="page-item"
-                  linkClass="page-link"
-                  prevPageText={
-                    <KeyboardDoubleArrowLeftIcon style={{ fontSize: "15px" }} />
-                  }
-                  nextPageText={
-                    <KeyboardDoubleArrowRightIcon
-                      style={{ fontSize: "15px" }}
-                    />
-                  }
-                  hideFirstLastPages={true}
-                />
-                <div className="completed-pagi-total">
-                  <div className="completed-pagi-total">
-                    Total Items: {totalOrders}
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
+    <div className={styles.container}>
+    <style>
+      {`
+        .rdt_Table {
+          border: none;
+          background-color: unset !important;
+        }
+        .rdt_TableRow {
+          background-color: #ffffff !important;
+          border-bottom: none !important;
+        }
+        .rdt_TableHeadRow {
+          background-color: #f9f9fa;
+          font-weight: bold;
+          border-bottom: none !important;
+        }
+        .rdt_TableBody {
+          gap: 10px !important;
+        }
+        .rdt_TableCol {
+           
+          color: #333;
+        }
+        .rdt_TableCell {
+           
+          color: #99a0ac;
+          font-weight: 500 !important;
+        }
+        .rdt_TableCellStatus {
+           
+          color: #333;
+        }
+      `}
+    </style>
+    <div className={styles.tableMainContainer}>
+        <header className={styles.header}>
+          <span className={styles.title}>Completed Orders</span>
+        </header>
+        <DataTable
+          columns={columns}
+          data={orderList}
+          noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
+            persistTableHead
+            pagination={false}
+            responsive
+          progressPending={false}
+        />
+        {modal && (
+          <OrderCancel
+            setModal={setModal}
+            orderId={selectedOrderId}
+            activeLink={"completed"}
+          />
+        )}
+        {orderList?.length > 0 && (
+          <PaginationComponent
+            activePage={currentPage}
+            itemsCountPerPage={ordersPerPage}
+            totalItemsCount={totalOrders}
+            pageRangeDisplayed={5}
+            onChange={handlePageChange}
+          />
+        )}
       </div>
-    </>
+    </div>
   );
 };
 

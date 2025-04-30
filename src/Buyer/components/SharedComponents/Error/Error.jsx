@@ -7,9 +7,6 @@ const Error = () => {
     <div className={styles.container}>
       <h1 className={styles.errorCode}>404</h1>
       <p className={styles.errorMessage}>Oops! Page Not Found</p>
-      {/* <button className={styles.homeButton} onClick={() => navigate("/")}>
-        Go Home
-      </button> */}
     </div>
   );
 };

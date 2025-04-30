@@ -309,7 +309,7 @@
   flex-direction: column;
   row-gap: 20px;
   width: 100%;
-  max-width: 1500px;
+  max-width: 98%;
   overflow: scroll;
   background-attachment: fixed;
   scrollbar-width: none;

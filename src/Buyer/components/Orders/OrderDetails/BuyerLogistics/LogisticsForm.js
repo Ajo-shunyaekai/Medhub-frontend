@@ -85,7 +85,6 @@ const LogisticsForm = ({socket}) => {
         let apiPayload;
         setLoading(true)
         if (address?.length > 1) {
-          // Use displayAddress data when using existing address
           apiPayload = {
             order_id: orderId,
             buyer_id: buyerId,
@@ -326,15 +325,7 @@ const LogisticsForm = ({socket}) => {
 
       <form
         className={styles.formLogistics}
-        // onSubmit={(e) => {
-        //   e.preventDefault();
-
-        //   if (Object.keys(formik.errors).length === 0) {
-        //     formik.handleSubmit();
-        //   } else {
-        //     toast.error("Please fill the required fields correctly.");
-        //   }
-        // }}
+     
         onSubmit={(e) => {
           e.preventDefault();
           formik.setTouched({
@@ -358,10 +349,10 @@ const LogisticsForm = ({socket}) => {
           }
 
           if (address?.length > 1) {
-            // For existing address, just submit
+          
             formik.handleSubmit();
           } else {
-            // For new address, check all validations
+           
             if (Object.keys(formik.errors).length === 0) {
               formik.handleSubmit();
             } else {
@@ -744,7 +735,7 @@ const LogisticsForm = ({socket}) => {
           <button
             type="submit"
             className={styles["logistic-submit"]}
-            // disabled={formik.isSubmitting}
+           
             disabled={loading}
           >
             

@@ -3,9 +3,9 @@ import Supports from "./Support"
 
 const Support = () => {
   return (
-    <div>
+    
       <Supports/>    
-      </div>
+      
   )
 }
 

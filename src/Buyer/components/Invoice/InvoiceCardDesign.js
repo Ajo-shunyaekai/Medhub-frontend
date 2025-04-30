@@ -40,7 +40,7 @@ const InvoiceCardDesign = ({invoiceDetails}) => {
             <div className={styles['invoice-card-img-container']}>
                 <div className={styles['invoice-card-img']}>
                     <img 
-                    // src={Cheque} 
+                   
                     src={`${process.env.REACT_APP_SERVER_URL}uploads/buyer/order/invoice_images/${invoiceDetails?.transaction_image[0]}`}
                     alt="Cheque" onClick={openModal} style={{ cursor: 'pointer' }} />
                 </div>
@@ -51,7 +51,7 @@ const InvoiceCardDesign = ({invoiceDetails}) => {
                     <div className={styles['modal-content']}>
                         <span onClick={closeModal} className={styles['close-button']}>&times;</span>
                         <img 
-                        // src={Cheque} 
+                      
                         src={`${process.env.REACT_APP_SERVER_URL}uploads/buyer/order/invoice_images/${invoiceDetails?.transaction_image[0]}`}
                         alt="Cheque" className={styles['modal-image']} />
                     </div>
