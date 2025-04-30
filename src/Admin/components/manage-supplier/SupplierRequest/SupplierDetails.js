@@ -57,7 +57,7 @@ const SupplierDetails = () => {
                             </div>
                             {hasDate && date && (
                                 <div className='expiry-date'>
-                                    Expiry Date: {new Date(date).toLocaleDateString()}
+                                    Expiry Date: {date || new Date(date).toLocaleDateString()}
                                 </div>
                             )}
                         </div>
