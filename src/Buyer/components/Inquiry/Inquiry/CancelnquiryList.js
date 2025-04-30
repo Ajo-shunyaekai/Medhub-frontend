@@ -9,10 +9,8 @@ import { apiRequests } from '../../../../api';
 const CancelInquiryList = () => {
     const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
     const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
- 
     const { inquiryId } = useParams();
     const navigate = useNavigate();
- 
     const [loading, setLoading] = useState(false);
     const [inquiryDetails, setInquiryDetails] = useState();
     const [selectedReasons, setSelectedReasons] = useState({
@@ -31,8 +29,6 @@ const CancelInquiryList = () => {
  
     const handleChange = (e) => {
         const { name } = e.target;
- 
-        // Reset all checkboxes to false
         const updatedReasons = Object.keys(selectedReasons).reduce((acc, reason) => {
             acc[reason] = false;
             return acc;
@@ -103,13 +99,7 @@ const CancelInquiryList = () => {
             if (response?.code !== 200) {
                 return;
             }
-            setInquiryDetails(response?.result);
-            // postRequestWithToken(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj, async (response) => {
-            //     if (response?.code === 200) {
-            //         setInquiryDetails(response?.result);
-            //     } else {
-            //     }
-            // });           
+            setInquiryDetails(response?.result);      
         }
         fetchData()
     }, []);

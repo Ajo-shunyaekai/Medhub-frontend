@@ -131,35 +131,7 @@ function PayModal({ showModal, handleClose, invoiceId, orderId, buyerId, supplie
         return transactionIdPattern.test(value);
     };
 
-    // const handleChange = (fieldName, value) => {
-    //     let isValid = false;
-
-    //     switch (fieldName) {
-    //         case 'modeOfPayment':
-    //             isValid = value !== '';
-    //             if (isValid) setModeOfPayment(value);
-    //             break;
-    //         case 'amount':
-    //             isValid = validateAmount(value);
-    //             if (isValid) setAmount(value);
-    //             break;
-    //         case 'transactionId':
-    //             isValid = validateTransactionId(value);
-    //             if (isValid) setTransactionId(value);
-    //             break;
-    //             case 'date':
-    //                 // Ensure that the value is a valid date format before setting it
-    //                 // isValid = validateDate(value);
-    //                 // if (isValid)
-    //                      setDate(value);
-    //                 break;
-    //         default:
-    //             break;
-    //     }
-
-    //     setErrors(prevErrors => ({ ...prevErrors, [fieldName]: isValid ? '' : '' }));
-    // };
-
+   
 
     const handleChange = (fieldName, value) => {
         let isValid = false;
@@ -170,12 +142,12 @@ function PayModal({ showModal, handleClose, invoiceId, orderId, buyerId, supplie
                 if (isValid) setModeOfPayment(value);
                 break;
             case 'amount':
-                // Allow up to 8 digits before the decimal and 3 after, and prevent more than that
+              
                 if (value === '' || validateAmount(value)) {
                     isValid = true; // Allow empty value or valid amount
                     setAmount(value);
                 } else {
-                    // Prevent entering more than the allowed limit
+                 
                     isValid = false; // Don't update state if invalid input
                 }
                 break;

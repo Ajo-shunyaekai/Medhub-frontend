@@ -44,7 +44,7 @@ const EditNewAddress = () => {
       useRegisteredAddress: false,
     },
     validationSchema: Yup.object().shape({
-    //   ...(addressToUpdate?.length === 1 && {
+   
         fullName: Yup.string()
           .min(2, "Name is too short")
           .max(50, "Name is too long")
@@ -270,7 +270,7 @@ const EditNewAddress = () => {
                 value={formik.values.mobileNumber}
                 onChange={(value) => {
                   handlePhoneChange("mobileNumber", value);
-                  //   setMobile(value);
+                  
                 }}
               />
               {formik.errors.mobileNumber && (
@@ -341,7 +341,7 @@ const EditNewAddress = () => {
                   })),
                   { value: "OTHER", label: "Other" },
                 ]}
-                value={selectedCountry} // Use selectedCountry here
+                value={selectedCountry}
                 placeholder="Select Country"
                 name="country"
                 onChange={handleCountryChange}

@@ -325,13 +325,13 @@ body{
 
 .sidebar_text {
   width: 180px;
+  font-weight: 500;
   font-size: 14px;
   display: flex;
   color: #5e676f;
   text-decoration: none;
   justify-content: start;
   align-items: center;
-  /* column-gap: 14px; */
   margin: 10px 10px 5px 16px;
   border-radius: 5px;
 }

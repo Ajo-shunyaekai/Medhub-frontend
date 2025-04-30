@@ -1,23 +1,13 @@
 import React, { useState } from 'react'
-import Pagination from 'react-js-pagination';
-import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
-import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+import PaginationComponent from "../../SharedComponents/Pagination/pagination";
 import moment from "moment-timezone";
 import '../ongoingdetails.css'
+
 const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject, inquiryDetails }) => {
 
     const [currentPage, setCurrentPage] = useState(1);
     const ordersPerPage = 5;
-
-    const activeOrders = [
-        { productId: 'PR1234567', productName: 'Paracetamol', quantity: 200, totalAmount: '500 USD' },
-        { productId: 'PR1234567', productName: 'Paracetamol', quantity: 200, totalAmount: '500 USD' },
-        { productId: 'PR1234567', productName: 'Paracetamol', quantity: 200, totalAmount: '500 USD' },
-    ];
-
-    // const data = orderItems && orderItems.length > 0 ? orderItems : activeOrders;
-    const data = orderItems && orderItems?.length > 0 ? orderItems : quotationItems && quotationItems?.length > 0 ? quotationItems : activeOrders;
-
+    const data = orderItems && orderItems?.length > 0 ? orderItems : quotationItems && quotationItems?.length > 0 ? quotationItems : [];
     const indexOfLastOrder = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
     const currentOrders = data.slice(indexOfFirstOrder, indexOfLastOrder);
@@ -33,7 +23,6 @@ const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject, i
         setAcceptedItems([...acceptedItems, item]);
         setRejectedItems(rejectedItems.filter(rejItem => rejItem._id !== item._id));
         handleAccept(item, status);
-
     };
 
     const handleRejectClick = (item, status) => {
@@ -51,6 +40,7 @@ const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject, i
     const formattedDate = moment(dateToDisplay)
         .tz("Asia/Kolkata")
         .format("DD/MM/YYYY HH:mm:ss");
+
     return (
         <div className="card-body">
             <div>
@@ -59,7 +49,6 @@ const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject, i
 
             <table className="table">
                 <tbody>
-
                     {
                         currentOrders?.map((item, i) => {
                             return (
@@ -72,7 +61,6 @@ const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject, i
                                     </td>
                                     <td className='tables-tds-cont' >
                                         <div className="table-second-container">
-                                            {/* <span className="table-g-section">{item?.product_name?.charAt(0) || item?.medicine_details?.general?.name?.charAt(0) || item?.productName?.charAt(0)}</span> */}
                                             <div className="table-g-section-content">
                                                 <span className="table-g-driver-name">Product Name</span>
                                                 <span className="table-g-not-name">{item?.product_name || item?.medicine_details?.general?.name || item.product_name}</span>
@@ -95,13 +83,11 @@ const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject, i
                                             </span>
                                         </div>
                                     </td>
-
                                     <td className='tables-tds'>
                                         <div className="table-g-section-content">
                                             <span className="table-g-driver-name">Counter Price</span>
                                             <span className="table-g-not-name">
-                                                
-                                                    {item.counter_price
+                                                {item.counter_price
                                                     ? item.counter_price.toLowerCase().includes('usd')
                                                         ? item.counter_price.replace(/usd/i, 'USD') 
                                                         : `${item.counter_price} USD` 
@@ -113,7 +99,6 @@ const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject, i
                                         <div className="table-g-section-content">
                                             <span className="table-g-driver-name">Est. Delivery Time</span>
                                             <span className="table-g-not-name">
-                                                
                                                 {item.est_delivery_days
                                                     ? item.est_delivery_days.toLowerCase().includes('days')
                                                         ? item.est_delivery_days.replace(/days/i, 'Days') 
@@ -132,55 +117,39 @@ const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject, i
                                             </div>
                                         </td>
                                     )}
-
-                                   
-                                   {inquiryDetails.enquiry_status !== 'PO created' && (
-                                   
-                                    <td className='tables-tds'>
-                                        <div className="table-g-section-content-button">
-                                            {item.status === 'pending' ? (
-                                                <>
-                                                    <span className="table-g-not-name-button" onClick={() => handleAcceptClick(item, 'accepted')}>Accept</span>
-                                                    <span className="table-g-not-reject-buttons" onClick={() => handleRejectClick(item, 'rejected')}>Reject</span>
-                                                </>
-                                            ) : item.status === 'accepted' ? (
-                                                <span className="table-g-not-name-button accepted"
-                                                // onClick={() => handleRejectClick(item, 'rejected')}
-                                                >
-                                                    Accepted</span>
-                                            ) : item.status === 'rejected' ? (
-                                                <span className="table-g-not-reject-buttons rejected"
-                                                //  onClick={() => handleAcceptClick(item, 'accepted')}
-                                                 >
-                                                    Rejected</span>
-                                            ) : null}
-                                        </div>
-                                    </td>
+                                    {inquiryDetails.enquiry_status !== 'PO created' && (
+                                        <td className='tables-tds'>
+                                            <div className="table-g-section-content-button">
+                                                {item.status === 'pending' ? (
+                                                    <>
+                                                        <span className="table-g-not-name-button" onClick={() => handleAcceptClick(item, 'accepted')}>Accept</span>
+                                                        <span className="table-g-not-reject-buttons" onClick={() => handleRejectClick(item, 'rejected')}>Reject</span>
+                                                    </>
+                                                ) : item.status === 'accepted' ? (
+                                                    <span className="table-g-not-name-button accepted">
+                                                        Accepted</span>
+                                                ) : item.status === 'rejected' ? (
+                                                    <span className="table-g-not-reject-buttons rejected">
+                                                        Rejected</span>
+                                                ) : null}
+                                            </div>
+                                        </td>
                                     )}
                                     <td></td>
                                 </tr>
                             )
                         })
                     }
-
                 </tbody>
             </table>
             <div className='pagi-container'>
-                <Pagination
+                <PaginationComponent
                     activePage={currentPage}
                     itemsCountPerPage={ordersPerPage}
                     totalItemsCount={data.length}
                     pageRangeDisplayed={5}
                     onChange={handlePageChange}
-                    itemClass="page-item"
-                    linkClass="page-link"
-                    prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
-                    nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
-                    hideFirstLastPages={true}
                 />
-                <div className='pagi-total'>
-                    <div>Total Items: {data.length}</div>
-                </div>
             </div>
         </div>
     )

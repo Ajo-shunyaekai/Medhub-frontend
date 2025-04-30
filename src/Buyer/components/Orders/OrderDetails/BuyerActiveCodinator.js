@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import Pagination from 'react-js-pagination';
-import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
-import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+import PaginationComponent from "../../SharedComponents/Pagination/pagination";
 
 const BuyerActiveCodinator = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -13,7 +11,7 @@ const BuyerActiveCodinator = () => {
         { name: 'Harshit Rana', companyName: 'Sheetal Pvt. Ltd.', designation: 'Manager', mobile: '+971 12345567', email:'company@gmail.com' },
     ];
 
-    const data =  activeOrders;
+    const data = activeOrders;
 
     const indexOfLastOrder  = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
@@ -30,17 +28,16 @@ const BuyerActiveCodinator = () => {
             </div>
             <table className="table">
                 <tbody>
-
-                       {
+                    {
                         currentOrders.map((order, i) => (
                             <tr key={i}>
                                 <td className='tables-td'>
                                     <div className="table-g-section-content">
                                         <span className="table-g-driver-name">Name</span>
-                                        <span className="table-g-not-names">{order.name }</span>
+                                        <span className="table-g-not-names">{order.name}</span>
                                     </div>
                                 </td>
-                                <td className='tables-td-cont' >
+                                <td className='tables-td-cont'>
                                     <div className="table-second-container">
                                         <div className="table-g-section-content">
                                             <span className="table-g-driver-name">Company Name</span>
@@ -69,31 +66,17 @@ const BuyerActiveCodinator = () => {
                             </tr>
                         ))
                     }
-                    
                 </tbody>
             </table>
-            <div className='pagi-container'>
-                <Pagination
-                    activePage={currentPage}
-                    itemsCountPerPage={ordersPerPage}
-                    totalItemsCount={data.length}
-                    pageRangeDisplayed={5}
-                    onChange={handlePageChange}
-                    itemClass="page-item"
-                    linkClass="page-link"
-                    prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
-                    nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
-                    hideFirstLastPages={true}
-                />
-                <div className='pagi-total'>
-                    <div>Total Items: {data.length}</div>
-                </div>
-            </div>
+            <PaginationComponent
+                activePage={currentPage}
+                itemsCountPerPage={ordersPerPage}
+                totalItemsCount={data.length}
+                pageRangeDisplayed={5}
+                onChange={handlePageChange}
+            />
         </div>
     );
 };
 
 export default BuyerActiveCodinator;
-
-
-

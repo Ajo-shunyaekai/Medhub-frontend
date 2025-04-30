@@ -66,28 +66,6 @@ const OnGoingInquiriesDetails = () => {
  
       localStorage?.setItem("acceptedQuotationItems", JSON.stringify(acceptedItems));
       localStorage?.setItem("rejectedQuotationItems", JSON.stringify(rejectedItems));
-      // postRequestWithToken(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj, async (response) => {
-      //   if (response?.code === 200) {
-      //     setInquiryDetails(response?.result);
-      //     const acceptedItems = [];
-      //     const rejectedItems = [];
- 
-      //     response?.result?.quotation_items?.forEach((item) => {
-      //       if (item.status === "accepted") {
-      //         acceptedItems.push(item);
-      //       } else if (item.status === "rejected") {
-      //         rejectedItems.push(item);
-      //       }
-      //     });
-      //     setAcceptedItems(acceptedItems);
-      //     setRejectedItems(rejectedItems);
- 
-      //     localStorage?.setItem("acceptedQuotationItems", JSON.stringify(acceptedItems));
-      //     localStorage?.setItem("rejectedQuotationItems", JSON.stringify(rejectedItems));
-      //   } else {
-      //   }
-      // }
-      // );
     }
     fetchData()
   }, []);
@@ -139,26 +117,7 @@ const OnGoingInquiriesDetails = () => {
             );
             return updatedItems;
           });
-          // postRequestWithToken(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj, async (response) => {
-          // if (response?.code === 200) {
-          //   setInquiryDetails(response?.result);
-          //   setAcceptedItems((prevItems) => {
-          //     const updatedItems = [...prevItems, item];
-          //     localStorage?.setItem("acceptedQuotationItems", JSON.stringify(updatedItems));
-          //     return updatedItems;
-          //   });
-          //   setRejectedItems((prevItems) => {
-          //     const updatedItems = prevItems.filter(
-          //       (rejItem) => rejItem._id !== item._id
-          //     );
-          //     localStorage?.setItem("rejectedQuotationItems", JSON.stringify(updatedItems)
-          //     );
-          //     return updatedItems;
-          //   });
-          // } else {
-          // }
-          // }
-          // );
+        
         }
  
         fetchData()
@@ -212,34 +171,7 @@ const OnGoingInquiriesDetails = () => {
                           );
                           return updatedItems;
                         });
-            // postRequestWithToken(
-            // `enquiry/get-specific-enquiry-details/${inquiryId}`,
-            // obj,
-            // async (response) => {
-            //   if (response?.code === 200) {
-            //     setInquiryDetails(response?.result);
-            //     setRejectedItems((prevItems) => {
-            //       const updatedItems = [...prevItems, item];
-            //       localStorage?.setItem(
-            //         "rejectedQuotationItems",
-            //         JSON.stringify(updatedItems)
-            //       );
-            //       return updatedItems;
-            //     });
-            //     setAcceptedItems((prevItems) => {
-            //       const updatedItems = prevItems.filter(
-            //         (accItem) => accItem._id !== item._id
-            //       );
-            //       localStorage?.setItem(
-            //         "acceptedQuotationItems",
-            //         JSON.stringify(updatedItems)
-            //       );
-            //       return updatedItems;
-            //     });
-            //   } else {
-            //   }
-            // }
-            // );           
+           
           }
           fetchData()
         } else {
@@ -254,14 +186,7 @@ const OnGoingInquiriesDetails = () => {
   const handleCancel = () => {
     navigate(`/buyer/cancel-inquiry-list/${inquiryId}`)
   }
- 
-  // const handleCreatePOClick = () => {
-  //   if (acceptedItems.length > 0) {
-  //     navigate(`/buyer/create-po/${inquiryId}`);
-  //   } else {
-  //     toast('Please Accept Atleast One Item Before Creating Purchase Order.', {type: 'error'})
-  //   }
-  // };
+
  
   const handleCreatePOClick = () => {
     const totalProcessedItems = acceptedItems.length + rejectedItems.length;
@@ -317,9 +242,7 @@ const OnGoingInquiriesDetails = () => {
                     Date & Time
                   </div>
                   <div className="ongoing-details-left-top-main-contents">
-                    {/* {moment(inquiryDetails?.created_at)
-                      .tz("Asia/Kolkata")
-                      .format("DD/MM/YYYY HH:mm:ss")} */}
+                  
                        {formattedDate}
                   </div>
                 </div>
@@ -398,20 +321,7 @@ const OnGoingInquiriesDetails = () => {
         </div>
       ) : null}
       
-{/* 
-{inquiryDetails?.quotation_items?.some(item => item.status === 'pending') ? (
-    <div className="pending-order-button-section">
-        <div className="pending-order-create-order"
-            onClick={handleCreatePOClick}
-            style={{ cursor: 'pointer' }}
-        >
-            Create Purchase Order
-        </div>
-        <a href={mailtoLink} className="pending-order-contact-order">
-            Contact Supplier
-        </a>
-    </div>
-) : null} */}
+
 
 
 
