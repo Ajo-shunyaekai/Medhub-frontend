@@ -224,7 +224,7 @@ function PayModal({ showModal, handleClose, invoiceId, orderId, buyerId, supplie
 
                     });
                     setTimeout(() => {
-                        navigate('/buyer/invoice/Paid-Invoice')
+                        navigate('/buyer/invoice/paid-invoice')
                     })
                     handleClose();
                 } else {
