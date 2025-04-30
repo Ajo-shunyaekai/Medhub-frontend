@@ -49,6 +49,7 @@ const EditProfileDetails = ({ socket }) => {
         message: `Your Profile edit request has been ${action} by the Admin!`,
         link: process.env.REACT_APP_PUBLIC_URL,
       });
+      navigate(-1);
     }
   };
 
