@@ -198,6 +198,7 @@ ul {
 }
 .ButtonContainer{
     width: 110px;
+    min-width: 104px;
 }
 /* End Card Container */
 @media screen and (max-width: 1420px) {

@@ -11,6 +11,10 @@
 .buyer-details-container::-webkit-scrollbar {
     display: none;
 }
+.certificate-expiry-date{
+    font-size: 12px;
+    font-weight: 500;
+}
 .buyer-details-edit-button-container{
 width: 100%;
 display: flex;

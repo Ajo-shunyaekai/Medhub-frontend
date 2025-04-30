@@ -150,7 +150,7 @@ const PendingInvoicesList = () => {
     {
       name: "Action",
       cell: (row) => (
-        <div cclassName={styles.buttonContainer}>
+        <div className={styles.buttonContainer}>
           <Link to={`/buyer/invoice-design/${row?.invoice_id}`}>
             <div className={styles.activeBtn} onClick={() => showModal(row?.order_id)}>
               <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
