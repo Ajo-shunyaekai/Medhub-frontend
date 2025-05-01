@@ -94,12 +94,12 @@ const SellerTransactionDetails = () => {
             <div className='transaction-details-uppar-card-section'>
               <div className='transaction-details-uppar-card-inner-section'>
 
-                {/* Trade License */}
+              
                 <div className='transaction-details-card-container'>
                   <div className='transaction-details-company-logo-heading'>Cheque Image</div>
                   <div className='transaction-details-company-img-container'>
                     <img 
-                    // src={Image1} 
+                   
                     src={`${process.env.REACT_APP_SERVER_URL}uploads/buyer/order/invoice_images/${transactionDetails?.transaction_image[0]}`}
                     alt='image' />
                   </div>

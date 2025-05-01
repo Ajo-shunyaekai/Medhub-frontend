@@ -97,7 +97,7 @@ const Edit = () => {
 
   // Define handlePhoneChange inside Formik to access setFieldValue
   const handlePhoneChange = (name, value) => {
-    // Clear previous errors (local + Formik)
+   
     formik.setFieldError(name, "");
 
     try {
@@ -864,12 +864,11 @@ const Edit = () => {
                     setMobile(value);
                   }}
                 />
-                {/* {formik?.touched?.vat_reg_no &&
-                  formik?.errors?.vat_reg_no && ( */}
+                
                 <span className={styles?.error}>
-                  {/* {formik?.errors?.vat_reg_no} */}
+                  
                 </span>
-                {/* )} */}
+             
               </div>
 
               <div className={styles?.productContainer}>
@@ -1021,7 +1020,7 @@ const Edit = () => {
             <span className={styles?.formHead}>Documents</span>
             <div className={styles?.formSection}>
               <EditFile
-                // productDetails={productDetail}
+               
                 maxFiles={4 - (formik?.values?.safetyDatasheet?.length || 0)}
                 fieldInputName="safetyDatasheetNew"
                 oldFieldName="safetyDatasheet"
@@ -1038,7 +1037,7 @@ const Edit = () => {
               />
 
               <EditFile
-                // productDetails={productDetail}
+          
                 maxFiles={4 - (formik?.values?.healthHazardRating?.length || 0)}
                 fieldInputName="healthHazardRatingNew"
                 oldFieldName="healthHazardRating"
@@ -1058,7 +1057,7 @@ const Edit = () => {
                 ? formik?.values?.supplier_type
                 : formik?.values?.buyer_type) === "Medical Practitioner" && (
                 <EditFile
-                  // productDetails={productDetail}
+                 
                   maxFiles={
                     4 - (formik?.values?.environmentalImpact?.length || 0)
                   }

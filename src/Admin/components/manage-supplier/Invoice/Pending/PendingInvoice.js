@@ -104,7 +104,7 @@ const PendingInvoice = ({ invoiceList, totalItems, currentPage, listPerPage, han
                     activePage={currentPage}
                     itemsCountPerPage={listPerPage}
                     totalItemsCount={totalItems}
-                    pageRangeDisplayed={10}
+                    pageRangeDisplayed={8}
                     onChange={handlePageChange}
                 />
             )}

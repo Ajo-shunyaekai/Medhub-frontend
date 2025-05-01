@@ -22,7 +22,7 @@ const SellerRequest = () => {
     const [sellerRequestList, setSellerRequestList] = useState([]);
     const [totalRequests, setTotalRequests] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
-    const listPerPage = 10; 
+    const listPerPage = 8; 
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -165,7 +165,7 @@ const SellerRequest = () => {
                             activePage={currentPage}
                             itemsCountPerPage={listPerPage}
                             totalItemsCount={totalRequests}
-                            pageRangeDisplayed={10}
+                            pageRangeDisplayed={8}
                             onChange={handlePageChange}
                         />
                     )}

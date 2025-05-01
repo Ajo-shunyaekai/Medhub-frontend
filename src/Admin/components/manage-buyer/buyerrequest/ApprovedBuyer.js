@@ -21,7 +21,7 @@ const ApprovedBuyer = () => {
     const [buyerList, setBuyerList] = useState([]);
     const [totalBuyers, setTotalBuyers] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
-    const listPerPage = 10;
+    const listPerPage = 8;
 
     useEffect(() => {
         if (!adminIdSessionStorage && !adminIdLocalStorage) {
@@ -86,11 +86,6 @@ const ApprovedBuyer = () => {
             selector: row => row?.buyer_type,
             sortable: true,
         },
-        // {
-        //     name: "Mobile No.",
-        //     selector: (row) => `${row?.buyer_country_code} ${row?.buyer_mobile}`,
-        //     sortable: true,
-        // },
         {
             name: 'Status',
             selector: row => row?.account_status,
@@ -175,7 +170,7 @@ const ApprovedBuyer = () => {
                             activePage={currentPage}
                             itemsCountPerPage={listPerPage}
                             totalItemsCount={totalBuyers}
-                            pageRangeDisplayed={10}
+                            pageRangeDisplayed={8}
                             onChange={setCurrentPage}
                         />
                     )}

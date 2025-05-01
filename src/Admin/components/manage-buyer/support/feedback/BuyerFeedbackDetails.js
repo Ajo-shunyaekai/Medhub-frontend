@@ -69,7 +69,7 @@ const BuyerFeedbackDetails = () => {
        
             <div className='seller-details-container'>
                 <div className='seller-details-inner-conatiner'>
-                    <div className='seller-details-container-heading'>Feedback Details</div>
+                    <div className='seller-details-container-heading'>Enquiry Details</div>
                     <div className='seller-details-left-inner-container'>
                         <div className='seller-details-left-uppar-section'>
                             <div className='seller-details-uppar-main-logo-section'>

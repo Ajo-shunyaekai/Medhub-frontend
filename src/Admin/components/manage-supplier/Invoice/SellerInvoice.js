@@ -47,7 +47,7 @@ const SellerInvoice = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [invoiceList, setInvoiceList] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
-  const listPerPage = 10;
+  const listPerPage = 8;
   useEffect(() => {
     if (!adminIdSessionStorage && !adminIdLocalStorage) {
       localStorage?.clear();

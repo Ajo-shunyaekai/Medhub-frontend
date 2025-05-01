@@ -10,7 +10,6 @@ import PhoneInTalkOutlinedIcon from '@mui/icons-material/PhoneInTalkOutlined';
 import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../../../api/Requests';
 import { toast } from 'react-toastify';
-import BuyerCustomModal from './BuyerCustomModal';
 import { FaFilePdf, FaFileWord } from 'react-icons/fa';
 import { apiRequests } from '../../../../api/index'
 
@@ -467,10 +466,6 @@ const DetailsBuyerRequest = () => {
                                 )}
                             </div>
                         </div>
-
-                        {isModalOpen && (
-                            <BuyerCustomModal onClose={closeModal} />
-                        )}
                     </div>
                 </div>
             </div>

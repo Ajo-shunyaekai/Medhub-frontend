@@ -97,7 +97,7 @@ const TotalOngoingInquiries = ({ list, totalList, currentPage, ordersPerPage, ha
                     activePage={currentPage}
                     itemsCountPerPage={ordersPerPage}
                     totalItemsCount={totalList}
-                    pageRangeDisplayed={10}
+                    pageRangeDisplayed={8}
                     onChange={handlePageChange}
                 />
             )}

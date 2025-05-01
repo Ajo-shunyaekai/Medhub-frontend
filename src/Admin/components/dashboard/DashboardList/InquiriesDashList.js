@@ -50,7 +50,7 @@ const InquiriesDashList = () => {
   const [list, setList] = useState([]);
   const [totalList, setTotalList] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const ordersPerPage = 10;
+  const ordersPerPage = 8;
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);

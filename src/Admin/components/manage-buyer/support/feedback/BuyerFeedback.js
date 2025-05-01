@@ -87,7 +87,7 @@ const BuyerFeedback = ({ supportList, handlePageChange, currentPage, totalItems,
                     activePage={currentPage}
                     itemsCountPerPage={listPerPage}
                     totalItemsCount={totalItems}
-                    pageRangeDisplayed={5}
+                    pageRangeDisplayed={8}
                     onChange={handlePageChange}
                 />
             )}

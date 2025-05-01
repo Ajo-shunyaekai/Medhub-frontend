@@ -20,7 +20,7 @@ const Product = () => {
   const [loading, setLoading] = useState(true);
   const [totalItems, setTotalItems] = useState();
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 8;
   const [open, setOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
 

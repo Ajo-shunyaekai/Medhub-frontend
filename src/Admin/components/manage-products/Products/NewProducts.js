@@ -101,7 +101,7 @@ const ApprovedNewProducts = ({ productList, totalProducts, currentPage, listPerP
           activePage={currentPage}
           itemsCountPerPage={listPerPage}
           totalItemsCount={totalProducts}
-          pageRangeDisplayed={10}
+          pageRangeDisplayed={8}
           onChange={handlePageChange}
         />
       )}

@@ -246,7 +246,7 @@ function ProformaInvoiceDetails() {
                                 }{" "}
                               </p>
                             )}
-                            {/* <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>United Arab Emirates</p> */}
+                            
                             <td
                               style={{
                                 display: "flex",
@@ -400,7 +400,7 @@ function ProformaInvoiceDetails() {
                                 }{" "}
                               </p>
                             )}
-                            {/* <p style={{ fontSize: '13px', color: '#99a0ac', lineHeight: '16px', textAlign: 'end', paddingTop: '6px' }}>Dubai (United Arab Emirates)</p> */}
+                           
                             <td
                               style={{ display: "flex", justifyContent: "end" }}
                             >
