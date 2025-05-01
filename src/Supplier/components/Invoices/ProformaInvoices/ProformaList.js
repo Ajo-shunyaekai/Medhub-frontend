@@ -194,7 +194,7 @@ const ProformaList = ({
           activePage={currentPage}
           itemsCountPerPage={invoicesPerPage}
           totalItemsCount={totalInvoices}
-          pageRangeDisplayed={5}
+          pageRangeDisplayed={8}
           onChange={handlePageChange}
         />
       )}

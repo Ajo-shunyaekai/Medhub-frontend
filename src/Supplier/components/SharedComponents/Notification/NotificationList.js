@@ -15,7 +15,7 @@ const NotificationList = () => {
     const [notificationList, setNotificationList] = useState([]);
     const [count, setCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
-    const ordersPerPage = 10;
+    const ordersPerPage = 8;
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -189,7 +189,7 @@ const NotificationList = () => {
                     activePage={currentPage}
                     itemsCountPerPage={ordersPerPage}
                     totalItemsCount={count}
-                    pageRangeDisplayed={5}
+                    pageRangeDisplayed={8}
                     onChange={handlePageChange}
                 />
             )}

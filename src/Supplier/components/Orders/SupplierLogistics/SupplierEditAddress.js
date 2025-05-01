@@ -47,7 +47,7 @@ const SupplierEditAddress = () => {
           useRegisteredAddress: false,
         },
         validationSchema: Yup.object().shape({
-        //   ...(addressToUpdate?.length === 1 && {
+       
             fullName: Yup.string()
               .min(2, "Name is too short")
               .max(50, "Name is too long")

@@ -104,7 +104,7 @@ const OnGoingongoing = ({ inquiryList, totalInquiries, currentPage, inquiryPerPa
             activePage={currentPage}
             itemsCountPerPage={inquiryPerPage}
             totalItemsCount={totalInquiries}
-            pageRangeDisplayed={5}
+            pageRangeDisplayed={8}
             onChange={handlePageChange}
           />
         )}

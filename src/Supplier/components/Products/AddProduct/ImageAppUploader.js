@@ -95,7 +95,7 @@ const ImageUploaders = ({ image, setImage }) => {
     };
 
     return (
-        <>
+        
             <div className={styles['add-image-uploader']}>
                 <div className={styles['add-upload-area']} onClick={handleImageClick} style={{ height: uploadAreaHeight }}>
                     <img src={UploadImage} alt="Upload" className={styles['add-upload-icon']} />
@@ -144,7 +144,7 @@ const ImageUploaders = ({ image, setImage }) => {
                     </div>
                 )}
             </div>
-        </>
+       
     );
 };
 

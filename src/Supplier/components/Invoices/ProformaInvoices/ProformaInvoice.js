@@ -114,7 +114,7 @@ const ProformaInvoice = ({ socket }) => {
     const year = today.getFullYear();
     const formattedDate = `${day}-${month}-${year}`;
     setCurrentDate(formattedDate);
-    // setValue('invoiceDate', `${day}-${month}-${year}`);
+    
 
     const generateRandomNumber = () =>
       Math.floor(10000000 + Math.random() * 90000000);
@@ -133,7 +133,7 @@ const ProformaInvoice = ({ socket }) => {
     const dueYear = dueDate.getFullYear();
     const formattedDueDate = `${dueDay}-${dueMonth}-${dueYear}`;
     setDueDate(formattedDueDate);
-    // setValue('invoiceDueDate', formattedDueDate);
+  
   }, []);
 
   useEffect(() => {
@@ -185,7 +185,7 @@ const ProformaInvoice = ({ socket }) => {
             buyerMobile: formattedBuyerMobile,
             buyerRegNo: data?.buyer_regNo,
             orderItems: data?.order_items,
-            // totalDueAmount : data?.total_amount,
+          
             totalAmount: data?.total_amount,
             paymentTerms: paymentTermsString,
           }));
@@ -245,7 +245,7 @@ const ProformaInvoice = ({ socket }) => {
     setFormData((prevFormData) => ({
       ...prevFormData,
 
-      // supplierId: data?.supplier_id,
+     
       supplierName: "",
       supplierEmail: "",
       supplierAddress: "",
@@ -314,7 +314,7 @@ const ProformaInvoice = ({ socket }) => {
       formErrors.supplierMobile = "Supplier Mobile is Required";
     if (!formData.depositRequested)
       formErrors.depositRequested = "Deposit Requested Amount is Required";
-    // if(!formData.depositDue) formErrors.depositDue = 'Deposit Due is Required'
+    
     if (!formData.depositDueDate)
       formErrors.depositDueDate = "Deposit Due Date is Required";
     if (!formData.dueDate) formErrors.dueDate = "Payment Due Date is Required";
@@ -360,12 +360,12 @@ const ProformaInvoice = ({ socket }) => {
         supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
         enquiry_id: inquiryDetails?.enquiry_id,
         purchaseOrder_id: purchaseOrderId,
-        // buyer_id: inquiryDetails?.buyer_id,
+       
         buyer_id: buyerDetails?.buyer_id,
         orderItems: updatedOrderItems,
         data: {
           ...formData,
-          // dueDate: formatDate(dateValue),
+         
           newBuyerMobile: formattedBuyerPhoneNumber,
           newSupplierMobile: formattedSupplierPhoneNumber,
         },
@@ -386,15 +386,15 @@ const ProformaInvoice = ({ socket }) => {
               link: process.env.REACT_APP_PUBLIC_URL,
               // send other details if needed
             });
-            // setTimeout(() => {
+           
             navigate("/supplier/order/active");
-            // }, 500)
+          
             setLoading(false);
           } else {
             setLoading(false);
             toast(response.message, { type: "error" });
           }
-          // setLoading(false)
+         
         }
       );
     } else {
@@ -537,7 +537,7 @@ const ProformaInvoice = ({ socket }) => {
 
   useEffect(() => {
     const grandTotalCalc = orderItems?.reduce((accumulator, item) => {
-      // setGrandTotal(accumulator + (item?.total_amount || 0))
+    
       return accumulator + (Number.parseInt(item?.total_amount || 0) || 0);
     }, 0);
 
@@ -670,8 +670,7 @@ const ProformaInvoice = ({ socket }) => {
                 type="text"
                 name="totalDueAmount"
                 placeholder="Enter Total Due Amount"
-                // {...register('totalDueAmount',
-                // )}
+              
                 readOnly
                 value={formData.totalDueAmount}
                 onInput={handleNumberInput}
@@ -693,7 +692,7 @@ const ProformaInvoice = ({ socket }) => {
                 placeholder="Enter Email ID"
                 value={formData.supplierEmail}
                 onChange={handleChange}
-                // {...register('supplierEmail', { validate: value => value?.trim() !== '' || 'Supplier email is required' })}
+               
               />
               {errors.supplierEmail && (
                 <p style={{ color: "red", fontSize: "12px" }}>
@@ -710,9 +709,9 @@ const ProformaInvoice = ({ socket }) => {
                 className="signup-form-section-phone-input"
                 defaultCountry="uk"
                 name="supplierMobile"
-                // value={watch('supplierMobile')}
+               
                 value={formData.supplierMobile}
-                // onChange={handleSupplierPhoneChange}
+               
                 onChange={(value) => handlePhoneChange(value, "supplierMobile")}
               />
               {errors.supplierMobile && (
@@ -732,7 +731,7 @@ const ProformaInvoice = ({ socket }) => {
                 placeholder="Enter Address"
                 value={formData.supplierAddress}
                 onChange={handleChange}
-                // {...register('supplierAddress', { validate: value => value?.trim() !== '' || 'Supplier address is required' })}
+               
               />
               {errors.supplierAddress && (
                 <p style={{ color: "red", fontSize: "12px" }}>
@@ -753,8 +752,7 @@ const ProformaInvoice = ({ socket }) => {
                     placeholder="Enter Area/Locality/Road Name"
                     value={formData.supplierLocality}
                     onChange={handleChange}
-                    // readOnly
-                    // {...register('buyerEmail', { validate: value => value.trim() !== '' || 'Buyer email is required' })}
+                   
                   />
                   {errors.buyerEmail && (
                     <p style={{ color: "red" }}>{errors.buyerEmail}</p>
@@ -771,8 +769,7 @@ const ProformaInvoice = ({ socket }) => {
                     placeholder="Enter Landmark"
                     value={formData.supplierLandmark}
                     onChange={handleChange}
-                    // readOnly
-                    // {...register('buyerEmail', { validate: value => value.trim() !== '' || 'Buyer email is required' })}
+                   
                   />
                   {errors.supplierLandmark && (
                     <p style={{ color: "red" }}>{errors.supplierLandmark}</p>
@@ -789,7 +786,7 @@ const ProformaInvoice = ({ socket }) => {
                     value={supplierCountry}
                     onChange={handleCountryChange}
                     placeholder="Select Country"
-                    // isDisabled
+                   
                   />
                   {errors.buyerEmail && (
                     <p style={{ color: "red" }}>{errors.buyerEmail}</p>
@@ -815,7 +812,7 @@ const ProformaInvoice = ({ socket }) => {
                     value={supplierState}
                     onChange={handleStateChange}
                     placeholder="Select State"
-                    // isDisabled
+                   
                   />
                   {errors.buyerEmail && (
                     <p style={{ color: "red" }}>{errors.buyerEmail}</p>
@@ -842,9 +839,9 @@ const ProformaInvoice = ({ socket }) => {
                     value={supplierCity}
                     onChange={handleCityChange}
                     placeholder="Select City"
-                    // isDisabled
+                    
                   />
-                  {/* {errors.buyerEmail && <p style={{color: 'red'}}>{errors.buyerEmail}</p>} */}
+                 
                 </div>
                 <div className={styles["create-invoice-div-container"]}>
                   <label className={styles["create-invoice-div-label"]}>
@@ -857,9 +854,9 @@ const ProformaInvoice = ({ socket }) => {
                     placeholder="Enter Pincode"
                     value={formData.supplierPincode}
                     onChange={handleChange}
-                    // readOnly
+                   
                   />
-                  {/* {errors.buyerEmail && <p style={{color: 'red'}}>{errors.buyerEmail}</p>} */}
+                 
                 </div>
               </>
             )}
@@ -877,7 +874,7 @@ const ProformaInvoice = ({ socket }) => {
                 placeholder="Enter Name"
                 readOnly
                 value={formData.buyerName}
-                // {...register('buyerName', { validate: value => value?.trim() !== '' || 'Buyer name is required' })}
+               
               />
               {errors.buyerName && (
                 <p style={{ color: "red", fontSize: "12px" }}>
@@ -896,7 +893,7 @@ const ProformaInvoice = ({ socket }) => {
                 placeholder="Enter Email ID"
                 readOnly
                 value={formData.buyerEmail}
-                // {...register('buyerEmail', { validate: value => value?.trim() !== '' || 'Buyer email is required' })}
+              
               />
               {errors.buyerEmail && (
                 <p style={{ color: "red", fontSize: "12px" }}>
@@ -912,10 +909,10 @@ const ProformaInvoice = ({ socket }) => {
                 className="signup-form-section-phone-input"
                 defaultCountry="ae"
                 name="phoneinput"
-                // value={watch('buyerMobile')}
+               
                 value={formData.buyerMobile}
                 disabled
-                // onChange={handleBuyerPhoneChange}
+              
               />
               {errors.buyerMobile && (
                 <p style={{ color: "red", fontSize: "12px" }}>
@@ -934,7 +931,7 @@ const ProformaInvoice = ({ socket }) => {
                 placeholder="Enter Address"
                 readOnly
                 value={formData.buyerAddress}
-                // {...register('buyerAddress', { validate: value => value?.trim() !== '' || 'Buyer address is required' })}
+               
               />
               {errors.buyerAddress && (
                 <p style={{ color: "red", fontSize: "12px" }}>
@@ -955,7 +952,7 @@ const ProformaInvoice = ({ socket }) => {
                     placeholder="Enter Area/Locality/Road Name"
                     value={formData.buyerLocality}
                     onChange={handleChange}
-                    // readOnly
+                   
                   />
                   {errors.buyerEmail && (
                     <p style={{ color: "red" }}>{errors.buyerEmail}</p>
@@ -972,7 +969,7 @@ const ProformaInvoice = ({ socket }) => {
                     placeholder="Enter Locality"
                     value={formData.buyerLandmark}
                     onChange={handleChange}
-                    // readOnly
+                   
                   />
                   {errors.buyerEmail && (
                     <p style={{ color: "red" }}>{errors.buyerEmail}</p>
@@ -989,7 +986,7 @@ const ProformaInvoice = ({ socket }) => {
                     value={selectedCountry}
                     onChange={handleCountryChange}
                     placeholder="Select Country"
-                    // isDisabled
+                   
                   />
                   {errors.buyerEmail && (
                     <p style={{ color: "red" }}>{errors.buyerEmail}</p>
@@ -1015,7 +1012,7 @@ const ProformaInvoice = ({ socket }) => {
                     value={selectedState}
                     onChange={handleStateChange}
                     placeholder="Select State"
-                    // isDisabled
+                   
                   />
                   {errors.buyerEmail && (
                     <p style={{ color: "red" }}>{errors.buyerEmail}</p>
@@ -1042,7 +1039,7 @@ const ProformaInvoice = ({ socket }) => {
                     value={selectedCity}
                     onChange={handleCityChange}
                     placeholder="Select City"
-                    // isDisabled
+                   
                   />
                   {errors.buyerEmail && (
                     <p style={{ color: "red" }}>{errors.buyerEmail}</p>
@@ -1059,7 +1056,7 @@ const ProformaInvoice = ({ socket }) => {
                     placeholder="Enter Pincode"
                     value={formData.buyerPincode}
                     onChange={handleChange}
-                    // readOnly
+                   
                   />
                   {errors.buyerEmail && (
                     <p style={{ color: "red" }}>{errors.buyerEmail}</p>

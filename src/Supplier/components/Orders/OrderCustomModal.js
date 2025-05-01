@@ -355,9 +355,7 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
         return `${day}-${month}-${year}`;
     };
 
-    // const handleDateChange = (date) => {
-    //     setValue(date);
-    // };
+    
 
     const [pickupTime, setPickupTime] = useState('');
     const quantityOptions = [
@@ -400,7 +398,7 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                 setErrors((prevErrors) => ({
                     ...prevErrors,
                     supplierMobile: ''
-                    // supplierMobile: `Phone number should match the pattern for ${countryCode}`
+                    
                 }));
             }
         } else {
@@ -579,7 +577,7 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
         if (!supplierCountryName) newErrors.supplierCountry = 'Country is Required';
         if (!supplierState) newErrors.supplierState = 'State is Required';
         if (!supplierDistrict) newErrors.supplierDistrict = 'City/District is Required';
-        // if (!formData.pincode || formData.pincode.length < 6) newErrors.pincode = 'Valid Pincode is required';
+      
         if (!formData.packages) newErrors.packages = 'No. of Packages is Required';
         if (!formData.weight) newErrors.weight = 'Weight is Required';
         if (!formData.length) newErrors.length = 'Length is Required';
@@ -676,7 +674,7 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                             value={formData.suppliername}
                             onChange={handleChange}
                             className={styles['order-modal-input']}
-                            // required
+                           
                              />
                              {errors.suppliername && <span style={{color: 'red', fontSize: '12px'}} className={styles.error}>{errors.suppliername}</span>}
                     </div>
@@ -699,7 +697,7 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                             defaultCountry='ae'
                             onChange={handlePhoneChange}
                             name="supplierMobile"
-                            // required
+                           
                             />
                             {errors.supplierMobile && <span style={{color: 'red', fontSize: '12px'}} className={styles.error}>{errors.supplierMobile}</span>}
                     </div>
@@ -710,7 +708,7 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                             name="address"
                             value={formData.address}
                             onChange={handleChange}
-                            // required
+                           
                         />
                         {errors.address && <span style={{color: 'red', fontSize: '12px'}} className={styles.error}>{errors.address}</span>}
                     </div>
@@ -753,9 +751,9 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                                 name="pincode"
                                 value={formData.pincode}
                                 onChange={handleChange}
-                                // required
+                               
                             />
-                            {/* {errors.pincode && <span style={{color: 'red'}} className={styles.error}>{errors.pincode}</span>} */}
+                           
                         </div>
                     </div>
                     <div className={styles['order-modal-custom-main-sections']}>
@@ -792,7 +790,7 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                             name="packages"
                             value={formData.packages}
                             onChange={handleChange}
-                            // required
+                            
                         />
                         {errors.packages && <span style={{color: 'red', fontSize: '12px'}} className={styles.error}>{errors.packages}</span>}
                     </div>
@@ -804,7 +802,7 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                             name="weight"
                             value={formData.weight}
                             onChange={handleChange}
-                            // required
+                          
                         />
                         {errors.weight && <span style={{color: 'red', fontSize: '12px'}} className={styles.error}>{errors.weight}</span>}
                     </div>
@@ -834,7 +832,7 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                             type="text"
                             name="volume"
                             value={formData.volume}
-                            // required
+                           
                         />
                     </div>
                     <div className={styles['order-modal-main-heading']}>Buyer Details</div>
@@ -846,7 +844,7 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                             name="buyerName"
                             readOnly
                             defaultValue={logiscticsData?.drop_location?.name}
-                            // required
+                           
                         />
                     </div>
                     <div className={styles['order-modal-dic-container']}>
@@ -857,7 +855,7 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                             name="buyerCompanyType"
                             readOnly
                             defaultValue={buyerData?.buyer_type}
-                            // required 
+                           
                             />
                     </div>
                     <div className={styles['order-modal-dic-container']}>
@@ -895,11 +893,7 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                     <div className={styles['order-modal-custom-main-sections']}>
                         <div className={styles['order-modal-dic-container']}>
                             <label className={styles['order-modal-label']}>Country</label>
-                            {/* <CountrySelect
-                                className={styles['order-modal-input']}
-                                onChange={handleBuyerCountryChange}
-                                placeHolder="Select Country"
-                            /> */}
+                           
                             <input placeholder='Enter country'
                             className={styles['order-modal-input']}
                             name="country"
@@ -911,19 +905,14 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                         </div>
                         <div className={styles['order-modal-dic-container']}>
                             <label className={styles['order-modal-label']}>State</label>
-                            {/* <StateSelect
-                                className={styles['order-modal-input']}
-                                countryid={countryid}
-                                onChange={handleBuyerState}
-                                placeHolder="Select State"
-                            /> */}
+                          
                             <input placeholder='Enter state'
                             className={styles['order-modal-input']}
                             name="state"
                             defaultValue={logiscticsData?.drop_location?.state}
                             onChange={handleChange}
                             readOnly
-                            // required
+                           
                         />
 
                         </div>
@@ -931,19 +920,12 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                     <div className={styles['order-modal-custom-main-sections']}>
                         <div className={styles['order-modal-dic-container']}>
                             <label className={styles['order-modal-label']}>City/District</label>
-                            {/* <CitySelect
-                                className={styles['order-modal-input']}
-                                countryid={countryid}
-                                stateid={stateid}
-                                onChange={(e) => {
-                                }}
-                                placeHolder="Select City"
-                            /> */}
+                          
                              <input placeholder='Enter city/district' className={styles['order-modal-input']}
                                 name="state"
                                 defaultValue={logiscticsData?.drop_location?.city_district}
                                 onChange={handleChange}
-                                // required
+                                
                                 readOnly
                             />
 
@@ -954,7 +936,7 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                                 name="pincode"
                                defaultValue={logiscticsData?.drop_location?.pincode}
                                 onChange={handleChange}
-                                // required
+                               
                                 readOnly
                     
                             />

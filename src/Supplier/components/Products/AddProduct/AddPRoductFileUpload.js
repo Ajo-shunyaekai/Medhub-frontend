@@ -54,16 +54,7 @@ const useFileUpload = (
     }
   }, [filesNew, filesOld, filesMerged]);
 
-  // // Effect to update Formik fields when merged files change
-  // useEffect(() => {
-  //   if (filesMerged?.length > 0) {
-  //     const newFiles = filesMerged.filter((item) => typeof item === "object");
-  //     const oldFiles = filesMerged.filter((item) => typeof item !== "object");
-
-  //     setFieldValue(fieldInputName, newFiles); // Set new files (File objects)
-  //     setFieldValue(oldFieldName, oldFiles); // Set old files (strings or file paths)
-  //   }
-  // }, [filesMerged, setFieldValue, fieldInputName, oldFieldName]);
+  
 
   const removeFile = (index, event, arrayToFilter) => {
     if (event) event.stopPropagation();
