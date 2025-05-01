@@ -4,9 +4,9 @@ import MainBuy from "./Buy";
 
 const Buy = () => {
   return (
-    <div>
+   
       <MainBuy/>
-    </div>
+    
   );
 };
 

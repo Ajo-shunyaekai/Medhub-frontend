@@ -21,7 +21,7 @@ const CompleteInvoicesList = () => {
   const [invoiceList, setInvoiceList] = useState([]);
   const [totalInvoices, setTotalInvoices] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [ordersPerPage, setOrdersPerPage] = useState(10);
+  const [ordersPerPage, setOrdersPerPage] = useState(8);
 
   const iframeRef = useRef(null);
 
@@ -242,7 +242,7 @@ const CompleteInvoicesList = () => {
                 activePage={currentPage}
                 itemsCountPerPage={ordersPerPage}
                 totalItemsCount={totalInvoices || 0}
-                pageRangeDisplayed={5}
+                pageRangeDisplayed={8}
                 onChange={handlePageChange}
               />
             )}

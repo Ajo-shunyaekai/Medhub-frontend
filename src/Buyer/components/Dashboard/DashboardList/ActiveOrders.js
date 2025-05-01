@@ -21,7 +21,7 @@ const OngoingOrders = () => {
   const [orderList, setOrderList] = useState([]);
   const [totalOrders, setTotalOrders] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [ordersPerPage] = useState(10);
+  const [ordersPerPage] = useState(8);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -186,7 +186,7 @@ const OngoingOrders = () => {
               activePage={currentPage}
               itemsCountPerPage={ordersPerPage}
               totalItemsCount={totalOrders}
-              pageRangeDisplayed={10}
+              pageRangeDisplayed={8}
               onChange={handlePageChange}
             />
         )}

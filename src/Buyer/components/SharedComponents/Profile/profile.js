@@ -34,11 +34,11 @@ const Profile = () => {
               size={50}
               color="red"
               style={{ cursor: "pointer" }}
-              // onClick={() => window.open(fileUrl, "_blank")}
+           
             />
             <div
               className={styles.fileName}
-              // onClick={() => window.open(fileUrl, "_blank")}
+              
             >
               {extractFileName(file)}
             </div>
@@ -62,11 +62,11 @@ const Profile = () => {
               size={50}
               color="blue"
               style={{ cursor: "pointer" }}
-              // onClick={() => window.open(docxUrl, "_blank")}
+              
             />
             <div
               className={styles.fileName}
-              // onClick={() => window.open(docxUrl, "_blank")}
+            
             >
               {extractFileName(docxFileName)}
             </div>
@@ -106,7 +106,7 @@ const Profile = () => {
       </div>
       <div className={styles.profileContainer}>
         <div className={styles.imgSection}>
-          {/* Display buyer image */}
+        
           {user?.buyer_image && (
             <img
               src={`${process.env.REACT_APP_SERVER_URL}/uploads/buyer/buyer_images/${user?.buyer_image}`}

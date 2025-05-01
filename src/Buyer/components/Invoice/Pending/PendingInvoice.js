@@ -104,12 +104,6 @@ const PendingInvoice = ({
    
     },
     {
-      name: "Customer Name",
-      selector: (row) => row?.supplier_name,
-      sortable: true,
-     
-    },
-    {
       name: "Amount",
       selector: (row) => row?.total_payable_amount,
       sortable: true,
@@ -225,7 +219,7 @@ const PendingInvoice = ({
           activePage={currentPage}
           itemsCountPerPage={invoicesPerPage}
           totalItemsCount={totalInvoices || invoiceList.length}
-          pageRangeDisplayed={5}
+          pageRangeDisplayed={8}
           onChange={handlePageChange}
         />
       )}

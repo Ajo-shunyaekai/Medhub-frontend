@@ -424,13 +424,13 @@ const EditCreatePO = ({ socket }) => {
   const resetForm = () => {
     setFormData((prevFormData) => ({
       ...prevFormData,
-      // buyerId: '',
+     
       buyerName: "",
       buyerEmail: "",
       buyerAddress: "",
       buyerMobile: "",
       buyerRegNo: "",
-      // orderItems: data?.items,
+     
     }));
   };
 

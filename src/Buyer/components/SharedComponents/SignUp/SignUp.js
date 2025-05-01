@@ -278,66 +278,7 @@ const SignUp = ({ socket }) => {
     }));
   };
 
-  // const handleChange = (event) => {
-  //     const { name, value } = event.target;
-
-  //     // Regex to allow only alphanumeric characters and spaces
-  //     const alphanumericNoSpaceRegex = /^[a-zA-Z0-9]*$/;
-
-  //     // Regex to allow empty string or only one white space between numbers for yearlyPurchaseValue
-  //     const yearlyPurchaseValueRegex = /^\d{0,8}$/;
-
-  //     if ((name === 'companyName' || name === 'companyEmail' || name === 'email') && value.length > 50) {
-  //         // setErrors((prevState) => ({
-  //         //     ...prevState,
-  //         //     [name]: `${
-  //         //         name === 'companyName'
-  //         //         ? 'Company Name'
-  //         //         : name === 'companyEmail'
-  //         //         ? 'Company Email'
-  //         //         : 'Email'
-  //         //     } cannot exceed 50 characters`,
-  //         // }));
-
-  //         setErrors((prevState) => ({
-  //             ...prevState,
-  //             [name]: ``,
-  //         }));
-  //         return;
-  //     }
-
-  //     if (['registrationNo', 'vatRegistrationNo', 'companyLicenseNo', 'companyTaxNo'].includes(name)) {
-  //         if (value.length > 16) {
-  //             setErrors(prevState => ({ ...prevState, [name]: '' }));
-  //             return;
-  //         }
-
-  //         // Disallow spaces in these fields
-  //         if (!alphanumericNoSpaceRegex.test(value)) {
-  //             setErrors(prevState => ({ ...prevState, [name]: '' }));
-  //             return;
-  //         }
-  //     }
-
-  //     // Validate yearlyPurchaseValue to allow only one whitespace or an empty value
-  //     if (name === 'yearlyPurchaseValue') {
-  //         if (!yearlyPurchaseValueRegex.test(value)) {
-  //             setErrors(prevState => ({ ...prevState, yearlyPurchaseValue: '' }));
-  //             return;
-  //         }
-  //     }
-
-  //     if (name === 'description' && value.length > 1000) {
-  //         setErrors(prevState => ({ ...prevState, description: 'Description cannot exceed 1000 characters' }));
-  //     } else if ((name === 'contactPersonName' || name === 'designation') && !/^[a-zA-Z\s]*$/.test(value)) {
-  //         setErrors(prevState => ({ ...prevState, designation: '' }));
-  //     } else if (name === 'delivertime' && !/^\d{0,3}$/.test(value)) {
-  //         setErrors(prevState => ({ ...prevState, delivertime: 'Invalid delivery time' }));
-  //     } else {
-  //         setFormData(prevState => ({ ...prevState, [name]: value }));
-  //         setErrors(prevState => ({ ...prevState, [name]: '' }));
-  //     }
-  // };
+  
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -544,9 +485,9 @@ const SignUp = ({ socket }) => {
 
         const countryCode = phoneNumber.countryCallingCode;
         const nationalNumber = phoneNumber.nationalNumber;
-        // const formattedNumber = phoneNumber.format('E.164');
+      
         const formattedNumber = `+${countryCode} ${nationalNumber}`;
-        // Update form data with the formatted number
+      
         setFormData((prevState) => ({ ...prevState, [name]: formattedNumber }));
       } else {
         // Set error if phone number is invalid
@@ -587,9 +528,7 @@ const SignUp = ({ socket }) => {
       formErrors.companyEmail = "Company Email ID is Required";
     if (formData.companyEmail && !validateEmail(formData.companyEmail))
       formErrors.companyEmail = "Invalid Company Email ID";
-    // if (!companyPhone || companyPhone.length <= 12) {
-    //     formErrors.companyPhone = 'Company Phone No. is Required';
-    // }
+   
 
     try {
       // Validate Company Phone
@@ -624,74 +563,32 @@ const SignUp = ({ socket }) => {
     if (!formData.email) formErrors.email = "Email ID is Required";
     if (formData.email && !validateEmail(formData.email))
       formErrors.email = "Invalid Email ID";
-    // if (!mobile || mobile.length <= 12) {
-    //     formErrors.mobile = 'Mobile No. is Required';
-    // }
+   
     if (!formData.originCountry)
       formErrors.originCountry = "Country of Origin is Required";
     if (!formData.operationCountries.length)
       formErrors.operationCountries = "Country of Operation is Required";
-    // if (!formData.companyLicenseNo)
-    //   formErrors.companyLicenseNo = "Company License No. is Required";
-    // if (!formData.companyLicenseExpiry) formErrors.companyLicenseExpiry = 'Company License Expiry is Required';
-    // License expiry date validation
-    // if (!formData.companyLicenseExpiry) {
-    //   formErrors.companyLicenseExpiry =
-    //     "Company License Expiry Date is Required";
-    // } else {
-    //   // Check if date is in valid format
-    //   const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
-    //   if (!dateRegex.test(formData.companyLicenseExpiry)) {
-    //     formErrors.companyLicenseExpiry =
-    //       "Please enter date in DD-MM-YYYY format";
-    //   } else {
-    //     const [day, month, year] = formData.companyLicenseExpiry
-    //       .split("-")
-    //       .map(Number);
-    //     const inputDate = new Date(year, month - 1, day);
-    //     const currentDate = new Date();
-
-    //     // Reset time parts for accurate comparison
-    //     currentDate.setHours(0, 0, 0, 0);
-    //     inputDate.setHours(0, 0, 0, 0);
-
-    //     // Check if it's a valid date (e.g., not 31st Feb)
-    //     if (
-    //       inputDate.getFullYear() !== year ||
-    //       inputDate.getMonth() !== month - 1 ||
-    //       inputDate.getDate() !== day
-    //     ) {
-    //       formErrors.companyLicenseExpiry = "Please enter a valid date";
-    //     }
-    //     // Check if date is in the future
-    //     else if (inputDate <= currentDate) {
-    //       formErrors.companyLicenseExpiry =
-    //         "License expiry date must be a future date";
-    //     }
-    //   }
-    // }
+    
     if (!formData.yearlyPurchaseValue)
       formErrors.yearlyPurchaseValue = "Yearly Purchase Value is Required";
-    // if (!formData.companyTaxNo)
-    //   formErrors.companyTaxNo = "Company Tax No. is Required";
+   
     if (!formData.interestedIn)
       formErrors.interestedIn = "Interested In  is Required";
-    // if (!isChecked) formErrors.terms = 'You must agree to the terms and conditions';
+    
     if (!formData.description)
       formErrors.description = "Description is Required";
     if (formData.description.length > 1000)
       formErrors.description = "Description cannot exceed 1000 characters";
-    // if (!formData.taxImage) formErrors.taxImage = "Tax Image is Required";
+   
     if (!formData.logoImage) formErrors.logoImage = "Company Logo is Required";
     if (!formData.licenseImage)
       formErrors.licenseImage = "License Image is Required";
-    // if (!formData.certificateImage)
-    //   formErrors.certificateImage = "Certificate Image is Required";
+   
     if (!formData.registrationNo)
       formErrors.registrationNo = "Registration No. is Required";
     if (!formData.vatRegistrationNo)
       formErrors.vatRegistrationNo = "GST/VAT Registration No. is Required";
-    // if (!formData.medicalCertificate) formErrors.medicalCertificate = 'Medical Certificate Image is Required';
+   
     if (
       selectedCompanyType?.value === "medical practitioner" &&
       !formData.medicalCertificateImage
@@ -778,7 +675,7 @@ const SignUp = ({ socket }) => {
       formDataToSend.append("description", formData.description);
       formDataToSend.append("buyer_address", formData.companyAddress);
       formDataToSend.append("buyer_email", formData.companyEmail);
-      // formDataToSend.append('buyer_mobile', companyPhone);
+     
       formDataToSend.append("buyer_mobile", formData.companyPhone);
       formDataToSend.append("license_no", formData.companyLicenseNo);
       formDataToSend.append("country_of_origin", formData.originCountry);
@@ -796,16 +693,16 @@ const SignUp = ({ socket }) => {
         formData.companyLicenseExpiry
       );
       formDataToSend.append("designation", formData.designation);
-      // formDataToSend.append('contact_person_mobile', mobile);
+      
       formDataToSend.append("contact_person_mobile", formData.mobile);
       formDataToSend.append("contact_person_email", formData.email);
       formDataToSend.append("registration_no", formData.registrationNo);
       formDataToSend.append("vat_reg_no", formData.vatRegistrationNo);
-      // formDataToSend.append('country_of_operation', countryLabels);
+     
       countryLabels.forEach((item) =>
         formDataToSend.append("country_of_operation", item)
       );
-      // formDataToSend.append("tax_no", formData.companyTaxNo);
+     
       formDataToSend.append("activity_code", formData.activityCode);
       formDataToSend.append("usertype", formData.usertype || "Buyer");
       // New data fields
@@ -822,9 +719,7 @@ const SignUp = ({ socket }) => {
       Array.from(formData.licenseImage).forEach((file) =>
         formDataToSend.append("license_image", file)
       );
-      // Array.from(formData.taxImage).forEach((file) =>
-      //   formDataToSend.append("tax_image", file)
-      // );
+     
       (Array.isArray(cNCFileArray) ? cNCFileArray : []).forEach((file) =>
         formDataToSend.append("certificate_image", file)
       );
@@ -851,7 +746,7 @@ const SignUp = ({ socket }) => {
         "certificateFileNDate",
         certificateFileNDateUpdated
       );
-      //   formDataToSend.append("cNCFileArray", cNCFileArray);
+      
 
       try {
         const response = await apiRequests?.postRequestWithFile(
@@ -860,15 +755,15 @@ const SignUp = ({ socket }) => {
           "Buyer"
         );
         if (response?.code !== 200) {
-          // setButtonLoading(false)
+          
           setLoading(false);
           toast(response.message, { type: "error" });
           return;
         }
-        // handleCancel()
+       
         handleResetForm();
         setShowModal(true);
-        // setButtonLoading(false)
+      
         setLoading(false);
         setMedicalPractiotionerPreview([]);
 
@@ -876,10 +771,10 @@ const SignUp = ({ socket }) => {
           adminId: process.env.REACT_APP_ADMIN_ID,
           message: `New Buyer Registration Request `,
           link: process.env.REACT_APP_PUBLIC_URL,
-          // send other details if needed
+         
         });
       } catch (error) {
-        // setButtonLoading(false)
+       
         setLoading(false);
         toast(error.message, { type: "error" });
       } finally {
@@ -1167,7 +1062,7 @@ const SignUp = ({ socket }) => {
                         value={formData.landMark}
                         onChange={handleChange}
                       />
-                      {/* {errors.companyAddress && <div className='signup__errors'>{errors.companyAddress}</div>} */}
+                    
                     </div>
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
@@ -1281,7 +1176,7 @@ const SignUp = ({ socket }) => {
                           (option) => option.value === formData.originCountry
                         )}
                         onChange={handleCountryOriginChange}
-                        // onChange={(selectedOption) => setFormData({ ...formData, originCountry: selectedOption.value })}
+                       
                       />
                       {errors.originCountry && (
                         <div className={styles.signupErrors}>
@@ -1301,7 +1196,7 @@ const SignUp = ({ socket }) => {
                           value={formData.operationCountries}
                           onChange={handleOperationCountriesChange}
                           getDropdownButtonLabel={getDropdownButtonLabel}
-                          // onChange={(selectedOptions) => setFormData({ ...formData, operationCountries: selectedOptions })}
+                         
                         />
                       )}
                       {errors.operationCountries && (
@@ -1323,28 +1218,13 @@ const SignUp = ({ socket }) => {
                         value={formData.companyLicenseNo}
                         onChange={handleChange}
                       />
-                      {/* {errors.companyLicenseNo && (
-                        <div className={styles.signupErrors}>
-                          {errors.companyLicenseNo}
-                        </div>
-                      )} */}
+                     
                     </div>
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
                         License Expiry/Renewal Date
                       </label>
-                      {/* <InputMask
-                        className={styles.signupFormSectionInput}
-                        type="text"
-                        mask="dd-mm-yyyy"
-                        placeholder="DD-MM-YYYY"
-                        name="companyLicenseExpiry"
-                        value={formData.companyLicenseExpiry}
-                        onChange={handleChange}
-                        replacement={{ d: /\d/, m: /\d/, y: /\d/ }}
-                        showMask
-                        separate
-                      /> */}
+                    
                       <DatePicker
                         className={styles.signupFormSectionInput}
                         selected={formData.companyLicenseExpiry ? parseDateString(formData.companyLicenseExpiry) : null }
@@ -1359,30 +1239,9 @@ const SignUp = ({ socket }) => {
                         scrollableYearDropdown
                         disabledKeyboardNavigation={false}
                       />   
-                      {/* {errors.companyLicenseExpiry && (
-                        <div className={styles.signupErrors}>
-                          {errors.companyLicenseExpiry}
-                        </div>
-                      )} */}
+                    
                     </div>
-                    {/* <div className={styles.signupFormSectionDiv}>
-                      <label className={styles.signupFormSectionLabel}>
-                        Company Tax No.<span className={styles.labelStamp}>*</span>
-                      </label>
-                      <input
-                        className={styles.signupFormSectionInput}
-                        type="text"
-                        name="companyTaxNo"
-                        placeholder="Enter Company Tax No."
-                        value={formData.companyTaxNo}
-                        onChange={handleChange}
-                      />
-                      {errors.companyTaxNo && (
-                        <div className={styles.signupErrors}>
-                          {errors.companyTaxNo}
-                        </div>
-                      )}
-                    </div> */}
+                  
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
                         Approx. Yearly Purchase Value
@@ -1601,7 +1460,7 @@ const SignUp = ({ socket }) => {
                         Upload Trade License
                         <span className={styles.labelStamp}>*</span>
                       </label>
-                      {/* <ImageUploaders onUploadStatusChange={handleImageUpload} imageType="license" reset={resetUploaders} allowMultiple={true} /> */}
+                    
                       <ImageUploaders
                         onUploadStatusChange={handleImageUpload}
                         filePreviews={tradeLicensePreviews}
@@ -1622,7 +1481,7 @@ const SignUp = ({ socket }) => {
                       <label className={styles.signupFormSectionLabel}>
                         Upload Company Logo<span className={styles.labelStamp}>*</span>
                       </label>
-                      {/* <ImageUploaders onUploadStatusChange={handleImageUpload} imageType="logo" reset={resetUploaders} allowMultiple={false} /> */}
+                    
                       <ImageUploaders
                         onUploadStatusChange={handleImageUpload}
                         filePreviews={logoPreviews}
@@ -1739,14 +1598,14 @@ const SignUp = ({ socket }) => {
                     )}
 
                     <div className={styles.signupFormSectionCheckbox}>
-                      {/* <Link to='/buyer/terms-and-conditions' > */}
+                    
                       <div
                         className={styles.termsCondition}
                         onClick={() => setShowTnC(true)}
                       >
                         Terms & Conditions<span className={styles.labelStamp}>*</span>
                       </div>
-                      {/* </Link> */}
+                     
                     </div>
                   </div>
                 </div>

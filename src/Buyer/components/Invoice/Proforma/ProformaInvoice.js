@@ -184,7 +184,7 @@ const ProformaInvoice = ({
           activePage={currentPage}
           itemsCountPerPage={invoicesPerPage}
           totalItemsCount={totalInvoices || invoiceList?.length || 0}
-          pageRangeDisplayed={5}
+          pageRangeDisplayed={8}
           onChange={handlePageChange}
         />
       )}

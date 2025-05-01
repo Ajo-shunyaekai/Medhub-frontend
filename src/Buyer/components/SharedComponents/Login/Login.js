@@ -36,10 +36,7 @@ const Login = ({ socket }) => {
 
         if (!password) {
             newErrors.password = 'Password is Required';
-            // } else if (!/(?=.*[A-Z])/.test(password)) {
-            //     newErrors.password = 'Password must contain at least one uppercase letter';
-            // } else if (!/(?=.*[!@#$%^&*])/.test(password)) {
-            //     newErrors.password = 'Password must contain at least one special character';
+            
         }
 
         return newErrors;
@@ -115,17 +112,10 @@ const Login = ({ socket }) => {
     };
 
     const handleEmailChange = (e) => {
-        // setEmail(e.target.value);
-        // if (errors.email) {
-        //     setErrors((prevErrors) => ({
-        //         ...prevErrors,
-        //         email: '',
-        //     }));
-        // }
+       
         if (e.target.value.length <= 50) {
             setEmail(e.target.value);
 
-            // Clear errors if email was previously invalid
             if (errors.email) {
                 setErrors((prevErrors) => ({
                     ...prevErrors,
@@ -141,13 +131,7 @@ const Login = ({ socket }) => {
     };
 
     const handlePasswordChange = (e) => {
-        // setPassword(e.target.value);
-        // if (errors.password) {
-        //     setErrors((prevErrors) => ({
-        //         ...prevErrors,
-        //         password: '',
-        //     }));
-        // }
+       
         if (e.target.value.length <= 25) {
             setPassword(e.target.value);
             if (errors.password) {
@@ -228,7 +212,7 @@ const Login = ({ socket }) => {
                     </Link>
                     <div className={styles.loginFormMainButtons}>
 
-                        {/* <button type='button' className='login-form-main-cancel' onClick={handleCancel}>Cancel</button> */}
+                        
                         <button
                             type='submit'
                             className={styles.loginFormMainLogin}
