@@ -231,13 +231,13 @@ const Buy = () => {
   };
 
   const toggleAccordion = () => {
-    setIsOpen(true); // Toggle the accordion state
+    setIsOpen(true); 
   };
 
   return (
     <>
       <div className={styles.main}>
-        {/* <div className={styles.heading}>Buy</div> */}
+       
 
         {/* Render breadcrumbs */}
         <div className={styles.breadcrumbSection}>
@@ -285,14 +285,7 @@ const Buy = () => {
               Secondary Market
             </div>
           </div>
-          {/* Conditionally render the filter button */}
-          {/* {(activeButton === "product" || activeButton === "market") && (
-            <div className={styles.innerSection}>
-              <button className={styles.filterButton} onClick={toggleAccordion}>
-                <HiOutlineFilter className={styles.filterIcon} />
-              </button>
-            </div>
-          )} */}
+       
         </div>
 
         {activeButton === "seller" && <BuySeller active={activeButton} />}

@@ -74,9 +74,6 @@
   cursor: pointer !important;
 }
 
-.mainPurchaseSectionFilter {
-}
-
 .ResetButton {
   border: 1px solid #d3d3d3;
   border-radius: 4px;
@@ -121,7 +118,6 @@
 .ProductMainContainer2 {
   background-color: #f9f9fa;
   border-radius: 4px;
-  /* box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important; */
   padding: 26px 30px;
   width: 100%;
   display: flex;
@@ -207,10 +203,6 @@
   display: flex;
   justify-content: space-between;
   align-items: start;
-  /* background-color: #fff;
-    border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
-    padding: 26px 30px; */
 }
 
 .medicineName {
@@ -576,8 +568,7 @@
   height: auto;
 }
 
-.mainPurchaseSection {
-}
+
 
 .PurcahseButton {
   align-items: center;

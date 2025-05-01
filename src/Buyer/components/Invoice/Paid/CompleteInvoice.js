@@ -204,7 +204,7 @@ const CompleteInvoice = ({
           activePage={currentPage}
           itemsCountPerPage={invoicesPerPage}
           totalItemsCount={totalInvoices || invoiceList.length}
-          pageRangeDisplayed={5}
+          pageRangeDisplayed={8}
           onChange={handlePageChange}
         />
       )}

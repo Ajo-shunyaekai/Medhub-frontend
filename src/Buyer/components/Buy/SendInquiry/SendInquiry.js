@@ -57,7 +57,7 @@ const SendInquiry = ({socket}) => {
 
     postRequestWithToken('buyer/delete-list-item', obj, async (response) => {
       if (response?.code === 200) {
-        // setCartCount(response.result.listCount)
+        
         localStorage?.setItem('list_count', response.result.listCount)
         dispatch(updateInquiryCartCount(response.result.listCount))
         toast(response.message, { type: "success" });
@@ -93,7 +93,7 @@ const SendInquiry = ({socket}) => {
         setList(response?.result?.data);
         setTotalItems(response?.result?.totalItems);
 
-        // Set initial checked state
+       
         const initialCheckedState = {};
         response?.result?.data.forEach(supplier => {
           supplier.item_details.forEach(item => {
@@ -160,7 +160,7 @@ const SendInquiry = ({socket}) => {
     setButtonLoading(true)
     postRequestWithToken('buyer/send-enquiry', enquiryPayload, async (response) => {
       if (response?.code === 200) {
-        // toast(response.message, { type: "success" });
+       
         enquiryPayload.items.forEach(item => {
           socket.emit('sendInquiry', {
             supplierId: item.supplier_id, // The supplier to be notified
@@ -173,13 +173,7 @@ const SendInquiry = ({socket}) => {
         setCurrentPage(1);
         setRefreshTrigger(prev => !prev);
 
-        // enquiryPayload.items.forEach(item => {
-        //   socket.emit('sendInquiry', {
-        //     supplierId: item.supplier_id, // The supplier to be notified
-        //     message: 'You have a new inquiry from a buyer!',
-        //     // send other details if needed
-        //   });
-        // });
+      
         navigate("/buyer/thank-you", { state: { from: 'order' } });
         localStorage?.setItem('list_count', response.result.listCount)
         dispatch(updateInquiryCartCount(response.result.listCount))
@@ -258,9 +252,7 @@ const SendInquiry = ({socket}) => {
                           <div className='send-enquiry-inner-top-head-section'>
                             <span className='send-enquiry-inner-top-heading'>{product?.medicine_name}</span>
                           </div>
-                          {/* <div className='send-enquiry-inner-top-text-section'>
-                            <span className='send-enquiry-inner-top-supplier'>{supplierData?.supplier_details?.supplier_name}</span>
-                          </div> */}
+                        
                         </div>
                         <div className='send-enquiry-inner-bottom-section'>
                           <div className='send-enquiry-inner-bottom-container'>

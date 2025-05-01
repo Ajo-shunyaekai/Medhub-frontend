@@ -18,7 +18,7 @@ const ProductButton = () => {
     const [medicineList, setMedicineList] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalItems, setTotalItems] = useState(0);
-    const itemsPerPage = 6;
+    const itemsPerPage = 5;
 
     // Get active button from path
     const getActiveButtonFromPath = (path) => {

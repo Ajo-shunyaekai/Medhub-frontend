@@ -136,12 +136,9 @@
     display: inline-block;
     position: relative;
     padding-left: 30px;
-    /* Adjust this value as needed */
     margin-bottom: 12px;
-    cursor: pointer !important;
-    ;
+    cursor: pointer !important;;
     font-size: 22px;
-    /* Adjust this value as needed */
     user-select: none;
 }
 
@@ -172,7 +169,7 @@
 .custom-checkbox-label input:checked~.custom-checkbox-checkmark {
     background-color: #2196F3;
     border: 1px solid #2196F3;
-    /* Change this value as needed */
+   
 }
 
 .custom-checkbox-checkmark:after {

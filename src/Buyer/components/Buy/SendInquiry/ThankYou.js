@@ -9,19 +9,15 @@ const ThankYou = () => {
   const { from } = location.state || {};
 
   useEffect(() => {
-    // Push the dashboard route to the history stack
-    // This ensures the back button will navigate to the dashboard
+   
     window.history.pushState(null, '', window?.location?.pathname);
 
-    // Handle the popstate event (browser back button)
     const handleBackButton = (e) => {
       e.preventDefault();
       navigate('/buyer/buy/new-products');
     };
 
     window.addEventListener('popstate', handleBackButton);
-
-    // Cleanup listener when component unmounts
     return () => {
       window.removeEventListener('popstate', handleBackButton);
     };

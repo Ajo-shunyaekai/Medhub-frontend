@@ -18,7 +18,7 @@ const Invoice = ({ socket }) => {
   const [invoiceList, setInvoiceList] = useState([]);
   const [totalInvoices, setTotalInvoices] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const invoicesPerPage = 10;
+  const invoicesPerPage = 8;
 
   useEffect(() => {
     const getActiveLinkFromPath = (path) => {

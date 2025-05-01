@@ -37,7 +37,7 @@ const SearchProductDetails = () => {
   useEffect(() => {
     if (id) {
       dispatch(fetchProductDetail(`product/${id}`));
-      // dispatch(fetchSupplierProductsList(`product/get-suppliers?id=${id}&page_no=${currentPage}&page_size=${itemsPerPage}`));
+     
     }
   }, [id, dispatch]);
 
@@ -58,7 +58,7 @@ const SearchProductDetails = () => {
 
   // Update filtered data when productDetail changes
   useEffect(() => {
-    // Assuming productDetail.data or productDetail contains the supplier/product list
+  
     const dataToFilter = productDetail?.data || [productDetail] || [];
     setFilteredData(dataToFilter);
   }, [productDetail]);
@@ -70,9 +70,9 @@ const SearchProductDetails = () => {
 
   // Search handlers
   const handleInputChange = (e) => {
-    // setInputValue(e.target.value);
+   
     const input = e.target.value;
-        // if(input.length <= 10) {
+       
             setInputValue(e.target.value)
  
         if (e.target.value === '') {
@@ -81,11 +81,7 @@ const SearchProductDetails = () => {
   };
 
   const handleProductSearch = () => {
-    // const dataToFilter = productDetail?.data || [productDetail] || [];
-    // const filtered = dataToFilter.filter((item) =>
-    //   item?.general?.name?.toLowerCase().includes(inputValue.toLowerCase())
-    // );
-    // setFilteredData(filtered);
+   
     setSearchKey(inputValue)
     setCurrentPage(1)
   };
@@ -102,11 +98,11 @@ const SearchProductDetails = () => {
 
   // Filter handlers (minimal implementation, adjust as per your needs)
   const handlePriceRange = (selectedValues) => {
-    // Add filtering logic here if needed
+    
   };
 
   const handleDeliveryTime = (selectedValues) => {
-    // Add filtering logic here if needed
+    
   };
 
   const handleStockedIn = (selectedValues) => {
@@ -395,11 +391,9 @@ const SearchProductDetails = () => {
         <SupplierMedicineCard
             medicineList={medicineList}
             currentPage={currentPage}
-            // totalItems={filteredData.length}
             totalItems={totalItems}
             itemsPerPage={itemsPerPage}
             onPageChange={handlePageChange}
-            // isSecondaryMarket={productData?.market === "secondary"}
           />
      
     </div>
