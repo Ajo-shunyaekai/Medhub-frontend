@@ -27,7 +27,7 @@ const PendingInvoicesList = () => {
   const [invoiceList, setInvoiceList] = useState([]);
   const [totalInvoices, setTotalInvoices] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [ordersPerPage, setOrdersPerPage] = useState(10);
+  const [ordersPerPage, setOrdersPerPage] = useState(8);
 
   const iframeRef = useRef(null);
 
@@ -231,7 +231,7 @@ const PendingInvoicesList = () => {
               activePage={currentPage}
               itemsCountPerPage={ordersPerPage}
               totalItemsCount={totalInvoices}
-              pageRangeDisplayed={10}
+              pageRangeDisplayed={8}
               onChange={(pageNumber) => setCurrentPage(pageNumber)}
             />
           )}

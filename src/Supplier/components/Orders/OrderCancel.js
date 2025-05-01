@@ -26,14 +26,7 @@ const OrderCancel = ({ setModal, orderId,  activeLink }) => {
     };
 
     const handleCancel = () => {
-    //     const buyerIdSessionStorage = localStorage?.getItem("supplier_id");
-    //     const buyerIdLocalStorage   = localStorage?.getItem("buyer_id");
-
-    // if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-    // localStorage?.clear();
-    //   navigate("/supplier/login");
-    //   return;
-    // }
+   
         if (reason.trim() === '') {
             setError('Reason is required');
             return;
@@ -41,19 +34,6 @@ const OrderCancel = ({ setModal, orderId,  activeLink }) => {
         setError('');
 
 
-    //     const obj = {
-    //         buyer_id   : buyerIdLocalStorage || buyerIdSessionStorage,
-    //         order_id   : orderId,
-    //         order_type : activeLink,
-    //         reason     : reason
-    //     }
-
-        // postRequestWithToken('buyer/order/cancel-order', obj, async (response) => {
-        //     if (response?.code === 200) {
-
-        //     } else {
-        //     }
-        //   })
         setModal(false)
     }
 

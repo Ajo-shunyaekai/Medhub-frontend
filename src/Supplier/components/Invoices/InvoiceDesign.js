@@ -123,7 +123,7 @@ function InvoiceDesign() {
                                                             (invoiceDetails?.supplier_registered_address?.city || invoiceDetails?.supplier_registered_address?.state || invoiceDetails?.supplier_registered_address?.pincode || invoiceDetails?.supplier_registered_address?.country) &&
                                                             <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac' }}>{invoiceDetails?.supplier_registered_address?.city} {invoiceDetails?.supplier_registered_address?.state} {invoiceDetails?.supplier_registered_address?.pincode} {invoiceDetails?.supplier_registered_address?.country} </p>
                                                         }
-                                                        {/* <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>United Arab Emirates</p> */}
+                                                       
                                                         <td style={{ display: 'flex', justifyContent: 'start' }}>
                                                             <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>VAT Reg No :</p>
                                                             <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>&nbsp;{invoiceDetails?.supplier_vat_reg_no}</p>
@@ -138,7 +138,7 @@ function InvoiceDesign() {
                                                             (invoiceDetails?.buyer_registered_address?.city || invoiceDetails?.buyer_registered_address?.state || invoiceDetails?.buyer_registered_address?.pincode || invoiceDetails?.buyer_registered_address?.country) &&
                                                             <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac' }}>{invoiceDetails?.buyer_registered_address?.city} {invoiceDetails?.buyer_registered_address?.state} {invoiceDetails?.buyer_registered_address?.pincode} {invoiceDetails?.buyer_registered_address?.country} </p>
                                                         }
-                                                        {/* <p style={{ fontSize: '13px', color: '#99a0ac', lineHeight: '16px', textAlign: 'end', paddingTop: '6px' }}>Dubai (United Arab Emirates)</p> */}
+                                                      
                                                         <td style={{ display: 'flex', justifyContent: 'end' }}>
                                                             <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>VAT Reg No :</p>
                                                             <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>&nbsp;{invoiceDetails?.buyer_vat_reg_no}</p>
@@ -210,18 +210,7 @@ function InvoiceDesign() {
                                                                     <td style={{ width: '550px' }} >
                                                                         <table style={{ width: '100%', borderSpacing: 0, }}>
                                                                             <tbody>
-                                                                                {/* <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>
-                                                                                    <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Subtotal :</p>
-                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>200 USD</p>
-                                                                                </tr>
-                                                                                <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>
-                                                                                    <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Tax :</p>
-                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>5%</p>
-                                                                                </tr>
-                                                                                <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', paddingTop: '8px' }}>
-                                                                                    <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>VAT @ 20% :</p>
-                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>4400 USD</p>
-                                                                                </tr> */}
+                                                                              
                                                                                 <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', paddingTop: '6px' }}>
                                                                                     <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500', paddingBottom: '10px' }}>Total Amount Payable   :</p>
                                                                                     <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', paddingBottom: '10px', width: '100px' }}>{invoiceDetails?.total_payable_amount} USD</p>
@@ -257,14 +246,7 @@ function InvoiceDesign() {
                                                     })
                                                 }
                                                
-                                                {/* <p style={{ position: 'relative', paddingLeft: '20px' }}>
-                                                    <span style={{ position: 'absolute', left: '0', top: '0', fontSize: '22px' }}>•</span>
-                                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                                </p>
-                                                <p style={{ position: 'relative', paddingLeft: '20px' }}>
-                                                    <span style={{ position: 'absolute', left: '0', top: '0', fontSize: '22px' }}>•</span>
-                                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                                </p> */}
+                                              
                                             </div>
                                         </td>
                                     </tr>

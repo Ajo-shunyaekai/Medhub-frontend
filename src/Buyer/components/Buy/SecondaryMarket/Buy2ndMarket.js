@@ -60,10 +60,7 @@ const Buy2ndMarket = ({
     setCurrentPage(pageNumber);
   };
 
-  // const handleCategoryFilter = (category) => {
-  //     setFilterCategory(category);
-  //     setCurrentPage(1);
-  // };
+ 
 
   useEffect(() => {
     const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
@@ -91,7 +88,7 @@ const Buy2ndMarket = ({
             const { category, subCategory, level3Category } =
               filterCategory || {};
             const response = await dispatch(
-              // fetchProductsList(`product?market=${marketType}&page_no=${currentPage}&page_size=${itemsPerPage}&search_key=${searchKey}&category=${filterCategory || ''}`)
+            
               fetchProductsList(
                 `product?market=${marketType}&page_no=${currentPage}&page_size=${itemsPerPage}&search_key=${
                   searchKey || ""

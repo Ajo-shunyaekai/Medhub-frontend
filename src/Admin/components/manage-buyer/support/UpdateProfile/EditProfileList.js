@@ -12,7 +12,7 @@ const EditProfileList = () => {
   const dispatch = useDispatch();
   const { profileEditReqs } = useSelector((state) => state?.adminReducer);
   const [currentPage, setCurrentPage] = useState(1);
-  const reqsPerPage = 10;
+  const reqsPerPage = 8;
   const indexOfLastReq = currentPage * reqsPerPage;
   const indexOfFirstReq = indexOfLastReq - reqsPerPage;
   const currentReqs = profileEditReqs?.slice(indexOfFirstReq, indexOfLastReq);
@@ -112,7 +112,7 @@ const EditProfileList = () => {
           activePage={currentPage}
           itemsCountPerPage={reqsPerPage}
           totalItemsCount={profileEditReqs?.length || 0}
-          pageRangeDisplayed={5}
+          pageRangeDisplayed={8}
           onChange={handlePageChange}
         />
       )}

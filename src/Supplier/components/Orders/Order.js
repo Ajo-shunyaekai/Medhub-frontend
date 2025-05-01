@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styles from "../../assets/style/secondsidebar.module.css";
 import { TbReorder } from "react-icons/tb";
-import OrderRequest from './OrderRequest';
 import ActiveOrders from './ActiveOrders/ActiveOrder';
 import CompletedOrders from './CompletedOrders/CompleteOrder';
 import Loader from '../SharedComponents/Loader/Loader';
@@ -18,7 +17,7 @@ const Order = () => {
     const [orderList, setOrderList] = useState([])
     const [totalOrders, setTotalOrders] = useState()
     const [currentPage, setCurrentPage] = useState(1);
-    const ordersPerPage = 10;
+    const ordersPerPage = 8;
 
     const getActiveLinkFromPath = (path) => {
         switch (path) {
@@ -27,7 +26,7 @@ const Order = () => {
             case '/supplier/order/completed':
                 return 'completed';
             default:
-                return 'order-request';
+                return 'active';
         }
     };
 
@@ -43,7 +42,7 @@ const Order = () => {
                 navigate('/supplier/order/completed');
                 break;
             default:
-                navigate('/supplier/order/order-request');
+                navigate('/supplier/order/active');
         }
     };
 
@@ -150,15 +149,7 @@ const Order = () => {
                                             handlePageChange={handlePageChange}
                                             activeLink={activeLink}
                                         />
-                                        : activeLink === 'order-request' ?
-                                            <OrderRequest
-                                                orderList={orderList}
-                                                totalOrders={totalOrders}
-                                                currentPage={currentPage}
-                                                ordersPerPage={ordersPerPage}
-                                                handlePageChange={handlePageChange}
-                                                activeLink={activeLink}
-                                            /> : ''
+                                       : ''
                             }
                         </div>
                     </div>

@@ -49,13 +49,6 @@ const RangeDatePicker = () => {
                     minDate={startDate}
                 />
             </div>
-            {/* <div className='date-time-section'>
-                {startDate && endDate && (
-                    <p>
-                        Selected Range: {startDate.toLocaleDateString()} to {endDate.toLocaleDateString()}
-                    </p>
-                )}
-            </div> */}
         </div>
     );
 };

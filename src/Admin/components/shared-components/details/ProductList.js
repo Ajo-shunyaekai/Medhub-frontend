@@ -14,8 +14,6 @@ const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject, i
         { productId: 'PR1234567', productName: 'Paracetamol', quantity: 200, totalAmount: '500 USD' },
         { productId: 'PR1234567', productName: 'Paracetamol', quantity: 200, totalAmount: '500 USD' },
     ];
-
-    // const data = orderItems && orderItems.length > 0 ? orderItems : activeOrders;
     const data = orderItems && orderItems?.length > 0 ? orderItems : quotationItems && quotationItems?.length > 0 ? quotationItems : activeOrders;
 
     const indexOfLastOrder = currentPage * ordersPerPage;

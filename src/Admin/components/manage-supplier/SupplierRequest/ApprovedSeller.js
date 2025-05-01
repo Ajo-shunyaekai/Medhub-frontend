@@ -19,7 +19,7 @@ const ApprovedSeller = () => {
     const adminIdLocalStorage = localStorage?.getItem('admin_id');
 
     const [currentPage, setCurrentPage] = useState(1);
-    const listPerPage = 10;
+    const listPerPage = 8;
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -183,13 +183,13 @@ const ApprovedSeller = () => {
                         pagination={false}
                         responsive
                     />
-                    {/* Conditionally render PaginationComponent only if sellerList has data */}
+                  
                     {sellerList.length > 0 && (
                         <PaginationComponent
                             activePage={currentPage}
                             itemsCountPerPage={listPerPage}
                             totalItemsCount={totalSellers}
-                            pageRangeDisplayed={5}
+                            pageRangeDisplayed={8}
                             onChange={handlePageChange}
                         />
                     )}

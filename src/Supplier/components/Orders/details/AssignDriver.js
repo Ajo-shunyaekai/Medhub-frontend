@@ -3,7 +3,7 @@ import PaginationComponent from '../../SharedComponents/Pagination/Pagination';
 
 const AssignDriver = ({ productList }) => {
     const [currentPage, setCurrentPage] = useState(1);
-    const ordersPerPage = 1;
+    const ordersPerPage = 3;
     const data = productList && productList.length > 0 ? productList : activeOrders;
 
     const indexOfLastOrder = currentPage * ordersPerPage;
@@ -65,7 +65,7 @@ const AssignDriver = ({ productList }) => {
                     activePage={currentPage}
                     itemsCountPerPage={ordersPerPage}
                     totalItemsCount={data.length}
-                    pageRangeDisplayed={5}
+                    pageRangeDisplayed={3}
                     onChange={handlePageChange}
                 />
             </div>

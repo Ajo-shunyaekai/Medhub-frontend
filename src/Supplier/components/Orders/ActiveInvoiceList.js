@@ -7,7 +7,7 @@ import styles from "../../assets/style/table.module.css";
 
 const ActiveInvoiceList = ({ invoiceData }) => {
     const [currentPage, setCurrentPage] = useState(1);
-    const ordersPerPage = 10;
+    const ordersPerPage = 8;
 
     // Pagination calculations
     const indexOfLastOrder = currentPage * ordersPerPage;
@@ -124,7 +124,7 @@ const ActiveInvoiceList = ({ invoiceData }) => {
                     activePage={currentPage}
                     itemsCountPerPage={ordersPerPage}
                     totalItemsCount={invoiceData.length}
-                    pageRangeDisplayed={5}
+                    pageRangeDisplayed={8}
                     onChange={handlePageChange}
                 />
             )}

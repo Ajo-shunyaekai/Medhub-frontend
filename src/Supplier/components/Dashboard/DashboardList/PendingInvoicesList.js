@@ -20,7 +20,7 @@ const PendingInvoicesList = () => {
   const [invoiceList, setInvoiceList] = useState([]);
   const [totalInvoices, setTotalInvoices] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const invoicesPerPage = 10;
+  const invoicesPerPage = 8;
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -241,7 +241,7 @@ const PendingInvoicesList = () => {
                 activePage={currentPage}
                 itemsCountPerPage={invoicesPerPage}
                 totalItemsCount={totalInvoices}
-                pageRangeDisplayed={5}
+                pageRangeDisplayed={8}
                 onChange={handlePageChange}
               />
             )}

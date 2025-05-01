@@ -59,7 +59,6 @@ const ActiveSellerOrder = ({ orderList, totalOrders, currentPage, ordersPerPage,
     },
   ];
 
-  // Check if there is data in orderList
   const hasData = orderList && orderList.length > 0;
 
   return (
@@ -110,7 +109,7 @@ const ActiveSellerOrder = ({ orderList, totalOrders, currentPage, ordersPerPage,
           activePage={currentPage}
           itemsCountPerPage={ordersPerPage}
           totalItemsCount={totalOrders}
-          pageRangeDisplayed={10}
+          pageRangeDisplayed={8}
           onChange={handlePageChange}
         />
       )}

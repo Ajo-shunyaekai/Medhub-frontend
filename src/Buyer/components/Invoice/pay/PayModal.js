@@ -190,7 +190,7 @@ function PayModal({ showModal, handleClose, invoiceId, orderId, buyerId, supplie
         errors.modeOfPayment = modeOfPayment === '' ? 'Mode of Payment is required' : '';
         errors.amount = !validateAmount(amount) ? 'Amount Paid is Required' : '';
         errors.transactionId = !validateTransactionId(transactionId) ? 'Transaction ID is Required' : '';
-        // errors.date = !validateDate(date) ? 'Date is Required' : '';
+       
         errors.date =  date === '' ? 'Date is Required' : '';
         errors.image = !isImageUploaded ? 'Image is Required' : '';
 

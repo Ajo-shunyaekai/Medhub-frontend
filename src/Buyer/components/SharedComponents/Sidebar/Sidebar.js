@@ -242,15 +242,7 @@ const Sidebar = ({ children, dragWindow,
     // ======================
 
 
-    const updateStatusApi = (id) => {
-        // postRequestWithToken('buyer/update-notification-status', obj, (response) => {
-        //             if (response?.code === 200) {
-        //                 // setNotificationList(response.result.data);
-        //                 // setCount(response.result.totalItems || 0)
-        //             } else {
-        //             }
-        //         });
-    }
+   
 
     const handleNavigation = (notificationId, event, eventId, linkId) => {
         const eventRoutes = {
@@ -266,8 +258,7 @@ const Sidebar = ({ children, dragWindow,
         setIsNotificationOpen(false);
         navigate(route);
 
-        // Uncomment this line if needed
-        // handleClick(notificationId, event);
+       
     };
 
 
@@ -363,10 +354,7 @@ const Sidebar = ({ children, dragWindow,
                                                                     <span>{data.message}</span>
                                                                 )}
                                                             </div>
-                                                            {/* <div className={styles.noti_profile}>
-                                                                <span className={styles.noti_time}>11:12</span>
-                                                                <span className={styles.noti_time}>16-12-2024</span>
-                                                            </div> */}
+                                                          
                                                         </div>
                                                     ))
                                                 ) : (
@@ -426,25 +414,9 @@ const Sidebar = ({ children, dragWindow,
                                                     </Link>
                                                 </div>
                                                 <div>
-                                                    {/* <Link
-                                                        to="/buyer/subscription"
-                                                        onClick={() => setIsProfileOpen(false)}
-                                                    >
-                                                        <div className={styles.profile_text}>Subscription</div>
-                                                    </Link> */}
+                                                  
                                                 </div>
-                                                {/* <div className={styles.invoice_container}>
-                                                    <Link
-                                                        to="/buyer/invoice/pending-invoice"
-                                                        className={styles.invoice_container}
-                                                        onClick={() => setIsProfileOpen(false)} 
-                                                    >
-                                                        <div className={styles.profile_text}>Invoice</div>
-                                                        <div className={styles.total_invoice}>
-                                                            {invoiceCount || 0}
-                                                        </div>
-                                                    </Link>
-                                                </div> */}
+                                               
                                             </div>
                                             <div
                                                 className={styles.profile_sign_out}
@@ -460,7 +432,7 @@ const Sidebar = ({ children, dragWindow,
                                 )}
                             </div>
 
-                            {/* <MenuOutlinedIcon className="nav_icon_color_two_3" onClick={toggle} /> */}
+                          
                             <MenuOutlinedIcon className={styles.nav_icon_color_two_3} onClick={toggleDrawer(true)} />
                         </div>
                     </div>
@@ -530,10 +502,7 @@ const Sidebar = ({ children, dragWindow,
                             <div className={styles.icon}><LocalShippingOutlinedIcon style={{ color: '#f4c414', fontSize: '20px' }} /></div>
                             <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>My Supplier</div>
                         </Link>
-                        {/* <Link to="/buyer/subscription" className={styles.sidebar_text} activeclassname={styles.active}>
-                            <div className={styles.icon}><SubscriptionsOutlinedIcon style={{ color: '#14bae4', fontSize: '20px' }} /></div>
-                            <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Subscription</div>
-                        </Link> */}
+                     
                         <Link to="/buyer/invoice" className={styles.sidebar_text} activeclassname={styles.active}>
                             <div className={styles.icon}><DescriptionOutlinedIcon style={{ color: '#F54394', fontSize: '20px' }} /></div>
                             <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Invoice</div>

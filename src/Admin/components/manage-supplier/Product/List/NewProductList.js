@@ -116,7 +116,7 @@ const NewProductList = ({ products, totalItems, currentPage, itemsPerPage, handl
                     activePage={currentPage}
                     itemsCountPerPage={itemsPerPage}
                     totalItemsCount={totalItems}
-                    pageRangeDisplayed={10}
+                    pageRangeDisplayed={8}
                     onChange={handlePageChange}
                 />
             )}

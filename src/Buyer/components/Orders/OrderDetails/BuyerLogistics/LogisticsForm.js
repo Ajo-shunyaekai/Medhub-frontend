@@ -127,7 +127,7 @@ const LogisticsForm = ({socket}) => {
           socket.emit('bookLogistics', {
             supplierId : orderDetails?.supplier_id, 
             orderId  : orderId,
-            // poId : purchaseOrderId,
+          
             message    : `Drop details submitted for ${orderId}`,
             link       : process.env.REACT_APP_PUBLIC_URL
         });

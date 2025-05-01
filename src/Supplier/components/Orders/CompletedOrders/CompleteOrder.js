@@ -121,7 +121,7 @@ const CompleteOrder = ({ orderList, totalOrders, currentPage, ordersPerPage, han
                     activePage={currentPage}
                     itemsCountPerPage={ordersPerPage}
                     totalItemsCount={totalOrders}
-                    pageRangeDisplayed={5}
+                    pageRangeDisplayed={8}
                     onChange={handlePageChange}
                 />
             )}

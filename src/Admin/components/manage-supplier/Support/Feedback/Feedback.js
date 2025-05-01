@@ -89,7 +89,7 @@ const Feedback = ({ supportList, handlePageChange, currentPage, totalItems, list
                     activePage={currentPage}
                     itemsCountPerPage={listPerPage}
                     totalItemsCount={totalItems}
-                    pageRangeDisplayed={10}
+                    pageRangeDisplayed={8}
                     onChange={handlePageChange}
                 />
             )}

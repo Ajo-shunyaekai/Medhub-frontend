@@ -88,7 +88,7 @@ const Complaint = ({ supportList, handlePageChange, currentPage, totalItems, lis
                     activePage={currentPage}
                     itemsCountPerPage={listPerPage}
                     totalItemsCount={totalItems}
-                    pageRangeDisplayed={5}
+                    pageRangeDisplayed={8}
                     onChange={handlePageChange}
                 />
             )}

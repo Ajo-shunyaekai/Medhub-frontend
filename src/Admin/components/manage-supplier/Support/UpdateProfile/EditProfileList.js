@@ -13,7 +13,7 @@ const EditProfileList = () => {
   const { profileEditReqs, loading } = useSelector((state) => state?.adminReducer);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const reqsPerPage = 10;
+  const reqsPerPage = 8;
 
   const columns = [
     {
@@ -122,7 +122,7 @@ const EditProfileList = () => {
           activePage={currentPage}
           itemsCountPerPage={reqsPerPage}
           totalItemsCount={profileEditReqs?.length || 0}
-          pageRangeDisplayed={10}
+          pageRangeDisplayed={8}
           onChange={handlePageChange}
         />
       )}

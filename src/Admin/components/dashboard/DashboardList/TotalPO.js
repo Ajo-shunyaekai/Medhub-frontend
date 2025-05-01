@@ -22,7 +22,7 @@ const TotalPO = () => {
   const [list, setList] = useState([]);
   const [totalList, setTotalList] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const listPerPage = 10;
+  const listPerPage = 8;
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -159,7 +159,7 @@ const TotalPO = () => {
               activePage={currentPage}
               itemsCountPerPage={listPerPage}
               totalItemsCount={totalList}
-              pageRangeDisplayed={10}
+              pageRangeDisplayed={8}
               onChange={handlePageChange}
             />
           )}

@@ -57,12 +57,12 @@ function InvoiceTemplate({ invoice }) {
     useEffect(() => {
         // Function to handle messages from parent window
         const handleMessage = (event) => {
-            // Only accept messages from our own domain
+           
             if (event.origin !== window?.location?.origin) return;
             
-            // Check if this is a download request
+           
             if (event.data && event.data.type === "DOWNLOAD_INVOICE") {
-                // Notify parent that invoice is ready
+             
                 window.parent.postMessage({
                     type: "INVOICE_READY",
                     invoiceId: invoiceId
@@ -75,9 +75,9 @@ function InvoiceTemplate({ invoice }) {
         // Listen for messages from parent window
         window.addEventListener('message', handleMessage);
         
-        // If we're loaded in an iframe, notify parent that we're ready
+       
         if (window.self !== window.top) {
-            // We're in an iframe
+          
             setTimeout(() => {
                 window.parent.postMessage({
                     type: "INVOICE_READY", 
@@ -115,8 +115,7 @@ function InvoiceTemplate({ invoice }) {
                                 </tr>
                             </thead>
                             <tbody>
-                                {/* Rest of your invoice table structure remains the same */}
-                                {/* I'm keeping this simplified to focus on the key fixes */}
+                               
                                 <tr>
                                     <td>
                                         <table style={{ padding: '20px 16px', width: '100%', borderRadius: '12px', tableLayout: 'fixed', marginTop: '20px' }}>

@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import './login.css';
+// import './login.css';
+import styles from './Login.module.css';
 import logo from '../../../assets/images/navibluelogo.svg';
 import { Link } from 'react-router-dom';
 import { apiRequests } from '../../../../api/index';
@@ -35,10 +36,7 @@ const Login = ({ socket }) => {
 
         if (!password) {
             newErrors.password = 'Password is Required';
-            // } else if (!/(?=.*[A-Z])/.test(password)) {
-            //     newErrors.password = 'Password must contain at least one uppercase letter';
-            // } else if (!/(?=.*[!@#$%^&*])/.test(password)) {
-            //     newErrors.password = 'Password must contain at least one special character';
+            
         }
 
         return newErrors;
@@ -114,17 +112,10 @@ const Login = ({ socket }) => {
     };
 
     const handleEmailChange = (e) => {
-        // setEmail(e.target.value);
-        // if (errors.email) {
-        //     setErrors((prevErrors) => ({
-        //         ...prevErrors,
-        //         email: '',
-        //     }));
-        // }
+       
         if (e.target.value.length <= 50) {
             setEmail(e.target.value);
 
-            // Clear errors if email was previously invalid
             if (errors.email) {
                 setErrors((prevErrors) => ({
                     ...prevErrors,
@@ -140,13 +131,7 @@ const Login = ({ socket }) => {
     };
 
     const handlePasswordChange = (e) => {
-        // setPassword(e.target.value);
-        // if (errors.password) {
-        //     setErrors((prevErrors) => ({
-        //         ...prevErrors,
-        //         password: '',
-        //     }));
-        // }
+       
         if (e.target.value.length <= 25) {
             setPassword(e.target.value);
             if (errors.password) {
@@ -179,18 +164,18 @@ const Login = ({ socket }) => {
     }
 
     return (
-        <div className='login-main-container'>
+        <div className={styles.loginMainContainer}>
             {/* <ToastContainer /> */}
-            <div className='login-container-logo-section'>
+            <div className={styles.loginContainerLogoSection}>
                 <img src={logo} alt="Logo" />
             </div>
-            <div className='login-container-form-section'>
-                <div className='login-container-form-section-heading'>Buyer Login</div>
-                <form className='login-main-form-section' onSubmit={handleSubmit}>
-                    <div className='login-form-main-div'>
-                        <label className='login-form-main-label'>Email ID</label>
+            <div className={styles.loginContainerFormSection}>
+                <div className={styles.loginContainerFormSectionHeading}>Buyer Login</div>
+                <form className={styles.loginMainFormSection} onSubmit={handleSubmit}>
+                    <div className={styles.loginFormMainDiv}>
+                        <label className={styles.loginFormMainLabel}>Email ID</label>
                         <input
-                            className='login-form-main-input'
+                            className={styles.loginFormMainInput}
                             autoComplete='off'
                             type='text'
                             name='email'
@@ -198,13 +183,13 @@ const Login = ({ socket }) => {
                             value={email}
                             onChange={handleEmailChange}
                         />
-                        {errors.email && <span className="login-errors">{errors.email}</span>}
+                        {errors.email && <span className={styles.loginErrors}>{errors.email}</span>}
                     </div>
-                    <div className='login-form-main-div'>
-                        <label className='login-form-main-label'>Password</label>
-                        <div className='login-form-input-eye-container'>
+                    <div className={styles.loginFormMainDiv}>
+                        <label className={styles.loginFormMainLabel}>Password</label>
+                        <div className={styles.loginFormInputEyeContainer}>
                             <input
-                                className='login-form-main-input'
+                                className={styles.loginFormMainInput}
                                 type={showPassword ? 'text' : 'password'}
                                 autoComplete='off'
                                 name='password'
@@ -213,29 +198,29 @@ const Login = ({ socket }) => {
                                 onChange={handlePasswordChange}
                             />
                             {showPassword ? (
-                                <VisibilityOffIcon className='login-form-input-eye-icons' onClick={togglePasswordVisibility} />
+                                <VisibilityOffIcon className={styles.loginFormInputEyeIcons} onClick={togglePasswordVisibility} />
                             ) : (
-                                <VisibilityIcon className='login-form-input-eye-icons' onClick={togglePasswordVisibility} />
+                                <VisibilityIcon className={styles.loginFormInputEyeIcons} onClick={togglePasswordVisibility} />
                             )}
                         </div>
-                        {errors.password && <span className="login-errors">{errors.password}</span>}
+                        {errors.password && <span className={styles.loginErrors}>{errors.password}</span>}
                     </div>
                     <Link to='/buyer/forgot-password'>
-                        <div className='login-form-main-div'>
-                            <span className='login-form-main-password'>Forgot Password?</span>
+                        <div className={styles.loginFormMainDiv}>
+                            <span className={styles.loginFormMainPassword}>Forgot Password?</span>
                         </div>
                     </Link>
-                    <div className='login-form-main-buttons'>
+                    <div className={styles.loginFormMainButtons}>
 
-                        {/* <button type='button' className='login-form-main-cancel' onClick={handleCancel}>Cancel</button> */}
+                        
                         <button
                             type='submit'
-                            className='login-form-main-login'
+                            className={styles.loginFormMainLogin}
                             disabled={loading}
                         >
                             {/* Login */}
                             {loading ? (
-                                <div className='loading-spinner'></div>
+                                <div className={styles.loadingSpinner}></div>
                             ) : (
                                 'Login'
                             )}
@@ -243,11 +228,11 @@ const Login = ({ socket }) => {
 
                     </div>
                 </form>
-                <div className="header__center">OR</div>
-                <div className='login-form-main-signup'>
-                    <span className='login__signup__content'>Don't have an account?</span>
+                <div className={styles.headerCenter}>OR</div>
+                <div className={styles.loginFormMainSignup}>
+                    <span className={styles.loginSignupContent}>Don't have an account?</span>
                     <Link to='/buyer/sign-up'>
-                        <span className='login__signup__here'>&nbsp;Sign up here</span>
+                        <span className={styles.loginSignupHere}>&nbsp;Sign up here</span>
                     </Link>
                 </div>
             </div>

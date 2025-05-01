@@ -103,7 +103,7 @@ const BuyerPurchasedOrder = ({ poList, totalList, currentPage, listPerPage, hand
           activePage={currentPage}
           itemsCountPerPage={listPerPage}
           totalItemsCount={totalList}
-          pageRangeDisplayed={10}
+          pageRangeDisplayed={8}
           onChange={handlePageChange}
         />
       )}

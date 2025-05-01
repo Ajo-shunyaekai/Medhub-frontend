@@ -24,7 +24,6 @@
     position: relative;
     display: inline-block;
     width: 100%;
-    /* border: 2px solid red; */
   }
   
   .createpo-uploaded-image {
@@ -147,7 +146,6 @@
   
   @media screen and (max-width: 580px) {  
     .createpo-image-preview{
-      /* width: 100%; */
       width: 45%;
     }
   }

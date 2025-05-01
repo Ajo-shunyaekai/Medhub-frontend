@@ -97,7 +97,7 @@ const BuyerOngoingInquiry = ({ inquiryList, totalInquiries, currentPage, inquiri
                     activePage={currentPage}
                     itemsCountPerPage={inquiriesPerPage}
                     totalItemsCount={totalInquiries}
-                    pageRangeDisplayed={10}
+                    pageRangeDisplayed={8}
                     onChange={handlePageChange}
                 />
             )}

@@ -15,7 +15,7 @@ const PurchasedOrdersList = () => {
   const [modal, setModal] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [ordersPerPage] = useState(10);
+  const [ordersPerPage] = useState(8);
   const [poList, setPOList] = useState([]);
   const [totalPoList, setTotalPoList] = useState(0);
 
@@ -162,7 +162,7 @@ const PurchasedOrdersList = () => {
             activePage={currentPage}
             itemsCountPerPage={ordersPerPage}
             totalItemsCount={totalPoList}
-            pageRangeDisplayed={10}
+            pageRangeDisplayed={8}
             onChange={handlePageChange}
           />
         )}

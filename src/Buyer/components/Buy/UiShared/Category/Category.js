@@ -14,11 +14,7 @@ const AccordionFilter = ({
   selectedLevel3Category,
   setSelectedLevel3Category,
 }) => {
-//   const [selectedCategory, setSelectedCategory] = useState(null);
-//   const [selectedSubCategory, setSelectedSubCategory] = useState(null);
-//   const [selectedLevel3Category, setSelectedLevel3Category] = useState(null);
 
-  // Define category options from categoryArrays
   const categoryOptions = categoryArrays.map((cat) => ({
     value: cat.name,
     label: cat.name,

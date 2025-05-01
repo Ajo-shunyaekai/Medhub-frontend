@@ -692,7 +692,7 @@ const CreateInvoice = ({ socket }) => {
                 placeholder="Enter Total Payable Amount"
                 value={formData.totalPayableAmount}
                 onChange={handleChange}
-                // readOnly
+               
               />
               {errors.totalPayableAmount && (
                 <p style={{ color: "red", fontSize: "12px" }}>

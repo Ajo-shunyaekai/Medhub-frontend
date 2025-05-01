@@ -16,7 +16,7 @@ const NotificationList = () => {
     const [list, setList] = useState([]);
     const [totalItems, setTotalItems] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
-    const ordersPerPage = 10;
+    const ordersPerPage = 8;
 
     const indexOfLastOrder = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
@@ -166,7 +166,7 @@ const NotificationList = () => {
                             activePage={currentPage}
                             itemsCountPerPage={ordersPerPage}
                             totalItemsCount={totalItems}
-                            pageRangeDisplayed={5}
+                            pageRangeDisplayed={8}
                             onChange={handlePageChange}
                         />
                     )}

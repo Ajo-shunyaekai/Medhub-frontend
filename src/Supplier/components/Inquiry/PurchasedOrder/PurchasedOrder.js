@@ -117,7 +117,7 @@ const PurchasedOrder = ({ poList, totalPoList, currentPage, inquiryPerPage, hand
             activePage={currentPage}
             itemsCountPerPage={inquiryPerPage}
             totalItemsCount={totalPoList}
-            pageRangeDisplayed={5}
+            pageRangeDisplayed={8}
             onChange={handlePageChange}
           />
         )}

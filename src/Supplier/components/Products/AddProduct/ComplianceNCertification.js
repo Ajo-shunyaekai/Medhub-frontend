@@ -20,12 +20,11 @@ const useFileUpload = (
   const onDrop = useCallback(
     (acceptedFiles) => {
       setFieldValue(fieldInputName, acceptedFiles);
-      // setFieldValue("complianceFile", [...initialValues?.complianceFile, ...acceptedFiles]);
+     
       
       setFilesMerged2((prev) => {
         const totalFiles = [...prev, ...acceptedFiles].slice(0, 4); // Limit to maxFiles
-        // Update Formik state
-        // setFieldValue("complianceFile", totalFiles);
+      
         return totalFiles;
       });
       setFilesMerged(acceptedFiles); // Set the accepted files

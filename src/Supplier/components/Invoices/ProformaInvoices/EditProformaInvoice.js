@@ -57,7 +57,7 @@ const EditProformaInvoice = () => {
     setFormItems(newFormItems);
   };
 
-  // let grandTotalAmount = 0
+
 
   const {
     register,
@@ -78,16 +78,14 @@ const EditProformaInvoice = () => {
       supplierEmail: "",
       supplierMobile: "",
       newSupplierMobile: "",
-
-      // supplierRegNo: '',
       buyerName: "",
       buyerAddress: "",
       buyerEmail: "",
       buyerMobile: "",
       newBuyerMobile: "",
-      // buyerRegNo: '',
+      
       orderItems: [],
-      // description: ''
+     
     },
   });
 
@@ -113,7 +111,6 @@ const EditProformaInvoice = () => {
     setDueDate(formattedDueDate);
     setValue("invoiceDueDate", formattedDueDate);
 
-    // const storedItems = localStorage?.getItem('acceptedQuotationItems');
   }, [setValue]);
 
   useEffect(() => {
@@ -125,7 +122,7 @@ const EditProformaInvoice = () => {
     const obj = {
       supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
       purchaseOrder_id: purchaseOrderId,
-      // enquiry_id: inquiryId,
+     
     };
     postRequestWithToken(
       "purchaseorder/get-po-details",
@@ -145,8 +142,7 @@ const EditProformaInvoice = () => {
             "supplierEmail",
             response?.result?.supplier_details[0]?.contact_person_email
           );
-          // setValue('supplierMobile', response?.result?.supplier_details[0]?.contact_person_mobile_no);
-          // setValue('supplierCountryCode', response?.result?.supplier_details[0]?.contact_person_country_code);
+        
           const supplierDetails = response.result.supplier_details[0];
           const countryCode = supplierDetails.contact_person_country_code || "";
           const mobileNumber = supplierDetails.contact_person_mobile_no || "";
@@ -154,7 +150,7 @@ const EditProformaInvoice = () => {
           const newFormattedPhoneNumber = `${countryCode}-${mobileNumber}`;
           setValue("supplierMobile", formattedPhoneNumber);
           setValue("newSupplierMobile", newFormattedPhoneNumber);
-          // setValue('supplierRegNo',response?.result?.supplier_details[0]?.registration_no)
+       
           setValue("buyerName", response?.result?.buyer_details[0]?.buyer_name);
           setValue(
             "buyerAddress",
@@ -165,8 +161,7 @@ const EditProformaInvoice = () => {
             response?.result?.buyer_details[0]?.contact_person_email
           );
 
-          // setValue('buyerMobile', response?.result?.buyer_details[0]?.contact_person_mobile);
-          // setValue('buyerCountryCode', response?.result?.buyer_details[0]?.contact_person_country_code);
+        
           const buyerDetails = response.result.buyer_details[0];
           const buyerCountryCode =
             buyerDetails.contact_person_country_code || "";
@@ -176,14 +171,13 @@ const EditProformaInvoice = () => {
           setValue("buyerMobile", formattedBuyerPhoneNumber);
           setValue("newBuyerMobile", newFormattedBuyerPhoneNumber);
 
-          // setValue('buyerRegNo',response?.result?.buyer_details[0]?.registration_no)
           const totalDueAmount = response?.result?.order_items.reduce(
             (total, item) => total + parseFloat(item.total_amount),
             0
           );
           setValue("totalDueAmount", totalDueAmount?.toFixed(2));
           setValue("orderItems", response?.result?.order_items);
-          // setValue('paymentTerms', response?.result?.enquiry_details[0]?.payment_terms)
+          
           const paymentTermsString =
             response?.result?.enquiry_details[0]?.payment_terms?.join("\n"); // Join with newline or ', ' for comma-separated
           setValue("paymentTerms", paymentTermsString);
@@ -205,20 +199,7 @@ const EditProformaInvoice = () => {
       ...item,
       unit_tax: item?.medicine_details?.unit_tax,
     }));
-    // const newData = {
-    //     ...data,
-    //     value
-    // }
-    // const obj = {
-    //     supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
-    //     enquiry_id: inquiryDetails?.enquiry_id,
-    //     purchaseOrder_id: purchaseOrderId,
-    //     buyer_id: inquiryDetails?.buyer_id,
-    //     // itemIds     : itemId,
-    //     orderItems: updatedOrderItems,
-    //     data : newData,
-    //     totalAmount : roundedGrandTotalAmount
-    // };
+    
     const buyerDetails = inquiryDetails.buyer_details[0];
     const buyerCountryCode = buyerDetails.contact_person_country_code || "";
     const buyerMobileNumber = buyerDetails.contact_person_mobile || "";
@@ -265,16 +246,16 @@ const EditProformaInvoice = () => {
 
   const handleNumberInput = (event) => {
     const value = event.target.value;
-    // Remove any non-numeric characters
+   
     event.target.value = value.replace(/[^0-9]/g, "");
   };
 
   const grandTotalAmount = orderItems.reduce((total, item) => {
-    // Convert item.total_amount to a number and add to total
+ 
     return total + (parseFloat(item?.total_amount) || 0);
   }, 0);
 
-  // Optional: round grandTotalAmount to 2 decimal places
+  
   const roundedGrandTotalAmount = parseFloat(grandTotalAmount.toFixed(2));
 
   const formatPhoneNumber = (phoneNumber, countryCode) => {
@@ -295,7 +276,7 @@ const EditProformaInvoice = () => {
   };
 
   const handleBuyerPhoneChange = (value) => {
-    // Extract country code and mobile number from the value
+   
     const countryCode = value.split(" ")[0].replace("+", "");
     const mobileNumber = value.split(" ")[1] || "";
 
@@ -386,7 +367,7 @@ const EditProformaInvoice = () => {
                   validate: (value) =>
                     value?.trim() !== "" || "Deposit requested is required",
                 })}
-                // value={`USD ${watch('totalDueAmount') || ''}`}
+               
                 onInput={handleNumberInput}
               />
               {errors.depositRequested && (
@@ -451,12 +432,7 @@ const EditProformaInvoice = () => {
                 name="phoneinput"
                 value={watch("supplierMobile")}
                 onChange={(value) => setValue("supplierMobile", value)}
-                // {...register('supplierMobile', {
-                //     required: 'Supplier mobile is required',
-                //     validate: value => value?.trim() !== '' || 'Supplier mobile is required'
-                // })}
-                // {...register('supplierMobile', { validate: value => value?.trim() !== '' || 'Supplier mobile no. is required' })}
-                // onInput={(e) => e.target.value = e.target.value.replace(/[^0-9]/g, '')}
+               
               />
               {errors.supplierMobile && <p>{errors.supplierMobile.message}</p>}
             </div>
@@ -522,10 +498,9 @@ const EditProformaInvoice = () => {
                 defaultCountry="ae"
                 name="phoneinput"
                 value={watch("buyerMobile")}
-                // onChange={(value) => setValue('buyerMobile', value)}
+               
                 onChange={handleBuyerPhoneChange}
-                // {...register('buyerMobile', { validate: value => value?.trim() !== '' || 'Buyer mobile no. is required' })}
-                // onInput={(e) => e.target.value = e.target.value.replace(/[^0-9]/g, '')}
+               
               />
               {errors.buyerMobile && <p>{errors.buyerMobile.message}</p>}
             </div>
@@ -548,12 +523,9 @@ const EditProformaInvoice = () => {
           </div>
         </div>
         <div className={styles["create-invoice-section"]}>
-          {/* <div className={styles['create-invoice-add-item-cont']}>
-                        <div className={styles['create-invoice-form-heading']}>Add Item</div>
-                    </div> */}
+          
           {orderItems.map((item, index) => {
-            // grandTotalAmount += item?.total_amount
-            // grandTotalAmount = parseFloat(grandTotalAmount.toFixed(2));
+            
             return (
               <div className={styles["form-item-container"]} key={item.id}>
                 <div className={styles["create-invoice-div-container"]}>
@@ -621,11 +593,7 @@ const EditProformaInvoice = () => {
                     readOnly
                   />
                 </div>
-                {/* {formItems.length > 1 && (
-                                <div className={styles['create-invoice-close-btn']} onClick={() => removeFormItem(item.id)}>
-                                    <CloseIcon />
-                                </div>
-                            )} */}
+              
               </div>
             );
           })}
@@ -636,14 +604,7 @@ const EditProformaInvoice = () => {
               <label className={styles["create-invoice-div-label"]}>
                 Payment Terms
               </label>
-              {/* <textarea
-                                className={styles['create-invoice-div-input']}
-                                name="paymentTerms"
-                                rows="4"
-                                cols="10"
-                                placeholder='Enter Payment Terms'
-                                {...register('paymentTerms')}
-                            /> */}
+             
               <textarea
                 className={styles["create-invoice-div-input"]}
                 name="paymentTerms"
