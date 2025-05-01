@@ -58,10 +58,6 @@ const EditProfileList = () => {
     );
   }, [dispatch]);
 
-  // Debugging: Log profileEditReqs to ensure data is available
-  console.log("profileEditReqs:", profileEditReqs);
-  console.log("currentPage:", currentPage);
-
   // Calculate the current data slice
   const indexOfLastReq = currentPage * reqsPerPage;
   const indexOfFirstReq = indexOfLastReq - reqsPerPage;
@@ -71,7 +67,6 @@ const EditProfileList = () => {
 
   // Handle page change
   const handlePageChange = (pageNumber) => {
-    console.log("Changing to page:", pageNumber); // Debug page change
     setCurrentPage(pageNumber);
   };
 

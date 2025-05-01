@@ -208,8 +208,6 @@ const EditCertificate = ({
 
             const isPdf = fileExtension === "pdf";
 
-            console.log("fileExtension",fileExtension)
-
             return (
               <div key={index} className={styles.filePreview}>
                 {isImage ? (

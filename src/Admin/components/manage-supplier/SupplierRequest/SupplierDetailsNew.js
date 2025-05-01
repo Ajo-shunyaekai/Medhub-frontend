@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import { FaFilePdf, FaFileWord } from "react-icons/fa";
 import SupplierCustomModal from "./SupplierCustomModal";
 import { apiRequests } from "../../../../api/index";
+import { extractLast13WithExtension, renderFiles } from "../../../../utils/helper";
 const SupplierDetailsNew = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [supplierDetails, setSupplierDetails] = useState();
@@ -42,127 +43,7 @@ const SupplierDetailsNew = () => {
     setOpen(false);
     setPdfUrl(null);
   };
-  const extractFileName = (url) => {
-    return url.split("/")?.pop();
-  };
-  const renderFiles = (files, type, hasDate = false) => {
-    const serverUrl = process.env.REACT_APP_SERVER_URL;
-    if (!files || files.length === 0) {
-      return <p>No files available.</p>;
-    }
-    const isObjectArray =
-      files[0] && typeof files[0] === "object" && "file" in files[0];
-
-    return files.map((item, index) => {
-      const file = isObjectArray ? item.file : item;
-      const date = isObjectArray ? item.date : null;
-      if (
-        (file?.startsWith("http")
-          ? file?.replaceAll(process.env.REACT_APP_AWS_BUCKET_URL, "")
-          : file
-        )?.endsWith(".pdf")
-      ) {
-        return (
-          <div key={`${file}-${index}`} className="buyer-details-pdf-section">
-            <FaFilePdf
-              size={50}
-              color="red"
-              style={{ cursor: "pointer" }}
-              onClick={() =>
-                window.open(
-                  file?.startsWith("http")
-                    ? file
-                    : `${serverUrl}uploads/supplier/${type}/${file}`,
-                  "_blank"
-                )
-              }
-            />
-            <div>
-              <div
-                className="pdf-url"
-                onClick={() =>
-                  window.open(
-                    file?.startsWith("http")
-                      ? file
-                      : `${serverUrl}uploads/supplier/${type}/${file}`,
-                    "_blank"
-                  )
-                }
-              >
-                {extractFileName(file)}
-              </div>
-              {hasDate && date && (
-                <div className="expiry-date">
-                  Expiry Date: {new Date(date).toLocaleDateString()}
-                </div>
-              )}
-            </div>
-          </div>
-        );
-      } else if (
-        (file?.startsWith("http")
-          ? file?.replaceAll(process.env.REACT_APP_AWS_BUCKET_URL, "")
-          : file
-        )?.endsWith(
-          ".vnd.openxmlformats-officedocument.wordprocessingml.document"
-        ) ||
-        (file?.startsWith("http")
-          ? file?.replaceAll(process.env.REACT_APP_AWS_BUCKET_URL, "")
-          : file
-        )?.endsWith(".docx")
-      ) {
-        const docxFileName = file.replace(
-          ".vnd.openxmlformats-officedocument.wordprocessingml.document",
-          ".docx"
-        );
-        const docxUrl = file?.startsWith("http")
-          ? file
-          : `${serverUrl}uploads/supplier/${type}/${docxFileName}`;
-        return (
-          <div key={`${file}-${index}`} className="buyer-details-docx-section">
-            <FaFileWord
-              size={50}
-              color="blue"
-              style={{ cursor: "pointer" }}
-              onClick={() => window.open(docxUrl, "_blank")}
-            />
-            <div>
-              <div
-                className="docx-url"
-                onClick={() => window.open(docxUrl, "_blank")}
-              >
-                {extractFileName(docxFileName)}
-              </div>
-              {hasDate && date && (
-                <div className="expiry-date">
-                  Expiry Date: {new Date(date).toLocaleDateString()}
-                </div>
-              )}
-            </div>
-          </div>
-        );
-      } else {
-        return (
-          <div key={`${file}-${index}`}>
-            <img
-              src={
-                file?.startsWith("http")
-                  ? file
-                  : `${serverUrl}uploads/supplier/${type}/${file}`
-              }
-              alt={type}
-              className="buyer-details-document-image"
-            />
-            {hasDate && date && (
-              <div className="expiry-date">
-                Expiry Date: {new Date(date).toLocaleDateString()}
-              </div>
-            )}
-          </div>
-        );
-      }
-    });
-  };
+  
   useEffect(() => {
     const getSupplierdetails = async () => {
       if (!adminIdSessionStorage && !adminIdLocalStorage) {

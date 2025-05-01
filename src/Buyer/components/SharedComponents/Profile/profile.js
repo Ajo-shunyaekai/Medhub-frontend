@@ -8,6 +8,11 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserData } from "../../../../redux/reducers/userDataSlice";
 import Loader from "../Loader/Loader";
+import {
+  extractLast13WithExtension,
+  renderFiles,
+  renderFiles2,
+} from "../../../../utils/helper";
 
 const Profile = () => {
   const { user } = useSelector((state) => state?.userReducer);
@@ -23,78 +28,6 @@ const Profile = () => {
       keyword: "medical_certificate",
     },
   ];
-
-  const extractFileName = (url) => (url ? url.split("/")?.pop() : "Unknown");
-  const renderFiles = (files, type) => {
-    if (!Array.isArray(files)) {
-      if (!files || files === "") {
-        return <div>No files available</div>;
-      }
-      files = [files];
-    }
-
-    return files.map((file, index) => {
-      const fileUrl = file?.startsWith("http")
-        ? file
-        : `${process.env.REACT_APP_SERVER_URL}/uploads/buyer/buyer_images/${file}`;
-
-      if (file?.endsWith(".pdf")) {
-        return (
-          <div key={index} className={styles.pdfSection}>
-            <FaFilePdf
-              size={50}
-              color="red"
-              style={{ cursor: "pointer" }}
-              // onClick={() => window.open(fileUrl, "_blank")}
-            />
-            <div
-              className={styles.fileName}
-              // onClick={() => window.open(fileUrl, "_blank")}
-            >
-              {extractFileName(file)}
-            </div>
-          </div>
-        );
-      } else if (
-        file?.endsWith(
-          ".vnd.openxmlformats-officedocument.wordprocessingml.document"
-        ) ||
-        file?.endsWith(".docx")
-      ) {
-        const docxFileName = file.replace(
-          ".vnd.openxmlformats-officedocument.wordprocessingml.document",
-          ".docx"
-        );
-        const docxUrl = `${process.env.REACT_APP_SERVER_URL}/uploads/buyer/buyer_images/${docxFileName}`;
-
-        return (
-          <div key={index} className={styles.docxSection}>
-            <FaFileWord
-              size={50}
-              color="blue"
-              style={{ cursor: "pointer" }}
-              // onClick={() => window.open(docxUrl, "_blank")}
-            />
-            <div
-              className={styles.fileName}
-              // onClick={() => window.open(docxUrl, "_blank")}
-            >
-              {extractFileName(docxFileName)}
-            </div>
-          </div>
-        );
-      } else {
-        return (
-          <img
-            key={index}
-            src={fileUrl}
-            alt={type}
-            className={styles.documentImage}
-          />
-        );
-      }
-    });
-  };
 
   useEffect(() => {
     (id || localStorage?.getItem("_id")) &&
@@ -324,7 +257,7 @@ const Profile = () => {
                 <div className={styles.documentInnerSection}>
                   <div className={styles.documentDocName}>{ele?.headings}</div>
                   <div className={styles.documentDocContent}>
-                    {renderFiles(user?.[ele?.keyword], ele?.headings)}
+                    {renderFiles2(user?.[ele?.keyword], ele?.headings, styles)}
                     {ele?.headings == "Certificate" &&
                       user?.certificateFileNDate?.[index]?.date && (
                         <p>{user?.certificateFileNDate?.[index]?.date}</p>

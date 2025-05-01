@@ -51,12 +51,12 @@ const ProfileEditRequestDetails = ({ socket }) => {
         message: `Your Profile edit request has been ${action} by the Admin!`,
         link: process.env.REACT_APP_PUBLIC_URL,
       });
+      navigate(-1);
     }
   };
 
   useEffect(() => {
     if (id) {
-      console.log("Fetching profile edit request for ID:", id);
       dispatch(
         fetchProfileEditReqsDetail(
           `admin/get-profile-edit-request-details/supplier/${id}`
@@ -64,13 +64,6 @@ const ProfileEditRequestDetails = ({ socket }) => {
       );
     }
   }, [id, dispatch]);
-
-  // Debug: Log Redux state changes
-  useEffect(() => {
-    console.log("Loading state:", loading);
-    console.log("Profile Edit Request Detail:", profileEditReqDetail);
-    console.log("Registered Address:", profileEditReqDetail?.registeredAddress);
-  }, [loading, profileEditReqDetail]);
 
   // Render loading state
   if (loading) {

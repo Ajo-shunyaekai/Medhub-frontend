@@ -12,7 +12,7 @@ import "./addproduct.css";
 import styles from "./addproduct.module.css";
 import categoryArrays from "../../../../utils/Category";
 import { Field, Form, Formik } from "formik";
-import AddProductFileUpload from "./AddPRoductFileUpload";
+// import AddProductFileUpload from "./AddPRoductFileUpload";
 import { useDispatch } from "react-redux";
 import Tooltip from "../../SharedComponents/Tooltip/Tooltip";
 import {
@@ -47,6 +47,7 @@ import {
 } from "./DropDowns";
 import { FiUploadCloud } from "react-icons/fi";
 import FileUploadModal from "../../SharedComponents/FileUploadModal/FileUploadModal";
+import { AddProductFileUpload } from "../../../../utils/helper";
 
 const MultiSelectOption = ({ children, ...props }) => (
   <components.Option {...props}>
@@ -367,7 +368,7 @@ const AddProduct = ({ placeholder }) => {
           dispatch(addProduct(formData)).then((response) => {
             if (response?.meta.requestStatus === "fulfilled") {
               navigate("/supplier/product"); // Change this to your desired route
-              setLoading(false)
+              setLoading(false);
             }
             setLoading(false);
           });
@@ -1121,6 +1122,7 @@ const AddProduct = ({ placeholder }) => {
 
                 <div className={styles.productContainer}>
                   <AddProductFileUpload
+                    styles={styles}
                     fieldInputName={"image"}
                     setFieldValue={setFieldValue}
                     initialValues={values}
@@ -1140,6 +1142,7 @@ const AddProduct = ({ placeholder }) => {
                 {productType === "secondary product" && (
                   <div className={styles.productContainer}>
                     <AddProductFileUpload
+                      styles={styles}
                       fieldInputName={"purchaseInvoiceFile"}
                       setFieldValue={setFieldValue}
                       initialValues={values}
@@ -1330,6 +1333,7 @@ const AddProduct = ({ placeholder }) => {
                       ></Tooltip>
                     </div>
                     <AddProductFileUpload
+                      styles={styles}
                       fieldInputName={"performanceTestingReportFile"}
                       setFieldValue={setFieldValue}
                       initialValues={values}
@@ -1372,6 +1376,7 @@ const AddProduct = ({ placeholder }) => {
                       )}
                     </div>
                     <AddProductFileUpload
+                      styles={styles}
                       fieldInputName={"specificationFile"}
                       setFieldValue={setFieldValue}
                       initialValues={values}
@@ -2273,6 +2278,7 @@ const AddProduct = ({ placeholder }) => {
                           {dermatologistTested === "Yes" && (
                             <>
                               <AddProductFileUpload
+                                styles={styles}
                                 fieldInputName={"dermatologistTestedFile"}
                                 setFieldValue={setFieldValue}
                                 initialValues={values}
@@ -2348,6 +2354,7 @@ const AddProduct = ({ placeholder }) => {
                           {pediatricianRecommended === "Yes" && (
                             <>
                               <AddProductFileUpload
+                                styles={styles}
                                 fieldInputName={"pediatricianRecommendedFile"}
                                 setFieldValue={setFieldValue}
                                 initialValues={values}
@@ -3897,6 +3904,7 @@ const AddProduct = ({ placeholder }) => {
                         </span>
                       )}
                       <AddProductFileUpload
+                        styles={styles}
                         fieldInputName={"specificationFile"}
                         setFieldValue={setFieldValue}
                         initialValues={values}
@@ -3937,6 +3945,7 @@ const AddProduct = ({ placeholder }) => {
                         ></Tooltip>
                       </div>
                       <AddProductFileUpload
+                        styles={styles}
                         fieldInputName={"performanceTestingReportFile"}
                         setFieldValue={setFieldValue}
                         initialValues={values}
@@ -5152,6 +5161,7 @@ const AddProduct = ({ placeholder }) => {
                             ></Tooltip>
                           </div>
                           <AddProductFileUpload
+                            styles={styles}
                             fieldInputName={"performanceTestingReportFile"}
                             setFieldValue={setFieldValue}
                             initialValues={values}
@@ -5252,6 +5262,7 @@ const AddProduct = ({ placeholder }) => {
                         <Tooltip content="  Verified by clinical trials or regulatory agencies."></Tooltip>
                       </div>
                       <AddProductFileUpload
+                        styles={styles}
                         fieldInputName={"healthClaimsFile"}
                         setFieldValue={setFieldValue}
                         initialValues={values}
@@ -6057,6 +6068,7 @@ const AddProduct = ({ placeholder }) => {
                               </span>
                             )}
                           <AddProductFileUpload
+                            styles={styles}
                             fieldInputName={"interoperabilityFile"}
                             setFieldValue={setFieldValue}
                             initialValues={values}
@@ -6599,6 +6611,7 @@ const AddProduct = ({ placeholder }) => {
                 <span className={styles.formHead}>Upload Documents</span>
                 <div className={styles.formInnerSection}>
                   <AddProductFileUpload
+                  styles={styles}
                     fieldInputName={"image"}
                     setFieldValue={setFieldValue}
                     initialValues={values}
@@ -6616,6 +6629,7 @@ const AddProduct = ({ placeholder }) => {
                   )}
                   {productType === "secondary product" && (
                     <AddProductFileUpload
+                    styles={styles}
                       fieldInputName={"purchaseInvoiceFile"}
                       setFieldValue={setFieldValue}
                       initialValues={values}
@@ -6672,6 +6686,7 @@ const AddProduct = ({ placeholder }) => {
                   Compliances & Certification
                 </span>
                 <AddProductFileUpload
+                styles={styles}
                   fieldInputName={"complianceFile"}
                   setFieldValue={setFieldValue}
                   initialValues={values}
@@ -6842,6 +6857,7 @@ const AddProduct = ({ placeholder }) => {
               <div className={styles.formSection}>
                 <div className={styles.productContainer}>
                   <AddProductFileUpload
+                    styles={styles}
                     fieldInputName={"safetyDatasheet"}
                     setFieldValue={setFieldValue}
                     initialValues={values}
@@ -6857,6 +6873,7 @@ const AddProduct = ({ placeholder }) => {
                 </div>
                 <div className={styles.productContainer}>
                   <AddProductFileUpload
+                    styles={styles}
                     fieldInputName={"healthHazardRating"}
                     setFieldValue={setFieldValue}
                     initialValues={values}
@@ -6872,6 +6889,7 @@ const AddProduct = ({ placeholder }) => {
                 </div>
                 <div className={styles.productContainer}>
                   <AddProductFileUpload
+                    styles={styles}
                     fieldInputName={"environmentalImpact"}
                     setFieldValue={setFieldValue}
                     initialValues={values}
@@ -6913,6 +6931,7 @@ const AddProduct = ({ placeholder }) => {
                 </div>
                 <div className={styles.productContainer}>
                   <AddProductFileUpload
+                    styles={styles}
                     fieldInputName={"guidelinesFile"}
                     setFieldValue={setFieldValue}
                     initialValues={values}
@@ -6957,13 +6976,15 @@ const AddProduct = ({ placeholder }) => {
 
             {/* Start button section */}
             <div className={styles.buttonContainer}>
-              <button className={styles.buttonCancel} onClick={handleCancel}>Cancel</button>
-              <button className={styles.buttonSubmit} type="submit" disabled={loading}>
-                {loading ? (
-                    <div className='loading-spinner'></div>
-                ) : (
-                    'Submit'
-                )}
+              <button className={styles.buttonCancel} onClick={handleCancel}>
+                Cancel
+              </button>
+              <button
+                className={styles.buttonSubmit}
+                type="submit"
+                disabled={loading}
+              >
+                {loading ? <div className="loading-spinner"></div> : "Submit"}
               </button>
             </div>
 

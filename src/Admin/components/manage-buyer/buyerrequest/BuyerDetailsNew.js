@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import BuyerCustomModal from "./BuyerCustomModal";
 import { FaFilePdf, FaFileWord } from "react-icons/fa";
 import { apiRequests } from "../../../../api/index";
+import { extractLast13WithExtension, renderFiles } from "../../../../utils/helper";
 
 const BuyerDetailsNew = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -41,125 +42,7 @@ const BuyerDetailsNew = () => {
     setOpen(false);
     setPdfUrl(null);
   };
-  const extractFileName = (url) => {
-    return url.split("/")?.pop();
-  };
-  const renderFiles = (files, type, hasDate = false) => {
-    if (!files) return null;
-
-    return files.map((item, index) => {
-      const serverUrl = process.env.REACT_APP_SERVER_URL;
-      let file, date;
-      if (hasDate) {
-        file = item.file;
-        date = item.date;
-      } else {
-        file = item;
-      }
-
-      if (
-        (file?.startsWith("http")
-          ? file?.replaceAll(process.env.REACT_APP_AWS_BUCKET_URL, "")
-          : file
-        )?.endsWith(".pdf")
-      ) {
-        return (
-          <div key={index} className="buyer-details-pdf-section">
-            <FaFilePdf
-              size={50}
-              color="red"
-              style={{ cursor: "pointer" }}
-              onClick={() =>
-                window.open(
-                  file?.startsWith("http")
-                    ? file
-                    : `${serverUrl}uploads/buyer/${type}/${file}`,
-                  "_blank"
-                )
-              }
-            />
-            <div
-              className="pdf-url"
-              onClick={() =>
-                window.open(
-                  file?.startsWith("http")
-                    ? file
-                    : `${serverUrl}uploads/buyer/${type}/${file}`,
-                  "_blank"
-                )
-              }
-            >
-              {extractFileName(file)}
-            </div>
-            {hasDate && date && (
-              <div className="certificate-expiry-date">
-                Expiry Date: {new Date(date).toLocaleDateString()}
-              </div>
-            )}
-          </div>
-        );
-      } else if (
-        (file?.startsWith("http")
-          ? file?.replaceAll(process.env.REACT_APP_AWS_BUCKET_URL, "")
-          : file
-        )?.endsWith(
-          ".vnd.openxmlformats-officedocument.wordprocessingml.document"
-        ) ||
-        (file?.startsWith("http")
-          ? file?.replaceAll(process.env.REACT_APP_AWS_BUCKET_URL, "")
-          : file
-        )?.endsWith(".docx")
-      ) {
-        const docxFileName = file.replace(
-          ".vnd.openxmlformats-officedocument.wordprocessingml.document",
-          ".docx"
-        );
-        const docxUrl = file?.startsWith("http")
-          ? file
-          : `${serverUrl}uploads/buyer/${type}/${docxFileName}`;
-
-        return (
-          <div key={index} className="buyer-details-docx-section">
-            <FaFileWord
-              size={50}
-              color="blue"
-              style={{ cursor: "pointer" }}
-              onClick={() => window.open(docxUrl, "_blank")}
-            />
-            <div>
-              <div
-                className="docx-url"
-                onClick={() => window.open(docxUrl, "_blank")}
-              >
-                {extractFileName(docxFileName)}
-              </div>
-              {hasDate && date && (
-                <div className="expiry-date">
-                  Expiry Date: {new Date(date).toLocaleDateString()}
-                </div>
-              )}
-            </div>
-          </div>
-        );
-      } else {
-        return (
-          <div key={index} className="buyer-details-image-section">
-            <img
-              src={`${serverUrl}uploads/buyer/${type}/${file}`}
-              alt={type}
-              className="buyer-details-document-image"
-            />
-            {hasDate && date && (
-              <div className="expiry-date">
-                Expiry Date: {new Date(date).toLocaleDateString()}
-              </div>
-            )}
-          </div>
-        );
-      }
-    });
-  };
-
+  
   const [loading, setLoading] = useState(false);
   const [rejectLoading, setRejectLoading] = useState(false);
   const [buyerDetails, setBuyerDetails] = useState();

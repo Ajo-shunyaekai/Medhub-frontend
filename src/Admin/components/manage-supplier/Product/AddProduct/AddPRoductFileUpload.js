@@ -3,6 +3,7 @@ import { useDropzone } from "react-dropzone";
 import { FiUploadCloud, FiFileText, FiX } from "react-icons/fi";
 import Tooltip from "./Tooltip";
 import styles from "./addproduct.module.css";
+import { extractLast13WithExtension } from "../../../../../utils/helper";
 
 const useFileUpload = (
   fieldInputName,
@@ -62,7 +63,8 @@ const useFileUpload = (
   const defaultAccept = {
     "application/pdf": [],
     "application/msword": [],
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document": [],
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+      [],
     "image/png": [],
     "image/jpeg": [],
     "image/jpg": [],
@@ -129,8 +131,12 @@ const AddProductFileUpload = ({
           <FiUploadCloud size={20} className={styles.uploadIcon} />
           <p className={styles.uploadText}>
             {fileUpload?.isDragActive
-              ? `Drop the ${isImageOnly ? "image" : isPdfOnly ? "PDF" : "files"} here...`
-              : `Click here to Upload ${isImageOnly ? "Image" : isPdfOnly ? "PDF" : ""}`}
+              ? `Drop the ${
+                  isImageOnly ? "image" : isPdfOnly ? "PDF" : "files"
+                } here...`
+              : `Click here to Upload ${
+                  isImageOnly ? "Image" : isPdfOnly ? "PDF" : ""
+                }`}
           </p>
         </div>
         {tooltip && (
@@ -141,7 +147,9 @@ const AddProductFileUpload = ({
       <div className={styles.filePreviewContainer}>
         {fileUpload?.filesMerged?.map((file, index) => {
           const isString = typeof file === "string";
-          const fileName = isString ? file : file?.name;
+          const fileName = isString
+            ? extractLast13WithExtension(file)
+            : file?.name;
           const fileExtension = fileName?.split(".")?.pop()?.toLowerCase();
           const isImage = ["jpeg", "jpg", "png", "gif", "bmp", "webp"].includes(
             fileExtension
