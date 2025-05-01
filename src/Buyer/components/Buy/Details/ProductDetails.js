@@ -337,7 +337,7 @@ const ProductDetails = () => {
                   </span>
                 </div>
               )}
-               {productDetail?.general?.unit_tax && (
+              {productDetail?.general?.unit_tax && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Tax%</span>
                   <span className={styles.medicineText}>
@@ -458,25 +458,18 @@ const ProductDetails = () => {
         {/* End general information section */}
 
         {productDetail?.general?.aboutManufacturer && (
-
-<div className={styles.mainContainer}>
-  <div className={styles.manufacturerDescriptionSection}>
-    <span className={styles.medicineHead}>Short Description</span>
-    <span
-      className={styles.medicineDescriptionContent}
-
-    >
-      {productDetail?.general?.aboutManufacturer}
-    </span>
-  </div>
-</div>
-
-
-
-
-)}
-
-
+          <div className={styles.mainContainer}>
+            <div className={styles.manufacturerDescriptionSection}>
+              <span className={styles.medicineHead}>Short Description</span>
+              <span
+                className={styles.medicineDescriptionContent}
+                dangerouslySetInnerHTML={{
+                  __html: productDetail?.general?.aboutManufacturer,
+                }}
+              ></span>
+            </div>
+          </div>
+        )}
 
         {/* Start product description */}
         {productDetail?.general?.description && (
@@ -493,6 +486,8 @@ const ProductDetails = () => {
           </div>
         )}
         {/* End the product description */}
+
+        
         {/* Start product image section */}
 
        
