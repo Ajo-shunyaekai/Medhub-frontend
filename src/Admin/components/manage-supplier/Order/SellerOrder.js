@@ -45,7 +45,7 @@ const SellerOrder = () => {
   const [orderList, setOrderList] = useState([]);
   const [totalOrders, setTotalOrders] = useState();
   const [currentPage, setCurrentPage] = useState(1);
-  const ordersPerPage = 10;
+  const ordersPerPage = 8;
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };

@@ -92,8 +92,6 @@ const BuyerTransactionDetails = () => {
           <div className='transaction-details-card-section'>
             <div className='transaction-details-uppar-card-section'>
               <div className='transaction-details-uppar-card-inner-section'>
-
-                {/* Trade License */}
                 <div className='transaction-details-card-container'>
                   <div className='transaction-details-company-logo-heading'>Cheque Image</div>
                   <div className='transaction-details-company-img-container'>

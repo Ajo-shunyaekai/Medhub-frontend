@@ -749,7 +749,7 @@ const EditProfileDetails = () => {
                     handlePhoneChange(fieldName, value);
                     formik.setFieldTouched(fieldName, true, false); // <-- This is crucial
                   }}
-                  // onBlur={formik?.handleBlur}
+                 
                 />
                 {userType === "supplier"
                   ? formik.touched["supplier_mobile"] &&

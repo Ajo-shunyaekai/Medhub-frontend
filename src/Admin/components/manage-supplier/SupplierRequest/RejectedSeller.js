@@ -22,7 +22,7 @@ const RejectedSuppliers = () => {
   const [loading, setLoading] = useState(true);
   const [sellerList, setSellerList] = useState([]);
   const [totalSellers, setTotalSellers] = useState(0);
-  const listPerPage = 10;
+  const listPerPage = 8;
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -191,7 +191,7 @@ const RejectedSuppliers = () => {
               activePage={currentPage}
               itemsCountPerPage={listPerPage}
               totalItemsCount={totalSellers}
-              pageRangeDisplayed={10}
+              pageRangeDisplayed={8}
               onChange={handlePageChange}
             />
           )}

@@ -44,7 +44,7 @@ const useFileUpload = (
         (ele, index) => JSON.stringify(ele) == file
       );
       const filteredValues = initialValues?.certificate_image?.filter(
-        // (_, index) => index != indexToRemove
+       
         (_, index) => JSON.stringify(_) != file
       )?.length;
       if (filteredValues > 1) {
@@ -60,7 +60,7 @@ const useFileUpload = (
           "certificate_imageNew",
 
           initialValues?.certificate_imageNew?.filter(
-            // (_, index) => index != indexToRemove
+            
             (_, index) => JSON.stringify(_) != file
           )
         );
@@ -72,7 +72,7 @@ const useFileUpload = (
         (ele, index) => JSON.stringify(ele) == file
       );
       const filteredValues = initialValues?.certificate_imageNew?.filter(
-        // (_, index) => index != indexToRemove
+      
         (_, index) => JSON.stringify(_) != file
       )?.length;
       if (filteredValues > 1) {
@@ -81,7 +81,7 @@ const useFileUpload = (
 
           initialValues?.certificate_image?.filter(
             (_, index) => index != indexToRemove
-            // (_, index) => JSON.stringify(_) != file
+          
           )
         );
       } else {
@@ -89,7 +89,7 @@ const useFileUpload = (
           "certificate_image",
 
           initialValues?.certificate_image?.filter(
-            // (_, index) => index != indexToRemove
+          
             (_, index) => JSON.stringify(_) != file
           )
         );

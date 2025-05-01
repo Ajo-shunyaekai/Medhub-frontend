@@ -93,7 +93,7 @@ const BuyerProforma = ({ invoiceList, totalItems, currentPage, listPerPage, hand
                     activePage={currentPage}
                     itemsCountPerPage={listPerPage}
                     totalItemsCount={totalItems}
-                    pageRangeDisplayed={10}
+                    pageRangeDisplayed={8}
                     onChange={handlePageChange}
                 />
             )}

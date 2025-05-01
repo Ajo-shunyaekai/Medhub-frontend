@@ -102,7 +102,7 @@ const SellerPurchasedOrderDetails = () => {
                           <h1 style={{ fontSize: '14px', fontWeight: 500, paddingBottom: '3px' }}>From :</h1>
                           <p style={{ fontSize: '16px', fontWeight: 500, paddingBottom: '6px' }}>{poDetails?.buyer_name}</p>
                           <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac' }}>{poDetails?.buyer_address}</p>
-                          {/* <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>United Arab Emirates</p> */}
+                         
                           <td style={{ display: 'flex', justifyContent: 'start' }}>
                             <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>Mobile No. :</p>
                             <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>&nbsp;{poDetails?.buyer_country_code} {poDetails?.buyer_mobile}</p>
@@ -120,7 +120,7 @@ const SellerPurchasedOrderDetails = () => {
                           <h1 style={{ fontSize: '14px', fontWeight: 500, paddingBottom: '3px', textAlign: 'end' }}>To :</h1>
                           <p style={{ fontSize: '16px', fontWeight: 500, paddingBottom: '6px', textAlign: 'end' }}>{poDetails?.supplier_name}</p>
                           <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', textAlign: 'end' }}>{poDetails?.supplier_address}</p>
-                          {/* <p style={{ fontSize: '13px', color: '#99a0ac', lineHeight: '16px', textAlign: 'end', paddingTop: '6px' }}>Dubai (United Arab Emirates)</p> */}
+                          
                           <td style={{ display: 'flex', justifyContent: 'end' }}>
                             <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>Mobile No. :</p>
                             <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>&nbsp;{poDetails?.supplier_country_code } {poDetails?.supplier_mobile}</p>

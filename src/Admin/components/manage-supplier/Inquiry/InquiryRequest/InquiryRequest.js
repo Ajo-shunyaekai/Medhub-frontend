@@ -106,7 +106,7 @@ const InquiryRequest = ({ inquiryList, totalInquiries, currentPage, inquiriesPer
           activePage={currentPage}
           itemsCountPerPage={inquiriesPerPage}
           totalItemsCount={totalInquiries}
-          pageRangeDisplayed={10}
+          pageRangeDisplayed={8}
           onChange={handlePageChange}
         />
       )}

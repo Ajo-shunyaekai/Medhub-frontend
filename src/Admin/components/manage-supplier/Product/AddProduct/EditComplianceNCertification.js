@@ -198,7 +198,7 @@ const EditComplianceNCertification = ({
             ? [fileUpload?.selectedFile]
             : fileUpload?.selectedFile
           )?.map((file, index) => {
-            // Determine the file extension based on whether it's a File object or string
+           
             const fileExtension =
               typeof file === "string"
                 ? file?.split(".")?.pop()?.toLowerCase() // If it's a string (e.g., an existing file path)

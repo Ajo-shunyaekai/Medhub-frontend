@@ -7,7 +7,7 @@ import styles from '../../../assets/style/table.module.css';
 
 const SellerActiveInvoiceList = ({ invoiceData }) => {
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 10;
+    const itemsPerPage = 5;
 
     const indexOfLastOrder = currentPage * itemsPerPage;
     const indexOfFirstOrder = indexOfLastOrder - itemsPerPage;

@@ -122,7 +122,7 @@ const SecondaryProductList = ({ products, totalItems, currentPage, itemsPerPage,
           activePage={currentPage}
           itemsCountPerPage={itemsPerPage}
           totalItemsCount={totalItems}
-          pageRangeDisplayed={10}
+          pageRangeDisplayed={8}
           onChange={handlePageChange}
         />
       )}

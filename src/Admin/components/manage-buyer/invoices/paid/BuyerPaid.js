@@ -102,7 +102,7 @@ const BuyerPaid = ({ invoiceList, totalItems, currentPage, listPerPage, handlePa
                     activePage={currentPage}
                     itemsCountPerPage={listPerPage}
                     totalItemsCount={totalItems}
-                    pageRangeDisplayed={10}
+                    pageRangeDisplayed={8}
                     onChange={handlePageChange}
                 />
             )}

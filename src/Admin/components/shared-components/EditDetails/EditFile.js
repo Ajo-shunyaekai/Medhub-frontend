@@ -195,7 +195,7 @@ const EditFile = ({
           </p>
         </div>
       </div>
-      {/* {<span className={styles.error}>{errorMsg}</span>} */}
+     
       {formik?.touched?.[fieldInputName] &&
         formik?.errors?.[fieldInputName] && (
           <span className={styles.error}>{formik.errors[fieldInputName]}</span>
@@ -204,7 +204,7 @@ const EditFile = ({
       {fileUpload?.filesMerged?.length > 0 && (
         <div className={styles.previewContainer}>
           {fileUpload?.filesMerged?.map((file, index) => {
-            // Check if file is a string or an object
+          
             const isString = typeof file == "string";
             const fileName = isString ? file : file?.name;
             const fileExtension = isString
