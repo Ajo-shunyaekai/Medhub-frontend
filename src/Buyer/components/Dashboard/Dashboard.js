@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import WorldMap from "react-svg-worldmap";
 import { Link, useNavigate } from 'react-router-dom';
-import './Buyerdashboard.css'
+import styles from './BuyerDashboard.module.css';
+
+import WorldMap from "react-svg-worldmap";
 import ProgressBar from './chart/ProgressBar';
 import OrangeBar from './chart/OrangeBar'
 import CircularBar from './chart/CircularBar';
@@ -9,7 +10,6 @@ import ConversionChart from './chart/ConversionChart';
 import SearchEngineChart from './chart/SearchEngineChart'
 import { postRequestWithToken } from '../../../api/Requests';
 import { convertCountryToCode } from '../SharedComponents/countryCodes/countryCode'
-
 
 const Dashboard = () => {
     const navigate = useNavigate()
@@ -66,95 +66,95 @@ const Dashboard = () => {
 
     return (
 
-        <div className='buyer-panel-dashboard-section'>
-            <div className='buyer-panel-dashboard-heading'>Dashboard</div>
-            <div className='buyer-panel-analystic-button' >
-                <div className='buyer-panel-buttons'>Analytics</div>
+        <div className={styles.dashboardContainer}>
+            <div className={styles.pageTitle}>Dashboard</div>
+            <div className={styles.navButton}>
+                <div className={styles.button}>Analytics</div>
             </div>
-            <div className='buyer-panel-cart-main-container'>
-                <div className='buyer-panel-cart-left-main-container'>
-                    <div className='buyer-panel-cart-left-top-section'>
-                        <div className='buyer-panel-cart-top-right-section'>
-                            <div className='buyer-panel-top-container'>
-                                <Link  className='buyer-panel-top-content-section' to='/buyer/ongoing-inquiries-list'>
+            <div className={styles.wrapper}>
+                <div className={styles.leftAside}>
+                    <div className={styles.orderSection}>
+                        <div className={styles.section}>
+                            <div className={styles.ordersRow}>
+                                <Link  className={styles.order} to='/buyer/ongoing-inquiries-list'>
                                    
-                                        <div className='buyer-panel-top-head'>Ongoing Inquiries</div>
-                                        <div className='buyer-panel-top-text'>{orderSummary?.enquiryCount || 0}</div>
+                                        <div className={styles.orderHeading}>Ongoing Inquiries</div>
+                                        <div className={styles.totalorders}>{orderSummary?.enquiryCount || 0}</div>
                                    
                                 </Link>
-                                <Link className='buyer-panel-top-content-section' to='/buyer/purchased-orders-list'>
+                                <Link className={styles.order} to='/buyer/purchased-orders-list'>
                                    
-                                        <div className='buyer-panel-top-head'>Purchased Orders</div>
-                                        <div className='buyer-panel-top-text'>{orderSummary?.purchaseOrderCount || 0}</div>
+                                        <div className={styles.orderHeading}>Purchased Orders</div>
+                                        <div className={styles.totalorders}>{orderSummary?.purchaseOrderCount || 0}</div>
                                     
                                 </Link>
-                                <Link className='buyer-panel-top-content-section' to='/buyer/active-orders'>
+                                <Link className={styles.order} to='/buyer/active-orders'>
                                     
-                                        <div className='buyer-panel-top-head'>Active Orders</div>
-                                        <div className='buyer-panel-top-text'>{orderSummary?.orderDetails?.activeCount?.[0]?.count || 0}</div>
+                                        <div className={styles.orderHeading}>Active Orders</div>
+                                        <div className={styles.totalorders}>{orderSummary?.orderDetails?.activeCount?.[0]?.count || 0}</div>
                                    
                                 </Link>
-                                <Link className='buyer-panel-top-content-section' to='/buyer/completed-order'>
+                                <Link className={styles.order} to='/buyer/completed-order'>
                                    
-                                        <div className='buyer-panel-top-head'>Completed Orders</div>
-                                        <div className='buyer-panel-top-text'>{orderSummary?.orderDetails?.completedCount?.[0]?.count || 0}</div>
+                                        <div className={styles.orderHeading}>Completed Orders</div>
+                                        <div className={styles.totalorders}>{orderSummary?.orderDetails?.completedCount?.[0]?.count || 0}</div>
                                    
                                 </Link>
 
                             </div>
-                            <div className='buyer-panel-bottom-container'>
-                                <Link className='buyer-panel-bottom-cart-cont' to='/buyer/complete-invoices-list'>
+                            <div className={styles.invoiceRow}>
+                                <Link className={styles.card} to='/buyer/complete-invoices-list'>
 
-                                    <div className='buyer-panel-bottom-head'>Completed Invoices: <span className='buyer-panel-bottom-text'>{orderSummary?.invoiceDetails?.paidCount || 0}</span></div>
-                                    <div className='buyer-panel-bottom-graph'>
+                                    <div className={styles.cardHeading}>Completed Invoices: <span className={styles.totalInvoice}>{orderSummary?.invoiceDetails?.paidCount || 0}</span></div>
+                                    <div className={styles.bar}>
                                         <ProgressBar />
                                     </div>
 
                                 </Link>
-                                <Link className='buyer-panel-bottom-cart-cont' to='/buyer/pending-invoices-list'>
+                                <Link className={styles.card} to='/buyer/pending-invoices-list'>
 
-                                    <div className='buyer-panel-bottom-head'>Pending Invoices: <span className='buyer-panel-bottom-text'>{orderSummary?.invoiceDetails?.pendingCount || 0}</span></div>
-                                    <div className='buyer-panel-bottom-graph'>
+                                    <div className={styles.cardHeading}>Pending Invoices: <span className={styles.totalInvoice}>{orderSummary?.invoiceDetails?.pendingCount || 0}</span></div>
+                                    <div className={styles.bar}>
                                         <OrangeBar />
                                     </div>
 
                                 </Link>
                             </div>
                         </div>
-                        <div className='buyer-panel-cart-top-left-section'>
-                            <div className='buyer-panel-left-head'>Total Purchase</div>
-                            <div className='buyer-panel-circular-process'>
+                        <div className={styles.rightAside}>
+                            <div className={styles.asideHeading}>Total Purchase</div>
+                            <div className={styles.circularProcess}>
                                 <CircularBar totalPurchase={orderSummary?.orderDetails?.totalPurchaseAmount?.[0]?.total_purchase || 0} />
                             </div>
                         </div>
                     </div>
-                    <div className='buyer-panel-cart-left-bottom-section'>
-                        <Link className='buyer-panel-cart-left-bottom-container' to='/buyer/invoice/proforma-invoice'>
+                    <div className={styles.performaSection}>
+                        <Link className={styles.performaCard} to='/buyer/invoice/proforma-invoice'>
 
-                            <div className='buyer-panel-left-bottom-cart-top'>
-                                <span className='buyer-panel-left-bottom-pert'>{orderSummary?.orderDetails?.activeCount?.[0]?.count || 0}</span>
+                            <div className={styles.performaCardCount}>
+                                <span className={styles.performaCardCounts}>{orderSummary?.orderDetails?.activeCount?.[0]?.count || 0}</span>
                             </div>
-                            <div className='buyer-panel-left-bottom-head'>Proforma Invoices</div>
-                            <div className='buyer-panel-line-chart-graph'>
+                            <div className={styles.performaCardHeading}>Proforma Invoices</div>
+                            <div className={styles.performaCardGraph}>
                                 <ConversionChart />
                             </div>
 
                         </Link>
-                        <Link className='buyer-panel-cart-left-bottom-container' to='/buyer/my-supplier'>
+                        <Link className={styles.performaCard} to='/buyer/my-supplier'>
 
-                            <div className='buyer-panel-left-bottom-cart-top'>
-                                <span className='buyer-panel-left-bottom-pert'>{orderSummary?.supplierCount || 0}</span>
+                            <div className={styles.performaCardCount}>
+                                <span className={styles.performaCardCounts}>{orderSummary?.supplierCount || 0}</span>
                             </div>
-                            <div className='buyer-panel-left-bottom-head'>My Supplier</div>
-                            <div className='buyer-panel-line-chart-graph'>
+                            <div className={styles.performaCardHeading}>My Supplier</div>
+                            <div className={styles.performaCardGraph}>
                                 <SearchEngineChart />
                             </div>
 
                         </Link>
                     </div>
                 </div>
-                <div className='buyer-panel-cart-right-main-container'>
-                    <div className='buyer-panel-map-container'>
+                <div className={styles.mapSection}>
+                    <div className={styles.map}>
                         <WorldMap
                             color="red"
                             value-suffix="people"
@@ -162,12 +162,12 @@ const Dashboard = () => {
                             data={countryData}
                         />
                     </div>
-                    <div className='buyer-panel-right-head'>Your Seller Countries</div>
-                    <div className='buyer-panel-right-country-section'>
+                    <div className={styles.mapHeading}>Your Seller Countries</div>
+                    <div className={styles.countryName}>
                         {countryData?.slice(0, 2).map((data, index) => (
-                            <div className='buyer-panel-country-sect' key={index}>
-                                <span className='buyer-panel-country-names'>{data?.country}</span>
-                                <span className='buyer-panel-country-price'>{data?.value} USD</span>
+                            <div className={styles.countrySection} key={index}>
+                                <span className={styles.countryTitle}>{data?.country}</span>
+                                <span className={styles.countryPrice}>{data?.value} USD</span>
                             </div>
                         ))}
                     </div>
