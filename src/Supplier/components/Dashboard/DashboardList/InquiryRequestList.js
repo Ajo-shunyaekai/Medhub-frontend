@@ -16,7 +16,7 @@ const InquiryRequestList = () => {
   const [inquiryList, setInquiryList] = useState([]);
   const [totalInquiries, setTotalInquiries] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const ordersPerPage =10;
+  const ordersPerPage =8;
 
   const showModal = (orderId) => {
     setSelectedOrderId(orderId);
@@ -167,7 +167,7 @@ const InquiryRequestList = () => {
               activePage={currentPage}
               itemsCountPerPage={ordersPerPage}
               totalItemsCount={totalInquiries}
-              pageRangeDisplayed={5}
+              pageRangeDisplayed={8}
               onChange={handlePageChange}
             />
           )}

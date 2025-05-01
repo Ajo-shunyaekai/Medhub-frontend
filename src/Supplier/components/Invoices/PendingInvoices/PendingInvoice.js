@@ -109,11 +109,7 @@ const PendingInvoice = ({
       selector: (row) => row?.order_id,
       sortable: true,
     },
-    {
-      name: "Customer Name",
-      selector: (row) => row?.buyer_name,
-      sortable: true,
-    },
+   
     {
       name: "Amount",
       selector: (row) => `${row?.total_payable_amount} USD`,
@@ -209,7 +205,7 @@ const PendingInvoice = ({
             activePage={currentPage}
             itemsCountPerPage={invoicesPerPage}
             totalItemsCount={totalInvoices}
-            pageRangeDisplayed={5}
+            pageRangeDisplayed={8}
             onChange={handlePageChange}
           />
       )}

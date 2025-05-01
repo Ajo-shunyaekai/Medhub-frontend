@@ -299,18 +299,6 @@ const ActiveOrdersDetails = ({ socket }) => {
                 </div>
             ) : null}
             {/* end the main component heading */}
-
-            {/* Start the assign driver section */}
-            {/* {orderDetails?.coordinators && Object.keys(orderDetails?.coordinators).length > 0 && ( */}
-            {/* {orderDetails?.status === "Completed" && (
-                <div className='active-order-details-codinator'>
-                    <ActiveCodinator productList={orderDetails?.items} />
-                </div>
-            )} */}
-            {/* End the assign driver section */}
-            {/* {
-                orderDetails?.order_status === 'compla'
-            } */}
             {orderDetails?.invoices && orderDetails?.invoices.length > 0 && (
                 <div className='active-order-details-invoice-list-section'>
                     <ActiveInvoiceList invoiceData={orderDetails?.invoices} />

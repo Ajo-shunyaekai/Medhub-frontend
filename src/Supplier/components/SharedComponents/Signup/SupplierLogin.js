@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-// import './login.css';
 import styles from './Supplierlogin.module.css';
 import logo from '../../../assets/images/logo.svg';
 import { Link } from 'react-router-dom';
@@ -36,9 +35,7 @@ const SupplierLogin = ({socket}) => {
         } else if (!/(?=.*[A-Z])/.test(password)) {
             newErrors.password = 'Password must contain at least one uppercase letter';
         } 
-        // else if (!/(?=.*[!@#$%^&*])/.test(password)) {
-        //     newErrors.password = 'Password must contain at least one special character';
-        // }
+      
 
         return newErrors;
     };
@@ -90,8 +87,7 @@ const SupplierLogin = ({socket}) => {
                             // Request permission if not already denied
                             const permission = await Notification.requestPermission();
                             if (permission === 'granted') {
-                                // const userId = data.supplier_id;
-                                // socket.emit('register', userId);
+                              
                             }
                         }
                     }
@@ -108,13 +104,7 @@ const SupplierLogin = ({socket}) => {
     };
 
     const handleEmailChange = (e) => {
-        // setEmail(e.target.value);
-        // if (errors.email) {
-        //     setErrors((prevErrors) => ({
-        //         ...prevErrors,
-        //         email: '',
-        //     }));
-        // }
+        
         if (e.target.value.length <= 50) {
             setEmail(e.target.value);
     
@@ -134,13 +124,7 @@ const SupplierLogin = ({socket}) => {
     };
 
     const handlePasswordChange = (e) => {
-        // setPassword(e.target.value);
-        // if (errors.password) {
-        //     setErrors((prevErrors) => ({
-        //         ...prevErrors,
-        //         password: '',
-        //     }));
-        // }
+      
 
         if (e.target.value.length <= 25) {
             setPassword(e.target.value);
@@ -216,7 +200,7 @@ const SupplierLogin = ({socket}) => {
                     </div>
                     </Link>
                     <div className={styles.loginFormMainButtons}>
-                        {/* <button type='button' className='login-form-main-cancel' onClick={handleCancel}>Cancel</button> */}
+                       
                         <button 
                         type='submit' 
                         className={styles.loginFormMainLogin}

@@ -6,7 +6,7 @@ const FaqSupport = () => {
     return (
         <>
             <div className="support-heading">FAQ</div>
-            {/* <Accordion defaultActiveKey="0"> */}
+          
             <div className='faq-container'>
 
                 < Accordion >
@@ -40,12 +40,7 @@ const FaqSupport = () => {
                         </Accordion.Body>
                     </Accordion.Item>
 
-                    {/* <Accordion.Item eventKey="4" className="faq-cover">
-                        <Accordion.Header className="faq-heading">How can I get started with MedHub Global?</Accordion.Header>
-                        <Accordion.Body className="faq-content">
-                            You can request a demo or choose a subscription plan that suits your needs by visiting the MedHub Global website. They offer both monthly and yearly plans with various benefits.
-                        </Accordion.Body>
-                    </Accordion.Item> */}
+                 
                 </ Accordion>
             </div>
         </>

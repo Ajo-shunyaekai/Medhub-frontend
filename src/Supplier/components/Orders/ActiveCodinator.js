@@ -10,7 +10,7 @@ const ActiveCodinator = () => {
     const activeOrders = [
         { name: 'Mohammad Khan', companyName: 'Sheetal Pvt. Ltd.', designation: 'Manager', mobile: '+971 12345567', email:'sheetalpvt@gmail.com' },
         { name: 'Harshit Rana', companyName: 'Bkart Pvt Ltd', designation: 'CEO', mobile: '+971 867654311', email:'bkart@gmail.com' },
-        // { name: 'Mohammad Khan', companyName: 'Sheetal Pvt. Ltd.', designation: 'Marketing Manager', mobile: '+971 12345567', email:'company@gmail.com' },
+
     ];
 
     const data =  activeOrders;

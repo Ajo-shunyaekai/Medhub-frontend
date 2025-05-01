@@ -54,7 +54,6 @@ const SupplierAddAddress = () => {
             const phoneNumber = parsePhoneNumber(value);
             return phoneNumber && phoneNumber.isValid();
           } catch (error) {
-            // If parsing fails, mark it as invalid
             return false;
           }
         }),
@@ -73,7 +72,6 @@ const SupplierAddAddress = () => {
     onSubmit: async (values) => {
       try {
         const apiPayload = {
-          // order_id: orderId,
           supplier_id: supplierId,
           full_name: values?.fullName,
           mobile_number: values?.mobileNumber,
@@ -193,7 +191,7 @@ const SupplierAddAddress = () => {
                 value={formik.values.mobileNumber}
                 onChange={(value) => {
                   handlePhoneChange("mobileNumber", value);
-                  //   setMobile(value);
+                 
                 }}
                 onBlur={formik.handleBlur}
               />
