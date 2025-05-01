@@ -105,6 +105,7 @@ const PurchasedOrder = ({ poList, totalList, currentPage, listPerPage, handlePag
                 persistTableHead
                 noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
                 pagination={false}
+                responsive
             />
            
             {poList && poList.length > 0 && (

@@ -181,6 +181,7 @@ const ApprovedSeller = () => {
                         persistTableHead
                         noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
                         pagination={false}
+                        responsive
                     />
                     {/* Conditionally render PaginationComponent only if sellerList has data */}
                     {sellerList.length > 0 && (
