@@ -343,7 +343,7 @@ const ProductDetails = () => {
          {productDetail?.general?.aboutManufacturer && (
           <div className={styles.mainContainer}>
             <div className={styles.manufacturerDescriptionSection}>
-              <span className={styles.medicineHead}>About Manufacturer</span>
+              <span className={styles.medicineHead}>Short Description</span>
               <span
                 className={styles.medicineDescriptionContent}
               >{productDetail?.general?.aboutManufacturer}</span>

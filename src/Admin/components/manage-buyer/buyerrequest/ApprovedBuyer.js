@@ -168,6 +168,7 @@ const ApprovedBuyer = () => {
                         noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
                         persistTableHead
                         pagination={false}
+                        responsive
                     />
                     {buyerList.length > 0 && (
                         <PaginationComponent

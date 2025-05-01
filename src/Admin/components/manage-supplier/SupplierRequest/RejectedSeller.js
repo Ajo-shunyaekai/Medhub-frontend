@@ -184,6 +184,7 @@ const RejectedSuppliers = () => {
             pagination={false} // Disable built-in pagination
             noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
             persistTableHead
+            responsive
           />
           {sellerList.length > 0 && (
             <PaginationComponent

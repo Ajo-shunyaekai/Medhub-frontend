@@ -148,6 +148,7 @@ const TotalRequestList = () => {
                         noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
                         persistTableHead
                         pagination={false}
+                        responsive
                     />
                     {requestList.length > 0 && totalRequests > 0 && (
                         <PaginationComponent
