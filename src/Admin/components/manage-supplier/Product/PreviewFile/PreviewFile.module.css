@@ -1,5 +1,7 @@
 .previewContainer {
   width: 100%;
+  max-width: 96%;
+  margin-right: auto;
   height: 100%;
   overflow-y: auto;
   background-attachment: fixed;
@@ -15,11 +17,12 @@
 }
 
 .tableHeader {
- 
+ width: 100%;
   margin-bottom: 10px;
 }
 
 .container {
+  width: 100%;
   display: flex;
   flex-direction: column;
   row-gap: 10px;
@@ -32,6 +35,7 @@
   justify-content: space-between;
   align-items: center;
   color: #000 !important;
+  width: 100%;
 }
 
 .buttonGroup {
@@ -72,4 +76,16 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+@media (max-width:1360px){
+  .previewContainer {
+    width: 100%;
+    max-width: 92%;
+}
+}
+@media (max-width:1240px){
+  .previewContainer {
+    width: 100%;
+    max-width: 89%;
+}
 }

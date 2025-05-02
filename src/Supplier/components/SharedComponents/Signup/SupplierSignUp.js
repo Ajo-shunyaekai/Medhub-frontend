@@ -122,6 +122,7 @@ const SupplierSignUp = ({ socket }) => {
     companyAddress: "",
     companyEmail: "",
     companyPhone: "",
+    websiteAddress:"",
     salesPersonName: "",
     contactPersonName: "",
     designation: "",
@@ -229,7 +230,7 @@ const SupplierSignUp = ({ socket }) => {
   const companyTypeOptions = [
     { value: "manufacturer", label: "Manufacturer" },
     { value: "distributor", label: "Distributor" },
-    {value: "service provider", label: "Service Provider"},
+    { value: "service provider", label: "Service Provider" },
     {
       value: "medical practitioner",
       label: "Medical Practitioner",
@@ -333,7 +334,7 @@ const SupplierSignUp = ({ socket }) => {
       if (!value.trim()) {
         errorMessage = "Please enter bank details";
       }
-    
+
 
       setErrors((prevState) => ({
         ...prevState,
@@ -360,8 +361,8 @@ const SupplierSignUp = ({ socket }) => {
       return;
     }
 
-    if((name === "companyAddress") &&
-    value.length > 150 ) {
+    if ((name === "companyAddress") &&
+      value.length > 150) {
       setErrors((prevState) => ({
         ...prevState,
         [name]: ``,
@@ -517,7 +518,7 @@ const SupplierSignUp = ({ socket }) => {
       formErrors.operationCountries = "Country of Operation is Required";
     if (!formData.categories.length)
       formErrors.categories = "Trade In Category is Required";
-   
+
     // if (!formData.companyLicenseExpiry) {
     //   formErrors.companyLicenseExpiry =
     //     "Company License Expiry Date is Required";
@@ -553,11 +554,11 @@ const SupplierSignUp = ({ socket }) => {
     //     }
     //   }
     // }
-   
+
     if (!formData.bankdetails) {
       formErrors.bankdetails = "Bank Details are Required";
     } else {
-     
+
     }
 
     // if (!formData.delivertime) formErrors.delivertime = 'Estimated Delivery Time is Required';
@@ -590,14 +591,14 @@ const SupplierSignUp = ({ socket }) => {
     if (!formData.locality) formErrors.locality = "Locality is Required";
     if (!formData.country) formErrors.country = "Country is Required";
     if (
-      selectedCompanyType?.value !== "service provider" 
+      selectedCompanyType?.value !== "service provider"
       // && !formData.medicalCertificateImage
     ) {
       // formErrors.medicalCertificateImage =
       //   "Medical Certificate Image is Required";
       if (Array.isArray(certificateFileNDate) && certificateFileNDate.length > 0) {
         const fileErrors = [];
-  
+
         certificateFileNDate.forEach((item, index) => {
           if (!item.file) {
             fileErrors.push(`File is required for entry ${index + 1}`);
@@ -611,7 +612,7 @@ const SupplierSignUp = ({ socket }) => {
             setCNCFileError(fileErrorArr);
           }
         });
-  
+
         if (fileErrors.length > 0) {
           formErrors.certificateFileNDate = fileErrors.join(", ");
         }
@@ -761,6 +762,8 @@ const SupplierSignUp = ({ socket }) => {
       formDataToSend.append("supplier_name", formData.companyName);
       formDataToSend.append("description", formData.description);
       formDataToSend.append("supplier_address", formData.companyAddress);
+      formDataToSend.append("website_address", formData.websiteAddress);
+      
       // formDataToSend.append('supplier_email', formData.companyEmail);
       // formDataToSend.append('supplier_mobile_no', companyPhone);
       formDataToSend.append("supplier_mobile_no", formData.companyPhone);
@@ -1008,6 +1011,20 @@ const SupplierSignUp = ({ socket }) => {
                     </div>
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
+                        Company Website
+                      </label>
+                      <input
+                        className={styles.signupFormSectionInput}
+                        type="text"
+                        name="websiteAddress"
+                        placeholder="Enter Company's Website"
+                        value={formData.websiteAddress}
+                        onChange={handleChange}
+                      />
+
+                    </div>
+                    <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
                         Company Phone No.<span className={styles.labelStamp}>*</span>
                       </label>
                       <PhoneInput
@@ -1100,11 +1117,11 @@ const SupplierSignUp = ({ socket }) => {
                         options={
                           selectedCountry
                             ? [
-                                ...State.getStatesOfCountry(
-                                  selectedCountry.isoCode
-                                ),
-                                { name: "Other", isoCode: "OTHER" },
-                              ]
+                              ...State.getStatesOfCountry(
+                                selectedCountry.isoCode
+                              ),
+                              { name: "Other", isoCode: "OTHER" },
+                            ]
                             : []
                         }
                         getOptionLabel={(option) => option.name}
@@ -1122,12 +1139,12 @@ const SupplierSignUp = ({ socket }) => {
                         options={
                           selectedState && selectedState.isoCode !== "OTHER"
                             ? [
-                                ...City.getCitiesOfState(
-                                  selectedState.countryCode,
-                                  selectedState.isoCode
-                                ),
-                                { name: "Other" },
-                              ]
+                              ...City.getCitiesOfState(
+                                selectedState.countryCode,
+                                selectedState.isoCode
+                              ),
+                              { name: "Other" },
+                            ]
                             : [{ name: "Other" }]
                         }
                         getOptionLabel={(option) => option.name}
@@ -1153,21 +1170,21 @@ const SupplierSignUp = ({ socket }) => {
                     </div>
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
-                        Sales Person Name
+                        Medhub Global Sales Representative
                       </label>
                       <div className={styles.signupTooltipClass}>
                         <input
                           className={styles.signupFormSectionInput}
                           type="text"
                           name="salesPersonName"
-                          placeholder="Enter Sales Person Name"
+                          placeholder="Enter Medhub Global Sales Representative"
                           value={formData.salesPersonName}
                           onChange={handleChange}
                         />
                         <span
                           className={styles.emailInfoIcon}
                           data-tooltip-id="company-name-tooltip"
-                          data-tooltip-content="Provide Medhub Global Sales Person Name"
+                          data-tooltip-content="Provide Medhub Global Sales Representative Name"
                         >
                           <img
                             src={Information}
@@ -1251,12 +1268,12 @@ const SupplierSignUp = ({ socket }) => {
                         value={formData.companyLicenseNo}
                         onChange={handleChange}
                       />
-                     
+
                     </div>
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
                         License Expiry/Renewal Date
-                        
+
                       </label>
                       {/* <InputMask
                         className={styles.signupFormSectionInput}
@@ -1272,7 +1289,7 @@ const SupplierSignUp = ({ socket }) => {
                       />*/}
                       <DatePicker
                         className={styles.signupFormSectionInput}
-                        selected={formData.companyLicenseExpiry ? parseDateString(formData.companyLicenseExpiry) : null }
+                        selected={formData.companyLicenseExpiry ? parseDateString(formData.companyLicenseExpiry) : null}
                         onChange={(date) => {
                           const formattedDate = date ? date.toLocaleDateString("en-GB") : "";
                           handleChange({ target: { name: "companyLicenseExpiry", value: formattedDate } });
@@ -1283,9 +1300,9 @@ const SupplierSignUp = ({ socket }) => {
                         showYearDropdown
                         scrollableYearDropdown
                         disabledKeyboardNavigation={false}
-                      />                     
+                      />
                     </div>
-                    
+
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
                         Tags
@@ -1303,7 +1320,7 @@ const SupplierSignUp = ({ socket }) => {
                         <div className={styles.signupErrors}>{errors.tags}</div>
                       )}
                     </div>
-                    
+
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
                         About Company<span className={styles.labelStamp}>*</span>
@@ -1569,75 +1586,75 @@ const SupplierSignUp = ({ socket }) => {
                       )}
                     </div>
                     {selectedCompanyType?.value !== "service provider" && (
-                    <div className={styles.signupDocumentSection}>
-                    <div className={styles.signupAddButtonSection}>
-                      <button
-                        className={styles.signupDocumentHead}
-                        onClick={(e) => addNewSection(e)}
-                      >
-                        Add
-                      </button>
-                      </div>
-                      {certificateFileNDate.map((section, index) => (
-                        <div key={index} className={styles.documentInnerSection}>
-                          <div className={styles.signupFormSectionDiv}>
-                            <label className={styles.signupFormSectionLabel}>
-                              Upload Certificate
-                              <span className={styles.labelStamp}>*</span>
-                            </label>
-                            <CertificateUploader
-                              onUploadStatusChange={(status) =>
-                                handleImageUpload(status, index)
-                              }
-                              filePreviews={section.file}
-                              setFilePreviews={(files) => setfile(files, index)}
-                              reset={resetUploaders}
-                              allowMultiple={false}
-                              showTooltip={true}
-                              tooltipMessage="Certificate could be any company based compliance certificates: ISO, Heath and Safety, WDA."
-                              certificateFileNDate={certificateFileNDate}
-                              setCertificateFileNDate={setCertificateFileNDate}
-                              cNCFileArray={cNCFileArray}
-                              setCNCFileArray={setCNCFileArray}
-                              cNCFileError={cNCFileError}
-                              setCNCFileError={setCNCFileError}
-                              mainIndex={index}
-                            />
-                            {cNCFileError?.[index] && (
-                              <div className={styles.signupErrors}>
-                                {cNCFileError?.[index]}
+                      <div className={styles.signupDocumentSection}>
+                        <div className={styles.signupAddButtonSection}>
+                          <button
+                            className={styles.signupDocumentHead}
+                            onClick={(e) => addNewSection(e)}
+                          >
+                            Add
+                          </button>
+                        </div>
+                        {certificateFileNDate.map((section, index) => (
+                          <div key={index} className={styles.documentInnerSection}>
+                            <div className={styles.signupFormSectionDiv}>
+                              <label className={styles.signupFormSectionLabel}>
+                                Upload Certificate
+                                <span className={styles.labelStamp}>*</span>
+                              </label>
+                              <CertificateUploader
+                                onUploadStatusChange={(status) =>
+                                  handleImageUpload(status, index)
+                                }
+                                filePreviews={section.file}
+                                setFilePreviews={(files) => setfile(files, index)}
+                                reset={resetUploaders}
+                                allowMultiple={false}
+                                showTooltip={true}
+                                tooltipMessage="Certificate could be any company based compliance certificates: ISO, Heath and Safety, WDA."
+                                certificateFileNDate={certificateFileNDate}
+                                setCertificateFileNDate={setCertificateFileNDate}
+                                cNCFileArray={cNCFileArray}
+                                setCNCFileArray={setCNCFileArray}
+                                cNCFileError={cNCFileError}
+                                setCNCFileError={setCNCFileError}
+                                mainIndex={index}
+                              />
+                              {cNCFileError?.[index] && (
+                                <div className={styles.signupErrors}>
+                                  {cNCFileError?.[index]}
+                                </div>
+                              )}
+                            </div>
+
+                            <div className={styles.signupFormSectionDiv}>
+                              <label className={styles.signupFormSectionLabel}>
+                                Expiry Date
+                              </label>
+                              <DatePicker
+                                className={styles.signupFormSectionInput}
+                                selected={section.date}
+                                onChange={(date) => handleDateChange(date, index)}
+                                dateFormat="dd/MM/yyyy"
+                                placeholderText="dd/MM/yyyy"
+                                minDate={new Date()}
+                                showYearDropdown
+                                scrollableYearDropdown
+                                disabledKeyboardNavigation={false}
+                              />
+                            </div>
+
+                            {certificateFileNDate.length > 1 && (
+                              <div
+                                onClick={() => removeSection(index)}
+                                className={styles.signupCrossButton}
+                              >
+                                <img src={Cross} alt="cross" className={styles.crossIcon} />
                               </div>
                             )}
                           </div>
-
-                          <div className={styles.signupFormSectionDiv}>
-                            <label className={styles.signupFormSectionLabel}>
-                              Expiry Date
-                            </label>
-                            <DatePicker
-                              className={styles.signupFormSectionInput}
-                              selected={section.date}
-                              onChange={(date) => handleDateChange(date, index)}
-                              dateFormat="dd/MM/yyyy"
-                              placeholderText="dd/MM/yyyy"
-                              minDate={new Date()}
-                              showYearDropdown
-                              scrollableYearDropdown
-                              disabledKeyboardNavigation={false}
-                            />
-                          </div>
-
-                          {certificateFileNDate.length > 1 && (
-                            <div
-                              onClick={() => removeSection(index)}
-                              className={styles.signupCrossButton}
-                            >
-                              <img src={Cross} alt="cross" className={styles.crossIcon}/>
-                            </div>
-                          )}
-                        </div>
-                      ))}
-                    </div>
+                        ))}
+                      </div>
                     )}
                     {selectedCompanyType?.value === "medical practitioner" && (
                       <div className={styles.signupFormSectionDiv}>

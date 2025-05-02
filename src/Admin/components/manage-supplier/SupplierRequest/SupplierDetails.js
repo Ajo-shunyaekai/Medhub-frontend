@@ -322,7 +322,7 @@ const SupplierDetails = () => {
                         <div className='buyers-details-section'>
                             <div className='buyer-details-inner-left-section'>
                                 <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Sales Person Name :</div>
+                                    <div className='buyer-details-inner-head'>Medhub Global Sales Representative :</div>
                                     <div className='buyer-details-inner-text'>{supplierDetails?.sales_person_name}</div>
                                 </div>
                                 <div className='buyer-details-inner-section'>

@@ -309,7 +309,7 @@ const DetailsBuyerRequest = () => {
                             <div className='buyer-details-inner-left-section'>
                                 <div className="buyer-details-inner-section">
                                     <div className="buyer-details-inner-head">
-                                        Sales Person Name :
+                                        Medhub Global Sales Representative :
                                         <FaEdit className="edit-icon" onClick={handleEditClick} />
                                     </div>
                                     <div className="buyer-details-inner-text">
@@ -319,7 +319,7 @@ const DetailsBuyerRequest = () => {
                                                 defaultValue={buyerDetails?.sales_person_name}
                                                 onChange={handleChange}
                                                 className="editable-details"
-                                                placeholder="Sales Person Name"
+                                                placeholder="Enter Medhub Global Sales Representative Name"
                                             />
                                         ) : (
                                             <span>{buyerDetails?.sales_person_name}</span>
