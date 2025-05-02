@@ -123,6 +123,7 @@ const SignUp = ({ socket }) => {
     companyAddress: "",
     companyEmail: "",
     companyPhone: "",
+    websiteAddress:"",
     salesPersonName: "",
     contactPersonName: "",
     designation: "",
@@ -677,6 +678,7 @@ const SignUp = ({ socket }) => {
       formDataToSend.append("buyer_email", formData.companyEmail);
      
       formDataToSend.append("buyer_mobile", formData.companyPhone);
+      formDataToSend.append("website_Address", formData.websiteAddress);
       formDataToSend.append("license_no", formData.companyLicenseNo);
       formDataToSend.append("country_of_origin", formData.originCountry);
       formDataToSend.append("sales_person_name", formData.salesPersonName);
@@ -975,6 +977,21 @@ const SignUp = ({ socket }) => {
                         </div>
                       )}
                     </div>
+
+                    <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
+                        Company Website
+                      </label>
+                      <input
+                        className={styles.signupFormSectionInput}
+                        type="text"
+                        name="websiteAddress"
+                        placeholder="Enter Company's Website"
+                        value={formData.websiteAddress}
+                        onChange={handleChange}
+                      />
+                     
+                    </div>
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
                         Company Email ID<span className={styles.labelStamp}>*</span>
@@ -1140,21 +1157,21 @@ const SignUp = ({ socket }) => {
                     </div>
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
-                        Sales Person Name
+                      Medhub Global Sales Representative
                       </label>
                       <div className={styles.signupTooltipClass}>
                       <input
                         className={styles.signupFormSectionInput}
                         type="text"
                         name="salesPersonName"
-                        placeholder="Enter Sales Person Name"
+                        placeholder="Enter Medhub Global Sales Representative Name"
                         value={formData.salesPersonName}
                         onChange={handleChange}
                       />
                       <span
                         className={styles.emailInfoIcon}
                         data-tooltip-id="company-name-tooltip"
-                        data-tooltip-content="Provide Medhub Global Sales Person Name"
+                        data-tooltip-content="Provide Medhub Global Sales Representative Name"
                       >
                         <img
                           src={Information}

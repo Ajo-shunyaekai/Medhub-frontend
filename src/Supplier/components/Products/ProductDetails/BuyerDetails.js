@@ -164,7 +164,7 @@ const BuyerDetails = () => {
                                 <div className='supplier-details-inner-text'>{buyer?.vat_reg_no}</div>
                             </div>
                             <div className='supplier-details-inner-section'>
-                                <div className='supplier-details-inner-head'>Sales Person Name</div>
+                                <div className='supplier-details-inner-head'>Medhub Global Sales Representative</div>
                                 <div className='supplier-details-inner-text'>{buyer?.contact_person_country_code} {buyer?.contact_person_mobile}</div>
                             </div>
                             <div className='supplier-details-inner-section'>

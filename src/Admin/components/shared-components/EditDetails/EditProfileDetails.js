@@ -998,12 +998,12 @@ const EditProfileDetails = () => {
               </div>
 
               <div className={styles?.productContainer}>
-                <label className={styles?.formLabel}>Sales Person Name</label>
+                <label className={styles?.formLabel}>Medhub Global Sales Representative</label>
                 <Field
                   applause
                   className={styles?.formInput}
                   type="text"
-                  placeholder="Enter Sales Person Name"
+                  placeholder="Enter Medhub Global Sales Representative Name"
                   name="sales_person_name"
                   value={formik?.values?.sales_person_name}
                   onChange={formik?.handleChange}
