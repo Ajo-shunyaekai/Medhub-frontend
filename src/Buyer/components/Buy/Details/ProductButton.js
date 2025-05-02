@@ -15,7 +15,7 @@ const ProductButton = () => {
     const { productDetail } = useSelector((state) => state?.productReducer || {});
 
     const [activeButton, setActiveButton] = useState('similar-products');
-    const [medicineList, setMedicineList] = useState([]);
+    const [productList, setProductList] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalItems, setTotalItems] = useState(0);
     const itemsPerPage = 5;
@@ -68,10 +68,10 @@ const ProductButton = () => {
             }
 
             if (response?.meta?.requestStatus === 'fulfilled') {
-                setMedicineList(response?.payload?.products || []);
+                setProductList(response?.payload?.products || []);
                 setTotalItems(response?.payload?.totalItems || 0);
             } else {
-                setMedicineList([]);
+                setProductList([]);
                 setTotalItems(0);
             }
         };
@@ -110,7 +110,7 @@ const ProductButton = () => {
          
             {activeButton === 'similar-products' && (
                 <ProductCard
-                    medicineList={medicineList}
+                    productList={productList}
                     currentPage={currentPage}
                     totalItems={totalItems}
                     itemsPerPage={itemsPerPage}
@@ -120,7 +120,7 @@ const ProductButton = () => {
             )}
             {activeButton === 'other-supplier' && (
                 <OtherSuppliers
-                    medicineList={medicineList}
+                    productList={productList}
                     currentPage={currentPage}
                     totalItems={totalItems}
                     itemsPerPage={itemsPerPage}

@@ -173,9 +173,7 @@ export const renderFiles2 = (files, type, styles) => {
             className={styles.fileName}
             // onClick={() => window.open(fileUrl, "_blank")}
           >
-            {file?.startsWith("http")
-              ? extractLast13WithExtension(file)
-              : extractFileName(file)}
+            {extractLast13WithExtension(file)}
           </div>
         </div>
       );
@@ -195,7 +193,9 @@ export const renderFiles2 = (files, type, styles) => {
         ".vnd.openxmlformats-officedocument.wordprocessingml.document",
         ".docx"
       );
-      const docxUrl = `${process.env.REACT_APP_SERVER_URL}/uploads/supplier/supplier_image_files/${docxFileName}`;
+      const docxUrl = file?.startsWith("http")
+        ? file
+        : `${process.env.REACT_APP_SERVER_URL}/uploads/supplier/supplier_image_files/${docxFileName}`;
 
       return (
         <div key={index} className={styles.docxSection}>
@@ -370,6 +370,7 @@ export const AddProductFileUpload = ({
         </div>
         {tooltip && (
           <CustomTooltip
+            styles={styles}
             content={tooltipContent}
             className={styles.tooltipSec}
           />
@@ -403,6 +404,8 @@ export const AddProductFileUpload = ({
           if (isImage) {
             imageSrc = isString
               ? isValidUrl(file)
+                ? file
+                : file?.startsWith("http")
                 ? file
                 : `${process.env.REACT_APP_SERVER_URL}uploads/products/${file}`
               : URL.createObjectURL(file);

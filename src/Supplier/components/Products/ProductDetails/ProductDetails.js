@@ -18,7 +18,9 @@ const ProductDetails = () => {
     productDetail?.secondaryMarketDetails?.purchaseInvoiceFile?.[0] ||
     productDetail?.data?.[0]?.secondaryMarketDetails?.purchaseInvoiceFile?.[0];
   const pdfUrl = pdfFile
-    ? `${process.env.REACT_APP_SERVER_URL}/uploads/products/${pdfFile}`
+    ? pdfFile?.startsWith("http")
+      ? pdfFile
+      : `${process.env.REACT_APP_SERVER_URL}/uploads/products/${pdfFile}`
     : "https://morth.nic.in/sites/default/files/dd12-13_0.pdf";
 
   useEffect(() => {
@@ -45,25 +47,25 @@ const ProductDetails = () => {
     return `${day}-${month}-${year}`;
   };
 
-    const fallbackImageUrl = "https://medhub.shunyaekai.com/uploads/fallbackImage.jpg";
+  const fallbackImageUrl =
+    "https://medhub.shunyaekai.com/uploads/fallbackImage.jpg";
 
-      // Utility to check if URL ends with image extension
-      const isImageExtension = (fileName) => {
-        return /\.(png|jpe?g|gif|bmp|webp)$/i.test(fileName);
-      };
+  // Utility to check if URL ends with image extension
+  const isImageExtension = (fileName) => {
+    return /\.(png|jpe?g|gif|bmp|webp)$/i.test(fileName);
+  };
 
-
-      const isValidHttpUrl = (url) => {
-        try {
-          const parsedUrl = new URL(url);
-          return (parsedUrl.protocol === "http:" || parsedUrl.protocol === "https:") &&
-            isImageExtension(parsedUrl.pathname);
-        } catch (_) {
-          return false;
-        }
-      };
-
-
+  const isValidHttpUrl = (url) => {
+    try {
+      const parsedUrl = new URL(url);
+      return (
+        (parsedUrl.protocol === "http:" || parsedUrl.protocol === "https:") &&
+        isImageExtension(parsedUrl.pathname)
+      );
+    } catch (_) {
+      return false;
+    }
+  };
 
   return (
     <div className={styles.container}>
@@ -126,8 +128,8 @@ const ProductDetails = () => {
                   </div>
                 )}
               </div>
-              {(productDetail?.secondaryMarketDetails?.countryAvailable?.length >
-                0 ||
+              {(productDetail?.secondaryMarketDetails?.countryAvailable
+                ?.length > 0 ||
                 productDetail?.secondaryMarketDetails?.minimumPurchaseUnit) && (
                 <div className={styles.mainSection}>
                   {productDetail?.secondaryMarketDetails?.countryAvailable
@@ -339,14 +341,14 @@ const ProductDetails = () => {
         </div>
 
         {/* End general information section */}
-         {/* Start Short description */}
-         {productDetail?.general?.aboutManufacturer && (
+        {/* Start Short description */}
+        {productDetail?.general?.aboutManufacturer && (
           <div className={styles.mainContainer}>
             <div className={styles.manufacturerDescriptionSection}>
               <span className={styles.medicineHead}>Short Description</span>
-              <span
-                className={styles.medicineDescriptionContent}
-              >{productDetail?.general?.aboutManufacturer}</span>
+              <span className={styles.medicineDescriptionContent}>
+                {productDetail?.general?.aboutManufacturer}
+              </span>
             </div>
           </div>
         )}
@@ -3175,8 +3177,6 @@ const ProductDetails = () => {
 
         {/* End the category details section */}
 
-      
-
         {productDetail?.general?.image?.length > 0 && (
           <div className={styles.mainContainer}>
             <span className={styles.innerHead}>Product Images</span>
@@ -3208,9 +3208,6 @@ const ProductDetails = () => {
                   </div>
                 );
               })}
-
-
-
             </div>
           </div>
         )}
@@ -3369,7 +3366,6 @@ const ProductDetails = () => {
                   )}
                 </div>
               )}
-             
             </div>
           </div>
         )}

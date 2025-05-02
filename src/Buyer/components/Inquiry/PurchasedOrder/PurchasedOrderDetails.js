@@ -3,16 +3,16 @@ import styles from "./PurchasedOrderDetails.module.css";
 import html2pdf from "html2pdf.js";
 import { useNavigate, useParams } from "react-router-dom";
 import { postRequestWithToken } from "../../../../api/Requests";
- 
+
 const PurchasedOrderDetails = () => {
   const { purchaseOrderId } = useParams();
   const navigate = useNavigate();
- 
+
   const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
   const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
- 
+
   const [poDetails, setPoDetails] = useState();
- 
+
   useEffect(() => {
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
       localStorage?.clear();
@@ -23,7 +23,7 @@ const PurchasedOrderDetails = () => {
       buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
       purchaseOrder_id: purchaseOrderId,
     };
- 
+
     postRequestWithToken(
       "purchaseorder/get-po-details",
       obj,
@@ -35,7 +35,7 @@ const PurchasedOrderDetails = () => {
       }
     );
   }, []);
- 
+
   const orderItems =
     poDetails?.order_items?.map((item) => ({
       ...item,
@@ -43,18 +43,21 @@ const PurchasedOrderDetails = () => {
       unit_tax: parseFloat(item?.medicine_details?.general?.unit_tax || "0"),
       total_amount: parseFloat(item?.total_amount),
     })) || [];
- 
+
   const totalAmount = orderItems.reduce(
     (sum, item) => sum + item.total_amount,
     0
   );
   const totalTaxAmount = orderItems.reduce((sum, item) => {
-    const unitTaxRate = parseFloat(item.unit_tax || item?.medicine_details?.general?.unit_tax || "0") / 100;
+    const unitTaxRate =
+      parseFloat(
+        item.unit_tax || item?.medicine_details?.general?.unit_tax || "0"
+      ) / 100;
     const itemTotalAmount = parseFloat(item.total_amount);
     return sum + itemTotalAmount * unitTaxRate;
   }, 0);
   const grandTotal = totalAmount + totalTaxAmount;
- 
+
   const handleDownload = () => {
     const element = document.getElementById("po-content");
     const options = {
@@ -64,10 +67,10 @@ const PurchasedOrderDetails = () => {
       html2canvas: { scale: 2 },
       jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
     };
- 
+
     html2pdf().from(element).set(options).save();
   };
- 
+
   return (
     <div className={styles["purchased-template-design"]}>
       <div className={styles["purchased-scroll-wrapper"]}>
@@ -108,7 +111,13 @@ const PurchasedOrderDetails = () => {
                 <tr>
                   <td>
                     <img
-                      src={`${process.env.REACT_APP_SERVER_URL}uploads/buyer/buyer_images/${poDetails?.buyer_details?.[0]?.buyer_image?.[0]}`}
+                      src={
+                        poDetails?.buyer_details?.[0]?.buyer_image?.[0]?.startsWith(
+                          "http"
+                        )
+                          ? poDetails?.buyer_details?.[0]?.buyer_image?.[0]
+                          : `${process.env.REACT_APP_SERVER_URL}uploads/buyer/buyer_images/${poDetails?.buyer_details?.[0]?.buyer_image?.[0]}`
+                      }
                       alt="companylogo"
                       className={styles["purchange-logo"]}
                     />
@@ -189,7 +198,7 @@ const PurchasedOrderDetails = () => {
                           >
                             {poDetails?.buyer_address}
                           </p>
-                        
+
                           <td
                             style={{ display: "flex", justifyContent: "start" }}
                           >
@@ -301,7 +310,7 @@ const PurchasedOrderDetails = () => {
                           >
                             {poDetails?.supplier_address}
                           </p>
-                        
+
                           <td
                             style={{ display: "flex", justifyContent: "end" }}
                           >
@@ -521,7 +530,10 @@ const PurchasedOrderDetails = () => {
                                         fontSize: "13px",
                                       }}
                                     >
-                                      {item.unit_tax || item?.medicine_details?.general?.unit_tax}%
+                                      {item.unit_tax ||
+                                        item?.medicine_details?.general
+                                          ?.unit_tax}
+                                      %
                                     </p>
                                   </td>
                                   <td
@@ -551,7 +563,6 @@ const PurchasedOrderDetails = () => {
                               }}
                             >
                               <tr>
-                             
                                 <td style={{ width: "750px" }}>
                                   <table
                                     style={{ width: "100%", borderSpacing: 0 }}
@@ -586,7 +597,6 @@ const PurchasedOrderDetails = () => {
                                           {totalAmount.toFixed(2)} USD
                                         </p>
                                       </tr>
-                                  
                                     </tbody>
                                   </table>
                                 </td>
@@ -649,7 +659,6 @@ const PurchasedOrderDetails = () => {
                           </span>
                           {poDetails?.additional_instructions}
                         </p>
-                      
                       </div>
                     </td>
                   </tr>
@@ -662,5 +671,5 @@ const PurchasedOrderDetails = () => {
     </div>
   );
 };
- 
+
 export default PurchasedOrderDetails;

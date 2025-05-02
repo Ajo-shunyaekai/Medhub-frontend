@@ -12,7 +12,10 @@ import { toast } from "react-toastify";
 import { FaFilePdf, FaFileWord } from "react-icons/fa";
 import SupplierCustomModal from "./SupplierCustomModal";
 import { apiRequests } from "../../../../api/index";
-import { extractLast13WithExtension, renderFiles } from "../../../../utils/helper";
+import {
+  extractLast13WithExtension,
+  renderFiles,
+} from "../../../../utils/helper";
 const SupplierRequestDetails = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [supplierDetails, setSupplierDetails] = useState();
@@ -43,7 +46,7 @@ const SupplierRequestDetails = () => {
     setOpen(false);
     setPdfUrl(null);
   };
-  
+
   useEffect(() => {
     const getSupplierdetails = async () => {
       if (!adminIdSessionStorage && !adminIdLocalStorage) {
@@ -122,7 +125,11 @@ const SupplierRequestDetails = () => {
               <div className="buyer-details-company-logo-container">
                 <div className="buyer-details-company-logo-section">
                   <img
-                    src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/supplierImage_files/${supplierDetails?.supplier_image[0]}`}
+                    src={
+                      supplierDetails?.supplier_image?.[0]?.startsWith("http")
+                        ? supplierDetails?.supplier_image?.[0]
+                        : `${process.env.REACT_APP_SERVER_URL}uploads/supplier/supplierImage_files/${supplierDetails?.supplier_image?.[0]}`
+                    }
                     alt="CompanyLogo"
                   />
                 </div>

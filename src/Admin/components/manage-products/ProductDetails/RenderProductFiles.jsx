@@ -66,7 +66,9 @@ const RenderProductFiles = ({ files }) => {
         ".vnd.openxmlformats-officedocument.wordprocessingml.document",
         ".docx"
       );
-      const docxUrl = `${serverUrl}uploads/products/${docxFileName}`;
+      const docxUrl = file?.startsWith("http")
+        ? file
+        : `${serverUrl}uploads/products/${docxFileName}`;
 
       return (
         <div key={index} className={styles.uploadFileContainer}>

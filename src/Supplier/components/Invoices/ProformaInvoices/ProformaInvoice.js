@@ -748,7 +748,7 @@ const ProformaInvoice = ({ socket }) => {
                   <input
                     className={styles["create-invoice-div-input"]}
                     type="text"
-                    name="buyerLocality"
+                    name="supplierLocality"
                     placeholder="Enter Area/Locality/Road Name"
                     value={formData.supplierLocality}
                     onChange={handleChange}

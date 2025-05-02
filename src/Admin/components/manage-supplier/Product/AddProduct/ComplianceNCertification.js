@@ -15,23 +15,24 @@ const useFileUpload = (
   initialValues
 ) => {
   const [filesMerged, setFilesMerged] = useState(selectedFile || []);
-  const [filesMerged2, setFilesMerged2] = useState(initialValues?.complianceFile || []);
+  const [filesMerged2, setFilesMerged2] = useState(
+    initialValues?.complianceFile || []
+  );
 
   const onDrop = useCallback(
     (acceptedFiles) => {
       setFieldValue(fieldInputName, acceptedFiles);
-    
-      
+
       setFilesMerged2((prev) => {
-        const totalFiles = [...prev, ...acceptedFiles].slice(0, 4); 
-      
+        const totalFiles = [...prev, ...acceptedFiles].slice(0, 4);
+
         return totalFiles;
       });
       setFilesMerged(acceptedFiles);
 
       const updatedComplianceFiles = [
         ...(initialValues?.complianceFile || []),
-        ...acceptedFiles, 
+        ...acceptedFiles,
       ];
 
       setFieldValue("complianceFile", updatedComplianceFiles);
@@ -40,13 +41,13 @@ const useFileUpload = (
   );
   useEffect(() => {
     if (selectedFile?.length > 0) {
-      setFilesMerged(selectedFile); 
+      setFilesMerged(selectedFile);
     }
   }, [selectedFile]);
 
   useEffect(() => {
     if (initialValues?.complianceFile?.length > 0) {
-      setFilesMerged2(initialValues?.complianceFile); 
+      setFilesMerged2(initialValues?.complianceFile);
     }
   }, [initialValues?.complianceFile]);
 
@@ -55,13 +56,17 @@ const useFileUpload = (
     const updatedFiles = filesMerged.filter((_, i) => i !== index);
     setFilesMerged(updatedFiles);
     setFieldValue(fieldInputName, updatedFiles);
-    setFieldValue("complianceFile", initialValues?.complianceFile?.filter((_, i) => i !== fileIndex)); 
+    setFieldValue(
+      "complianceFile",
+      initialValues?.complianceFile?.filter((_, i) => i !== fileIndex)
+    );
   };
 
   const defaultAccept = {
     "application/pdf": [],
     "application/msword": [],
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document": [],
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+      [],
     "image/png": [],
     "image/jpeg": [],
     "image/jpg": [],
@@ -69,8 +74,8 @@ const useFileUpload = (
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: acceptTypes || defaultAccept, 
-    multiple: maxFiles > 1, 
+    accept: acceptTypes || defaultAccept,
+    multiple: maxFiles > 1,
   });
 
   return { filesMerged, getRootProps, getInputProps, isDragActive, removeFile };
@@ -83,8 +88,8 @@ const ComplianceNCertification = ({
   label,
   tooltip,
   showLabel = true,
-  acceptTypes, 
-  maxFiles = 1, 
+  acceptTypes,
+  maxFiles = 1,
   selectedFile,
   fileIndex,
 }) => {
@@ -127,10 +132,7 @@ const ComplianceNCertification = ({
         </div>
         {tooltip && (
           <>
-           <Tooltip
-              content={tooltipContent}
-              className={styles.tooltipSec}
-            />
+            <Tooltip content={tooltipContent} className={styles.tooltipSec} />
           </>
         )}
       </div>
@@ -139,7 +141,7 @@ const ComplianceNCertification = ({
           {fileUpload?.filesMerged?.map((file, index) => {
             const fileExtension =
               typeof file === "string"
-                ? file?.split(".")?.pop()?.toLowerCase() 
+                ? file?.split(".")?.pop()?.toLowerCase()
                 : file?.name?.split(".")?.pop()?.toLowerCase();
 
             const isImage =
@@ -155,9 +157,13 @@ const ComplianceNCertification = ({
               <div key={index} className={styles.filePreview}>
                 {isImage ? (
                   <img
-                    src={typeof file === "string"
-                      ? `${process.env.REACT_APP_SERVER_URL}uploads/products/${file}`
-                      : URL.createObjectURL(file)}
+                    src={
+                      typeof file === "string"
+                        ? file?.startsWith("http")
+                          ? file
+                          : `${process.env.REACT_APP_SERVER_URL}uploads/products/${file}`
+                        : URL.createObjectURL(file)
+                    }
                     alt={file?.name}
                     className={styles.previewImage}
                   />
@@ -170,9 +176,7 @@ const ComplianceNCertification = ({
                 <button
                   type="button"
                   className={styles.removeButton}
-                  onClick={(event) =>
-                    fileUpload?.removeFile(index, event)
-                  }
+                  onClick={(event) => fileUpload?.removeFile(index, event)}
                   title={`Remove ${isImage ? "image" : isPdf ? "PDF" : "file"}`}
                 >
                   <FiX size={15} className={styles.removeIcon} />

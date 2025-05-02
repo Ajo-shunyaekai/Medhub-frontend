@@ -1,7 +1,10 @@
 import styles from "./productdetails.module.css";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProductDetail, fetchSupplierProductsList } from "../../../../redux/reducers/productSlice";
+import {
+  fetchProductDetail,
+  fetchSupplierProductsList,
+} from "../../../../redux/reducers/productSlice";
 import { useState, useEffect } from "react";
 import Modal from "react-modal";
 import CloseIcon from "../../../assets/images/Icon.svg";
@@ -14,51 +17,57 @@ Modal.setAppElement("#root");
 const SearchProductDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { productDetail, supplierProductList } = useSelector((state) => state?.productReducer || {});
+  const { productDetail, supplierProductList } = useSelector(
+    (state) => state?.productReducer || {}
+  );
   const [modalIsOpen, setModalIsOpen] = useState(false);
   // State for search and filter
-   
+
   const [inputValue, setInputValue] = useState("");
-  const [searchKey, setSearchKey]   = useState(null)
+  const [searchKey, setSearchKey] = useState(null);
   const [filteredData, setFilteredData] = useState([]);
-  const [medicineList, setMedicineList] = useState([]);
+  const [productList, setProductList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalItems, setTotalitems] = useState(0); 
+  const [totalItems, setTotalitems] = useState(0);
   const itemsPerPage = 2;
 
   const pdfFile =
     productDetail?.secondaryMarketDetails?.purchaseInvoiceFile?.[0] ||
     productDetail?.data?.[0]?.secondaryMarketDetails?.purchaseInvoiceFile?.[0];
   const pdfUrl = pdfFile
-    ? `${process.env.REACT_APP_SERVER_URL}/uploads/products/${pdfFile}`
+    ? pdfFile?.startsWith("http")
+      ? pdfFile
+      : `${process.env.REACT_APP_SERVER_URL}/uploads/products/${pdfFile}`
     : "https://morth.nic.in/sites/default/files/dd12-13_0.pdf";
 
   // Fetch product details on mount or when id changes
   useEffect(() => {
     if (id) {
       dispatch(fetchProductDetail(`product/${id}`));
-     
     }
   }, [id, dispatch]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await dispatch(fetchSupplierProductsList(`product/get-suppliers/${id}?search_key=${searchKey}&page_no=${currentPage}&page_size=${itemsPerPage}`));
+      const response = await dispatch(
+        fetchSupplierProductsList(
+          `product/get-suppliers/${id}?search_key=${searchKey}&page_no=${currentPage}&page_size=${itemsPerPage}`
+        )
+      );
 
-      if(response.meta.requestStatus === 'fulfilled') {
-        setMedicineList(response?.payload?.products || []);
+      if (response.meta.requestStatus === "fulfilled") {
+        setProductList(response?.payload?.products || []);
         setTotalitems(response?.payload?.totalItems || 0);
       } else {
-        setMedicineList([]);
+        setProductList([]);
         setTotalitems(0);
       }
-    }
-    fetchData()
-  }, [id, dispatch, currentPage, searchKey])
+    };
+    fetchData();
+  }, [id, dispatch, currentPage, searchKey]);
 
   // Update filtered data when productDetail changes
   useEffect(() => {
-  
     const dataToFilter = productDetail?.data || [productDetail] || [];
     setFilteredData(dataToFilter);
   }, [productDetail]);
@@ -70,20 +79,18 @@ const SearchProductDetails = () => {
 
   // Search handlers
   const handleInputChange = (e) => {
-   
     const input = e.target.value;
-       
-            setInputValue(e.target.value)
- 
-        if (e.target.value === '') {
-            setSearchKey('');
-        }
+
+    setInputValue(e.target.value);
+
+    if (e.target.value === "") {
+      setSearchKey("");
+    }
   };
 
   const handleProductSearch = () => {
-   
-    setSearchKey(inputValue)
-    setCurrentPage(1)
+    setSearchKey(inputValue);
+    setCurrentPage(1);
   };
 
   const handleKeyDown = (e) => {
@@ -97,13 +104,9 @@ const SearchProductDetails = () => {
   };
 
   // Filter handlers (minimal implementation, adjust as per your needs)
-  const handlePriceRange = (selectedValues) => {
-    
-  };
+  const handlePriceRange = (selectedValues) => {};
 
-  const handleDeliveryTime = (selectedValues) => {
-    
-  };
+  const handleDeliveryTime = (selectedValues) => {};
 
   const handleStockedIn = (selectedValues) => {
     // Add filtering logic here if needed
@@ -157,16 +160,21 @@ const SearchProductDetails = () => {
     <div className={styles.container}>
       <div className={styles.section}>
         <div className={styles.ProductMainContainer}>
-          <span className={styles.medicineName}>{productDetail?.general?.name}</span>
+          <span className={styles.medicineName}>
+            {productDetail?.general?.name}
+          </span>
         </div>
 
         {/* Secondary Market Section */}
         {(productDetail?.secondaryMarketDetails?.purchasedOn ||
           productDetail?.secondaryMarketDetails?.countryAvailable?.length > 0 ||
-          productDetail?.secondaryMarketDetails?.purchaseInvoiceFile?.length > 0 ||
+          productDetail?.secondaryMarketDetails?.purchaseInvoiceFile?.length >
+            0 ||
           productDetail?.secondaryMarketDetails?.condition) && (
           <div className={styles.mainContainer}>
-            <span className={styles.innerHead}>Secondary Market Information</span>
+            <span className={styles.innerHead}>
+              Secondary Market Information
+            </span>
             <div className={styles.innerSection}>
               <div className={styles.mainSection}>
                 {productDetail?.secondaryMarketDetails?.purchasedOn && (
@@ -174,14 +182,20 @@ const SearchProductDetails = () => {
                     <span className={styles.medicineHead}>Purchased on</span>
                     <span className={styles.medicineText}>
                       {String(
-                        new Date(productDetail?.secondaryMarketDetails?.purchasedOn)?.getDate()
+                        new Date(
+                          productDetail?.secondaryMarketDetails?.purchasedOn
+                        )?.getDate()
                       ).padStart(2, "0")}
                       /
                       {String(
-                        new Date(productDetail?.secondaryMarketDetails?.purchasedOn)?.getMonth() + 1
+                        new Date(
+                          productDetail?.secondaryMarketDetails?.purchasedOn
+                        )?.getMonth() + 1
                       ).padStart(2, "0")}
                       /
-                      {new Date(productDetail?.secondaryMarketDetails?.purchasedOn)?.getFullYear()}
+                      {new Date(
+                        productDetail?.secondaryMarketDetails?.purchasedOn
+                      )?.getFullYear()}
                     </span>
                   </div>
                 )}
@@ -194,37 +208,49 @@ const SearchProductDetails = () => {
                   </div>
                 )}
               </div>
-              {(productDetail?.secondaryMarketDetails?.countryAvailable?.length > 0 ||
+              {(productDetail?.secondaryMarketDetails?.countryAvailable
+                ?.length > 0 ||
                 productDetail?.secondaryMarketDetails?.minimumPurchaseUnit) && (
                 <div className={styles.mainSection}>
-                  {productDetail?.secondaryMarketDetails?.countryAvailable?.length > 0 && (
+                  {productDetail?.secondaryMarketDetails?.countryAvailable
+                    ?.length > 0 && (
                     <div className={styles.medicinesSection}>
-                      <span className={styles.medicineHead}>Country Available in</span>
+                      <span className={styles.medicineHead}>
+                        Country Available in
+                      </span>
                       <span className={styles.medicineText}>
                         {productDetail?.secondaryMarketDetails?.countryAvailable?.map(
                           (country, index) => (
                             <span key={index}>
                               {country}
                               {index !==
-                                productDetail?.secondaryMarketDetails?.countryAvailable.length - 1 &&
-                                ", "}
+                                productDetail?.secondaryMarketDetails
+                                  ?.countryAvailable.length -
+                                  1 && ", "}
                             </span>
                           )
                         )}
                       </span>
                     </div>
                   )}
-                  {productDetail?.secondaryMarketDetails?.minimumPurchaseUnit && (
+                  {productDetail?.secondaryMarketDetails
+                    ?.minimumPurchaseUnit && (
                     <div className={styles.medicinesSection}>
-                      <span className={styles.medicineHead}>Minimum Purchase Unit</span>
+                      <span className={styles.medicineHead}>
+                        Minimum Purchase Unit
+                      </span>
                       <span className={styles.medicineText}>
-                        {productDetail?.secondaryMarketDetails?.minimumPurchaseUnit}
+                        {
+                          productDetail?.secondaryMarketDetails
+                            ?.minimumPurchaseUnit
+                        }
                       </span>
                     </div>
                   )}
                 </div>
               )}
-              {productDetail?.secondaryMarketDetails?.purchaseInvoiceFile?.length > 0 && (
+              {productDetail?.secondaryMarketDetails?.purchaseInvoiceFile
+                ?.length > 0 && (
                 <div className={styles.mainPurchaseSection}>
                   <button
                     className={styles.PurcahseButton}
@@ -255,7 +281,9 @@ const SearchProductDetails = () => {
               )}
               {productDetail?.[productDetail?.category]?.anotherCategory && (
                 <div className={styles.medicinesSection}>
-                  <span className={styles.medicineHead}>Product Sub Category(Level3)</span>
+                  <span className={styles.medicineHead}>
+                    Product Sub Category(Level3)
+                  </span>
                   <span className={styles.medicineText}>
                     {productDetail?.[productDetail?.category]?.anotherCategory}
                   </span>
@@ -264,20 +292,26 @@ const SearchProductDetails = () => {
               {productDetail?.general?.form && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Type/Form</span>
-                  <span className={styles.medicineText}>{productDetail?.general?.form}</span>
+                  <span className={styles.medicineText}>
+                    {productDetail?.general?.form}
+                  </span>
                 </div>
               )}
               {productDetail?.general?.quantity && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Product Quantity</span>
-                  <span className={styles.medicineText}>{productDetail?.general?.quantity}</span>
+                  <span className={styles.medicineText}>
+                    {productDetail?.general?.quantity}
+                  </span>
                 </div>
               )}
             </div>
             <div className={styles.mainSection}>
               {productDetail?.[productDetail?.category]?.subCategory && (
                 <div className={styles.medicinesSection}>
-                  <span className={styles.medicineHead}>Product Sub Category</span>
+                  <span className={styles.medicineHead}>
+                    Product Sub Category
+                  </span>
                   <span className={styles.medicineText}>
                     {productDetail?.[productDetail?.category]?.subCategory}
                   </span>
@@ -286,14 +320,17 @@ const SearchProductDetails = () => {
               {productDetail?.general?.model && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Part/Model Number</span>
-                  <span className={styles.medicineText}>{productDetail?.general?.model}</span>
+                  <span className={styles.medicineText}>
+                    {productDetail?.general?.model}
+                  </span>
                 </div>
               )}
               {productDetail?.general?.weight && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Product Weight</span>
                   <span className={styles.medicineText}>
-                    {productDetail?.general?.weight} {productDetail?.general?.unit}
+                    {productDetail?.general?.weight}{" "}
+                    {productDetail?.general?.unit}
                   </span>
                 </div>
               )}
@@ -308,7 +345,9 @@ const SearchProductDetails = () => {
               <span className={styles.medicineHead}>Product Description</span>
               <span
                 className={styles.medicineDescriptionContent}
-                dangerouslySetInnerHTML={{ __html: productDetail?.general?.description }}
+                dangerouslySetInnerHTML={{
+                  __html: productDetail?.general?.description,
+                }}
               ></span>
             </div>
           </div>
@@ -326,7 +365,9 @@ const SearchProductDetails = () => {
                 <div className={styles.manufacturerContainer}>
                   {productDetail?.general?.manufacturer && (
                     <div className={styles.manufacturersection}>
-                      <span className={styles.medicineHead}>Manufacturer Name</span>
+                      <span className={styles.medicineHead}>
+                        Manufacturer Name
+                      </span>
                       <span className={styles.medicineText}>
                         {productDetail?.general?.manufacturer}
                       </span>
@@ -334,7 +375,9 @@ const SearchProductDetails = () => {
                   )}
                   {productDetail?.general?.countryOfOrigin && (
                     <div className={styles.manufacturersection}>
-                      <span className={styles.medicineHead}>Country of Origin</span>
+                      <span className={styles.medicineHead}>
+                        Country of Origin
+                      </span>
                       <span className={styles.medicineText}>
                         {productDetail?.general?.countryOfOrigin}
                       </span>
@@ -354,7 +397,10 @@ const SearchProductDetails = () => {
           className={styles.modal}
           overlayClassName={styles.overlay}
         >
-          <div className={styles.closeButton} onClick={() => setModalIsOpen(false)}>
+          <div
+            className={styles.closeButton}
+            onClick={() => setModalIsOpen(false)}
+          >
             <img className={styles.closeImg} src={CloseIcon} alt="closeIcon" />
           </div>
           {pdfFile ? (
@@ -362,40 +408,43 @@ const SearchProductDetails = () => {
               src={pdfUrl}
               className={styles.pdfIframe}
               title="Purchase Invoice"
-              onError={() => alert("Failed to load PDF. Please check the file path.")}
+              onError={() =>
+                alert("Failed to load PDF. Please check the file path.")
+              }
             />
           ) : (
             <p>Loading PDF or file not found...</p>
           )}
         </Modal>
-        </div>
-        {/* Search Section */}
-        <SearchSection
-          inputValue={inputValue}
-          handleInputChange={handleInputChange}
-          handleProductSearch={handleProductSearch}
-          handleKeyDown={handleKeyDown}
-        />
+      </div>
+      {/* Search Section */}
+      <SearchSection
+        inputValue={inputValue}
+        handleInputChange={handleInputChange}
+        handleProductSearch={handleProductSearch}
+        handleKeyDown={handleKeyDown}
+      />
 
-        {/* Filter Section */}
-        <FilterSection
-          countryAvailable={productDetail?.secondaryMarketDetails?.countryAvailable || []}
-          handlePriceRange={handlePriceRange}
-          handleDeliveryTime={handleDeliveryTime}
-          handleStockedIn={handleStockedIn}
-          handleQuantity={handleQuantity}
-          handleReset={handleReset}
-        />
+      {/* Filter Section */}
+      <FilterSection
+        countryAvailable={
+          productDetail?.secondaryMarketDetails?.countryAvailable || []
+        }
+        handlePriceRange={handlePriceRange}
+        handleDeliveryTime={handleDeliveryTime}
+        handleStockedIn={handleStockedIn}
+        handleQuantity={handleQuantity}
+        handleReset={handleReset}
+      />
 
-        {/* Product Cards */}
-        <SupplierMedicineCard
-            medicineList={medicineList}
-            currentPage={currentPage}
-            totalItems={totalItems}
-            itemsPerPage={itemsPerPage}
-            onPageChange={handlePageChange}
-          />
-     
+      {/* Product Cards */}
+      <SupplierMedicineCard
+        productList={productList}
+        currentPage={currentPage}
+        totalItems={totalItems}
+        itemsPerPage={itemsPerPage}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 };

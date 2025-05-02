@@ -10,7 +10,10 @@ import { postRequestWithToken } from "../../../api/Requests";
 import { toast } from "react-toastify";
 import { FaFilePdf, FaFileWord } from "react-icons/fa";
 import { apiRequests } from "../../../../api/index";
-import { extractLast13WithExtension, renderFiles } from "../../../../utils/helper";
+import {
+  extractLast13WithExtension,
+  renderFiles,
+} from "../../../../utils/helper";
 const SupplierDetails = () => {
   const { supplierId } = useParams();
   const navigate = useNavigate();
@@ -27,7 +30,7 @@ const SupplierDetails = () => {
     setOpen(false);
     setPdfUrl(null);
   };
-  
+
   useEffect(() => {
     const getSupplierDeatils = async () => {
       if (!adminIdSessionStorage && !adminIdLocalStorage) {
@@ -108,7 +111,11 @@ const SupplierDetails = () => {
               <div className="buyer-details-company-logo-container">
                 <div className="buyer-details-company-logo-section">
                   <img
-                    src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/supplierImage_files/${supplierDetails?.supplier_image[0]}`}
+                    src={
+                      supplierDetails?.supplier_image?.[0]?.startsWith("http")
+                        ? supplierDetails?.supplier_image?.[0]
+                        : `${process.env.REACT_APP_SERVER_URL}uploads/supplier/supplierImage_files/${supplierDetails?.supplier_image?.[0]}`
+                    }
                     alt="CompanyLogo"
                   />
                 </div>

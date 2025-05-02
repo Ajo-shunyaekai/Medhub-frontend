@@ -1,12 +1,18 @@
-import React from 'react';
-import styles from './product.module.css';
-import './product.css';
-import ProductImage from '../../../assets/images/productImage.png';
-import { Link } from 'react-router-dom';
-import ADD from '../../../assets/images/plus.svg';
-import PaginationComponent from '../../SharedComponents/Pagination/Pagination';
+import React from "react";
+import styles from "./product.module.css";
+import "./product.css";
+import ProductImage from "../../../assets/images/productImage.png";
+import { Link } from "react-router-dom";
+import ADD from "../../../assets/images/plus.svg";
+import PaginationComponent from "../../SharedComponents/Pagination/Pagination";
 
-const SecondaryMarket = ({ products, totalItems, currentPage, itemsPerPage, handlePageChange }) => {
+const SecondaryMarket = ({
+  products,
+  totalItems,
+  currentPage,
+  itemsPerPage,
+  handlePageChange,
+}) => {
   const serverUrl = process.env.REACT_APP_SERVER_URL;
 
   const isImageExtension = (filename) => {
@@ -16,7 +22,7 @@ const SecondaryMarket = ({ products, totalItems, currentPage, itemsPerPage, hand
   const isValidHttpUrl = (url) => {
     try {
       const parsed = new URL(url);
-      return parsed.protocol === 'http:' || parsed.protocol === 'https:';
+      return parsed.protocol === "http:" || parsed.protocol === "https:";
     } catch (_) {
       return false;
     }
@@ -39,7 +45,9 @@ const SecondaryMarket = ({ products, totalItems, currentPage, itemsPerPage, hand
             let imageSrc = ProductImage;
 
             if (imageName) {
-              const imageUrl = `${serverUrl}uploads/products/${imageName}`;
+              const imageUrl = imageName?.startsWith("http")
+                ? imageName
+                : `${serverUrl}uploads/products/${imageName}`;
               if (isValidHttpUrl(imageName) && isImageExtension(imageName)) {
                 imageSrc = imageName;
               } else if (isImageExtension(imageName)) {
@@ -67,32 +75,32 @@ const SecondaryMarket = ({ products, totalItems, currentPage, itemsPerPage, hand
                 </div>
                 <div className={styles.cardContentSection}>
                   <div className={styles.cardMainHeading}>
-                    {product.general.name || 'Unnamed Product'}
+                    {product.general.name || "Unnamed Product"}
                   </div>
                   <div className={styles.cardInnerContainer}>
                     <span className={styles.cardHead}>Category</span>
                     <span className={styles.cardText}>
                       {product?.category
-                        ?.replace(/([a-z])([A-Z])/g, '$1 $2')
+                        ?.replace(/([a-z])([A-Z])/g, "$1 $2")
                         ?.replace(/\b\w/g, (char) => char.toUpperCase())}
                     </span>
                   </div>
                   <div className={styles.cardInnerContainer}>
                     <span className={styles.cardHead}>Sub Category</span>
                     <span className={styles.cardText}>
-                      {product?.[product?.category]?.subCategory || 'N/A'}
+                      {product?.[product?.category]?.subCategory || "N/A"}
                     </span>
                   </div>
                   <div className={styles.cardInnerContainer}>
                     <span className={styles.cardHead}>Part/Model No.</span>
                     <span className={styles.cardText}>
-                      {product.general.model || 'N/A'}
+                      {product.general.model || "N/A"}
                     </span>
                   </div>
                   <div className={styles.cardInnerContainer}>
                     <span className={styles.cardHead}>Total Quantity</span>
                     <span className={styles.cardText}>
-                      {product.general.quantity || '0'}
+                      {product.general.quantity || "0"}
                     </span>
                   </div>
                   <div className={styles.cardInnerContainer}>
@@ -100,7 +108,7 @@ const SecondaryMarket = ({ products, totalItems, currentPage, itemsPerPage, hand
                     <span className={styles.cardText}>
                       {product.inventoryDetails[0]?.stock ||
                         product.inventory?.stock ||
-                        'N/A'}
+                        "N/A"}
                     </span>
                   </div>
                 </div>
@@ -113,7 +121,6 @@ const SecondaryMarket = ({ products, totalItems, currentPage, itemsPerPage, hand
       </div>
 
       {products?.length > 0 && (
-
         <PaginationComponent
           activePage={currentPage}
           itemsCountPerPage={itemsPerPage}
@@ -121,8 +128,6 @@ const SecondaryMarket = ({ products, totalItems, currentPage, itemsPerPage, hand
           pageRangeDisplayed={5}
           onChange={handlePageChange}
         />
-
-
       )}
     </div>
   );

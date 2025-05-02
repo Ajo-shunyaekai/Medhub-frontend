@@ -16,7 +16,9 @@ const ProductDetails = () => {
     productDetail?.secondaryMarketDetails?.purchaseInvoiceFile?.[0] ||
     productDetail?.data?.[0]?.secondaryMarketDetails?.purchaseInvoiceFile?.[0];
   const pdfUrl = pdfFile
-    ? `${process.env.REACT_APP_SERVER_URL}/uploads/products/${pdfFile}`
+    ? pdfFile?.startsWith("http")
+      ? pdfFile
+      : `${process.env.REACT_APP_SERVER_URL}/uploads/products/${pdfFile}`
     : "https://morth.nic.in/sites/default/files/dd12-13_0.pdf";
 
   useEffect(() => {
@@ -3158,7 +3160,7 @@ const ProductDetails = () => {
                         ? img?.startsWith("http")
                           ? img
                           : `${process.env.REACT_APP_SERVER_URL}uploads/products/${img}`
-                        : { img }
+                        : img
                     }
                     alt="image"
                   />

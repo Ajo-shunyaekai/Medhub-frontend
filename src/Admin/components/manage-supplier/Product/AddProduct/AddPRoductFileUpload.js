@@ -172,6 +172,8 @@ const AddProductFileUpload = ({
             imageSrc = isString
               ? isValidUrl(file)
                 ? file
+                : file?.startsWith("http")
+                ? file
                 : `${process.env.REACT_APP_SERVER_URL}uploads/products/${file}`
               : URL.createObjectURL(file);
           } else {

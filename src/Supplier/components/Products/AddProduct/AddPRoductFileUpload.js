@@ -55,8 +55,6 @@ const useFileUpload = (
     }
   }, [filesNew, filesOld, filesMerged]);
 
-  
-
   const removeFile = (index, event, arrayToFilter) => {
     if (event) event.stopPropagation();
     if (arrayToFilter == "new") {
@@ -193,6 +191,8 @@ const AddProductFileUpload = ({
           if (isImage) {
             imageSrc = isString
               ? isValidUrl(file)
+                ? file
+                : file?.startsWith("http")
                 ? file
                 : `${process.env.REACT_APP_SERVER_URL}uploads/products/${file}`
               : URL.createObjectURL(file);

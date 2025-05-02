@@ -31,9 +31,13 @@ const Profile = () => {
       <div className={styles.profileContainer}>
         <div className={styles.imgSection}>
           {/* Display admin image */}
-          {adminData.adminImage && (
+          {adminData?.adminImage && (
             <img
-              src={`${process.env.REACT_APP_BASE_URL}/images/${adminData.adminImage}`} // Assuming the image path is provided correctly
+              src={
+                adminData?.adminImage?.startsWith("http")
+                  ? adminData?.adminImage
+                  : `${process.env.REACT_APP_BASE_URL}/images/${adminData?.adminImage}`
+              } // Assuming the image path is provided correctly
               alt="admin Profile"
               className={styles.profileImage}
             />
