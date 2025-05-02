@@ -5,12 +5,12 @@ import CustomModal from "./CustomOrderModal";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { postRequestWithToken } from "../../../../api/Requests";
 import moment from "moment-timezone";
-import BuyerActiveCodinator from "./BuyerActiveCodinator";
+import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";
 import OrderInvoiceList from "./OrderInvoiceList";
 import { toast } from "react-toastify";
 import { apiRequests } from "../../../../api";
 
-const OrderDetails = ({ socket }) => {
+const OrdersDetails = ({ socket }) => {
   const { orderId } = useParams();
   const navigate = useNavigate();
 
@@ -132,76 +132,63 @@ const OrderDetails = ({ socket }) => {
   };
 
   return (
-    <div className="buyers-order-details-container">
-      <div className="buyers-order-details-conatiner-heading">
-        <span>Order ID: {orderDetails?.order_id || "987456321"}</span>
-        <span className="buyers-active-details-medicine-details">
-          {orderDetails?.items?.map((item, index) => (
-            <React.Fragment key={item._id || index}>
-              <span>
-                {" "}
-                {item.medicine_name} ({item.strength}){" "}
-              </span>
-              {index < orderDetails.items.length - 1 && " || "}
-            </React.Fragment>
-          ))}
-        </span>
-        <Link
-          className="buyers-active-order-details-link-tag"
-          to={`/buyer/supplier-details/${orderDetails?.supplier_id}`}
-        >
-          <span className="buyers-active-details-purchsed-by">Sold By: </span>
-          <span className="buyers-active-details-Buyer-name">
-            {orderDetails?.supplier?.supplier_name || "Pharmaceuticals Pvt Ltd"}
-          </span>
-        </Link>
+    <div className='active-order-details-container'>
+      <div className='active-order-main-section-container'>
+        <div className='active-order-details-conatiner-heading'>
+          <span>Order ID: {orderDetails?.order_id || "987456321"}</span>
+          {orderDetails?.items?.length > 0 && (
+            <span className='active-details-medicine-details'>
+              {orderDetails?.items?.map((item, index) => (
+                <React.Fragment key={item._id || index}>
+                  <span>{item.medicine_name}</span>
+                  {index < orderDetails.items.length - 1 && " || "}
+                </React.Fragment>
+              ))}
+            </span>
+          )}
+          {orderDetails?.buyer_id && orderDetails?.buyer?.buyer_name && (
+            <Link className='active-order-details-link-tag' to={`/buyer/supplier-details/${orderDetails?.supplier_id}`}>
+              <span className='active-details-purchsed-by'>Sold By: </span>
+              <span className='active-details-Buyer-name'>{orderDetails?.supplier?.supplier_name || "Pharmaceuticals Pvt Ltd"}</span>
+            </Link>
+          )}
+        </div>
       </div>
-      <div className="buyers-order-details-section">
-        <div className="buyers-order-details-left-section">
-          <div className="buyers-order-details-top-inner-section">
-            <div className="buyers-order-details-left-inner-section-container">
-              <div className="buyers-order-details-left-top-containers">
-                <div className="buyers-order-details-top-order-cont">
-                  <div className="buyers-order-details-left-top-main-heading">
-                    Date & Time
+      <div className='active-order-details-section'>
+        <div className='active-order-details-left-section'>
+          <div className='active-order-details-top-inner-section'>
+            <div className='active-order-details-left-inner-section-container'>
+              <div className='active-order-details-left-top-containers'>
+                {orderDetails?.buyer?.country_of_origin && (
+                  <div className='active-order-details-top-order-cont'>
+                    <div className='details-payment-inner-text'>Date & Time</div>
+                    <div className='details-payment-content'>
+                      {moment(orderDetails?.created_at)
+                        .tz("Asia/Kolkata")
+                        .format("DD-MM-YYYY HH:mm:ss")}
+                    </div>
                   </div>
-                  <div className="buyers-order-details-left-top-main-contents">
-                    {moment(orderDetails?.created_at)
-                      .tz("Asia/Kolkata")
-                      .format("DD-MM-YYYY HH:mm:ss")}
+                )}
+                {orderDetails?.buyer?.buyer_type && (
+                  <div className='active-order-details-top-order-cont'>
+                    <div className='details-payment-inner-text'>Company Type</div>
+                    <div className='details-payment-content'>{orderDetails?.supplier.supplier_type}</div>
                   </div>
-                </div>
-
-                <div className="buyers-order-details-top-order-cont">
-                  <div className="buyers-order-details-left-top-main-heading">
-                    Company Type
+                )}
+                {orderDetails?.status && (
+                  <div className='active-order-details-top-order-cont'>
+                    <div className='details-payment-inner-text'>Order Status</div>
+                    <div className='details-payment-content'>{orderDetails?.status}</div>
                   </div>
-                  <div className="buyers-order-details-left-top-main-contents">
-                    {orderDetails?.supplier.supplier_type}
-                  </div>
-                </div>
-
-                <div className="buyers-order-details-top-order-cont">
-                  <div className="buyers-order-details-left-top-main-heading">
-                    Order Status
-                  </div>
-                  <div className="buyers-order-details-left-top-main-contents">
-                    {orderDetails?.status}
-                  </div>
-                </div>
+                )}
                 {orderDetails?.status === "Active" ? (
-                  <div className="buyers-order-details-top-order-cont">
+                  <div className='active-order-details-top-order-cont'>
                     <Link
                       to={`/buyer/logistics-form/${orderId}/${orderDetails?.buyer?._id}`}
                     >
-                      <div
-                        className="buyers-order-details-left-top-main-heading-button"
-                       
-                      >
+                      <div className='active-order-details-left-top-main-heading-button'>
                         Book Logistics
                       </div>
-
-                      <div className="buyer-order-details-left-top-main-contents"></div>
                     </Link>
                   </div>
                 ) : (
@@ -212,285 +199,245 @@ const OrderDetails = ({ socket }) => {
           </div>
         </div>
       </div>
-      {/* start the assign driver section */}
-      <div className="buyers-order-details-assign-driver-section">
-        <AssignDriver orderItems={orderDetails?.items} />
-      </div>
-     
 
-      {orderDetails?.coordinators &&
-        Object.keys(orderDetails?.coordinators).length > 0 && (
-          <div className="buyers-order-details-left-bottom-containers">
-            <div className="buyers-order-details-left-bottom-vehichle">
-              <div className="buyers-order-details-left-bottom-vehicle-head">
-                Cost
-              </div>
-              <div className="buyers-order-details-left-bottom-vehicle-text">
-                12 USD
-              </div>
-            </div>
-            <div className="buyers-order-details-left-bottom-vehichle-no">
-              <div className="buyers-order-details-left-bottom-vehichle-no-head">
-                Shipment Price
-              </div>
-              <div className="buyers-order-details-left-bottom-vehichle-no-text">
-                8 USD
-              </div>
-            </div>
-            <div className="buyers-order-details-left-bottom-vehichle-no">
-              <div className="buyers-order-details-left-bottom-vehichle-no-head">
-                Shipment Time
-              </div>
-              <div className="buyers-order-details-left-bottom-vehichle-no-text">
-                12:00 PM
-              </div>
-            </div>
-            <div className="buyers-order-details-left-bottom-vehichle-no">
-              <div className="buyers-order-details-left-bottom-vehichle-no-head">
-                Preferred Time of Pickup
-              </div>
-              <div className="buyers-order-details-left-bottom-vehichle-no-text">
-                {
-                  orderDetails?.shipment_details?.supplier_details
-                    ?.prefered_pickup_time
-                }
-              </div>
-            </div>
-          </div>
-        )}
-      {/* end the main component heading */}
-      {/* start the main component heading */}
-      {orderDetails?.shipment_details &&
-        Object.keys(orderDetails?.shipment_details).length > 0 && (
-          <div className="buyers-order-details-middle-bottom-containers">
-            <div className="buyers-order-details-left-middle-vehichle-no">
-              <div className="buyers-order-details-middle-bottom-vehicle-head">
-                No. of Packages
-              </div>
-              <div className="buyers-order-details-middle-bottom-vehicle-text">
-                {orderDetails?.shipment_details?.shipment_details
-                  ?.no_of_packages || "5"}
-              </div>
-            </div>
-            <div className="buyers-order-details-left-middle-vehichle-no">
-              <div className="buyers-order-details-middle-bottom-vehicle-head">
-                Total Weight
-              </div>
-              <div className="buyers-order-details-middle-bottom-vehicle-text">
-                {orderDetails?.shipment_details?.shipment_details
-                  ?.total_weight || "4"}{" "}
-                Kg
-              </div>
-            </div>
-            <div className="buyers-order-details-left-top-containers">
-              <Link to={`/buyer/supplier-details/${orderDetails?.supplier_id}`}>
-                <div className="buyers-order-details-top-order-cont">
-                  <div className="buyers-order-details-left-top-main-heading">
-                    Width
-                  </div>
-                  <div className="buyers-order-details-left-top-main-contents">
-                    {orderDetails?.shipment_details?.shipment_details
-                      ?.breadth || "4"}{" "}
-                    cm
-                  </div>
-                </div>
-              </Link>
-              <div className="buyers-order-details-top-order-cont">
-                <div className="buyers-order-details-left-top-main-heading">
-                  Height
-                </div>
-                <div className="buyers-order-details-left-top-main-contents">
-                  {orderDetails?.shipment_details?.shipment_details?.height ||
-                    "4"}{" "}
-                  cm
-                </div>
-              </div>
-              <div className="buyers-order-details-top-order-cont">
-                <div className="buyers-order-details-left-top-main-heading">
-                  Length
-                </div>
-                <div className="buyers-order-details-left-top-main-contents">
-                  {orderDetails?.shipment_details?.shipment_details?.length ||
-                    "4"}{" "}
-                  cm
-                </div>
-              </div>
-              <div className="buyers-order-details-top-order-cont">
-                <div className="buyers-order-details-left-top-main-heading">
-                  Volume
-                </div>
-                <div className="buyers-order-details-left-top-main-contents">
-                  {orderDetails?.shipment_details?.shipment_details
-                    ?.total_volume || "4"}{" "}
-                  L
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-      {/* end the main component heading */}
-      {/* </>
-
-            {/* Start the end section */}
-      <div className="buyers-order-details-payment-container">
-      
-        <div className="buyers-order-details-payment-left-section">
-          <div className="buyers-order-details-payment-terms-cont">
-            <div className="buyers-order-details-payment-first-terms-cont">
-              <div className="buyers-order-details-payment-first-terms-heading">
-                Payment Terms
-              </div>
-              <div className="buyers-order-details-payment-first-terms-text">
-                <ul className="buyers-order-details-payment-ul-section">
-                  {orderDetails?.enquiry?.payment_terms?.map((data, i) => (
-                    <li
-                      key={i}
-                      className="buyers-order-details-payment-li-section"
-                    >
-                      {data}.
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
+      {/* Assign Driver Section */}
+      {orderDetails?.items?.length > 0 && (
+        <div className='active-order-details-assign-driver-section'>
+          <AssignDriver orderItems={orderDetails?.items} />
         </div>
-        {/* )} */}
-        <div className="buyers-order-details-pickup-sec-container">
-         
+      )}
 
-          {(orderDetails?.shipment_details?.supplier_details &&
-            Object.keys(orderDetails.shipment_details.supplier_details).length >
-              0) ||
-          (orderDetails?.supplier_logistics_data &&
-            Object.keys(orderDetails?.supplier_logistics_data).length > 0) ? (
-            <div className="buyers-order-details-payment-right-section">
-              <div className="buyers-order-details-payment-right-section-heading">
-                Pickup Details
-              </div>
-              <div className="buyers-order-details-payment-right-details-row">
-                <div className="buyers-order-details-right-details-row-one">
-                  <div className="buyers-order-details-right-pickupdata">
-                    <div className="buyers-order-details-right-pickdata-head">
-                      Consignor Name
-                    </div>
-                    <div className="buyers-order-details-right-pickdata-text">
-                      {orderDetails?.shipment_details?.supplier_details?.name ||
-                        orderDetails?.supplier_logistics_data?.full_name}
-                    </div>
-                  </div>
-                  <div className="buyers-order-details-right-pickupdata">
-                    <div className="buyers-order-details-right-pickdata-head">
-                      Phone No.
-                    </div>
-                    <div className="buyers-order-details-right-pickdata-text">
-                      {orderDetails?.shipment_details?.supplier_details
-                        ?.mobile ||
-                        orderDetails?.supplier_logistics_data?.mobile_number}
-                    </div>
-                  </div>
-                  <div className="buyers-order-details-right-pickupdata-address">
-                    <div className="buyers-order-details-right-pickdata-head">
-                      Address
-                    </div>
-                    <div className="buyers-order-details-right-pickdata-text">
-                      {orderDetails?.shipment_details?.supplier_details
-                        ?.address ||
-                        `${orderDetails?.supplier_logistics_data?.house_name}, ${orderDetails?.supplier_logistics_data?.locality}, 
-                         ${orderDetails?.supplier_logistics_data?.city}, ${orderDetails?.supplier_logistics_data?.state}, 
-                         ${orderDetails?.supplier_logistics_data?.country}, ${orderDetails?.supplier_logistics_data?.pincode}.`}
-                    </div>
-                  </div>
+      {/* Payment and Address Section */}
+      {(orderDetails?.payment_terms?.length > 0 || orderDetails?.status === 'Completed') && (
+        <div className='details-address-container'>
+          {orderDetails?.payment_terms?.length > 0 && (
+            <div className='details-payment-container'>
+              <span className='details-payment-heading'>Payment</span>
+              <div className='details-payment-section'>
+                <div className='details-payment-inner-section'>
+                  <div className='details-payment-inner-text'>Payment Terms</div>
+                  <ul className='details-payment-ul'>
+                    {orderDetails.payment_terms.map((data, i) => (
+                      <li key={i} className='details-payment-content'>
+                        <MdOutlineKeyboardDoubleArrowRight className="icon" /> {data}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
+                {orderDetails?.status === 'Completed' && orderDetails?.total_amount_paid !== undefined && orderDetails?.total_due_amount !== undefined && (
+                  <div className='details-payment-inner-section'>
+                    <div className='details-payment-inner-text'>Payment Status</div>
+                    <div className='details-payment-content'>
+                      {orderDetails.total_amount_paid === orderDetails.total_due_amount
+                        ? '100% Done'
+                        : `${Math.round((orderDetails.total_amount_paid / orderDetails.total_due_amount) * 100)}% Completed`}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
-          ) : // )}
-          null}
-          {(orderDetails?.logistics_details ||
-            orderDetails?.buyer_logistics_data) && (
-            <>
-              <hr className="buyers-order-details-right-pickupdata-hr" />
-              <div className="buyers-order-details-payment-right-section">
-                <div className="buyers-order-details-payment-right-section-heading">
-                  Drop Details
-                </div>
-                <div className="buyers-order-details-right-details-row-one">
-                  <div className="buyers-order-details-right-pickupdata">
-                    <div className="buyers-order-details-right-pickdata-head">
-                      Consignee Name
-                    </div>
-                    <div className="buyers-order-details-right-pickdata-text">
-                      {orderDetails?.logistics_details?.drop_location?.name ||
-                        orderDetails?.buyer_logistics_data?.full_name}
-                    </div>
-                  </div>
-                  <div className="buyers-order-details-right-pickupdata">
-                    <div className="buyers-order-details-right-pickdata-head">
-                      Phone No.
-                    </div>
-                    <div className="buyers-order-details-right-pickdata-text">
-                      {orderDetails?.logistics_details?.drop_location?.mobile ||
-                        orderDetails?.buyer_logistics_data?.mobile_number}
-                    </div>
-                  </div>
-                  <div className="buyers-order-details-right-pickupdata-address">
-                    <div className="buyers-order-details-right-pickdata-head">
-                      Address
-                    </div>
-                    <div className="buyers-order-details-right-pickdata-text">
-                      {orderDetails?.logistics_details?.drop_location
-                        ?.address ||
-                        orderDetails?.buyer_logistics_data?.house_name}
-                      ,
-                      {orderDetails?.logistics_details?.drop_location
-                        ?.country ||
-                        orderDetails?.buyer_logistics_data?.locality}
-                      ,
-                      {orderDetails?.logistics_details?.drop_location?.state ||
-                        orderDetails?.buyer_logistics_data?.country}
-                      ,
-                      {orderDetails?.logistics_details?.drop_location
-                        ?.city_district ||
-                        orderDetails?.buyer_logistics_data?.state}
-                      ,
-                      {orderDetails?.logistics_details?.drop_location
-                        ?.pincode ||
-                        orderDetails?.buyer_logistics_data?.pincode}
-                      .
-                    </div>
-                  </div>
-                </div>
+          )}
+
+          {orderDetails?.supplier_logistics_data && Object.keys(orderDetails.supplier_logistics_data).length > 0 && (
+            <div className='details-add-container'>
+              <span className='details-payment-heading'>Pickup Details</span>
+              <div className='details-address-section'>
+                {orderDetails.supplier_logistics_data.full_name && (
+                  <span className='details-address-text'>
+                    {orderDetails.supplier_logistics_data.full_name}
+                    {orderDetails.supplier_logistics_data.address_type && (
+                      <span className='details-type-address'>{orderDetails.supplier_logistics_data.address_type}</span>
+                    )}
+                  </span>
+                )}
+                {orderDetails.supplier_logistics_data.company_reg_address && (
+                  <span className='details-address-text'>
+                    {orderDetails.supplier_logistics_data.company_reg_address}, {orderDetails.supplier_logistics_data.locality}, 
+                    {orderDetails.supplier_logistics_data.city}, {orderDetails.supplier_logistics_data.state}, 
+                    {orderDetails.supplier_logistics_data.country}
+                    {orderDetails.supplier_logistics_data.pincode && `, ${orderDetails.supplier_logistics_data.pincode}`}
+                  </span>
+                )}
+                {orderDetails.supplier_logistics_data.mobile_number && (
+                  <span className='details-address-text'>{orderDetails.supplier_logistics_data.mobile_number}</span>
+                )}
               </div>
-            </>
+            </div>
+          )}
+
+          {orderDetails?.buyer_logistics_data && Object.keys(orderDetails.buyer_logistics_data).length > 0 && (
+            <div className='details-add-container'>
+              <span className='details-payment-heading'>Drop Details</span>
+              <div className='details-address-section'>
+                {orderDetails.buyer_logistics_data.full_name && (
+                  <span className='details-address-text'>
+                    {orderDetails.buyer_logistics_data.full_name}
+                    {orderDetails.buyer_logistics_data.address_type && (
+                      <span className='details-type-address'>
+                        ({orderDetails.buyer_logistics_data.address_type})
+                      </span>
+                    )}
+                  </span>
+                )}
+                {orderDetails.buyer_logistics_data.company_reg_address && (
+                  <span className='details-address-text'>
+                    {orderDetails.buyer_logistics_data.company_reg_address}
+                    {orderDetails.buyer_logistics_data.locality && `, ${orderDetails.buyer_logistics_data.locality}`}
+                    {orderDetails.buyer_logistics_data.land_mark && `, ${orderDetails.buyer_logistics_data.land_mark}`}
+                    {orderDetails.buyer_logistics_data.city && `, ${orderDetails.buyer_logistics_data.city}`}
+                    {orderDetails.buyer_logistics_data.state && `, ${orderDetails.buyer_logistics_data.state}`}
+                    {orderDetails.buyer_logistics_data.country && `, ${orderDetails.buyer_logistics_data.country}`}
+                    {orderDetails.buyer_logistics_data.pincode && `, ${orderDetails.buyer_logistics_data.pincode}`}
+                  </span>
+                )}
+                {orderDetails.buyer_logistics_data.mobile_number && (
+                  <span className='details-address-text'>
+                    Mobile: {orderDetails.buyer_logistics_data.mobile_number}
+                  </span>
+                )}
+                {orderDetails.buyer_logistics_data.mode_of_transport && (
+                  <span className='details-address-text'>
+                    Mode of Transport: {orderDetails.buyer_logistics_data.mode_of_transport}
+                  </span>
+                )}
+                {orderDetails.buyer_logistics_data.extra_services?.length > 0 && (
+                  <span className='details-address-text'>
+                    Extra Services: {orderDetails.buyer_logistics_data.extra_services.join(', ')}
+                  </span>
+                )}
+              </div>
+            </div>
           )}
         </div>
-      </div>
-      {/* end the section */}
-      {/* Start the assign driver section */}
-   
-      {orderDetails?.status === "Completed" && (
-        <div className="buyers-order-details-codinator-section-cont">
-          <BuyerActiveCodinator productList={orderDetails?.items} />
+      )}
+
+      {/* Transport Details Section */}
+      {(orderDetails?.buyer_logistics_data || orderDetails?.supplier_logistics_data) && (
+        <div className='active-order-details-left-bottom-containers'>
+          {orderDetails?.buyer_logistics_data && (
+            <div className='active-order-details-left-bottom-vehichle'>
+              <span className='active-order-transportation-heading'>Transport Details</span>
+              <div className='transport-container'>
+                {orderDetails.buyer_logistics_data.mode_of_transport && (
+                  <div className='active-order-details-transportation'>
+                    <div className='details-payment-inner-text'>Mode of Transport</div>
+                    <div className='details-payment-content'>{orderDetails.buyer_logistics_data.mode_of_transport}</div>
+                  </div>
+                )}
+                {orderDetails.buyer_logistics_data.extra_services?.length > 0 && (
+                  <div className='active-order-details-transportation'>
+                    <div className='details-payment-inner-text'>Extra Services</div>
+                    <div className='details-payment-content'>{orderDetails.buyer_logistics_data.extra_services.join(', ')}</div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+          {orderDetails?.supplier_logistics_data?.pickup_date || orderDetails?.supplier_logistics_data?.pickup_time ? (
+            <div className='active-order-details-left-bottom-vehichle-no'>
+              <span className='active-order-transportation-heading'>Pickup Slot</span>
+              <div className='transport-container'>
+                {orderDetails.supplier_logistics_data.pickup_date && (
+                  <div className='active-order-details-transportation'>
+                    <div className='details-payment-inner-text'>Preferred Date of Pickup</div>
+                    <div className='details-payment-content'>
+                      {new Date(orderDetails.supplier_logistics_data.pickup_date).toLocaleDateString()}
+                    </div>
+                  </div>
+                )}
+                {orderDetails.supplier_logistics_data.pickup_time && (
+                  <div className='active-order-details-transportation'>
+                    <div className='details-payment-inner-text'>Preferred Time of Pickup</div>
+                    <div className='details-payment-content'>{orderDetails.supplier_logistics_data.pickup_time}</div>
+                  </div>
+                )}
+              </div>
+            </div>
+          ) : null}
         </div>
       )}
 
-     
-      {orderDetails?.invoices && orderDetails?.invoices.length > 0 && (
-        <div className="buyers-order-details-invoice-list-section">
-          <OrderInvoiceList invoiceData={orderDetails?.invoices} />
+      {/* Bills of Material and Package Details */}
+      {orderDetails?.supplier_logistics_data?.package_information && (
+        <div className='active-order-details-middle-bottom-containers'>
+          {orderDetails.supplier_logistics_data.package_information.total_no_of_packages && (
+            <div className='active-order-details-left-middle-vehichle-no'>
+              <span className='active-order-transportation-heading'>Bills of Material</span>
+              <div className='active-order-details-transportation'>
+                <div className='details-payment-inner-text'>No. of Packages</div>
+                <div className='details-payment-content'>{orderDetails.supplier_logistics_data.package_information.total_no_of_packages}</div>
+              </div>
+            </div>
+          )}
+          {orderDetails.supplier_logistics_data.package_information?.package_details?.[0] && (
+            <div className='active-details-package-container'>
+              <span className='active-order-transportation-heading'>Package Details</span>
+              <div className="buyer-order-details-left-top-containers">
+                {orderDetails.supplier_logistics_data.package_information.package_details[0].weight && (
+                  <div className="buyer-order-details-top-order-cont">
+                    <div className="details-payment-inner-text">Total Packages Weight</div>
+                    <div className="details-payment-content">
+                      {orderDetails.supplier_logistics_data.package_information.package_details[0].weight} Kg
+                    </div>
+                  </div>
+                )}
+                {orderDetails.supplier_logistics_data.package_information.package_details[0].dimensions?.width && (
+                  <div className="buyer-order-details-top-order-cont">
+                    <div className="details-payment-inner-text">Width</div>
+                    <div className="details-payment-content">
+                      {orderDetails.supplier_logistics_data.package_information.package_details[0].dimensions.width} cm
+                    </div>
+                  </div>
+                )}
+                {orderDetails.supplier_logistics_data.package_information.package_details[0].dimensions?.height && (
+                  <div className="buyer-order-details-top-order-cont">
+                    <div className="details-payment-inner-text">Height</div>
+                    <div className="details-payment-content">
+                      {orderDetails.supplier_logistics_data.package_information.package_details[0].dimensions.height} cm
+                    </div>
+                  </div>
+                )}
+                {orderDetails.supplier_logistics_data.package_information.package_details[0].dimensions?.length && (
+                  <div className="buyer-order-details-top-order-cont">
+                    <div className="details-payment-inner-text">Length</div>
+                    <div className="details-payment-content">
+                      {orderDetails.supplier_logistics_data.package_information.package_details[0].dimensions.length} cm
+                    </div>
+                  </div>
+                )}
+                {orderDetails.supplier_logistics_data.package_information.package_details[0].dimensions?.volume && (
+                  <div className="buyer-order-details-top-order-cont">
+                    <div className="details-payment-inner-text">Total Volume</div>
+                    <div className="details-payment-content">
+                      {orderDetails.supplier_logistics_data.package_information.package_details[0].dimensions.volume} L
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       )}
-      {/* End the assign driver section */}
-      <CustomModal
-        isOpen={isModalOpen}
-       
-        setIsModalOpen={setIsModalOpen}
-        onSubmit={handleModalSubmit}
-        setLoading={setLoading}
-        loading={loading}
-      />
+
+      {/* Invoice List Section */}
+      {orderDetails?.invoices?.length > 0 && (
+        <div className='active-order-details-invoice-list-section'>
+          <OrderInvoiceList invoiceData={orderDetails.invoices} />
+        </div>
+      )}
+
+      {/* Modal Component */}
+      {orderDetails?.buyer && orderDetails?.buyer_id && (
+        <CustomModal
+          isOpen={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
+          onSubmit={handleModalSubmit}
+          setLoading={setLoading}
+          loading={loading}
+        />
+      )}
     </div>
   );
 };
 
-export default OrderDetails;
+export default OrdersDetails;

@@ -396,7 +396,7 @@ const OrderDetails = () => {
           {orderDetails?.coordinators ? (
             <SellerActiveCodinator coordinators={orderDetails?.coordinators} />
           ) : (
-            <span className={styles.content}>No coordinators assigned</span>
+            ''
           )}
         </div>
       )}
@@ -405,7 +405,7 @@ const OrderDetails = () => {
         {orderDetails?.invoices?.length > 0 ? (
           <SellerActiveInvoiceList invoiceData={orderDetails?.invoices} />
         ) : (
-          <span className={styles.content}>No invoices available</span>
+          ''
         )}
       </div>
     </div>

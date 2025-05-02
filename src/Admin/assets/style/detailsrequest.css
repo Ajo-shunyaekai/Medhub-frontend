@@ -338,6 +338,7 @@ border-radius: 4px;
     width: 100%;
     display: flex;
     justify-content: space-between;
+    gap: 20px;
 }
 
 .buyer-details-name {
@@ -425,7 +426,6 @@ border-radius: 4px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: normal;
-    width: 260px;
 }
 
 .buyer-details-card-container-contents {
