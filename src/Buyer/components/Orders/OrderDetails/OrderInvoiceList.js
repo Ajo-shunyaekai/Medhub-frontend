@@ -70,7 +70,7 @@ const OrderInvoiceList = ({ invoiceData }) => {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles.mainInvoicecontainer}>
     <style>
       {`
         .rdt_Table {
@@ -104,7 +104,7 @@ const OrderInvoiceList = ({ invoiceData }) => {
         }
       `}
     </style>
-    <div className={styles.tableMainContainer}>
+    <div className={styles.sectionMainContainer}>
         <header className={styles.header}>
           <span className={styles.title}>Invoice List</span>
         </header>
