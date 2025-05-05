@@ -53,7 +53,7 @@ const BuyerRequest = () => {
 
     const handleDownload = async () => {
         setLoading(true);
-        const result = await postReqCSVDownload('admin/get-buyer-list-csv', {}, 'buyer_list.csv');
+        const result = await postReqCSVDownload('admin/get-buyer-list-csv', {}, 'buyer_requests_list.csv');
         if (!result?.success) {
             // Handle error if needed
         }

@@ -53,7 +53,7 @@ const ApprovedBuyer = () => {
             filterKey: 'accepted'
         };
 
-        const result = await postReqCSVDownload('admin/get-buyer-list-csv', obj, 'buyer_list.csv');
+        const result = await postReqCSVDownload('admin/get-buyer-list-csv', obj, 'approved_buyers_list.csv');
         if (!result?.success) {
             // Handle error if needed
         }

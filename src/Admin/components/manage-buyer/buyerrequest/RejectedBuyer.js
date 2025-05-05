@@ -54,7 +54,7 @@ const RejectedBuyer = () => {
     const handleDownload = async () => {
         setLoading(true);
         const obj = { filterKey: 'rejected' };
-        await postReqCSVDownload('admin/get-buyer-list-csv', obj, 'buyer_list.csv');
+        await postReqCSVDownload('admin/get-buyer-list-csv', obj, 'rejected_buyers_list.csv');
         setLoading(false);
     };
 
