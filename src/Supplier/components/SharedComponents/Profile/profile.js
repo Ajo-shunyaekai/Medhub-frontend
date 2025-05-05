@@ -61,13 +61,15 @@ const Profile = () => {
               alt="supplier Profile"
               className={styles.profileImage}
             />
-          </div>
-        )}
+          )}
+        </div>
+        {/* )} */}
         <div className={styles.contentSection}>
           {(user?.supplier_name || user?.supplier_type) && (
             <div className={styles.companyNameSection}>
               <span className={styles.mainHead}>
-                {user?.supplier_name} {user?.supplier_type && `(${user?.supplier_type})`}
+                {user?.supplier_name}{" "}
+                {user?.supplier_type && `(${user?.supplier_type})`}
               </span>
             </div>
           )}
@@ -91,7 +93,9 @@ const Profile = () => {
               {user?.contact_person_email && (
                 <div className={styles.iconSection}>
                   <MdOutlineAttachEmail className={styles.icon} />
-                  <span className={styles.textSection}>{user?.contact_person_email}</span>
+                  <span className={styles.textSection}>
+                    {user?.contact_person_email}
+                  </span>
                 </div>
               )}
               {(user?.supplier_country_code || user?.supplier_mobile) && (
@@ -118,7 +122,8 @@ const Profile = () => {
                     {(user?.registeredAddress?.company_reg_address ||
                       user?.supplier_address) && (
                       <span className={styles.textSection}>
-                        {user?.registeredAddress?.company_reg_address || user?.supplier_address}
+                        {user?.registeredAddress?.company_reg_address ||
+                          user?.supplier_address}
                       </span>
                     )}
                     {(user?.registeredAddress?.locality ||
@@ -165,31 +170,45 @@ const Profile = () => {
               <div className={styles.companyInnerContainer}>
                 {user?.registration_no && (
                   <div className={styles.companyDetails}>
-                    <div className={styles.companyHead}>Company Registration No.</div>
-                    <div className={styles.companyText}>{user?.registration_no}</div>
+                    <div className={styles.companyHead}>
+                      Company Registration No.
+                    </div>
+                    <div className={styles.companyText}>
+                      {user?.registration_no}
+                    </div>
                   </div>
                 )}
                 {user?.vat_reg_no && (
                   <div className={styles.companyDetails}>
-                    <div className={styles.companyHead}>VAT Registration No.</div>
+                    <div className={styles.companyHead}>
+                      VAT Registration No.
+                    </div>
                     <div className={styles.companyText}>{user?.vat_reg_no}</div>
                   </div>
                 )}
                 {user?.categories && (
                   <div className={styles.companyDetails}>
-                    <div className={styles.companyHead}>Categories you Trade In</div>
+                    <div className={styles.companyHead}>
+                      Categories you Trade In
+                    </div>
                     <div className={styles.companyText}>{user?.categories}</div>
                   </div>
                 )}
                 {user?.sales_person_name && (
                   <div className={styles.companyDetails}>
-                    <div className={styles.companyHead}>Medhub Global Sales Representative</div>
-                    <div className={styles.companyText}>{user?.sales_person_name}</div>
+                    <div className={styles.companyHead}>
+                      Medhub Global Sales Representative
+                    </div>
+                    <div className={styles.companyText}>
+                      {user?.sales_person_name}
+                    </div>
                   </div>
                 )}
                 {user?.license_no && (
                   <div className={styles.companyDetails}>
-                    <div className={styles.companyHead}>Company License No.</div>
+                    <div className={styles.companyHead}>
+                      Company License No.
+                    </div>
                     <div className={styles.companyText}>{user?.license_no}</div>
                   </div>
                 )}
@@ -197,14 +216,20 @@ const Profile = () => {
               <div className={styles.companyInnerContainer}>
                 {user?.country_of_operation && (
                   <div className={styles.companyDetails}>
-                    <div className={styles.companyHead}>Country of Operation</div>
-                    <div className={styles.companyText}>{user?.country_of_operation}</div>
+                    <div className={styles.companyHead}>
+                      Country of Operation
+                    </div>
+                    <div className={styles.companyText}>
+                      {user?.country_of_operation}
+                    </div>
                   </div>
                 )}
                 {user?.country_of_origin && (
                   <div className={styles.companyDetails}>
                     <div className={styles.companyHead}>Country of Origin</div>
-                    <div className={styles.companyText}>{user?.country_of_origin}</div>
+                    <div className={styles.companyText}>
+                      {user?.country_of_origin}
+                    </div>
                   </div>
                 )}
                 {user?.tags && (
@@ -215,8 +240,12 @@ const Profile = () => {
                 )}
                 {user?.license_expiry_date && (
                   <div className={styles.companyDetails}>
-                    <div className={styles.companyHead}>License Expiry/ Renewal Date</div>
-                    <div className={styles.companyText}>{user?.license_expiry_date}</div>
+                    <div className={styles.companyHead}>
+                      License Expiry/ Renewal Date
+                    </div>
+                    <div className={styles.companyText}>
+                      {user?.license_expiry_date}
+                    </div>
                   </div>
                 )}
               </div>
@@ -229,13 +258,19 @@ const Profile = () => {
           {user?.description && (
             <div className={styles.textareaSeaction}>
               <div className={styles.textareaHead}>About Company</div>
-              <span className={styles.textareaContent}>{user?.description}</span>
+              <span className={styles.textareaContent}>
+                {user?.description}
+              </span>
             </div>
           )}
           {user?.activity_code && (
             <div className={styles.textareaSeaction}>
-              <div className={styles.textareaHead}>Business/Trade Activity Code</div>
-              <span className={styles.textareaContent}>{user?.activity_code}</span>
+              <div className={styles.textareaHead}>
+                Business/Trade Activity Code
+              </div>
+              <span className={styles.textareaContent}>
+                {user?.activity_code}
+              </span>
             </div>
           )}
         </div>
@@ -251,14 +286,18 @@ const Profile = () => {
             {user?.contact_person_name && (
               <div className={styles.companyDetails}>
                 <div className={styles.companyHead}>Contact Name</div>
-                <div className={styles.companyText}>{user?.contact_person_name}</div>
+                <div className={styles.companyText}>
+                  {user?.contact_person_name}
+                </div>
               </div>
             )}
-            {(user?.contact_person_country_code || user?.contact_person_mobile_no) && (
+            {(user?.contact_person_country_code ||
+              user?.contact_person_mobile_no) && (
               <div className={styles.companyDetails}>
                 <div className={styles.companyHead}>Mobile No.</div>
                 <div className={styles.companyText}>
-                  {user?.contact_person_country_code} {user?.contact_person_mobile_no}
+                  {user?.contact_person_country_code}{" "}
+                  {user?.contact_person_mobile_no}
                 </div>
               </div>
             )}
@@ -272,11 +311,13 @@ const Profile = () => {
           {user?.bank_details && (
             <div className={styles.textareaSeaction}>
               <div className={styles.textareaHead}>Bank Details</div>
-              <span className={styles.textareaContent}>{user?.bank_details}</span>
+              <span className={styles.textareaContent}>
+                {user?.bank_details}
+              </span>
             </div>
           )}
         </div>
-      </div>
+      )}
       {/* style the documents section */}
       <div className={styles.documentContainer}>
         <div className={styles.documentMainHeading}>Documents</div>
@@ -297,7 +338,7 @@ const Profile = () => {
               )
           )}
         </div>
-      )}
+      </div>
     </div>
   );
 };
