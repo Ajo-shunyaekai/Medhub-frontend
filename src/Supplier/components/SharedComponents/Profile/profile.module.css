@@ -182,9 +182,9 @@
 
 .companyDetails {
   display: flex;
-  width: 100%;
-  justify-content: space-between;
-  align-items: center;
+      width: 100%;
+      justify-content: space-between;
+      gap: 20px;
 }
 
 .companyHead {
@@ -192,6 +192,7 @@
   color: #5e676f !important;
   font-weight: 500;
   line-height: 20px;
+  min-width: 250px !important;
 }
 
 .companyText {
@@ -200,7 +201,8 @@
   word-break: break-word;
   overflow-wrap: break-word;
   color: #99a0ac;
-  font-size: 14px;
+  font-weight: 500;
+  font-size: 13px;
   text-align: end;
 }
 
@@ -211,7 +213,7 @@
 }
 
 .textareaSeaction {
-  width: 50%;
+  width: 100%;
   background-color: #ffffff;
   border-radius: 4px;
   padding: 26px 30px;
@@ -228,6 +230,7 @@
 }
 
 .textareaContent {
+  font-weight: 500;
   color: #99a0ac;
   font-size: 14px;
   line-height: 20px;

@@ -187,6 +187,9 @@ const SupplierDetails = () => {
                                         <div className='buyer-details-left-inner-section'>
                                             <div className='buyer-details-upper-section-container'>
                                                 <div className='buyer-details-left-uppar-head'>{supplierDetails?.supplier_name}</div>
+                                                <a className='buyer-details-left-uppar-head' href={supplierDetails?.websiteAddress} target="_blank" rel="noopener noreferrer">
+                                                {supplierDetails?.websiteAddress}
+                                            </a>
                                             </div>
                                             <div className='buyer-details-left-inner-img-container'>
                                                 <div className='buyer-details-left-inner-mobile-button'>

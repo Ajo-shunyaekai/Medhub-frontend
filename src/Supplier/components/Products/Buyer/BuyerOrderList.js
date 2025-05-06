@@ -93,7 +93,6 @@ const BuyerOrderList = ({ orderList }) => {
             }
         `}
             </style>
-            <span className={styles.title}>Order List</span>
             <DataTable
                 columns={columns}
                 data={paginatedData}

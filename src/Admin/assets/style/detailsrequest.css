@@ -400,8 +400,7 @@ border-radius: 4px;
 .buyer-details-inner-head {
     font-size: 14px;
     font-weight: 500;
-    display: flex;
-    align-items: center;
+    min-width: 240px;
 }
 .buyer-details-company-img-container{
     display: flex;

@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import './invoiceDesign.css'
 import html2pdf from 'html2pdf.js';
 import { useNavigate, useParams} from 'react-router-dom';
-import moment from 'moment/moment';
-import { postRequestWithToken } from '../../api/Requests';
 import { apiRequests } from '../../../api';
 
 function InvoiceDesign() {
@@ -116,32 +114,32 @@ function InvoiceDesign() {
                                                     <td style={{ verticalAlign: 'top', width: '60%', paddingRight: '20px', paddingBottom: '20px' }}>
                                                         <h1 style={{ fontSize: '14px', fontWeight: 500, paddingBottom: '3px' }}>From :</h1>
                                                         <p style={{ fontSize: '16px', fontWeight: 500, paddingBottom: '6px' }}>{invoiceDetails?.supplier_name}</p>
-                                                        <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac' }}>{invoiceDetails?.supplier_address}</p>
-                                                        {invoiceDetails?.supplier_registered_address?.locality && <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac' }}>{invoiceDetails?.supplier_registered_address?.locality}</p>}
-                                                        {invoiceDetails?.supplier_registered_address?.land_mark && <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac' }}>{invoiceDetails?.supplier_registered_address?.land_mark}</p>}
+                                                        <p style={{ fontSize: '13px', lineHeight: '16px', fontWeight:'500'      }}>{invoiceDetails?.supplier_address}</p>
+                                                        {invoiceDetails?.supplier_registered_address?.locality && <p style={{ fontSize: '13px', lineHeight: '16px', fontWeight:'500'     }}>{invoiceDetails?.supplier_registered_address?.locality}</p>}
+                                                        {invoiceDetails?.supplier_registered_address?.land_mark && <p style={{ fontSize: '13px', lineHeight: '16px',  fontWeight:'500'    }}>{invoiceDetails?.supplier_registered_address?.land_mark}</p>}
                                                         {
                                                             (invoiceDetails?.supplier_registered_address?.city || invoiceDetails?.supplier_registered_address?.state || invoiceDetails?.supplier_registered_address?.pincode || invoiceDetails?.supplier_registered_address?.country) &&
-                                                            <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac' }}>{invoiceDetails?.supplier_registered_address?.city} {invoiceDetails?.supplier_registered_address?.state} {invoiceDetails?.supplier_registered_address?.pincode} {invoiceDetails?.supplier_registered_address?.country} </p>
+                                                            <p style={{ fontSize: '13px', lineHeight: '16px', fontWeight:'500'     }}>{invoiceDetails?.supplier_registered_address?.city} {invoiceDetails?.supplier_registered_address?.state} {invoiceDetails?.supplier_registered_address?.pincode} {invoiceDetails?.supplier_registered_address?.country} </p>
                                                         }
                                                        
                                                         <td style={{ display: 'flex', justifyContent: 'start' }}>
-                                                            <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>VAT Reg No :</p>
-                                                            <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>&nbsp;{invoiceDetails?.supplier_vat_reg_no}</p>
+                                                            <p style={{ fontSize: '13px', lineHeight: '16px', fontWeight:'500',    paddingTop: '6px' }}>VAT Reg No :</p>
+                                                            <p style={{ fontSize: '13px', lineHeight: '16px',     paddingTop: '6px', fontWeight:'500' }}>&nbsp;{invoiceDetails?.supplier_vat_reg_no}</p>
                                                         </td>
                                                     </td>
                                                     <td style={{ verticalAlign: 'top', width: '40%', paddingBottom: '20px' }}>
                                                         <h1 style={{ fontSize: '14px', fontWeight: 500, paddingBottom: '3px', textAlign: 'end' }}>To :</h1>
                                                         <p style={{ fontSize: '16px', fontWeight: 500, paddingBottom: '6px', textAlign: 'end' }}>{invoiceDetails?.buyer_name}</p>
-                                                        <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', lineHeight: '16px', textAlign: 'end' }}>{invoiceDetails?.buyer_address}</p>{invoiceDetails?.buyer_registered_address?.locality && <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac' }}>{invoiceDetails?.buyer_registered_address?.locality}</p>}
-                                                        {invoiceDetails?.buyer_registered_address?.land_mark && <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac' }}>{invoiceDetails?.buyer_registered_address?.land_mark}</p>}
+                                                        <p style={{ fontSize: '13px', lineHeight: '16px',fontWeight:'500',     lineHeight: '16px', textAlign: 'end' }}>{invoiceDetails?.buyer_address}</p>{invoiceDetails?.buyer_registered_address?.locality && <p style={{ fontSize: '13px', lineHeight: '16px', fontWeight:'500'     }}>{invoiceDetails?.buyer_registered_address?.locality}</p>}
+                                                        {invoiceDetails?.buyer_registered_address?.land_mark && <p style={{ fontSize: '13px', fontWeight:'500', lineHeight: '16px',      }}>{invoiceDetails?.buyer_registered_address?.land_mark}</p>}
                                                         {
                                                             (invoiceDetails?.buyer_registered_address?.city || invoiceDetails?.buyer_registered_address?.state || invoiceDetails?.buyer_registered_address?.pincode || invoiceDetails?.buyer_registered_address?.country) &&
-                                                            <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac' }}>{invoiceDetails?.buyer_registered_address?.city} {invoiceDetails?.buyer_registered_address?.state} {invoiceDetails?.buyer_registered_address?.pincode} {invoiceDetails?.buyer_registered_address?.country} </p>
+                                                            <p style={{ fontSize: '13px', fontWeight:'500', lineHeight: '16px',      }}>{invoiceDetails?.buyer_registered_address?.city} {invoiceDetails?.buyer_registered_address?.state} {invoiceDetails?.buyer_registered_address?.pincode} {invoiceDetails?.buyer_registered_address?.country} </p>
                                                         }
                                                       
                                                         <td style={{ display: 'flex', justifyContent: 'end' }}>
-                                                            <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>VAT Reg No :</p>
-                                                            <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>&nbsp;{invoiceDetails?.buyer_vat_reg_no}</p>
+                                                            <p style={{ fontSize: '13px', fontWeight:'500',  lineHeight: '16px',     paddingTop: '6px' }}>VAT Reg No :</p>
+                                                            <p style={{ fontSize: '13px',  fontWeight:'500', lineHeight: '16px',     paddingTop: '6px' }}>&nbsp;{invoiceDetails?.buyer_vat_reg_no}</p>
                                                         </td>
                                                     </td>
                                                 </tr>
@@ -234,7 +232,7 @@ function InvoiceDesign() {
                                     <tr>
                                         <td style={{ verticalAlign: 'top', width: '100vw', paddingRight: '20px', paddingBottom: '20px' }}>
                                             <h1 style={{ fontSize: '16px', fontWeight: '500', marginTop: '16px' }}>Payment Terms :</h1>
-                                            <div style={{ fontSize: '13px', lineHeight: '20px', marginTop: '4px', color: '#99a0ac' }}>
+                                            <div style={{ fontSize: '13px', fontWeight:'500', lineHeight: '20px', marginTop: '4px',      }}>
                                                 {
                                                     invoiceDetails?.payment_terms?.map((term, i) => {
                                                         return (
