@@ -10,7 +10,6 @@ import html2pdf from "html2pdf.js";
 import Loader from "../../SharedComponents/Loader/Loader";
 import PaginationComponent from "../../SharedComponents/Pagination/Pagination";
 import styles from "../../../assets/style/table.module.css";
-import Loader from "../../SharedComponents/Loader/Loader";
 
 const PendingInvoicesList = () => {
   const navigate = useNavigate();

@@ -7,7 +7,6 @@ import OrderCustomModal from './OrderCustomModal';
 import ActiveInvoiceList from './ActiveInvoiceList';
 import { apiRequests } from '../../../api';
 import Loader from '../SharedComponents/Loader/Loader';
-import Loader from '../SharedComponents/Loader/Loader';
 
 const ActiveOrdersDetails = ({ socket }) => {
     const { orderId } = useParams();

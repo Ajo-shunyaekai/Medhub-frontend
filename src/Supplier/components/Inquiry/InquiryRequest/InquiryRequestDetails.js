@@ -7,7 +7,6 @@ import { postRequestWithToken } from '../../../api/Requests';
 import { toast } from 'react-toastify';
 import { apiRequests } from '../../../../api';
 import Loader from '../../SharedComponents/Loader/Loader';
-import Loader from '../../SharedComponents/Loader/Loader';
 
 const InquiryRequestDetails = ({ socket }) => {
   const supplierIdSessionStorage = localStorage?.getItem('supplier_id');
