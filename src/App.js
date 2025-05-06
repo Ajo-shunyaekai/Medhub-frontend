@@ -22,6 +22,7 @@ import {
   supplierRoutesConfig,
 } from "./allRoutes";
 import Error from "./Buyer/components/SharedComponents/Error/Error";
+import { initGA, sendPageview } from "./analytics";
 
 // Socket Connection
 const socket = io.connect(process.env.REACT_APP_SERVER_URL, {
@@ -31,6 +32,14 @@ const socket = io.connect(process.env.REACT_APP_SERVER_URL, {
 const App = () => {
   const [cssFileLoaded, setCssFileLoaded] = useState(false);
   const location = useLocation();
+
+  useEffect(() => {
+    initGA();
+  }, []);
+
+  useEffect(() => {
+    sendPageview(location?.pathname + location?.search);
+  }, [location]);
 
   const currentPath = location.pathname.split("/")[1] || "buyer";
 

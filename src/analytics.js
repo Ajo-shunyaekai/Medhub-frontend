@@ -6,6 +6,13 @@ export const initGA = () => {
 };
 
 export const sendPageview = (path) => {
-    ReactGA.send({ hitType: "pageview", page: path });
-  console.log("path", ReactGA.send({ hitType: "pageview", page: path }));
+  ReactGA.send({ hitType: "pageview", page: path });
+};
+
+export const handleGAEvent = (category, action, label) => {
+  ReactGA.event({
+    category,
+    action,
+    label,
+  });
 };
