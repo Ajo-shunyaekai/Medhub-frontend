@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import Cross from '../../../assets/images/Icon.svg'
+import Cross from '../../../assets/images/Icon.svg';
 import { useNavigate } from "react-router-dom";
 import Select, { components } from "react-select";
 import countryList from "react-select-country-list";
@@ -31,7 +31,7 @@ const MultiSelectOption = ({ children, ...props }) => (
     <label>{children}</label>
   </components.Option>
 );
-// MultiSelectDropdown Component
+
 const MultiSelectDropdown = ({ options, value, onChange }) => {
   return (
     <Select
@@ -68,22 +68,16 @@ const SupplierSignUp = ({ socket }) => {
   const [tradeLicensePreviews, setTradeLicensePreviews] = useState([]);
   const [file, setfile] = useState([]);
   const [certificatePreviews, setcertificatePreviews] = useState([]);
-  const [medicalPractitionerPreview, setMedicalPractiotionerPreview] = useState(
-    []
-  );
+  const [medicalPractitionerPreview, setMedicalPractiotionerPreview] = useState([]);
   const [logoPreviews, setlogoPreviews] = useState([]);
   const [category, setCategory] = useState([]);
-
   const [cNCFileArray, setCNCFileArray] = useState([]);
   const [cNCFileError, setCNCFileError] = useState([]);
   const [certificateFileNDate, setCertificateFileNDate] = useState([
-    {
-      file: null,
-      date: null,
-    },
+    { file: null, date: null },
   ]);
+
   const handleDateChange = (date, index) => {
-    // Update the specific section's expiry date
     const updatedSections = [...certificateFileNDate];
     updatedSections[index].date = date;
     setCertificateFileNDate(updatedSections);
@@ -94,10 +88,7 @@ const SupplierSignUp = ({ socket }) => {
     certificateFileNDate?.length < 4 &&
       setCertificateFileNDate((prev) => [
         ...prev,
-        {
-          file: null,
-          date: null,
-        },
+        { file: null, date: null },
       ]);
   };
 
@@ -105,8 +96,6 @@ const SupplierSignUp = ({ socket }) => {
     if (certificateFileNDate.length > 1) {
       const updatedSections = certificateFileNDate.filter((_, i) => i !== index);
       setCertificateFileNDate(updatedSections);
-
-      // Clean up errors for removed section
       setErrors((prev) => {
         const newErrors = { ...prev };
         delete newErrors[`taxImage_${index}`];
@@ -122,7 +111,7 @@ const SupplierSignUp = ({ socket }) => {
     companyAddress: "",
     companyEmail: "",
     companyPhone: "",
-    websiteAddress:"",
+    websiteAddress: "",
     salesPersonName: "",
     contactPersonName: "",
     designation: "",
@@ -166,7 +155,6 @@ const SupplierSignUp = ({ socket }) => {
     setSelectedCountry(selectedOption);
     setSelectedState("");
     setSelectedCity("");
-
     if (!selectedOption) {
       setErrors((prevState) => ({
         ...prevState,
@@ -181,7 +169,6 @@ const SupplierSignUp = ({ socket }) => {
   const handleStateChange = (selectedOption) => {
     setSelectedState(selectedOption || "");
     setSelectedCity("");
-
     if (!selectedOption) {
       setErrors((prevState) => ({
         ...prevState,
@@ -195,7 +182,6 @@ const SupplierSignUp = ({ socket }) => {
 
   const handleCityChange = (selectedOption) => {
     setSelectedCity(selectedOption || "");
-
     if (!selectedOption) {
       setErrors((prevState) => ({
         ...prevState,
@@ -231,10 +217,7 @@ const SupplierSignUp = ({ socket }) => {
     { value: "manufacturer", label: "Manufacturer" },
     { value: "distributor", label: "Distributor" },
     { value: "service provider", label: "Service Provider" },
-    {
-      value: "medical practitioner",
-      label: "Medical Practitioner",
-    },
+    { value: "medical practitioner", label: "Medical Practitioner" },
   ];
 
   const handleCompanyTypeChange = (selectedOption) => {
@@ -261,11 +244,9 @@ const SupplierSignUp = ({ socket }) => {
         [`${imageType}Image`]: hasImage ? file : null,
       }));
     }, 0);
-
     setErrors((prevState) => ({
       ...prevState,
-      [`${imageType}Image`]:
-        !hasImage && !file ? `${imageType} image is Required` : "",
+      [`${imageType}Image`]: !hasImage && !file ? `${imageType} image is Required` : "",
     }));
   };
 
@@ -279,26 +260,17 @@ const SupplierSignUp = ({ socket }) => {
         ...prevState,
         [name]: value,
       }));
-
-      // Only validate if we have a complete date
       if (value.length === 10) {
         const [day, month, year] = value.split("-").map(Number);
-
-        // Create date objects
         const inputDate = new Date(year, month - 1, day);
         const currentDate = new Date();
-
-        // Reset time parts for accurate comparison
         currentDate.setHours(0, 0, 0, 0);
         inputDate.setHours(0, 0, 0, 0);
-
-        // Check if it's a valid date
         if (
           inputDate.getFullYear() === year &&
           inputDate.getMonth() === month - 1 &&
           inputDate.getDate() === day
         ) {
-          // Check if date is in the future
           if (inputDate <= currentDate) {
             setErrors((prevState) => ({
               ...prevState,
@@ -320,52 +292,43 @@ const SupplierSignUp = ({ socket }) => {
       return;
     }
 
-    //bank details validation
+    // Bank details validation
     if (name === "bankdetails") {
       setFormData((prevState) => ({
         ...prevState,
         [name]: value,
       }));
-
-      const details = value.split(",").map((item) => item.trim());
       let errorMessage = "";
-
-      // validation for empty input
       if (!value.trim()) {
         errorMessage = "Please enter bank details";
       }
-
-
       setErrors((prevState) => ({
         ...prevState,
         bankdetails: errorMessage,
       }));
-
       return;
     }
 
-    // Existing validations
+    // Relaxed validations to allow copy-paste
     if (
       (name === "companyName" ||
         name === "companyEmail" ||
         name === "email" ||
-        // name === "companyAddress" ||
         name === "locality" ||
         name === "landMark") &&
       value.length > 50
     ) {
       setErrors((prevState) => ({
         ...prevState,
-        [name]: ``,
+        [name]: `Maximum 50 characters allowed`,
       }));
       return;
     }
 
-    if ((name === "companyAddress") &&
-      value.length > 150) {
+    if (name === "companyAddress" && value.length > 150) {
       setErrors((prevState) => ({
         ...prevState,
-        [name]: ``,
+        [name]: `Maximum 150 characters allowed`,
       }));
       return;
     }
@@ -373,8 +336,9 @@ const SupplierSignUp = ({ socket }) => {
     if ((name === "tags" || name === "activityCode") && value.length > 60) {
       setErrors((prevState) => ({
         ...prevState,
-        [name]: ``,
+        [name]: `Maximum 60 characters allowed`,
       }));
+      return;
     }
 
     if (
@@ -386,12 +350,17 @@ const SupplierSignUp = ({ socket }) => {
       ].includes(name)
     ) {
       if (value.length > 16) {
-        setErrors((prevState) => ({ ...prevState, [name]: "" }));
+        setErrors((prevState) => ({
+          ...prevState,
+          [name]: `Maximum 16 characters allowed`,
+        }));
         return;
       }
-      // Disallow spaces in these fields
       if (!alphanumericNoSpaceRegex.test(value)) {
-        setErrors((prevState) => ({ ...prevState, [name]: "" }));
+        setErrors((prevState) => ({
+          ...prevState,
+          [name]: `Only alphanumeric characters allowed`,
+        }));
         return;
       }
     }
@@ -401,54 +370,59 @@ const SupplierSignUp = ({ socket }) => {
         ...prevState,
         description: "Description cannot exceed 2000 characters",
       }));
-    } else if (
+      return;
+    }
+
+    // Relaxed validation for contactPersonName, designation, salesPersonName to allow special characters
+    if (
       (name === "contactPersonName" ||
         name === "designation" ||
         name === "salesPersonName") &&
-      (!/^[a-zA-Z\s]*$/.test(value) || value.length > 50)
+      value.length > 50
     ) {
-      setErrors((prevState) => ({ ...prevState, designation: "" }));
-    } else if (name === "delivertime" && !/^\d{0,3}$/.test(value)) {
-      setErrors((prevState) => ({ ...prevState, delivertime: "" }));
+      setErrors((prevState) => ({
+        ...prevState,
+        [name]: `Maximum 50 characters allowed`,
+      }));
+      return;
     }
-    // else if(name === 'pincode' && !/^\d{0,6}$/.test(value)) {
-    //     setErrors(prevState => ({ ...prevState, pincode: '' }));
-    // }
-    else if (name === "pincode" && !/^[A-Za-z0-9-]{0,8}$/.test(value)) {
-      setErrors((prevState) => ({ ...prevState, pincode: "" }));
-    } else {
-      setFormData((prevState) => ({ ...prevState, [name]: value }));
-      setErrors((prevState) => ({ ...prevState, [name]: "" }));
+
+    if (name === "delivertime" && !/^\d{0,3}$/.test(value)) {
+      setErrors((prevState) => ({
+        ...prevState,
+        delivertime: `Only up to 3 digits allowed`,
+      }));
+      return;
     }
+
+    if (name === "pincode" && !/^[A-Za-z0-9-]{0,8}$/.test(value)) {
+      setErrors((prevState) => ({
+        ...prevState,
+        pincode: `Only alphanumeric characters and hyphens allowed (max 8)`,
+      }));
+      return;
+    }
+
+    setFormData((prevState) => ({ ...prevState, [name]: value }));
+    setErrors((prevState) => ({ ...prevState, [name]: "" }));
   };
 
   const handlePhoneChange = (name, value) => {
-    // Clear previous errors
     setErrors((prevState) => ({ ...prevState, [name]: "" }));
-
     try {
-      // Parse the phone number
       const phoneNumber = parsePhoneNumber(value);
-
-      // Validate the phone number
       if (phoneNumber && isValidPhoneNumber(value)) {
-        // Format the phone number in E.164 format (international standard)
-
         const countryCode = phoneNumber.countryCallingCode;
         const nationalNumber = phoneNumber.nationalNumber;
-        // const formattedNumber = phoneNumber.format('E.164');
         const formattedNumber = `+${countryCode} ${nationalNumber}`;
-        // Update form data with the formatted number
         setFormData((prevState) => ({ ...prevState, [name]: formattedNumber }));
       } else {
-        // Set error if phone number is invalid
         setErrors((prevState) => ({
           ...prevState,
           [name]: "Invalid phone number",
         }));
       }
     } catch (error) {
-      // Handle parsing errors
       setErrors((prevState) => ({
         ...prevState,
         [name]: "",
@@ -475,11 +449,9 @@ const SupplierSignUp = ({ socket }) => {
       formErrors.companyName = "Company Name is Required";
     if (!formData.companyAddress)
       formErrors.companyAddress = "Company Address is Required";
-    // if (!formData.companyEmail) formErrors.companyEmail = 'Company Email ID is Required';
     if (formData.companyEmail && !validateEmail(formData.companyEmail))
       formErrors.companyEmail = "Invalid Company Email ID";
     try {
-      // Validate Company Phone
       if (!companyPhone) {
         formErrors.companyPhone = "Company Phone No. is Required";
       } else {
@@ -488,8 +460,6 @@ const SupplierSignUp = ({ socket }) => {
           formErrors.companyPhone = "Invalid Company Phone Number";
         }
       }
-
-      // Validate Mobile Number
       if (!mobile) {
         formErrors.mobile = "Mobile No. is Required";
       } else {
@@ -499,12 +469,9 @@ const SupplierSignUp = ({ socket }) => {
         }
       }
     } catch (error) {
-      // Catch any parsing errors
       formErrors.companyPhone = "Invalid Phone Number Format";
       formErrors.mobile = "Invalid Phone Number Format";
     }
-    // if (!companyPhone) formErrors.companyPhone = 'Company Phone No. is Required';
-    // if (!formData.salesPersonName) formErrors.salesPersonName = 'Sales Person Name is Required';
     if (!formData.contactPersonName)
       formErrors.contactPersonName = "Contact Person Name is Required";
     if (!formData.designation)
@@ -518,59 +485,12 @@ const SupplierSignUp = ({ socket }) => {
       formErrors.operationCountries = "Country of Operation is Required";
     if (!formData.categories.length)
       formErrors.categories = "Trade In Category is Required";
-
-    // if (!formData.companyLicenseExpiry) {
-    //   formErrors.companyLicenseExpiry =
-    //     "Company License Expiry Date is Required";
-    // } else {
-    //   // Check if date is in valid format
-    //   const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
-    //   if (!dateRegex.test(formData.companyLicenseExpiry)) {
-    //     formErrors.companyLicenseExpiry =
-    //       "Please enter date in DD-MM-YYYY format";
-    //   } else {
-    //     const [day, month, year] = formData.companyLicenseExpiry
-    //       .split("-")
-    //       .map(Number);
-    //     const inputDate = new Date(year, month - 1, day);
-    //     const currentDate = new Date();
-
-    //     // Reset time parts for accurate comparison
-    //     currentDate.setHours(0, 0, 0, 0);
-    //     inputDate.setHours(0, 0, 0, 0);
-
-    //     // Check if it's a valid date (e.g., not 31st Feb)
-    //     if (
-    //       inputDate.getFullYear() !== year ||
-    //       inputDate.getMonth() !== month - 1 ||
-    //       inputDate.getDate() !== day
-    //     ) {
-    //       formErrors.companyLicenseExpiry = "Please enter a valid date";
-    //     }
-    //     // Check if date is in the future
-    //     else if (inputDate <= currentDate) {
-    //       formErrors.companyLicenseExpiry =
-    //         "License expiry date must be a future date";
-    //     }
-    //   }
-    // }
-
-    if (!formData.bankdetails) {
+    if (!formData.bankdetails)
       formErrors.bankdetails = "Bank Details are Required";
-    } else {
-
-    }
-
-    // if (!formData.delivertime) formErrors.delivertime = 'Estimated Delivery Time is Required';
-    // if (!formData.tags) formErrors.tags = "Tags are Required";
     if (!formData.description)
       formErrors.description = "Description is Required";
-    // if (formData.tags.split(",").map((tag) => tag.trim()).length > 5)
-    //   formErrors.tags = "You can only enter up to 5 tags";
     if (formData.description.length > 1000)
       formErrors.description = "Description cannot exceed 1000 characters";
-
-    // if (!formData.taxImage) formErrors.taxImage = "Tax Image is Required";
     if (!formData.logoImage) formErrors.logoImage = "Logo Image is Required";
     if (!formData.licenseImage)
       formErrors.licenseImage = "License Image is Required";
@@ -578,8 +498,7 @@ const SupplierSignUp = ({ socket }) => {
       selectedCompanyType?.value === "medical practitioner" &&
       !formData.medicalCertificateImage
     ) {
-      formErrors.medicalCertificateImage =
-        "Medical Certificate Image is Required";
+      formErrors.medicalCertificateImage = "Medical Certificate Image is Required";
     }
     if (!formData.registrationNo)
       formErrors.registrationNo = "Registration No. is Required";
@@ -587,18 +506,13 @@ const SupplierSignUp = ({ socket }) => {
       formErrors.vatRegistrationNo = "GST/VAT Registration No. is Required";
     if (!formData.activityCode)
       formErrors.activityCode = "Business/Trade Activity is Required";
-
     if (!formData.locality) formErrors.locality = "Locality is Required";
     if (!formData.country) formErrors.country = "Country is Required";
     if (
       selectedCompanyType?.value !== "service provider"
-      // && !formData.medicalCertificateImage
     ) {
-      // formErrors.medicalCertificateImage =
-      //   "Medical Certificate Image is Required";
       if (Array.isArray(certificateFileNDate) && certificateFileNDate.length > 0) {
         const fileErrors = [];
-
         certificateFileNDate.forEach((item, index) => {
           if (!item.file) {
             fileErrors.push(`File is required for entry ${index + 1}`);
@@ -606,41 +520,17 @@ const SupplierSignUp = ({ socket }) => {
             fileErrorArr[index] = `File is required.`;
             setCNCFileError(fileErrorArr);
           } else {
-            // fileErrors.push("");
             const fileErrorArr = cNCFileError || [];
             fileErrorArr[index] = "";
             setCNCFileError(fileErrorArr);
           }
         });
-
         if (fileErrors.length > 0) {
           formErrors.certificateFileNDate = fileErrors.join(", ");
         }
       }
     }
-    // if (Array.isArray(certificateFileNDate) && certificateFileNDate.length > 0) {
-    //   const fileErrors = [];
-
-    //   certificateFileNDate.forEach((item, index) => {
-    //     if (!item.file) {
-    //       fileErrors.push(`File is required for entry ${index + 1}`);
-    //       const fileErrorArr = cNCFileError || [];
-    //       fileErrorArr[index] = `File is required.`;
-    //       setCNCFileError(fileErrorArr);
-    //     } else {
-    //       // fileErrors.push("");
-    //       const fileErrorArr = cNCFileError || [];
-    //       fileErrorArr[index] = "";
-    //       setCNCFileError(fileErrorArr);
-    //     }
-    //   });
-
-    //   if (fileErrors.length > 0) {
-    //     formErrors.certificateFileNDate = fileErrors.join(", ");
-    //   }
-    // }
     setErrors(formErrors);
-
     return Object.keys(formErrors).length === 0;
   };
 
@@ -686,31 +576,25 @@ const SupplierSignUp = ({ socket }) => {
 
   const handleOperationCountriesChange = (selectedOptions) => {
     const selectedLabels = selectedOptions?.map((option) => option.label) || [];
-
     setFormData({
       ...formData,
       operationCountries: selectedOptions,
     });
-
     setErrors((prevState) => ({
       ...prevState,
-      operationCountries:
-        selectedLabels.length === 0 ? "Country of Operation is Required" : "",
+      operationCountries: selectedLabels.length === 0 ? "Country of Operation is Required" : "",
     }));
   };
 
   const handleCategoriesChange = (selectedOptions) => {
     const selectedLabels = selectedOptions?.map((option) => option.label) || [];
-
     setFormData({
       ...formData,
       categories: selectedOptions,
     });
-
     setErrors((prevState) => ({
       ...prevState,
-      categories:
-        selectedLabels.length === 0 ? "Trade In Category is Required" : "",
+      categories: selectedLabels.length === 0 ? "Trade In Category is Required" : "",
     }));
   };
 
@@ -749,29 +633,18 @@ const SupplierSignUp = ({ socket }) => {
       setLoading(true);
       const formDataToSend = new FormData();
       const countryLabels =
-        formData.operationCountries.map((country) => {
-          return country ? country.label : "";
-        }) || [];
-
+        formData.operationCountries.map((country) => country ? country.label : "") || [];
       const categoryLabels =
-        formData.categories?.map((category) => {
-          return category ? category.label : "";
-        }) || [];
+        formData.categories?.map((category) => category ? category.label : "") || [];
 
       formDataToSend.append("supplier_type", formData.companyType?.label);
       formDataToSend.append("supplier_name", formData.companyName);
       formDataToSend.append("description", formData.description);
       formDataToSend.append("supplier_address", formData.companyAddress);
       formDataToSend.append("website_address", formData.websiteAddress);
-      
-      // formDataToSend.append('supplier_email', formData.companyEmail);
-      // formDataToSend.append('supplier_mobile_no', companyPhone);
       formDataToSend.append("supplier_mobile_no", formData.companyPhone);
       formDataToSend.append("license_no", formData.companyLicenseNo);
-      formDataToSend.append(
-        "license_expiry_date",
-        formData.companyLicenseExpiry
-      );
+      formDataToSend.append("license_expiry_date", formData.companyLicenseExpiry);
       formDataToSend.append("country_of_origin", formData.originCountry);
       formDataToSend.append("sales_person_name", formData.salesPersonName);
       formDataToSend.append("contact_person_name", formData.contactPersonName);
@@ -779,21 +652,14 @@ const SupplierSignUp = ({ socket }) => {
       formDataToSend.append("bank_details", formData.bankdetails);
       formDataToSend.append("tags", formData.tags);
       formDataToSend.append("estimated_delivery_time", formData.delivertime);
-      // formDataToSend.append('contact_person_mobile', mobile);
       formDataToSend.append("contact_person_mobile", formData.mobile);
       formDataToSend.append("contact_person_email", formData.email);
       formDataToSend.append("registration_no", formData.registrationNo);
       formDataToSend.append("vat_reg_no", formData.vatRegistrationNo);
-      countryLabels.forEach((item) =>
-        formDataToSend.append("country_of_operation", item)
-      );
-      categoryLabels.forEach((item) =>
-        formDataToSend.append("categories", item)
-      );
+      countryLabels.forEach((item) => formDataToSend.append("country_of_operation", item));
+      categoryLabels.forEach((item) => formDataToSend.append("categories", item));
       formDataToSend.append("tax_no", formData.companyTaxNo);
       formDataToSend.append("activity_code", formData.activityCode);
-
-      // New data fields
       formDataToSend.append("locality", formData.locality);
       formDataToSend.append("land_mark", formData.landMark);
       formDataToSend.append("country", formData.country?.name);
@@ -802,24 +668,20 @@ const SupplierSignUp = ({ socket }) => {
       formDataToSend.append("pincode", formData.pincode);
       formDataToSend.append("usertype", formData.usertype);
 
-      (Array.isArray(formData.logoImage) ? formData.logoImage : []).forEach(
-        (file) => formDataToSend.append("supplier_image", file)
+      (Array.isArray(formData.logoImage) ? formData.logoImage : []).forEach((file) =>
+        formDataToSend.append("supplier_image", file)
       );
-      (Array.isArray(formData.licenseImage)
-        ? formData.licenseImage
-        : []
-      ).forEach((file) => formDataToSend.append("license_image", file));
-      (Array.isArray(formData.taxImage) ? formData.taxImage : []).forEach(
-        (file) => formDataToSend.append("tax_image", file)
+      (Array.isArray(formData.licenseImage) ? formData.licenseImage : []).forEach((file) =>
+        formDataToSend.append("license_image", file)
+      );
+      (Array.isArray(formData.taxImage) ? formData.taxImage : []).forEach((file) =>
+        formDataToSend.append("tax_image", file)
       );
       (Array.isArray(cNCFileArray) ? cNCFileArray : []).forEach((file) =>
         formDataToSend.append("certificate_image", file)
       );
       if (selectedCompanyType?.value === "medical practitioner") {
-        (Array.isArray(formData.medicalCertificateImage)
-          ? formData.medicalCertificateImage
-          : []
-        ).forEach((file) =>
+        (Array.isArray(formData.medicalCertificateImage) ? formData.medicalCertificateImage : []).forEach((file) =>
           formDataToSend.append("medical_practitioner_image", file)
         );
       }
@@ -827,18 +689,10 @@ const SupplierSignUp = ({ socket }) => {
       const certificateFileNDateUpdated = JSON.stringify(
         certificateFileNDate?.map((section) => ({
           date: section?.date || "",
-          file: Array.isArray(section?.file)
-            ? section?.file?.[0]
-            : section?.file || "",
-        })) || [
-          {
-            date: "",
-            file: "",
-          },
-        ]
+          file: Array.isArray(section?.file) ? section?.file?.[0] : section?.file || "",
+        })) || [{ date: "", file: "" }]
       );
       formDataToSend.append("certificateFileNDate", certificateFileNDateUpdated);
-      //   formDataToSend.append("cNCFileArray", cNCFileArray);
 
       try {
         const response = await apiRequests?.postRequestWithFile(
@@ -851,20 +705,16 @@ const SupplierSignUp = ({ socket }) => {
           toast(response.message, { type: "error" });
           return;
         }
-        // handleCancel()
         handleResetForm();
         setShowModal(true);
         setLoading(false);
         setMedicalPractiotionerPreview([]);
-
         socket.emit("supplierRegistration", {
           adminId: process.env.REACT_APP_ADMIN_ID,
           message: `New Supplier Registration Request `,
           link: process.env.REACT_APP_PUBLIC_URL,
-          // send other details if needed
         });
       } catch (error) {
-        // setButtonLoading(false)
         setLoading(false);
         toast(error.message, { type: "error" });
       }
@@ -941,7 +791,7 @@ const SupplierSignUp = ({ socket }) => {
                         <span
                           className={styles.emailInfoIcon}
                           data-tooltip-id="company-name-tooltip"
-                          data-tooltip-content="Provide your legal entity name, matching with the company registration certificate."
+                          data-tooltip-content="Provide your legal entity name, matching with the company registration certificate."
                         >
                           <img
                             src={Information}
@@ -1021,7 +871,6 @@ const SupplierSignUp = ({ socket }) => {
                         value={formData.websiteAddress}
                         onChange={handleChange}
                       />
-
                     </div>
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
@@ -1091,7 +940,6 @@ const SupplierSignUp = ({ socket }) => {
                         value={formData.landMark}
                         onChange={handleChange}
                       />
-                      {/* {errors.companyAddress && <div className='signup__errors'>{errors.companyAddress}</div>} */}
                     </div>
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
@@ -1117,11 +965,9 @@ const SupplierSignUp = ({ socket }) => {
                         options={
                           selectedCountry
                             ? [
-                              ...State.getStatesOfCountry(
-                                selectedCountry.isoCode
-                              ),
-                              { name: "Other", isoCode: "OTHER" },
-                            ]
+                                ...State.getStatesOfCountry(selectedCountry.isoCode),
+                                { name: "Other", isoCode: "OTHER" },
+                              ]
                             : []
                         }
                         getOptionLabel={(option) => option.name}
@@ -1139,12 +985,12 @@ const SupplierSignUp = ({ socket }) => {
                         options={
                           selectedState && selectedState.isoCode !== "OTHER"
                             ? [
-                              ...City.getCitiesOfState(
-                                selectedState.countryCode,
-                                selectedState.isoCode
-                              ),
-                              { name: "Other" },
-                            ]
+                                ...City.getCitiesOfState(
+                                  selectedState.countryCode,
+                                  selectedState.isoCode
+                                ),
+                                { name: "Other" },
+                              ]
                             : [{ name: "Other" }]
                         }
                         getOptionLabel={(option) => option.name}
@@ -1166,7 +1012,9 @@ const SupplierSignUp = ({ socket }) => {
                         value={formData.pincode}
                         onChange={handleChange}
                       />
-                      {/* {errors.companyAddress && <div className='signup__errors'>{errors.companyAddress}</div>} */}
+                      {errors.pincode && (
+                        <div className={styles.signupErrors}>{errors.pincode}</div>
+                      )}
                     </div>
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
@@ -1194,6 +1042,11 @@ const SupplierSignUp = ({ socket }) => {
                         </span>
                         <Tooltip id="company-name-tooltip" />
                       </div>
+                      {errors.salesPersonName && (
+                        <div className={styles.signupErrors}>
+                          {errors.salesPersonName}
+                        </div>
+                      )}
                     </div>
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
@@ -1234,7 +1087,6 @@ const SupplierSignUp = ({ socket }) => {
                         </div>
                       )}
                     </div>
-
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
                         Categories you Trade In
@@ -1258,6 +1110,22 @@ const SupplierSignUp = ({ socket }) => {
                     </div>
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
+                        Tags
+                      </label>
+                      <input
+                        className={styles.signupFormSectionInput}
+                        type="text"
+                        name="tags"
+                        placeholder="Enter Tags (comma separated)"
+                        value={formData.tags}
+                        onChange={handleChange}
+                      />
+                      {errors.tags && (
+                        <div className={styles.signupErrors}>{errors.tags}</div>
+                      )}
+                    </div>
+                    <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
                         Company License No.
                       </label>
                       <input
@@ -1268,25 +1136,11 @@ const SupplierSignUp = ({ socket }) => {
                         value={formData.companyLicenseNo}
                         onChange={handleChange}
                       />
-
                     </div>
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
                         License Expiry/Renewal Date
-
                       </label>
-                      {/* <InputMask
-                        className={styles.signupFormSectionInput}
-                        type="text"
-                        mask="dd-mm-yyyy"
-                        placeholder="DD-MM-YYYY"
-                        name="companyLicenseExpiry"
-                        value={formData.companyLicenseExpiry}
-                        onChange={handleChange}
-                        replacement={{ d: /\d/, m: /\d/, y: /\d/ }}
-                        showMask
-                        separate
-                      />*/}
                       <DatePicker
                         className={styles.signupFormSectionInput}
                         selected={formData.companyLicenseExpiry ? parseDateString(formData.companyLicenseExpiry) : null}
@@ -1302,25 +1156,6 @@ const SupplierSignUp = ({ socket }) => {
                         disabledKeyboardNavigation={false}
                       />
                     </div>
-
-                    <div className={styles.signupFormSectionDiv}>
-                      <label className={styles.signupFormSectionLabel}>
-                        Tags
-                        {/* <span className={styles.labelStamp}>*</span> */}
-                      </label>
-                      <input
-                        className={styles.signupFormSectionInput}
-                        type="text"
-                        name="tags"
-                        placeholder="Enter Tags (comma separated)"
-                        value={formData.tags}
-                        onChange={handleChange}
-                      />
-                      {errors.tags && (
-                        <div className={styles.signupErrors}>{errors.tags}</div>
-                      )}
-                    </div>
-
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
                         About Company<span className={styles.labelStamp}>*</span>
@@ -1354,7 +1189,6 @@ const SupplierSignUp = ({ socket }) => {
                         </div>
                       )}
                     </div>
-
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
                         Bank Details<span className={styles.labelStamp}>*</span>
@@ -1373,12 +1207,7 @@ const SupplierSignUp = ({ socket }) => {
                         <span
                           className={styles.infoIcon}
                           data-tooltip-id="bank-details-tooltip"
-                          data-tooltip-content="Provide the following information: 
-                                                             Bank Name ,
-                                                            Account Number ,
-                                                             IFSC Code,
-                                                            (comma seperated)
-                                                            "
+                          data-tooltip-content="Provide the following information: Bank Name, Account Number, IFSC Code (comma separated)"
                         >
                           <img
                             src={Information}
@@ -1394,10 +1223,8 @@ const SupplierSignUp = ({ socket }) => {
                         </div>
                       )}
                     </div>
-
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
-                        {" "}
                         Business/Trade Activity Code
                         <span className={styles.labelStamp}>*</span>
                       </label>
@@ -1440,7 +1267,6 @@ const SupplierSignUp = ({ socket }) => {
                         </div>
                       )}
                     </div>
-
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
                         Email ID<span className={styles.labelStamp}>*</span>
@@ -1471,7 +1297,6 @@ const SupplierSignUp = ({ socket }) => {
                         <div className={styles.signupErrors}>{errors.email}</div>
                       )}
                     </div>
-
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
                         Mobile No.<span className={styles.labelStamp}>*</span>
@@ -1484,7 +1309,6 @@ const SupplierSignUp = ({ socket }) => {
                           value={mobile}
                           onChange={(value) => {
                             handlePhoneChange("mobile", value);
-                            // Update local state for the input
                             setMobile(value);
                           }}
                         />
@@ -1505,7 +1329,6 @@ const SupplierSignUp = ({ socket }) => {
                         <div className={styles.signupErrors}>{errors.mobile}</div>
                       )}
                     </div>
-
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
                         Designation<span className={styles.labelStamp}>*</span>
@@ -1548,7 +1371,6 @@ const SupplierSignUp = ({ socket }) => {
                       <label className={styles.signupFormSectionLabel}>
                         Upload Company Logo<span className={styles.labelStamp}>*</span>
                       </label>
-
                       <ImageUploader
                         onUploadStatusChange={handleImageUpload}
                         filePreviews={logoPreviews}
@@ -1568,7 +1390,6 @@ const SupplierSignUp = ({ socket }) => {
                         Upload Trade License
                         <span className={styles.labelStamp}>*</span>
                       </label>
-
                       <ImageUploader
                         onUploadStatusChange={handleImageUpload}
                         filePreviews={tradeLicensePreviews}
@@ -1626,7 +1447,6 @@ const SupplierSignUp = ({ socket }) => {
                                 </div>
                               )}
                             </div>
-
                             <div className={styles.signupFormSectionDiv}>
                               <label className={styles.signupFormSectionLabel}>
                                 Expiry Date
@@ -1643,7 +1463,6 @@ const SupplierSignUp = ({ socket }) => {
                                 disabledKeyboardNavigation={false}
                               />
                             </div>
-
                             {certificateFileNDate.length > 1 && (
                               <div
                                 onClick={() => removeSection(index)}
@@ -1677,16 +1496,13 @@ const SupplierSignUp = ({ socket }) => {
                         )}
                       </div>
                     )}
-
-                    <div className={styles.signupFormSectionCheckbox}>
-                      {/* <Link to='/supplier/terms-and-conditions' > */}
-                      <div
-                        className={styles.termsCondition}
-                        onClick={() => setShowTnC(true)}
-                      >
-                        Terms & Conditions<span className={styles.labelStamp}>*</span>
-                      </div>
-                      {/* </Link> */}
+                  </div>
+                  <div className={styles.signupFormSectionCheckbox}>
+                    <div
+                      className={styles.termsCondition}
+                      onClick={() => setShowTnC(true)}
+                    >
+                      Terms & Conditions<span className={styles.labelStamp}>*</span>
                     </div>
                   </div>
                 </div>
@@ -1702,7 +1518,6 @@ const SupplierSignUp = ({ socket }) => {
                     className={styles.signupFormButtonSubmit}
                     disabled={loading}
                   >
-                    {/* Submit */}
                     {loading ? (
                       <div className={styles.loadingSpinner}></div>
                     ) : (

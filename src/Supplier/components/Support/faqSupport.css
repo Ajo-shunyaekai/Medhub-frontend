@@ -6,6 +6,7 @@
 }
 .faq-heading {
   font-size: 16px !important;
+  font-weight: 500;
   color: #5e676f !important;
 }
 .faq-container {
@@ -34,14 +35,17 @@
   padding: 1rem;
   color: #5e676f;
   font-size: 14px;
+  font-weight: 500 !important;
 }
 .accordion-button:not(.collapsed) {
   color: #5e676f !important;
+  font-weight: 500 !important;
   background-color: #ffffff !important;
 }
 .accordion-body {
   padding: 1rem;
   font-size: 14px;
+  font-weight: 500;
   color: #99a0ac;
 }
 

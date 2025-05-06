@@ -60,9 +60,9 @@
 }
 
 .profileContainer {
-  display: flex;
-  gap: 20px;
   width: 100%;
+  display: flex;
+  gap: 30px;
 }
 
 .contentSection {
@@ -73,7 +73,6 @@
 }
 
 .companyNameSection {
-  width: 100%;
   background-color: #ffffff;
   border-radius: 4px;
   padding: 26px 30px;
@@ -166,7 +165,6 @@
   justify-content: start;
   align-items: start;
   gap: 40px;
-  width: 100%;
 }
 
 .companyInnerContainer {
@@ -184,9 +182,9 @@
 
 .companyDetails {
   display: flex;
-  width: 100%;
-  justify-content: space-between;
-  align-items: center;
+      width: 100%;
+      justify-content: space-between;
+      gap: 20px;
 }
 
 .companyHead {
@@ -194,6 +192,7 @@
   color: #5e676f !important;
   font-weight: 500;
   line-height: 20px;
+  min-width: 250px !important;
 }
 
 .companyText {
@@ -202,7 +201,8 @@
   word-break: break-word;
   overflow-wrap: break-word;
   color: #99a0ac;
-  font-size: 14px;
+  font-weight: 500;
+  font-size: 13px;
   text-align: end;
 }
 
@@ -213,7 +213,7 @@
 }
 
 .textareaSeaction {
-  width: 50%;
+  width: 100%;
   background-color: #ffffff;
   border-radius: 4px;
   padding: 26px 30px;
@@ -230,6 +230,7 @@
 }
 
 .textareaContent {
+  font-weight: 500;
   color: #99a0ac;
   font-size: 14px;
   line-height: 20px;
@@ -384,8 +385,6 @@
   cursor: not-allowed !important;
   outline: none !important;
   border: none !important;
-  color: #5e676f !important;
-  font-weight: 500 !important;
   background-color: #ffffff !important;
   padding: 12px !important;
   font-size: 14px !important;
@@ -431,6 +430,20 @@
 /* End style the Edit profile form section */
 
 /* Style the media quiery section */
+@media (max-width: 1400px) {
+  .container {
+    max-width: 100%;
+  }
+  .profileContainer {
+    gap: 20px;
+  }
+  .imgSection {
+   
+    width: 35%;
+  
+  }
+}
+
 @media (max-width: 1150px) {
   .editSubSection {
     width: 31%;
@@ -441,43 +454,4 @@
   font-size: 12px;
   color: red;
   margin-top: -4px;
-}
-@media (max-width: 767px) {
-  .profileContainer {
-    flex-direction: column;
-  }
-  .imgSection{
-    width: 100%;
-  }
-  .contentSection{
-    width: 100%;
-  }
-  .companyDetailsSection{
-    flex-direction: column;
-    gap: 6px;
-  }
-  .companyInnerContainer{
-    width: 100%;
-  }
-  .companySection{
-    flex-direction: column;
-  }
-  .companyContainerContactSection{
-    width: 100%;
-  }
-  .textareaSeaction{
-    width: 100%;
-  }
-  .documentInnerSection{
-    width: 46%;
-  }
-}
-
-@media (max-width: 767px) {
-.contentIconSection{
-  flex-direction: column;
-}
-.addressSection{
-  width: 100%;
-}
 }

@@ -229,7 +229,7 @@ const Profile = () => {
                 {user?.vat_reg_no && (
                   <div className={styles.companyDetails}>
                     <div className={styles.companyHead}>
-                      VAT Registration No.
+                      GST/VAT Registration No.
                     </div>
                     <div className={styles.companyText}>{user?.vat_reg_no}</div>
                   </div>
@@ -252,16 +252,6 @@ const Profile = () => {
                     </div>
                   </div>
                 )}
-                {user?.license_no && (
-                  <div className={styles.companyDetails}>
-                    <div className={styles.companyHead}>
-                      Company License No.
-                    </div>
-                    <div className={styles.companyText}>{user?.license_no}</div>
-                  </div>
-                )}
-              </div>
-              <div className={styles.companyInnerContainer}>
                 {user?.country_of_operation && (
                   <div className={styles.companyDetails}>
                     <div className={styles.companyHead}>
@@ -272,10 +262,35 @@ const Profile = () => {
                     </div>
                   </div>
                 )}
-                {user?.tax_no && (
+                {user?.license_no && (
                   <div className={styles.companyDetails}>
-                    <div className={styles.companyHead}>Company Tax No.</div>
-                    <div className={styles.companyText}>{user?.tax_no}</div>
+                    <div className={styles.companyHead}>
+                      Company License No.
+                    </div>
+                    <div className={styles.companyText}>{user?.license_no}</div>
+                  </div>
+                )}
+              </div>
+              <div className={styles.companyInnerContainer}>
+                {user?.sales_person_name && (
+                  <div className={styles.companyDetails}>
+                    <div className={styles.companyHead}>
+                      Country of Operation
+                    </div>
+                    <div className={styles.companyText}>
+                      {user?.country_of_operation}
+                    </div>
+                  </div>
+                )}
+
+                {user?.activity_code && (
+                  <div className={styles.companyDetails}>
+                    <div className={styles.companyHead}>
+                      Business/Trade Activity Code
+                    </div>
+                    <div className={styles.companyText}>
+                      {user?.activity_code}
+                    </div>
                   </div>
                 )}
                 {user?.approx_yearly_purchase_value && (
@@ -321,12 +336,13 @@ const Profile = () => {
         </div>
       )}
 
-      {(hasContactDetails || hasActivityCode) && (
+      {hasContactDetails && (
+
         <div className={styles.companySection}>
-          <div className={styles.companyContainerContactSection}>
-            {hasContactDetails && (
-              <>
-                <div className={styles.companyMainHeading}>Contact Details</div>
+          <div className={styles.companyContainerSection}>
+            <div className={styles.companyMainHeading}>Contact Details</div>
+            <div className={styles.companyDetailsSection}>
+              <div className={styles.companyInnerContainer}>
                 {user?.contact_person_name && (
                   <div className={styles.companyDetails}>
                     <div className={styles.companyHead}>Contact Name</div>
@@ -343,6 +359,9 @@ const Profile = () => {
                     </div>
                   </div>
                 )}
+
+              </div>
+              <div className={styles.companyInnerContainer}>
                 {user?.contact_person_mobile && (
                   <div className={styles.companyDetails}>
                     <div className={styles.companyHead}>Mobile No.</div>
@@ -360,21 +379,20 @@ const Profile = () => {
                     </div>
                   </div>
                 )}
-              </>
-            )}
-          </div>
-          {hasActivityCode && (
-            <div className={styles.textareaSeaction}>
-              <div className={styles.textareaHead}>
-                Business/Trade Activity Code
               </div>
-              <span className={styles.textareaContent}>
-                {user?.activity_code}
-              </span>
             </div>
-          )}
+          </div>
         </div>
       )}
+      {hasActivityCode && (
+        <div className={styles.textareaSeaction}>
+          <div className={styles.textareaHead}>
+            Business/Trade Activity Code
+          </div>
+          <span className={styles.textareaContent}>{user?.activity_code}</span>
+        </div>
+      )}
+      {/* )} */}
       {/* style the documents section */}
       <div className={styles.documentContainer}>
         <div className={styles.documentMainHeading}>Documents</div>

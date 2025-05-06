@@ -204,7 +204,7 @@ const Profile = () => {
                     </div>
                   </div>
                 )}
-                {user?.license_no && (
+                {user?.categories && (
                   <div className={styles.companyDetails}>
                     <div className={styles.companyHead}>
                       Company License No.
@@ -236,6 +236,12 @@ const Profile = () => {
                   <div className={styles.companyDetails}>
                     <div className={styles.companyHead}>Tags</div>
                     <div className={styles.companyText}>{user?.tags}</div>
+                  </div>
+                )}
+                {user?.license_no && (
+                  <div className={styles.companyDetails}>
+                    <div className={styles.companyHead}>Company License No.</div>
+                    <div className={styles.companyText}>{user?.license_no}</div>
                   </div>
                 )}
                 {user?.license_expiry_date && (
@@ -301,7 +307,7 @@ const Profile = () => {
                 </div>
               </div>
             )}
-            {user?.designation && (
+            { user?.designation && (
               <div className={styles.companyDetails}>
                 <div className={styles.companyHead}>Designation</div>
                 <div className={styles.companyText}>{user?.designation}</div>
@@ -309,7 +315,7 @@ const Profile = () => {
             )}
           </div>
           {user?.bank_details && (
-            <div className={styles.textareaSeaction}>
+            <div className={styles.companyContainerContactSection}>
               <div className={styles.textareaHead}>Bank Details</div>
               <span className={styles.textareaContent}>
                 {user?.bank_details}

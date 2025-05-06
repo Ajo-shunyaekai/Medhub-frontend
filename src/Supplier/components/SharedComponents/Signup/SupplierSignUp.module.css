@@ -125,7 +125,7 @@
 .signupFormSectionContainer {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 1rem;
 }
 .signupFormSectionHeading {
   width: 100%;

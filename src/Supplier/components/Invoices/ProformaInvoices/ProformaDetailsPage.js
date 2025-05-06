@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import "../invoiceDesign.css";
 import html2pdf from "html2pdf.js";
 import { useNavigate, useParams } from "react-router-dom";
-import { postRequestWithToken } from "../../../api/Requests";
 import { apiRequests } from "../../../../api";
 
 function ProformaDetailsPage() {
@@ -247,8 +246,9 @@ function ProformaDetailsPage() {
                             <p
                               style={{
                                 fontSize: "13px",
+                                fontWeight:"500",
                                 lineHeight: "16px",
-                                color: "#99a0ac",
+                                     
                               }}
                             >
                               {orderDetails?.supplier_address}
@@ -260,21 +260,23 @@ function ProformaDetailsPage() {
                                 justifyContent: "start",
                               }}
                             >
-                              <p
+                              {/* <p
                                 style={{
                                   fontSize: "13px",
+                                  fontWeight:"500",
                                   lineHeight: "16px",
-                                  color: "#99a0ac",
+                                       
                                   paddingTop: "6px",
                                 }}
                               >
                                 Mobile No. :
-                              </p>
+                              </p> */}
                               <p
                                 style={{
                                   fontSize: "13px",
+                                  fontWeight:"500",
                                   lineHeight: "16px",
-                                  color: "#99a0ac",
+                                       
                                   paddingTop: "6px",
                                 }}
                               >
@@ -287,21 +289,23 @@ function ProformaDetailsPage() {
                                 justifyContent: "start",
                               }}
                             >
-                              <p
+                              {/* <p
                                 style={{
                                   fontSize: "13px",
+                                  fontWeight:"500",
                                   lineHeight: "16px",
-                                  color: "#99a0ac",
+                                       
                                   paddingTop: "6px",
                                 }}
                               >
                                 Email ID :
-                              </p>
+                              </p> */}
                               <p
                                 style={{
                                   fontSize: "13px",
-                                  lineHeight: "16px",
-                                  color: "#99a0ac",
+                                fontWeight:"500",
+                                lineHeight: "16px",
+                                       
                                   paddingTop: "6px",
                                 }}
                               >
@@ -339,8 +343,9 @@ function ProformaDetailsPage() {
                             <p
                               style={{
                                 fontSize: "13px",
+                                fontWeight:"500",
                                 lineHeight: "16px",
-                                color: "#99a0ac",
+                                     
                                 lineHeight: "16px",
                                 textAlign: "end",
                               }}
@@ -351,21 +356,23 @@ function ProformaDetailsPage() {
                             <td
                               style={{ display: "flex", justifyContent: "end" }}
                             >
-                              <p
+                              {/* <p
                                 style={{
                                   fontSize: "13px",
+                                  fontWeight:"500",
                                   lineHeight: "16px",
-                                  color: "#99a0ac",
+                                       
                                   paddingTop: "6px",
                                 }}
                               >
                                 Mobile No. :
-                              </p>
+                              </p> */}
                               <p
                                 style={{
                                   fontSize: "13px",
+                                  fontWeight:"500",
                                   lineHeight: "16px",
-                                  color: "#99a0ac",
+                                       
                                   paddingTop: "6px",
                                 }}
                               >
@@ -375,21 +382,23 @@ function ProformaDetailsPage() {
                             <td
                               style={{ display: "flex", justifyContent: "end" }}
                             >
-                              <p
+                              {/* <p
                                 style={{
                                   fontSize: "13px",
+                                  fontWeight:"500",
                                   lineHeight: "16px",
-                                  color: "#99a0ac",
+                                       
                                   paddingTop: "6px",
                                 }}
                               >
                                 Email ID :
-                              </p>
+                              </p> */}
                               <p
                                 style={{
                                   fontSize: "13px",
+                                  fontWeight:"500",
                                   lineHeight: "16px",
-                                  color: "#99a0ac",
+                                       
                                   paddingTop: "6px",
                                 }}
                               >
@@ -836,9 +845,10 @@ function ProformaDetailsPage() {
                       <div
                         style={{
                           fontSize: "13px",
+                          fontWeight:"500",
                           lineHeight: "20px",
                           marginTop: "4px",
-                          color: "#99a0ac",
+                               
                         }}
                       >
                         {orderDetails?.enquiry?.payment_terms?.map(
