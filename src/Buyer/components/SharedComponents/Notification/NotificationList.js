@@ -1,4 +1,3 @@
-// NotificationList.jsx
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DataTable from 'react-data-table-component';
@@ -6,16 +5,17 @@ import PaginationComponent from '../Pagination/pagination';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import { postRequestWithToken } from '../../../../api/Requests';
 import moment from 'moment/moment';
+import Loader from "../../SharedComponents/Loader/Loader";
 import styles from '../../../assets/style/table.module.css';
 
 const NotificationList = () => {
     const navigate = useNavigate();
     const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
     const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
-
     const [list, setList] = useState([]);
     const [totalItems, setTotalItems] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
+    const [loading, setLoading] = useState(true);
     const ordersPerPage = 8;
 
     const indexOfLastOrder = currentPage * ordersPerPage;
@@ -37,6 +37,7 @@ const NotificationList = () => {
             buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
         };
 
+        setLoading(true);
         postRequestWithToken('buyer/get-notification-details-list', obj, (response) => {
             if (response?.code === 200) {
                 setList(response.result.data || []);
@@ -45,6 +46,7 @@ const NotificationList = () => {
                 setList([]);
                 setTotalItems(0);
             }
+            setLoading(false);
         });
     }, [currentPage, buyerIdSessionStorage, buyerIdLocalStorage, navigate]);
 
@@ -99,12 +101,9 @@ const NotificationList = () => {
         {
             name: 'Action',
             cell: row => (
-             
-                     <div className={styles.activeBtn}   onClick={() => handleNavigation(row?.notification_id, row?.event, row?.event_id, row?.link_id)}>
-            <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
-          </div>
-                  
-                
+                <div className={styles.activeBtn} onClick={() => handleNavigation(row?.notification_id, row?.event, row?.event_id, row?.link_id)}>
+                    <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
+                </div>
             ),
             ignoreRowClick: true,
             allowOverflow: true,
@@ -114,53 +113,51 @@ const NotificationList = () => {
 
     return (
         <div className={styles.container}>
-        <style>
-          {`
-            .rdt_Table {
-              border: none;
-              background-color: unset !important;
-            }
-            .rdt_TableRow {
-              background-color: #ffffff !important;
-              border-bottom: none !important;
-            }
-            .rdt_TableHeadRow {
-              background-color: #f9f9fa;
-              font-weight: bold;
-              border-bottom: none !important;
-            }
-            .rdt_TableBody {
-              gap: 10px !important;
-            }
-            .rdt_TableCol {
-               
-              color: #333;
-            }
-            .rdt_TableCell {
-               
-              color: #99a0ac;
-              font-weight: 500 !important;
-            }
-            .rdt_TableCellStatus {
-               
-              color: #333;
-            }
-          `}
-        </style>
-        <div className={styles.tableMainContainer}>
-            <header className={styles.header}>
-              <span className={styles.title}>Notification List</span>
-            </header>
-           
-                        <DataTable
-                            columns={columns}
-                            data={notificationOrders || []}
-                            noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
-                            persistTableHead
-                            pagination={false}
-                            responsive
-                        />
-                    </div>
+            <style>
+                {`
+                    .rdt_Table {
+                        border: none;
+                        background-color: unset !important;
+                    }
+                    .rdt_TableRow {
+                        background-color: #ffffff !important;
+                        border-bottom: none !important;
+                    }
+                    .rdt_TableHeadRow {
+                        background-color: #f9f9fa;
+                        font-weight: bold;
+                        border-bottom: none !important;
+                    }
+                    .rdt_TableBody {
+                        gap: 10px !important;
+                    }
+                    .rdt_TableCol {
+                        color: #333;
+                    }
+                    .rdt_TableCell {
+                        color: #99a0ac;
+                        font-weight: 500 !important;
+                    }
+                    .rdt_TableCellStatus {
+                        color: #333;
+                    }
+                `}
+            </style>
+            {loading ? (
+                <Loader />
+            ) : (
+                <div className={styles.tableMainContainer}>
+                    <header className={styles.header}>
+                        <span className={styles.title}>Notification List</span>
+                    </header>
+                    <DataTable
+                        columns={columns}
+                        data={notificationOrders || []}
+                        noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
+                        persistTableHead
+                        pagination={false}
+                        responsive
+                    />
                     {list?.length > 0 && (
                         <PaginationComponent
                             activePage={currentPage}
@@ -171,7 +168,8 @@ const NotificationList = () => {
                         />
                     )}
                 </div>
-          
+            )}
+        </div>
     );
 };
 

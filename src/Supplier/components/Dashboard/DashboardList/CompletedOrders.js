@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
+import Loader from "../../SharedComponents/Loader/Loader";
 import { Link, useNavigate } from "react-router-dom";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import moment from "moment/moment";
 import DataTable from "react-data-table-component";
 import OrderCancel from "../../Orders/OrderCancel";
 import { apiRequests } from "../../../../api";
-import PaginationComponent from "../../SharedComponents/Pagination/Pagination"
+import PaginationComponent from "../../SharedComponents/Pagination/Pagination";
 import styles from "../../../assets/style/table.module.css";
 
 const CompletedOrders = () => {
   const navigate = useNavigate();
-  const [show, setShow] = useState(false);
   const [modal, setModal] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [orderList, setOrderList] = useState([]);
   const [totalOrders, setTotalOrders] = useState(0);
@@ -23,13 +24,11 @@ const CompletedOrders = () => {
     setModal(!modal);
   };
 
-  // DataTable columns configuration
   const columns = [
     {
       name: "Order ID",
       selector: (row) => row?.order_id,
       sortable: true,
-    
     },
     {
       name: "Date",
@@ -43,7 +42,6 @@ const CompletedOrders = () => {
       name: "Buyer Name",
       selector: (row) => row?.buyer.buyer_name,
       sortable: true,
-     
     },
     {
       name: "Quantity",
@@ -77,9 +75,9 @@ const CompletedOrders = () => {
       name: "Action",
       cell: (row) => (
         <Link to={`/supplier/active-orders-details/${row?.order_id}`}>
-           <div className={styles.activeBtn}>
-                        <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
-                    </div>
+          <div className ={styles.activeBtn}>
+            <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
+          </div>
         </Link>
       ),
       ignoreRowClick: true,
@@ -100,6 +98,7 @@ const CompletedOrders = () => {
       }
 
       try {
+        setLoading(true);
         const response = await apiRequests.getRequest(
           `order/get-all-order-list?filterKey=completed&pageNo=${currentPage}&pageSize=${ordersPerPage}`
         );
@@ -113,6 +112,8 @@ const CompletedOrders = () => {
       } catch (error) {
         setOrderList([]);
         setTotalOrders(0);
+      } finally {
+        setLoading(false);
       }
     };
     fetchOrderList();
@@ -124,57 +125,60 @@ const CompletedOrders = () => {
 
   return (
     <div className={styles.container}>
-        <style>
-            {`
-                .rdt_Table {
-                    border: none;
-                    background-color: unset !important;
-                }
-                .rdt_TableRow {
-                    background-color: #ffffff !important;
-                    border-bottom: none !important;
-                }
-                .rdt_TableHeadRow {
-                    background-color: #f9f9fa;
-                    font-weight: bold;
-                    border-bottom: none !important;
-                }
-                .rdt_TableBody {
-                    gap: 10px !important;
-                }
-                .rdt_TableCol {
-                       
-                    color: #333;
-                }
-                .rdt_TableCell {
-                       
-                    color: #99a0ac;
-                    font-weight: 500 !important;
-                }
-                .rdt_TableCellStatus {
-                       
-                    color: #333;
-                }
-            `}
-        </style>
-        <div className={styles.tableMainContainer}>
-         <span className={styles.title}>Completed Orders</span>
-        <DataTable
-          columns={columns}
-          data={orderList}
-          persistTableHead
-            noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
-            pagination={false}
-            responsive
-        />
-        {orderList.length > 0 && (
-          <PaginationComponent
-            activePage={currentPage}
-            itemsCountPerPage={ordersPerPage}
-            totalItemsCount={totalOrders}
-            pageRangeDisplayed={8}
-            onChange={handlePageChange}
-          />
+      <style>
+        {`
+          .rdt_Table {
+            border: none;
+            background-color: unset !important;
+          }
+          .rdt_TableRow {
+            background-color: #ffffff !important;
+            border-bottom: none !important;
+          }
+          .rdt_TableHeadRow {
+            background-color: #f9f9fa;
+            font-weight: bold;
+            border-bottom: none !important;
+          }
+          .rdt_TableBody {
+            gap: 10px !important;
+          }
+          .rdt_TableCol {
+            color: #333;
+          }
+          .rdt_TableCell {
+            color: #99a0ac;
+            font-weight: 500 !important;
+          }
+          .rdt_TableCellStatus {
+            color: #333;
+          }
+        `}
+      </style>
+      <div className={styles.tableMainContainer}>
+        <span className={styles.title}>Completed Orders</span>
+        {loading ? (
+          <Loader />
+        ) : (
+          <>
+            <DataTable
+              columns={columns}
+              data={orderList}
+              persistTableHead
+              noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
+              pagination={false}
+              responsive
+            />
+            {orderList.length > 0 && (
+              <PaginationComponent
+                activePage={currentPage}
+                itemsCountPerPage={ordersPerPage}
+                totalItemsCount={totalOrders}
+                pageRangeDisplayed={8}
+                onChange={handlePageChange}
+              />
+            )}
+          </>
         )}
         {modal && (
           <OrderCancel
@@ -183,8 +187,8 @@ const CompletedOrders = () => {
             activeLink={"completed"}
           />
         )}
-        </div>
       </div>
+    </div>
   );
 };
 

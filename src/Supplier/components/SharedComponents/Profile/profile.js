@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./profile.module.css";
 import { MdOutlineAttachEmail } from "react-icons/md";
 import { RiHonourLine } from "react-icons/ri";
@@ -8,12 +8,13 @@ import { FaFilePdf, FaFileWord } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserData } from "../../../../redux/reducers/userDataSlice";
-import Loader from "../Loader/Loader";
+import Loader from "../../SharedComponents/Loader/Loader";
 
 const Profile = () => {
   const { user } = useSelector((state) => state?.userReducer);
   const dispatch = useDispatch();
   const { id } = useParams();
+  const [loading, setLoading] = useState(true);
 
   const extractFileName = (url) => (url ? url.split("/")?.pop() : "Unknown");
 
@@ -85,11 +86,19 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    (id || localStorage?.getItem("_id")) &&
-      dispatch(fetchUserData(id || localStorage?.getItem("_id")));
+    const fetchData = async () => {
+      if (id || localStorage?.getItem("_id")) {
+        setLoading(true);
+        await dispatch(fetchUserData(id || localStorage?.getItem("_id")));
+        setLoading(false);
+      }
+    };
+    fetchData();
   }, [dispatch, id]);
 
-  if (!user) return <Loader />;
+  if (loading) return <Loader />;
+
+  if (!user) return null;
 
   return (
     <div className={styles.container}>
@@ -314,7 +323,7 @@ const Profile = () => {
                 </div>
               </div>
             )}
-            { user?.designation && (
+            {user?.designation && (
               <div className={styles.companyDetails}>
                 <div className={styles.companyHead}>Designation</div>
                 <div className={styles.companyText}>{user?.designation}</div>
