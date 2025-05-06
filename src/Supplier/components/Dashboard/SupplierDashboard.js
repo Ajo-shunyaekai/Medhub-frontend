@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import styles from './SupplierDashboard.module.css';
-
+import styles from './supplierdashboard.module.css';
 import WorldMap from "react-svg-worldmap";
 import ProgressBar from './Charts/ProgressBar';
 import OrangeBar from './Charts/OrangeBar'
