@@ -8,18 +8,25 @@ import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "react-toastify/dist/ReactToastify.css";
 
-import { NotificationProvider } from "./Buyer/BuyerRoutes/Router";
-import BuyerSidebar from "./Buyer/BuyerRoutes/Router";
+import { BuyerNotificationProvider } from "./Buyer/BuyerRoutes/Router";
 import AdminSidebar from "./Admin/AdminRoutes/Router";
-import SupplierSidebar from "./Supplier/SupplierRoutes/Router";
+import { SupplierNotificationProvider } from "./Supplier/SupplierRoutes/Router";
 import LogisticsRoutes from "./LogisticsPanel/LogisticsRoutes/Router";
 import SubscriptionRoutes from "./SubscriptionPlan/LandingSubscription";
 import Layout from "./Buyer/components/SharedComponents/layout";
 import Loader from "./Buyer/components/SharedComponents/Loader/Loader";
-import { buyerNestedRoutes, buyerRoutesConfig } from "./allRoutes";
+import {
+  buyerNestedRoutes,
+  buyerRoutesConfig,
+  supplierNestedRoutes,
+  supplierRoutesConfig,
+} from "./allRoutes";
+import Error from "./Buyer/components/SharedComponents/Error/Error";
 
 // Socket Connection
-const socket = io.connect(process.env.REACT_APP_SERVER_URL, { autoConnect: false });
+const socket = io.connect(process.env.REACT_APP_SERVER_URL, {
+  autoConnect: false,
+});
 
 const App = () => {
   const [cssFileLoaded, setCssFileLoaded] = useState(false);
@@ -49,26 +56,26 @@ const App = () => {
 
   const renderSidebar = () => {
     switch (currentPath) {
-      case "supplier":
-        return <SupplierSidebar />;
+      // case "supplier":
+      //   return <SupplierSidebar />;
       case "admin":
         return <AdminSidebar />;
       case "logistics":
         return <LogisticsRoutes />;
       case "subscription":
         return <SubscriptionRoutes />;
-      default:
-        return <BuyerSidebar />;
+      // default:
+      //   return <BuyerSidebar />;
     }
   };
 
-  const renderRoutes = (routes, parentPath = "") => 
-    routes.map(({ path, component: Component, withSocket, children, index }, idx) => (
+  const renderRoutes = (routes, parentPath = "") =>
+    routes.map(({ path, component: Component, children, index }, idx) => (
       <Route
         key={idx}
         path={path ? `${parentPath}${path}` : undefined}
         index={index}
-        element={<Component {...(withSocket ? { socket } : {})} />}
+        element={<Component socket={socket} />}
       >
         {children && renderRoutes(children)}
       </Route>
@@ -88,13 +95,25 @@ const App = () => {
           <Route
             path="/buyer"
             element={
-              <NotificationProvider>
+              <BuyerNotificationProvider>
                 <Layout />
-              </NotificationProvider>
+              </BuyerNotificationProvider>
             }
           >
             {renderRoutes(buyerNestedRoutes)}
           </Route>
+          {renderRoutes(supplierRoutesConfig)}
+          <Route
+            path="/supplier"
+            element={
+              <SupplierNotificationProvider>
+                <Layout />
+              </SupplierNotificationProvider>
+            }
+          >
+            {renderRoutes(supplierNestedRoutes)}
+          </Route>
+          <Route path="*" element={<Error socket={socket} />} />
         </Routes>
       </Suspense>
     </div>

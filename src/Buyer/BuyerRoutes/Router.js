@@ -12,7 +12,7 @@ const socket = io.connect(process.env.REACT_APP_SERVER_URL, {
   autoConnect: false,
 });
 
-export function NotificationProvider({ children }) {
+export function BuyerNotificationProvider({ children }) {
   const dispatch = useDispatch();
   const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
   const buyerIdLocalStorage = localStorage?.getItem("buyer_id");

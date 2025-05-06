@@ -14,6 +14,7 @@ import {
   updateProfileEditReqsDetail,
 } from "../../../../../redux/reducers/adminSlice";
 import { formatDate } from "../../../../../utils/dateFormatter";
+import Loader from "../../../shared-components/Loader/Loader";
 const getFieldValue = (field) => {
   if (!field) return "";
   return typeof field === "object" && field.value !== undefined
@@ -78,7 +79,7 @@ const EditProfileDetails = ({ socket }) => {
 
   // Handle loading and no-data states
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loader/>
   }
 
   if (!profileEditReqDetail) {

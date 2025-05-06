@@ -7,6 +7,7 @@ import { formatDate } from "../../../../../utils/dateFormatter";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import PaginationComponent from '../../../shared-components/Pagination/Pagination';
 import styles from '../../../../assets/style/table.module.css';
+import Loader from "../../../shared-components/Loader/Loader";
 
 const EditProfileList = () => {
   const dispatch = useDispatch();
@@ -71,7 +72,7 @@ const EditProfileList = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loader/>
   }
 
   return (

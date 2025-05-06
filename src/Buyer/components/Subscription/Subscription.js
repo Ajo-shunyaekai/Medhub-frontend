@@ -4,6 +4,7 @@ import styles from './subscription.module.css';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import CurrentPlan from './Plan';
 import TransactionHistory from './TransactionHistory';
+import Loader from '../SharedComponents/Loader/Loader';
 
 const Subscription = () => {
     const location = useLocation();
@@ -47,7 +48,7 @@ const Subscription = () => {
     return (
         <>
             {loading ? (
-                <div>Loading...</div>
+                <Loader/>
             ) : (
                 <div className={styles.container}>
                     <span className={styles.heading}>Subscription</span>

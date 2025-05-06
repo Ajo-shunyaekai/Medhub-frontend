@@ -6,6 +6,7 @@ import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";
 import OrderCustomModal from './OrderCustomModal';
 import ActiveInvoiceList from './ActiveInvoiceList';
 import { apiRequests } from '../../../api';
+import Loader from '../SharedComponents/Loader/Loader';
 
 const ActiveOrdersDetails = ({ socket }) => {
     const { orderId } = useParams();
@@ -53,7 +54,7 @@ const ActiveOrdersDetails = ({ socket }) => {
 
     // If orderDetails is not loaded yet, show a loading state or return null
     if (!orderDetails) {
-        return <div>Loading...</div>;
+        return <Loader/>
     }
 
     return (

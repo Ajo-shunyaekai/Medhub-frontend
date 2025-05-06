@@ -7,7 +7,6 @@ export const buyerRoutesConfig = [
     component: lazy(() =>
       import("./Buyer/components/SharedComponents/Login/Login")
     ),
-    withSocket: true,
   },
   {
     path: "/buyer/forgot-password",
@@ -20,17 +19,20 @@ export const buyerRoutesConfig = [
     component: lazy(() =>
       import("./Buyer/components/SharedComponents/Login/Login")
     ),
-    withSocket: true,
   },
   {
     path: "/buyer/privacy-policy",
     component: lazy(() => import("./Policies/PrivcyPolicy")),
-    withSocket: true,
   },
   {
     path: "/buyer/terms-and-conditions",
     component: lazy(() => import("./Policies/Terms&Conditions")),
-    withSocket: true,
+  },
+  {
+    path: "*",
+    component: lazy(() =>
+      import("./Buyer/components/SharedComponents/Error/Error")
+    ),
   },
 ];
 
@@ -373,6 +375,357 @@ export const buyerNestedRoutes = [
     path: "/buyer/thank-you",
     component: lazy(() =>
       import("./Buyer/components/Buy/SendInquiry/ThankYou")
+    ),
+  },
+  {
+    path: "*",
+    component: lazy(() =>
+      import("./Buyer/components/SharedComponents/Error/Error")
+    ),
+  },
+];
+export const supplierRoutesConfig = [
+  {
+    path: "/supplier/login",
+    component: lazy(() =>
+      import("./Supplier/components/SharedComponents/Signup/SupplierLogin")
+    ),
+  },
+  {
+    path: "/supplier/sign-up",
+    component: lazy(() =>
+      import("./Supplier/components/SharedComponents/Signup/SupplierSignUp")
+    ),
+  },
+  {
+    path: "/supplier/forgot-password",
+    component: lazy(() =>
+      import("./Supplier/components/SharedComponents/Signup/ForgotPassword")
+    ),
+  },
+  {
+    path: "/supplier/privacy-policy",
+    component: lazy(() => import("./Policies/PrivcyPolicy")),
+  },
+  {
+    path: "/supplier/terms-and-conditions",
+    component: lazy(() => import("./Policies/Terms&Conditions")),
+  },
+  {
+    path: "*",
+    component: lazy(() =>
+      import("./Buyer/components/SharedComponents/Error/Error")
+    ),
+  },
+];
+
+export const supplierNestedRoutes = [
+  {
+    index: true,
+    component: lazy(() => import("./Supplier/components/Dashboard/index")),
+  },
+  {
+    path: "product",
+    component: lazy(() =>
+      import("./Supplier//components/Products/NewProducts/Product")
+    ),
+    children: [
+      {
+        path: "newproduct",
+        component: lazy(() =>
+          import("./Supplier/components/Products/NewProducts/NewProduct")
+        ),
+      },
+      {
+        path: "secondarymarket",
+        component: lazy(() =>
+          import("./Supplier/components/Products/NewProducts/SecondaryMarket")
+        ),
+      },
+    ],
+  },
+  {
+    path: "inquiry-request-list",
+    component: lazy(() =>
+      import("./Supplier/components/Dashboard/DashboardList/InquiryRequestList")
+    ),
+  },
+  {
+    path: "purchased-orders-list",
+    component: lazy(() =>
+      import(
+        "./Supplier/components/Dashboard/DashboardList/PurchasedOrdersList"
+      )
+    ),
+  },
+  {
+    path: "ongoing-orders",
+    component: lazy(() =>
+      import("./Supplier/components/Dashboard/DashboardList/DashboardOngoing")
+    ),
+  },
+  {
+    path: "completed-orders",
+    component: lazy(() =>
+      import("./Supplier/components/Dashboard/DashboardList/CompletedOrders")
+    ),
+  },
+  {
+    path: "pending-invoices-list",
+    component: lazy(() =>
+      import(
+        "./Supplier/components/Dashboard/DashboardList/PendingInvoicesList"
+      )
+    ),
+  },
+  {
+    path: "completed-invoices-list",
+    component: lazy(() =>
+      import(
+        "./Supplier/components/Dashboard/DashboardList/CompletedInvoicesList"
+      )
+    ),
+  },
+  {
+    path: "inquiry-purchase-orders",
+    component: lazy(() =>
+      import("./Supplier/components/Inquiry/InquiryPurchaseOrders")
+    ),
+    children: [
+      {
+        path: "ongoing",
+        component: lazy(() =>
+          import("./Supplier/components/Inquiry/InquiryRequest/OnGoingOrder")
+        ),
+      },
+      {
+        path: "purchased",
+        component: lazy(() =>
+          import("./Supplier/components/Inquiry/PurchasedOrder/PurchasedOrder")
+        ),
+      },
+    ],
+  },
+  {
+    path: "invoice",
+    component: lazy(() => import("./Supplier/components/Invoices/Invoice")),
+    children: [
+      {
+        path: "pending",
+        component: lazy(() =>
+          import(
+            "./Supplier/components/Invoices/PendingInvoices/PendingInvoice"
+          )
+        ),
+      },
+      {
+        path: "paid",
+        component: lazy(() =>
+          import("./Supplier/components/Invoices/PaidInvoices/CompleteInvoice")
+        ),
+      },
+      {
+        path: "proforma",
+        component: lazy(() =>
+          import("./Supplier/components/Invoices/ProformaInvoices/ProformaList")
+        ),
+      },
+    ],
+  },
+  {
+    path: "order",
+    component: lazy(() => import("./Supplier/components/Orders/Order")),
+    children: [
+      {
+        path: "active",
+        component: lazy(() =>
+          import("./Supplier/components/Orders/ActiveOrders/ActiveOrder")
+        ),
+      },
+      {
+        path: "completed",
+        component: lazy(() =>
+          import("./Supplier/components/Orders/CompletedOrders/CompleteOrder")
+        ),
+      },
+    ],
+  },
+  {
+    path: "add-product",
+    component: lazy(() =>
+      import("./Supplier/components/Products/AddProduct/AddProduct")
+    ),
+  },
+  {
+    path: "preview-file",
+    component: lazy(() =>
+      import(
+        "./Supplier/components/Products/AddProduct/PreviewFile/PreviewFile"
+      )
+    ),
+  },
+  {
+    path: "product-details/:id",
+    component: lazy(() =>
+      import("./Supplier/components/Products/ProductDetails/ProductDetails")
+    ),
+  },
+  {
+    path: "edit-product/:id",
+    component: lazy(() =>
+      import("./Supplier/components/Products/AddProduct/EditAddProduct")
+    ),
+  },
+  {
+    path: "inquiry-request-details/:inquiryId",
+    component: lazy(() =>
+      import(
+        "./Supplier/components/Inquiry/InquiryRequest/InquiryRequestDetails"
+      )
+    ),
+  },
+  {
+    path: "purchased-order-details/:purchaseOrderId",
+    component: lazy(() =>
+      import(
+        "./Supplier/components/Inquiry/PurchasedOrder/PurchasedOrderDetails"
+      )
+    ),
+  },
+  {
+    path: "proforma-invoice/:purchaseOrderId",
+    component: lazy(() =>
+      import("./Supplier/components/Invoices/ProformaInvoices/ProformaInvoice")
+    ),
+  },
+  {
+    path: "active-orders-details/:orderId",
+    component: lazy(() =>
+      import("./Supplier/components/Orders/ActiveOrdersDetails")
+    ),
+  },
+  {
+    path: "invoice-design/:invoiceId",
+    component: lazy(() =>
+      import("./Supplier/components/Invoices/InvoiceDesign")
+    ),
+  },
+  {
+    path: "proforma-invoice-details/:orderId",
+    component: lazy(() =>
+      import(
+        "./Supplier/components/Invoices/ProformaInvoices/ProformaDetailsPage"
+      )
+    ),
+  },
+  {
+    path: "create-invoice/:orderId",
+    component: lazy(() =>
+      import("./Supplier/components/Invoices/CreateInvoice")
+    ),
+  },
+  {
+    path: "buyer-details/:buyerId",
+    component: lazy(() =>
+      import("./Supplier/components/Products/ProductDetails/BuyerDetails")
+    ),
+  },
+  {
+    path: "buyer-completed-list/:buyerId",
+    component: lazy(() =>
+      import("./Supplier/components/Products/Buyer/BuyerCompletedList")
+    ),
+  },
+  {
+    path: "buyer-active-list/:buyerId",
+    component: lazy(() =>
+      import("./Supplier/components/Products/Buyer/BuyerActiveList")
+    ),
+  },
+  {
+    path: "buyer-pending-list/:buyerId",
+    component: lazy(() =>
+      import("./Supplier/components/Products/Buyer/BuyerPendingList")
+    ),
+  },
+  {
+    path: "Support",
+    component: lazy(() => import("./Supplier/components/Support/Support")),
+  },
+  {
+    path: "subscription",
+    component: lazy(() =>
+      import("./Supplier/components/Subscription/Subscription")
+    ),
+    children: [
+      {
+        path: "transaction-history",
+        component: lazy(() =>
+          import("./Supplier/components/Subscription/TransactionHistory")
+        ),
+      },
+      {
+        path: "current-plan",
+        component: lazy(() =>
+          import("./Supplier/components/Subscription/Plan")
+        ),
+      },
+    ],
+  },
+  {
+    path: "subscription-invoice-details",
+    component: lazy(() =>
+      import("./Supplier/components/Subscription/SubscriptionInvoiceDetails")
+    ),
+  },
+  {
+    path: "notification-list",
+    component: lazy(() =>
+      import(
+        "./Supplier/components/SharedComponents/Notification/NotificationList"
+      )
+    ),
+  },
+  {
+    path: "profile/:id",
+    component: lazy(() =>
+      import("./Supplier/components/SharedComponents/Profile/profile")
+    ),
+  },
+  {
+    path: "edit-profile/:id",
+    component: lazy(() =>
+      import("./Supplier/components/SharedComponents/Profile/EditProfile")
+    ),
+  },
+  {
+    path: "logistics-form/:orderId/:supplierId",
+    component: lazy(() =>
+      import("./Supplier/components/Orders/SupplierLogistics/SupplierLogistics")
+    ),
+  },
+  {
+    path: "add-new-address/:orderId/:supplierId",
+    component: lazy(() =>
+      import(
+        "./Supplier/components/Orders/SupplierLogistics/SupplierAddAddress"
+      )
+    ),
+  },
+  {
+    path: "edit-new-address/:orderId/:supplierId/:addressId",
+    component: lazy(() =>
+      import(
+        "./Supplier/components/Orders/SupplierLogistics/SupplierEditAddress"
+      )
+    ),
+  },
+  {
+    path: "logistics-address/:orderId/:supplierId",
+    component: lazy(() =>
+      import(
+        "./Supplier/components/Orders/SupplierLogistics/SupplierLogisticsAddress"
+      )
     ),
   },
   {

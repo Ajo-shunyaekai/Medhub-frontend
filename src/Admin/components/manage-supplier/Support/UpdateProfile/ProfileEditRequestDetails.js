@@ -14,6 +14,7 @@ import {
   updateProfileEditReqsDetail,
 } from "../../../../../redux/reducers/adminSlice";
 import { formatDate } from "../../../../../utils/dateFormatter";
+import Loader from "../../../shared-components/Loader/Loader";
 
 const ProfileEditRequestDetails = ({ socket }) => {
   const { id } = useParams();
@@ -67,7 +68,7 @@ const ProfileEditRequestDetails = ({ socket }) => {
 
   // Render loading state
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loader/>
   }
 
   // Render error state if no data is available

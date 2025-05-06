@@ -10,6 +10,7 @@ import html2pdf from "html2pdf.js";
 import { ThreeDots } from "react-loader-spinner";
 import PaginationComponent from "../../SharedComponents/Pagination/Pagination"
 import styles from "../../../assets/style/table.module.css";
+import Loader from "../../SharedComponents/Loader/Loader";
 
 const PendingInvoicesList = () => {
   const navigate = useNavigate();
@@ -169,7 +170,7 @@ const PendingInvoicesList = () => {
             onClick={() => handleDownload(row?.invoice_id)}
           >
             {downloadingInvoiceId === row?.invoice_id ? (
-              <ThreeDots height="20" width="20" color="blue" ariaLabel="loading" />
+              <Loader/>
             ) : (
               <div className={styles.activeBtn}>
               <CloudDownloadOutlinedIcon className={styles['table-icon']} />
@@ -224,7 +225,7 @@ const PendingInvoicesList = () => {
        <span className={styles.title}>Pending Invoices</span>
         {loading ? (
           <div className={styles.loader}>
-            <ThreeDots height="80" width="80" color="blue" ariaLabel="loading" />
+            <Loader/>
           </div>
         ) : (
           <>

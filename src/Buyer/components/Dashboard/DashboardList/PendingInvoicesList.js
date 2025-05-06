@@ -161,7 +161,7 @@ const PendingInvoicesList = () => {
             onClick={() => handleDownload(row?.invoice_id)}
           >
             {downloadingInvoiceId === row?.invoice_id ? (
-              <ThreeDots height="20" width="20" color="blue" ariaLabel="loading" />
+              <Loader/>
             ) : (
               <div className={styles.activeBtn}>
               <CloudDownloadOutlinedIcon className={styles['table-icon']} />

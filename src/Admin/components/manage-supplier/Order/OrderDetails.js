@@ -5,6 +5,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import SellerActiveCodinator from "./SellerActiveCodinator";
 import SellerActiveInvoiceList from "./SellerActiveInvoiceList";
 import { apiRequests } from "../../../../api";
+import Loader from "../../shared-components/Loader/Loader";
 
 const OrderDetails = () => {
   const { orderId } = useParams();
@@ -48,7 +49,7 @@ const OrderDetails = () => {
   }
 
   if (!orderDetails) {
-    return <div className={styles.Container}>Loading...</div>;
+    return <Loader/>
   }
 
   return (
