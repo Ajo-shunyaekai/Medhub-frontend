@@ -85,7 +85,9 @@ const SupplierRequestDetails = () => {
       sales_person_name: salesPersonName,
     };
     if (!salesPersonName || salesPersonName === "") {
-      return toast("Sales Person is required", { type: "error" });
+      return toast("Medhub Global Sales Representative is required", {
+        type: "error",
+      });
     }
 
     if (action === "accept") {
