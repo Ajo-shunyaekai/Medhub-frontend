@@ -40,7 +40,7 @@ const RichTextEditor = ({
           contextmenu: 'link table',
           statusbar: false,
           resize: true,
-          placeholder: 'Start typing your blog post here...',
+          placeholder: 'Enter description here...',
           toolbar_sticky: true,
         }}
         onBlur={onBlur}
