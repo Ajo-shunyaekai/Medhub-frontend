@@ -678,7 +678,7 @@ const SignUp = ({ socket }) => {
       formDataToSend.append("buyer_email", formData.companyEmail);
      
       formDataToSend.append("buyer_mobile", formData.companyPhone);
-      formDataToSend.append("website_Address", formData.websiteAddress);
+      formDataToSend.append("website_address", formData.websiteAddress);
       formDataToSend.append("license_no", formData.companyLicenseNo);
       formDataToSend.append("country_of_origin", formData.originCountry);
       formDataToSend.append("sales_person_name", formData.salesPersonName);

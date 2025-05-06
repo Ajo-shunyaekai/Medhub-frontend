@@ -56,7 +56,7 @@ const SellerRequest = () => {
 
     const handleDownload = async () => {
         setLoading(true);
-        const result = await postReqCSVDownload('admin/get-supplier-list-csv', {}, 'supplier_list.csv');
+        const result = await postReqCSVDownload('admin/get-supplier-list-csv', {}, 'supplier_requests_list.csv');
         if (!result?.success) {
             console.error('Error downloading CSV');
         }

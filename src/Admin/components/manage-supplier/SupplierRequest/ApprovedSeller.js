@@ -34,7 +34,7 @@ const ApprovedSeller = () => {
         const obj = {
             filterKey: 'accepted'
         }
-        const result = await postReqCSVDownload('admin/get-supplier-list-csv', obj, 'supplier_list.csv');
+        const result = await postReqCSVDownload('admin/get-supplier-list-csv', obj, 'approved_suppliers_list.csv');
         if (!result?.success) {
             console.error('Error downloading CSV');
         }
