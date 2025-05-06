@@ -7,8 +7,8 @@ import moment from "moment/moment";
 import { toast } from "react-toastify";
 import { apiRequests } from "../../../../api";
 import html2pdf from "html2pdf.js";
-import { ThreeDots } from "react-loader-spinner";
-import PaginationComponent from "../../SharedComponents/Pagination/Pagination"
+import Loader from "../../SharedComponents/Loader/Loader";
+import PaginationComponent from "../../SharedComponents/Pagination/Pagination";
 import styles from "../../../assets/style/table.module.css";
 import Loader from "../../SharedComponents/Loader/Loader";
 
@@ -123,47 +123,41 @@ const PendingInvoicesList = () => {
       name: "Date",
       selector: (row) => moment(row?.created_at).format("DD/MM/YYYY"),
       sortable: true,
-     
     },
     {
       name: "Invoice No",
       selector: (row) => row?.invoice_no,
       sortable: true,
-    
     },
     {
       name: "Order ID",
       selector: (row) => row?.order_id,
       sortable: true,
-     
     },
     {
       name: "Customer Name",
       selector: (row) => row?.buyer_name,
       sortable: true,
-    
     },
     {
       name: "Amount",
       selector: (row) => `${row?.total_payable_amount} USD`,
       sortable: true,
-      
     },
     {
       name: "Status",
       selector: (row) =>
         row?.status?.charAt(0)?.toUpperCase() + row?.status.slice(1),
       sortable: true,
-    
     },
     {
       name: "Action",
       cell: (row) => (
         <div className={styles.buttonContainer}>
           <Link to={`/supplier/invoice-design/${row?.invoice_id}`}>
-          <div className={styles.activeBtn}>
-                        <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
-                    </div>
+            <div className={styles.activeBtn}>
+              <RemoveRedEyeOutlinedIcon className={styles["table-icon"]} />
+            </div>
           </Link>
           <div
             className={styles.downloadButton}
@@ -173,8 +167,8 @@ const PendingInvoicesList = () => {
               <Loader/>
             ) : (
               <div className={styles.activeBtn}>
-              <CloudDownloadOutlinedIcon className={styles['table-icon']} />
-          </div>
+                <CloudDownloadOutlinedIcon className={styles["table-icon"]} />
+              </div>
             )}
           </div>
         </div>
@@ -188,8 +182,8 @@ const PendingInvoicesList = () => {
 
   return (
     <div className={styles.container}>
-       <style>
-            {`
+      <style>
+        {`
                 .rdt_Table {
                     border: none;
                     background-color: unset !important;
@@ -207,22 +201,19 @@ const PendingInvoicesList = () => {
                     gap: 10px !important;
                 }
                 .rdt_TableCol {
-                       
                     color: #333;
                 }
                 .rdt_TableCell {
-                       
                     color: #99a0ac;
                     font-weight: 500 !important;
                 }
                 .rdt_TableCellStatus {
-                       
                     color: #333;
                 }
             `}
-        </style>
-        <div className={styles.tableMainContainer}>
-       <span className={styles.title}>Pending Invoices</span>
+      </style>
+      <div className={styles.tableMainContainer}>
+        <span className={styles.title}>Pending Invoices</span>
         {loading ? (
           <div className={styles.loader}>
             <Loader/>
@@ -233,9 +224,11 @@ const PendingInvoicesList = () => {
               columns={columns}
               data={invoiceList}
               persistTableHead
-            noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
-            pagination={false}
-            responsive
+              noDataComponent={
+                <div className={styles["no-data"]}>No Data Available</div>
+              }
+              pagination={false}
+              responsive
             />
             {invoiceList.length > 0 && totalInvoices > 0 && (
               <PaginationComponent
@@ -253,8 +246,8 @@ const PendingInvoicesList = () => {
           style={{ display: "none" }}
           title="invoice-download-iframe"
         ></iframe>
-        </div>
       </div>
+    </div>
   );
 };
 

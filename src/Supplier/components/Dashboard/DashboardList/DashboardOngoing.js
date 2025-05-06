@@ -5,7 +5,8 @@ import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import { apiRequests } from "../../../../api";
 import OrderCancel from "../../Orders/OrderCancel";
 import moment from "moment/moment";
-import PaginationComponent from "../../SharedComponents/Pagination/Pagination"
+import PaginationComponent from "../../SharedComponents/Pagination/Pagination";
+import Loader from "../../SharedComponents/Loader/Loader";
 import styles from "../../../assets/style/table.module.css";
 
 const DashboardOngoing = () => {
@@ -15,6 +16,7 @@ const DashboardOngoing = () => {
   const [orderList, setOrderList] = useState([]);
   const [totalOrders, setTotalOrders] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
   const ordersPerPage = 8;
 
   const showModal = (orderId) => {
@@ -28,12 +30,14 @@ const DashboardOngoing = () => {
 
   useEffect(() => {
     const fetchOrderList = async () => {
+      setLoading(true);
       const supplierIdSessionStorage = localStorage?.getItem("supplier_id");
       const supplierIdLocalStorage = localStorage?.getItem("supplier_id");
 
       if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
         localStorage?.clear();
         navigate("/supplier/login");
+        setLoading(false);
         return;
       }
 
@@ -47,6 +51,8 @@ const DashboardOngoing = () => {
         }
       } catch (error) {
         console.error("Error fetching orders:", error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchOrderList();
@@ -88,9 +94,9 @@ const DashboardOngoing = () => {
       cell: (row) => (
         <div className={styles.actionColumn}>
           <Link to={`/supplier/active-orders-details/${row?.order_id}`}>
-          <div className={styles.activeBtn}>
-                        <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
-                    </div>
+            <div className={styles.activeBtn}>
+              <RemoveRedEyeOutlinedIcon className={styles["table-icon"]} />
+            </div>
           </Link>
         </div>
       ),
@@ -102,59 +108,62 @@ const DashboardOngoing = () => {
 
   return (
     <div className={styles.container}>
-        <style>
-            {`
-                .rdt_Table {
-                    border: none;
-                    background-color: unset !important;
-                }
-                .rdt_TableRow {
-                    background-color: #ffffff !important;
-                    border-bottom: none !important;
-                }
-                .rdt_TableHeadRow {
-                    background-color: #f9f9fa;
-                    font-weight: bold;
-                    border-bottom: none !important;
-                }
-                .rdt_TableBody {
-                    gap: 10px !important;
-                }
-                .rdt_TableCol {
-                       
-                    color: #333;
-                }
-                .rdt_TableCell {
-                       
-                    color: #99a0ac;
-                    font-weight: 500 !important;
-                }
-                .rdt_TableCellStatus {
-                       
-                    color: #333;
-                }
-            `}
-        </style>
-        <div className={styles.tableMainContainer}>
-         <span className={styles.title}>Active Orders</span>
-     
-     
-        <DataTable
-          columns={columns}
-          data={orderList}
-          persistTableHead
-            noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
-            pagination={false}
-            responsive
-        />
-        {orderList.length > 0 && (
-          <PaginationComponent
-            activePage={currentPage}
-            itemsCountPerPage={ordersPerPage}
-            totalItemsCount={totalOrders}
-            pageRangeDisplayed={8}
-            onChange={handlePageChange}
-          />
+      <style>
+        {`
+          .rdt_Table {
+            border: none;
+            background-color: unset !important;
+          }
+          .rdt_TableRow {
+            background-color: #ffffff !important;
+            border-bottom: none !important;
+          }
+          .rdt_TableHeadRow {
+            background-color: #f9f9fa;
+            font-weight: bold;
+            border-bottom: none !important;
+          }
+          .rdt_TableBody {
+            gap: 10px !important;
+          }
+          .rdt_TableCol {
+            color: #333;
+          }
+          .rdt_TableCell {
+            color: #99a0ac;
+            font-weight: 500 !important;
+          }
+          .rdt_TableCellStatus {
+            color: #333;
+          }
+        `}
+      </style>
+      <div className={styles.tableMainContainer}>
+        <span className={styles.title}>Active Orders</span>
+        {loading ? (
+          <Loader />
+        ) : (
+          <>
+            <DataTable
+              columns={columns}
+              data={orderList}
+              persistTableHead
+              noDataComponent={
+                <div className={styles["no-data"]}>No Data Available</div>
+              }
+              pagination={false}
+              responsive
+            />
+            {orderList.length > 0 && (
+              <PaginationComponent
+                activePage={currentPage}
+                itemsCountPerPage={ordersPerPage}
+                totalItemsCount={totalOrders}
+                pageRangeDisplayed={8}
+                onChange={handlePageChange}
+              />
+            )}
+          </>
         )}
         {modal && (
           <OrderCancel
@@ -163,8 +172,8 @@ const DashboardOngoing = () => {
             activeLink={"active"}
           />
         )}
-        </div>
       </div>
+    </div>
   );
 };
 

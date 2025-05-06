@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./profile.module.css";
 import { MdOutlineAttachEmail } from "react-icons/md";
 import { RiHonourLine } from "react-icons/ri";
@@ -18,6 +18,7 @@ const Profile = () => {
   const { user } = useSelector((state) => state?.userReducer);
   const dispatch = useDispatch();
   const { id } = useParams();
+  const [loading, setLoading] = useState(true);
   const documentsArray = [
     { headings: "Trade License", keyword: "license_image" },
     { headings: "Tax Certificate", keyword: "tax_image" },
@@ -29,11 +30,19 @@ const Profile = () => {
   ];
 
   useEffect(() => {
-    (id || localStorage?.getItem("_id")) &&
-      dispatch(fetchUserData(id || localStorage?.getItem("_id")));
+    const fetchData = async () => {
+      if (id || localStorage?.getItem("_id")) {
+        setLoading(true);
+        await dispatch(fetchUserData(id || localStorage?.getItem("_id")));
+        setLoading(false);
+      }
+    };
+    fetchData();
   }, [dispatch, id]);
 
-  if (!user) return <Loader />;
+  if (loading) return <Loader />;
+
+  if (!user) return null;
 
   return (
     <div className={styles.container}>
@@ -240,7 +249,9 @@ const Profile = () => {
                 )}
                 {user?.license_no && (
                   <div className={styles.companyDetails}>
-                    <div className={styles.companyHead}>Company License No.</div>
+                    <div className={styles.companyHead}>
+                      Company License No.
+                    </div>
                     <div className={styles.companyText}>{user?.license_no}</div>
                   </div>
                 )}
@@ -307,7 +318,7 @@ const Profile = () => {
                 </div>
               </div>
             )}
-            { user?.designation && (
+            {user?.designation && (
               <div className={styles.companyDetails}>
                 <div className={styles.companyHead}>Designation</div>
                 <div className={styles.companyText}>{user?.designation}</div>

@@ -9,6 +9,7 @@ import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";
 import OrderInvoiceList from "./OrderInvoiceList";
 import { toast } from "react-toastify";
 import { apiRequests } from "../../../../api";
+import Loader from "../../SharedComponents/Loader/Loader";
 
 const OrdersDetails = ({ socket }) => {
   const { orderId } = useParams();
@@ -17,7 +18,7 @@ const OrdersDetails = ({ socket }) => {
   const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
   const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [activeButton, setActiveButton] = useState("1h");
   const [orderDetails, setOrderDetails] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,6 +27,7 @@ const OrdersDetails = ({ socket }) => {
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
       localStorage?.clear();
       navigate("/buyer/login");
+      setLoading(false);
       return;
     }
     const obj = {
@@ -41,7 +43,11 @@ const OrdersDetails = ({ socket }) => {
       if (response?.code === 200) {
         setOrderDetails(response.result);
       }
-    } catch (error) {}
+    } catch (error) {
+      console.error("Error fetching order details:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -112,24 +118,30 @@ const OrdersDetails = ({ socket }) => {
               socket.emit("bookLogistics", {
                 supplierId: orderDetails?.supplier_id,
                 orderId: orderId,
-                message: `Logistics Booking Request for ${orderId}`,
+                message: `Log WY1istics Booking Request for ${orderId}`,
                 link: process.env.REACT_APP_PUBLIC_URL,
               });
               setOrderDetails(response.result);
               onClose();
-              setLoading(false);
             } else {
-              setLoading(false);
               toast(response.message, { type: "error" });
             }
-          } catch (error) {}
+          } catch (error) {
+            console.error("Error updating order details:", error);
+          } finally {
+            setLoading(false);
+          }
         } else {
-          setLoading(false);
           toast(response.message, { type: "error" });
+          setLoading(false);
         }
       }
     );
   };
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <div className='active-order-details-container'>
@@ -294,7 +306,7 @@ const OrdersDetails = ({ socket }) => {
                   <span className='details-address-text'>
                     Mobile: {orderDetails.buyer_logistics_data.mobile_number}
                   </span>
-                )}
+             )}
                 {orderDetails.buyer_logistics_data.mode_of_transport && (
                   <span className='details-address-text'>
                     Mode of Transport: {orderDetails.buyer_logistics_data.mode_of_transport}

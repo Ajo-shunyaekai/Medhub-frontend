@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { useDispatch } from "react-redux";
 import { updateInquiryCartCount } from "../../../../redux/reducers/inquirySlice";
+import Loader from "../../SharedComponents/Loader/Loader";
 
 const SendInquiry = ({ socket }) => {
   const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
@@ -30,6 +31,7 @@ const SendInquiry = ({ socket }) => {
   const [cartCount, setCartCount] = useState(
     localStorage?.getItem("list_count")
   );
+  const [loading, setLoading] = useState(true);
 
   const handleCheckboxChange = (id) => {
     setCheckedState((prevState) => ({
@@ -89,6 +91,7 @@ const SendInquiry = ({ socket }) => {
       pageSize: itemsPerPage,
     };
 
+    setLoading(true);
     postRequestWithToken("buyer/show-list", obj, async (response) => {
       if (response?.code === 200) {
         setList(response?.result?.data);
@@ -104,6 +107,7 @@ const SendInquiry = ({ socket }) => {
       } else {
         toast(response.message, { type: "error" });
       }
+      setLoading(false);
     });
   }, [currentPage, refreshTrigger]);
 
@@ -150,7 +154,6 @@ const SendInquiry = ({ socket }) => {
       items: selectedItems,
     };
 
-    // Validation: Check if total_quantity is greater than 100
     for (const supplier of enquiryPayload.items) {
       for (const item of supplier.item_details) {
         if (parseInt(item.total_quantity, 10) <= 50) {
@@ -169,16 +172,14 @@ const SendInquiry = ({ socket }) => {
         if (response?.code === 200) {
           enquiryPayload.items.forEach((item) => {
             socket.emit("sendInquiry", {
-              supplierId: item.supplier_id, // The supplier to be notified
+              supplierId: item.supplier_id,
               message: "You have a new inquiry from a buyer!",
               link: process.env.REACT_APP_PUBLIC_URL,
-              // send other details if needed
             });
           });
           setCheckedState({});
           setCurrentPage(1);
           setRefreshTrigger((prev) => !prev);
-
           navigate("/buyer/thank-you", { state: { from: "order" } });
           localStorage?.setItem("list_count", response.result.listCount);
           dispatch(updateInquiryCartCount(response.result.listCount));
@@ -195,182 +196,190 @@ const SendInquiry = ({ socket }) => {
       <div className="send-enquiry-heading">Send Inquiry</div>
       <div className="send-enquiry-main-section">
         <div className="send-enquiry-inner-section">
-          {list.length > 0 && (
-            <div className="send-enquiry-upper-section">
-              <div className="send-enquiry-upper-left-sec">
-                <span className="send-enquiry-upper-left-head">
-                  Your Inquiries
-                </span>
-              </div>
-
-              <div className="send-enquiry-upper-right-sec">
-                <div className="send-enquiry-upper-right-content">
-                  <span className="send-enquiry-upper-right-total">Total:</span>
-                  <span className="send-enquiry-upper-right-number">
-                    {totalItems} Inquiries
-                  </span>
-                </div>
-                <div
-                  className="send-enquiry-upper-right-button-sec"
-                  onClick={handleSendEnquiry}
-                >
-                  <span className="send-enquiry-upper-right-button">
-                    {buttonLoading ? (
-                      <>
-                        <ClipLoader
-                          size={20}
-                          color={"#ffffff"}
-                          loading={buttonLoading}
-                        />
-                        Sending...
-                      </>
-                    ) : (
-                      "Send Inquiry"
-                    )}
-                  </span>
-                </div>
-              </div>
-            </div>
-          )}
-          <div className="send-enquiry-container-inner-container">
-            {list.length === 0 ? (
-              <div className="no-data-found">No Data Found</div>
-            ) : (
-              Object.entries(groupedProducts).map(
-                ([supplierName, supplierData]) => (
-                  <div
-                    key={supplierData?.list_id}
-                    className="send-enquiry-supplier-list-container"
-                  >
-                    <div className="send-enquiry-supplier-list-upper-section">
-                      <div className="send-enquiry-supplier-list-heading">
-                        Supplier Name:
-                      </div>
-                      <div className="send-enquiry-supplier-list-text">
-                        {supplierName}
-                      </div>
-                    </div>
-                    {supplierData.items.map((product) => (
-                      <div
-                        key={product?._id}
-                        className="send-enquiry-inner-bottom-section-container"
-                      >
-                        <div className="send-enquiry-inner-checkbox">
-                          <label className="custom-checkbox-label">
-                            <input
-                              type="checkbox"
-                              className="custom-checkbox"
-                              checked={checkedState[product?._id] || false}
-                              onChange={() =>
-                                handleCheckboxChange(product?._id)
-                              }
-                            />
-                            <span className="custom-checkbox-checkmark"></span>
-                          </label>
-                        </div>
-                        <div className="send-enquiry-inner-image">
-                          <img
-                            src={
-                              product?.medicine_image?.[0]?.startsWith("http")
-                                ? product?.medicine_image?.[0]
-                                : `${process.env.REACT_APP_SERVER_URL}uploads/products/${product?.medicine_image?.[0]}`
-                            }
-                            alt="Product"
-                          />
-                        </div>
-                        <div className="send-enquiry-inner-content">
-                          <div className="send-enquiry-inner-top-container">
-                            <div className="send-enquiry-inner-top-head-section">
-                              <span className="send-enquiry-inner-top-heading">
-                                {product?.medicine_name}
-                              </span>
-                            </div>
-                          </div>
-                          <div className="send-enquiry-inner-bottom-section">
-                            <div className="send-enquiry-inner-bottom-container">
-                              <span className="send-enquiry-inner-bootom-head">
-                                Quantity Required:
-                              </span>
-                              <span className="send-enquiry-inner-bootom-text">
-                                {product?.quantity_required}{" "}
-                              </span>
-                            </div>
-                            <div className="send-enquiry-inner-bottom-container">
-                              <span className="send-enquiry-inner-bootom-head">
-                                Unit Price:
-                              </span>
-                              <span className="send-enquiry-inner-bootom-text">
-                                {product?.unit_price} USD
-                              </span>
-                            </div>
-                            <div className="send-enquiry-inner-bottom-container">
-                              <span className="send-enquiry-inner-bootom-head">
-                                Target Price:
-                              </span>
-                              <span className="send-enquiry-inner-bootom-text">
-                                {product?.target_price} USD
-                              </span>
-                            </div>
-                            <div className="send-enquiry-inner-bottom-container">
-                              <span className="send-enquiry-inner-bootom-head">
-                                Est. Delivery Time:
-                              </span>
-                              <span className="send-enquiry-inner-bootom-text">
-                                {product?.est_delivery_days
-                                  ? product.est_delivery_days
-                                      .toLowerCase()
-                                      .includes("days")
-                                    ? product.est_delivery_days.replace(
-                                        /days/i,
-                                        "Days"
-                                      )
-                                    : `${product.est_delivery_days} Days`
-                                  : ""}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="send-enquiry-remove-section">
-                          <HighlightOffOutlinedIcon
-                            className="send-enquiry-clear-icon"
-                            onClick={() =>
-                              handleRemoveItem(
-                                supplierData?.list_id,
-                                product?._id
-                              )
-                            }
-                          />
-                        </div>
-                      </div>
-                    ))}
+          {loading ? (
+            <Loader />
+          ) : (
+            <>
+              {list.length > 0 && (
+                <div className="send-enquiry-upper-section">
+                  <div className="send-enquiry-upper-left-sec">
+                    <span className="send-enquiry-upper-left-head">
+                      Your Inquiries
+                    </span>
                   </div>
-                )
-              )
-            )}
-          </div>
-          {list.length > 0 && (
-            <div className="pagi-container">
-              <Pagination
-                activePage={currentPage}
-                itemsCountPerPage={itemsPerPage}
-                totalItemsCount={totalItems}
-                pageRangeDisplayed={5}
-                onChange={handlePageChange}
-                itemClass="page-item"
-                linkClass="page-link"
-                prevPageText={
-                  <KeyboardDoubleArrowLeftIcon style={{ fontSize: "15px" }} />
-                }
-                nextPageText={
-                  <KeyboardDoubleArrowRightIcon style={{ fontSize: "15px" }} />
-                }
-                hideFirstLastPages={true}
-              />
-              <div className="pagi-total">Total Items: {totalItems}</div>
-            </div>
+                  <div className="send-enquiry-upper-right-sec">
+                    <div className="send-enquiry-upper-right-content">
+                      <span className="send-enquiry-upper-right-total">
+                        Total:
+                      </span>
+                      <span className="send-enquiry-upper-right-number">
+                        {totalItems} Inquiries
+                      </span>
+                    </div>
+                    <div
+                      className="send-enquiry-upper-right-button-sec"
+                      onClick={handleSendEnquiry}
+                    >
+                      <span className="send-enquiry-upper-right-button">
+                        {buttonLoading ? (
+                          <>
+                            <ClipLoader
+                              size={20}
+                              color={"#ffffff"}
+                              loading={buttonLoading}
+                            />
+                            Sending...
+                          </>
+                        ) : (
+                          "Send Inquiry"
+                        )}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
+              <div className="send-enquiry-container-inner-container">
+                {list.length === 0 ? (
+                  <div className="no-data-found">No Data Found</div>
+                ) : (
+                  Object.entries(groupedProducts).map(
+                    ([supplierName, supplierData]) => (
+                      <div
+                        key={supplierData?.list_id}
+                        className="send-enquiry-supplier-list-container"
+                      >
+                        <div className="send-enquiry-supplier-list-upper-section">
+                          <div className="send-enquiry-supplier-list-heading">
+                            Supplier Name:
+                          </div>
+                          <div className="send-enquiry-supplier-list-text">
+                            {supplierName}
+                          </div>
+                        </div>
+                        {supplierData.items.map((product) => (
+                          <div
+                            key={product?._id}
+                            className="send-enquiry-inner-bottom-section-container"
+                          >
+                            <div className="send-enquiry-inner-checkbox">
+                              <label className="custom-checkbox-label">
+                                <input
+                                  type="checkbox"
+                                  className="custom-checkbox"
+                                  checked={checkedState[product?._id] || false}
+                                  onChange={() =>
+                                    handleCheckboxChange(product?._id)
+                                  }
+                                />
+                                <span className="custom-checkbox-checkmark"></span>
+                              </label>
+                            </div>
+                            <div className="send-enquiry-inner-image">
+                              <img
+                                src={`${process.env.REACT_APP_SERVER_URL}uploads/products/${product?.medicine_image[0]}`}
+                                alt="Product"
+                              />
+                            </div>
+                            <div className="send-enquiry-inner-content">
+                              <div className="send-enquiry-inner-top-container">
+                                <div className="send-enquiry-inner-top-head-section">
+                                  <span className="send-enquiry-inner-top-heading">
+                                    {product?.medicine_name}
+                                  </span>
+                                </div>
+                              </div>
+                              <div className="send-enquiry-inner-bottom-section">
+                                <div className="send-enquiry-inner-bottom-container">
+                                  <span className="send-enquiry-inner-bootom-head">
+                                    Quantity Required:
+                                  </span>
+                                  <span className="send-enquiry-inner-bootom-text">
+                                    {product?.quantity_required}
+                                  </span>
+                                </div>
+                                <div className="send-enquiry-inner-bottom-container">
+                                  <span className="send-enquiry-inner-bootom-head">
+                                    Unit Price:
+                                  </span>
+                                  <span className="send-enquiry-inner-bootom-text">
+                                    {product?.unit_price} USD
+                                  </span>
+                                </div>
+                                <div className="send-enquiry-inner-bottom-container">
+                                  <span className="send-enquiry-inner-bootom-head">
+                                    Target Price:
+                                  </span>
+                                  <span className="send-enquiry-inner-bootom-text">
+                                    {product?.target_price} USD
+                                  </span>
+                                </div>
+                                <div className="send-enquiry-inner-bottom-container">
+                                  <span className="send-enquiry-inner-bootom-head">
+                                    Est. Delivery Time:
+                                  </span>
+                                  <span className="send-enquiry-inner-bootom-text">
+                                    {product?.est_delivery_days
+                                      ? product.est_delivery_days
+                                          .toLowerCase()
+                                          .includes("days")
+                                        ? product.est_delivery_days.replace(
+                                            /days/i,
+                                            "Days"
+                                          )
+                                        : `${product.est_delivery_days} Days`
+                                      : ""}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="send-enquiry-remove-section">
+                              <HighlightOffOutlinedIcon
+                                className="send-enquiry-clear-icon"
+                                onClick={() =>
+                                  handleRemoveItem(
+                                    supplierData?.list_id,
+                                    product?._id
+                                  )
+                                }
+                              />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )
+                  )
+                )}
+              </div>
+              {list.length > 0 && (
+                <div className="pagi-container">
+                  <Pagination
+                    activePage={currentPage}
+                    itemsCountPerPage={itemsPerPage}
+                    totalItemsCount={totalItems}
+                    pageRangeDisplayed={5}
+                    onChange={handlePageChange}
+                    itemClass="page-item"
+                    linkClass="page-link"
+                    prevPageText={
+                      <KeyboardDoubleArrowLeftIcon
+                        style={{ fontSize: "15px" }}
+                      />
+                    }
+                    nextPageText={
+                      <KeyboardDoubleArrowRightIcon
+                        style={{ fontSize: "15px" }}
+                      />
+                    }
+                    hideFirstLastPages={true}
+                  />
+                  <div className="pagi-total">Total Items: {totalItems}</div>
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

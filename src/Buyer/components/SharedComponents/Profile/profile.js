@@ -39,6 +39,7 @@ const Profile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
+  const [loading, setLoading] = useState(true);
   const documentsArray = [
     { headings: "Trade License", keyword: "license_image" },
     { headings: "Tax Certificate", keyword: "tax_image" },
@@ -50,11 +51,28 @@ const Profile = () => {
   ];
 
   useEffect(() => {
-    (id || localStorage?.getItem("_id")) &&
-      dispatch(fetchUserData(id || localStorage?.getItem("_id")));
-  }, [dispatch, id]);
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        if (id || localStorage?.getItem("_id")) {
+          await dispatch(
+            fetchUserData(id || localStorage?.getItem("_id"))
+          ).unwrap();
+        }
+      } catch (error) {
+        console.error("Failed to fetch user data:", error);
+        navigate("/error");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  if (!user) return <Loader />;
+    fetchData();
+  }, [dispatch, id, navigate]);
+
+  if (loading) return <Loader />;
+
+  if (!user) return <div>No user data available</div>;
 
   // Check if sections have valid data
   const hasCompanyDetails = [
@@ -337,7 +355,6 @@ const Profile = () => {
       )}
 
       {hasContactDetails && (
-
         <div className={styles.companySection}>
           <div className={styles.companyContainerSection}>
             <div className={styles.companyMainHeading}>Contact Details</div>
@@ -359,7 +376,6 @@ const Profile = () => {
                     </div>
                   </div>
                 )}
-
               </div>
               <div className={styles.companyInnerContainer}>
                 {user?.contact_person_mobile && (

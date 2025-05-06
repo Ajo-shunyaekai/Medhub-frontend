@@ -9,9 +9,9 @@ import {
   countryCodes,
 } from "../../../../utils/phoneNumberValidation";
 import { apiRequests } from "../../../../api";
-import countryList from "react-select-country-list";
-import Select, { components } from "react-select";
+import Select from "react-select";
 import { Country, State, City } from "country-state-city";
+import Loader from "../../SharedComponents/Loader/Loader";
 
 const CreatePO = ({ socket }) => {
   const { inquiryId } = useParams();
@@ -136,6 +136,7 @@ const CreatePO = ({ socket }) => {
         navigate("/buyer/login");
         return;
       }
+      setLoading(true);
       const obj = {
         buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
         enquiry_id: inquiryId,
@@ -145,6 +146,7 @@ const CreatePO = ({ socket }) => {
         `enquiry/get-specific-enquiry-details/${inquiryId}`,
         obj
       );
+      setLoading(false);
       if (response?.code !== 200) {
         return;
       }
@@ -160,7 +162,6 @@ const CreatePO = ({ socket }) => {
       setFormData((prevFormData) => ({
         ...prevFormData,
         poId: data.purchaseOrder_id,
-
         description: data.additional_instructions,
         supplierId: data?.supplier?.supplier_id,
         supplierName: data?.supplier?.supplier_name,
@@ -234,7 +235,6 @@ const CreatePO = ({ socket }) => {
           setSupplierCity(cityObj || "");
         }
       }
-      
     };
     fetchData();
   }, [navigate, buyerIdSessionStorage, buyerIdLocalStorage, inquiryId]);
@@ -330,7 +330,7 @@ const CreatePO = ({ socket }) => {
         ...formData,
         orderItems: updatedOrderItems,
       };
-    
+
       const obj = {
         buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
         enquiry_id: inquiryId,
@@ -348,11 +348,10 @@ const CreatePO = ({ socket }) => {
             inquiryId: inquiryId,
             message: `PO created for ${inquiryId}`,
             link: process.env.REACT_APP_PUBLIC_URL,
-            // send other details if needed
           });
           setTimeout(() => {
             navigate("/buyer/inquiry/Purchased-Order");
-            setLoading(true);
+            setLoading(false);
           }, 1000);
         } else {
           setLoading(false);
@@ -429,7 +428,6 @@ const CreatePO = ({ socket }) => {
     let mobileNumber = value;
     let isValidNumber = false;
 
-    // Extract the country code and the mobile number
     for (let code of countryCodes) {
       if (value?.startsWith(code)) {
         countryCode = code.replace("+", "");
@@ -438,7 +436,6 @@ const CreatePO = ({ socket }) => {
       }
     }
 
-    // Validate the phone number based on the country code
     if (countryCode && mobileNumber) {
       isValidNumber = validatePhoneNumber(mobileNumber, countryCode);
 
@@ -448,15 +445,14 @@ const CreatePO = ({ socket }) => {
           countryCode
         );
 
-        // Update formData with the formatted phone number
         setFormData((prevState) => ({
           ...prevState,
-          [type]: formattedPhoneNumber, // Here, type should be 'buyerMobile' to update the correct field
+          [type]: formattedPhoneNumber,
         }));
       } else {
         setFormData((prevState) => ({
           ...prevState,
-          [type]: "", // Clear the field if invalid
+          [type]: "",
         }));
         console.error(
           "Invalid phone number format for the specified country code"
@@ -465,13 +461,18 @@ const CreatePO = ({ socket }) => {
     } else {
       setFormData((prevState) => ({
         ...prevState,
-        [type]: "", // Clear the field if invalid
+        [type]: "",
       }));
       console.error("Invalid phone number format or unknown country code");
     }
   };
+
   return (
     <div className={styles["create-invoice-container"]}>
+      {loading && (
+          <Loader />
+       
+      )}
       <div className={styles["create-invoice-heading"]}>
         Create Purchase Order
       </div>
@@ -492,7 +493,6 @@ const CreatePO = ({ socket }) => {
                 value={formData.buyerName}
                 onChange={handleChange}
                 readOnly
-              
               />
               {errors.buyerName && (
                 <p style={{ color: "red" }}>{errors.buyerName}</p>
@@ -510,7 +510,6 @@ const CreatePO = ({ socket }) => {
                 value={formData.buyerRegNo}
                 onChange={handleChange}
                 readOnly
-               
               />
               {errors.buyerRegNo && (
                 <p style={{ color: "red" }}>{errors.buyerRegNo}</p>
@@ -527,7 +526,6 @@ const CreatePO = ({ socket }) => {
                 placeholder="Enter Address"
                 value={formData.buyerAddress}
                 onChange={handleChange}
-               
               />
               {errors.buyerAddress && (
                 <p style={{ color: "red" }}>{errors.buyerAddress}</p>
@@ -546,10 +544,9 @@ const CreatePO = ({ socket }) => {
                     placeholder="Enter Area/Locality/Road Name"
                     value={formData.buyerLocality}
                     onChange={handleChange}
-                    
                   />
-                  {errors.buyerEmail && (
-                    <p style={{ color: "red" }}>{errors.buyerEmail}</p>
+                  {errors.buyerLocality && (
+                    <p style={{ color: "red" }}>{errors.buyerLocality}</p>
                   )}
                 </div>
                 <div className={styles["create-invoice-div-container"]}>
@@ -560,13 +557,12 @@ const CreatePO = ({ socket }) => {
                     className={styles["create-invoice-div-input"]}
                     type="text"
                     name="buyerLandmark"
-                    placeholder="Enter Locality"
+                    placeholder="Enter Landmark"
                     value={formData.buyerLandmark}
                     onChange={handleChange}
-                    
                   />
-                  {errors.buyerEmail && (
-                    <p style={{ color: "red" }}>{errors.buyerEmail}</p>
+                  {errors.buyerLandmark && (
+                    <p style={{ color: "red" }}>{errors.buyerLandmark}</p>
                   )}
                 </div>
                 <div className={styles["create-invoice-div-container"]}>
@@ -580,10 +576,9 @@ const CreatePO = ({ socket }) => {
                     value={selectedCountry}
                     onChange={handleCountryChange}
                     placeholder="Select Country"
-                   
                   />
-                  {errors.buyerEmail && (
-                    <p style={{ color: "red" }}>{errors.buyerEmail}</p>
+                  {errors.country && (
+                    <p style={{ color: "red" }}>{errors.country}</p>
                   )}
                 </div>
                 <div className={styles["create-invoice-div-container"]}>
@@ -606,10 +601,9 @@ const CreatePO = ({ socket }) => {
                     value={selectedState}
                     onChange={handleStateChange}
                     placeholder="Select State"
-                    
                   />
-                  {errors.buyerEmail && (
-                    <p style={{ color: "red" }}>{errors.buyerEmail}</p>
+                  {errors.state && (
+                    <p style={{ color: "red" }}>{errors.state}</p>
                   )}
                 </div>
                 <div className={styles["create-invoice-div-container"]}>
@@ -633,10 +627,9 @@ const CreatePO = ({ socket }) => {
                     value={selectedCity}
                     onChange={handleCityChange}
                     placeholder="Select City"
-                  
                   />
-                  {errors.buyerEmail && (
-                    <p style={{ color: "red" }}>{errors.buyerEmail}</p>
+                  {errors.city && (
+                    <p style={{ color: "red" }}>{errors.city}</p>
                   )}
                 </div>
                 <div className={styles["create-invoice-div-container"]}>
@@ -650,10 +643,9 @@ const CreatePO = ({ socket }) => {
                     placeholder="Enter Pincode"
                     value={formData.buyerPincode}
                     onChange={handleChange}
-                    
                   />
-                  {errors.buyerEmail && (
-                    <p style={{ color: "red" }}>{errors.buyerEmail}</p>
+                  {errors.buyerPincode && (
+                    <p style={{ color: "red" }}>{errors.buyerPincode}</p>
                   )}
                 </div>
               </>
@@ -669,9 +661,10 @@ const CreatePO = ({ socket }) => {
                 placeholder="Enter Email ID"
                 value={formData.buyerEmail}
                 readOnly
-               
               />
-              {errors.buyerEmail && <p>{errors.buyerEmail.message}</p>}
+              {errors.buyerEmail && (
+                <p style={{ color: "red" }}>{errors.buyerEmail}</p>
+              )}
             </div>
             <div className={styles["create-invoice-div-container"]}>
               <label className={styles["create-invoice-div-label"]}>
@@ -681,9 +674,7 @@ const CreatePO = ({ socket }) => {
                 className="signup-form-section-phone-input"
                 defaultCountry="ae"
                 name="buyerMobile"
-              
                 value={formData.buyerMobile}
-             
                 onChange={(value) => handlePhoneChange(value, "buyerMobile")}
               />
               {errors.buyerMobile && (
@@ -705,7 +696,6 @@ const CreatePO = ({ socket }) => {
                 name="poDate"
                 value={currentDate}
                 readOnly
-                
               />
             </div>
             <div className={styles["create-invoice-div-container"]}>
@@ -718,7 +708,6 @@ const CreatePO = ({ socket }) => {
                 name="poNumber"
                 value={poNumber}
                 readOnly
-             
               />
             </div>
             <div className={styles["create-invoice-div-container"]}>
@@ -731,7 +720,9 @@ const CreatePO = ({ socket }) => {
                 readOnly
                 value={formData.supplierName}
               />
-              {errors.supplierName && <p>{errors.supplierName.message}</p>}
+              {errors.supplierName && (
+                <p style={{ color: "red" }}>{errors.supplierName}</p>
+              )}
             </div>
             <div className={styles["create-invoice-div-container"]}>
               <label className={styles["create-invoice-div-label"]}>
@@ -745,7 +736,9 @@ const CreatePO = ({ socket }) => {
                 placeholder="Enter Company Registration Number"
                 value={formData.supplierRegNo}
               />
-              {errors.supplierRegNo && <p>{errors.supplierRegNo.message}</p>}
+              {errors.supplierRegNo && (
+                <p style={{ color: "red" }}>{errors.supplierRegNo}</p>
+              )}
             </div>
             <div className={styles["create-invoice-div-container"]}>
               <label className={styles["create-invoice-div-label"]}>
@@ -773,15 +766,14 @@ const CreatePO = ({ socket }) => {
                   <input
                     className={styles["create-invoice-div-input"]}
                     type="text"
-                    name="buyerLocality"
+                    name="supplierLocality"
                     placeholder="Enter Area/Locality/Road Name"
                     value={formData.supplierLocality}
                     onChange={handleChange}
                     readOnly
-                   
                   />
-                  {errors.buyerEmail && (
-                    <p style={{ color: "red" }}>{errors.buyerEmail}</p>
+                  {errors.supplierLocality && (
+                    <p style={{ color: "red" }}>{errors.supplierLocality}</p>
                   )}
                 </div>
                 <div className={styles["create-invoice-div-container"]}>
@@ -796,7 +788,6 @@ const CreatePO = ({ socket }) => {
                     value={formData.supplierLandmark}
                     onChange={handleChange}
                     readOnly
-                  
                   />
                   {errors.supplierLandmark && (
                     <p style={{ color: "red" }}>{errors.supplierLandmark}</p>
@@ -815,8 +806,8 @@ const CreatePO = ({ socket }) => {
                     placeholder="Select Country"
                     isDisabled
                   />
-                  {errors.buyerEmail && (
-                    <p style={{ color: "red" }}>{errors.buyerEmail}</p>
+                  {errors.supplierCountry && (
+                    <p style={{ color: "red" }}>{errors.supplierCountry}</p>
                   )}
                 </div>
                 <div className={styles["create-invoice-div-container"]}>
@@ -837,12 +828,11 @@ const CreatePO = ({ socket }) => {
                     getOptionLabel={(option) => option.name}
                     getOptionValue={(option) => option.isoCode}
                     value={supplierState}
-                  
                     placeholder="Select State"
                     isDisabled
                   />
-                  {errors.buyerEmail && (
-                    <p style={{ color: "red" }}>{errors.buyerEmail}</p>
+                  {errors.supplierState && (
+                    <p style={{ color: "red" }}>{errors.supplierState}</p>
                   )}
                 </div>
                 <div className={styles["create-invoice-div-container"]}>
@@ -864,11 +854,12 @@ const CreatePO = ({ socket }) => {
                     getOptionLabel={(option) => option.name}
                     getOptionValue={(option) => option.name}
                     value={supplierCity}
-                    
                     placeholder="Select City"
                     isDisabled
                   />
-                
+                  {errors.supplierCity && (
+                    <p style={{ color: "red" }}>{errors.supplierCity}</p>
+                  )}
                 </div>
                 <div className={styles["create-invoice-div-container"]}>
                   <label className={styles["create-invoice-div-label"]}>
@@ -883,7 +874,9 @@ const CreatePO = ({ socket }) => {
                     onChange={handleChange}
                     readOnly
                   />
-                
+                  {errors.supplierPincode && (
+                    <p style={{ color: "red" }}>{errors.supplierPincode}</p>
+                  )}
                 </div>
               </>
             )}
@@ -898,9 +891,10 @@ const CreatePO = ({ socket }) => {
                 placeholder="Enter Email ID"
                 value={formData.supplierEmail}
                 readOnly
-                
               />
-              {errors.supplierEmail && <p>{errors.supplierEmail.message}</p>}
+              {errors.supplierEmail && (
+                <p style={{ color: "red" }}>{errors.supplierEmail}</p>
+              )}
             </div>
             <div className={styles["create-invoice-div-container"]}>
               <label className={styles["create-invoice-div-label"]}>
@@ -910,12 +904,12 @@ const CreatePO = ({ socket }) => {
                 className="signup-form-section-phone-input"
                 defaultCountry="ae"
                 name="supplierMobile"
-               
                 value={formData.supplierMobile}
                 disabled
-             
               />
-              {errors.supplierMobile && <p>{errors.supplierMobile.message}</p>}
+              {errors.supplierMobile && (
+                <p style={{ color: "red" }}>{errors.supplierMobile}</p>
+              )}
             </div>
           </div>
         </div>
@@ -946,7 +940,6 @@ const CreatePO = ({ socket }) => {
                       type="text"
                       name={`orderItems[${index}].productName`}
                       placeholder="Item Name"
-                     
                       value={
                         item?.medicine_details?.medicine_name ||
                         item?.medicine_details?.general?.name
@@ -954,7 +947,9 @@ const CreatePO = ({ socket }) => {
                       readOnly
                     />
                     {errors.orderItems?.[index]?.productName && (
-                      <p>{errors.orderItems[index].productName.message}</p>
+                      <p style={{ color: "red" }}>
+                        {errors.orderItems[index].productName}
+                      </p>
                     )}
                   </div>
                   <div className={styles["create-invoice-div-container"]}>
@@ -966,12 +961,13 @@ const CreatePO = ({ socket }) => {
                       type="text"
                       name={`orderItems[${index}].quantity`}
                       placeholder="Enter Quantity"
-                    
                       value={item?.quantity_required}
                       readOnly
                     />
                     {errors.orderItems?.[index]?.quantity && (
-                      <p>{errors.orderItems[index].quantity.message}</p>
+                      <p style={{ color: "red" }}>
+                        {errors.orderItems[index].quantity}
+                      </p>
                     )}
                   </div>
                   <div className={styles["create-invoice-div-container"]}>
@@ -983,12 +979,13 @@ const CreatePO = ({ socket }) => {
                       type="text"
                       name={`orderItems[${index}].unitPrice`}
                       placeholder="Enter Price"
-                      
                       value={item?.counter_price || item?.target_price}
                       readOnly
                     />
                     {errors.orderItems?.[index]?.unitPrice && (
-                      <p>{errors.orderItems[index].unitPrice.message}</p>
+                      <p style={{ color: "red" }}>
+                        {errors.orderItems[index].unitPrice}
+                      </p>
                     )}
                   </div>
                   <div className={styles["create-invoice-div-container"]}>
@@ -1004,7 +1001,9 @@ const CreatePO = ({ socket }) => {
                       readOnly
                     />
                     {errors.orderItems?.[index]?.unitTax && (
-                      <p>{errors.orderItems[index].unitTax.message}</p>
+                      <p style={{ color: "red" }}>
+                        {errors.orderItems[index].unitTax}
+                      </p>
                     )}
                   </div>
                   <div className={styles["create-invoice-div-container"]}>
@@ -1016,12 +1015,13 @@ const CreatePO = ({ socket }) => {
                       type="text"
                       name={`orderItems[${index}].totalAmount`}
                       placeholder="Enter Total Amount"
-                    
                       value={totalAmount.toFixed(2)}
                       readOnly
                     />
                     {errors.orderItems?.[index]?.totalAmount && (
-                      <p>{errors.orderItems[index].totalAmount.message}</p>
+                      <p style={{ color: "red" }}>
+                        {errors.orderItems[index].totalAmount}
+                      </p>
                     )}
                   </div>
                 </div>
@@ -1045,7 +1045,6 @@ const CreatePO = ({ socket }) => {
                 cols="10"
                 placeholder="Enter Description"
                 onChange={handleChange}
-                
               />
             </div>
           </div>
@@ -1056,11 +1055,8 @@ const CreatePO = ({ socket }) => {
             className={styles["create-invoices-submit"]}
             disabled={loading}
           >
-            {/* Submit */}
             {loading ? <div className="loading-spinner"></div> : "Submit"}
           </button>
-
-         
         </div>
       </form>
     </div>

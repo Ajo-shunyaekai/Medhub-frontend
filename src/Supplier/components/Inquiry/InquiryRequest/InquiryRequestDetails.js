@@ -7,6 +7,7 @@ import { postRequestWithToken } from '../../../api/Requests';
 import { toast } from 'react-toastify';
 import { apiRequests } from '../../../../api';
 import Loader from '../../SharedComponents/Loader/Loader';
+import Loader from '../../SharedComponents/Loader/Loader';
 
 const InquiryRequestDetails = ({ socket }) => {
   const supplierIdSessionStorage = localStorage?.getItem('supplier_id');
@@ -14,8 +15,8 @@ const InquiryRequestDetails = ({ socket }) => {
   const { inquiryId } = useParams();
   const navigate = useNavigate();
   const [paymentTerms, setPaymentTerms] = useState(['']);
-  const [loading, setLoading] = useState(true); // Start with loading true
-  const [inquiryDetails, setInquiryDetails] = useState(null); // Explicitly null
+  const [loading, setLoading] = useState(true);
+  const [inquiryDetails, setInquiryDetails] = useState(null);
   const [acceptChecked, setAcceptChecked] = useState(false);
   const [counterChecked, setCounterChecked] = useState(false);
   const [quotationItems, setQuotationItems] = useState([]);
@@ -61,8 +62,8 @@ const InquiryRequestDetails = ({ socket }) => {
         }
         setInquiryDetails({
           ...response?.result,
-          items: response?.result?.items || [], // Fallback empty array
-          quotation_items: response?.result?.quotation_items || [], // Fallback empty array
+          items: response?.result?.items || [],
+          quotation_items: response?.result?.quotation_items || [],
         });
       } catch (error) {
         toast('Error fetching inquiry details', { type: 'error' });
@@ -235,7 +236,7 @@ const InquiryRequestDetails = ({ socket }) => {
                   onClick={handleSubmitQuotation}
                   disabled={loading}
                 >
-                  {loading ? <div className="loading-spinner"></div> : 'Submit Quotation'}
+                  {loading ? <Loader /> : 'Submit Quotation'}
                 </button>
                 <a href={mailtoLink} className="inquiry-details-cancel-button">
                   Contact Buyer
