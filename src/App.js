@@ -1,71 +1,104 @@
-import React, { useEffect, useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'mdb-react-ui-kit/dist/css/mdb.min.css';
+import React, { Suspense, useEffect, useState } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import { io } from "socket.io-client";
+
+import "bootstrap/dist/css/bootstrap.min.css";
+import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import BuyerSidebar from './Buyer/BuyerRoutes/Router';
-import AdminSidebar from './Admin/AdminRoutes/Router';
-import SupplierSidebar from './Supplier/SupplierRoutes/Router';
-import LogisticsRoutes from './LogisticsPanel/LogisticsRoutes/Router'
-import SubscriptionRoutes from './SubscriptionPlan/LandingSubscription'
 
+import { NotificationProvider } from "./Buyer/BuyerRoutes/Router";
+import BuyerSidebar from "./Buyer/BuyerRoutes/Router";
+import AdminSidebar from "./Admin/AdminRoutes/Router";
+import SupplierSidebar from "./Supplier/SupplierRoutes/Router";
+import LogisticsRoutes from "./LogisticsPanel/LogisticsRoutes/Router";
+import SubscriptionRoutes from "./SubscriptionPlan/LandingSubscription";
+import Layout from "./Buyer/components/SharedComponents/layout";
+import Loader from "./Buyer/components/SharedComponents/Loader/Loader";
+import { buyerNestedRoutes, buyerRoutesConfig } from "./allRoutes";
 
-const activekey = () => {
-    var res          = window?.location?.pathname;
-    var baseUrl      = ''; 
-    baseUrl          = baseUrl.split("/");
-    res              = res.split("/");
-    res              = res.length > 0 ? res[baseUrl.length] : "/";
-    res              = res ? "/" + res : "/";
+// Socket Connection
+const socket = io.connect(process.env.REACT_APP_SERVER_URL, { autoConnect: false });
 
-    if (res === '/') {
-        res = '/buyer';
-    }
-    return res
-}
+const App = () => {
+  const [cssFileLoaded, setCssFileLoaded] = useState(false);
+  const location = useLocation();
 
-function App() {
-    const [cssFile, setCssFile] = useState()
+  const currentPath = location.pathname.split("/")[1] || "buyer";
 
-useEffect(() => {
-    const route = activekey();
-    if (route.includes('buyer')) {
-        import('./App.css').then(() => setCssFile('App.css'));
-    } else if (route.includes('supplier')) {
-        import('./SupplierApp.css').then(() => setCssFile('SupplierApp.css'));
-    } else if (route.includes('admin')) {
-        import('./AdminApp.css').then(() => setCssFile('AdminApp.css'));
-    }
-    else if (route.includes('logistics')) {
-        import('./logistics.css').then(() => setCssFile('logistics.css'));
-    }
-}, []);
+  useEffect(() => {
+    const loadCss = async () => {
+      try {
+        if (currentPath.includes("buyer")) {
+          await import("./App.css");
+        } else if (currentPath.includes("supplier")) {
+          await import("./SupplierApp.css");
+        } else if (currentPath.includes("admin")) {
+          await import("./AdminApp.css");
+        } else if (currentPath.includes("logistics")) {
+          await import("./logistics.css");
+        }
+        setCssFileLoaded(true);
+      } catch (error) {
+        console.error("CSS load error:", error);
+      }
+    };
+    loadCss();
+  }, [currentPath]);
 
-const renderSidebar = () => {
-    if (activekey().includes('buyer')) {
-        return <BuyerSidebar />;
-    } else if (activekey().includes('supplier')) {
+  const renderSidebar = () => {
+    switch (currentPath) {
+      case "supplier":
         return <SupplierSidebar />;
-    } else if (activekey().includes('admin')) {
+      case "admin":
         return <AdminSidebar />;
+      case "logistics":
+        return <LogisticsRoutes />;
+      case "subscription":
+        return <SubscriptionRoutes />;
+      default:
+        return <BuyerSidebar />;
     }
-    else if (activekey().includes('logistics')) {
-        return <LogisticsRoutes/>;
-    }
-    else if (activekey().includes('subscription')) {
-        return <SubscriptionRoutes/>;
-    }
+  };
 
-    return null;
+  const renderRoutes = (routes, parentPath = "") => 
+    routes.map(({ path, component: Component, withSocket, children, index }, idx) => (
+      <Route
+        key={idx}
+        path={path ? `${parentPath}${path}` : undefined}
+        index={index}
+        element={<Component {...(withSocket ? { socket } : {})} />}
+      >
+        {children && renderRoutes(children)}
+      </Route>
+    ));
+
+  if (!cssFileLoaded) {
+    return <Loader />;
+  }
+
+  return (
+    <div className="App">
+      <ToastContainer />
+      {renderSidebar()}
+      <Suspense fallback={<Loader />}>
+        <Routes>
+          {renderRoutes(buyerRoutesConfig)}
+          <Route
+            path="/buyer"
+            element={
+              <NotificationProvider>
+                <Layout />
+              </NotificationProvider>
+            }
+          >
+            {renderRoutes(buyerNestedRoutes)}
+          </Route>
+        </Routes>
+      </Suspense>
+    </div>
+  );
 };
-
-return (
-        <div className="App">
-            <ToastContainer />
-            {renderSidebar()}
-        </div>
-);
-}
 
 export default App;

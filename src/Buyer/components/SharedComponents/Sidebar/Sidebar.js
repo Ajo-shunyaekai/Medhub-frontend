@@ -204,7 +204,7 @@ const Sidebar = ({ children, dragWindow,
                         <div className={styles.icon}> <LocalShippingOutlinedIcon style={{ color: '#f4c414', fontSize: '20px' }} /></div>
                         <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}> My Supplier</div>
                     </Link>
-                    <Link to="/buyer/invoice" className={styles.sidebar_text} activeclassname={styles.active}>
+                    <Link to="/buyer/invoice/pending-invoice" className={styles.sidebar_text} activeclassname={styles.active}>
                         <div className={styles.icon}> <DescriptionOutlinedIcon style={{ color: '#F54394', fontSize: '20px' }} /></div>
                         <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}> Invoice</div>
                     </Link>
@@ -466,7 +466,7 @@ const Sidebar = ({ children, dragWindow,
                             <div className={styles.icon}><ManageSearchIcon style={{ color: '#20c997', fontSize: '20px' }} /></div>
                             <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Inquiry</div>
                         </Link>
-                        <Link to="/buyer/order" className={`${styles.sidebar_text} ${styles.desktop_order_btn}`} activeclassname={styles.active}>
+                        <Link to="/buyer/order/active-orders" className={`${styles.sidebar_text} ${styles.desktop_order_btn}`} activeclassname={styles.active}>
                             <div className={styles.icon}><TocOutlinedIcon style={{ color: '#31c971', fontSize: '20px' }} /></div>
                             <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Orders</div>
                         </Link>
@@ -503,7 +503,7 @@ const Sidebar = ({ children, dragWindow,
                             <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>My Supplier</div>
                         </Link>
                      
-                        <Link to="/buyer/invoice" className={styles.sidebar_text} activeclassname={styles.active}>
+                        <Link to="/buyer/invoice/pending-invoice" className={styles.sidebar_text} activeclassname={styles.active}>
                             <div className={styles.icon}><DescriptionOutlinedIcon style={{ color: '#F54394', fontSize: '20px' }} /></div>
                             <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Invoice</div>
                         </Link>
