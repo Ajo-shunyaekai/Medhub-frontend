@@ -6,6 +6,7 @@ import styles from "../../../assets/style/table.module.css";
 import OrderCancel from "../../Orders/OrderCancel/OrderCancel";
 import moment from "moment/moment";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
+import Loader from "../../SharedComponents/Loader/Loader";
 import { apiRequests } from "../../../../api";
 
 const CompletedOrders = () => {
@@ -15,6 +16,7 @@ const CompletedOrders = () => {
   const [orderList, setOrderList] = useState([]);
   const [totalOrders, setTotalOrders] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
   const ordersPerPage = 8;
 
   const handlePageChange = (pageNumber) => {
@@ -28,12 +30,14 @@ const CompletedOrders = () => {
 
   useEffect(() => {
     const fetchOrderList = async () => {
+      setLoading(true);
       const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
       const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
 
       if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
         localStorage?.clear();
         navigate("/buyer/login");
+        setLoading(false);
         return;
       }
 
@@ -58,6 +62,8 @@ const CompletedOrders = () => {
       } catch (error) {
         setOrderList([]);
         setTotalOrders(0);
+      } finally {
+        setLoading(false);
       }
     };
     fetchOrderList();
@@ -112,67 +118,70 @@ const CompletedOrders = () => {
 
   return (
     <div className={styles.container}>
-    <style>
-      {`
-        .rdt_Table {
-          border: none;
-          background-color: unset !important;
-        }
-        .rdt_TableRow {
-          background-color: #ffffff !important;
-          border-bottom: none !important;
-        }
-        .rdt_TableHeadRow {
-          background-color: #f9f9fa;
-          font-weight: bold;
-          border-bottom: none !important;
-        }
-        .rdt_TableBody {
-          gap: 10px !important;
-        }
-        .rdt_TableCol {
-           
-          color: #333;
-        }
-        .rdt_TableCell {
-           
-          color: #99a0ac;
-          font-weight: 500 !important;
-        }
-        .rdt_TableCellStatus {
-           
-          color: #333;
-        }
-      `}
-    </style>
-    <div className={styles.tableMainContainer}>
+      <style>
+        {`
+          .rdt_Table {
+            border: none;
+            background-color: unset !important;
+          }
+          .rdt_TableRow {
+            background-color: #ffffff !important;
+            border-bottom: none !important;
+          }
+          .rdt_TableHeadRow {
+            background-color: #f9f9fa;
+            font-weight: bold;
+            border-bottom: none !important;
+          }
+          .rdt_TableBody {
+            gap: 10px !important;
+          }
+          .rdt_TableCol {
+            color: #333;
+          }
+          .rdt_TableCell {
+            color: #99a0ac;
+            font-weight: 500 !important;
+          }
+          .rdt_TableCellStatus {
+            color: #333;
+          }
+        `}
+      </style>
+      <div className={styles.tableMainContainer}>
         <header className={styles.header}>
           <span className={styles.title}>Completed Orders</span>
         </header>
-        <DataTable
-          columns={columns}
-          data={orderList}
-          noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
-            persistTableHead
-            pagination={false}
-            responsive
-          progressPending={false}
-        />
-        {modal && (
-          <OrderCancel
-            setModal={setModal}
-            orderId={selectedOrderId}
-            activeLink={"completed"}
-          />
-        )}
-        {orderList?.length > 0 && (
-          <PaginationComponent
-            activePage={currentPage}
-            itemsCountPerPage={ordersPerPage}
-            totalItemsCount={totalOrders}
-            pageRangeDisplayed={8}
-            onChange={handlePageChange}
-          />
+        {loading ? (
+          <Loader />
+        ) : (
+          <>
+            <DataTable
+              columns={columns}
+              data={orderList}
+              noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
+              persistTableHead
+              pagination={false}
+              responsive
+              progressPending={false}
+            />
+            {modal && (
+              <OrderCancel
+                setModal={setModal}
+                orderId={selectedOrderId}
+                activeLink={"completed"}
+              />
+            )}
+            {orderList?.length > 0 && (
+              <PaginationComponent
+                activePage={currentPage}
+                itemsCountPerPage={ordersPerPage}
+                totalItemsCount={totalOrders}
+                pageRangeDisplayed={8}
+                onChange={handlePageChange}
+              />
+            )}
+          </>
         )}
       </div>
     </div>

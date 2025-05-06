@@ -4,17 +4,18 @@ import DataTable from 'react-data-table-component';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import moment from 'moment';
 import { postRequestWithToken } from '../../../api/Requests';
-import PaginationComponent from "../../SharedComponents/Pagination/Pagination"
+import PaginationComponent from "../../SharedComponents/Pagination/Pagination";
+import Loader from "../../SharedComponents/Loader/Loader";
 import styles from "../../../assets/style/table.module.css";
 
 const NotificationList = () => {
     const navigate = useNavigate();
     const supplierIdSessionStorage = localStorage?.getItem("supplier_id");
     const supplierIdLocalStorage = localStorage?.getItem("supplier_id");
-
     const [notificationList, setNotificationList] = useState([]);
     const [count, setCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
+    const [loading, setLoading] = useState(true);
     const ordersPerPage = 8;
 
     const handlePageChange = (pageNumber) => {
@@ -28,6 +29,7 @@ const NotificationList = () => {
             return;
         }
 
+        setLoading(true);
         const obj = {
             supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
         };
@@ -40,6 +42,7 @@ const NotificationList = () => {
                 setNotificationList([]);
                 setCount(0);
             }
+            setLoading(false);
         });
     }, [currentPage, navigate, supplierIdSessionStorage, supplierIdLocalStorage]);
 
@@ -159,41 +162,43 @@ const NotificationList = () => {
         gap: 10px !important;
       }
       .rdt_TableCol {
-         
         color: #333;
       }
       .rdt_TableCell {
-         
         color: #99a0ac;
         font-weight: 500 !important;
       }
       .rdt_TableCellStatus {
-         
         color: #333;
       }
     `}
             </style>
             <div className={styles.tableMainContainer}>
-            <span className={styles.title}>Notification List</span> 
-            <DataTable
-                columns={columns}
-                data={notificationList}
-                persistTableHead
-                noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
-                pagination={false}
-                responsive
-            />
-
-            {notificationList.length > 0 && (
-                <PaginationComponent
-                    activePage={currentPage}
-                    itemsCountPerPage={ordersPerPage}
-                    totalItemsCount={count}
-                    pageRangeDisplayed={8}
-                    onChange={handlePageChange}
-                />
-            )}
-        </div>
+                <span className={styles.title}>Notification List</span>
+                {loading ? (
+                    <Loader />
+                ) : (
+                    <>
+                        <DataTable
+                            columns={columns}
+                            data={notificationList}
+                            persistTableHead
+                            noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
+                            pagination={false}
+                            responsive
+                        />
+                        {notificationList.length > 0 && (
+                            <PaginationComponent
+                                activePage={currentPage}
+                                itemsCountPerPage={ordersPerPage}
+                                totalItemsCount={count}
+                                pageRangeDisplayed={8}
+                                onChange={handlePageChange}
+                            />
+                        )}
+                    </>
+                )}
+            </div>
         </div>
     );
 };

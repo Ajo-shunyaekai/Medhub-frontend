@@ -6,22 +6,25 @@ import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";
 import OrderCustomModal from './OrderCustomModal';
 import ActiveInvoiceList from './ActiveInvoiceList';
 import { apiRequests } from '../../../api';
+import Loader from '../SharedComponents/Loader/Loader';
 
 const ActiveOrdersDetails = ({ socket }) => {
     const { orderId } = useParams();
     const navigate = useNavigate();
-
     const [orderDetails, setOrderDetails] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [refresh, setRefresh] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const fetchData = async () => {
+        setLoading(true); // Set loading to true before fetching data
         const supplierIdSessionStorage = localStorage?.getItem("supplier_id");
         const supplierIdLocalStorage = localStorage?.getItem("supplier_id");
 
         if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
             localStorage?.clear();
             navigate("/supplier/login");
+            setLoading(false); // Stop loading if redirected
             return;
         }
 
@@ -36,6 +39,8 @@ const ActiveOrdersDetails = ({ socket }) => {
             }
         } catch (error) {
             console.error(error);
+        } finally {
+            setLoading(false); // Set loading to false after fetching data
         }
     };
 
@@ -51,9 +56,14 @@ const ActiveOrdersDetails = ({ socket }) => {
         setShowModal(false);
     };
 
-    // If orderDetails is not loaded yet, show a loading state or return null
+    // Show loader while loading
+    if (loading) {
+        return <Loader />;
+    }
+
+    // If orderDetails is not loaded yet, show a message
     if (!orderDetails) {
-        return <div>Loading...</div>;
+        return <div>No order details available.</div>;
     }
 
     return (

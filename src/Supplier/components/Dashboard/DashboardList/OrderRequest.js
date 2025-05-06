@@ -4,7 +4,8 @@ import DataTable from "react-data-table-component";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import moment from "moment/moment";
 import OrderCancel from "../OrderCancel";
-import PaginationComponent from "../../SharedComponents/Pagination/Pagination"
+import PaginationComponent from "../../SharedComponents/Pagination/Pagination";
+import Loader from "../../SharedComponents/Loader/Loader";
 import styles from "../../../assets/style/table.module.css";
 
 const OrderRequest = () => {
@@ -15,6 +16,7 @@ const OrderRequest = () => {
   const [orderList, setOrderList] = useState([]);
   const [totalOrders, setTotalOrders] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
   const ordersPerPage = 8;
 
   const showModal = (orderId) => {
@@ -28,7 +30,6 @@ const OrderRequest = () => {
       name: "Order ID",
       selector: (row) => row?.order_id,
       sortable: true,
-     
     },
     {
       name: "Date",
@@ -42,14 +43,12 @@ const OrderRequest = () => {
       name: "Buyer Name",
       selector: (row) => row?.buyer?.buyer_name || "Needhi Pharma",
       sortable: true,
-     
     },
     {
       name: "Quantity",
       selector: (row) =>
         row?.items?.reduce((total, item) => total + item?.quantity, 0),
       sortable: true,
-     
     },
     {
       name: "Status",
@@ -66,9 +65,9 @@ const OrderRequest = () => {
       name: "Action",
       cell: (row) => (
         <Link to={`/supplier/order-details/${row?.order_id}`}>
-        <div className={styles.activeBtn}>
-                        <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
-                    </div>
+          <div className={styles.activeBtn}>
+            <RemoveRedEyeOutlinedIcon className={styles["table-icon"]} />
+          </div>
         </Link>
       ),
       ignoreRowClick: true,
@@ -80,12 +79,14 @@ const OrderRequest = () => {
   // Fetch orders
   useEffect(() => {
     const fetchOrderList = async () => {
+      setLoading(true);
       const supplierIdSessionStorage = localStorage?.getItem("supplier_id");
       const supplierIdLocalStorage = localStorage?.getItem("supplier_id");
 
       if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
         localStorage?.clear();
         navigate("/supplier/login");
+        setLoading(false);
         return;
       }
 
@@ -113,6 +114,8 @@ const OrderRequest = () => {
         console.error("Error fetching orders:", error);
         setOrderList([]);
         setTotalOrders(0);
+      } finally {
+        setLoading(false);
       }
     };
     fetchOrderList();
@@ -125,58 +128,62 @@ const OrderRequest = () => {
 
   return (
     <div className={styles.container}>
-        <style>
-            {`
-                .rdt_Table {
-                    border: none;
-                    background-color: unset !important;
-                }
-                .rdt_TableRow {
-                    background-color: #ffffff !important;
-                    border-bottom: none !important;
-                }
-                .rdt_TableHeadRow {
-                    background-color: #f9f9fa;
-                    font-weight: bold;
-                    border-bottom: none !important;
-                }
-                .rdt_TableBody {
-                    gap: 10px !important;
-                }
-                .rdt_TableCol {
-                       
-                    color: #333;
-                }
-                .rdt_TableCell {
-                       
-                    color: #99a0ac;
-                    font-weight: 500 !important;
-                }
-                .rdt_TableCellStatus {
-                       
-                    color: #333;
-                }
-            `}
-        </style>
-        <div className={styles.tableMainContainer}>
+      <style>
+        {`
+          .rdt_Table {
+            border: none;
+            background-color: unset !important;
+          }
+          .rdt_TableRow {
+            background-color: #ffffff !important;
+            border-bottom: none !important;
+          }
+          .rdt_TableHeadRow {
+            background-color: #f9f9fa;
+            font-weight: bold;
+            border-bottom: none !important;
+          }
+          .rdt_TableBody {
+            gap: 10px !important;
+          }
+          .rdt_TableCol {
+            color: #333;
+          }
+          .rdt_TableCell {
+            color: #99a0ac;
+            font-weight: 500 !important;
+          }
+          .rdt_TableCellStatus {
+            color: #333;
+          }
+        `}
+      </style>
+      <div className={styles.tableMainContainer}>
         <span className={styles.title}>Order Request</span>
-     
-        <DataTable
-          columns={columns}
-          data={orderList}
-          persistTableHead
-            noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
-            pagination={false}
-            responsive
-        />
-        {orderList.length > 0 && totalOrders > 0 && (
-          <PaginationComponent
-            activePage={currentPage}
-            itemsCountPerPage={ordersPerPage}
-            totalItemsCount={totalOrders}
-            pageRangeDisplayed={8}
-            onChange={handlePageChange}
-          />
+        {loading ? (
+          <Loader />
+        ) : (
+          <>
+            <DataTable
+              columns={columns}
+              data={orderList}
+              persistTableHead
+              noDataComponent={
+                <div className={styles["no-data"]}>No Data Available</div>
+              }
+              pagination={false}
+              responsive
+            />
+            {orderList.length > 0 && totalOrders > 0 && (
+              <PaginationComponent
+                activePage={currentPage}
+                itemsCountPerPage={ordersPerPage}
+                totalItemsCount={totalOrders}
+                pageRangeDisplayed={8}
+                onChange={handlePageChange}
+              />
+            )}
+          </>
         )}
         {modal && (
           <OrderCancel
@@ -185,9 +192,8 @@ const OrderRequest = () => {
             activeLink={"pending"}
           />
         )}
-        </div>
       </div>
-   
+    </div>
   );
 };
 

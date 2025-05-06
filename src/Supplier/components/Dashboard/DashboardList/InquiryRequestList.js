@@ -6,7 +6,8 @@ import moment from "moment/moment";
 import OrderCancel from "../../Orders/OrderCancel";
 import { toast } from "react-toastify";
 import DataTable from "react-data-table-component";
-import PaginationComponent from "../../SharedComponents/Pagination/Pagination"
+import PaginationComponent from "../../SharedComponents/Pagination/Pagination";
+import Loader from "../../SharedComponents/Loader/Loader";
 import styles from "../../../assets/style/table.module.css";
 
 const InquiryRequestList = () => {
@@ -16,7 +17,8 @@ const InquiryRequestList = () => {
   const [inquiryList, setInquiryList] = useState([]);
   const [totalInquiries, setTotalInquiries] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const ordersPerPage =8;
+  const [loading, setLoading] = useState(true);
+  const ordersPerPage = 8;
 
   const showModal = (orderId) => {
     setSelectedOrderId(orderId);
@@ -29,12 +31,14 @@ const InquiryRequestList = () => {
 
   useEffect(() => {
     const fetchInquiryList = async () => {
+      setLoading(true); // Set loading to true before fetching
       const supplierIdSessionStorage = localStorage?.getItem("supplier_id");
       const supplierIdLocalStorage = localStorage?.getItem("supplier_id");
 
       if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
         localStorage?.clear();
         navigate("/supplier/login");
+        setLoading(false); // Stop loading if redirected
         return;
       }
 
@@ -57,6 +61,8 @@ const InquiryRequestList = () => {
         }
       } catch (error) {
         console.error("Error fetching inquiry list:", error);
+      } finally {
+        setLoading(false); // Stop loading after fetch completes
       }
     };
     fetchInquiryList();
@@ -67,24 +73,19 @@ const InquiryRequestList = () => {
       name: "Inquiry ID",
       selector: (row) => row?.enquiry_id,
       sortable: true,
-     
     },
     {
       name: "Date",
       selector: (row) => row?.created_at,
       sortable: true,
       cell: (row) => (
-        <>
-          {moment(row?.created_at).format("DD/MM/YYYY")}
-          </>
-        
+        <>{moment(row?.created_at).format("DD/MM/YYYY")}</>
       ),
     },
     {
       name: "Buyer Name",
       selector: (row) => row?.buyer.buyer_name,
       sortable: true,
-     
     },
     {
       name: "Status",
@@ -102,13 +103,11 @@ const InquiryRequestList = () => {
     {
       name: "Action",
       cell: (row) => (
-       
-          <Link to={`/supplier/inquiry-request-details/${row?.enquiry_id}`}>
+        <Link to={`/supplier/inquiry-request-details/${row?.enquiry_id}`}>
           <div className={styles.activeBtn}>
-                        <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
-                    </div>
-          </Link>
-       
+            <RemoveRedEyeOutlinedIcon className={styles["table-icon"]} />
+          </div>
+        </Link>
       ),
       ignoreRowClick: true,
       allowOverflow: true,
@@ -119,7 +118,7 @@ const InquiryRequestList = () => {
 
   return (
     <div className={styles.container}>
-    <style>
+      <style>
         {`
             .rdt_Table {
                 border: none;
@@ -138,48 +137,51 @@ const InquiryRequestList = () => {
                 gap: 10px !important;
             }
             .rdt_TableCol {
-                   
                 color: #333;
             }
             .rdt_TableCell {
-                   
                 color: #99a0ac;
                 font-weight: 500 !important;
             }
             .rdt_TableCellStatus {
-                   
                 color: #333;
             }
         `}
-    </style>
-    <div className={styles.tableMainContainer}>
-    <span className={styles.title}>Inquiry Request</span>
-          <DataTable
-            columns={columns}
-            data={inquiryList}
-            persistTableHead
-            noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
-            pagination={false}
-            responsive
-          />
-          {inquiryList.length > 0 && totalInquiries > 0 && (
-            <PaginationComponent
-              activePage={currentPage}
-              itemsCountPerPage={ordersPerPage}
-              totalItemsCount={totalInquiries}
-              pageRangeDisplayed={8}
-              onChange={handlePageChange}
+      </style>
+      <div className={styles.tableMainContainer}>
+        <span className={styles.title}>Inquiry Request</span>
+        {loading ? (
+          <Loader />
+        ) : (
+          <>
+            <DataTable
+              columns={columns}
+              data={inquiryList}
+              persistTableHead
+              noDataComponent={<div className={styles["no-data"]}>No Data Available</div>}
+              pagination={false}
+              responsive
             />
-          )}
-          {modal && (
-            <OrderCancel
-              setModal={setModal}
-              orderId={selectedOrderId}
-              activeLink={"completed"}
-            />
-          )}
-          </div>
-        </div>
+            {inquiryList.length > 0 && totalInquiries > 0 && (
+              <PaginationComponent
+                activePage={currentPage}
+                itemsCountPerPage={ordersPerPage}
+                totalItemsCount={totalInquiries}
+                pageRangeDisplayed={8}
+                onChange={handlePageChange}
+              />
+            )}
+            {modal && (
+              <OrderCancel
+                setModal={setModal}
+                orderId={selectedOrderId}
+                activeLink={"completed"}
+              />
+            )}
+          </>
+        )}
+      </div>
+    </div>
   );
 };
 
