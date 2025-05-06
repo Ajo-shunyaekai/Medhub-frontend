@@ -1,4 +1,3 @@
-// OngoingInquiriesList.jsx
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import DataTable from "react-data-table-component";
@@ -9,6 +8,7 @@ import { apiRequests } from "../../../../api";
 import { toast } from "react-toastify";
 import moment from "moment-timezone";
 import PaginationComponent from "../../SharedComponents/Pagination/pagination";
+import Loader from "../../SharedComponents/Loader/Loader";
 import styles from "../../../assets/style/table.module.css";
 
 const OngoingInquiriesList = () => {
@@ -19,6 +19,7 @@ const OngoingInquiriesList = () => {
   const [ordersPerPage] = useState(8);
   const [inquiryList, setInquiryList] = useState([]);
   const [totalInquiries, setTotalInquiries] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   const showModal = (orderId) => {
     setSelectedOrderId(orderId);
@@ -31,12 +32,14 @@ const OngoingInquiriesList = () => {
 
   useEffect(() => {
     const fetchInquiryList = async () => {
+      setLoading(true);
       const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
       const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
 
       if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
         localStorage?.clear();
         navigate("/buyer/login");
+        setLoading(false);
         return;
       }
 
@@ -59,6 +62,8 @@ const OngoingInquiriesList = () => {
         }
       } catch (error) {
         console.error("Error fetching inquiries:", error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchInquiryList();
@@ -101,15 +106,15 @@ const OngoingInquiriesList = () => {
         <div className={styles.buttonContainer}>
           <Link to={`/buyer/ongoing-inquiries-details/${row.enquiry_id}`}>
             <div className={styles.activeBtn}>
-                                <RemoveRedEyeOutlinedIcon className={styles['table-icon']}  onClick={() => showModal(row?.order_id)} />
-                              </div>
+              <RemoveRedEyeOutlinedIcon className={styles['table-icon']} onClick={() => showModal(row?.order_id)} />
+            </div>
           </Link>
           {row?.enquiry_status === "pending" && (
             <div className={styles.activeBtn}>
-            <HighlightOffIcon
-            className={styles['table-icon']}
-              onClick={() => handleNavigate(row?.enquiry_id)}
-            />
+              <HighlightOffIcon
+                className={styles['table-icon']}
+                onClick={() => handleNavigate(row?.enquiry_id)}
+              />
             </div>
           )}
         </div>
@@ -121,7 +126,7 @@ const OngoingInquiriesList = () => {
   ];
 
   return (
-   <div className={styles.container}>
+    <div className={styles.container}>
       <style>
         {`
           .rdt_Table {
@@ -141,47 +146,50 @@ const OngoingInquiriesList = () => {
             gap: 10px !important;
           }
           .rdt_TableCol {
-             
             color: #333;
           }
           .rdt_TableCell {
-             
             color: #99a0ac;
             font-weight: 500 !important;
           }
           .rdt_TableCellStatus {
-             
             color: #333;
           }
         `}
       </style>
       <div className={styles.tableMainContainer}>
-          <header className={styles.header}>
-            <span className={styles.title}>Ongoing Inquiries List</span>
-          </header>
-        <DataTable
-          columns={columns}
-          data={inquiryList}
-          noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
-                     persistTableHead
-                     pagination={false}
-                     responsive
-        />
-        {modal && (
-          <OrderCancel
-            setModal={setModal}
-            orderId={selectedOrderId}
-            activeLink={"active"}
-          />
-        )}
-        {inquiryList.length > 0 && totalInquiries > 0 && (
-          <PaginationComponent
-            activePage={currentPage}
-            itemsCountPerPage={ordersPerPage}
-            totalItemsCount={totalInquiries}
-            pageRangeDisplayed={8}
-            onChange={handlePageChange}
-          />
+        <header className={styles.header}>
+          <span className={styles.title}>Ongoing Inquiries List</span>
+        </header>
+        {loading ? (
+          <Loader />
+        ) : (
+          <>
+            <DataTable
+              columns={columns}
+              data={inquiryList}
+              noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
+              persistTableHead
+              pagination={false}
+              responsive
+            />
+            {modal && (
+              <OrderCancel
+                setModal={setModal}
+                orderId={selectedOrderId}
+                activeLink={"active"}
+              />
+            )}
+            {inquiryList.length > 0 && totalInquiries > 0 && (
+              <PaginationComponent
+                activePage={currentPage}
+                itemsCountPerPage={ordersPerPage}
+                totalItemsCount={totalInquiries}
+                pageRangeDisplayed={8}
+                onChange={handlePageChange}
+              />
+            )}
+          </>
         )}
       </div>
     </div>

@@ -19,11 +19,6 @@
     flex-direction: column;
     gap: 20px;
 }
-.sectionMainContainer{
-    display: flex;
-        flex-direction: column;
-        gap: 20px;  
-}
 .mainInvoicecontainer {
     background-color: #fff;
     border-radius: 4px;
@@ -92,4 +87,23 @@
     display: flex;
     gap: 10px;
     cursor: pointer !important;
+}
+.downloadButton{
+    outline: none !important;
+    border: none !important;
+    background-color: #fff !important;
+}
+.orderButton{
+    border: none !important;
+    outline: none !important;
+    align-items: center;
+    background: linear-gradient(270deg, #00dcff, #0075ce);
+    border-radius: 4px;
+    color: #fff;
+    column-gap: 8px;
+    cursor: pointer !important;
+    display: flex
+;
+    font-size: 11px;
+    padding: 6px 8px;
 }
