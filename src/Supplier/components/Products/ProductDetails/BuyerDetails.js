@@ -1,262 +1,325 @@
 import React, { useEffect, useState } from 'react';
-import { Tooltip as ReactTooltip } from "react-tooltip";
+import { Tooltip as ReactTooltip } from 'react-tooltip';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PhoneInTalkOutlinedIcon from '@mui/icons-material/PhoneInTalkOutlined';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import './buyerdetails.css'
+import styles from './buyerdetails.module.css';
 import BuyerOrderList from '../Buyer/BuyerOrderList';
 import { postRequestWithToken } from '../../../api/Requests';
 import { apiRequests } from '../../../../api';
 
 const BuyerDetails = () => {
-    const { buyerId } = useParams()
-    const navigate = useNavigate()
-    const [buyer, setBuyer] = useState()
-
-    const [buyerSupplierOrder, setBuyerSupplierOrder] = useState([])
-    const [totalOrders, setTotalOrders] = useState()
-    const [currentOrderPage, setCurrentOrderPage] = useState(1)
+    const { buyerId } = useParams();
+    const navigate = useNavigate();
+    const [buyer, setBuyer] = useState(null);
+    const [buyerSupplierOrder, setBuyerSupplierOrder] = useState([]);
+    const [totalOrders, setTotalOrders] = useState(0);
+    const [currentOrderPage, setCurrentOrderPage] = useState(1);
+    const [activeButton, setActiveButton] = useState('orders');
     const ordersPerPage = 5;
 
     useEffect(() => {
         const fetchData = async () => {
-            const supplierIdSessionStorage = localStorage?.getItem("supplier_id");
-            const supplierIdLocalStorage = localStorage?.getItem("supplier_id");
-
-            if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-                localStorage?.clear();
-                navigate("/supplier/login");
+            const supplierId = localStorage.getItem('supplier_id');
+            if (!supplierId) {
+                localStorage.clear();
+                navigate('/supplier/login');
                 return;
             }
 
-            const obj = {
-                supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
-                buyer_id: buyerId,
-
-            }
             try {
-                const response = await apiRequests.getRequest(`buyer/get-specific-buyer-details/${buyerId}`, obj);
-                if (response?.code !== 200) {
-                    return;
+                const response = await apiRequests.getRequest(`buyer/get-specific-buyer-details/${buyerId}`, {
+                    supplier_id: supplierId,
+                    buyer_id: buyerId,
+                });
+                if (response?.code === 200) {
+                    setBuyer(response.result);
                 }
-                setBuyer(response?.result);
             } catch (error) {
+                console.error('Error fetching buyer details:', error);
             }
-        }
-        fetchData()
-    }, [])
+        };
+        fetchData();
+    }, [buyerId, navigate]);
 
     useEffect(() => {
-        const supplierIdSessionStorage = localStorage?.getItem("supplier_id");
-        const supplierIdLocalStorage = localStorage?.getItem("supplier_id");
-
-        if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-            localStorage?.clear();
-            navigate("/supplier/login");
+        const supplierId = localStorage.getItem('supplier_id');
+        if (!supplierId) {
+            localStorage.clear();
+            navigate('/supplier/login');
             return;
         }
 
         const fetchBuyerSupplierOrder = () => {
             const obj = {
                 buyer_id: buyerId,
-                supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
+                supplier_id: supplierId,
                 pageSize: ordersPerPage,
                 pageNo: currentOrderPage,
-                order_type: ''
-            }
+                order_type: '',
+            };
 
             postRequestWithToken('buyer/buyer-supplier-orders', obj, async (response) => {
                 if (response?.code === 200) {
-                    setBuyerSupplierOrder(response.result)
-                    setTotalOrders(response.result.totalOrders)
-                } else {
+                    setBuyerSupplierOrder(response.result);
+                    setTotalOrders(response.result.totalOrders || 0);
                 }
-            })
-        }
-        fetchBuyerSupplierOrder()
-    }, [currentOrderPage])
+            });
+        };
+        fetchBuyerSupplierOrder();
+    }, [currentOrderPage, buyerId, navigate]);
 
     const handleOrderPageChange = (pageNumber) => {
         setCurrentOrderPage(pageNumber);
     };
 
+    const handleButtonClick = (button) => {
+        setActiveButton(button);
+    };
+
+    if (!buyer) {
+        return <div>Loading...</div>;
+    }
+
     return (
-        <>
-            <div className='supplier-details-container'>
-                <div className='supplier-details-inner-conatiner'>
-                    <div className='supplier-details-left-inner-container'>
-                        <div className='supplier-details-left-uppar-section'>
-                            <div className='supplier-description-sec'>
-                                <div className='supplier-details-left-uppar-head'>{buyer?.buyer_name}</div>
-                                <div class="supplier-details-company-type-button">{buyer?.buyer_type}</div>
+        <div className={styles.container}>
+            {buyer?.buyer_id && (
+                <span className={styles.heading}>Buyer ID: {buyer.buyer_id}</span>
+            )}
+
+            <div className={styles.section}>
+                <div className={styles.leftCard}>
+                    {(buyer?.buyer_name || buyer?.buyer_type || buyer?.buyer_mobile) && (
+                        <div className={styles.cardSection}>
+                            <div className={styles.innerSection}>
+                                {buyer?.buyer_name && (
+                                    <span className={styles.mainHead}>{buyer.buyer_name}</span>
+                                )}
+                                {buyer?.websiteAddress && (
+                                    <a
+                                        href={buyer.websiteAddress}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className={styles.typeHead}
+                                    >
+                                        {buyer.websiteAddress}
+                                    </a>
+                                )}
+                                {buyer?.buyer_type && (
+                                    <span className={styles.typeHead}>{buyer.buyer_type}</span>
+                                )}
                             </div>
-                            <div className='supplier-details-left-inner-section'>
-
-                                <div className='supplier-details-left-inner-sec-text'>Buyer ID: {buyer?.buyer_id}</div>
-
-
-                                <div className='supplier-details-left-inner-img-container'>
-                                    <div className="supplier-details-left-inner-img-container">
-                                        {/* Phone Tooltip */}
+                            {(buyer?.buyer_mobile || buyer?.buyer_email) && (
+                                <div className={styles.headIcons}>
+                                    {buyer?.buyer_email && (
                                         <div
-                                            className="supplier-details-left-inner-mobile-button"
-                                            data-tooltip-id="phone-tooltip"
-                                            data-tooltip-content={`${buyer?.buyer_country_code || ""} ${buyer?.buyer_mobile || "N/A"}`}
+                                            className={styles.reactContainer}
+                                            data-tooltip-id="emailTooltip"
+                                            data-tooltip-content={buyer.buyer_email}
                                         >
-                                            <PhoneInTalkOutlinedIcon className="supplier-details-left-inner-icon" />
+                                            <MailOutlineIcon className={styles.Icon} />
+                                            <ReactTooltip id="emailTooltip" place="top" effect="solid" />
                                         </div>
-                                        <ReactTooltip id="phone-tooltip" place="top" effect="solid" />
+                                    )}
+                                    {buyer?.buyer_mobile && (
                                         <div
-                                            className="supplier-details-left-inner-email-button"
-                                            data-tooltip-id="email-tooltip"
-                                            data-tooltip-content={buyer?.buyer_email || "No email available"}
+                                            className={styles.reactContainer}
+                                            data-tooltip-id="phoneTooltip"
+                                            data-tooltip-content={`${buyer.buyer_country_code || ''} ${buyer.buyer_mobile}`}
                                         >
-                                            <MailOutlineIcon className="supplier-details-left-inner-icon" />
+                                            <PhoneInTalkOutlinedIcon className={styles.Icon} />
+                                            <ReactTooltip id="phoneTooltip" place="top" effect="solid" />
                                         </div>
-                                        <ReactTooltip id="email-tooltip" place="top" effect="solid" />
-                                    </div>
-
+                                    )}
                                 </div>
-                            </div>
-                            <div className='supplier-description-content-sec'>
-                                <div className='supplier-details-description-head'>Description</div>
-                                <div className='supplier-details-description-content'>{buyer?.description}</div>
+                            )}
+                        </div>
+                    )}
+
+                    {buyer?.description && (
+                        <div className={styles.innerContainer}>
+                            <div className={styles.cardContainer}>
+                                <span className={styles.cardHead}>Description</span>
+                                <span className={styles.cardContents}>{buyer.description}</span>
                             </div>
                         </div>
-                        <div className='supplier-description-container'>
+                    )}
 
-                            <div className='supplier-details-description-section'>
-                                <div className='supplier-details-description-head'>Business/Trade Activity Code</div>
-                                <div className='supplier-details-description-content'>{buyer?.activity_code}</div>
-                            </div>
-                            <div className='supplier-details-description-section'>
-                                <div className='supplier-details-description-head'>Address</div>
-                                <div className='supplier-details-description-content'>
-
+                    {buyer?.registeredAddress && (
+                        <div className={styles.innerContainer}>
+                            <div className={styles.cardContainer}>
+                                <span className={styles.cardHeads}>Address</span>
+                                <span className={styles.cardContents}>
                                     {[
-                                        buyer?.buyer_address || '476 Udyog Vihar, Phase 5, Gurgaon',
-                                        buyer?.locality,
-                                        buyer?.land_mark,
-                                        buyer?.city,
-                                        buyer?.state,
-                                        buyer?.country,
-                                        buyer?.pincode,
+                                        buyer.registeredAddress.company_reg_address,
+                                        buyer.registeredAddress.locality,
+                                        buyer.registeredAddress.land_mark,
                                     ]
                                         .filter(Boolean)
-                                        .map((item, index) => (
-                                            <React.Fragment key={index}>
-                                                {item}
-                                                <br />
-                                            </React.Fragment>
-                                        ))}
-                                </div>
+                                        .join(', ')}
+                                    {[
+                                        buyer.registeredAddress.city,
+                                        buyer.registeredAddress.state,
+                                        buyer.registeredAddress.country,
+                                        buyer.registeredAddress.pincode,
+                                    ].filter(Boolean).length > 0 && (
+                                            <div>
+                                                {[
+                                                    buyer.registeredAddress.city,
+                                                    buyer.registeredAddress.state,
+                                                    buyer.registeredAddress.country,
+                                                    buyer.registeredAddress.pincode,
+                                                ]
+                                                    .filter(Boolean)
+                                                    .join(', ')}
+                                            </div>
+                                        )}
+                                </span>
                             </div>
                         </div>
+                    )}
 
-                        <div className='supllier-details-section'>
-                            <div className='supplier-details-inner-section'>
-                                <div className='supplier-details-inner-head'>Company Registration No</div>
-                                <div className='supplier-details-inner-text'>{buyer?.registration_no}</div>
+                    {(buyer?.registration_no ||
+                        buyer?.vat_reg_no ||
+                        buyer?.activity_code ||
+                        buyer?.sales_person_name ||
+                        buyer?.country_of_origin ||
+                        buyer?.country_of_operation ||
+                        buyer?.interested_in ||
+                        buyer?.license_no ||
+                        buyer?.license_expiry_date ||
+                        buyer?.contact_person_name ||
+                        buyer?.contact_person_email ||
+                        buyer?.contact_person_mobile ||
+                        buyer?.designation ||
+                        buyer?.approx_yearly_purchase_value) && (
+                            <div className={styles.cardInnerSection}>
+                                {buyer?.registration_no && (
+                                    <div className={styles.cardMainContainer}>
+                                        <span className={styles.cardHead}>Company Registration No</span>
+                                        <span className={styles.cardContent}>{buyer.registration_no}</span>
+                                    </div>
+                                )}
+                                {buyer?.vat_reg_no && (
+                                    <div className={styles.cardMainContainer}>
+                                        <span className={styles.cardHead}>GST/VAT Registration Number</span>
+                                        <span className={styles.cardContent}>{buyer.vat_reg_no}</span>
+                                    </div>
+                                )}
+                                {buyer?.activity_code && (
+                                    <div className={styles.cardMainContainer}>
+                                        <span className={styles.cardHead}>Business Activity Code</span>
+                                        <span className={styles.cardContent}>{buyer.activity_code}</span>
+                                    </div>
+                                )}
+                                {buyer?.sales_person_name && (
+                                    <div className={styles.cardMainContainer}>
+                                        <span className={styles.cardHead}>Medhub Global Sales Representative</span>
+                                        <span className={styles.cardContent}>{buyer.sales_person_name}</span>
+                                    </div>
+                                )}
+                                {buyer?.country_of_origin && (
+                                    <div className={styles.cardMainContainer}>
+                                        <span className={styles.cardHead}>Country of Origin</span>
+                                        <span className={styles.cardContent}>{buyer.country_of_origin}</span>
+                                    </div>
+                                )}
+                                {buyer?.country_of_operation?.length > 0 && (
+                                    <div className={styles.cardMainContainer}>
+                                        <span className={styles.cardHead}>Countries of Operation</span>
+                                        <span className={styles.cardContent}>{buyer.country_of_operation.join(', ')}</span>
+                                    </div>
+                                )}
+                                {buyer?.interested_in?.length > 0 && (
+                                    <div className={styles.cardMainContainer}>
+                                        <span className={styles.cardHead}>Interested In</span>
+                                        <span className={styles.cardContent}>{buyer.interested_in.join(', ')}</span>
+                                    </div>
+                                )}
+                                {buyer?.approx_yearly_purchase_value && (
+                                    <div className={styles.cardMainContainer}>
+                                        <span className={styles.cardHead}>Approx. Yearly Purchase Value</span>
+                                        <span className={styles.cardContent}>{buyer.approx_yearly_purchase_value}</span>
+                                    </div>
+                                )}
+                                {buyer?.license_no && (
+                                    <div className={styles.cardMainContainer}>
+                                        <span className={styles.cardHead}>License No.</span>
+                                        <span className={styles.cardContent}>{buyer.license_no}</span>
+                                    </div>
+                                )}
+                                {buyer?.license_expiry_date && (
+                                    <div className={styles.cardMainContainer}>
+                                        <span className={styles.cardHead}>License Expiry/Renewal Date</span>
+                                        <span className={styles.cardContent}>{buyer.license_expiry_date}</span>
+                                    </div>
+                                )}
+                                {buyer?.contact_person_name && (
+                                    <div className={styles.cardMainContainer}>
+                                        <span className={styles.cardHead}>Contact Name</span>
+                                        <span className={styles.cardContent}>{buyer.contact_person_name}</span>
+                                    </div>
+                                )}
+                                {buyer?.contact_person_email && (
+                                    <div className={styles.cardMainContainer}>
+                                        <span className={styles.cardHead}>Email ID</span>
+                                        <span className={styles.cardContent}>{buyer.contact_person_email}</span>
+                                    </div>
+                                )}
+                                {buyer?.contact_person_mobile && (
+                                    <div className={styles.cardMainContainer}>
+                                        <span className={styles.cardHead}>Mobile No.</span>
+                                        <span className={styles.cardContent}>
+                                            {`${buyer.contact_person_country_code || ''} ${buyer.contact_person_mobile}`}
+                                        </span>
+                                    </div>
+                                )}
+                                {buyer?.designation && (
+                                    <div className={styles.cardMainContainer}>
+                                        <span className={styles.cardHead}>Designation</span>
+                                        <span className={styles.cardContent}>{buyer.designation}</span>
+                                    </div>
+                                )}
                             </div>
+                        )}
+                </div>
 
-                            <div className='supplier-details-inner-section'>
-                                <div className='supplier-details-inner-head'>VAT Registration Nnp</div>
-                                <div className='supplier-details-inner-text'>{buyer?.vat_reg_no}</div>
-                            </div>
-                            <div className='supplier-details-inner-section'>
-                                <div className='supplier-details-inner-head'>Medhub Global Sales Representative</div>
-                                <div className='supplier-details-inner-text'>{buyer?.contact_person_country_code} {buyer?.contact_person_mobile}</div>
-                            </div>
-                            <div className='supplier-details-inner-section'>
-                                <div className='supplier-details-inner-head'>License No.</div>
-                                <div className='supplier-details-inner-text'>{buyer?.license_no}</div>
-                            </div>
-                            <div className='supplier-details-inner-section'>
-                                <div className='supplier-details-inner-head'>License Expiry/Renewal Date</div>
-                                <div className='supplier-details-inner-text'>{buyer?.license_expiry_date}</div>
-                            </div>
-                            <div className='supplier-details-inner-section'>
-                                <div className='supplier-details-inner-head'>Tax No.</div>
-                                <div className='supplier-details-inner-text'>{buyer?.tax_no}</div>
-                            </div>
-                            <div className='supplier-details-inner-section'>
-                                <div className='supplier-details-inner-head'>Country of Origin</div>
-                                <div className='supplier-details-inner-text'>{buyer?.country_of_origin}</div>
-                            </div>
-                            <div className='supplier-details-inner-section'>
-                                <div className='supplier-details-inner-head'>Country of Operation</div>
-                                <div className='supplier-details-inner-text'>{buyer?.country_of_operation?.join(', ')}</div>
-                            </div>
-                            <div className='supplier-details-inner-section'>
-                                <div className='supplier-details-inner-head'>Approx. Yearly Purchase Value</div>
-                                <div className='supplier-details-inner-text'>{buyer?.approx_yearly_purchase_value}</div>
-                            </div>
-                            <div className='supplier-details-inner-section'>
-                                <div className='supplier-details-inner-head'>Interested In</div>
-                                <div className='supplier-details-inner-text'>{buyer?.interested_in}</div>
-                            </div>
-                            <div className='supplier-details-inner-section'>
-                                <div className='supplier-details-inner-head'>Contact Person Name:</div>
-                                <div className='supplier-details-inner-text'>{buyer?.contact_person_name}</div>
-                            </div>
-                            <div className='supplier-details-inner-section'>
-                                <div className='supplier-details-inner-head'>Designation</div>
-                                <div className='supplier-details-inner-text'>{buyer?.designation}</div>
-                            </div>
-                            <div className='supplier-details-inner-section'>
-                                <div className='supplier-details-inner-head'>Email ID</div>
-                                <div className='supplier-details-inner-text'>{buyer?.contact_person_email}</div>
-                            </div>
-                            <div className='supplier-details-inner-section'>
-                                <div className='supplier-details-inner-head'>Mobile No.</div>
-                                <div className='supplier-details-inner-text'>{buyer?.contact_person_country_code} {buyer?.contact_person_mobile}</div>
-                            </div>
-
-                        </div>
+                <div className={styles.rightCard}>
+                    <div className={styles.rightContainer}>
+                        <Link className={styles.rightSection} to={`/supplier/buyer-active-list/${buyerId}`}>
+                            <span className={styles.rightHead}>Active Orders</span>
+                            <span className={styles.rightContent}>{buyerSupplierOrder?.activeCount || 0}</span>
+                        </Link>
+                        <Link className={styles.rightSection} to={`/supplier/buyer-completed-list/${buyerId}`}>
+                            <span className={styles.rightHead}>Completed Orders</span>
+                            <span className={styles.rightContent}>{buyerSupplierOrder?.completedCount || 0}</span>
+                        </Link>
+                        <Link className={styles.rightSection} to={`/supplier/buyer-pending-list/${buyerId}`}>
+                            <span className={styles.rightHead}>Inquiry Request</span>
+                            <span className={styles.rightContent}>{buyerSupplierOrder?.pendingCount || 0}</span>
+                        </Link>
                     </div>
-                    <div className='supplier-details-card-section'>
-                        <div className='supplier-details-uppar-card-section'>
-                            <div className='supplier-details-uppar-card-inner-section'>
-                                <div className='supplier-details-card-container'>
-                                    <Link to={`/supplier/buyer-completed-list/${buyerId}`}>
-                                        <div className='supplier-details-card-container-contents'>
-                                            <div className='supplier-details-card-conteianer-head'>Completed Orders</div>
-                                            <div className='supplier-details-card-conteianer-text'>{buyerSupplierOrder?.completedCount || 0}</div>
-                                        </div>
-                                    </Link>
-                                </div>
-                                <div className='supplier-details-card-container'>
-                                    <Link to={`/supplier/buyer-active-list/${buyerId}`}>
-                                        <div className='supplier-details-card-container-contents'>
-                                            <div className='supplier-details-card-conteianer-head'>Active Orders</div>
-                                            <div className='supplier-details-card-conteianer-text'>{buyerSupplierOrder?.activeCount || 0}</div>
-                                        </div>
-                                    </Link>
-                                </div>
-                                <div className='supplier-details-card-container'>
-                                    <Link to={`/supplier/buyer-pending-list/${buyerId}`}>
-                                        <div className='supplier-details-card-container-contents'>
-                                            <div className='supplier-details-card-conteianer-head'>Inquiry Request</div>
-                                            <div className='supplier-details-card-conteianer-text'>{buyerSupplierOrder?.pendingCount || 0}</div>
-                                        </div>
-                                    </Link>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='supplier-details-bottom-table-section'>
-                            <BuyerOrderList
-                                orderList={buyerSupplierOrder?.orderList}
-                                totalOrders={totalOrders}
-                                currentPage={currentOrderPage}
-                                ordersPerPage={ordersPerPage}
-                                handleOrderPageChange={handleOrderPageChange}
-                            />
-                        </div>
+                    <div className={styles.buttonContainer}>
+                        <button
+                            className={`${styles.button} ${activeButton === 'orders' ? styles.active : ''}`}
+                            onClick={() => handleButtonClick('orders')}
+                        >
+                            Orders List
+                        </button>
                     </div>
+                    {activeButton === 'orders' && (
+                        <BuyerOrderList
+                            orderList={buyerSupplierOrder?.orderList || []}
+                            totalOrders={totalOrders}
+                            currentPage={currentOrderPage}
+                            ordersPerPage={ordersPerPage}
+                            handleOrderPageChange={handleOrderPageChange}
+                        />
+                    )}
                 </div>
             </div>
-        </>
-    )
-}
+        </div>
+    );
+};
 
-export default BuyerDetails
+export default BuyerDetails;

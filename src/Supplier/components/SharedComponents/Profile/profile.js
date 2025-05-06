@@ -18,7 +18,7 @@ const Profile = () => {
   const extractFileName = (url) => (url ? url.split("/")?.pop() : "Unknown");
 
   const renderFiles = (files, type) => {
-    if (!files || files === "") return null; // Don't render if no files
+    if (!files || files === "") return null;
     if (!Array.isArray(files)) files = [files];
 
     return files.map((file, index) => {
@@ -58,6 +58,30 @@ const Profile = () => {
         );
       }
     });
+  };
+
+  // Function to format categories with commas
+  const formatCategories = (categories) => {
+    if (!categories) return "";
+    if (Array.isArray(categories)) {
+      return categories.join(", ");
+    }
+    return categories.split(/[,;]/).map(item => item.trim()).join(", ");
+  };
+
+  // Function to format country of operation with commas
+  const formatCountryOfOperation = (countries) => {
+    if (!countries) return "";
+    if (Array.isArray(countries)) {
+      return countries.join(", ");
+    }
+    return countries.split(/[,;]/).map(item => item.trim()).join(", ");
+  };
+
+  // Function to format bank details into multiple lines
+  const formatBankDetails = (bankDetails) => {
+    if (!bankDetails) return [];
+    return bankDetails.split(/[,;\n]/).map(item => item.trim()).filter(item => item);
   };
 
   useEffect(() => {
@@ -203,10 +227,10 @@ const Profile = () => {
                     <div className={styles.companyText}>{user?.vat_reg_no}</div>
                   </div>
                 )}
-                {user?.categories && (
+                {user?.activity_code && (
                   <div className={styles.companyDetails}>
-                    <div className={styles.companyHead}>Categories you Trade In</div>
-                    <div className={styles.companyText}>{user?.categories}</div>
+                    <div className={styles.companyHead}>Business/Trade Activity Code</div>
+                    <div className={styles.companyText}>{user?.activity_code}</div>
                   </div>
                 )}
                 {user?.sales_person_name && (
@@ -215,10 +239,10 @@ const Profile = () => {
                     <div className={styles.companyText}>{user?.sales_person_name}</div>
                   </div>
                 )}
-                {user?.license_no && (
+                {user?.categories && (
                   <div className={styles.companyDetails}>
-                    <div className={styles.companyHead}>Company License No.</div>
-                    <div className={styles.companyText}>{user?.license_no}</div>
+                    <div className={styles.companyHead}>Categories you Trade In</div>
+                    <div className={styles.companyText}>{formatCategories(user?.categories)}</div>
                   </div>
                 )}
               </div>
@@ -226,7 +250,7 @@ const Profile = () => {
                 {user?.country_of_operation && (
                   <div className={styles.companyDetails}>
                     <div className={styles.companyHead}>Country of Operation</div>
-                    <div className={styles.companyText}>{user?.country_of_operation}</div>
+                    <div className={styles.companyText}>{formatCountryOfOperation(user?.country_of_operation)}</div>
                   </div>
                 )}
                 {user?.country_of_origin && (
@@ -239,6 +263,12 @@ const Profile = () => {
                   <div className={styles.companyDetails}>
                     <div className={styles.companyHead}>Tags</div>
                     <div className={styles.companyText}>{user?.tags}</div>
+                  </div>
+                )}
+                {user?.license_no && (
+                  <div className={styles.companyDetails}>
+                    <div className={styles.companyHead}>Company License No.</div>
+                    <div className={styles.companyText}>{user?.license_no}</div>
                   </div>
                 )}
                 {user?.license_expiry_date && (
@@ -258,12 +288,6 @@ const Profile = () => {
             <div className={styles.textareaSeaction}>
               <div className={styles.textareaHead}>About Company</div>
               <span className={styles.textareaContent}>{user?.description}</span>
-            </div>
-          )}
-          {user?.activity_code && (
-            <div className={styles.textareaSeaction}>
-              <div className={styles.textareaHead}>Business/Trade Activity Code</div>
-              <span className={styles.textareaContent}>{user?.activity_code}</span>
             </div>
           )}
         </div>
@@ -290,7 +314,7 @@ const Profile = () => {
                 </div>
               </div>
             )}
-            {user?.designation && (
+            { user?.designation && (
               <div className={styles.companyDetails}>
                 <div className={styles.companyHead}>Designation</div>
                 <div className={styles.companyText}>{user?.designation}</div>
@@ -298,55 +322,52 @@ const Profile = () => {
             )}
           </div>
           {user?.bank_details && (
-            <div className={styles.textareaSeaction}>
+            <div className={styles.companyContainerContactSection}>
               <div className={styles.textareaHead}>Bank Details</div>
-              <span className={styles.textareaContent}>{user?.bank_details}</span>
+              <div className={styles.textareaContent}>
+                {formatBankDetails(user?.bank_details).map((detail, index) => (
+                  <div key={index}>{detail}</div>
+                ))}
+              </div>
             </div>
           )}
         </div>
       )}
-      {(user?.license_image ||
-        user?.tax_image ||
-        user?.certificate_image ||
-        user?.medical_certificate) && (
-        <div className={styles.documentContainer}>
-          <div className={styles.documentMainHeading}>Documents</div>
-          <div className={styles.documentSection}>
-            {user?.license_image && (
-              <div className={styles.documentInnerSection}>
-                <div className={styles.documentDocName}>Trade License</div>
-                <div className={styles.documentDocContent}>
-                  {renderFiles(user?.license_image, "Trade License")}
+      {user?.supplier_type !== "Service Provider" &&
+        (user?.license_image ||
+          user?.tax_image ||
+          user?.certificate_image ||
+          user?.medical_certificate) && (
+          <div className={styles.documentContainer}>
+            <div className={styles.documentMainHeading}>Documents</div>
+            <div className={styles.documentSection}>
+              {user?.license_image && (
+                <div className={styles.documentInnerSection}>
+                  <div className={styles.documentDocName}>Trade License</div>
+                  <div className={styles.documentDocContent}>
+                    {renderFiles(user?.license_image, "Trade License")}
+                  </div>
                 </div>
-              </div>
-            )}
-            {user?.tax_image && (
-              <div className={styles.documentInnerSection}>
-                <div className={styles.documentDocName}>Tax Certificate</div>
-                <div className={styles.documentDocContent}>
-                  {renderFiles(user?.tax_image, "Tax Certificate")}
+              )}
+              {user?.certificate_image && (
+                <div className={styles.documentInnerSection}>
+                  <div className={styles.documentDocName}>Certificate</div>
+                  <div className={styles.documentDocContent}>
+                    {renderFiles(user?.certificate_image, "Certificate")}
+                  </div>
                 </div>
-              </div>
-            )}
-            {user?.certificate_image && (
-              <div className={styles.documentInnerSection}>
-                <div className={styles.documentDocName}>Certificate</div>
-                <div className={styles.documentDocContent}>
-                  {renderFiles(user?.certificate_image, "Certificate")}
+              )}
+              {user?.medical_certificate && (
+                <div className={styles.documentInnerSection}>
+                  <div className={styles.documentDocName}>Medical Practitioner</div>
+                  <div className={styles.documentDocContent}>
+                    {renderFiles(user?.medical_certificate, "Medical Practitioner")}
+                  </div>
                 </div>
-              </div>
-            )}
-            {user?.medical_certificate && (
-              <div className={styles.documentInnerSection}>
-                <div className={styles.documentDocName}>Medical Practitioner</div>
-                <div className={styles.documentDocContent}>
-                  {renderFiles(user?.medical_certificate, "Medical Practitioner")}
-                </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
-        </div>
-      )}
+        )}
     </div>
   );
 };

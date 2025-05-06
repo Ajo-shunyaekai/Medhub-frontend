@@ -120,7 +120,7 @@ const InquiryPurchaseOrder = () => {
         <div className={styles.sidebar}>
               <div
                onClick={() => handleLinkClick("ongoing")}
-               className={`${styles.tab} ${activeLink === "ongoing" ? "active" : ""}`}
+               className={`${styles.tab} ${activeLink === "ongoing" ? styles.active : ''}`}
               >
                <BiPurchaseTagAlt
                   className={styles.icon}
@@ -129,7 +129,7 @@ const InquiryPurchaseOrder = () => {
               </div>
               <div
                  onClick={() => handleLinkClick("purchased")}
-                 className={`${styles.tab} ${activeLink === "purchased" ? "active" : ""}`}
+                 className={`${styles.tab} ${activeLink === "purchased" ? styles.active : ''}`}
               >
                <BiPurchaseTagAlt
                   className={styles.icon}

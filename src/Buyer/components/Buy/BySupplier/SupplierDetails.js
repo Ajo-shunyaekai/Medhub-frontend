@@ -159,6 +159,17 @@ const SupplierDetails = () => {
                 {supplier?.supplier_name && (
                   <span className={styles.mainHead}>{supplier.supplier_name}</span>
                 )}
+                 {supplier?.websiteAddress && (
+                   <a
+                   href={supplier.websiteAddress}
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   className={styles.typeHead}
+                 >
+                   {supplier.websiteAddress}
+                 </a>
+                )}
+               
                 {supplier?.supplier_type && (
                   <span className={styles.typeHead}>{supplier.supplier_type}</span>
                 )}
@@ -173,22 +184,6 @@ const SupplierDetails = () => {
                   <ReactTooltip id="phoneTooltip" place="top" effect="solid" />
                 </div>
               )}
-            </div>
-          )}
-
-          {supplier?.websiteAddress && (
-            <div className={styles.innerContainer}>
-              <div className={styles.cardContainer}>
-                <span className={styles.cardHead}>Company Website</span>
-                <a
-                  href={supplier.websiteAddress}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={styles.cardContents}
-                >
-                  {supplier.websiteAddress}
-                </a>
-              </div>
             </div>
           )}
 
@@ -247,16 +242,18 @@ const SupplierDetails = () => {
                   </span>
                 </div>
               )}
-              {supplier?.bank_details && (
-                <div className={styles.cardContainer}>
-                  <span className={styles.cardHeads}>Bank Details</span>
-                  <div className={styles.cardContents}>
-                    {supplier.bank_details.split(', ').map((detail, index) => (
-                      <div key={index}>{detail.trim()}</div>
-                    ))}
-                  </div>
-                </div>
-              )}
+             {supplier?.bank_details && (
+  <div className={styles.cardContainer}>
+    <span className={styles.cardHeads}>Bank Details</span>
+    <div className={styles.cardContents}>
+      {supplier.bank_details.split(', ').map((detail, index) => (
+        <div key={index} className={styles.bankDetail}>
+          {detail.trim()}
+        </div>
+      ))}
+    </div>
+  </div>
+)}
             </div>
           )}
 

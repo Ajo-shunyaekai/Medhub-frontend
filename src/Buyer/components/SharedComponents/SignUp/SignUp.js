@@ -1222,7 +1222,25 @@ const SignUp = ({ socket }) => {
                         </div>
                       )}
                     </div>
-
+                    <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
+                        Approx. Yearly Purchase Value
+                        <span className={styles.labelStamp}>*</span>
+                      </label>
+                      <input
+                        className={styles.signupFormSectionInput}
+                        type="text"
+                        name="yearlyPurchaseValue"
+                        placeholder="Enter Approx. Yearly Purchase Value in USD"
+                        value={formData.yearlyPurchaseValue}
+                        onChange={handleChange}
+                      />
+                      {errors.yearlyPurchaseValue && (
+                        <div className={styles.signupErrors}>
+                          {errors.yearlyPurchaseValue}
+                        </div>
+                      )}
+                    </div>
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
                         Company License No.
@@ -1259,25 +1277,7 @@ const SignUp = ({ socket }) => {
                     
                     </div>
                   
-                    <div className={styles.signupFormSectionDiv}>
-                      <label className={styles.signupFormSectionLabel}>
-                        Approx. Yearly Purchase Value
-                        <span className={styles.labelStamp}>*</span>
-                      </label>
-                      <input
-                        className={styles.signupFormSectionInput}
-                        type="text"
-                        name="yearlyPurchaseValue"
-                        placeholder="Enter Approx. Yearly Purchase Value in USD"
-                        value={formData.yearlyPurchaseValue}
-                        onChange={handleChange}
-                      />
-                      {errors.yearlyPurchaseValue && (
-                        <div className={styles.signupErrors}>
-                          {errors.yearlyPurchaseValue}
-                        </div>
-                      )}
-                    </div>
+                  
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
                         Interested In<span className={styles.labelStamp}>*</span>
