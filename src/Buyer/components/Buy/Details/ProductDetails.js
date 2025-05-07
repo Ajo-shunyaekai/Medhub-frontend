@@ -152,6 +152,7 @@ const ProductDetails = () => {
   };
 
   const handleSubmit = (values, { resetForm }) => {
+    console.log('values',values)
     setLoading(true); // Set loading true during form submission
     const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
     const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
@@ -3518,10 +3519,15 @@ const ProductDetails = () => {
 
               {({ setFieldValue, values, errors, touched }) => {
                 // Get the selected quantity details
+                // const selectedOption =
+                //   quantityOptions.find(
+                //     (opt) => opt.value === values.selectedQuantity
+                //   ) || defaultOption;
+
                 const selectedOption =
-                  quantityOptions.find(
-                    (opt) => opt.value === values.selectedQuantity
-                  ) || defaultOption;
+  quantityOptions.find((opt) => {
+    return opt.value === values.selectedQuantity;
+  }) || defaultOption;
 
                 return (
                   <Form className={styles.formSection}>
@@ -3533,11 +3539,17 @@ const ProductDetails = () => {
                             (opt) => opt.value === values.selectedQuantity
                           )}
                           placeholder="Select Quantity"
+                          // onChange={(option) => {
+                          //   setFieldValue(
+                          //     "selectedQuantity",
+                          //     option?.value || ""
+                          //   );
+                          //   setFieldValue("targetPrice", ""); // Reset target price when quantity changes
+                          // }}
                           onChange={(option) => {
-                            setFieldValue(
-                              "selectedQuantity",
-                              option?.value || ""
-                            );
+                            setFieldValue("selectedQuantity", option?.value || "");
+                            setFieldValue("price", option?.price || "");
+                            setFieldValue("deliveryTime", option?.deliveryTime || "");
                             setFieldValue("targetPrice", ""); // Reset target price when quantity changes
                           }}
                           className={
@@ -3555,12 +3567,14 @@ const ProductDetails = () => {
                       </div>
                       <div className={styles.inventoryContainer}>
                         <span className={styles.inventoryInput} readOnly>
-                          {selectedOption.price || "N/A"}
+                          {/* {selectedOption.price || "N/A"} */}
+                          {values.price || "N/A"}
                         </span>
                       </div>
                       <div className={styles.inventoryContainer}>
                         <span className={styles.inventoryInput} readOnly>
-                          {selectedOption.deliveryTime || "N/A"}
+                          {/* {selectedOption.deliveryTime || "N/A"} */}
+                          {values.deliveryTime || "N/A"}
                         </span>
                       </div>
                       <div className={styles.inventoryContainer}>
