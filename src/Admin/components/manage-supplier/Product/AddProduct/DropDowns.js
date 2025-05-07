@@ -212,7 +212,7 @@ export const initialValues = {
       quantityFrom: "",
       quantityTo: "",
       price: "",
-      deliveryTime: "",
+      deliveryTime: "TBC - Depends on quantity",
     },
   ],
   cNCFileNDate: [
@@ -384,12 +384,12 @@ export const addProductValidationSchema = Yup.object({
               return /^\d+(\.\d{1,3})?$/.test(value.toString()); 
             }
           ),
-        deliveryTime: Yup.string()
-          .matches(
-            /^\d{1,3}$/,
-            "Delivery Time must be a number with up to 3 digits."
-          )
-          .required("Est. Delivery Time is required."),
+        // deliveryTime: Yup.string()
+        //   .matches(
+        //     /^\d{1,3}$/,
+        //     "Delivery Time must be a number with up to 3 digits."
+        //   )
+        //   .required("Est. Delivery Time is required."),
       })
     )
     .min(1, "At least one product is required."),
@@ -1219,12 +1219,12 @@ export const editProductValidationSchema = Yup.object({
               return /^\d+(\.\d{1,3})?$/.test(value.toString()); // Allows up to 3 decimals
             }
           ),
-        deliveryTime: Yup.string()
-          .matches(
-            /^\d{1,3}$/,
-            "Delivery Time must be a number with up to 3 digits."
-          )
-          .required("Est. Delivery Time is required."),
+        // deliveryTime: Yup.string()
+        //   .matches(
+        //     /^\d{1,3}$/,
+        //     "Delivery Time must be a number with up to 3 digits."
+        //   )
+        //   .required("Est. Delivery Time is required."),
       })
     )
     .min(1, "At least one product is required."), // Optional: You can enforce at least one item in the array

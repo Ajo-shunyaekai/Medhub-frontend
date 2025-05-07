@@ -7249,13 +7249,18 @@ const EditAddProduct = ({ placeholder }) => {
                         <div className={styles.productContainer}>
                           <label className={styles.formLabel}>
                             Est. Delivery Time
-                            <span className={styles?.labelStamp}>*</span>
+                            {/* <span className={styles?.labelStamp}>*</span> */}
                           </label>
                           <Field
                             name={`productPricingDetails.${index}.deliveryTime`}
                             type="text"
                             placeholder="Enter Est. Delivery Time in days"
                             className={styles.formInput}
+                            onChange={(e) => {
+                              // Allow only alphanumeric characters, spaces, hyphens
+                              const value = e.target.value.replace(/[^a-zA-Z0-9 \-]/g, "");
+                              formik?.setFieldValue(`productPricingDetails.${index}.deliveryTime`, value);
+                            }}
                           />
                           <span className={styles.error}>
                             {formik.touched.productPricingDetails?.[index]

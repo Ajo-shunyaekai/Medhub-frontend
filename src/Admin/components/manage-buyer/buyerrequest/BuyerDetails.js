@@ -189,7 +189,7 @@ const BuyerDetails = () => {
                                         <div className='buyer-details-left-inner-section'>
                                             <div className='buyer-details-upper-section-container'>
                                                 <div className='buyer-details-left-uppar-head'>{buyerDetails?.buyer_name}</div>
-                                                <a className='buyer-details-left-uppar-head' href={buyerDetails?.websiteAddress} target="_blank" rel="noopener noreferrer">
+                                                <a className='buyer-details-left-link-head' href={buyerDetails?.websiteAddress} target="_blank" rel="noopener noreferrer">
                                                 {buyerDetails?.websiteAddress}
                                             </a>
                                             </div>

@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import DataTable from 'react-data-table-component';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import PaginationComponent from '../../SharedComponents/Pagination/Pagination';
+import Loader from '../../SharedComponents/Loader/Loader';
 import styles from '../../../assets/style/table.module.css';
 import { postRequestWithToken } from '../../../api/Requests';
 import moment from 'moment/moment';
@@ -14,7 +15,8 @@ const BuyerPendingList = () => {
     const [orderList, setOrderList] = useState([]);
     const [totalOrders, setTotalOrders] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
-    const ordersPerPage = 4;
+    const [loading, setLoading] = useState(true);
+    const ordersPerPage = 8;
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -30,6 +32,7 @@ const BuyerPendingList = () => {
             return;
         }
 
+        setLoading(true); // Set loading to true before API call
         const obj = {
             buyer_id: buyerId,
             supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
@@ -46,6 +49,7 @@ const BuyerPendingList = () => {
                 setOrderList([]);
                 setTotalOrders(0);
             }
+            setLoading(false); // Set loading to false after API call
         });
     }, [currentPage, buyerId, navigate]);
 
@@ -54,19 +58,16 @@ const BuyerPendingList = () => {
             name: 'Order ID',
             selector: row => row?.order_id,
             sortable: true,
-
         },
         {
             name: 'Date',
             selector: row => moment(row?.created_at).format("DD/MM/YYYY"),
             sortable: true,
-
         },
         {
             name: 'Quantity',
             selector: row => row?.items?.reduce((total, item) => total + item?.quantity, 0),
             sortable: true,
-
         },
         {
             name: 'Price',
@@ -78,13 +79,11 @@ const BuyerPendingList = () => {
                 return totalPrice.toFixed(2);
             },
             sortable: true,
-
         },
         {
             name: 'Status',
             selector: row => row?.order_status,
             sortable: true,
-
         },
         {
             name: 'Action',
@@ -95,7 +94,6 @@ const BuyerPendingList = () => {
                     </div>
                 </Link>
             ),
-
         },
     ];
 
@@ -103,58 +101,64 @@ const BuyerPendingList = () => {
         <div className={styles.container}>
             <style>
                 {`
-        .rdt_Table {
-            border: none;
-            background-color: unset !important;
-        }
-        .rdt_TableRow {
-            background-color: #ffffff !important;
-            border-bottom: none !important;
-        }
-        .rdt_TableHeadRow {
-            background-color: #f9f9fa;
-            font-weight: bold;
-            border-bottom: none !important;
-        }
-        .rdt_TableBody {
-            gap: 10px !important;
-        }
-        .rdt_TableCol {
-            text-align: center;
-            color: #333;
-        }
-        .rdt_TableCell {
-            text-align: center;
-            color: #99a0ac;
-            font-weight: 500 !important;
-        }
-        .rdt_TableCellStatus {
-            text-align: center;
-            color: #333;
-        }
-    `}
+                    .rdt_Table {
+                        border: none;
+                        background-color: unset !important;
+                    }
+                    .rdt_TableRow {
+                        background-color: #ffffff !important;
+                        border-bottom: none !important;
+                    }
+                    .rdt_TableHeadRow {
+                        background-color: #f9f9fa;
+                        font-weight: bold;
+                        border-bottom: none !important;
+                    }
+                    .rdt_TableBody {
+                        gap: 10px !important;
+                    }
+                    .rdt_TableCol {
+                        text-align: center;
+                        color: #333;
+                    }
+                    .rdt_TableCell {
+                        text-align: center;
+                        color: #99a0ac;
+                        font-weight: 500 !important;
+                    }
+                    .rdt_TableCellStatus {
+                        text-align: center;
+                        color: #333;
+                    }
+                `}
             </style>
-            <span className={styles.title}>Inquiry Request</span>
-
-            <DataTable
-                columns={columns}
-                data={orderList}
-                persistTableHead
-                noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
-                pagination={false}
-                responsive
-            />
-            {orderList.length > 0 && (
-                <PaginationComponent
-                    activePage={currentPage}
-                    itemsCountPerPage={ordersPerPage}
-                    totalItemsCount={totalOrders}
-                    pageRangeDisplayed={5}
-                    onChange={handlePageChange}
-                />
-            )}
+            <div className={styles.tableMainContainer}>
+                <span className={styles.title}>Inquiry Request</span>
+                {loading ? (
+                    <Loader />
+                ) : (
+                    <>
+                        <DataTable
+                            columns={columns}
+                            data={orderList}
+                            persistTableHead
+                            noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
+                            pagination={false}
+                            responsive
+                        />
+                        {orderList.length > 0 && (
+                            <PaginationComponent
+                                activePage={currentPage}
+                                itemsCountPerPage={ordersPerPage}
+                                totalItemsCount={totalOrders}
+                                pageRangeDisplayed={5}
+                                onChange={handlePageChange}
+                            />
+                        )}
+                    </>
+                )}
+            </div>
         </div>
-
     );
 };
 

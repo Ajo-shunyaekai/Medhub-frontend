@@ -3,6 +3,7 @@ import styles from "./PurchasedOrderDetails.module.css";
 import html2pdf from "html2pdf.js";
 import { useNavigate, useParams } from "react-router-dom";
 import { postRequestWithToken } from "../../../../api/Requests";
+import Loader from "../../SharedComponents/Loader/Loader";
 
 const PurchasedOrderDetails = () => {
   const { purchaseOrderId } = useParams();
@@ -12,13 +13,16 @@ const PurchasedOrderDetails = () => {
   const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
 
   const [poDetails, setPoDetails] = useState();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
       localStorage?.clear();
       navigate("/buyer/login");
+      setLoading(false);
       return;
     }
+
     const obj = {
       buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
       purchaseOrder_id: purchaseOrderId,
@@ -30,11 +34,19 @@ const PurchasedOrderDetails = () => {
       async (response) => {
         if (response?.code === 200) {
           setPoDetails(response.result);
-        } else {
         }
+        setLoading(false);
       }
     );
-  }, []);
+  }, [buyerIdSessionStorage, buyerIdLocalStorage, purchaseOrderId, navigate]);
+
+  if (loading) {
+    return <Loader />;
+  }
+
+  if (!poDetails) {
+    return <div>No purchase order details available.</div>;
+  }
 
   const orderItems =
     poDetails?.order_items?.map((item) => ({
@@ -192,85 +204,56 @@ const PurchasedOrderDetails = () => {
                           <p
                             style={{
                               fontSize: "13px",
-                              fontWeight:"500"
-                              
-                                    
+                              fontWeight: "500",
                             }}
                           >
                             {poDetails?.buyer_address}
                           </p>
-
-                          <td
+                          <div
                             style={{ display: "flex", justifyContent: "start" }}
                           >
-                            {/* <p
-                              style={{
-                               fontSize: "13px",
-                              fontWeight:"500",
-                                      
-                              
-                              }}
-                            >
-                              Mobile No. :
-                            </p> */}
                             <p
                               style={{
                                 fontSize: "13px",
-                                fontWeight:"500",
-                                      
-                             
+                                fontWeight: "500",
                               }}
                             >
-                              &nbsp;{poDetails?.buyer_country_code}{" "}
+                              {poDetails?.buyer_country_code}{" "}
                               {poDetails?.buyer_mobile}
                             </p>
-                          </td>
-                          <td
-                            style={{ display: "flex", justifyContent: "start" }}
-                          >
-                            {/* <p
-                              style={{
-                                fontSize: "13px",
-                                fontWeight:"500",
-                                      
-                               
-                              }}
-                            >
-                              Email ID :
-                            </p> */}
-                            <p
-                              style={{
-                                fontSize: "13px",
-                                fontWeight:"500",
-                                      
-                                
-                              }}
-                            >
-                              &nbsp;{poDetails?.buyer_email}
-                            </p>
-                          </td>
-                          <td
+                          </div>
+                          <div
                             style={{ display: "flex", justifyContent: "start" }}
                           >
                             <p
                               style={{
                                 fontSize: "13px",
-                              fontWeight:"500",
-                               
+                                fontWeight: "500",
                               }}
                             >
-                            Registration No. :
+                              {poDetails?.buyer_email}
+                            </p>
+                          </div>
+                          <div
+                            style={{ display: "flex", justifyContent: "start" }}
+                          >
+                            <p
+                              style={{
+                                fontSize: "13px",
+                                fontWeight: "500",
+                              }}
+                            >
+                              Registration No. :{" "}
                             </p>
                             <p
                               style={{
                                 fontSize: "13px",
-                              fontWeight:"500",
-                              
+                                fontWeight: "500",
                               }}
                             >
                               &nbsp;{poDetails?.buyer_regNo}
                             </p>
-                          </td>
+                          </div>
                         </td>
                         <td
                           style={{
@@ -302,86 +285,57 @@ const PurchasedOrderDetails = () => {
                           <p
                             style={{
                               fontSize: "13px",
-                              fontWeight:"500",
-                                    
+                              fontWeight: "500",
                               textAlign: "end",
                             }}
                           >
                             {poDetails?.supplier_address}
                           </p>
-
-                          <td
+                          <div
                             style={{ display: "flex", justifyContent: "end" }}
                           >
-                            {/* <p
-                              style={{
-                                fontSize: "13px",
-                              fontWeight:"500",
-                                      
-                              
-                              }}
-                            >
-                              Mobile No. :
-                            </p> */}
                             <p
                               style={{
                                 fontSize: "13px",
-                                fontWeight:"500",
-                                      
-                               
+                                fontWeight: "500",
                               }}
                             >
-                              &nbsp;{poDetails?.supplier_country_code}{" "}
+                              {poDetails?.supplier_country_code}{" "}
                               {poDetails?.supplier_mobile}
                             </p>
-                          </td>
-                          <td
-                            style={{ display: "flex", justifyContent: "end" }}
-                          >
-                            {/* <p
-                              style={{
-                                fontSize: "13px",
-                                fontWeight:"500",
-                                      
-                            
-                              }}
-                            >
-                              Email ID :
-                            </p> */}
-                            <p
-                              style={{
-                                fontSize: "13px",
-                                fontWeight:"500",
-                            
-                              }}
-                            >
-                              &nbsp;{poDetails?.supplier_email}
-                            </p>
-                          </td>
-                          <td
+                          </div>
+                          <div
                             style={{ display: "flex", justifyContent: "end" }}
                           >
                             <p
                               style={{
                                 fontSize: "13px",
-                                fontWeight:"500",
-                                      
-                          
+                                fontWeight: "500",
                               }}
                             >
-                           Registration No. :
+                              {poDetails?.supplier_email}
+                            </p>
+                          </div>
+                          <div
+                            style={{ display: "flex", justifyContent: "end" }}
+                          >
+                            <p
+                              style={{
+                                fontSize: "13px",
+                                fontWeight: "500",
+                              }}
+                            >
+                              Registration No. :{" "}
                             </p>
                             <p
                               style={{
                                 fontSize: "13px",
-                                fontWeight:"500",
-                                      
-                   
+                                fontWeight: "500",
                               }}
                             >
                               &nbsp;{poDetails?.supplier_regNo}
                             </p>
-                          </td>
+                          </div>
                         </td>
                       </tr>
                       <tr>
@@ -461,7 +415,7 @@ const PurchasedOrderDetails = () => {
                               </tr>
                             </thead>
                             {orderItems?.map((item, index) => (
-                              <tbody>
+                              <tbody key={index}>
                                 <tr>
                                   <td
                                     style={{
@@ -546,7 +500,7 @@ const PurchasedOrderDetails = () => {
                                         fontSize: "13px",
                                       }}
                                     >
-                                      {item.total_amount.toFixed(2)} USD{" "}
+                                      {item.total_amount.toFixed(2)} USD
                                     </p>
                                   </td>
                                 </tr>
@@ -639,7 +593,6 @@ const PurchasedOrderDetails = () => {
                           fontSize: "13px",
                           lineHeight: "20px",
                           marginTop: "4px",
-                                
                         }}
                       >
                         <p

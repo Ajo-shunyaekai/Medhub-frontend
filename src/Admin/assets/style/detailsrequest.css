@@ -239,9 +239,15 @@ border-radius: 4px;
 
 .buyer-details-upper-section-container {
     display: flex;
+    flex-direction: column;
     width: 100%;
     justify-content: space-between;
-    align-items: center;
+}
+.buyer-details-left-link-head{
+    font-size: 15px;
+    font-weight: 500;
+    color: #282f86 !important;
+    cursor: pointer !important;
 }
 
 .buyer-details-description-head {
@@ -312,6 +318,7 @@ border-radius: 4px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 20px;
 }
 
 .buyer-details-left-inner-img-container {
