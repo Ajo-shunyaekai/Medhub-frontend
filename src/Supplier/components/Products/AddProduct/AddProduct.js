@@ -6316,17 +6316,27 @@ const AddProduct = ({ placeholder }) => {
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Est. Delivery Time
-                      <span className={styles.labelStamp}>*</span>
+                      {/* <span className={styles.labelStamp}>*</span> */}
                     </label>
                     <Field
                       name={`productPricingDetails.${index}.deliveryTime`}
                       type="text"
                       placeholder="Enter Est. Delivery Time in days"
                       className={styles.formInput}
-                      onInput={(e) => {
-                        e.target.value = e.target.value
-                          .replace(/\D/g, "")
-                          .slice(0, 3); // Allow only numbers & limit to 3 digits
+                      // value={
+                      //   values.productPricingDetails[index].deliveryTime ||
+                      //   "TBC - Depends on quantity"
+                      // }
+                      // onInput={(e) => {
+                      //   e.target.value = e.target.value
+                      //     .replace(/\D/g, "")
+                      //     .slice(0, 3); // Allow only numbers & limit to 3 digits
+                      // }}
+
+                      onChange={(e) => {
+                        // Allow only alphanumeric characters, spaces, hyphens
+                        const value = e.target.value.replace(/[^a-zA-Z0-9 \-]/g, "");
+                        setFieldValue(`productPricingDetails.${index}.deliveryTime`, value);
                       }}
                     />
                     <span className={styles.error}>
