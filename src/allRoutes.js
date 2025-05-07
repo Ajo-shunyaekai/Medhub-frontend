@@ -384,6 +384,7 @@ export const buyerNestedRoutes = [
     ),
   },
 ];
+
 export const supplierRoutesConfig = [
   {
     path: "/supplier/login",
@@ -726,6 +727,604 @@ export const supplierNestedRoutes = [
       import(
         "./Supplier/components/Orders/SupplierLogistics/SupplierLogisticsAddress"
       )
+    ),
+  },
+  {
+    path: "*",
+    component: lazy(() =>
+      import("./Buyer/components/SharedComponents/Error/Error")
+    ),
+  },
+];
+
+export const adminRoutesConfig = [
+  {
+    path: "/admin/login",
+    component: lazy(() =>
+      import("./Admin/components/shared-components/login/Login")
+    ),
+  },
+  {
+    path: "*",
+    component: lazy(() =>
+      import("./Buyer/components/SharedComponents/Error/Error")
+    ),
+  },
+];
+
+export const adminNestedRoutes = [
+  {
+    index: true,
+    component: lazy(() => import("./Admin/components/dashboard/index")),
+  },
+  {
+    path: "supplier/:supplierId/preview-file",
+    component: lazy(() =>
+      import(
+        "./Admin/components/manage-supplier/Product/PreviewFile/PreviewFile"
+      )
+    ),
+  },
+  {
+    path: "total-request-list",
+    component: lazy(() =>
+      import("./Admin/components/dashboard/DashboardList/TotalRequestList")
+    ),
+  },
+  {
+    path: "inquiries-section",
+    component: lazy(() =>
+      import("./Admin/components/dashboard/DashboardList/InquiriesDashList")
+    ),
+    children: [
+      {
+        path: "request",
+        component: lazy(() =>
+          import(
+            "./Admin/components/dashboard/DashboardList/TotalInquiriesRequest"
+          )
+        ),
+      },
+      {
+        path: "ongoing",
+        component: lazy(() =>
+          import(
+            "./Admin/components/dashboard/DashboardList/TotalOngoingInquiries"
+          )
+        ),
+      },
+    ],
+  },
+  {
+    path: "edit-details/:userType/:id",
+    component: lazy(() =>
+      import(
+        "./Admin/components/shared-components/EditDetails/EditProfileDetails"
+      )
+    ),
+  },
+  {
+    path: "profile",
+    component: lazy(() =>
+      import("./Admin/components/shared-components/Profile/profile")
+    ),
+  },
+  {
+    path: "notification-list",
+    component: lazy(() =>
+      import(
+        "./Admin/components/shared-components/notification/NotificationList"
+      )
+    ),
+  },
+  {
+    path: "total-approved-request",
+    component: lazy(() =>
+      import("./Admin/components/dashboard/DashboardList/TotalApprovedRequest")
+    ),
+  },
+  {
+    path: "total-po",
+    component: lazy(() =>
+      import("./Admin/components/dashboard/DashboardList/TotalPO")
+    ),
+  },
+  {
+    path: "total-active-orders",
+    component: lazy(() =>
+      import("./Admin/components/dashboard/DashboardList/TotalActiveOrders")
+    ),
+  },
+  {
+    path: "total-completed-order",
+    component: lazy(() =>
+      import("./Admin/components/dashboard/DashboardList/TotalCompletedOrder")
+    ),
+  },
+  {
+    path: "buyer-request",
+    component: lazy(() =>
+      import("./Admin/components/manage-buyer/buyerrequest/BuyerRequest")
+    ),
+  },
+  {
+    path: "approved-buyer",
+    component: lazy(() =>
+      import("./Admin/components/manage-buyer/buyerrequest/ApprovedBuyer")
+    ),
+  },
+  {
+    path: "rejected-buyer",
+    component: lazy(() =>
+      import("./Admin/components/manage-buyer/buyerrequest/RejectedBuyer")
+    ),
+  },
+  {
+    path: "buyer-details/:buyerId",
+    component: lazy(() =>
+      import("./Admin/components/manage-buyer/buyerrequest/BuyerDetailsNew")
+    ),
+  },
+  {
+    path: "buyer-inquiry",
+    component: lazy(() =>
+      import("./Admin/components/manage-buyer/inquiry/index")
+    ),
+    children: [
+      {
+        path: "ongoing-inquiry",
+        component: lazy(() =>
+          import(
+            "./Admin/components/manage-buyer/inquiry/Ongoing-Inquiries/BuyerOngoingInquiry"
+          )
+        ),
+      },
+      {
+        path: "purchased-order",
+        component: lazy(() =>
+          import(
+            "./Admin/components/manage-buyer/inquiry/Purchased-Order/BuyerPurchasedOrder"
+          )
+        ),
+      },
+    ],
+  },
+  {
+    path: "buyer-invoice",
+    component: lazy(() =>
+      import("./Admin/components/manage-buyer/invoices/index")
+    ),
+    children: [
+      {
+        path: "paid",
+        component: lazy(() =>
+          import("./Admin/components/manage-buyer/invoices/paid/BuyerPaid")
+        ),
+      },
+      {
+        path: "pending",
+        component: lazy(() =>
+          import(
+            "./Admin/components/manage-buyer/invoices/pending/BuyerPending"
+          )
+        ),
+      },
+      {
+        path: "proforma",
+        component: lazy(() =>
+          import(
+            "./Admin/components/manage-buyer/invoices/proforma/BuyerProforma"
+          )
+        ),
+      },
+    ],
+  },
+  {
+    path: "buyer-order",
+    component: lazy(() =>
+      import("./Admin/components/manage-buyer/order/index")
+    ),
+    children: [
+      {
+        path: "active",
+        component: lazy(() =>
+          import(
+            "./Admin/components/manage-buyer/order/ActiveOrder/ActiveBuyerOrder"
+          )
+        ),
+      },
+      {
+        path: "complete",
+        component: lazy(() =>
+          import(
+            "./Admin/components/manage-buyer/order/CompletedOrder/CompletedBuyerOrder"
+          )
+        ),
+      },
+    ],
+  },
+  {
+    path: "buyer-support",
+    component: lazy(() =>
+      import("./Admin/components/manage-buyer/support/index")
+    ),
+    children: [
+      {
+        path: "complaint",
+        component: lazy(() =>
+          import(
+            "./Admin/components/manage-buyer/support/complaint/BuyerComplaint"
+          )
+        ),
+      },
+      {
+        path: "enquiry",
+        component: lazy(() =>
+          import(
+            "./Admin/components/manage-buyer/support/feedback/BuyerFeedback"
+          )
+        ),
+      },
+      {
+        path: "edit-profile",
+        component: lazy(() =>
+          import(
+            "./Admin/components/manage-buyer/support/UpdateProfile/EditProfileList"
+          )
+        ),
+      },
+    ],
+  },
+  {
+    path: "buyer-edit-profile-details/:id",
+    component: lazy(() =>
+      import(
+        "./Admin/components/manage-buyer/support/UpdateProfile/ProfileEditRequestDetails"
+      )
+    ),
+  },
+  {
+    path: "buyer-transaction",
+    component: lazy(() =>
+      import("./Admin/components/manage-buyer/transaction/index")
+    ),
+  },
+  {
+    path: "buyer-transaction-details/:invoiceId",
+    component: lazy(() =>
+      import(
+        "./Admin/components/manage-buyer/transaction/BuyerTransactionDetails"
+      )
+    ),
+  },
+  {
+    path: "ongoing-inquiries-details/:inquiryId",
+    component: lazy(() =>
+      import(
+        "./Admin/components/manage-buyer/inquiry/Ongoing-Inquiries/OngoingInquiriesDetails"
+      )
+    ),
+  },
+  {
+    path: "buyer-purchased-order-details/:purchaseOrderId",
+    component: lazy(() =>
+      import(
+        "./Admin/components/manage-buyer/inquiry/Purchased-Order/BuyerPurchasedOrderDetails"
+      )
+    ),
+  },
+  {
+    path: "order-details/:orderId",
+    component: lazy(() =>
+      import("./Admin/components/manage-buyer/order/OrderDetails")
+    ),
+  },
+  {
+    path: "buyer-invoice-details/:invoiceId",
+    component: lazy(() =>
+      import("./Admin/components/manage-buyer/invoices/BuyerInvoiceDetails")
+    ),
+  },
+  {
+    path: "buyer-proforma-details/:orderId",
+    component: lazy(() =>
+      import(
+        "./Admin/components/manage-buyer/invoices/proforma/BuyerProformaDetails"
+      )
+    ),
+  },
+  {
+    path: "buyer-complaint-details/:supportId",
+    component: lazy(() =>
+      import(
+        "./Admin/components/manage-buyer/support/complaint/BuyerComplaintDetails"
+      )
+    ),
+  },
+  {
+    path: "buyer-enquiry-details/:supportId",
+    component: lazy(() =>
+      import(
+        "./Admin/components/manage-buyer/support/feedback/BuyerFeedbackDetails"
+      )
+    ),
+  },
+  {
+    path: "supplier-request",
+    component: lazy(() =>
+      import("./Admin/components/manage-supplier/SupplierRequest/SellerRequest")
+    ),
+  },
+  {
+    path: "approved-supplier",
+    component: lazy(() =>
+      import(
+        "./Admin/components/manage-supplier/SupplierRequest/ApprovedSeller"
+      )
+    ),
+  },
+  {
+    path: "rejected-supplier",
+    component: lazy(() =>
+      import(
+        "./Admin/components/manage-supplier/SupplierRequest/RejectedSeller"
+      )
+    ),
+  },
+  {
+    path: "supplier-transaction",
+    component: lazy(() =>
+      import("./Admin/components/manage-supplier/Transaction/SellerTransaction")
+    ),
+  },
+  {
+    path: "supplier-inquiry",
+    component: lazy(() =>
+      import("./Admin/components/manage-supplier/Inquiry/index")
+    ),
+    children: [
+      {
+        path: "inquiry-request",
+        component: lazy(() =>
+          import(
+            "./Admin/components/manage-supplier/Inquiry/InquiryRequest/InquiryRequest"
+          )
+        ),
+      },
+      {
+        path: "purchased-order",
+        component: lazy(() =>
+          import(
+            "./Admin/components/manage-supplier/Inquiry/PurchasedOrder/PurchasedOrder"
+          )
+        ),
+      },
+    ],
+  },
+  {
+    path: "supplier-order",
+    component: lazy(() =>
+      import("./Admin/components/manage-supplier/Order/index")
+    ),
+    children: [
+      {
+        path: "active",
+        component: lazy(() =>
+          import(
+            "./Admin/components/manage-supplier/Order/ActiveOrder/ActiveSellerOrder"
+          )
+        ),
+      },
+      {
+        path: "complete",
+        component: lazy(() =>
+          import(
+            "./Admin/components/manage-supplier/Order/CompletedOrder/CompletedSellerOrder"
+          )
+        ),
+      },
+    ],
+  },
+  {
+    path: "supplier-invoice",
+    component: lazy(() =>
+      import("./Admin/components/manage-supplier/Invoice/index")
+    ),
+    children: [
+      {
+        path: "paid",
+        component: lazy(() =>
+          import("./Admin/components/manage-supplier/Invoice/Paid/PaidInvoice")
+        ),
+      },
+      {
+        path: "pending",
+        component: lazy(() =>
+          import(
+            "./Admin/components/manage-supplier/Invoice/Pending/PendingInvoice"
+          )
+        ),
+      },
+      {
+        path: "proforma",
+        component: lazy(() =>
+          import(
+            "./Admin/components/manage-supplier/Invoice/Proforma/SellerProformaInvoice"
+          )
+        ),
+      },
+    ],
+  },
+  {
+    path: "supplier-support",
+    component: lazy(() =>
+      import("./Admin/components/manage-supplier/Support/index")
+    ),
+    children: [
+      {
+        path: "complaint",
+        component: lazy(() =>
+          import(
+            "./Admin/components/manage-supplier/Support/Complaint/SellerComplaint"
+          )
+        ),
+      },
+      {
+        path: "enquiry",
+        component: lazy(() =>
+          import("./Admin/components/manage-supplier/Support/Feedback/Feedback")
+        ),
+      },
+      {
+        path: "edit-profile",
+        component: lazy(() =>
+          import(
+            "./Admin/components/manage-supplier/Support/UpdateProfile/EditProfileList"
+          )
+        ),
+      },
+    ],
+  },
+  {
+    path: "supplier-edit-profile-details/:id",
+    component: lazy(() =>
+      import(
+        "./Admin/components/manage-supplier/Support/UpdateProfile/ProfileEditRequestDetails"
+      )
+    ),
+  },
+  {
+    path: "supplier-details/:supplierId",
+    component: lazy(() =>
+      import(
+        "./Admin/components/manage-supplier/SupplierRequest/SupplierDetailsNew"
+      )
+    ),
+  },
+  {
+    path: "supplier-transaction-details/:invoiceId",
+    component: lazy(() =>
+      import(
+        "./Admin/components/manage-supplier/Transaction/SellerTransactionDetails"
+      )
+    ),
+  },
+  {
+    path: "supplier-inquiry-details/:inquiryId",
+    component: lazy(() =>
+      import(
+        "./Admin/components/manage-supplier/Inquiry/InquiryRequest/SellerInquiryDetails"
+      )
+    ),
+  },
+  {
+    path: "supplier-purchased-order-details/:purchaseOrderId",
+    component: lazy(() =>
+      import(
+        "./Admin/components/manage-supplier/Inquiry/PurchasedOrder/SellerPurchasedOrderDetails"
+      )
+    ),
+  },
+  {
+    path: "supplier-order-details/:orderId",
+    component: lazy(() =>
+      import("./Admin/components/manage-supplier/Order/OrderDetails")
+    ),
+  },
+  {
+    path: "supplier-invoice-details/:invoiceId",
+    component: lazy(() =>
+      import("./Admin/components/manage-supplier/Invoice/SellerInvoiceDetails")
+    ),
+  },
+  {
+    path: "proforma-invoice-details/:orderId",
+    component: lazy(() =>
+      import(
+        "./Admin/components/manage-supplier/Invoice/Proforma/ProformaInvoiceDetails"
+      )
+    ),
+  },
+  {
+    path: "supplier-complaint-details/:supportId",
+    component: lazy(() =>
+      import(
+        "./Admin/components/manage-supplier/Support/Complaint/SellerComplaintDetails"
+      )
+    ),
+  },
+  {
+    path: "supplier-enquiry-details/:supportId",
+    component: lazy(() =>
+      import(
+        "./Admin/components/manage-supplier/Support/Feedback/SellerFeedbackDetails"
+      )
+    ),
+  },
+  {
+    path: "products",
+    component: lazy(() =>
+      import("./Admin/components/manage-products/Products/Product")
+    ),
+    children: [
+      {
+        path: "new",
+        component: lazy(() =>
+          import("./Admin/components/manage-products/Products/NewProducts")
+        ),
+      },
+      {
+        path: "secondary",
+        component: lazy(() =>
+          import(
+            "./Admin/components/manage-products/Products/SecondaryProducts"
+          )
+        ),
+      },
+    ],
+  },
+  {
+    path: "product-details/:id",
+    component: lazy(() =>
+      import("./Admin/components/manage-products/ProductDetails/ProductDetails")
+    ),
+  },
+  {
+    path: "supplier/:supplierId/products",
+    component: lazy(() =>
+      import("./Admin/components/manage-supplier/Product/List/Product")
+    ),
+    children: [
+      {
+        path: "new",
+        component: lazy(() =>
+          import(
+            "./Admin/components/manage-supplier/Product/List/NewProductList"
+          )
+        ),
+      },
+    ],
+  },
+  {
+    path: "secondary",
+    component: lazy(() =>
+      import(
+        "./Admin/components/manage-supplier/Product/List/SecondaryProductList"
+      )
+    ),
+  },
+  {
+    path: "supplier/:supplierId/edit-product/:id",
+    component: lazy(() =>
+      import(
+        "./Admin/components/manage-supplier/Product/AddProduct/EditAddProduct"
+      )
+    ),
+  },
+  {
+    path: "supplier/:supplierId/add-product",
+    component: lazy(() =>
+      import("./Admin/components/manage-supplier/Product/AddProduct/AddProduct")
     ),
   },
   {

@@ -9,13 +9,15 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import "react-toastify/dist/ReactToastify.css";
 
 import { BuyerNotificationProvider } from "./Buyer/BuyerRoutes/Router";
-import AdminSidebar from "./Admin/AdminRoutes/Router";
+import { AdminNotificationProvider } from "./Admin/AdminRoutes/Router";
 import { SupplierNotificationProvider } from "./Supplier/SupplierRoutes/Router";
 import LogisticsRoutes from "./LogisticsPanel/LogisticsRoutes/Router";
 import SubscriptionRoutes from "./SubscriptionPlan/LandingSubscription";
 import Layout from "./Buyer/components/SharedComponents/layout";
 import Loader from "./Buyer/components/SharedComponents/Loader/Loader";
 import {
+  adminNestedRoutes,
+  adminRoutesConfig,
   buyerNestedRoutes,
   buyerRoutesConfig,
   supplierNestedRoutes,
@@ -67,8 +69,8 @@ const App = () => {
     switch (currentPath) {
       // case "supplier":
       //   return <SupplierSidebar />;
-      case "admin":
-        return <AdminSidebar />;
+      // case "admin":
+      //   return <AdminSidebar />;
       case "logistics":
         return <LogisticsRoutes />;
       case "subscription":
@@ -121,6 +123,17 @@ const App = () => {
             }
           >
             {renderRoutes(supplierNestedRoutes)}
+          </Route>
+          {renderRoutes(adminRoutesConfig)}
+          <Route
+            path="/admin"
+            element={
+              <AdminNotificationProvider>
+                <Layout />
+              </AdminNotificationProvider>
+            }
+          >
+            {renderRoutes(adminNestedRoutes)}
           </Route>
           <Route path="*" element={<Error socket={socket} />} />
         </Routes>
