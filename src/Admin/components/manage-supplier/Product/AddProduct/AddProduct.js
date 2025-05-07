@@ -108,6 +108,48 @@ const AddProduct = ({ placeholder }) => {
       [id]: vallue,
     }));
   };
+  // const handleInputChange = (
+  //   e,
+  //   setFieldValue,
+  //   textLimit = 15,
+  //   allowedType = "all",
+  //   restrictSpecialForFields = [],
+  //   allowedSpecialChars = ""
+  // ) => {
+  //   let { value, name } = e.target;
+  //   value = value.slice(0, Number(textLimit));
+  //   if (name === "dimension") {
+  //     value = value.replace(/[^0-9x.]/g, "")?.toLowerCase();
+  //     value = value.replace(/x{2,}/g, "x");
+  //     const parts = value.split("x").map((part, index) => {
+  //       part = part.replace(/^(\d{1,5})\.(\d{0,2}).*/, "$1.$2");
+  //       part = part.replace(/(\..*)\./g, "$1");
+  //       return part;
+  //     });
+  //     value = parts.join("x");
+  //     setFieldValue(name, value);
+  //     return;
+  //   }
+  //   if (allowedType === "number") {
+  //     value = value.replace(/[^0-9]/g, ""); 
+  //   } else if (allowedType === "text") {
+  //     value = value.replace(/[^a-zA-Z\s]/g, ""); 
+  //   } else if (
+  //     allowedType === "all" &&
+  //     restrictSpecialForFields.includes(name)
+  //   ) {
+  //     const allowedPattern = new RegExp(
+  //       `[^a-zA-Z0-9\\s${allowedSpecialChars}]`,
+  //       "g"
+  //     );
+  //     value = value.replace(allowedPattern, "");
+  //   } else if (allowedType === "decimal") {
+  //     if (!/^\d*\.?\d*$/.test(value)) return;
+  //   }
+
+  //   setFieldValue(name, value);
+  // };
+  
   const handleInputChange = (
     e,
     setFieldValue,
@@ -115,40 +157,60 @@ const AddProduct = ({ placeholder }) => {
     allowedType = "all",
     restrictSpecialForFields = [],
     allowedSpecialChars = ""
-  ) => {
+) => {
     let { value, name } = e.target;
+
+    // Apply character limit
     value = value.slice(0, Number(textLimit));
+
+    // Dimension field validation
     if (name === "dimension") {
-      value = value.replace(/[^0-9x.]/g, "")?.toLowerCase();
-      value = value.replace(/x{2,}/g, "x");
-      const parts = value.split("x").map((part, index) => {
-        part = part.replace(/^(\d{1,5})\.(\d{0,2}).*/, "$1.$2");
-        part = part.replace(/(\..*)\./g, "$1");
-        return part;
-      });
-      value = parts.join("x");
-      setFieldValue(name, value);
-      return;
+        // Allow only numbers, "x", and "."
+        value = value.replace(/[^0-9x.]/g, "")?.toLowerCase();
+
+        // Prevent multiple consecutive "x"
+        value = value.replace(/x{2,}/g, "x");
+
+        // Split the values by "x" while keeping their sequence
+        const parts = value.split("x").map((part, index) => {
+            // Allow up to 5 digits before decimal and 2 after
+            part = part.replace(/^(\d{1,5})\.(\d{0,2}).*/, "$1.$2");
+
+            // Ensure only one decimal per number
+            part = part.replace(/(\..*)\./g, "$1");
+
+            return part;
+        });
+
+        // Join back using "x" but ensure it doesn't remove already typed "x"
+        value = parts.join("x");
+
+        setFieldValue(name, value);
+        return;
     }
+
+    // Restrict input type
     if (allowedType === "number") {
-      value = value.replace(/[^0-9]/g, "");
+        value = value.replace(/[^0-9]/g, ""); // Allow only numbers
     } else if (allowedType === "text") {
-      value = value.replace(/[^a-zA-Z\s]/g, "");
+        value = value.replace(/[^a-zA-Z\s]/g, ""); // Allow only text and spaces
     } else if (
-      allowedType === "all" &&
-      restrictSpecialForFields.includes(name)
+        allowedType === "all" &&
+        restrictSpecialForFields.includes(name)
     ) {
-      const allowedPattern = new RegExp(
-        `[^a-zA-Z0-9\\s${allowedSpecialChars}]`,
-        "g"
-      );
-      value = value.replace(allowedPattern, "");
+        // Allow "-" in "brand" and "manufacturer"
+        const allowedPattern = new RegExp(
+            `[^a-zA-Z0-9\\s\\-(${allowedSpecialChars})]`,
+            "g"
+        );
+        value = value.replace(allowedPattern, "");
     } else if (allowedType === "decimal") {
-      if (!/^\d*\.?\d*$/.test(value)) return;
+        if (!/^\d*\.?\d*$/.test(value)) return;
     }
 
     setFieldValue(name, value);
-  };
+};
+  
   const editor = useRef(null);
   const [content, setContent] = useState("");
 
@@ -615,7 +677,7 @@ const AddProduct = ({ placeholder }) => {
                     name="brand"
                     value={values.brand}
                     onChange={(e) =>
-                      handleInputChange(e, setFieldValue, 75, "text")
+                      handleInputChange(e, setFieldValue, 75, "all", ["brand"])
                     }
                     onBlur={handleBlur}
                   />
