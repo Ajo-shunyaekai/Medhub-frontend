@@ -3,6 +3,7 @@ import "./pay/invoiceDesign.css";
 import html2pdf from "html2pdf.js";
 import { useNavigate, useParams } from "react-router-dom";
 import { apiRequests } from "../../../api";
+import Loader from "../SharedComponents/Loader/Loader";
 
 function ProformaDetailsPage() {
   const { orderId } = useParams();
@@ -17,12 +18,14 @@ function ProformaDetailsPage() {
     accountNo: "",
     sortCode: "",
   });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchOrderDetails = async () => {
       if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
         localStorage?.clear();
         navigate("/buyer/login");
+        setLoading(false);
         return;
       }
       const obj = {
@@ -45,12 +48,15 @@ function ProformaDetailsPage() {
 
             setBankDetails({ bankName, accountNo, sortCode });
           }
-        } else {
         }
-      } catch (error) {}
+      } catch (error) {
+        console.error("Error fetching order details:", error);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchOrderDetails();
-  }, []);
+  }, [buyerIdSessionStorage, buyerIdLocalStorage, orderId, navigate]);
 
   const orderItems =
     orderDetails?.items?.map((item) => ({
@@ -84,14 +90,10 @@ function ProformaDetailsPage() {
   };
 
   useEffect(() => {
-    // Function to handle messages from parent window
     const handleMessage = (event) => {
-      // Only accept messages from our own domain
       if (event.origin !== window?.location?.origin) return;
 
-      // Check if this is a download request
       if (event.data && event.data.type === "DOWNLOAD_INVOICE") {
-        // Notify parent that invoice is ready
         window.parent.postMessage(
           {
             type: "INVOICE_READY",
@@ -102,12 +104,9 @@ function ProformaDetailsPage() {
       }
     };
 
-    // Listen for messages from parent window
     window.addEventListener("message", handleMessage);
 
-    // If we're loaded in an iframe, notify parent that we're ready
     if (window.self !== window.top) {
-      // We're in an iframe
       setTimeout(() => {
         window.parent.postMessage(
           {
@@ -123,6 +122,10 @@ function ProformaDetailsPage() {
       window.removeEventListener("message", handleMessage);
     };
   }, [orderId]);
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <div className="invoice-template-design">
@@ -163,7 +166,7 @@ function ProformaDetailsPage() {
                       Invoice Number :{" "}
                     </p>
                     <p style={{ fontSize: "16px", fontWeight: "500" }}>
-                      &nbsp;{orderDetails?.invoice_no}
+                       {orderDetails?.invoice_no}
                     </p>
                   </td>
                   <td style={{ display: "flex", justifyContent: "end" }}>
@@ -171,7 +174,7 @@ function ProformaDetailsPage() {
                       Invoice Date :{" "}
                     </p>
                     <p style={{ fontSize: "16px", fontWeight: "500" }}>
-                      &nbsp;{orderDetails?.invoice_date}
+                       {orderDetails?.invoice_date}
                     </p>
                   </td>
                   <td
@@ -179,13 +182,14 @@ function ProformaDetailsPage() {
                       display: "flex",
                       justifyContent: "end",
                       paddingBottom: "10px",
+                       
                     }}
                   >
                     <p style={{ fontSize: "16px", fontWeight: "500" }}>
                       Payment Due date :{" "}
                     </p>
                     <p style={{ fontSize: "16px", fontWeight: "500" }}>
-                      &nbsp;{orderDetails?.payment_due_date}
+                       {orderDetails?.payment_due_date}
                     </p>
                   </td>
                 </tr>
@@ -233,8 +237,7 @@ function ProformaDetailsPage() {
                             <p
                               style={{
                                 fontSize: "13px",
-                                fontWeight:500,
-                                        
+                                fontWeight: 500,
                               }}
                             >
                               {orderDetails?.supplier_address}
@@ -244,8 +247,7 @@ function ProformaDetailsPage() {
                               <p
                                 style={{
                                   fontSize: "13px",
-                                  fontWeight:500,
-                                          
+                                  fontWeight: 500,
                                 }}
                               >
                                 {
@@ -259,8 +261,7 @@ function ProformaDetailsPage() {
                               <p
                                 style={{
                                   fontSize: "13px",
-                                fontWeight:500,
-                                          
+                                  fontWeight: 500,
                                 }}
                               >
                                 {
@@ -279,8 +280,7 @@ function ProformaDetailsPage() {
                               <p
                                 style={{
                                   fontSize: "13px",
-                                  fontWeight:500,
-                                          
+                                  fontWeight: 500,
                                 }}
                               >
                                 {
@@ -301,28 +301,19 @@ function ProformaDetailsPage() {
                                 }{" "}
                               </p>
                             )}
-                          
                             <td
                               style={{
                                 display: "flex",
                                 justifyContent: "start",
                               }}
                             >
-                              {/* <p
-                                style={{
-                                  fontSize: "13px",
-                                  fontWeight:500,
-                                }}
-                              >
-                                Mobile No. :
-                              </p> */}
                               <p
                                 style={{
                                   fontSize: "13px",
-                                  fontWeight:500,
+                                  fontWeight: 500,
                                 }}
                               >
-                                &nbsp;{orderDetails?.supplier_mobile}
+                                 {orderDetails?.supplier_mobile}
                               </p>
                             </td>
                             <td
@@ -331,21 +322,13 @@ function ProformaDetailsPage() {
                                 justifyContent: "start",
                               }}
                             >
-                              {/* <p
-                                style={{
-                                  fontSize: "13px",
-                                  fontWeight:500,
-                                }}
-                              >
-                                Email ID :
-                              </p> */}
                               <p
                                 style={{
                                   fontSize: "13px",
-                                  fontWeight:500,
+                                  fontWeight: 500,
                                 }}
                               >
-                                &nbsp;{orderDetails?.supplier_email}
+                                 {orderDetails?.supplier_email}
                               </p>
                             </td>
                           </td>
@@ -379,18 +362,17 @@ function ProformaDetailsPage() {
                             <p
                               style={{
                                 fontSize: "13px",
-                                fontWeight:500,
+                                fontWeight: 500,
                                 textAlign: "end",
                               }}
                             >
                               {orderDetails?.buyer_address}
                             </p>
-                            {orderDetails?.buyer_registered_address
-                              ?.locality && (
+                            {orderDetails?.buyer_registered_address?.locality && (
                               <p
                                 style={{
                                   fontSize: "13px",
-                                  fontWeight:500,
+                                  fontWeight: 500,
                                   textAlign: "end",
                                 }}
                               >
@@ -405,7 +387,7 @@ function ProformaDetailsPage() {
                               <p
                                 style={{
                                   fontSize: "13px",
-                                  fontWeight:500,
+                                  fontWeight: 500,
                                   textAlign: "end",
                                 }}
                               >
@@ -423,7 +405,7 @@ function ProformaDetailsPage() {
                               <p
                                 style={{
                                   fontSize: "13px",
-                                fontWeight:500,
+                                  fontWeight: 500,
                                   textAlign: "end",
                                 }}
                               >
@@ -439,53 +421,28 @@ function ProformaDetailsPage() {
                                 }{" "}
                               </p>
                             )}
-                            
                             <td
                               style={{ display: "flex", justifyContent: "end" }}
                             >
-                              {/* <p
-                                style={{
-                                  fontSize: "13px",
-                                  fontWeight:500,
-                                          
-                                  paddingTop: "6px",
-                                }}
-                              >
-                                Mobile No. :
-                              </p> */}
                               <p
                                 style={{
                                   fontSize: "13px",
-                                  fontWeight:500,
-                                          
-                                  // paddingTop: "6px",
+                                  fontWeight: 500,
                                 }}
                               >
-                                &nbsp;{orderDetails?.buyer_mobile}9
+                                 {orderDetails?.buyer_mobile}
                               </p>
                             </td>
                             <td
                               style={{ display: "flex", justifyContent: "end" }}
                             >
-                              {/* <p
-                                style={{
-                                  fontSize: "13px",
-                                  fontWeight:500,
-                                          
-                                  paddingTop: "6px",
-                                }}
-                              >
-                                Email ID :
-                              </p> */}
                               <p
                                 style={{
                                   fontSize: "13px",
-                                  fontWeight:500,
-                                          
-                                  // paddingTop: "6px",
+                                  fontWeight: 500,
                                 }}
                               >
-                                &nbsp; {orderDetails?.buyer_email}
+                                 {orderDetails?.buyer_email}
                               </p>
                             </td>
                           </td>
@@ -567,7 +524,7 @@ function ProformaDetailsPage() {
                                 </tr>
                               </thead>
                               {orderItems.map((item, index) => (
-                                <tbody>
+                                <tbody key={index}>
                                   <tr>
                                     <td
                                       style={{
@@ -650,7 +607,7 @@ function ProformaDetailsPage() {
                                           fontSize: "13px",
                                         }}
                                       >
-                                        {item.total_amount.toFixed(2)} USD{" "}
+                                        {item.total_amount.toFixed(2)} USD
                                       </p>
                                     </td>
                                   </tr>
@@ -878,7 +835,7 @@ function ProformaDetailsPage() {
                                                 width: "100px",
                                               }}
                                             >
-                                              {orderDetails?.deposit_due_date}{" "}
+                                              {orderDetails?.deposit_due_date}
                                             </p>
                                           </tr>
                                         )}
@@ -923,37 +880,32 @@ function ProformaDetailsPage() {
                       <div
                         style={{
                           fontSize: "13px",
-                          fontWeight:500,
-                          
+                          fontWeight: 500,
                           lineHeight: "20px",
                           marginTop: "4px",
-                                  
                         }}
                       >
-                        {orderDetails?.enquiry?.payment_terms?.map(
-                          (data, i) => {
-                            return (
-                              <p
-                                style={{
-                                  position: "relative",
-                                  paddingLeft: "20px",
-                                }}
-                              >
-                                <span
-                                  style={{
-                                    position: "absolute",
-                                    left: "0",
-                                    top: "0",
-                                    fontSize: "22px",
-                                  }}
-                                >
-                                  •
-                                </span>
-                                {data || "50% advance"}
-                              </p>
-                            );
-                          }
-                        )}
+                        {orderDetails?.enquiry?.payment_terms?.map((data, i) => (
+                          <p
+                            key={i}
+                            style={{
+                              position: "relative",
+                              paddingLeft: "20px",
+                            }}
+                          >
+                            <span
+                              style={{
+                                position: "absolute",
+                                left: "0",
+                                top: "0",
+                                fontSize: "22px",
+                              }}
+                            >
+                              •
+                            </span>
+                            {data || "50% advance"}
+                          </p>
+                        ))}
                       </div>
                     </td>
                   </tr>
