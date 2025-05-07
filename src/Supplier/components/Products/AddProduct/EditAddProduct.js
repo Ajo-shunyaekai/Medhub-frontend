@@ -215,6 +215,68 @@ const EditAddProduct = ({ placeholder }) => {
   };
 
   //handle field input
+  // const handleInputChange = (
+  //   e,
+  //   setFieldValue,
+  //   textLimit = 15,
+  //   allowedType = "all",
+  //   restrictSpecialForFields = [],
+  //   allowedSpecialChars = ""
+  // ) => {
+  //   let { value, name } = e.target;
+
+  //   // Apply character limit
+  //   value = value.slice(0, Number(textLimit));
+
+  //   // Dimension field validation
+  //   if (name === "dimension") {
+  //     // Allow only numbers, "x", and "."
+  //     value = value.replace(/[^0-9x.]/g, "")?.toLowerCase();
+
+  //     // Prevent multiple consecutive "x"
+  //     value = value.replace(/x{2,}/g, "x");
+
+  //     // Split the values by "x" while keeping their sequence
+  //     const parts = value.split("x").map((part, index) => {
+  //       // Allow up to 5 digits before decimal and 2 after
+  //       part = part.replace(/^(\d{1,5})\.(\d{0,2}).*/, "$1.$2");
+
+  //       // Ensure only one decimal per number
+  //       part = part.replace(/(\..*)\./g, "$1");
+
+  //       return part;
+  //     });
+
+  //     // Join back using "x" but ensure it doesn't remove already typed "x"
+  //     value = parts.join("x");
+
+  //     setFieldValue(name, value);
+  //     return;
+  //   }
+
+  //   // Restrict input type
+  //   if (allowedType === "number") {
+  //     value = value.replace(/[^0-9]/g, ""); // Allow only numbers
+  //   } else if (allowedType === "text") {
+  //     value = value.replace(/[^a-zA-Z\s]/g, ""); // Allow only text and spaces
+  //   } else if (
+  //     allowedType === "all" &&
+  //     restrictSpecialForFields.includes(name)
+  //   ) {
+      
+
+  //     const allowedPattern = new RegExp(
+  //       `[^a-zA-Z0-9\\s${allowedSpecialChars}]`,
+  //       "g"
+  //     );
+  //     value = value.replace(allowedPattern, "");
+  //   } else if (allowedType === "decimal") {
+  //     if (!/^\d*\.?\d*$/.test(value)) return;
+  //   }
+
+  //   setFieldValue(name, value);
+  // };
+
   const handleInputChange = (
     e,
     setFieldValue,
@@ -222,7 +284,7 @@ const EditAddProduct = ({ placeholder }) => {
     allowedType = "all",
     restrictSpecialForFields = [],
     allowedSpecialChars = ""
-  ) => {
+) => {
     let { value, name } = e.target;
 
     // Apply character limit
@@ -230,52 +292,51 @@ const EditAddProduct = ({ placeholder }) => {
 
     // Dimension field validation
     if (name === "dimension") {
-      // Allow only numbers, "x", and "."
-      value = value.replace(/[^0-9x.]/g, "")?.toLowerCase();
+        // Allow only numbers, "x", and "."
+        value = value.replace(/[^0-9x.]/g, "")?.toLowerCase();
 
-      // Prevent multiple consecutive "x"
-      value = value.replace(/x{2,}/g, "x");
+        // Prevent multiple consecutive "x"
+        value = value.replace(/x{2,}/g, "x");
 
-      // Split the values by "x" while keeping their sequence
-      const parts = value.split("x").map((part, index) => {
-        // Allow up to 5 digits before decimal and 2 after
-        part = part.replace(/^(\d{1,5})\.(\d{0,2}).*/, "$1.$2");
+        // Split the values by "x" while keeping their sequence
+        const parts = value.split("x").map((part, index) => {
+            // Allow up to 5 digits before decimal and 2 after
+            part = part.replace(/^(\d{1,5})\.(\d{0,2}).*/, "$1.$2");
 
-        // Ensure only one decimal per number
-        part = part.replace(/(\..*)\./g, "$1");
+            // Ensure only one decimal per number
+            part = part.replace(/(\..*)\./g, "$1");
 
-        return part;
-      });
+            return part;
+        });
 
-      // Join back using "x" but ensure it doesn't remove already typed "x"
-      value = parts.join("x");
+        // Join back using "x" but ensure it doesn't remove already typed "x"
+        value = parts.join("x");
 
-      setFieldValue(name, value);
-      return;
+        setFieldValue(name, value);
+        return;
     }
 
     // Restrict input type
     if (allowedType === "number") {
-      value = value.replace(/[^0-9]/g, ""); // Allow only numbers
+        value = value.replace(/[^0-9]/g, ""); // Allow only numbers
     } else if (allowedType === "text") {
-      value = value.replace(/[^a-zA-Z\s]/g, ""); // Allow only text and spaces
+        value = value.replace(/[^a-zA-Z\s]/g, ""); // Allow only text and spaces
     } else if (
-      allowedType === "all" &&
-      restrictSpecialForFields.includes(name)
+        allowedType === "all" &&
+        restrictSpecialForFields.includes(name)
     ) {
-      
-
-      const allowedPattern = new RegExp(
-        `[^a-zA-Z0-9\\s${allowedSpecialChars}]`,
-        "g"
-      );
-      value = value.replace(allowedPattern, "");
+        // Allow "-" in "brand" and "manufacturer"
+        const allowedPattern = new RegExp(
+            `[^a-zA-Z0-9\\s\\-(${allowedSpecialChars})]`,
+            "g"
+        );
+        value = value.replace(allowedPattern, "");
     } else if (allowedType === "decimal") {
-      if (!/^\d*\.?\d*$/.test(value)) return;
+        if (!/^\d*\.?\d*$/.test(value)) return;
     }
 
     setFieldValue(name, value);
-  };
+};
 
   // End the checked container
   const editor = useRef(null);
@@ -977,7 +1038,7 @@ const EditAddProduct = ({ placeholder }) => {
                   value={formik?.values?.brand}
                    
                   onChange={(e) =>
-                    handleInputChange(e, formik.setFieldValue, 50, "text")
+                    handleInputChange(e, formik.setFieldValue, 75, "all",["brand"])
                   }
                   onBlur={formik?.handleBlur}
                 />
@@ -1331,9 +1392,12 @@ const EditAddProduct = ({ placeholder }) => {
                   name="manufacturer"
                   value={formik?.values?.manufacturer}
                   onBlur={formik?.handleBlur}
-                  onChange={(e) => {
-                    formik.setFieldValue("manufacturer", e.target.value);
-                  }}
+                  // onChange={(e) => {
+                  //   formik.setFieldValue("manufacturer", e.target.value);
+                  // }}
+                  onChange={(e) =>
+                    handleInputChange(e, formik.setFieldValue, 75, "all",["manufacturer"])
+                  }
                 />
                 {formik.touched.manufacturer && formik.errors.manufacturer && (
                   <span className={styles.error}>
