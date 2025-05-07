@@ -96,12 +96,14 @@ const SupplierDetails = () => {
             }
             else {
                 return (
-                    <div key={`${file}-${index}`}>
+                    <div className='buyer-details-image-cont' key={`${file}-${index}`}>
+                        <div className='buyer-details-image-section-cont'>
                         <img
                             src={`${serverUrl}uploads/supplier/${type}/${file}`}
                             alt={type}
                             className='buyer-details-document-image'
                         />
+                        </div>
                         {hasDate && date && (
                             <div className='expiry-date'>
                                 Expiry Date: {new Date(date).toLocaleDateString()}

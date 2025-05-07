@@ -110,17 +110,20 @@ const DetailsBuyerRequest = () => {
                 );
             } else {
                 return (
-                    <div key={index} className='buyer-details-image-section'>
+                    <div key={index} className='buyer-details-image-cont'>
+                        <div className='buyer-details-image-section-cont'>
                         <img
                             src={`${serverUrl}uploads/buyer/${type}/${file}`}
                             alt={type}
                             className='buyer-details-document-image'
                         />
+                         </div>
                         {hasDate && date && (
                             <div className='expiry-date'>
                                 Expiry Date: {new Date(date).toLocaleDateString()}
                             </div>
                         )}
+                       
                     </div>
                 );
             }

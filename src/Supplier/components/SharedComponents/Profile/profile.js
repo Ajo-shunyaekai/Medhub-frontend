@@ -19,10 +19,20 @@ const Profile = () => {
   const extractFileName = (url) => (url ? url.split("/")?.pop() : "Unknown");
 
   const renderFiles = (files, type) => {
-    if (!files || files === "") return null;
-    if (!Array.isArray(files)) files = [files];
+    // Return null if files are invalid (null, undefined, empty string, or empty array)
+    if (!files || files === "" || (Array.isArray(files) && files.length === 0)) {
+      return null;
+    }
+
+    // Ensure files is an array
+    if (!Array.isArray(files)) {
+      files = [files];
+    }
 
     return files.map((file, index) => {
+      // Skip rendering if file is invalid
+      if (!file) return null;
+
       const fileUrl = `${process.env.REACT_APP_SERVER_URL}/Uploads/supplier/supplier_image_files/${file}`;
 
       if (file?.endsWith(".pdf")) {
@@ -33,9 +43,7 @@ const Profile = () => {
           </div>
         );
       } else if (
-        file?.endsWith(
-          ".vnd.openxmlformats-officedocument.wordprocessingml.document"
-        ) ||
+        file?.endsWith(".vnd.openxmlformats-officedocument.wordprocessingml.document") ||
         file?.endsWith(".docx")
       ) {
         const docxFileName = file.replace(
@@ -350,7 +358,7 @@ const Profile = () => {
           <div className={styles.documentContainer}>
             <div className={styles.documentMainHeading}>Documents</div>
             <div className={styles.documentSection}>
-              {user?.license_image && (
+              {user?.license_image && renderFiles(user?.license_image, "Trade License") && (
                 <div className={styles.documentInnerSection}>
                   <div className={styles.documentDocName}>Trade License</div>
                   <div className={styles.documentDocContent}>
@@ -358,7 +366,7 @@ const Profile = () => {
                   </div>
                 </div>
               )}
-              {user?.certificate_image && (
+              {user?.certificate_image && renderFiles(user?.certificate_image, "Certificate") && (
                 <div className={styles.documentInnerSection}>
                   <div className={styles.documentDocName}>Certificate</div>
                   <div className={styles.documentDocContent}>
@@ -366,7 +374,8 @@ const Profile = () => {
                   </div>
                 </div>
               )}
-              {user?.medical_certificate && (
+              {/* Only render Medical Practitioner section if medical_certificate exists and is valid */}
+              {user?.medical_certificate && renderFiles(user?.medical_certificate, "Medical Practitioner") && (
                 <div className={styles.documentInnerSection}>
                   <div className={styles.documentDocName}>Medical Practitioner</div>
                   <div className={styles.documentDocContent}>

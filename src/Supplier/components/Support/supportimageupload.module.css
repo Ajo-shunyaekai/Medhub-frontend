@@ -29,6 +29,7 @@
   margin-top: 10px;
   font-size: 14px;
   color: #888;
+  font-weight: 500;
 }
 
 .image-previews {
@@ -98,7 +99,6 @@
 
 .upload-text {
   font-size: 14px;
-  font-weight: 500;
 }
 .uploaded-image {
   max-width: 100%;
@@ -114,14 +114,15 @@
 
 .image-previews{
   width: 94%;
-  display: flex;
+  display: flex
+;
   justify-content: start;
   align-items: start;
   gap: 16px;
   flex-wrap: wrap;
   position: relative;
   top: -22rem;
-  right: -36vw;
+  right: -46vw;
 }
 
 .image-preview{
