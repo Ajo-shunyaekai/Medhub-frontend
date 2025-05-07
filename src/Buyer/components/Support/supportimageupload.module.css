@@ -114,14 +114,15 @@
 
 .image-previews{
   width: 94%;
-  display: flex;
+  display: flex
+;
   justify-content: start;
   align-items: start;
   gap: 16px;
   flex-wrap: wrap;
   position: relative;
   top: -22rem;
-  right: -36vw;
+  right: -46vw;
 }
 
 .image-preview{
