@@ -7307,7 +7307,7 @@ const EditAddProduct = ({ placeholder }) => {
                       quantityFrom: "",
                       quantityTo: "",
                       price: "",
-                      deliveryTime: "TBC - Depends on quantity",
+                      deliveryTime: "",
                     },
                   ]);
                 }}

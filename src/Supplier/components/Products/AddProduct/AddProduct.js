@@ -6323,10 +6323,7 @@ const AddProduct = ({ placeholder }) => {
                       type="text"
                       placeholder="Enter Est. Delivery Time in days"
                       className={styles.formInput}
-                      // value={
-                      //   values.productPricingDetails[index].deliveryTime ||
-                      //   "TBC - Depends on quantity"
-                      // }
+                      
                       // onInput={(e) => {
                       //   e.target.value = e.target.value
                       //     .replace(/\D/g, "")
