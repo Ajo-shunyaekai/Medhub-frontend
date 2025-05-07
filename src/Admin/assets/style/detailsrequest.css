@@ -418,8 +418,8 @@ border-radius: 4px;
     width: 150px;
 }
 .buyer-details-company-img-container img{
-    width: 100%;
-  height: auto;
+    width: 80px;
+    height: auto;
 }
 
 .buyer-details-inner-text {
@@ -557,7 +557,15 @@ border-radius: 4px;
      cursor: pointer !important;;
     /* Ensure cursor changes to pointer on hover */
 }
-
+.buyer-details-image-cont{
+display: flex;
+flex-direction: column;
+gap: 4px;
+}
+.buyer-details-image-section-cont{
+    width: 150px;
+    height: auto;
+}
 .buyer-tooltip {
     width: 250px !important;
     font-size: 12px !important;
