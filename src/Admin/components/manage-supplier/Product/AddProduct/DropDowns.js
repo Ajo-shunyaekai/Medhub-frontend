@@ -333,11 +333,11 @@ export const initialValues = {
 export const addProductValidationSchema = Yup.object({
   name: Yup.string().required("Product Name is required."),
   description: Yup.string().required("Product Description is required."),
-  manufacturer: Yup.string().required("Manufacturer Name is required."),
+  // manufacturer: Yup.string().required("Manufacturer Name is required."),
   aboutManufacturer: Yup.string().required("Short Description is required."),
-  countryOfOrigin: Yup.string().required(
-    "Manufacturer Country of Origin is required."
-  ),
+  // countryOfOrigin: Yup.string().required(
+  //   "Manufacturer Country of Origin is required."
+  // ),
   model: Yup.string().required("Part/Model Number is required."),
   image: Yup.array()
     .max(4, "You can upload up to 4 images.")
@@ -350,12 +350,12 @@ export const addProductValidationSchema = Yup.object({
           (value) => value && value.size <= 1024 * 1024 * 5
         ) 
     ),
-  form: Yup.string().required("Product Type/Form is required."),
+  // form: Yup.string().required("Product Type/Form is required."),
   quantity: Yup.number().required("Product Quantity is required."),
 
  
-  weight: Yup.number().required("Product Weight is required."),
-  unit: Yup.string().required("Product Weight Unit is required."),
+  // weight: Yup.number().required("Product Weight is required."),
+  // unit: Yup.string().required("Product Weight Unit is required."),
   unit_tax: Yup.string().required("Tax Percentage is required."),
  
   stock: Yup.string()
@@ -876,26 +876,26 @@ export const addProductValidationSchema = Yup.object({
       then: Yup.string().required("Drug Administration Route is required."),
     })
     .nullable(),
-  expiry: Yup.string()
-    .when("category", {
-      is: (category) =>
-        [
-          "Pharmaceuticals",
-          "SkinHairCosmeticSupplies",
-          "VitalHealthAndWellness",
-          "MedicalConsumablesAndDisposables",
-          "HospitalAndClinicSupplies",
+  // expiry: Yup.string()
+  //   .when("category", {
+  //     is: (category) =>
+  //       [
+  //         "Pharmaceuticals",
+  //         "SkinHairCosmeticSupplies",
+  //         "VitalHealthAndWellness",
+  //         "MedicalConsumablesAndDisposables",
+  //         "HospitalAndClinicSupplies",
         
-          "DentalProducts",
-          "HomeHealthcareProducts",
-          "AlternativeMedicines",
-          "EmergencyAndFirstAidSupplies",
-          "DisinfectionAndHygieneSupplies",
-          "NutritionAndDietaryProducts",
-        ].includes(category),
-      then: Yup.string().required("Shelf Life/Expiry is required."),
-    })
-    .nullable(),
+  //         "DentalProducts",
+  //         "HomeHealthcareProducts",
+  //         "AlternativeMedicines",
+  //         "EmergencyAndFirstAidSupplies",
+  //         "DisinfectionAndHygieneSupplies",
+  //         "NutritionAndDietaryProducts",
+  //       ].includes(category),
+  //     then: Yup.string().required("Shelf Life/Expiry is required."),
+  //   })
+  //   .nullable(),
   interoperability: Yup.string()
     .when("category", {
       is: (category) => ["HealthcareITSolutions"].includes(category),
@@ -1160,11 +1160,11 @@ export const addProductValidationSchema = Yup.object({
 export const editProductValidationSchema = Yup.object({
   name: Yup.string().required("Product Name is required."),
   description: Yup.string().required("Product Description is required."),
-  manufacturer: Yup.string().required("Manufacturer Name is required."),
+  // manufacturer: Yup.string().required("Manufacturer Name is required."),
   aboutManufacturer: Yup.string().required("Short Description is required."),
-  countryOfOrigin: Yup.string().required(
-    "Manufacturer Country of Origin is required."
-  ),
+  // countryOfOrigin: Yup.string().required(
+  //   "Manufacturer Country of Origin is required."
+  // ),
   model: Yup.string().required("Part/Model Number is required."),
   image: Yup.array().max(4, "You can upload up to 4 images."),
   // .of(
@@ -1181,10 +1181,10 @@ export const editProductValidationSchema = Yup.object({
           (value) => value && value.size <= 1024 * 1024 * 5 // Max 5MB
         )
     ),
-  form: Yup.string().required("Product Type/Form is required."),
+  // form: Yup.string().required("Product Type/Form is required."),
   quantity: Yup.number().required("Product Quantity is required."),
-  weight: Yup.number().required("Product Weight is required."),
-  unit: Yup.string().required("Product Weight Unit is required."),
+  // weight: Yup.number().required("Product Weight is required."),
+  // unit: Yup.string().required("Product Weight Unit is required."),
   unit_tax: Yup.string().required("Tax Percentage is required."),
 
   stock: Yup.string()
@@ -1705,26 +1705,26 @@ export const editProductValidationSchema = Yup.object({
       then: Yup.string().required("Drug Administration Route is required."),
     })
     .nullable(),
-  expiry: Yup.string()
-    .when("category", {
-      is: (category) =>
-        [
-          "Pharmaceuticals",
-          "SkinHairCosmeticSupplies",
-          "VitalHealthAndWellness",
-          "MedicalConsumablesAndDisposables",
-          "HospitalAndClinicSupplies",
-          // "OrthopedicSupplies",
-          "DentalProducts",
-          "HomeHealthcareProducts",
-          "AlternativeMedicines",
-          "EmergencyAndFirstAidSupplies",
-          "DisinfectionAndHygieneSupplies",
-          "NutritionAndDietaryProducts",
-        ].includes(category),
-      then: Yup.string().required("Shelf Life/Expiry is required."),
-    })
-    .nullable(),
+  // expiry: Yup.string()
+  //   .when("category", {
+  //     is: (category) =>
+  //       [
+  //         "Pharmaceuticals",
+  //         "SkinHairCosmeticSupplies",
+  //         "VitalHealthAndWellness",
+  //         "MedicalConsumablesAndDisposables",
+  //         "HospitalAndClinicSupplies",
+  //         // "OrthopedicSupplies",
+  //         "DentalProducts",
+  //         "HomeHealthcareProducts",
+  //         "AlternativeMedicines",
+  //         "EmergencyAndFirstAidSupplies",
+  //         "DisinfectionAndHygieneSupplies",
+  //         "NutritionAndDietaryProducts",
+  //       ].includes(category),
+  //     then: Yup.string().required("Shelf Life/Expiry is required."),
+  //   })
+  //   .nullable(),
 
   interoperability: Yup.string()
     .when("category", {

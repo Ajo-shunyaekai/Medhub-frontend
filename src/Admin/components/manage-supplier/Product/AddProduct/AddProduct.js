@@ -686,7 +686,7 @@ const AddProduct = ({ placeholder }) => {
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Product Type/Form
-                    <span className={styles.labelStamp}>*</span>
+                    {/* <span className={styles.labelStamp}>*</span> */}
                   </label>
                   <div className={styles.tooltipContainer}>
                     <input
@@ -709,9 +709,9 @@ const AddProduct = ({ placeholder }) => {
                       etc)."
                     ></Tooltip>
                   </div>
-                  {touched.form && errors.form && (
+                  {/* {touched.form && errors.form && (
                     <span className={styles.error}>{errors.form}</span>
-                  )}
+                  )} */}
                 </div>
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
@@ -826,7 +826,7 @@ const AddProduct = ({ placeholder }) => {
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Product Weight & Units
-                    <span className={styles.labelStamp}>*</span>
+                    {/* <span className={styles.labelStamp}>*</span> */}
                   </label>
                   <div className={styles.weightContainer}>
                     <div className={styles.weightSection}>
@@ -847,9 +847,9 @@ const AddProduct = ({ placeholder }) => {
                         />
                         <Tooltip content="in (g, kg, lbs, l, ml, oz, gal, t)"></Tooltip>
                       </div>
-                      {touched.weight && errors.weight && (
+                      {/* {touched.weight && errors.weight && (
                         <span className={styles.error}>{errors.weight}</span>
-                      )}
+                      )} */}
                     </div>
                     <div className={styles.unitSection}>
                       <Select
@@ -861,9 +861,9 @@ const AddProduct = ({ placeholder }) => {
                           setFieldValue("unit", selectedOption?.value);
                         }}
                       />
-                      {touched.unit && errors.unit && (
+                      {/* {touched.unit && errors.unit && (
                         <span className={styles.error}>{errors.unit}</span>
-                      )}
+                      )} */}
                     </div>
                   </div>
                 </div>
@@ -957,7 +957,7 @@ const AddProduct = ({ placeholder }) => {
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Manufacturer Name
-                    <span className={styles.labelStamp}>*</span>
+                    {/* <span className={styles.labelStamp}>*</span> */}
                   </label>
                   <input
                     className={styles.formInput}
@@ -973,15 +973,15 @@ const AddProduct = ({ placeholder }) => {
                       ])
                     }
                   />
-                  {touched.manufacturer && errors.manufacturer && (
+                  {/* {touched.manufacturer && errors.manufacturer && (
                     <span className={styles.error}>{errors.manufacturer}</span>
-                  )}
+                  )} */}
                 </div>
 
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Manufacturer Contry of Origin
-                    <span className={styles.labelStamp}>*</span>
+                    {/* <span className={styles.labelStamp}>*</span> */}
                   </label>
                   <Select
                     name="originCountry"
@@ -994,11 +994,11 @@ const AddProduct = ({ placeholder }) => {
                       setFieldValue("countryOfOrigin", selectedOption.label);
                     }}
                   />
-                  {touched.countryOfOrigin && errors.countryOfOrigin && (
+                  {/* {touched.countryOfOrigin && errors.countryOfOrigin && (
                     <span className={styles.error}>
                       {errors.countryOfOrigin}
                     </span>
-                  )}
+                  )} */}
                 </div>
 
                 <div className={styles.productContainer}>
@@ -1486,7 +1486,7 @@ const AddProduct = ({ placeholder }) => {
                     <div className={styles.productInnerContainer}>
                       <label className={styles.formLabel}>
                         Shelf Life/Expiry
-                        <span className={styles.labelStamp}>*</span>
+                        {/* <span className={styles.labelStamp}>*</span> */}
                       </label>
                       <div className={styles.tooltipContainer}>
                         <input
@@ -1503,9 +1503,9 @@ const AddProduct = ({ placeholder }) => {
                         />
                         <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
                       </div>
-                      {touched.expiry && errors.expiry && (
+                      {/* {touched.expiry && errors.expiry && (
                         <span className={styles.error}>{errors.expiry}</span>
-                      )}
+                      )} */}
                     </div>
                   </div>
 
@@ -2185,7 +2185,7 @@ const AddProduct = ({ placeholder }) => {
                     <div className={styles.productInnerContainer}>
                       <label className={styles.formLabel}>
                         Shelf Life/Expiry
-                        <span className={styles.labelStamp}>*</span>
+                        {/* <span className={styles.labelStamp}>*</span> */}
                       </label>
                       <div className={styles.tooltipContainer}>
                         <input
@@ -2203,9 +2203,9 @@ const AddProduct = ({ placeholder }) => {
                         <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
                       </div>
                     </div>
-                    {touched.expiry && errors.expiry && (
+                    {/* {touched.expiry && errors.expiry && (
                       <span className={styles.error}>{errors.expiry}</span>
-                    )}
+                    )} */}
                   </div>
                 </div>
               </div>
@@ -2581,7 +2581,7 @@ const AddProduct = ({ placeholder }) => {
                     <div className={styles.productInnerContainer}>
                       <label className={styles.formLabel}>
                         Shelf Life/Expiry
-                        <span className={styles.labelStamp}>*</span>
+                        {/* <span className={styles.labelStamp}>*</span> */}
                       </label>
                       <div className={styles.tooltipContainer}>
                         <input
@@ -2598,9 +2598,9 @@ const AddProduct = ({ placeholder }) => {
                         />
                         <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
                       </div>
-                      {touched.expiry && errors.expiry && (
+                      {/* {touched.expiry && errors.expiry && (
                         <span className={styles.error}>{errors.expiry}</span>
-                      )}
+                      )} */}
                     </div>
                   </div>
 
@@ -2867,7 +2867,7 @@ const AddProduct = ({ placeholder }) => {
                     <div className={styles.productInnerContainer}>
                       <label className={styles.formLabel}>
                         Shelf Life/Expiry
-                        <span className={styles.labelStamp}>*</span>
+                        {/* <span className={styles.labelStamp}>*</span> */}
                       </label>
                       <div className={styles.tooltipContainer}>
                         <input
@@ -2884,9 +2884,9 @@ const AddProduct = ({ placeholder }) => {
                         />
                         <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
                       </div>
-                      {touched.expiry && errors.expiry && (
+                      {/* {touched.expiry && errors.expiry && (
                         <span className={styles.error}>{errors.expiry}</span>
-                      )}
+                      )} */}
                     </div>
                   </div>
 
@@ -3731,7 +3731,7 @@ const AddProduct = ({ placeholder }) => {
                     <div className={styles.productInnerContainer}>
                       <label className={styles.formLabel}>
                         Shelf Life/Expiry
-                        <span className={styles.labelStamp}>*</span>
+                        {/* <span className={styles.labelStamp}>*</span> */}
                       </label>
                       <div className={styles.tooltipContainer}>
                         <input
@@ -3748,9 +3748,9 @@ const AddProduct = ({ placeholder }) => {
                         />
                         <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
                       </div>
-                      {touched.expiry && errors.expiry && (
+                      {/* {touched.expiry && errors.expiry && (
                         <span className={styles.error}>{errors.expiry}</span>
-                      )}
+                      )} */}
                     </div>
                   </div>
 
@@ -4228,7 +4228,7 @@ const AddProduct = ({ placeholder }) => {
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
                           Shelf Life/Expiry
-                          <span className={styles.labelStamp}>*</span>
+                          {/* <span className={styles.labelStamp}>*</span> */}
                         </label>
                         <div className={styles.tooltipContainer}>
                           <input
@@ -4245,9 +4245,9 @@ const AddProduct = ({ placeholder }) => {
                           />
                           <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
                         </div>
-                        {touched.expiry && errors.expiry && (
+                        {/* {touched.expiry && errors.expiry && (
                           <span className={styles.error}>{errors.expiry}</span>
-                        )}
+                        )} */}
                       </div>
                     </div>
 
@@ -4503,7 +4503,7 @@ const AddProduct = ({ placeholder }) => {
                     <div className={styles.productInnerContainer}>
                       <label className={styles.formLabel}>
                         Shelf Life/Expiry
-                        <span className={styles.labelStamp}>*</span>
+                        {/* <span className={styles.labelStamp}>*</span> */}
                       </label>
                       <div className={styles.tooltipContainer}>
                         <input
@@ -4520,9 +4520,9 @@ const AddProduct = ({ placeholder }) => {
                         />
                         <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
                       </div>
-                      {touched.expiry && errors.expiry && (
+                      {/* {touched.expiry && errors.expiry && (
                         <span className={styles.error}>{errors.expiry}</span>
-                      )}
+                      )} */}
                     </div>
                   </div>
 
@@ -4826,7 +4826,7 @@ const AddProduct = ({ placeholder }) => {
                     <div className={styles.productInnerContainer}>
                       <label className={styles.formLabel}>
                         Shelf Life/Expiry
-                        <span className={styles.labelStamp}>*</span>
+                        {/* <span className={styles.labelStamp}>*</span> */}
                       </label>
                       <div className={styles.tooltipContainer}>
                         <input
@@ -4843,9 +4843,9 @@ const AddProduct = ({ placeholder }) => {
                         />
                         <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
                       </div>
-                      {touched.expiry && errors.expiry && (
+                      {/* {touched.expiry && errors.expiry && (
                         <span className={styles.error}>{errors.expiry}</span>
-                      )}
+                      )} */}
                     </div>
                   </div>
                 </div>
@@ -4936,7 +4936,7 @@ const AddProduct = ({ placeholder }) => {
                     <div className={styles.productInnerContainer}>
                       <label className={styles.formLabel}>
                         Shelf Life/Expiry
-                        <span className={styles.labelStamp}>*</span>
+                        {/* <span className={styles.labelStamp}>*</span> */}
                       </label>
                       <div className={styles.tooltipContainer}>
                         <input
@@ -4953,9 +4953,9 @@ const AddProduct = ({ placeholder }) => {
                         />
                         <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
                       </div>
-                      {touched.expiry && errors.expiry && (
+                      {/* {touched.expiry && errors.expiry && (
                         <span className={styles.error}>{errors.expiry}</span>
-                      )}
+                      )} */}
                     </div>
                   </div>
                 </div>
@@ -5059,7 +5059,7 @@ const AddProduct = ({ placeholder }) => {
                     <div className={styles.productInnerContainer}>
                       <label className={styles.formLabel}>
                         Shelf Life/Expiry
-                        <span className={styles.labelStamp}>*</span>
+                        {/* <span className={styles.labelStamp}>*</span> */}
                       </label>
                       <div className={styles.tooltipContainer}>
                         <input
@@ -5076,9 +5076,9 @@ const AddProduct = ({ placeholder }) => {
                         />
                         <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
                       </div>
-                      {touched.expiry && errors.expiry && (
+                      {/* {touched.expiry && errors.expiry && (
                         <span className={styles.error}>{errors.expiry}</span>
-                      )}
+                      )} */}
                     </div>
                   </div>
                 </div>
@@ -5325,7 +5325,7 @@ const AddProduct = ({ placeholder }) => {
                     <div className={styles.productInnerContainer}>
                       <label className={styles.formLabel}>
                         Shelf Life/Expiry
-                        <span className={styles.labelStamp}>*</span>
+                        {/* <span className={styles.labelStamp}>*</span> */}
                       </label>
                       <div className={styles.tooltipContainer}>
                         <input
@@ -5342,9 +5342,9 @@ const AddProduct = ({ placeholder }) => {
                         />
                         <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
                       </div>
-                      {touched.expiry && errors.expiry && (
+                      {/* {touched.expiry && errors.expiry && (
                         <span className={styles.error}>{errors.expiry}</span>
-                      )}
+                      )} */}
                     </div>
                   </div>
                 </div>

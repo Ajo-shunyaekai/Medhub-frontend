@@ -340,11 +340,11 @@ export const initialValues = {
 export const addProductValidationSchema = Yup.object({
   name: Yup.string().required("Product Name is required."),
   description: Yup.string().required("Product Description is required."),
-  manufacturer: Yup.string().required("Manufacturer Name is required."),
+  // manufacturer: Yup.string().required("Manufacturer Name is required."),
   aboutManufacturer: Yup.string().required("Short Description is required."),
-  countryOfOrigin: Yup.string().required(
-    "Manufacturer Country of Origin is required."
-  ),
+  // countryOfOrigin: Yup.string().required(
+  //   "Manufacturer Country of Origin is required."
+  // ),
   model: Yup.string()
   .required("Part/Model Number is required.")
   .matches(/^[a-zA-Z0-9\s\-\/]+$/, "Part/Model Number can only contain letters, numbers, spaces, hyphens (-), and slashes (/)."),
@@ -360,15 +360,15 @@ export const addProductValidationSchema = Yup.object({
         ) // Max 5MB
     ),
   form: Yup.string()
-  .required("Product Type/Form is required.")
+  // .required("Product Type/Form is required.")
   .matches(/^[a-zA-Z0-9\s]+$/, "Product Type/Form must be alphanumeric (letters, numbers, and spaces only)."),
   quantity: Yup.number().required("Product Quantity is required."),
 
   // volumn: Yup.string().required("Product Size/Volumn is required."),
   // volumeUnit: Yup.string().required("Product Volume Unit is required."),
   // dimension: Yup.string().required("Product Dimension is required."),
-  weight: Yup.number().required("Product Weight is required."),
-  unit: Yup.string().required("Product Weight Unit is required."),
+  // weight: Yup.number().required("Product Weight is required."),
+  // unit: Yup.string().required("Product Weight Unit is required."),
   unit_tax: Yup.string().required("Tax Percentage is required."),
   // packageType: Yup.string().required("Product Packaging Type is required."),
   // packageMaterial: Yup.string().required(
@@ -963,26 +963,26 @@ export const addProductValidationSchema = Yup.object({
       then: Yup.string().required("Drug Administration Route is required."),
     })
     .nullable(),
-  expiry: Yup.string()
-    .when("category", {
-      is: (category) =>
-        [
-          "Pharmaceuticals",
-          "SkinHairCosmeticSupplies",
-          "VitalHealthAndWellness",
-          "MedicalConsumablesAndDisposables",
-          "HospitalAndClinicSupplies",
-          // "OrthopedicSupplies",
-          "DentalProducts",
-          "HomeHealthcareProducts",
-          "AlternativeMedicines",
-          "EmergencyAndFirstAidSupplies",
-          "DisinfectionAndHygieneSupplies",
-          "NutritionAndDietaryProducts",
-        ].includes(category),
-      then: Yup.string().required("Shelf Life/Expiry is required."),
-    })
-    .nullable(),
+  // expiry: Yup.string()
+  //   .when("category", {
+  //     is: (category) =>
+  //       [
+  //         "Pharmaceuticals",
+  //         "SkinHairCosmeticSupplies",
+  //         "VitalHealthAndWellness",
+  //         "MedicalConsumablesAndDisposables",
+  //         "HospitalAndClinicSupplies",
+  //         // "OrthopedicSupplies",
+  //         "DentalProducts",
+  //         "HomeHealthcareProducts",
+  //         "AlternativeMedicines",
+  //         "EmergencyAndFirstAidSupplies",
+  //         "DisinfectionAndHygieneSupplies",
+  //         "NutritionAndDietaryProducts",
+  //       ].includes(category),
+  //     then: Yup.string().required("Shelf Life/Expiry is required."),
+  //   })
+  //   .nullable(),
   interoperability: Yup.string()
     .when("category", {
       is: (category) => ["HealthcareITSolutions"].includes(category),
@@ -1262,11 +1262,11 @@ export const addProductValidationSchema = Yup.object({
 export const editProductValidationSchema = Yup.object({
   name: Yup.string().required("Product Name is required."),
   description: Yup.string().required("Product Description is required."),
-  manufacturer: Yup.string().required("Manufacturer Name is required."),
+  // manufacturer: Yup.string().required("Manufacturer Name is required."),
   aboutManufacturer: Yup.string().required("Short Description is required."),
-  countryOfOrigin: Yup.string().required(
-    "Manufacturer Country of Origin is required."
-  ),
+  // countryOfOrigin: Yup.string().required(
+  //   "Manufacturer Country of Origin is required."
+  // ),
   model: Yup.string()
   .required("Part/Model Number is required.")
   .matches(/^[a-zA-Z0-9\s\-\/]+$/, "Part/Model Number can only contain letters, numbers, spaces, hyphens (-), and slashes (/)."),
@@ -1286,14 +1286,14 @@ export const editProductValidationSchema = Yup.object({
         )
     ),
   form: Yup.string()
-  .required("Product Type/Form is required.")
+  // .required("Product Type/Form is required.")
   .matches(/^[a-zA-Z0-9\s]+$/, "Product Type/Form must be alphanumeric (letters, numbers, and spaces only)."),
   quantity: Yup.number().required("Product Quantity is required."),
   weight: Yup.number()
   .typeError("Product Weight must be a number.")
-  .positive("Product Weight must be greater than 0")
-  .required("Product Weight is required."),
-  unit: Yup.string().required("Product Weight Unit is required."),
+  .positive("Product Weight must be greater than 0"),
+  // .required("Product Weight is required."),
+  // unit: Yup.string().required("Product Weight Unit is required."),
   unit_tax: Yup.number()
   .typeError("Tax must be a number.")
   .positive("Tax must be greater than 0")
@@ -1898,26 +1898,26 @@ export const editProductValidationSchema = Yup.object({
       then: Yup.string().required("Drug Administration Route is required."),
     })
     .nullable(),
-  expiry: Yup.string()
-    .when("category", {
-      is: (category) =>
-        [
-          "Pharmaceuticals",
-          "SkinHairCosmeticSupplies",
-          "VitalHealthAndWellness",
-          "MedicalConsumablesAndDisposables",
-          "HospitalAndClinicSupplies",
-          // "OrthopedicSupplies",
-          "DentalProducts",
-          "HomeHealthcareProducts",
-          "AlternativeMedicines",
-          "EmergencyAndFirstAidSupplies",
-          "DisinfectionAndHygieneSupplies",
-          "NutritionAndDietaryProducts",
-        ].includes(category),
-      then: Yup.string().required("Shelf Life/Expiry is required."),
-    })
-    .nullable(),
+  // expiry: Yup.string()
+  //   .when("category", {
+  //     is: (category) =>
+  //       [
+  //         "Pharmaceuticals",
+  //         "SkinHairCosmeticSupplies",
+  //         "VitalHealthAndWellness",
+  //         "MedicalConsumablesAndDisposables",
+  //         "HospitalAndClinicSupplies",
+  //         // "OrthopedicSupplies",
+  //         "DentalProducts",
+  //         "HomeHealthcareProducts",
+  //         "AlternativeMedicines",
+  //         "EmergencyAndFirstAidSupplies",
+  //         "DisinfectionAndHygieneSupplies",
+  //         "NutritionAndDietaryProducts",
+  //       ].includes(category),
+  //     then: Yup.string().required("Shelf Life/Expiry is required."),
+  //   })
+  //   .nullable(),
 
   interoperability: Yup.string()
     .when("category", {

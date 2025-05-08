@@ -3294,7 +3294,7 @@ const ProductDetails = () => {
         {/* End Additional information */}
         {/* Start Manufacturer section */}
         {(productDetail?.general?.manufacturer ||
-          productDetail?.general?.aboutManufacturer ||
+          // productDetail?.general?.aboutManufacturer ||
           productDetail?.general?.countryOfOrigin) && (
           <div className={styles.mainManufacturerContainer}>
             <span className={styles.innerHead}>Manufacturer Details</span>
