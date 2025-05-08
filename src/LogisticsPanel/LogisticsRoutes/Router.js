@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import Loader from "../components/SharedComponents/Loader/Loader";
 
 const AddInventory      = lazy(() => import("../components/Inventory/AddInventory/InventoryForm"));
@@ -103,11 +103,7 @@ const router = createBrowserRouter([
 ]);
 
 function Router() {
-  return (
-    <Suspense fallback={<Loader />}>
-      <RouterProvider router={router} />
-    </Suspense>
-  );
+  return <div>{<Outlet />}</div>;
 }
 
 export default Router;

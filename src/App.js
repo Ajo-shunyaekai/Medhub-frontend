@@ -71,8 +71,8 @@ const App = () => {
       //   return <SupplierSidebar />;
       // case "admin":
       //   return <AdminSidebar />;
-      case "logistics":
-        return <LogisticsRoutes />;
+      // case "logistics":
+      //   return <LogisticsRoutes />;
       case "subscription":
         return <SubscriptionRoutes />;
       // default:

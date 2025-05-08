@@ -1337,3 +1337,119 @@ export const adminNestedRoutes = [
     ),
   },
 ];
+
+export const logisticsRoutesConfig = [
+  {
+    path: "/logistics/login",
+    component: lazy(() => import("./LogisticsPanel/components/Login/Login")),
+  },
+  {
+    path: "/logistics/forgot-password",
+    component: lazy(() =>
+      import("./LogisticsPanel/components/ForgotPassword/ForgotPassword")
+    ),
+  },  
+  {
+    path: "/logistics/sign-up",
+    component: lazy(() => import("./LogisticsPanel/components/Signup/Signup")),
+  },
+  {
+    path: "*",
+    component: lazy(() =>
+      import("./Buyer/components/SharedComponents/Error/Error")
+    ),
+  },
+];
+
+export const logisticsNestedRoutes = [
+  {
+    index: true,
+    component: lazy(() =>
+      import("./LogisticsPanel/components/Dashboard/NewDashboard")
+    ),
+  },
+  {
+    path: "order",
+    component: lazy(() =>
+      import("./LogisticsPanel/components/Orders/NewOrder")
+    ),
+  },
+  {
+    path: "logistics-details/:requestId",
+    component: lazy(() =>
+      import(
+        "./LogisticsPanel/components/Orders/NewOrderDetails/NewOrderDetails"
+      )
+    ),
+  },
+  {
+    path: "pickup-order",
+    component: lazy(() =>
+      import(
+        "./LogisticsPanel/components/PickupOrders/NewPickupOrder/NewPickupOrder"
+      )
+    ),
+  },
+  {
+    path: "pickup-order-details/:requestId",
+    component: lazy(() =>
+      import(
+        "./LogisticsPanel/components/PickupOrders/NewPickupOrderDetails/NewPickupOrderDetails"
+      )
+    ),
+  },
+  {
+    path: "add-inventory",
+    component: lazy(() =>
+      import("./LogisticsPanel/components/Inventory/AddInventory/InventoryForm")
+    ),
+  },
+  {
+    path: "inventory-list",
+    component: lazy(() =>
+      import(
+        "./LogisticsPanel/components/Inventory/NewInventoryList/NewInventoryList"
+      )
+    ),
+  },
+  {
+    path: "add-vehicle",
+    component: lazy(() =>
+      import("./LogisticsPanel/components/Vehicle/NewAddVehicle/NewAddVehicle")
+    ),
+  },
+  {
+    path: "vehicle-list",
+    component: lazy(() =>
+      import(
+        "./LogisticsPanel/components/Vehicle/NewVehicleList/NewVehicleList"
+      )
+    ),
+  },
+  {
+    path: "shipment",
+    component: lazy(() =>
+      import("./LogisticsPanel/components/Shipment/NewShipment")
+    ),
+  },
+  {
+    path: "tracking",
+    component: lazy(() =>
+      import(
+        "./LogisticsPanel/components/Tracking/NewTrackingForm/NewTrackingForm"
+      )
+    ),
+  },
+  {
+    path: "profile",
+    component: lazy(() =>
+      import("./LogisticsPanel//components/SharedComponents/Profile/Profile")
+    ),
+  },
+  {
+    path: "*",
+    component: lazy(() =>
+      import("./Buyer/components/SharedComponents/Error/Error")
+    ),
+  },
+];
