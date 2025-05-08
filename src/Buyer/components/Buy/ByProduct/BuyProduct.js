@@ -24,7 +24,7 @@ const BuyProduct = ({
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
-  const [medicineList, setMedicineList] = useState([]);
+  const [productList, setProductList] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [searchKey, setSearchKey] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -97,11 +97,11 @@ const BuyProduct = ({
               )
             );
             if (response.meta.requestStatus === "fulfilled") {
-              setMedicineList(response?.payload?.products || []);
+              setProductList(response?.payload?.products || []);
               setTotalitems(response?.payload?.totalItems || 0);
               setLoading(false);
             } else {
-              setMedicineList([]);
+              setProductList([]);
               setTotalitems(0);
               setLoading(false);
             }
@@ -142,7 +142,7 @@ const BuyProduct = ({
             />
           )}
           <ProductCard
-            medicineList={medicineList}
+            productList={productList}
             currentPage={currentPage}
             totalItems={totalItems}
             itemsPerPage={itemsPerPage}

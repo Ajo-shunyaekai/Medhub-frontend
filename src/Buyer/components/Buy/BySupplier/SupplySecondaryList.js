@@ -1,20 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import styles from './supplierdetails.module.css';
-import { Link } from 'react-router-dom';
-import PaginationComponent from '../../SharedComponents/Pagination/pagination';
+import React, { useState, useEffect } from "react";
+import styles from "./supplierdetails.module.css";
+import { Link } from "react-router-dom";
+import PaginationComponent from "../../SharedComponents/Pagination/pagination";
 
-const SupplySecondaryList = ({ productsData, totalProducts, currentPage, productsPerPage, handleProductPageChange }) => {
+const SupplySecondaryList = ({
+  productsData,
+  totalProducts,
+  currentPage,
+  productsPerPage,
+  handleProductPageChange,
+}) => {
   const [itemsPerPage, setItemsPerPage] = useState(4);
   const formatCategory = (str) => {
-    return str.replace(/([A-Z])/g, ' $1').trim();
+    return str.replace(/([A-Z])/g, " $1").trim();
   };
   const handleResize = () => {
     setItemsPerPage(4);
   };
 
   useEffect(() => {
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return (
@@ -22,14 +28,20 @@ const SupplySecondaryList = ({ productsData, totalProducts, currentPage, product
       <div className={styles.mainCardsContainer}>
         {productsData?.length > 0 ? (
           productsData?.map((product, i) => {
-            const firstImage = Array.isArray(product?.general?.image) ? product.general?.image[0] : null;
-            const linkTo = `/buyer/product-details/${product._id}`
+            const firstImage = Array.isArray(product?.general?.image)
+              ? product.general?.image[0]
+              : null;
+            const linkTo = `/buyer/product-details/${product._id}`;
             return (
               <div key={product.id} className={styles.productCont}>
                 <div className={styles.imgCont}>
                   <img
-                    src={`${process.env.REACT_APP_SERVER_URL}uploads/products/${firstImage}`}
-                    alt='Product'
+                    src={
+                      firstImage?.startsWith("http")
+                        ? firstImage
+                        : `${process.env.REACT_APP_SERVER_URL}uploads/products/${firstImage}`
+                    }
+                    alt="Product"
                   />
                 </div>
                 <div className={styles.rightCont}>
@@ -38,25 +50,29 @@ const SupplySecondaryList = ({ productsData, totalProducts, currentPage, product
                     <div className={styles.infoChild}>
                       <div className={styles.infoSection}>
                         <div className={styles.label}>Category</div>
-                        <div className={styles.value}>{formatCategory(product?.category)}</div>
+                        <div className={styles.value}>
+                          {formatCategory(product?.category)}
+                        </div>
                       </div>
                       <div className={styles.infoSection}>
                         <div className={styles.label}>Sub Category</div>
-                        <div className={styles.value}>{product?.categoryObject.subCategory}</div>
+                        <div className={styles.value}>
+                          {product?.categoryObject.subCategory}
+                        </div>
                       </div>
                       <div className={styles.infoSection}>
                         <div className={styles.label}>Total Quantity</div>
-                        <div className={styles.value}>{product.general?.quantity}</div>
+                        <div className={styles.value}>
+                          {product.general?.quantity}
+                        </div>
                       </div>
                       <div className={styles.infoSection}>
                         <div className={styles.label}>Stock Status</div>
-                        <div className={styles.value}>{product.inventoryDetails[0]?.stock}</div>
+                        <div className={styles.value}>
+                          {product.inventoryDetails[0]?.stock}
+                        </div>
                       </div>
-
-
-
                     </div>
-
                   </div>
                 </div>
 
@@ -66,7 +82,7 @@ const SupplySecondaryList = ({ productsData, totalProducts, currentPage, product
                   </div>
                 </Link>
               </div>
-            )
+            );
           })
         ) : (
           <div className={styles.noDataCont}>

@@ -25,7 +25,7 @@ const Order = () => {
         switch (path) {
             case '/buyer/order/active-orders':
                 return 'active';
-            case '/buyer/order/Completed-Orders':
+            case '/buyer/order/completed-orders':
                 return 'completed';
             default:
                 return 'active';
@@ -41,7 +41,7 @@ const Order = () => {
                 navigate('active-orders');
                 break;
             case 'completed':
-                navigate('Completed-Orders');
+                navigate('completed-orders');
                 break;
             default:
                 navigate('active-orders');

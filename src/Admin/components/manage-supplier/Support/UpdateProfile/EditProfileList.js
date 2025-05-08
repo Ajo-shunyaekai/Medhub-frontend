@@ -7,6 +7,7 @@ import { formatDate } from "../../../../../utils/dateFormatter";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import PaginationComponent from '../../../shared-components/Pagination/Pagination';
 import styles from '../../../../assets/style/table.module.css';
+import Loader from "../../../shared-components/Loader/Loader";
 
 const EditProfileList = () => {
   const dispatch = useDispatch();
@@ -58,10 +59,6 @@ const EditProfileList = () => {
     );
   }, [dispatch]);
 
-  // Debugging: Log profileEditReqs to ensure data is available
-  console.log("profileEditReqs:", profileEditReqs);
-  console.log("currentPage:", currentPage);
-
   // Calculate the current data slice
   const indexOfLastReq = currentPage * reqsPerPage;
   const indexOfFirstReq = indexOfLastReq - reqsPerPage;
@@ -71,12 +68,11 @@ const EditProfileList = () => {
 
   // Handle page change
   const handlePageChange = (pageNumber) => {
-    console.log("Changing to page:", pageNumber); // Debug page change
     setCurrentPage(pageNumber);
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loader/>
   }
 
   return (

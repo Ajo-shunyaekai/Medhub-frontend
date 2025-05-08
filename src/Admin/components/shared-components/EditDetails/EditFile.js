@@ -206,7 +206,11 @@ const EditFile = ({
           {fileUpload?.filesMerged?.map((file, index) => {
           
             const isString = typeof file == "string";
-            const fileName = isString ? file : file?.name;
+            const fileName = isString
+              ? file?.startsWith("http")
+                ? file?.replaceAll(process.env.REACT_APP_AWS_BUCKET_URL, "")
+                : file
+              : file?.name;
             const fileExtension = isString
               ? file?.split(".")?.pop()?.toLowerCase()
               : fileName?.split(".")?.pop()?.toLowerCase();
@@ -221,11 +225,20 @@ const EditFile = ({
                 {isImage ? (
                   <img
                     src={
-                      isString
-                        ? `${process.env.REACT_APP_SERVER_URL}uploads/${filePath}/${file}`
+                      typeof file === "string"
+                        ? file?.startsWith("http")
+                          ? file
+                          : `${process.env.REACT_APP_SERVER_URL}uploads/${filePath}/${file}`
                         : URL.createObjectURL(file)
                     }
-                    alt={fileName}
+                    alt={
+                      file?.startsWith("http")
+                        ? file?.replaceAll(
+                            process.env.REACT_APP_AWS_BUCKET_URL,
+                            ""
+                          )
+                        : file?.name
+                    }
                     className={styles.previewImage}
                   />
                 ) : isPdf ? (

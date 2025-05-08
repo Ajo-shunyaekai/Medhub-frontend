@@ -24,7 +24,7 @@ const useFileUpload = (
     (acceptedFiles) => {
       setFieldValue(fieldInputName, acceptedFiles);
       const updatedComplianceFiles = [
-        ...(initialValues?.complianceFileNew || []), 
+        ...(initialValues?.complianceFileNew || []),
         ...acceptedFiles,
       ];
       setFieldValue("complianceFileNew", updatedComplianceFiles);
@@ -32,11 +32,9 @@ const useFileUpload = (
         const totalFiles = [...prev, ...acceptedFiles].slice(0, 4); // Limit to maxFiles (4 in this case)
         return totalFiles;
       });
-
     },
     [setFieldValue, initialValues]
   );
-
 
   const removeFile = (index, event, arrayToFilter, file) => {
     event.stopPropagation();
@@ -51,18 +49,16 @@ const useFileUpload = (
       if (filteredValues > 1) {
         setFieldValue(
           "complianceFileNew",
-         
+
           initialValues?.complianceFileNew?.filter(
             (_, index) => index != indexToRemove
-           
           )
         );
       } else {
         setFieldValue(
           "complianceFileNew",
-         
+
           initialValues?.complianceFileNew?.filter(
-            
             (_, index) => JSON.stringify(_) != file
           )
         );
@@ -74,29 +70,25 @@ const useFileUpload = (
         (ele, index) => JSON.stringify(ele) == file
       );
       const filteredValues = initialValues?.complianceFileNew?.filter(
-       
         (_, index) => JSON.stringify(_) != file
       )?.length;
       if (filteredValues > 1) {
         setFieldValue(
           "complianceFile",
-        
+
           initialValues?.complianceFile?.filter(
             (_, index) => index != indexToRemove
-           
           )
         );
       } else {
         setFieldValue(
           "complianceFile",
-         
+
           initialValues?.complianceFile?.filter(
-           
             (_, index) => JSON.stringify(_) != file
           )
         );
       }
-    
     }
     setFieldValue(fieldInputName, []); // Update Formik field with the new files
   };
@@ -155,7 +147,6 @@ const EditComplianceNCertification = ({
     isEdit
   );
 
-
   const isImageOnly =
     acceptTypes &&
     Object.keys(acceptTypes).every((type) => type?.startsWith("image/"));
@@ -182,10 +173,7 @@ const EditComplianceNCertification = ({
         </div>
         {tooltip && (
           <>
-           <Tooltip
-              content={tooltipContent}
-              className={styles.tooltipSec}
-            />
+            <Tooltip content={tooltipContent} className={styles.tooltipSec} />
           </>
         )}
       </div>
@@ -198,7 +186,6 @@ const EditComplianceNCertification = ({
             ? [fileUpload?.selectedFile]
             : fileUpload?.selectedFile
           )?.map((file, index) => {
-           
             const fileExtension =
               typeof file === "string"
                 ? file?.split(".")?.pop()?.toLowerCase() // If it's a string (e.g., an existing file path)
@@ -219,7 +206,9 @@ const EditComplianceNCertification = ({
                   <img
                     src={
                       typeof file === "string"
-                        ? `${process.env.REACT_APP_SERVER_URL}uploads/products/${file}`
+                        ? file?.startsWith("http")
+                          ? file
+                          : `${process.env.REACT_APP_SERVER_URL}uploads/products/${file}`
                         : URL.createObjectURL(file)
                     }
                     alt={file?.name}

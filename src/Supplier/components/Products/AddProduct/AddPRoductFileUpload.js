@@ -3,6 +3,7 @@ import { useDropzone } from "react-dropzone";
 import { FiUploadCloud, FiFileText, FiX } from "react-icons/fi";
 import Tooltip from "../../SharedComponents/Tooltip/Tooltip";
 import styles from "./addproduct.module.css";
+import { extractLast13WithExtension } from "../../../../utils/helper";
 
 // useFileUpload Hook
 const useFileUpload = (
@@ -19,15 +20,15 @@ const useFileUpload = (
   const [filesNew, setFilesNew] = useState([]);
   const [filesMerged, setFilesMerged] = useState([]);
 
-  
-
   const onDrop = useCallback(
     (acceptedFiles) => {
       setFilesNew((prev) => {
         const totalFiles = [...prev, ...acceptedFiles].slice(0, maxFiles); // Limit to maxFiles
         if (acceptedFiles?.length + prev.length > maxFiles) {
           alert(
-            `You can only upload a maximum of 4 files.`
+            `You can only upload a maximum of ${maxFiles} ${
+              maxFiles != 1 ? "files" : "file"
+            }.`
           );
           return prev; // Keep previous files if limit exceeded
         }
@@ -53,8 +54,6 @@ const useFileUpload = (
       setFilesMerged(mergedFiles); // Only update if the merged files are different
     }
   }, [filesNew, filesOld, filesMerged]);
-
-  
 
   const removeFile = (index, event, arrayToFilter) => {
     if (event) event.stopPropagation();
@@ -164,72 +163,76 @@ const AddProductFileUpload = ({
       </div>
       {error && <span className={styles.error}>{error}</span>}
       <div className={styles.filePreviewContainer}>
+        {fileUpload?.filesMerged?.map((file, index) => {
+          const isString = typeof file === "string";
+          const fileName = isString
+            ? extractLast13WithExtension(file)
+            : file?.name;
+          const fileExtension = fileName?.split(".")?.pop()?.toLowerCase();
 
-{fileUpload?.filesMerged?.map((file, index) => {
-  const isString = typeof file === "string";
-  const fileName = isString ? file : file?.name;
-  const fileExtension = fileName?.split(".")?.pop()?.toLowerCase();
+          // Type checks
+          const isImage = ["jpeg", "jpg", "png", "gif", "bmp", "webp"].includes(
+            fileExtension
+          );
+          const isPdf = fileExtension === "pdf";
+          const fallbackImage =
+            "https://medhub.shunyaekai.com/uploads/fallbackImage.jpg";
 
-  // Type checks
-  const isImage = ["jpeg", "jpg", "png", "gif", "bmp", "webp"].includes(fileExtension);
-  const isPdf = fileExtension === "pdf";
-  const fallbackImage = "https://medhub.shunyaekai.com/uploads/fallbackImage.jpg";
+          const isValidUrl = (url) => {
+            try {
+              new URL(url);
+              return true;
+            } catch {
+              return false;
+            }
+          };
 
-  const isValidUrl = (url) => {
-    try {
-      new URL(url);
-      return true;
-    } catch {
-      return false;
-    }
-  };
+          let imageSrc = "";
+          if (isImage) {
+            imageSrc = isString
+              ? isValidUrl(file)
+                ? file
+                : file?.startsWith("http")
+                ? file
+                : `${process.env.REACT_APP_SERVER_URL}uploads/products/${file}`
+              : URL.createObjectURL(file);
+          } else {
+            // If not image or PDF, fallback image
+            imageSrc = fallbackImage;
+          }
 
-  let imageSrc = "";
-  if (isImage) {
-    imageSrc = isString
-      ? isValidUrl(file)
-        ? file
-        : `${process.env.REACT_APP_SERVER_URL}uploads/products/${file}`
-      : URL.createObjectURL(file);
-  } else {
-    // If not image or PDF, fallback image
-    imageSrc = fallbackImage;
-  }
+          return (
+            <div key={index} className={styles.filePreview}>
+              {isPdf ? (
+                <FiFileText size={25} className={styles.fileIcon} />
+              ) : (
+                <img
+                  src={imageSrc}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = fallbackImage;
+                  }}
+                  alt={fileName}
+                  className={styles.previewImage}
+                />
+              )}
 
-  return (
-    <div key={index} className={styles.filePreview}>
-      {isPdf ? (
-        <FiFileText size={25} className={styles.fileIcon} />
-      ) : (
-        <img
-          src={imageSrc}
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src = fallbackImage;
-          }}
-          alt={fileName}
-          className={styles.previewImage}
-        />
-      )}
+              <p className={styles.fileName}>{fileName}</p>
 
-      <p className={styles.fileName}>{fileName}</p>
-
-      <button
-        type="button"
-        className={styles.removeButton}
-        onClick={(event) =>
-          fileUpload?.removeFile(index, event, isString ? "old" : "new")
-        }
-        title={`Remove ${isImage ? "image" : isPdf ? "PDF" : "file"}`}
-      >
-        <FiX size={15} className={styles.removeIcon} />
-      </button>
-    </div>
-  );
-})}
-
-
-    </div>
+              <button
+                type="button"
+                className={styles.removeButton}
+                onClick={(event) =>
+                  fileUpload?.removeFile(index, event, isString ? "old" : "new")
+                }
+                title={`Remove ${isImage ? "image" : isPdf ? "PDF" : "file"}`}
+              >
+                <FiX size={15} className={styles.removeIcon} />
+              </button>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };

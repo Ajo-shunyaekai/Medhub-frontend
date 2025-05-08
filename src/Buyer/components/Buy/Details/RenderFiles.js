@@ -16,7 +16,6 @@ const isImageExtension = (fileName) => {
   return /\.(png|jpe?g|gif|bmp|webp)$/i.test(fileName);
 };
 
-
 const RenderProductFiles = ({ files }) => {
 
   const baseUrl = process.env.REACT_APP_SERVER_URL?.endsWith("/")

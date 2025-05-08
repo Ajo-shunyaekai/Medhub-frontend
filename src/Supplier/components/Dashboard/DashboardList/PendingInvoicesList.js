@@ -163,7 +163,7 @@ const PendingInvoicesList = () => {
             onClick={() => handleDownload(row?.invoice_id)}
           >
             {downloadingInvoiceId === row?.invoice_id ? (
-              <Loader size="small" />
+              <Loader/>
             ) : (
               <div className={styles.activeBtn}>
                 <CloudDownloadOutlinedIcon className={styles["table-icon"]} />
@@ -215,7 +215,7 @@ const PendingInvoicesList = () => {
         <span className={styles.title}>Pending Invoices</span>
         {loading ? (
           <div className={styles.loader}>
-            <Loader size="large" />
+            <Loader/>
           </div>
         ) : (
           <>

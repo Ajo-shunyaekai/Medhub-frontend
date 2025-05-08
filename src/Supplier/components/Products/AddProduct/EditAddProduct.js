@@ -14,7 +14,7 @@ import styles from "./addproduct.module.css";
 import categoryArrays from "../../../../utils/Category";
 import { Field, FieldArray, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
-import AddProductFileUpload from "./AddPRoductFileUpload";
+// import AddProductFileUpload from "./AddPRoductFileUpload";
 import { useDispatch, useSelector } from "react-redux";
 import {
   editProduct,
@@ -48,6 +48,7 @@ import {
   initialValues,
   editProductValidationSchema,
 } from "./DropDowns";
+import { AddProductFileUpload } from "../../../../utils/helper";
 
 const MultiSelectOption = ({ children, ...props }) => (
   <components.Option {...props}>
@@ -76,16 +77,14 @@ const EditAddProduct = ({ placeholder }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const { productDetail } = useSelector(
-    (state) => state?.productReducer
-  );
+  const { productDetail } = useSelector((state) => state?.productReducer);
 
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: editProductValidationSchema,
     onSubmit: (values) => {
       // Custom submit handler with e.preventDefault()
-      setLoading(true)
+      setLoading(true);
       const formData = new FormData();
 
       // Append fields as usual
@@ -163,9 +162,9 @@ const EditAddProduct = ({ placeholder }) => {
       dispatch(editProduct({ id, values: formData })).then((response) => {
         if (response?.meta.requestStatus === "fulfilled") {
           navigate(`/supplier/product-details/${id}`); // Change this to your desired route
-          setLoading(false)
+          setLoading(false);
         }
-        setLoading(false)
+        setLoading(false);
       });
     },
   });
@@ -199,7 +198,6 @@ const EditAddProduct = ({ placeholder }) => {
     const date = new Date(value);
     return isNaN(date.getTime()) ? null : date;
   };
-  
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -425,7 +423,8 @@ const EditAddProduct = ({ placeholder }) => {
       const additional = productDetail?.additional || {};
       const inventoryDetails = productDetail?.inventoryDetails || {};
       const healthNSafety = productDetail?.healthNSafety || {};
-      const secondaryMarketDetails = productDetail?.secondaryMarketDetails || {};
+      const secondaryMarketDetails =
+        productDetail?.secondaryMarketDetails || {};
       const categoryDetails = productDetail?.[productDetail?.category] || {}; // Safely access category details
 
       formik.setValues({
@@ -615,8 +614,8 @@ const EditAddProduct = ({ placeholder }) => {
   }, [productDetail]); // Add formik to the dependency array
 
   const handleCancel = () => {
-    navigate(`/supplier/product-details/${id}`)
-  }
+    navigate(`/supplier/product-details/${id}`);
+  };
 
   return (
     <div className={styles.container}>
@@ -1289,7 +1288,7 @@ const EditAddProduct = ({ placeholder }) => {
                   />
                   <Tooltip content="Unit Tax of the product"></Tooltip>
                 </div>
-                { formik.errors.unit_tax && (
+                {formik.errors.unit_tax && (
                   <span className={styles.error}>{formik.errors.unit_tax}</span>
                 )}
               </div>
@@ -1440,6 +1439,7 @@ const EditAddProduct = ({ placeholder }) => {
 
               <div className={styles.productContainer}>
                 <AddProductFileUpload
+                  styles={styles}
                   productDetails={productDetail}
                   maxFiles={4 - (formik?.values?.image?.length || 0)}
                   fieldInputName={"imageNew"}
@@ -1467,6 +1467,7 @@ const EditAddProduct = ({ placeholder }) => {
               <div className={styles.productContainer}>
                 {formik?.values?.market === "secondary" && (
                   <AddProductFileUpload
+                    styles={styles}
                     productDetails={productDetail}
                     maxFiles={
                       1 - (formik?.values?.purchaseInvoiceFile?.length || 0)
@@ -1653,6 +1654,7 @@ const EditAddProduct = ({ placeholder }) => {
                     ></Tooltip>
                   </div>
                   <AddProductFileUpload
+                    styles={styles}
                     productDetails={productDetail}
                     maxFiles={
                       4 -
@@ -1711,6 +1713,7 @@ const EditAddProduct = ({ placeholder }) => {
                       )}
                   </div>
                   <AddProductFileUpload
+                    styles={styles}
                     productDetails={productDetail}
                     maxFiles={
                       4 - (formik?.values?.specificationFile?.length || 0)
@@ -2718,6 +2721,7 @@ const EditAddProduct = ({ placeholder }) => {
                         {dermatologistTested === "Yes" && (
                           <>
                             <AddProductFileUpload
+                              styles={styles}
                               productDetails={productDetail}
                               maxFiles={
                                 4 -
@@ -2794,6 +2798,7 @@ const EditAddProduct = ({ placeholder }) => {
                         {pediatricianRecommended === "Yes" && (
                           <>
                             <AddProductFileUpload
+                              styles={styles}
                               productDetails={productDetail}
                               maxFiles={
                                 4 -
@@ -4436,6 +4441,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                     <AddProductFileUpload
+                      styles={styles}
                       productDetails={productDetail}
                       maxFiles={
                         4 - (formik?.values?.specificationFile?.length || 0)
@@ -4497,6 +4503,7 @@ const EditAddProduct = ({ placeholder }) => {
                       ></Tooltip>
                     </div>
                     <AddProductFileUpload
+                      styles={styles}
                       productDetails={productDetail}
                       maxFiles={
                         4 -
@@ -5892,6 +5899,7 @@ const EditAddProduct = ({ placeholder }) => {
                           ></Tooltip>
                         </div>
                         <AddProductFileUpload
+                          styles={styles}
                           productDetails={productDetail}
                           maxFiles={
                             4 -
@@ -6028,6 +6036,7 @@ const EditAddProduct = ({ placeholder }) => {
                       <Tooltip content=" Verified by clinical trials or regulatory agencies."></Tooltip>
                     </div>
                     <AddProductFileUpload
+                      styles={styles}
                       productDetails={productDetail}
                       maxFiles={
                         4 - (formik?.values?.healthClaimsFile?.length || 0)
@@ -6988,6 +6997,7 @@ const EditAddProduct = ({ placeholder }) => {
                             </span>
                           )}
                         <AddProductFileUpload
+                          styles={styles}
                           productDetails={productDetail}
                           maxFiles={
                             4 -
@@ -7619,96 +7629,101 @@ const EditAddProduct = ({ placeholder }) => {
             <span className={styles.formHead}>Health & Safety</span>
             <div className={styles.formSection}>
               <div className={styles.productContainer}>
-              <AddProductFileUpload
-                productDetails={productDetail}
-                maxFiles={4 - (formik?.values?.safetyDatasheet?.length || 0)}
-                fieldInputName={"safetyDatasheetNew"}
-                oldFieldName={"safetyDatasheet"}
-                existingFiles={formik?.values?.safetyDatasheet}
-                setFieldValue={formik.setFieldValue}
-                initialValues={formik?.values}
-                label="Safety Datasheet"
-                tooltip="Specific safety information, instructions or precautions related to product"
-                acceptTypes={{
-                  "image/png": [],
-                  "image/jpeg": [],
-                  "image/jpg": [],
-                  "application/pdf": [],
-                }}
-                error={
-                  (formik.touched.safetyDatasheet ||
-                    formik.touched.safetyDatasheetNew ||
-                    formik.errors.safetyDatasheet ||
-                    formik.errors.safetyDatasheetNew) && (
-                    <div>
-                      {formik.errors.safetyDatasheet ||
-                        formik.errors.safetyDatasheetNew}
-                    </div>
-                  )
-                }
-              />
+                <AddProductFileUpload
+                  styles={styles}
+                  productDetails={productDetail}
+                  maxFiles={4 - (formik?.values?.safetyDatasheet?.length || 0)}
+                  fieldInputName={"safetyDatasheetNew"}
+                  oldFieldName={"safetyDatasheet"}
+                  existingFiles={formik?.values?.safetyDatasheet}
+                  setFieldValue={formik.setFieldValue}
+                  initialValues={formik?.values}
+                  label="Safety Datasheet"
+                  tooltip="Specific safety information, instructions or precautions related to product"
+                  acceptTypes={{
+                    "image/png": [],
+                    "image/jpeg": [],
+                    "image/jpg": [],
+                    "application/pdf": [],
+                  }}
+                  error={
+                    (formik.touched.safetyDatasheet ||
+                      formik.touched.safetyDatasheetNew ||
+                      formik.errors.safetyDatasheet ||
+                      formik.errors.safetyDatasheetNew) && (
+                      <div>
+                        {formik.errors.safetyDatasheet ||
+                          formik.errors.safetyDatasheetNew}
+                      </div>
+                    )
+                  }
+                />
               </div>
- <div className={styles.productContainer}>
-              <AddProductFileUpload
-                productDetails={productDetail}
-                maxFiles={4 - (formik?.values?.healthHazardRating?.length || 0)}
-                fieldInputName={"healthHazardRatingNew"}
-                oldFieldName={"healthHazardRating"}
-                existingFiles={formik?.values?.healthHazardRating}
-                setFieldValue={formik.setFieldValue}
-                initialValues={formik?.values}
-                label="Health Hazard Rating"
-                tooltip="Health Hazard Rating Document"
-                acceptTypes={{
-                  "image/png": [],
-                  "image/jpeg": [],
-                  "image/jpg": [],
-                  "application/pdf": [],
-                }}
-                error={
-                  (formik.touched.healthHazardRating ||
-                    formik.touched.healthHazardRatingNew ||
-                    formik.errors.healthHazardRating ||
-                    formik.errors.healthHazardRatingNew) && (
-                    <div>
-                      {formik.errors.healthHazardRating ||
-                        formik.errors.healthHazardRatingNew}
-                    </div>
-                  )
-                }
-              />
+              <div className={styles.productContainer}>
+                <AddProductFileUpload
+                  styles={styles}
+                  productDetails={productDetail}
+                  maxFiles={
+                    4 - (formik?.values?.healthHazardRating?.length || 0)
+                  }
+                  fieldInputName={"healthHazardRatingNew"}
+                  oldFieldName={"healthHazardRating"}
+                  existingFiles={formik?.values?.healthHazardRating}
+                  setFieldValue={formik.setFieldValue}
+                  initialValues={formik?.values}
+                  label="Health Hazard Rating"
+                  tooltip="Health Hazard Rating Document"
+                  acceptTypes={{
+                    "image/png": [],
+                    "image/jpeg": [],
+                    "image/jpg": [],
+                    "application/pdf": [],
+                  }}
+                  error={
+                    (formik.touched.healthHazardRating ||
+                      formik.touched.healthHazardRatingNew ||
+                      formik.errors.healthHazardRating ||
+                      formik.errors.healthHazardRatingNew) && (
+                      <div>
+                        {formik.errors.healthHazardRating ||
+                          formik.errors.healthHazardRatingNew}
+                      </div>
+                    )
+                  }
+                />
               </div>
- <div className={styles.productContainer}>
-              <AddProductFileUpload
-                productDetails={productDetail}
-                maxFiles={
-                  4 - (formik?.values?.environmentalImpact?.length || 0)
-                }
-                fieldInputName={"environmentalImpactNew"}
-                oldFieldName={"environmentalImpact"}
-                existingFiles={formik?.values?.environmentalImpact}
-                setFieldValue={formik.setFieldValue}
-                initialValues={formik?.values}
-                label="Environmental Impact"
-                tooltip="Environment Impact Rating Document"
-                acceptTypes={{
-                  "image/png": [],
-                  "image/jpeg": [],
-                  "image/jpg": [],
-                  "application/pdf": [],
-                }}
-                error={
-                  (formik.touched.environmentalImpact ||
-                    formik.touched.environmentalImpactNew ||
-                    formik.errors.environmentalImpact ||
-                    formik.errors.environmentalImpactNew) && (
-                    <div>
-                      {formik.errors.environmentalImpact ||
-                        formik.errors.environmentalImpactNew}
-                    </div>
-                  )
-                }
-              />
+              <div className={styles.productContainer}>
+                <AddProductFileUpload
+                  styles={styles}
+                  productDetails={productDetail}
+                  maxFiles={
+                    4 - (formik?.values?.environmentalImpact?.length || 0)
+                  }
+                  fieldInputName={"environmentalImpactNew"}
+                  oldFieldName={"environmentalImpact"}
+                  existingFiles={formik?.values?.environmentalImpact}
+                  setFieldValue={formik.setFieldValue}
+                  initialValues={formik?.values}
+                  label="Environmental Impact"
+                  tooltip="Environment Impact Rating Document"
+                  acceptTypes={{
+                    "image/png": [],
+                    "image/jpeg": [],
+                    "image/jpg": [],
+                    "application/pdf": [],
+                  }}
+                  error={
+                    (formik.touched.environmentalImpact ||
+                      formik.touched.environmentalImpactNew ||
+                      formik.errors.environmentalImpact ||
+                      formik.errors.environmentalImpactNew) && (
+                      <div>
+                        {formik.errors.environmentalImpact ||
+                          formik.errors.environmentalImpactNew}
+                      </div>
+                    )
+                  }
+                />
               </div>
             </div>
           </div>
@@ -7736,34 +7751,35 @@ const EditAddProduct = ({ placeholder }) => {
                 />
               </div>
               <div className={styles.productContainer}>
-              <AddProductFileUpload
-                productDetails={productDetail}
-                maxFiles={4 - (formik?.values?.guidelinesFile?.length || 0)}
-                fieldInputName={"guidelinesFileNew"}
-                oldFieldName={"guidelinesFile"}
-                existingFiles={formik?.values?.guidelinesFile}
-                setFieldValue={formik.setFieldValue}
-                initialValues={formik?.values}
-                label="User Guidelines"
-                tooltip="Specific information, instructions related to product."
-                acceptTypes={{
-                  "image/png": [],
-                  "image/jpeg": [],
-                  "image/jpg": [],
-                  "application/pdf": [],
-                }}
-                error={
-                  (formik.touched.guidelinesFile ||
-                    formik.touched.guidelinesFileNew ||
-                    formik.errors.guidelinesFile ||
-                    formik.errors.guidelinesFileNew) && (
-                    <div>
-                      {formik.errors.guidelinesFile ||
-                        formik.errors.guidelinesFileNew}
-                    </div>
-                  )
-                }
-              />
+                <AddProductFileUpload
+                  styles={styles}
+                  productDetails={productDetail}
+                  maxFiles={4 - (formik?.values?.guidelinesFile?.length || 0)}
+                  fieldInputName={"guidelinesFileNew"}
+                  oldFieldName={"guidelinesFile"}
+                  existingFiles={formik?.values?.guidelinesFile}
+                  setFieldValue={formik.setFieldValue}
+                  initialValues={formik?.values}
+                  label="User Guidelines"
+                  tooltip="Specific information, instructions related to product."
+                  acceptTypes={{
+                    "image/png": [],
+                    "image/jpeg": [],
+                    "image/jpg": [],
+                    "application/pdf": [],
+                  }}
+                  error={
+                    (formik.touched.guidelinesFile ||
+                      formik.touched.guidelinesFileNew ||
+                      formik.errors.guidelinesFile ||
+                      formik.errors.guidelinesFileNew) && (
+                      <div>
+                        {formik.errors.guidelinesFile ||
+                          formik.errors.guidelinesFileNew}
+                      </div>
+                    )
+                  }
+                />
               </div>
               {/* )} */}
               <div className={styles.productContainer}>
@@ -7796,13 +7812,15 @@ const EditAddProduct = ({ placeholder }) => {
 
           {/* Start button section */}
           <div className={styles.buttonContainer}>
-            <button className={styles.buttonCancel} onClick={handleCancel}>Cancel</button>
-            <button className={styles.buttonSubmit} type="submit" disabled={loading}>
-            {loading ? (
-                    <div className='loading-spinner'></div>
-                ) : (
-                    'Submit'
-                )}
+            <button className={styles.buttonCancel} onClick={handleCancel}>
+              Cancel
+            </button>
+            <button
+              className={styles.buttonSubmit}
+              type="submit"
+              disabled={loading}
+            >
+              {loading ? <div className="loading-spinner"></div> : "Submit"}
             </button>
           </div>
 

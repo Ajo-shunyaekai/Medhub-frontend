@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../../../../api/Requests';
 import { toast } from 'react-toastify';
 import moment from 'moment-timezone';
+import { renderImages } from '../../../../../utils/helper';
 
 const SellerComplaintDetails = () => {
     const { supportId } = useParams()
@@ -13,19 +14,6 @@ const SellerComplaintDetails = () => {
     const adminIdLocalStorage = localStorage?.getItem("admin_id");
     const [supplierDetails, setSupplierDetails] = useState()
 
-
-    const renderImages = () => {
-        if (supplierDetails?.support_image?.length > 0) {
-            return supplierDetails.support_image.map((image, index) => (
-                <img
-                    key={index}
-                    src={`${process.env.REACT_APP_SERVER_URL}uploads/buyer/order/complaint_images/${image}`}
-                    alt={`Support Image ${index + 1}`}
-                    className="seller-details-document-image"
-                />
-            ));
-        }
-    };
     useEffect(() => {
         if (!adminIdSessionStorage && !adminIdLocalStorage) {
             localStorage?.clear();
@@ -105,7 +93,7 @@ const SellerComplaintDetails = () => {
                                 <div className='seller-details-card-container'>
                                     <div className='seller-details-company-logo-heading'>Images</div>
                                     <div className='seller-details-company-img-container'>
-                                        {renderImages()}
+                                        {renderImages(supplierDetails?.support_image)}
                                     </div>
                                 </div>
                             </div>

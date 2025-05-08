@@ -61,7 +61,10 @@ const PurchasedOrderDetails = () => {
     0
   );
   const totalTaxAmount = orderItems.reduce((sum, item) => {
-    const unitTaxRate = parseFloat(item.unit_tax || item?.medicine_details?.general?.unit_tax || "0") / 100;
+    const unitTaxRate =
+      parseFloat(
+        item.unit_tax || item?.medicine_details?.general?.unit_tax || "0"
+      ) / 100;
     const itemTotalAmount = parseFloat(item.total_amount);
     return sum + itemTotalAmount * unitTaxRate;
   }, 0);
@@ -120,7 +123,13 @@ const PurchasedOrderDetails = () => {
                 <tr>
                   <td>
                     <img
-                      src={`${process.env.REACT_APP_SERVER_URL}uploads/buyer/buyer_images/${poDetails?.buyer_details?.[0]?.buyer_image?.[0]}`}
+                      src={
+                        poDetails?.buyer_details?.[0]?.buyer_image?.[0]?.startsWith(
+                          "http"
+                        )
+                          ? poDetails?.buyer_details?.[0]?.buyer_image?.[0]
+                          : `${process.env.REACT_APP_SERVER_URL}uploads/buyer/buyer_images/${poDetails?.buyer_details?.[0]?.buyer_image?.[0]}`
+                      }
                       alt="companylogo"
                       className={styles["purchange-logo"]}
                     />

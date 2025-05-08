@@ -214,17 +214,33 @@ const EditCertificate = ({
                   <img
                     src={
                       typeof file === "string"
-                        ? `${process.env.REACT_APP_SERVER_URL}uploads/${filePath}/${file}`
+                        ? file?.startsWith("http")
+                          ? file
+                          : `${process.env.REACT_APP_SERVER_URL}uploads/${filePath}/${file}`
                         : URL.createObjectURL(file)
                     }
-                    alt={file?.name}
+                    alt={
+                      file?.startsWith("http")
+                        ? file?.replaceAll(
+                            process.env.REACT_APP_AWS_BUCKET_URL,
+                            ""
+                          )
+                        : file?.name
+                    }
                     className={styles.previewImage}
                   />
                 ) : isPdf ? (
                   <FiFileText size={25} className={styles.fileIcon} />
                 ) : null}
                 <p className={styles.fileName}>
-                  {typeof file === "string" ? file : file?.name}
+                  {typeof file === "string"
+                    ? file?.startsWith("http")
+                      ? file?.replaceAll(
+                          process.env.REACT_APP_AWS_BUCKET_URL,
+                          ""
+                        )
+                      : file
+                    : file?.name}
                 </p>
                 <button
                   type="button"

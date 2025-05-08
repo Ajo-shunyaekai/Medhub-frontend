@@ -8,6 +8,7 @@ import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined";
 import PaginationComponent from "../../SharedComponents/Pagination/pagination";
 import styles from "../../../assets/style/table.module.css";
+import Loader from "../../SharedComponents/Loader/Loader";
 
 const CompleteInvoice = ({
   invoiceList,
@@ -135,7 +136,7 @@ const CompleteInvoice = ({
             onClick={() => handleDownload(row?.invoice_id)}
           >
             {downloadingInvoiceId === row.invoice_id ? (
-              <ThreeDots height="20" width="20" color="blue" ariaLabel="loading" />
+              <Loader/>
             ) : (
                <div className={styles.activeBtn}>
               <CloudDownloadOutlinedIcon className={styles['table-icon']} />

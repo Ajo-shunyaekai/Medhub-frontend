@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef, useMemo} from "react";
-import { useNavigate,  useParams } from "react-router-dom";
+import React, { useState, useEffect, useRef, useMemo } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import RichTextEditor from "./ProductDescriptionEditor";
 import Select, { components } from "react-select";
 import countryList from "react-select-country-list";
@@ -12,7 +12,7 @@ import "./addproduct.css";
 import styles from "./addproduct.module.css";
 import categoryArrays from "../../../../../utils/Category";
 import { Field, Form, Formik } from "formik";
-import AddProductFileUpload from "./AddPRoductFileUpload";
+// import AddProductFileUpload from "./AddPRoductFileUpload";
 import { useDispatch } from "react-redux";
 import Tooltip from "./Tooltip";
 import {
@@ -46,6 +46,7 @@ import {
   addProductValidationSchema,
 } from "./DropDowns";
 import FileUploadModal from "../FileUpload/FileUpload";
+import { AddProductFileUpload } from "../../../../../utils/helper.js";
 
 const MultiSelectOption = ({ children, ...props }) => (
   <components.Option {...props}>
@@ -280,8 +281,8 @@ const AddProduct = ({ placeholder }) => {
   };
 
   const handleCancel = () => {
-    navigate(`/admin/supplier/${supplierId}/products/new`)
-  }
+    navigate(`/admin/supplier/${supplierId}/products/new`);
+  };
 
   return (
     <div className={styles.container}>
@@ -296,7 +297,7 @@ const AddProduct = ({ placeholder }) => {
         validationSchema={productValidationSchema}
         validateOnBlur={true}
         onSubmit={(values) => {
-          setLoading(true)
+          setLoading(true);
           const formData = new FormData();
           Object.keys(values).forEach((key) => {
             const value = values[key];
@@ -306,11 +307,9 @@ const AddProduct = ({ placeholder }) => {
               key != "cNCFileNDate"
             ) {
               if (Array.isArray(value)) {
-               
                 value.forEach((item, index) => {
-                 
                   if (item instanceof File) {
-                    formData.append(key, item); 
+                    formData.append(key, item);
                   } else {
                     formData.append(key, item);
                   }
@@ -328,7 +327,7 @@ const AddProduct = ({ placeholder }) => {
               quantity: section?.quantity || "",
             }))
           );
-        
+
           const productPricingDetailsUpdated = JSON.stringify(
             values?.productPricingDetails?.map((section) => ({
               price: section?.price || "",
@@ -359,9 +358,9 @@ const AddProduct = ({ placeholder }) => {
           dispatch(addProduct(formData)).then((response) => {
             if (response?.meta.requestStatus === "fulfilled") {
               navigate(`/admin/supplier/${supplierId}/products/new`);
-              setLoading(false)
+              setLoading(false);
             }
-            setLoading(false)
+            setLoading(false);
           });
         }}
       >
@@ -391,7 +390,6 @@ const AddProduct = ({ placeholder }) => {
                     // autoComplete="off"
                     name="name"
                     value={values.name}
-                  
                     onChange={(e) =>
                       handleInputChange(
                         e,
@@ -441,7 +439,7 @@ const AddProduct = ({ placeholder }) => {
                     onChange={(selectedOption) => {
                       setFieldValue("category", selectedOption?.value);
                       setSelectedCategory(selectedOption);
-                    
+
                       setSelectedSubCategory(null);
                       setFieldValue("subCategory", "");
                       setSelectedLevel3Category(null);
@@ -557,15 +555,13 @@ const AddProduct = ({ placeholder }) => {
                         options={countries}
                         placeholderButtonLabel="Select Countries"
                         name="countryAvailable"
-                        
                         onChange={(selectedOptions) => {
-                         
                           const selectedValues = selectedOptions
                             ? selectedOptions.map((option) => option.label)
                             : [];
                           setFieldValue("countryAvailable", selectedValues);
                         }}
-                        onBlur={handleBlur} 
+                        onBlur={handleBlur}
                       />
 
                       {touched.countryAvailable && errors.countryAvailable && (
@@ -587,7 +583,6 @@ const AddProduct = ({ placeholder }) => {
                         // autoComplete="off"
                         name="minimumPurchaseUnit"
                         value={values.minimumPurchaseUnit}
-                       
                         onChange={(e) =>
                           handleInputChange(e, setFieldValue, 4, "number")
                         }
@@ -614,7 +609,6 @@ const AddProduct = ({ placeholder }) => {
                     // autoComplete="off"
                     name="upc"
                     value={values.upc}
-                   
                     onChange={(e) =>
                       handleInputChange(
                         e,
@@ -642,7 +636,6 @@ const AddProduct = ({ placeholder }) => {
                     // autoComplete="off"
                     name="model"
                     value={values.model}
-                   
                     onChange={(e) =>
                       handleInputChange(e, setFieldValue, 20, "all")
                     }
@@ -664,7 +657,6 @@ const AddProduct = ({ placeholder }) => {
                     value={values.aboutManufacturer}
                     name="aboutManufacturer"
                     onBlur={handleBlur}
-             
                     onChange={(e) =>
                       handleInputChange(e, setFieldValue, 500, "all")
                     }
@@ -684,7 +676,6 @@ const AddProduct = ({ placeholder }) => {
                     // autoComplete="off"
                     name="brand"
                     value={values.brand}
-                  
                     onChange={(e) =>
                       handleInputChange(e, setFieldValue, 75, "all", ["brand"])
                     }
@@ -705,7 +696,6 @@ const AddProduct = ({ placeholder }) => {
                       // autoComplete="off"
                       name="form"
                       value={values.form}
-                 
                       onChange={(e) =>
                         handleInputChange(e, setFieldValue, 50, "text")
                       }
@@ -736,7 +726,6 @@ const AddProduct = ({ placeholder }) => {
                       // autoComplete="off"
                       name="quantity"
                       value={values.quantity}
-                    
                       onChange={(e) =>
                         handleInputChange(e, setFieldValue, 8, "number")
                       }
@@ -761,7 +750,6 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="volumn"
                           value={values.volumn}
-                       
                           onChange={(e) =>
                             handleInputChange(
                               e,
@@ -792,10 +780,8 @@ const AddProduct = ({ placeholder }) => {
                           setFieldValue("volumeUnit", selectedOption?.value);
                         }}
                       />
-                    
                     </div>
                   </div>
-               
                 </div>
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>Product Dimension</label>
@@ -809,7 +795,6 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="dimension"
                           value={values.dimension}
-                        
                           onChange={(e) =>
                             handleInputChange(
                               e,
@@ -835,10 +820,8 @@ const AddProduct = ({ placeholder }) => {
                           setFieldValue("dimensionUnit", selectedOption?.value);
                         }}
                       />
-                    
                     </div>
                   </div>
-                
                 </div>
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
@@ -855,7 +838,6 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="weight"
                           value={values.weight}
-                          
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 9, "decimal", [
                               "weight",
@@ -885,7 +867,6 @@ const AddProduct = ({ placeholder }) => {
                     </div>
                   </div>
                 </div>
-               
 
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
@@ -900,7 +881,6 @@ const AddProduct = ({ placeholder }) => {
                       // autoComplete="off"
                       name="unit_tax"
                       value={values.unit_tax}
-                     
                       onChange={(e) =>
                         handleInputChange(e, setFieldValue, 9, "decimal", [
                           "unit_tax",
@@ -918,10 +898,8 @@ const AddProduct = ({ placeholder }) => {
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Product Packaging Type
-                   
                   </label>
                   <div className={styles.tooltipContainer}>
-                    
                     <input
                       className={styles.formInput}
                       type="text"
@@ -939,15 +917,12 @@ const AddProduct = ({ placeholder }) => {
                       backpack, case )."
                     ></Tooltip>
                   </div>
-                 
                 </div>
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Product Packaging Material
-                  
                   </label>
                   <div className={styles.tooltipContainer}>
-                   
                     <input
                       className={styles.formInput}
                       type="text"
@@ -960,9 +935,6 @@ const AddProduct = ({ placeholder }) => {
                     />
                     <Tooltip content="The material used for packaging (e.g., plastic, glass, aluminum, cardboard, thermocol etc)"></Tooltip>
                   </div>
-
-                
-                
                 </div>
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>Storage Conditions</label>
@@ -973,7 +945,6 @@ const AddProduct = ({ placeholder }) => {
                       placeholder="Enter Storage Conditions"
                       // autoComplete="off"
                       name="storage"
-                      
                       onChange={(e) =>
                         handleInputChange(e, setFieldValue, 75, "all")
                       }
@@ -996,7 +967,6 @@ const AddProduct = ({ placeholder }) => {
                     name="manufacturer"
                     value={values.manufacturer}
                     onBlur={handleBlur}
-                   
                     onChange={(e) =>
                       handleInputChange(e, setFieldValue, 75, "all", [
                         "manufacturer",
@@ -1018,7 +988,7 @@ const AddProduct = ({ placeholder }) => {
                     options={countries}
                     placeholder="Select Country of Origin"
                     // autoComplete="off"
-                  
+
                     onBlur={handleBlur}
                     onChange={(selectedOption) => {
                       setFieldValue("countryOfOrigin", selectedOption.label);
@@ -1033,6 +1003,7 @@ const AddProduct = ({ placeholder }) => {
 
                 <div className={styles.productContainer}>
                   <AddProductFileUpload
+                    styles={styles}
                     fieldInputName={"image"}
                     setFieldValue={setFieldValue}
                     initialValues={values}
@@ -1052,6 +1023,7 @@ const AddProduct = ({ placeholder }) => {
                 {productType === "secondary product" && (
                   <div className={styles.productContainer}>
                     <AddProductFileUpload
+                      styles={styles}
                       fieldInputName={"purchaseInvoiceFile"}
                       setFieldValue={setFieldValue}
                       initialValues={values}
@@ -1098,7 +1070,6 @@ const AddProduct = ({ placeholder }) => {
                         // autoComplete="off"
                         name="interoperability"
                         value={values.interoperability}
-                       
                         onChange={(e) =>
                           handleInputChange(e, setFieldValue, 75, "all")
                         }
@@ -1117,7 +1088,6 @@ const AddProduct = ({ placeholder }) => {
                         placeholder="Enter Laser Type"
                         // autoComplete="off"
                         name="laserType"
-                       
                         onChange={(e) =>
                           handleInputChange(e, setFieldValue, 75, "all")
                         }
@@ -1136,7 +1106,6 @@ const AddProduct = ({ placeholder }) => {
                         placeholder="Enter Cooling System"
                         // autoComplete="off"
                         name="coolingSystem"
-                       
                         onChange={(e) =>
                           handleInputChange(e, setFieldValue, 75, "all")
                         }
@@ -1156,7 +1125,6 @@ const AddProduct = ({ placeholder }) => {
                         placeholder="Enter Spot Size"
                         // autoComplete="off"
                         name="spotSize"
-                      
                         onChange={(e) =>
                           handleInputChange(e, setFieldValue, 4, "number")
                         }
@@ -1177,7 +1145,6 @@ const AddProduct = ({ placeholder }) => {
                         rows="2"
                         name="diagnosticFunctions"
                         value={values.diagnosticFunctions}
-                        
                         onChange={(e) =>
                           handleInputChange(e, setFieldValue, 2000, "all")
                         }
@@ -1197,7 +1164,6 @@ const AddProduct = ({ placeholder }) => {
                         rows="2"
                         name="performanceTestingReport"
                         value={values.performanceTestingReport}
-                      
                         onChange={(e) =>
                           handleInputChange(e, setFieldValue, 2000, "all")
                         }
@@ -1210,11 +1176,11 @@ const AddProduct = ({ placeholder }) => {
                       ></Tooltip>
                     </div>
                     <AddProductFileUpload
+                      styles={styles}
                       fieldInputName={"performanceTestingReportFile"}
                       setFieldValue={setFieldValue}
                       initialValues={values}
                       label=""
-                     
                       tooltip={false}
                       showLabel={false}
                     />
@@ -1237,7 +1203,6 @@ const AddProduct = ({ placeholder }) => {
                         rows="2"
                         name="specification"
                         value={values.specification}
-                      
                         onChange={(e) =>
                           handleInputChange(e, setFieldValue, 2000, "all")
                         }
@@ -1252,11 +1217,11 @@ const AddProduct = ({ placeholder }) => {
                       )}
                     </div>
                     <AddProductFileUpload
+                      styles={styles}
                       fieldInputName={"specificationFile"}
                       setFieldValue={setFieldValue}
                       initialValues={values}
                       label=""
-                      
                       tooltip={false}
                       showLabel={false}
                     />
@@ -1273,2822 +1238,2656 @@ const AddProduct = ({ placeholder }) => {
 
             {/* Start the Pharmaceuticals */}
             {selectedSchema === "Pharmaceuticals" && (
-             
-                <div className={styles.section}>
-                  <span className={styles.formHead}>
-                    Product Identification
-                  </span>
-                  <div className={styles.formSection}>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Generic Name<span className={styles.labelStamp}>*</span>
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <input
-                          className={styles.formInput}
-                          type="text"
-                          placeholder="Enter Generic Name"
-                          // autoComplete="off"
-                          name="genericName"
-                          value={values.genericName}
-                          
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 75, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="The generic name of the medication (e.g., Paracetamol, Metformin, Ibuprofene)"></Tooltip>
-                      </div>
-                      {touched.genericName && errors.genericName && (
-                        <span className={styles.error}>
-                          {errors.genericName}
-                        </span>
-                      )}
+              <div className={styles.section}>
+                <span className={styles.formHead}>Product Identification</span>
+                <div className={styles.formSection}>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Generic Name<span className={styles.labelStamp}>*</span>
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <input
+                        className={styles.formInput}
+                        type="text"
+                        placeholder="Enter Generic Name"
+                        // autoComplete="off"
+                        name="genericName"
+                        value={values.genericName}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 75, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="The generic name of the medication (e.g., Paracetamol, Metformin, Ibuprofene)"></Tooltip>
                     </div>
+                    {touched.genericName && errors.genericName && (
+                      <span className={styles.error}>{errors.genericName}</span>
+                    )}
+                  </div>
 
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Drug Class<span className={styles.labelStamp}>*</span>
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <input
-                          className={styles.formInput}
-                          type="text"
-                          placeholder="Enter Drug Class"
-                          // autoComplete="off"
-                          name="drugClass"
-                          value={values.drugClass}
-                          
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 75, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="The class of the drug (e.g., analgesic, antibiotic, antihypertensive)"></Tooltip>
-                      </div>
-                      {touched.drugClass && errors.drugClass && (
-                        <span className={styles.error}>{errors.drugClass}</span>
-                      )}
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Drug Class<span className={styles.labelStamp}>*</span>
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <input
+                        className={styles.formInput}
+                        type="text"
+                        placeholder="Enter Drug Class"
+                        // autoComplete="off"
+                        name="drugClass"
+                        value={values.drugClass}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 75, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="The class of the drug (e.g., analgesic, antibiotic, antihypertensive)"></Tooltip>
                     </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Strength<span className={styles.labelStamp}>*</span>
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <input
-                          className={styles.formInput}
-                          type="text"
-                          placeholder="Enter Strength"
-                          // autoComplete="off"
-                          name="strength"
-                          value={values.strength}
-                          
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 20, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip
-                          content=" The strength or concentration of the medication (e.g.,
+                    {touched.drugClass && errors.drugClass && (
+                      <span className={styles.error}>{errors.drugClass}</span>
+                    )}
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Strength<span className={styles.labelStamp}>*</span>
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <input
+                        className={styles.formInput}
+                        type="text"
+                        placeholder="Enter Strength"
+                        // autoComplete="off"
+                        name="strength"
+                        value={values.strength}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 20, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip
+                        content=" The strength or concentration of the medication (e.g.,
                            500 mg, 10 mg/mL,Standard or high-strength)."
-                        ></Tooltip>
-                      </div>
-                      {touched.strength && errors.strength && (
-                        <span className={styles.error}>{errors.strength}</span>
-                      )}
+                      ></Tooltip>
                     </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        OTC Classification
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <Select
-                          className={styles.formSelect}
-                          options={pharmaOptions}
-                          placeholder="Select OTC Classification"
-                          name="otcClassification"
-                          onChange={(selectedOption) =>
-                            setFieldValue(
-                              "otcClassification",
-                              selectedOption?.value
-                            )
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip
-                          content="  Classification of the OTC drug by health authorities
+                    {touched.strength && errors.strength && (
+                      <span className={styles.error}>{errors.strength}</span>
+                    )}
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      OTC Classification
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <Select
+                        className={styles.formSelect}
+                        options={pharmaOptions}
+                        placeholder="Select OTC Classification"
+                        name="otcClassification"
+                        onChange={(selectedOption) =>
+                          setFieldValue(
+                            "otcClassification",
+                            selectedOption?.value
+                          )
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip
+                        content="  Classification of the OTC drug by health authorities
                           (e.g.,  approved for general public use,
                           behind-the-counter)."
-                        ></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
+                      ></Tooltip>
                     </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Composition/Ingredients
-                        <span className={styles.labelStamp}>*</span>
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Composition/Ingredients"
-                          rows="2"
-                          name="composition"
-                          value={values.composition}
-                        
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="Description of the active ingredients and components of the vaccine."></Tooltip>
-                      </div>
-                      {touched.composition && errors.composition && (
-                        <span className={styles.error}>
-                          {errors.composition}
-                        </span>
-                      )}
+                    <span className={styles.error}></span>
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Composition/Ingredients
+                      <span className={styles.labelStamp}>*</span>
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Composition/Ingredients"
+                        rows="2"
+                        name="composition"
+                        value={values.composition}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="Description of the active ingredients and components of the vaccine."></Tooltip>
                     </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Formulation</label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Formulation"
-                          rows="2"
-                          name="formulation"
-                          value={values.formulation}
-                          
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="The type of formulation (e.g., gel, cream, lotion, serum, mask, foam etc)."></Tooltip>
-                      </div>
-                     
+                    {touched.composition && errors.composition && (
+                      <span className={styles.error}>{errors.composition}</span>
+                    )}
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Formulation</label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Formulation"
+                        rows="2"
+                        name="formulation"
+                        value={values.formulation}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="The type of formulation (e.g., gel, cream, lotion, serum, mask, foam etc)."></Tooltip>
                     </div>
+                  </div>
 
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Purpose</label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Purpose"
-                          rows="2"
-                          name="purpose"
-                          value={values.purpose}
-                         
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip
-                          content=" Purpose (e.g., COVID-19 detection, blood glucose
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Purpose</label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Purpose"
+                        rows="2"
+                        name="purpose"
+                        value={values.purpose}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip
+                        content=" Purpose (e.g., COVID-19 detection, blood glucose
                           monitoring, cholesterol level check,Pain relief,
                            Prevention of infection.,Cooling and
                           soothing.,Moisturizing and healing, procedure or use
                           case of
                            tool, Relieves symptoms, promotes healing, or
                           prevents recurrence.)"
-                        ></Tooltip>
-                      </div>
+                      ></Tooltip>
                     </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Drug Administration Route
-                       
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Drug Administration Route"
-                          rows="2"
-                          name="drugAdministrationRoute"
-                          value={values.drugAdministrationRoute}
-                         
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip
-                          content="  Drugs can be introduced into the body by many routes,
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Drug Administration Route
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Drug Administration Route"
+                        rows="2"
+                        name="drugAdministrationRoute"
+                        value={values.drugAdministrationRoute}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip
+                        content="  Drugs can be introduced into the body by many routes,
                           such as enteric (oral, peroral, rectal), 
                           parenteral (intravascular, intramuscular,
                           subcutaneous, and inhalation
                            administration) or topical (skin and mucosal
                           membranes)"
-                        ></Tooltip>
-                      </div>
-                      {touched.drugAdministrationRoute &&
-                        errors.drugAdministrationRoute && (
-                          <span className={styles.error}>
-                            {errors.drugAdministrationRoute}
-                          </span>
-                        )}
+                      ></Tooltip>
                     </div>
-
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Controlled Substance
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <span className={styles.formCheckboxSection}>
-                          <input
-                            type="checkbox"
-                            id="controlledSubstance"
-                            onBlur={handleBlur}
-                            name="controlledSubstance"
-                            checked={values?.controlledSubstance || false}
-                            onChange={(e) => {
-                              handleCheckboxChange(
-                                "controlledSubstance",
-                                e?.target?.checked
-                              );
-                              setFieldValue(
-                                "controlledSubstance",
-                                e?.target?.checked
-                              );
-                            }}
-                          />
-                          <label
-                            className={styles.checkText}
-                            htmlFor="controlledSubstance"
-                          >
-                            Whether the drug is a controlled <br /> substance
-                          </label>
+                    {touched.drugAdministrationRoute &&
+                      errors.drugAdministrationRoute && (
+                        <span className={styles.error}>
+                          {errors.drugAdministrationRoute}
                         </span>
-                        <Tooltip
-                          content="Whether the drug is a controlled substance (e.g., some
+                      )}
+                  </div>
+
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Controlled Substance
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <span className={styles.formCheckboxSection}>
+                        <input
+                          type="checkbox"
+                          id="controlledSubstance"
+                          onBlur={handleBlur}
+                          name="controlledSubstance"
+                          checked={values?.controlledSubstance || false}
+                          onChange={(e) => {
+                            handleCheckboxChange(
+                              "controlledSubstance",
+                              e?.target?.checked
+                            );
+                            setFieldValue(
+                              "controlledSubstance",
+                              e?.target?.checked
+                            );
+                          }}
+                        />
+                        <label
+                          className={styles.checkText}
+                          htmlFor="controlledSubstance"
+                        >
+                          Whether the drug is a controlled <br /> substance
+                        </label>
+                      </span>
+                      <Tooltip
+                        content="Whether the drug is a controlled substance (e.g., some
                           OTC drugs are restricted,
                           some are only available behind the counter or
                           on prescription)."
-                        ></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
+                      ></Tooltip>
                     </div>
-                  </div>
-
-                  <div className={styles.innerProductContainer}>
-                    <div className={styles.innerSection}>
-                      <span className={styles.formHead}>
-                        Storage & Handling
-                      </span>
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>
-                          Shelf Life/Expiry
-                          <span className={styles.labelStamp}>*</span>
-                        </label>
-                        <div className={styles.tooltipContainer}>
-                          <input
-                            className={styles.formInput}
-                            type="text"
-                            placeholder="Enter Shelf Life/Expiry "
-                            // autoComplete="off"
-                            name="expiry"
-                            value={values?.expiry}
-                           
-                            onChange={(e) =>
-                              handleInputChange(e, setFieldValue, 75, "all")
-                            }
-                            onBlur={handleBlur}
-                          />
-                          <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
-                        </div>
-                        {touched.expiry && errors.expiry && (
-                          <span className={styles.error}>{errors.expiry}</span>
-                        )}
-                      </div>
-                    </div>
-
-                    <div className={styles.innerMonitorSection}>
-                      <span className={styles.formHead}>
-                        Monitoring and Adherence
-                      </span>
-                      <div className={styles.formInnerSection}>
-                        <div className={styles.productInnerContainer}>
-                          <label className={styles.formLabel}>
-                            Side Effects and Warnings
-                          </label>
-                          <div className={styles.tooltipContainer}>
-                            <textarea
-                              className={styles.formInput}
-                              placeholder="Enter Side Effects and Warnings"
-                              rows="2"
-                              name="sideEffectsAndWarnings"
-                              value={values.sideEffectsAndWarnings}
-                              
-                              onChange={(e) =>
-                                handleInputChange(e, setFieldValue, 2000, "all")
-                              }
-                              onBlur={handleBlur}
-                            />
-                            <Tooltip
-                              content="Common side effects associated with the
-                              medication. Known
-                              interactions with other drugs or food (eg.
-                              Alcohol)"
-                            ></Tooltip>
-                          </div>
-                        
-                        </div>
-                        <div className={styles.productInnerContainer}>
-                          <label className={styles.formLabel}>Allergens</label>
-                          <div className={styles.tooltipContainer}>
-                            <textarea
-                              className={styles.formInput}
-                              placeholder="Enter Allergens"
-                              rows="2"
-                              name="allergens"
-                              value={values.allergens}
-                             
-                              onChange={(e) =>
-                                handleInputChange(e, setFieldValue, 2000, "all")
-                              }
-                              onBlur={handleBlur}
-                            />
-                            <Tooltip content="Common allergens in the product (e.g., parabens, sulfates, gluten etc)."></Tooltip>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    <span className={styles.error}></span>
                   </div>
                 </div>
-             
-            )}
 
-            {/* End the Pharmaceuticals */}
-
-            {/* Start the Skin, Hair and Cosmetic Supplies */}
-            {selectedSchema === "SkinHairCosmeticSupplies" && (
-            
-                <div className={styles.section}>
-                  <span className={styles.formHead}>
-                    Product Identification
-                  </span>
-                  <div className={styles.formSection}>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>SPF</label>
+                <div className={styles.innerProductContainer}>
+                  <div className={styles.innerSection}>
+                    <span className={styles.formHead}>Storage & Handling</span>
+                    <div className={styles.productInnerContainer}>
+                      <label className={styles.formLabel}>
+                        Shelf Life/Expiry
+                        <span className={styles.labelStamp}>*</span>
+                      </label>
                       <div className={styles.tooltipContainer}>
                         <input
                           className={styles.formInput}
                           type="text"
-                          placeholder="Enter SPF"
+                          placeholder="Enter Shelf Life/Expiry "
                           // autoComplete="off"
-                          name="spf"
-                         
+                          name="expiry"
+                          value={values?.expiry}
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 75, "all")
                           }
                           onBlur={handleBlur}
                         />
-                        <Tooltip content="If the product is a sunscreen, the SPF (Sun Protection Factor) rating"></Tooltip>
-                      </div>
-                    </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Fragrance</label>
-                      <div className={styles.tooltipContainer}>
-                        <input
-                          className={styles.formInput}
-                          placeholder="Enter Fragrance"
-                          type="text"
-                          name="fragrance"
-                          value={values.fragrance}
-                       
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="Whether the product contains fragrance or is fragrance-free."></Tooltip>
-                      </div>
-                    </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Strength<span className={styles.labelStamp}>*</span>
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <input
-                          className={styles.formInput}
-                          type="text"
-                          placeholder="Enter Strength"
-                          // autoComplete="off"
-                          name="strength"
-                          value={values.strength}
-                         
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 20, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip
-                          content=" The strength or concentration of the medication (e.g.,
-                          500 mg, 10 mg/mL,Standard or high-strength)."
-                        ></Tooltip>
-                      </div>
-                      {touched.strength && errors.strength && (
-                        <span className={styles.error}>{errors.strength}</span>
-                      )}
-                    </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Elasticity</label>
-                      <div className={styles.tooltipContainer}>
-                        <input
-                          className={styles.formInput}
-                          type="text"
-                          placeholder="Enter Elasticity"
-                          // autoComplete="off"
-                          name="elasticity"
-                          value={values.elasticity}
-                       
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 75, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content=" Stretch for tapes"></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
-                    </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Adhesiveness</label>
-                      <div className={styles.tooltipContainer}>
-                        <input
-                          className={styles.formInput}
-                          type="text"
-                          placeholder="Enter Adhesiveness"
-                          // autoComplete="off"
-                          name="adhesiveness"
-                          value={values.adhesiveness}
-                         
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 75, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content=" Adhesive or non-adhesive."></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
-                    </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Thickness</label>
-                      <div className={styles.tooltipContainer}>
-                        <input
-                          className={styles.formInput}
-                          type="text"
-                          placeholder="Enter Thickness"
-                          // autoComplete="off"
-                          name="thickness"
-                          value={values.thickness}
-                        
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 5, "numer")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="The thickness of the Item (e.g., in mil or gauge)."></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
-                    </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        OTC Classification
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <Select
-                          className={styles.formSelect}
-                          options={skinhairOptions}
-                          placeholder="Select OTC Classification"
-                          name="otcClassification"
-                          onChange={(selectedOption) =>
-                            setFieldValue(
-                              "otcClassification",
-                              selectedOption?.value
-                            )
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip
-                          content=" Classification of the OTC drug by health authorities
-                          (e.g., approved for general public use,
-                          behind-the-counter)."
-                        ></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
-                    </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Formulation</label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Formulation"
-                          rows="2"
-                          name="formulation"
-                          value={values.formulation}
-                         
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="The type of formulation (e.g., gel, cream, lotion, serum, mask, foam etc)."></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
-                    </div>
-
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Composition/Ingredients
-                        <span className={styles.labelStamp}>*</span>
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Composition/Ingredients"
-                          rows="2"
-                          name="composition"
-                          value={values.composition}
-                        
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="Description of the active ingredients and components of the vaccine."></Tooltip>
-                      </div>
-                      {touched.composition && errors.composition && (
-                        <span className={styles.error}>
-                          {errors.composition}
-                        </span>
-                      )}
-                    </div>
-
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Purpose<span className={styles.labelStamp}>*</span>
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Purpose"
-                          rows="2"
-                          name="purpose"
-                          value={values.purpose}
-                          
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="Intended use type (e.g., oily, dry, curly, fine, thick, straight, medical, industrial etc)"></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
-                    </div>
-
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Target Condition
-                        <span className={styles.labelStamp}>*</span>
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Target Condition"
-                          rows="2"
-                          name="targetCondition"
-                          value={values.targetCondition}
-                         
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="The hair, scalp or skin condition the product is formulated to address"></Tooltip>
-                      </div>
-                      {touched.targetCondition && errors.targetCondition && (
-                        <span className={styles.error}>
-                          {errors.targetCondition}
-                        </span>
-                      )}
-                    </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Drug Administration Route
-                        <span className={styles.labelStamp}>*</span>
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Drug Administration Route"
-                          rows="2"
-                          name="drugAdministrationRoute"
-                          value={values.drugAdministrationRoute}
-                          
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip
-                          content=" Drugs can be introduced into the body by many routes,
-                          such as enteric (oral, peroral,
-                          rectal), parenteral (intravascular,
-                          intramuscular, subcutaneous, and inhalation
-                          administration) or topical (skin and mucosal
-                          membranes)"
-                        ></Tooltip>
-                      </div>
-                      {touched.drugAdministrationRoute &&
-                        errors.drugAdministrationRoute && (
-                          <span className={styles.error}>
-                            {errors.drugAdministrationRoute}
-                          </span>
-                        )}
-                    </div>
-
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Drug Class<span className={styles.labelStamp}>*</span>
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Drug Class"
-                          rows="2"
-                          name="drugClass"
-                          value={values.drugClass}
-                        
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="The class of the drug (e.g., analgesic, antibiotic, antihypertensive)"></Tooltip>
-                      </div>
-                      {touched.drugClass && errors.drugClass && (
-                        <span className={styles.error}>{errors.drugClass}</span>
-                      )}
-                    </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Concentration</label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Concentration"
-                          rows="2"
-                          name="concentration"
-                          value={values.concentration}
-                          
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip
-                          content="Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
-                          ,Alcohol-based disinfectants are typically
-                          70-90% concentration for optimal antimicrobial
-                          efficacy.
-                          Oxygen concentration level provided by the
-                          device (e.g., 95%)"
-                        ></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
-                    </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Moisturizers</label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Moisturizers"
-                          rows="2"
-                          name="moisturizers"
-                          value={values.moisturizers}
-                         
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="such as aloe vera, glycerin, or Vitamin E to reduce skin irritation from frequent use"></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
-                    </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Filler Type</label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Filler Type"
-                          rows="2"
-                          name="fillerType"
-                         
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="Hyaluronic acid, Calcium hydroxyapatite"></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
-                    </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Vegan</label>
-                      <div className={styles.tooltipContainer}>
-                        <span className={styles.formCheckboxSection}>
-                          <input
-                            type="checkbox"
-                            id="vegan"
-                            name="vegan"
-                            onBlur={handleBlur}
-                            checked={values?.vegan || checked["vegan"] || false}
-                            onChange={(e) => {
-                              handleCheckboxChange("vegan", e?.target?.checked);
-                              setFieldValue("vegan", e?.target?.checked);
-                            }}
-                          />
-
-                          <label className={styles.checkText} htmlFor="vegan">
-                            Whether the product is vegan (i.e. <br />, no
-                            animal-derived ingredients).
-                          </label>
-                        </span>
-                        <Tooltip content="Description of the active and/or inactive ingredients and components"></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
-                    </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Cruelty-Free</label>
-                      <div className={styles.tooltipContainer}>
-                        <span className={styles.formCheckboxSection}>
-                          <input
-                            type="checkbox"
-                            id="crueltyFree"
-                            name="crueltyFree"
-                            onBlur={handleBlur}
-                            checked={
-                              values?.crueltyFree ||
-                              checked["crueltyFree"] ||
-                              false
-                            }
-                            onChange={(e) => {
-                              handleCheckboxChange(
-                                "crueltyFree",
-                                e?.target?.checked
-                              );
-                              setFieldValue("crueltyFree", e?.target?.checked);
-                            }}
-                          />
-
-                          <label
-                            className={styles.checkText}
-                            htmlFor="crueltyFree"
-                          >
-                            Whether the product is tested on <br /> animals or
-                            is cruelty-free
-                          </label>
-                        </span>
-                        <Tooltip content="Whether the product is tested on animals or is cruelty-free"></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
-                    </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Controlled Substance
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <span className={styles.formCheckboxSection}>
-                          <input
-                            type="checkbox"
-                            id="controlledSubstance"
-                            onBlur={handleBlur}
-                            name="controlledSubstance"
-                            checked={values.controlledSubstance || false}
-                            onChange={(e) => {
-                              handleCheckboxChange(
-                                "controlledSubstance",
-                                e?.target?.checked
-                              );
-                              setFieldValue(
-                                "controlledSubstance",
-                                e?.target?.checked
-                              );
-                            }}
-                          />
-                          <label
-                            className={styles.checkText}
-                            htmlFor="controlledSubstance"
-                          >
-                            Whether the drug is a controlled <br /> substance
-                          </label>
-                        </span>
-                        <Tooltip
-                          content="    Whether the drug is a controlled substance (e.g., some
-                          OTC drugs are restricted,
-                           some are only available behind the counter or
-                          on prescription)."
-                        ></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
-                    </div>
-                  </div>
-
-                  <div className={styles.innerProductContainer}>
-                    <div className={styles.innerMonitorSection}>
-                      <span className={styles.formHead}>
-                        Compliance & Certification
-                      </span>
-                      <div className={styles.formInnerSection}>
-                        {/* Dermatologist Tested */}
-                        <div className={styles.productInnerContainer}>
-                          <label className={styles.formLabel}>
-                            Dermatologist Tested
-                            <span className={styles.labelStamp}>*</span>
-                          </label>
-                          <div className={styles.tooltipContainer}>
-                            <Select
-                              className={styles.formSelect}
-                              options={dermatologistOptions}
-                              placeholder="Select Dermatologist Tested"
-                              name="dermatologistTested"
-                              value={dermatologistOptions.find(
-                                (option) =>
-                                  option.value === values.dermatologistTested
-                              )} 
-                              onChange={(selectedOption) => {
-                                setFieldValue(
-                                  "dermatologistTested",
-                                  selectedOption?.value
-                                );
-                                setDermatologistTested(selectedOption?.value);
-                              }}
-                              onBlur={handleBlur}
-                            />
-                            <Tooltip content="   Whether the product has been dermatologist-tested for sensitivity."></Tooltip>
-                          </div>
-                          {touched.dermatologistTested &&
-                            errors.dermatologistTested && (
-                              <span className={styles.error}>
-                                {errors.dermatologistTested}
-                              </span>
-                            )}
-                          {dermatologistTested === "Yes" && (
-                            <>
-                              <AddProductFileUpload
-                                fieldInputName={"dermatologistTestedFile"}
-                                setFieldValue={setFieldValue}
-                                initialValues={values}
-                                label=""
-                              
-                                tooltip={false}
-                                showLabel={false}
-                              />
-                            </>
-                          )}
-                          {touched.dermatologistTestedFile &&
-                            errors.dermatologistTestedFile && (
-                              <span className={styles.error}>
-                                {errors.dermatologistTestedFile}
-                              </span>
-                            )}
-                        </div>
-
-                        {/* Pediatrician Recommended */}
-                        <div className={styles.productInnerContainer}>
-                          <label className={styles.formLabel}>
-                            Pediatrician Recommended
-                            <span className={styles.labelStamp}>*</span>
-                          </label>
-                          <div className={styles.tooltipContainer}>
-                          
-
-                            <Select
-                              className={styles.formSelect}
-                              options={pediatricianOptions}
-                              placeholder="Select Pediatrician Recommended"
-                              name="pediatricianRecommended"
-                              value={pediatricianOptions.find(
-                                (option) =>
-                                  option.value ===
-                                  values.pediatricianRecommended
-                              )} 
-                              onChange={(selectedOption) => {
-                                setFieldValue(
-                                  "pediatricianRecommended",
-                                  selectedOption?.value
-                                );
-                                setPediatricianRecommended(
-                                  selectedOption?.value
-                                );
-                              }}
-                              onBlur={handleBlur}
-                            />
-                            <Tooltip content=" Whether the product has been recommended or endorsed by pediatricians."></Tooltip>
-                          </div>
-                          {touched.pediatricianRecommended &&
-                            errors.pediatricianRecommended && (
-                              <span className={styles.error}>
-                                {errors.pediatricianRecommended}
-                              </span>
-                            )}
-                          {pediatricianRecommended === "Yes" && (
-                            <>
-                              <AddProductFileUpload
-                                fieldInputName={"pediatricianRecommendedFile"}
-                                setFieldValue={setFieldValue}
-                                initialValues={values}
-                                label=""
-                               
-                                tooltip={false}
-                                showLabel={false}
-                              />
-                            </>
-                          )}
-                          {touched.pediatricianRecommendedFile &&
-                            errors.pediatricianRecommendedFile && (
-                              <span className={styles.error}>
-                                {errors.pediatricianRecommendedFile}
-                              </span>
-                            )}
-                        </div>
-                      </div>
-                    </div>
-                    <div className={styles.innerMonitorSection}>
-                      <span className={styles.formHead}>
-                        Monitoring and Adherence
-                      </span>
-                      <div className={styles.formInnerSection}>
-                        <div className={styles.productInnerContainer}>
-                          <label className={styles.formLabel}>
-                            Side Effects and Warnings
-                          </label>
-                          <div className={styles.tooltipContainer}>
-                            <textarea
-                              className={styles.formInput}
-                              placeholder="Enter Side Effects and Warnings"
-                              rows="2"
-                              name="sideEffectsAndWarnings"
-                              value={values.sideEffectsAndWarnings}
-                             
-                              onChange={(e) =>
-                                handleInputChange(e, setFieldValue, 2000, "all")
-                              }
-                              onBlur={handleBlur}
-                            />
-                            <Tooltip
-                              content="  Common side effects associated with the
-                              medication. Known interactions  with other
-                              drugs or food (eg. Alcohol)"
-                            ></Tooltip>
-                          </div>
-                          <span className={styles.error}></span>
-                        </div>
-                        <div className={styles.productInnerContainer}>
-                          <label className={styles.formLabel}>Allergens</label>
-                          <div className={styles.tooltipContainer}>
-                            <textarea
-                              className={styles.formInput}
-                              placeholder="Enter Allergens"
-                              rows="2"
-                              name="allergens"
-                              value={values.allergens}
-                             
-                              onChange={(e) =>
-                                handleInputChange(e, setFieldValue, 2000, "all")
-                              }
-                              onBlur={handleBlur}
-                            />
-                            <Tooltip content=" Common allergens in the product (e.g., parabens, sulfates, gluten etc)."></Tooltip>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className={styles.innerSection}>
-                      <span className={styles.formHead}>
-                        Storage & Handling
-                      </span>
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>
-                          Shelf Life/Expiry
-                          <span className={styles.labelStamp}>*</span>
-                        </label>
-                        <div className={styles.tooltipContainer}>
-                          <input
-                            className={styles.formInput}
-                            type="text"
-                            placeholder="Enter Shelf Life/Expiry"
-                            // autoComplete="off"
-                            name="expiry"
-                            value={values?.expiry}
-                          
-                            onChange={(e) =>
-                              handleInputChange(e, setFieldValue, 75, "all")
-                            }
-                            onBlur={handleBlur}
-                          />
-                          <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
-                        </div>
+                        <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
                       </div>
                       {touched.expiry && errors.expiry && (
                         <span className={styles.error}>{errors.expiry}</span>
                       )}
                     </div>
                   </div>
+
+                  <div className={styles.innerMonitorSection}>
+                    <span className={styles.formHead}>
+                      Monitoring and Adherence
+                    </span>
+                    <div className={styles.formInnerSection}>
+                      <div className={styles.productInnerContainer}>
+                        <label className={styles.formLabel}>
+                          Side Effects and Warnings
+                        </label>
+                        <div className={styles.tooltipContainer}>
+                          <textarea
+                            className={styles.formInput}
+                            placeholder="Enter Side Effects and Warnings"
+                            rows="2"
+                            name="sideEffectsAndWarnings"
+                            value={values.sideEffectsAndWarnings}
+                            onChange={(e) =>
+                              handleInputChange(e, setFieldValue, 2000, "all")
+                            }
+                            onBlur={handleBlur}
+                          />
+                          <Tooltip
+                            content="Common side effects associated with the
+                              medication. Known
+                              interactions with other drugs or food (eg.
+                              Alcohol)"
+                          ></Tooltip>
+                        </div>
+                      </div>
+                      <div className={styles.productInnerContainer}>
+                        <label className={styles.formLabel}>Allergens</label>
+                        <div className={styles.tooltipContainer}>
+                          <textarea
+                            className={styles.formInput}
+                            placeholder="Enter Allergens"
+                            rows="2"
+                            name="allergens"
+                            value={values.allergens}
+                            onChange={(e) =>
+                              handleInputChange(e, setFieldValue, 2000, "all")
+                            }
+                            onBlur={handleBlur}
+                          />
+                          <Tooltip content="Common allergens in the product (e.g., parabens, sulfates, gluten etc)."></Tooltip>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-             
+              </div>
+            )}
+
+            {/* End the Pharmaceuticals */}
+
+            {/* Start the Skin, Hair and Cosmetic Supplies */}
+            {selectedSchema === "SkinHairCosmeticSupplies" && (
+              <div className={styles.section}>
+                <span className={styles.formHead}>Product Identification</span>
+                <div className={styles.formSection}>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>SPF</label>
+                    <div className={styles.tooltipContainer}>
+                      <input
+                        className={styles.formInput}
+                        type="text"
+                        placeholder="Enter SPF"
+                        // autoComplete="off"
+                        name="spf"
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 75, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="If the product is a sunscreen, the SPF (Sun Protection Factor) rating"></Tooltip>
+                    </div>
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Fragrance</label>
+                    <div className={styles.tooltipContainer}>
+                      <input
+                        className={styles.formInput}
+                        placeholder="Enter Fragrance"
+                        type="text"
+                        name="fragrance"
+                        value={values.fragrance}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="Whether the product contains fragrance or is fragrance-free."></Tooltip>
+                    </div>
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Strength<span className={styles.labelStamp}>*</span>
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <input
+                        className={styles.formInput}
+                        type="text"
+                        placeholder="Enter Strength"
+                        // autoComplete="off"
+                        name="strength"
+                        value={values.strength}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 20, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip
+                        content=" The strength or concentration of the medication (e.g.,
+                          500 mg, 10 mg/mL,Standard or high-strength)."
+                      ></Tooltip>
+                    </div>
+                    {touched.strength && errors.strength && (
+                      <span className={styles.error}>{errors.strength}</span>
+                    )}
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Elasticity</label>
+                    <div className={styles.tooltipContainer}>
+                      <input
+                        className={styles.formInput}
+                        type="text"
+                        placeholder="Enter Elasticity"
+                        // autoComplete="off"
+                        name="elasticity"
+                        value={values.elasticity}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 75, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content=" Stretch for tapes"></Tooltip>
+                    </div>
+                    <span className={styles.error}></span>
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Adhesiveness</label>
+                    <div className={styles.tooltipContainer}>
+                      <input
+                        className={styles.formInput}
+                        type="text"
+                        placeholder="Enter Adhesiveness"
+                        // autoComplete="off"
+                        name="adhesiveness"
+                        value={values.adhesiveness}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 75, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content=" Adhesive or non-adhesive."></Tooltip>
+                    </div>
+                    <span className={styles.error}></span>
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Thickness</label>
+                    <div className={styles.tooltipContainer}>
+                      <input
+                        className={styles.formInput}
+                        type="text"
+                        placeholder="Enter Thickness"
+                        // autoComplete="off"
+                        name="thickness"
+                        value={values.thickness}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 5, "numer")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="The thickness of the Item (e.g., in mil or gauge)."></Tooltip>
+                    </div>
+                    <span className={styles.error}></span>
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      OTC Classification
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <Select
+                        className={styles.formSelect}
+                        options={skinhairOptions}
+                        placeholder="Select OTC Classification"
+                        name="otcClassification"
+                        onChange={(selectedOption) =>
+                          setFieldValue(
+                            "otcClassification",
+                            selectedOption?.value
+                          )
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip
+                        content=" Classification of the OTC drug by health authorities
+                          (e.g., approved for general public use,
+                          behind-the-counter)."
+                      ></Tooltip>
+                    </div>
+                    <span className={styles.error}></span>
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Formulation</label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Formulation"
+                        rows="2"
+                        name="formulation"
+                        value={values.formulation}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="The type of formulation (e.g., gel, cream, lotion, serum, mask, foam etc)."></Tooltip>
+                    </div>
+                    <span className={styles.error}></span>
+                  </div>
+
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Composition/Ingredients
+                      <span className={styles.labelStamp}>*</span>
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Composition/Ingredients"
+                        rows="2"
+                        name="composition"
+                        value={values.composition}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="Description of the active ingredients and components of the vaccine."></Tooltip>
+                    </div>
+                    {touched.composition && errors.composition && (
+                      <span className={styles.error}>{errors.composition}</span>
+                    )}
+                  </div>
+
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Purpose<span className={styles.labelStamp}>*</span>
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Purpose"
+                        rows="2"
+                        name="purpose"
+                        value={values.purpose}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="Intended use type (e.g., oily, dry, curly, fine, thick, straight, medical, industrial etc)"></Tooltip>
+                    </div>
+                    <span className={styles.error}></span>
+                  </div>
+
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Target Condition
+                      <span className={styles.labelStamp}>*</span>
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Target Condition"
+                        rows="2"
+                        name="targetCondition"
+                        value={values.targetCondition}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="The hair, scalp or skin condition the product is formulated to address"></Tooltip>
+                    </div>
+                    {touched.targetCondition && errors.targetCondition && (
+                      <span className={styles.error}>
+                        {errors.targetCondition}
+                      </span>
+                    )}
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Drug Administration Route
+                      <span className={styles.labelStamp}>*</span>
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Drug Administration Route"
+                        rows="2"
+                        name="drugAdministrationRoute"
+                        value={values.drugAdministrationRoute}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip
+                        content=" Drugs can be introduced into the body by many routes,
+                          such as enteric (oral, peroral,
+                          rectal), parenteral (intravascular,
+                          intramuscular, subcutaneous, and inhalation
+                          administration) or topical (skin and mucosal
+                          membranes)"
+                      ></Tooltip>
+                    </div>
+                    {touched.drugAdministrationRoute &&
+                      errors.drugAdministrationRoute && (
+                        <span className={styles.error}>
+                          {errors.drugAdministrationRoute}
+                        </span>
+                      )}
+                  </div>
+
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Drug Class<span className={styles.labelStamp}>*</span>
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Drug Class"
+                        rows="2"
+                        name="drugClass"
+                        value={values.drugClass}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="The class of the drug (e.g., analgesic, antibiotic, antihypertensive)"></Tooltip>
+                    </div>
+                    {touched.drugClass && errors.drugClass && (
+                      <span className={styles.error}>{errors.drugClass}</span>
+                    )}
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Concentration</label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Concentration"
+                        rows="2"
+                        name="concentration"
+                        value={values.concentration}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip
+                        content="Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
+                          ,Alcohol-based disinfectants are typically
+                          70-90% concentration for optimal antimicrobial
+                          efficacy.
+                          Oxygen concentration level provided by the
+                          device (e.g., 95%)"
+                      ></Tooltip>
+                    </div>
+                    <span className={styles.error}></span>
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Moisturizers</label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Moisturizers"
+                        rows="2"
+                        name="moisturizers"
+                        value={values.moisturizers}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="such as aloe vera, glycerin, or Vitamin E to reduce skin irritation from frequent use"></Tooltip>
+                    </div>
+                    <span className={styles.error}></span>
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Filler Type</label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Filler Type"
+                        rows="2"
+                        name="fillerType"
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="Hyaluronic acid, Calcium hydroxyapatite"></Tooltip>
+                    </div>
+                    <span className={styles.error}></span>
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Vegan</label>
+                    <div className={styles.tooltipContainer}>
+                      <span className={styles.formCheckboxSection}>
+                        <input
+                          type="checkbox"
+                          id="vegan"
+                          name="vegan"
+                          onBlur={handleBlur}
+                          checked={values?.vegan || checked["vegan"] || false}
+                          onChange={(e) => {
+                            handleCheckboxChange("vegan", e?.target?.checked);
+                            setFieldValue("vegan", e?.target?.checked);
+                          }}
+                        />
+
+                        <label className={styles.checkText} htmlFor="vegan">
+                          Whether the product is vegan (i.e. <br />, no
+                          animal-derived ingredients).
+                        </label>
+                      </span>
+                      <Tooltip content="Description of the active and/or inactive ingredients and components"></Tooltip>
+                    </div>
+                    <span className={styles.error}></span>
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Cruelty-Free</label>
+                    <div className={styles.tooltipContainer}>
+                      <span className={styles.formCheckboxSection}>
+                        <input
+                          type="checkbox"
+                          id="crueltyFree"
+                          name="crueltyFree"
+                          onBlur={handleBlur}
+                          checked={
+                            values?.crueltyFree ||
+                            checked["crueltyFree"] ||
+                            false
+                          }
+                          onChange={(e) => {
+                            handleCheckboxChange(
+                              "crueltyFree",
+                              e?.target?.checked
+                            );
+                            setFieldValue("crueltyFree", e?.target?.checked);
+                          }}
+                        />
+
+                        <label
+                          className={styles.checkText}
+                          htmlFor="crueltyFree"
+                        >
+                          Whether the product is tested on <br /> animals or is
+                          cruelty-free
+                        </label>
+                      </span>
+                      <Tooltip content="Whether the product is tested on animals or is cruelty-free"></Tooltip>
+                    </div>
+                    <span className={styles.error}></span>
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Controlled Substance
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <span className={styles.formCheckboxSection}>
+                        <input
+                          type="checkbox"
+                          id="controlledSubstance"
+                          onBlur={handleBlur}
+                          name="controlledSubstance"
+                          checked={values.controlledSubstance || false}
+                          onChange={(e) => {
+                            handleCheckboxChange(
+                              "controlledSubstance",
+                              e?.target?.checked
+                            );
+                            setFieldValue(
+                              "controlledSubstance",
+                              e?.target?.checked
+                            );
+                          }}
+                        />
+                        <label
+                          className={styles.checkText}
+                          htmlFor="controlledSubstance"
+                        >
+                          Whether the drug is a controlled <br /> substance
+                        </label>
+                      </span>
+                      <Tooltip
+                        content="    Whether the drug is a controlled substance (e.g., some
+                          OTC drugs are restricted,
+                           some are only available behind the counter or
+                          on prescription)."
+                      ></Tooltip>
+                    </div>
+                    <span className={styles.error}></span>
+                  </div>
+                </div>
+
+                <div className={styles.innerProductContainer}>
+                  <div className={styles.innerMonitorSection}>
+                    <span className={styles.formHead}>
+                      Compliance & Certification
+                    </span>
+                    <div className={styles.formInnerSection}>
+                      {/* Dermatologist Tested */}
+                      <div className={styles.productInnerContainer}>
+                        <label className={styles.formLabel}>
+                          Dermatologist Tested
+                          <span className={styles.labelStamp}>*</span>
+                        </label>
+                        <div className={styles.tooltipContainer}>
+                          <Select
+                            className={styles.formSelect}
+                            options={dermatologistOptions}
+                            placeholder="Select Dermatologist Tested"
+                            name="dermatologistTested"
+                            value={dermatologistOptions.find(
+                              (option) =>
+                                option.value === values.dermatologistTested
+                            )}
+                            onChange={(selectedOption) => {
+                              setFieldValue(
+                                "dermatologistTested",
+                                selectedOption?.value
+                              );
+                              setDermatologistTested(selectedOption?.value);
+                            }}
+                            onBlur={handleBlur}
+                          />
+                          <Tooltip content="   Whether the product has been dermatologist-tested for sensitivity."></Tooltip>
+                        </div>
+                        {touched.dermatologistTested &&
+                          errors.dermatologistTested && (
+                            <span className={styles.error}>
+                              {errors.dermatologistTested}
+                            </span>
+                          )}
+                        {dermatologistTested === "Yes" && (
+                          <>
+                            <AddProductFileUpload
+                              styles={styles}
+                              fieldInputName={"dermatologistTestedFile"}
+                              setFieldValue={setFieldValue}
+                              initialValues={values}
+                              label=""
+                              tooltip={false}
+                              showLabel={false}
+                            />
+                          </>
+                        )}
+                        {touched.dermatologistTestedFile &&
+                          errors.dermatologistTestedFile && (
+                            <span className={styles.error}>
+                              {errors.dermatologistTestedFile}
+                            </span>
+                          )}
+                      </div>
+
+                      {/* Pediatrician Recommended */}
+                      <div className={styles.productInnerContainer}>
+                        <label className={styles.formLabel}>
+                          Pediatrician Recommended
+                          <span className={styles.labelStamp}>*</span>
+                        </label>
+                        <div className={styles.tooltipContainer}>
+                          <Select
+                            className={styles.formSelect}
+                            options={pediatricianOptions}
+                            placeholder="Select Pediatrician Recommended"
+                            name="pediatricianRecommended"
+                            value={pediatricianOptions.find(
+                              (option) =>
+                                option.value === values.pediatricianRecommended
+                            )}
+                            onChange={(selectedOption) => {
+                              setFieldValue(
+                                "pediatricianRecommended",
+                                selectedOption?.value
+                              );
+                              setPediatricianRecommended(selectedOption?.value);
+                            }}
+                            onBlur={handleBlur}
+                          />
+                          <Tooltip content=" Whether the product has been recommended or endorsed by pediatricians."></Tooltip>
+                        </div>
+                        {touched.pediatricianRecommended &&
+                          errors.pediatricianRecommended && (
+                            <span className={styles.error}>
+                              {errors.pediatricianRecommended}
+                            </span>
+                          )}
+                        {pediatricianRecommended === "Yes" && (
+                          <>
+                            <AddProductFileUpload
+                              styles={styles}
+                              fieldInputName={"pediatricianRecommendedFile"}
+                              setFieldValue={setFieldValue}
+                              initialValues={values}
+                              label=""
+                              tooltip={false}
+                              showLabel={false}
+                            />
+                          </>
+                        )}
+                        {touched.pediatricianRecommendedFile &&
+                          errors.pediatricianRecommendedFile && (
+                            <span className={styles.error}>
+                              {errors.pediatricianRecommendedFile}
+                            </span>
+                          )}
+                      </div>
+                    </div>
+                  </div>
+                  <div className={styles.innerMonitorSection}>
+                    <span className={styles.formHead}>
+                      Monitoring and Adherence
+                    </span>
+                    <div className={styles.formInnerSection}>
+                      <div className={styles.productInnerContainer}>
+                        <label className={styles.formLabel}>
+                          Side Effects and Warnings
+                        </label>
+                        <div className={styles.tooltipContainer}>
+                          <textarea
+                            className={styles.formInput}
+                            placeholder="Enter Side Effects and Warnings"
+                            rows="2"
+                            name="sideEffectsAndWarnings"
+                            value={values.sideEffectsAndWarnings}
+                            onChange={(e) =>
+                              handleInputChange(e, setFieldValue, 2000, "all")
+                            }
+                            onBlur={handleBlur}
+                          />
+                          <Tooltip
+                            content="  Common side effects associated with the
+                              medication. Known interactions  with other
+                              drugs or food (eg. Alcohol)"
+                          ></Tooltip>
+                        </div>
+                        <span className={styles.error}></span>
+                      </div>
+                      <div className={styles.productInnerContainer}>
+                        <label className={styles.formLabel}>Allergens</label>
+                        <div className={styles.tooltipContainer}>
+                          <textarea
+                            className={styles.formInput}
+                            placeholder="Enter Allergens"
+                            rows="2"
+                            name="allergens"
+                            value={values.allergens}
+                            onChange={(e) =>
+                              handleInputChange(e, setFieldValue, 2000, "all")
+                            }
+                            onBlur={handleBlur}
+                          />
+                          <Tooltip content=" Common allergens in the product (e.g., parabens, sulfates, gluten etc)."></Tooltip>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className={styles.innerSection}>
+                    <span className={styles.formHead}>Storage & Handling</span>
+                    <div className={styles.productInnerContainer}>
+                      <label className={styles.formLabel}>
+                        Shelf Life/Expiry
+                        <span className={styles.labelStamp}>*</span>
+                      </label>
+                      <div className={styles.tooltipContainer}>
+                        <input
+                          className={styles.formInput}
+                          type="text"
+                          placeholder="Enter Shelf Life/Expiry"
+                          // autoComplete="off"
+                          name="expiry"
+                          value={values?.expiry}
+                          onChange={(e) =>
+                            handleInputChange(e, setFieldValue, 75, "all")
+                          }
+                          onBlur={handleBlur}
+                        />
+                        <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
+                      </div>
+                    </div>
+                    {touched.expiry && errors.expiry && (
+                      <span className={styles.error}>{errors.expiry}</span>
+                    )}
+                  </div>
+                </div>
+              </div>
             )}
 
             {/* End the Skin, Hair and Cosmetic Supplies */}
 
             {/* Start the Vital Health and Wellness */}
             {selectedSchema === "VitalHealthAndWellness" && (
-             
-                <div className={styles.section}>
-                  <span className={styles.formHead}>
-                    Product Identification
-                  </span>
-                  <div className={styles.formSection}>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Generic Name<span className={styles.labelStamp}>*</span>
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <input
-                          className={styles.formInput}
-                          type="text"
-                          placeholder="Enter Generic Name"
-                          // autoComplete="off"
-                          name="genericName"
-                          value={values.genericName}
-                         
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 75, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="The generic name of the medication (e.g., Paracetamol, Metformin, Ibuprofene)"></Tooltip>
-                      </div>
+              <div className={styles.section}>
+                <span className={styles.formHead}>Product Identification</span>
+                <div className={styles.formSection}>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Generic Name<span className={styles.labelStamp}>*</span>
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <input
+                        className={styles.formInput}
+                        type="text"
+                        placeholder="Enter Generic Name"
+                        // autoComplete="off"
+                        name="genericName"
+                        value={values.genericName}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 75, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="The generic name of the medication (e.g., Paracetamol, Metformin, Ibuprofene)"></Tooltip>
                     </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Strength<span className={styles.labelStamp}>*</span>
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <input
-                          className={styles.formInput}
-                          type="text"
-                          placeholder="Enter Strength"
-                          // autoComplete="off"
-                          name="strength"
-                          value={values.strength}
-                         
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 20, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip
-                          content=" The strength or concentration of the medication (e.g.,
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Strength<span className={styles.labelStamp}>*</span>
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <input
+                        className={styles.formInput}
+                        type="text"
+                        placeholder="Enter Strength"
+                        // autoComplete="off"
+                        name="strength"
+                        value={values.strength}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 20, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip
+                        content=" The strength or concentration of the medication (e.g.,
                           500 mg, 10 mg/mL,Standard or high-strength)."
-                        ></Tooltip>
-                      </div>
-                      {touched.strength && errors.strength && (
-                        <span className={styles.error}>{errors.strength}</span>
-                      )}
+                      ></Tooltip>
                     </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        OTC Classification
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <Select
-                          className={styles.formSelect}
-                          options={vitalHealthOptions}
-                          placeholder="Select OTC Classification"
-                          name="otcClassification"
-                          onChange={(selectedOption) =>
-                            setFieldValue(
-                              "otcClassification",
-                              selectedOption?.value
-                            )
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip
-                          content="      Classification of the OTC drug by health authorities
+                    {touched.strength && errors.strength && (
+                      <span className={styles.error}>{errors.strength}</span>
+                    )}
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      OTC Classification
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <Select
+                        className={styles.formSelect}
+                        options={vitalHealthOptions}
+                        placeholder="Select OTC Classification"
+                        name="otcClassification"
+                        onChange={(selectedOption) =>
+                          setFieldValue(
+                            "otcClassification",
+                            selectedOption?.value
+                          )
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip
+                        content="      Classification of the OTC drug by health authorities
                           (e.g.,  approved for general public use,
                           behind-the-counter)."
-                        ></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
+                      ></Tooltip>
                     </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Health Benefit
-                        <span className={styles.labelStamp}>*</span>
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Health Benefit"
-                          rows="2"
-                          name="healthBenefit"
-                          value={values.healthBenefit}
-                         
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="  Info about the health benefits (e.g., “Boosts immunity”, “Supports joint health”)"></Tooltip>
-                      </div>
-                      {touched.healthBenefit && errors.healthBenefit && (
-                        <span className={styles.error}>
-                          {errors.healthBenefit}
-                        </span>
-                      )}
+                    <span className={styles.error}></span>
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Health Benefit
+                      <span className={styles.labelStamp}>*</span>
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Health Benefit"
+                        rows="2"
+                        name="healthBenefit"
+                        value={values.healthBenefit}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="  Info about the health benefits (e.g., “Boosts immunity”, “Supports joint health”)"></Tooltip>
                     </div>
+                    {touched.healthBenefit && errors.healthBenefit && (
+                      <span className={styles.error}>
+                        {errors.healthBenefit}
+                      </span>
+                    )}
+                  </div>
 
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Composition/Ingredients
-                        <span className={styles.labelStamp}>*</span>
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Composition/Ingredients"
-                          rows="2"
-                          name="composition"
-                          value={values.composition}
-                         
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="Description of the active ingredients and components of the vaccine."></Tooltip>
-                      </div>
-                      {touched.composition && errors.composition && (
-                        <span className={styles.error}>
-                          {errors.composition}
-                        </span>
-                      )}
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Composition/Ingredients
+                      <span className={styles.labelStamp}>*</span>
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Composition/Ingredients"
+                        rows="2"
+                        name="composition"
+                        value={values.composition}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="Description of the active ingredients and components of the vaccine."></Tooltip>
                     </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Formulation</label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Formulation"
-                          rows="2"
-                          name="formulation"
-                          value={values.formulation}
-                         
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="The type of formulation (e.g., gel, cream, lotion, serum, mask, foam etc)."></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
+                    {touched.composition && errors.composition && (
+                      <span className={styles.error}>{errors.composition}</span>
+                    )}
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Formulation</label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Formulation"
+                        rows="2"
+                        name="formulation"
+                        value={values.formulation}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="The type of formulation (e.g., gel, cream, lotion, serum, mask, foam etc)."></Tooltip>
                     </div>
+                    <span className={styles.error}></span>
+                  </div>
 
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Purpose</label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Purpose"
-                          rows="2"
-                          name="purpose"
-                          value={values.purpose}
-                          
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip
-                          content=" Purpose (e.g., COVID-19 detection, blood glucose
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Purpose</label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Purpose"
+                        rows="2"
+                        name="purpose"
+                        value={values.purpose}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip
+                        content=" Purpose (e.g., COVID-19 detection, blood glucose
                           monitoring, cholesterol level check,Pain relief,
                          
                           Prevention of infection.,Cooling and
                           soothing.,Moisturizing and healing, procedure
                            or use case of tool, Relieves symptoms,
                           promotes healing, or prevents recurrence.)"
-                        ></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
+                      ></Tooltip>
                     </div>
+                    <span className={styles.error}></span>
+                  </div>
 
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Drug Administration Route
-                        <span className={styles.labelStamp}>*</span>
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Drug Administration Route"
-                          rows="2"
-                          name="drugAdministrationRoute"
-                          value={values.drugAdministrationRoute}
-                          
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip
-                          content=" Drugs can be introduced into the body by many routes,
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Drug Administration Route
+                      <span className={styles.labelStamp}>*</span>
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Drug Administration Route"
+                        rows="2"
+                        name="drugAdministrationRoute"
+                        value={values.drugAdministrationRoute}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip
+                        content=" Drugs can be introduced into the body by many routes,
                           such as enteric (oral, peroral, rectal), parenteral
                           (intravascular, intramuscular,  subcutaneous,
                           and inhalation administration) or topical (skin and
                           mucosal membranes)"
-                        ></Tooltip>
-                      </div>
-                      {touched.drugAdministrationRoute &&
-                        errors.drugAdministrationRoute && (
-                          <span className={styles.error}>
-                            {errors.drugAdministrationRoute}
-                          </span>
-                        )}
+                      ></Tooltip>
                     </div>
-
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Drug Class<span className={styles.labelStamp}>*</span>
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Drug Class"
-                          rows="2"
-                          name="drugClass"
-                          value={values.drugClass}
-                          
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="The class of the drug (e.g., analgesic, antibiotic, antihypertensive)"></Tooltip>
-                      </div>
-                      {touched.drugClass && errors.drugClass && (
-                        <span className={styles.error}>{errors.drugClass}</span>
+                    {touched.drugAdministrationRoute &&
+                      errors.drugAdministrationRoute && (
+                        <span className={styles.error}>
+                          {errors.drugAdministrationRoute}
+                        </span>
                       )}
+                  </div>
+
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Drug Class<span className={styles.labelStamp}>*</span>
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Drug Class"
+                        rows="2"
+                        name="drugClass"
+                        value={values.drugClass}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="The class of the drug (e.g., analgesic, antibiotic, antihypertensive)"></Tooltip>
                     </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Additives & Sweeteners
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Additives & Sweeteners"
-                          rows="2"
-                          name="additivesNSweeteners"
-                          value={values.additivesNSweeteners}
-                         
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip
-                          content="Some proteins contain artificial sweeteners (e.g.,
+                    {touched.drugClass && errors.drugClass && (
+                      <span className={styles.error}>{errors.drugClass}</span>
+                    )}
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Additives & Sweeteners
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Additives & Sweeteners"
+                        rows="2"
+                        name="additivesNSweeteners"
+                        value={values.additivesNSweeteners}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip
+                        content="Some proteins contain artificial sweeteners (e.g.,
                           sucralose, aspartame),
                            while others use natural sweeteners (e.g.,
                           stevia, monk fruit)."
-                        ></Tooltip>
-                      </div>
-                      {touched.additivesNSweeteners &&
-                        errors.additivesNSweeteners && (
-                          <span className={styles.error}>
-                            {errors.additivesNSweeteners}
-                          </span>
-                        )}
+                      ></Tooltip>
                     </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Controlled Substance
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <span className={styles.formCheckboxSection}>
-                          <input
-                            type="checkbox"
-                            id="controlledSubstance"
-                            name="controlledSubstance"
-                            onBlur={handleBlur}
-                            checked={
-                              values?.controlledSubstance ||
-                              checked["controlledSubstance"] ||
-                              false
-                            }
-                            onChange={(e) => {
-                              handleCheckboxChange(
-                                "controlledSubstance",
-                                e?.target?.checked
-                              );
-                              setFieldValue(
-                                "controlledSubstance",
-                                e?.target?.checked
-                              );
-                            }}
-                          />
-
-                          <label
-                            className={styles.checkText}
-                            htmlFor="controlledSubstance"
-                          >
-                            Whether the drug is a controlled <br /> substance
-                          </label>
+                    {touched.additivesNSweeteners &&
+                      errors.additivesNSweeteners && (
+                        <span className={styles.error}>
+                          {errors.additivesNSweeteners}
                         </span>
-                        <Tooltip
-                          content=" Whether the drug is a controlled substance (e.g., some
+                      )}
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Controlled Substance
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <span className={styles.formCheckboxSection}>
+                        <input
+                          type="checkbox"
+                          id="controlledSubstance"
+                          name="controlledSubstance"
+                          onBlur={handleBlur}
+                          checked={
+                            values?.controlledSubstance ||
+                            checked["controlledSubstance"] ||
+                            false
+                          }
+                          onChange={(e) => {
+                            handleCheckboxChange(
+                              "controlledSubstance",
+                              e?.target?.checked
+                            );
+                            setFieldValue(
+                              "controlledSubstance",
+                              e?.target?.checked
+                            );
+                          }}
+                        />
+
+                        <label
+                          className={styles.checkText}
+                          htmlFor="controlledSubstance"
+                        >
+                          Whether the drug is a controlled <br /> substance
+                        </label>
+                      </span>
+                      <Tooltip
+                        content=" Whether the drug is a controlled substance (e.g., some
                           OTC drugs are restricted, some are only
                           available behind the counter or on prescription)."
-                        ></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
+                      ></Tooltip>
                     </div>
-
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Vegan</label>
-                      <div className={styles.tooltipContainer}>
-                        <span className={styles.formCheckboxSection}>
-                          <input
-                            type="checkbox"
-                            id="vegan"
-                            name="vegan"
-                            onBlur={handleBlur}
-                            checked={values?.vegan || checked["vegan"] || false}
-                            onChange={(e) => {
-                              handleCheckboxChange("vegan", e?.target?.checked);
-                              setFieldValue("vegan", e?.target?.checked);
-                            }}
-                          />
-
-                          <label className={styles.checkText} htmlFor="vegan">
-                            Whether the product is vegan (i.e.
-                            <br />, no animal-derived ingredients).
-                          </label>
-                        </span>
-                        <Tooltip content=" Description of the active and/or inactive ingredients and components"></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
-                    </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Cruelty-Free</label>
-                      <div className={styles.tooltipContainer}>
-                        <span className={styles.formCheckboxSection}>
-                          <input
-                            type="checkbox"
-                            id="crueltyFree"
-                            name="crueltyFree"
-                            onBlur={handleBlur}
-                            checked={
-                              values?.crueltyFree ||
-                              checked["crueltyFree"] ||
-                              false
-                            }
-                            onChange={(e) => {
-                              handleCheckboxChange(
-                                "crueltyFree",
-                                e?.target?.checked
-                              );
-                              setFieldValue("crueltyFree", e?.target?.checked);
-                            }}
-                          />
-
-                          <label
-                            className={styles.checkText}
-                            htmlFor="crueltyFree"
-                          >
-                            Whether the product is tested on <br /> animals or
-                            is cruelty-free
-                          </label>
-                        </span>
-                        <Tooltip content=" Whether the product is tested on animals or is cruelty-free"></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
-                    </div>
+                    <span className={styles.error}></span>
                   </div>
-                  <div className={styles.innerProductContainer}>
-                    <div className={styles.innerSection}>
-                      <span className={styles.formHead}>
-                        Storage & Handling
-                      </span>
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>
-                          Shelf Life/Expiry
-                          <span className={styles.labelStamp}>*</span>
+
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Vegan</label>
+                    <div className={styles.tooltipContainer}>
+                      <span className={styles.formCheckboxSection}>
+                        <input
+                          type="checkbox"
+                          id="vegan"
+                          name="vegan"
+                          onBlur={handleBlur}
+                          checked={values?.vegan || checked["vegan"] || false}
+                          onChange={(e) => {
+                            handleCheckboxChange("vegan", e?.target?.checked);
+                            setFieldValue("vegan", e?.target?.checked);
+                          }}
+                        />
+
+                        <label className={styles.checkText} htmlFor="vegan">
+                          Whether the product is vegan (i.e.
+                          <br />, no animal-derived ingredients).
                         </label>
-                        <div className={styles.tooltipContainer}>
-                          <input
-                            className={styles.formInput}
-                            type="text"
-                            placeholder="Enter Shelf Life/Expiry"
-                            // autoComplete="off"
-                            name="expiry"
-                            value={values?.expiry}
-                          
-                            onChange={(e) =>
-                              handleInputChange(e, setFieldValue, 20, "all")
-                            }
-                            onBlur={handleBlur}
-                          />
-                          <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
-                        </div>
-                        {touched.expiry && errors.expiry && (
-                          <span className={styles.error}>{errors.expiry}</span>
-                        )}
-                      </div>
-                    </div>
-
-                    <div className={styles.innerMonitorSection}>
-                      <span className={styles.formHead}>
-                        Monitoring and Adherence
                       </span>
-                      <div className={styles.formInnerSection}>
-                        <div className={styles.productInnerContainer}>
-                          <label className={styles.formLabel}>
-                            Side Effects and Warnings
-                          </label>
-                          <div className={styles.tooltipContainer}>
-                            <textarea
-                              className={styles.formInput}
-                              type="text"
-                              placeholder="Enter Side Effects and Warnings"
-                              // autoComplete="off"
-                              name="sideEffectsAndWarnings"
-                              value={values.sideEffectsAndWarnings}
-                             
-                              onChange={(e) =>
-                                handleInputChange(e, setFieldValue, 2000, "all")
-                              }
-                              onBlur={handleBlur}
-                            />
-                            <Tooltip
-                              content="Common side effects associated with the
-                              medication. Known interactions with other
-                              drugs or food (eg. Alcohol)"
-                            ></Tooltip>
-                          </div>
-                          <span className={styles.error}></span>
-                        </div>
-                        <div className={styles.productInnerContainer}>
-                          <label className={styles.formLabel}>Allergens</label>
-                          <div className={styles.tooltipContainer}>
-                            <textarea
-                              className={styles.formInput}
-                              placeholder="Enter Allergens"
-                              rows="2"
-                              name="allergens"
-                              value={values.allergens}
-                             
-                              onChange={(e) =>
-                                handleInputChange(e, setFieldValue, 2000, "all")
-                              }
-                              onBlur={handleBlur}
-                            />
-                            <Tooltip content="Common allergens in the product (e.g., parabens, sulfates, gluten etc)."></Tooltip>
-                          </div>
-                        </div>
-                      </div>
+                      <Tooltip content=" Description of the active and/or inactive ingredients and components"></Tooltip>
                     </div>
+                    <span className={styles.error}></span>
                   </div>
-                </div>
-             
-            )}
-            {/* End the Vital Health and Wellness */}
-
-            {/* Start the Medical Consumables and Disposables */}
-            {selectedSchema === "MedicalConsumablesAndDisposables" && (
-             
-                <div className={styles.section}>
-                  <span className={styles.formHead}>
-                    Product Identification
-                  </span>
-                  <div className={styles.formSection}>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Thickness</label>
-                      <div className={styles.tooltipContainer}>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Cruelty-Free</label>
+                    <div className={styles.tooltipContainer}>
+                      <span className={styles.formCheckboxSection}>
                         <input
-                          className={styles.formInput}
-                          type="text"
-                          placeholder="Enter Thickness"
-                          // autoComplete="off"
-                          name="thickness"
-                          value={values.thickness}
-                         
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 5, "all")
+                          type="checkbox"
+                          id="crueltyFree"
+                          name="crueltyFree"
+                          onBlur={handleBlur}
+                          checked={
+                            values?.crueltyFree ||
+                            checked["crueltyFree"] ||
+                            false
                           }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="The thickness of the Item (e.g., in mil or gauge)."></Tooltip>
-                      </div>
-                    </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Product Material
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <input
-                          className={styles.formInput}
-                          type="text"
-                          placeholder="Enter Product Material"
-                          // autoComplete="off"
-                          name="productMaterial"
-                          value={values.productMaterial}
-                         
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 75, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="Material used (e.g., Latex, Nitrile, Vinyl, Rubber, stainless steel, titanium etc.)."></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
-                    </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Filtration Type
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <Chips
-                          value={value.filtrationType || []}
-                          name="filtrationType"
-                          onBlur={handleBlur}
                           onChange={(e) => {
-                            const newValue = e.value || e.target.value;
-                            setValue((prev) => ({
-                              ...prev,
-                              filtrationType: newValue,
-                            }));
-                            setFieldValue("filtrationType", newValue);
+                            handleCheckboxChange(
+                              "crueltyFree",
+                              e?.target?.checked
+                            );
+                            setFieldValue("crueltyFree", e?.target?.checked);
                           }}
-                          placeholder={
-                            !value.filtrationType ||
-                            value.filtrationType.length === 0
-                              ? "Press enter to add label"
-                              : ""
-                          }
-                          allowDuplicate={false}
-                          separator=","
                         />
-                        <Tooltip
-                          content="  Type of Filtration (e.g., PFE (Particle Filtration
-                          Efficiency), BFE (Bacterial Filtration
-                          Efficiency), Viral Filtration Efficiency etc)"
-                        ></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
-                    </div>
 
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Purpose</label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Purpose"
-                          rows="2"
-                          name="purpose"
-                          value={values.purpose}
-                         
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content=" Intended use type (e.g., oily, dry, curly, fine, thick, straight, medical, industrial etc)"></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
-                    </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Chemical Resistance
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Chemical Resistance"
-                          rows="2"
-                          name="chemicalResistance"
-                         
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="Any specific chemical resistance features"></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
-                    </div>
-
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Shape</label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Shape"
-                          rows="2"
-                          name="shape"
-                          value={values.shape}
-                       
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="Shape of the needle (e.g., 1/2 circle, 3/8 circle)."></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
-                    </div>
-
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Coating</label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Coating"
-                          rows="2"
-                          name="coating"
-                          value={values.coating}
-                          
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="Type of coating (e.g., antimicrobial, silicone)."></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
-                    </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Powdered</label>
-                      <div className={styles.tooltipContainer}>
-                        <span className={styles.formCheckboxSection}>
-                          <input
-                            type="checkbox"
-                            id="powdered"
-                            checked={
-                              values?.powdered || checked["powdered"] || false
-                            }
-                            onChange={(e) => {
-                              handleCheckboxChange(
-                                "powdered",
-                                e?.target?.checked
-                              );
-                              setFieldValue("powdered", e?.target?.checked);
-                            }}
-                          />
-
-                          <label
-                            className={styles.checkText}
-                            htmlFor="powdered"
-                          >
-                            Whether the gloves are powdered <br /> or
-                            powder-free.
-                          </label>
-                        </span>
-                        <Tooltip content="Whether the gloves are powdered or powder-free."></Tooltip>
-                      </div>
-                    </div>
-
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Texture</label>
-                      <div className={styles.tooltipContainer}>
-                        <span className={styles.formCheckboxSection}>
-                          <input
-                            type="checkbox"
-                            id="texture"
-                            checked={
-                              values?.texture || checked["texture"] || false
-                            }
-                            onChange={(e) => {
-                              handleCheckboxChange(
-                                "texture",
-                                e?.target?.checked
-                              );
-                              setFieldValue("texture", e?.target?.checked);
-                            }}
-                          />
-
-                          <label className={styles.checkText} htmlFor="texture">
-                            Whether the item have texture <br /> or smooth
-                          </label>
-                        </span>
-                        <Tooltip content="Whether the item have texture or smooth"></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
-                    </div>
-                  </div>
-                  <div className={styles.innerProductContainer}>
-                    <div className={styles.innerSection}>
-                      <span className={styles.formHead}>
-                        Storage & Handling
-                      </span>
-
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>
-                          Shelf Life/Expiry
-                          <span className={styles.labelStamp}>*</span>
+                        <label
+                          className={styles.checkText}
+                          htmlFor="crueltyFree"
+                        >
+                          Whether the product is tested on <br /> animals or is
+                          cruelty-free
                         </label>
-                        <div className={styles.tooltipContainer}>
-                          <input
-                            className={styles.formInput}
-                            type="text"
-                            placeholder="Enter Shelf Life/Expiry"
-                            // autoComplete="off"
-                            name="expiry"
-                            value={values?.expiry}
-                            
-                            onChange={(e) =>
-                              handleInputChange(e, setFieldValue, 20, "all")
-                            }
-                            onBlur={handleBlur}
-                          />
-                          <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
-                        </div>
-                        {touched.expiry && errors.expiry && (
-                          <span className={styles.error}>{errors.expiry}</span>
-                        )}
-                      </div>
-                    </div>
-
-                    <div className={styles.innerMonitorSection}>
-                      <span className={styles.formHead}>
-                        Monitoring and Adherence
                       </span>
-                      <div className={styles.formInnerSection}>
-                        <div className={styles.productInnerContainer}>
-                          <label className={styles.formLabel}>Allergens</label>
-                          <div className={styles.tooltipContainer}>
-                            <textarea
-                              className={styles.formInput}
-                              placeholder="Enter Allergens"
-                              rows="2"
-                              name="allergens"
-                              value={values.allergens}
-                              
-                              onChange={(e) =>
-                                handleInputChange(e, setFieldValue, 2000, "all")
-                              }
-                              onBlur={handleBlur}
-                            />
-                            <Tooltip content="Common allergens in the product (e.g., parabens, sulfates, gluten, milk, Latex etc)."></Tooltip>
-                          </div>
-                        </div>
-                        <div className={styles.productInnerContainer}>
-                          <label className={styles.formLabel}>Sterilized</label>
-                          <div className={styles.tooltipContainer}>
-                            <span className={styles.formCheckboxSection}>
-                              <input
-                                type="checkbox"
-                                id="sterilized"
-                                checked={checked["sterilized"] || false}
-                                onChange={(e) => {
-                                  handleCheckboxChange(
-                                    "sterilized",
-                                    e?.target?.checked
-                                  );
-                                  setFieldValue(
-                                    "sterilized",
-                                    e?.target?.checked
-                                  );
-                                }}
-                              />
-
-                              <label
-                                className={styles.checkText}
-                                htmlFor="sterilized"
-                              >
-                                Whether the item is sterilized <br /> or
-                                non-sterile.
-                              </label>
-                            </span>
-                            <Tooltip content="Whether the item is sterilized or non-sterile."></Tooltip>
-                          </div>
-                          <span className={styles.error}></span>
-                        </div>
-                      </div>
+                      <Tooltip content=" Whether the product is tested on animals or is cruelty-free"></Tooltip>
                     </div>
-
-                    <div className={styles.innerMonitorSection}>
-                      <span className={styles.formHead}>Technical Details</span>
-                      <div className={styles.formInnerSection}>
-                        <div className={styles.productInnerContainer}>
-                          <label className={styles.formLabel}>
-                            Filtration Efficiency
-                          </label>
-                          <div className={styles.tooltipContainer}>
-                            <input
-                              className={styles.formInput}
-                              type="text"
-                              placeholder="Enter Filtration Efficiency"
-                              // autoComplete="off"
-                              name="filtrationEfficiency"
-                              value={values.filtrationEfficiency}
-                              
-                              onChange={(e) =>
-                                handleInputChange(e, setFieldValue, 4, "all")
-                              }
-                              onBlur={handleBlur}
-                            />
-                            <Tooltip content="Percentage of particles the mask filters (e.g., 95%, 99%, etc.)"></Tooltip>
-                          </div>
-                          <span className={styles.error}></span>
-                        </div>
-                        <div className={styles.productInnerContainer}>
-                          <label className={styles.formLabel}>
-                            Breathability
-                          </label>
-                          <div className={styles.tooltipContainer}>
-                            <input
-                              className={styles.formInput}
-                              type="text"
-                              placeholder="Enter Breathability"
-                              // autoComplete="off"
-                              name="breathability"
-                              value={values.breathability}
-                              
-                              onChange={(e) =>
-                                handleInputChange(e, setFieldValue, 75, "all")
-                              }
-                              onBlur={handleBlur}
-                            />
-                            <Tooltip content="Breathability rating (e.g., air flow resistance, Inhalation/Exhalation rate)"></Tooltip>
-                          </div>
-                          <span className={styles.error}></span>
-                        </div>
-                        <div className={styles.productInnerContainer}>
-                          <label className={styles.formLabel}>
-                            Layer Count
-                          </label>
-                          <div className={styles.tooltipContainer}>
-                            <input
-                              className={styles.formInput}
-                              type="text"
-                              placeholder="Enter Layer Count"
-                              // autoComplete="off"
-                              name="layerCount"
-                              value={values.layerCount}
-                              
-                              onChange={(e) =>
-                                handleInputChange(e, setFieldValue, 20, "all")
-                              }
-                              onBlur={handleBlur}
-                            />
-                            <Tooltip content="Number of layers (e.g., 3-ply, 4-ply, 5-ply)."></Tooltip>
-                          </div>
-                          <span className={styles.error}></span>
-                        </div>
-                        <div className={styles.productInnerContainer}>
-                          <label className={styles.formLabel}>
-                            Fluid Resistance
-                          </label>
-                          <div className={styles.tooltipContainer}>
-                            <span className={styles.formCheckboxSection}>
-                              <input
-                                type="checkbox"
-                                id="fluidResistance"
-                                checked={
-                                  values.fluidResistance ||
-                                  checked["fluidResistance"] ||
-                                  false
-                                }
-                                onChange={(e) => {
-                                  handleCheckboxChange(
-                                    "fluidResistance",
-                                    e?.target?.checked
-                                  );
-                                  setFieldValue(
-                                    "fluidResistance",
-                                    e?.target?.checked
-                                  );
-                                }}
-                              />
-
-                              <label
-                                className={styles.checkText}
-                                htmlFor="fluidResistance"
-                              >
-                                Resistance to fluid penetration (e.g., <br />{" "}
-                                for surgical masks)
-                              </label>
-                            </span>
-                            <Tooltip content="Resistance to fluid penetration (e.g., for surgical masks)"></Tooltip>
-                          </div>
-                          <span className={styles.error}></span>
-                        </div>
-                      </div>
-                    </div>
+                    <span className={styles.error}></span>
                   </div>
                 </div>
-             
-            )}
-            {/* End the Medical Consumables and Disposables */}
-
-            {/* Start the Laboratory Supplies */}
-            {selectedSchema === "LaboratorySupplies" && (
-              
-                <div className={styles.section}>
-                  <span className={styles.formHead}>
-                    Product Identification
-                  </span>
-                  <div className={styles.formSection}>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Physical State</label>
-                      <div className={styles.tooltipContainer}>
-                        <Chips
-                          value={values.physicalState || []} 
-                          placeholder={
-                            !values.physicalState ||
-                            values.physicalState.length === 0
-                              ? "Press enter to add label"
-                              : ""
-                          }
-                          name="physicalState"
-                          onBlur={handleBlur}
-                          onChange={(e) => {
-                            const newValue = e.value || e.target.value;
-                            setValue((prev) => ({
-                              ...prev,
-                              physicalState: newValue,
-                            }));
-                            setFieldValue("physicalState", newValue); 
-                          }}
-                          allowDuplicate={false} 
-                          separator="," 
-                        />
-                        <Tooltip content="Physical state (e.g., solid, liquid, gas)"></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
-                    </div>
-
-                    <div className={styles.productContainer}>
+                <div className={styles.innerProductContainer}>
+                  <div className={styles.innerSection}>
+                    <span className={styles.formHead}>Storage & Handling</span>
+                    <div className={styles.productInnerContainer}>
                       <label className={styles.formLabel}>
-                        Hazard Classification
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <Chips
-                          value={values.hazardClassification || []}
-                          placeholder={
-                            !values.hazardClassification ||
-                            values.hazardClassification.length === 0
-                              ? "Press enter to add label"
-                              : ""
-                          }
-                          name="hazardClassification"
-                          onBlur={handleBlur}
-                          onChange={(e) => {
-                            const newValue = e.value || e.target.value; 
-                            setValue((prev) => ({
-                              ...prev,
-                              hazardClassification: newValue,
-                            }));
-                            setFieldValue("hazardClassification", newValue); 
-                          }}
-                          allowDuplicate={false} 
-                          separator="," 
-                        />
-                        <Tooltip content="Hazard Classification (e.g., flammable, toxic, etc)"></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
-                    </div>
-
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Shape</label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Shape"
-                          rows="2"
-                          name="shape"
-                          value={values.shape}
-                          
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="Shape of the needle (e.g., 1/2 circle, 3/8 circle)."></Tooltip>
-                      </div>
-                    </div>
-
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Coating</label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Coating"
-                          rows="2"
-                          name="coating"
-                          value={values.coating}
-                         
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="Type of coating (e.g., antimicrobial, silicone)."></Tooltip>
-                      </div>
-                    </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Purpose</label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Purpose"
-                          rows="2"
-                          name="purpose"
-                          value={values.purpose}
-                          
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-
-                        <Tooltip
-                          content="Purpose (e.g., COVID-19 detection, blood glucose
-                          monitoring, cholesterol level check,Pain 
-                          relief,Prevention of infection.,Cooling and
-                          soothing.,Moisturizing and healing, procedure 
-                          or use case of tool, Relieves symptoms, promotes
-                          healing, or prevents recurrence.)"
-                        ></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
-                    </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>CAS Number</label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter CAS Number"
-                          rows="2"
-                          name="casNumber"
-                          value={values.casNumber}
-                          
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="Chemical Abstracts Service (CAS) number for unique identification."></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
-                    </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Grade</label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Grade"
-                          rows="2"
-                          name="grade"
-                          value={values.grade}
-                         
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="Purity or grade (e.g., analytical grade, reagent grade)"></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
-                    </div>
-
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Concentration</label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Concentration"
-                          rows="2"
-                          name="concentration"
-                          value={values.concentration}
-                         
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip
-                          content=" Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
-                          ,Alcohol-based disinfectants are typically 70-90%
-                          
-                          concentration for optimal antimicrobial efficacy.
-                          Oxygen concentration level provided by the device
-                          (e.g., 95%)"
-                        ></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
-                    </div>
-                  </div>
-                  <span className={styles.formHead}>Technical Details</span>
-                  <div className={styles.formSection}>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Connectivity</label>
-                      <div className={styles.tooltipContainer}>
-                        <input
-                          className={styles.formInput}
-                          type="text"
-                          placeholder="Enter Connectivity"
-                          // autoComplete="off"
-                          name="connectivity"
-                          value={values.connectivity}
-                        
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 75, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="Connectivity options (e.g., USB, Wi-Fi, HDMI)."></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
-                    </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Magnification Range
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Magnification Range"
-                          rows="2"
-                          name="magnificationRange"
-                          value={values.magnificationRange}
-                         
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="Magnification capabilities (e.g., 40x to 1000x)."></Tooltip>
-                      </div>
-                    </div>
-
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Objective Lenses
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Objective Lenses"
-                          rows="2"
-                          name="objectiveLenses"
-                          value={values.objectiveLenses}
-                         
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="Number and types of objective lenses (e.g., 4x, 10x, 40x)"></Tooltip>
-                      </div>
-                    </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Power Source</label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Power Source"
-                          rows="2"
-                          name="powerSource"
-                          value={values.powerSource}
-                         
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="Power requirements (e.g., battery, AC adapter)."></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
-                    </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Resolution</label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Resolution"
-                          rows="2"
-                          name="resolution"
-                          value={values.resolution}
-                         
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="Maximum resolution the microscope can achieve."></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
-                    </div>
-                  </div>
-                </div>
-             
-            )}
-            {/* End the Laboratory Supplies */}
-
-            {/* Start the Diagnostic and Monitoring Devices */}
-            {selectedSchema === "DiagnosticAndMonitoringDevices" && (
-             
-                <div className={styles.section}>
-                  <span className={styles.formHead}>
-                    Product Identification
-                  </span>
-                  <div className={styles.formSection}>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Diagnostic Functions
+                        Shelf Life/Expiry
                         <span className={styles.labelStamp}>*</span>
                       </label>
                       <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Diagnostic Functions"
-                          rows="2"
-                          name="diagnosticFunctions"
-                          value={values.diagnosticFunctions}
-                          
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="Specific diagnostic tests or functions that the tool performs"></Tooltip>
-                      </div>
-                      {touched.diagnosticFunctions &&
-                        errors.diagnosticFunctions && (
-                          <span className={styles.error}>
-                            {errors.diagnosticFunctions}
-                          </span>
-                        )}
-                    </div>
-
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Flow Rate</label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Flow Rate"
-                          rows="2"
-                          name="flowRate"
-                          value={values.flowRate}
-                         
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="Adjustable flow rate range (e.g., 1-5 LPM, 1-10 LPM)"></Tooltip>
-                      </div>
-                    </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Concentration</label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Concentration"
-                          rows="2"
-                          name="concentration"
-                          value={values.concentration}
-                         
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip
-                          content=" Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
-                          ,Alcohol-based disinfectants are typically 70-90%
-                          concentration for optimal  antimicrobial
-                          efficacy. Oxygen concentration level provided by the
-                          device (e.g., 95%)"
-                        ></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
-                    </div>
-                  </div>
-                  <span className={styles.formHead}>Technical Details</span>
-                  <div className={styles.formSection}>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Measurement Range
-                      </label>
-                      <div className={styles.tooltipContainer}>
                         <input
                           className={styles.formInput}
                           type="text"
-                          placeholder="Enter Measurement Range"
+                          placeholder="Enter Shelf Life/Expiry"
                           // autoComplete="off"
-                          name="measurementRange"
-                          value={values.measurementRange}
-                          
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 75, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content=" Blood pressure range the monitor can measure (e.g., 0-300 mmHg)."></Tooltip>
-                      </div>
-                    </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Noise Level</label>
-                      <div className={styles.tooltipContainer}>
-                        <input
-                          className={styles.formInput}
-                          type="text"
-                          placeholder="Enter Noise Level"
-                          // autoComplete="off"
-                          name="noiseLevel"
-                          value={values.noiseLevel}
-                         
+                          name="expiry"
+                          value={values?.expiry}
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 20, "all")
                           }
                           onBlur={handleBlur}
                         />
-                        <Tooltip content=" Operating noise level (e.g., 40 dB)."></Tooltip>
+                        <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
                       </div>
-                      <span className={styles.error}></span>
+                      {touched.expiry && errors.expiry && (
+                        <span className={styles.error}>{errors.expiry}</span>
+                      )}
                     </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Usage Rate</label>
+                  </div>
+
+                  <div className={styles.innerMonitorSection}>
+                    <span className={styles.formHead}>
+                      Monitoring and Adherence
+                    </span>
+                    <div className={styles.formInnerSection}>
+                      <div className={styles.productInnerContainer}>
+                        <label className={styles.formLabel}>
+                          Side Effects and Warnings
+                        </label>
+                        <div className={styles.tooltipContainer}>
+                          <textarea
+                            className={styles.formInput}
+                            type="text"
+                            placeholder="Enter Side Effects and Warnings"
+                            // autoComplete="off"
+                            name="sideEffectsAndWarnings"
+                            value={values.sideEffectsAndWarnings}
+                            onChange={(e) =>
+                              handleInputChange(e, setFieldValue, 2000, "all")
+                            }
+                            onBlur={handleBlur}
+                          />
+                          <Tooltip
+                            content="Common side effects associated with the
+                              medication. Known interactions with other
+                              drugs or food (eg. Alcohol)"
+                          ></Tooltip>
+                        </div>
+                        <span className={styles.error}></span>
+                      </div>
+                      <div className={styles.productInnerContainer}>
+                        <label className={styles.formLabel}>Allergens</label>
+                        <div className={styles.tooltipContainer}>
+                          <textarea
+                            className={styles.formInput}
+                            placeholder="Enter Allergens"
+                            rows="2"
+                            name="allergens"
+                            value={values.allergens}
+                            onChange={(e) =>
+                              handleInputChange(e, setFieldValue, 2000, "all")
+                            }
+                            onBlur={handleBlur}
+                          />
+                          <Tooltip content="Common allergens in the product (e.g., parabens, sulfates, gluten etc)."></Tooltip>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            {/* End the Vital Health and Wellness */}
+
+            {/* Start the Medical Consumables and Disposables */}
+            {selectedSchema === "MedicalConsumablesAndDisposables" && (
+              <div className={styles.section}>
+                <span className={styles.formHead}>Product Identification</span>
+                <div className={styles.formSection}>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Thickness</label>
+                    <div className={styles.tooltipContainer}>
                       <input
                         className={styles.formInput}
                         type="text"
-                        placeholder="Enter Usage Rate"
+                        placeholder="Enter Thickness"
                         // autoComplete="off"
-                        name="usageRate"
-                        value={values.usageRate}
-                       
+                        name="thickness"
+                        value={values.thickness}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 5, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="The thickness of the Item (e.g., in mil or gauge)."></Tooltip>
+                    </div>
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Product Material</label>
+                    <div className={styles.tooltipContainer}>
+                      <input
+                        className={styles.formInput}
+                        type="text"
+                        placeholder="Enter Product Material"
+                        // autoComplete="off"
+                        name="productMaterial"
+                        value={values.productMaterial}
                         onChange={(e) =>
                           handleInputChange(e, setFieldValue, 75, "all")
                         }
                         onBlur={handleBlur}
                       />
-                      <span className={styles.error}></span>
+                      <Tooltip content="Material used (e.g., Latex, Nitrile, Vinyl, Rubber, stainless steel, titanium etc.)."></Tooltip>
                     </div>
+                    <span className={styles.error}></span>
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Filtration Type</label>
+                    <div className={styles.tooltipContainer}>
+                      <Chips
+                        value={value.filtrationType || []}
+                        name="filtrationType"
+                        onBlur={handleBlur}
+                        onChange={(e) => {
+                          const newValue = e.value || e.target.value;
+                          setValue((prev) => ({
+                            ...prev,
+                            filtrationType: newValue,
+                          }));
+                          setFieldValue("filtrationType", newValue);
+                        }}
+                        placeholder={
+                          !value.filtrationType ||
+                          value.filtrationType.length === 0
+                            ? "Press enter to add label"
+                            : ""
+                        }
+                        allowDuplicate={false}
+                        separator=","
+                      />
+                      <Tooltip
+                        content="  Type of Filtration (e.g., PFE (Particle Filtration
+                          Efficiency), BFE (Bacterial Filtration
+                          Efficiency), Viral Filtration Efficiency etc)"
+                      ></Tooltip>
+                    </div>
+                    <span className={styles.error}></span>
+                  </div>
 
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Maintenance Notes
-                      </label>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Purpose</label>
+                    <div className={styles.tooltipContainer}>
                       <textarea
                         className={styles.formInput}
-                        placeholder="Enter Maintenance Notes"
+                        placeholder="Enter Purpose"
                         rows="2"
-                        name="maintenanceNotes"
-                        value={values.maintenanceNotes}
-                       
+                        name="purpose"
+                        value={values.purpose}
                         onChange={(e) =>
                           handleInputChange(e, setFieldValue, 2000, "all")
                         }
                         onBlur={handleBlur}
                       />
-                      <span className={styles.error}></span>
+                      <Tooltip content=" Intended use type (e.g., oily, dry, curly, fine, thick, straight, medical, industrial etc)"></Tooltip>
                     </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Compatible Equipment
-                      </label>
+                    <span className={styles.error}></span>
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Chemical Resistance
+                    </label>
+                    <div className={styles.tooltipContainer}>
                       <textarea
                         className={styles.formInput}
-                        placeholder="Enter Compatible Equipment"
+                        placeholder="Enter Chemical Resistance"
                         rows="2"
-                        name="compatibleEquipment"
-                        value={values.compatibleEquipment}
-                       
+                        name="chemicalResistance"
                         onChange={(e) =>
                           handleInputChange(e, setFieldValue, 2000, "all")
                         }
                         onBlur={handleBlur}
                       />
+                      <Tooltip content="Any specific chemical resistance features"></Tooltip>
                     </div>
-                    <div className={styles.productContainer}>
+                    <span className={styles.error}></span>
+                  </div>
+
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Shape</label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Shape"
+                        rows="2"
+                        name="shape"
+                        value={values.shape}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="Shape of the needle (e.g., 1/2 circle, 3/8 circle)."></Tooltip>
+                    </div>
+                    <span className={styles.error}></span>
+                  </div>
+
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Coating</label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Coating"
+                        rows="2"
+                        name="coating"
+                        value={values.coating}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="Type of coating (e.g., antimicrobial, silicone)."></Tooltip>
+                    </div>
+                    <span className={styles.error}></span>
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Powdered</label>
+                    <div className={styles.tooltipContainer}>
+                      <span className={styles.formCheckboxSection}>
+                        <input
+                          type="checkbox"
+                          id="powdered"
+                          checked={
+                            values?.powdered || checked["powdered"] || false
+                          }
+                          onChange={(e) => {
+                            handleCheckboxChange(
+                              "powdered",
+                              e?.target?.checked
+                            );
+                            setFieldValue("powdered", e?.target?.checked);
+                          }}
+                        />
+
+                        <label className={styles.checkText} htmlFor="powdered">
+                          Whether the gloves are powdered <br /> or powder-free.
+                        </label>
+                      </span>
+                      <Tooltip content="Whether the gloves are powdered or powder-free."></Tooltip>
+                    </div>
+                  </div>
+
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Texture</label>
+                    <div className={styles.tooltipContainer}>
+                      <span className={styles.formCheckboxSection}>
+                        <input
+                          type="checkbox"
+                          id="texture"
+                          checked={
+                            values?.texture || checked["texture"] || false
+                          }
+                          onChange={(e) => {
+                            handleCheckboxChange("texture", e?.target?.checked);
+                            setFieldValue("texture", e?.target?.checked);
+                          }}
+                        />
+
+                        <label className={styles.checkText} htmlFor="texture">
+                          Whether the item have texture <br /> or smooth
+                        </label>
+                      </span>
+                      <Tooltip content="Whether the item have texture or smooth"></Tooltip>
+                    </div>
+                    <span className={styles.error}></span>
+                  </div>
+                </div>
+                <div className={styles.innerProductContainer}>
+                  <div className={styles.innerSection}>
+                    <span className={styles.formHead}>Storage & Handling</span>
+
+                    <div className={styles.productInnerContainer}>
                       <label className={styles.formLabel}>
-                        Specification
+                        Shelf Life/Expiry
                         <span className={styles.labelStamp}>*</span>
                       </label>
                       <div className={styles.tooltipContainer}>
-                        <textarea
+                        <input
                           className={styles.formInput}
-                          placeholder="Enter Specification"
-                          rows="2"
-                          name="specification"
-                          value={values.specification}
-                         
+                          type="text"
+                          placeholder="Enter Shelf Life/Expiry"
+                          // autoComplete="off"
+                          name="expiry"
+                          value={values?.expiry}
                           onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
+                            handleInputChange(e, setFieldValue, 20, "all")
                           }
                           onBlur={handleBlur}
                         />
-                        <Tooltip content="Technical Specification of the tool  (e.g., hardware, software, network diagnostics, etc.)"></Tooltip>
+                        <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
                       </div>
-                      {touched.specification && errors.specification && (
-                        <span className={styles.error}>
-                          {errors.specification}
-                        </span>
+                      {touched.expiry && errors.expiry && (
+                        <span className={styles.error}>{errors.expiry}</span>
                       )}
-                      <AddProductFileUpload
-                        fieldInputName={"specificationFile"}
-                        setFieldValue={setFieldValue}
-                        initialValues={values}
-                        label=""
-                       
-                        tooltip={false}
-                        showLabel={false}
-                      />
-                      {touched.specificationFile &&
-                        errors.specificationFile && (
-                          <span className={styles.error}>
-                            {errors.specificationFile}
-                          </span>
-                        )}
-                    </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Performance Testing Report
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Performance Testing Report"
-                          rows="2"
-                          name="performanceTestingReport"
-                          value={values.performanceTestingReport}
-                          
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip
-                          content=" Results from any internal or external product testing
-                          (e.g.,
-                          nebulizer output, CPAP pressure and airflow
-                          testing)."
-                        ></Tooltip>
-                      </div>
-                      <AddProductFileUpload
-                        fieldInputName={"performanceTestingReportFile"}
-                        setFieldValue={setFieldValue}
-                        initialValues={values}
-                        label=""
-                       
-                        tooltip={false}
-                        showLabel={false}
-                      />
-                      {touched.performanceTestingReportFile &&
-                        errors.performanceTestingReportFile && (
-                          <span className={styles.error}>
-                            {errors.performanceTestingReportFile}
-                          </span>
-                        )}
                     </div>
                   </div>
-                </div>
-             
-            )}
-            {/* End the Diagnostic and Monitoring Devices */}
 
-            {/* Start the Hospital and Clinic Supplies */}
-            {selectedSchema === "HospitalAndClinicSupplies" && (
-              
-                <div className={styles.section}>
-                  <span className={styles.formHead}>
-                    Product Identification
-                  </span>
-                  <div className={styles.formSection}>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Thickness</label>
-                      <div className={styles.tooltipContainer}>
-                        <input
-                          className={styles.formInput}
-                          type="text"
-                          placeholder="Enter Thickness"
-                          // autoComplete="off"
-                          name="thickness"
-                          value={values.thickness}
-                         
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 75, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content=" The thickness of the Item (e.g., in mil or gauge)."></Tooltip>
-                      </div>
-                    </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Product Material
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <input
-                          className={styles.formInput}
-                          type="text"
-                          placeholder="Enter Product Material"
-                          // autoComplete="off"
-                          name="productMaterial"
-                          value={values.productMaterial}
-                         
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 1000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="Material used (e.g., Latex, Nitrile, Vinyl, Rubber, stainless steel, titanium etc.)."></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
-                    </div>
-
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Purpose</label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Purpose"
-                          rows="2"
-                          name="purpose"
-                          value={values.purpose}
-                        
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="Intended use type (e.g., oily, dry, curly, fine, thick, straight, medical, industrial etc)"></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
-                    </div>
-
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Chemical Resistance
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Chemical Resistance"
-                          rows="2"
-                          name="chemicalResistance"
-                        
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="Any specific chemical resistance features"></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
-                    </div>
-
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Powdered</label>
-                      <div className={styles.tooltipContainer}>
-                        <span className={styles.formCheckboxSection}>
-                          <input
-                            type="checkbox"
-                            id="powdered"
-                            checked={
-                              values?.powdered || checked["powdered"] || false
+                  <div className={styles.innerMonitorSection}>
+                    <span className={styles.formHead}>
+                      Monitoring and Adherence
+                    </span>
+                    <div className={styles.formInnerSection}>
+                      <div className={styles.productInnerContainer}>
+                        <label className={styles.formLabel}>Allergens</label>
+                        <div className={styles.tooltipContainer}>
+                          <textarea
+                            className={styles.formInput}
+                            placeholder="Enter Allergens"
+                            rows="2"
+                            name="allergens"
+                            value={values.allergens}
+                            onChange={(e) =>
+                              handleInputChange(e, setFieldValue, 2000, "all")
                             }
-                            onChange={(e) => {
-                              handleCheckboxChange(
-                                "powdered",
-                                e?.target?.checked
-                              );
-                              setFieldValue("powdered", e?.target?.checked);
-                            }}
+                            onBlur={handleBlur}
                           />
-
-                          <label
-                            className={styles.checkText}
-                            htmlFor="powdered"
-                          >
-                            Whether the gloves are powdered <br />
-                            or powder-free.
-                          </label>
-                        </span>
-                        <Tooltip content="Whether the gloves are powdered or powder-free."></Tooltip>
+                          <Tooltip content="Common allergens in the product (e.g., parabens, sulfates, gluten, milk, Latex etc)."></Tooltip>
+                        </div>
                       </div>
-                      <span className={styles.error}></span>
-                    </div>
+                      <div className={styles.productInnerContainer}>
+                        <label className={styles.formLabel}>Sterilized</label>
+                        <div className={styles.tooltipContainer}>
+                          <span className={styles.formCheckboxSection}>
+                            <input
+                              type="checkbox"
+                              id="sterilized"
+                              checked={checked["sterilized"] || false}
+                              onChange={(e) => {
+                                handleCheckboxChange(
+                                  "sterilized",
+                                  e?.target?.checked
+                                );
+                                setFieldValue("sterilized", e?.target?.checked);
+                              }}
+                            />
 
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Texture</label>
-                      <div className={styles.tooltipContainer}>
-                        <span className={styles.formCheckboxSection}>
-                          <input
-                            type="checkbox"
-                            id="texture"
-                            checked={
-                              values?.texture || checked["texture"] || false
-                            }
-                            onChange={(e) => {
-                              handleCheckboxChange(
-                                "texture",
-                                e?.target?.checked
-                              );
-                              setFieldValue("texture", e?.target?.checked);
-                            }}
-                          />
-
-                          <label className={styles.checkText} htmlFor="texture">
-                            Whether the item have texture <br /> or smooth
-                          </label>
-                        </span>
-                        <Tooltip content="Whether the item have texture or smooth"></Tooltip>
+                            <label
+                              className={styles.checkText}
+                              htmlFor="sterilized"
+                            >
+                              Whether the item is sterilized <br /> or
+                              non-sterile.
+                            </label>
+                          </span>
+                          <Tooltip content="Whether the item is sterilized or non-sterile."></Tooltip>
+                        </div>
+                        <span className={styles.error}></span>
                       </div>
-                      <span className={styles.error}></span>
                     </div>
                   </div>
-                  <div className={styles.innerProductContainer}>
-                    <div className={styles.innerSection}>
-                      <span className={styles.formHead}>
-                        Storage & Handling
-                      </span>
+
+                  <div className={styles.innerMonitorSection}>
+                    <span className={styles.formHead}>Technical Details</span>
+                    <div className={styles.formInnerSection}>
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
-                          Shelf Life/Expiry
-                          <span className={styles.labelStamp}>*</span>
+                          Filtration Efficiency
                         </label>
                         <div className={styles.tooltipContainer}>
                           <input
                             className={styles.formInput}
                             type="text"
-                            placeholder="Enter Shelf Life/Expiry"
+                            placeholder="Enter Filtration Efficiency"
                             // autoComplete="off"
-                            name="expiry"
-                            value={values?.expiry}
-                           
+                            name="filtrationEfficiency"
+                            value={values.filtrationEfficiency}
+                            onChange={(e) =>
+                              handleInputChange(e, setFieldValue, 4, "all")
+                            }
+                            onBlur={handleBlur}
+                          />
+                          <Tooltip content="Percentage of particles the mask filters (e.g., 95%, 99%, etc.)"></Tooltip>
+                        </div>
+                        <span className={styles.error}></span>
+                      </div>
+                      <div className={styles.productInnerContainer}>
+                        <label className={styles.formLabel}>
+                          Breathability
+                        </label>
+                        <div className={styles.tooltipContainer}>
+                          <input
+                            className={styles.formInput}
+                            type="text"
+                            placeholder="Enter Breathability"
+                            // autoComplete="off"
+                            name="breathability"
+                            value={values.breathability}
+                            onChange={(e) =>
+                              handleInputChange(e, setFieldValue, 75, "all")
+                            }
+                            onBlur={handleBlur}
+                          />
+                          <Tooltip content="Breathability rating (e.g., air flow resistance, Inhalation/Exhalation rate)"></Tooltip>
+                        </div>
+                        <span className={styles.error}></span>
+                      </div>
+                      <div className={styles.productInnerContainer}>
+                        <label className={styles.formLabel}>Layer Count</label>
+                        <div className={styles.tooltipContainer}>
+                          <input
+                            className={styles.formInput}
+                            type="text"
+                            placeholder="Enter Layer Count"
+                            // autoComplete="off"
+                            name="layerCount"
+                            value={values.layerCount}
                             onChange={(e) =>
                               handleInputChange(e, setFieldValue, 20, "all")
                             }
                             onBlur={handleBlur}
                           />
-                          <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
+                          <Tooltip content="Number of layers (e.g., 3-ply, 4-ply, 5-ply)."></Tooltip>
                         </div>
-                        {touched.expiry && errors.expiry && (
-                          <span className={styles.error}>{errors.expiry}</span>
-                        )}
+                        <span className={styles.error}></span>
                       </div>
-                    </div>
+                      <div className={styles.productInnerContainer}>
+                        <label className={styles.formLabel}>
+                          Fluid Resistance
+                        </label>
+                        <div className={styles.tooltipContainer}>
+                          <span className={styles.formCheckboxSection}>
+                            <input
+                              type="checkbox"
+                              id="fluidResistance"
+                              checked={
+                                values.fluidResistance ||
+                                checked["fluidResistance"] ||
+                                false
+                              }
+                              onChange={(e) => {
+                                handleCheckboxChange(
+                                  "fluidResistance",
+                                  e?.target?.checked
+                                );
+                                setFieldValue(
+                                  "fluidResistance",
+                                  e?.target?.checked
+                                );
+                              }}
+                            />
 
-                    <div className={styles.innerMonitorSection}>
-                      <span className={styles.formHead}>
-                        Monitoring and Adherence
-                      </span>
-                      <div className={styles.formInnerSection}>
-                        <div className={styles.productInnerContainer}>
-                          <label className={styles.formLabel}>Sterilized</label>
-                          <div className={styles.tooltipContainer}>
-                            <span className={styles.formCheckboxSection}>
-                              <input
-                                type="checkbox"
-                                id="sterilized"
-                                checked={checked["sterilized"] || false}
-                                onChange={(e) => {
-                                  handleCheckboxChange(
-                                    "sterilized",
-                                    e?.target?.checked
-                                  );
-                                  setFieldValue(
-                                    "sterilized",
-                                    e?.target?.checked
-                                  );
-                                }}
-                              />
-
-                              <label
-                                className={styles.checkText}
-                                htmlFor="sterilized"
-                              >
-                                Whether the item is sterilized <br />
-                                or non-sterile.
-                              </label>
-                            </span>
-                            <Tooltip content="Whether the item is sterilized or non-sterile."></Tooltip>
-                          </div>
-                          <span className={styles.error}></span>
+                            <label
+                              className={styles.checkText}
+                              htmlFor="fluidResistance"
+                            >
+                              Resistance to fluid penetration (e.g., <br /> for
+                              surgical masks)
+                            </label>
+                          </span>
+                          <Tooltip content="Resistance to fluid penetration (e.g., for surgical masks)"></Tooltip>
                         </div>
+                        <span className={styles.error}></span>
                       </div>
-                    </div>
-                  </div>
-
-                  <span className={styles.formHead}>Technical Details</span>
-                  <div className={styles.formSection}>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Adhesiveness</label>
-                      <div className={styles.tooltipContainer}>
-                        <input
-                          className={styles.formInput}
-                          type="text"
-                          placeholder="Enter Adhesiveness"
-                          // autoComplete="off"
-                          name="adhesiveness"
-                          value={values.adhesiveness}
-                       
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 75, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="Adhesive or non-adhesive."></Tooltip>
-                      </div>
-                    </div>
-
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Absorbency</label>
-                      <div className={styles.tooltipContainer}>
-                        <input
-                          className={styles.formInput}
-                          type="text"
-                          placeholder="Enter Absorbency"
-                          // autoComplete="off"
-                          name="absorbency"
-                          value={values.absorbency}
-                         
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 75, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="Whether the suture is absorbable or non-absorbable."></Tooltip>
-                      </div>
-                    </div>
-
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Elasticity</label>
-                      <div className={styles.tooltipContainer}>
-                        <input
-                          className={styles.formInput}
-                          type="text"
-                          placeholder="Enter Elasticity"
-                          // autoComplete="off"
-                          name="elasticity"
-                          value={values.elasticity}
-                         
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 75, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="Stretch for tapes"></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
-                    </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Fluid Resistance
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <span className={styles.formCheckboxSection}>
-                          <input
-                            type="checkbox"
-                            id="fluidResistance"
-                            checked={
-                              values?.fluidResistance ||
-                              checked["fluidResistance"] ||
-                              false
-                            }
-                            onChange={(e) => {
-                              handleCheckboxChange(
-                                "fluidResistance",
-                                e?.target?.checked
-                              );
-                              setFieldValue(
-                                "fluidResistance",
-                                e?.target?.checked
-                              );
-                            }}
-                          />
-                          <label
-                            className={styles.checkText}
-                            htmlFor="fluidResistance"
-                          >
-                            Resistance to fluid penetration (e.g., <br /> for
-                            surgical masks)
-                          </label>
-                        </span>
-                        <Tooltip content="Resistance to fluid penetration (e.g., for surgical masks)"></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
                     </div>
                   </div>
                 </div>
-             
+              </div>
+            )}
+            {/* End the Medical Consumables and Disposables */}
+
+            {/* Start the Laboratory Supplies */}
+            {selectedSchema === "LaboratorySupplies" && (
+              <div className={styles.section}>
+                <span className={styles.formHead}>Product Identification</span>
+                <div className={styles.formSection}>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Physical State</label>
+                    <div className={styles.tooltipContainer}>
+                      <Chips
+                        value={values.physicalState || []}
+                        placeholder={
+                          !values.physicalState ||
+                          values.physicalState.length === 0
+                            ? "Press enter to add label"
+                            : ""
+                        }
+                        name="physicalState"
+                        onBlur={handleBlur}
+                        onChange={(e) => {
+                          const newValue = e.value || e.target.value;
+                          setValue((prev) => ({
+                            ...prev,
+                            physicalState: newValue,
+                          }));
+                          setFieldValue("physicalState", newValue);
+                        }}
+                        allowDuplicate={false}
+                        separator=","
+                      />
+                      <Tooltip content="Physical state (e.g., solid, liquid, gas)"></Tooltip>
+                    </div>
+                    <span className={styles.error}></span>
+                  </div>
+
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Hazard Classification
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <Chips
+                        value={values.hazardClassification || []}
+                        placeholder={
+                          !values.hazardClassification ||
+                          values.hazardClassification.length === 0
+                            ? "Press enter to add label"
+                            : ""
+                        }
+                        name="hazardClassification"
+                        onBlur={handleBlur}
+                        onChange={(e) => {
+                          const newValue = e.value || e.target.value;
+                          setValue((prev) => ({
+                            ...prev,
+                            hazardClassification: newValue,
+                          }));
+                          setFieldValue("hazardClassification", newValue);
+                        }}
+                        allowDuplicate={false}
+                        separator=","
+                      />
+                      <Tooltip content="Hazard Classification (e.g., flammable, toxic, etc)"></Tooltip>
+                    </div>
+                    <span className={styles.error}></span>
+                  </div>
+
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Shape</label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Shape"
+                        rows="2"
+                        name="shape"
+                        value={values.shape}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="Shape of the needle (e.g., 1/2 circle, 3/8 circle)."></Tooltip>
+                    </div>
+                  </div>
+
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Coating</label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Coating"
+                        rows="2"
+                        name="coating"
+                        value={values.coating}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="Type of coating (e.g., antimicrobial, silicone)."></Tooltip>
+                    </div>
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Purpose</label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Purpose"
+                        rows="2"
+                        name="purpose"
+                        value={values.purpose}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+
+                      <Tooltip
+                        content="Purpose (e.g., COVID-19 detection, blood glucose
+                          monitoring, cholesterol level check,Pain 
+                          relief,Prevention of infection.,Cooling and
+                          soothing.,Moisturizing and healing, procedure 
+                          or use case of tool, Relieves symptoms, promotes
+                          healing, or prevents recurrence.)"
+                      ></Tooltip>
+                    </div>
+                    <span className={styles.error}></span>
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>CAS Number</label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter CAS Number"
+                        rows="2"
+                        name="casNumber"
+                        value={values.casNumber}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="Chemical Abstracts Service (CAS) number for unique identification."></Tooltip>
+                    </div>
+                    <span className={styles.error}></span>
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Grade</label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Grade"
+                        rows="2"
+                        name="grade"
+                        value={values.grade}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="Purity or grade (e.g., analytical grade, reagent grade)"></Tooltip>
+                    </div>
+                    <span className={styles.error}></span>
+                  </div>
+
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Concentration</label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Concentration"
+                        rows="2"
+                        name="concentration"
+                        value={values.concentration}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip
+                        content=" Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
+                          ,Alcohol-based disinfectants are typically 70-90%
+                          
+                          concentration for optimal antimicrobial efficacy.
+                          Oxygen concentration level provided by the device
+                          (e.g., 95%)"
+                      ></Tooltip>
+                    </div>
+                    <span className={styles.error}></span>
+                  </div>
+                </div>
+                <span className={styles.formHead}>Technical Details</span>
+                <div className={styles.formSection}>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Connectivity</label>
+                    <div className={styles.tooltipContainer}>
+                      <input
+                        className={styles.formInput}
+                        type="text"
+                        placeholder="Enter Connectivity"
+                        // autoComplete="off"
+                        name="connectivity"
+                        value={values.connectivity}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 75, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="Connectivity options (e.g., USB, Wi-Fi, HDMI)."></Tooltip>
+                    </div>
+                    <span className={styles.error}></span>
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Magnification Range
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Magnification Range"
+                        rows="2"
+                        name="magnificationRange"
+                        value={values.magnificationRange}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="Magnification capabilities (e.g., 40x to 1000x)."></Tooltip>
+                    </div>
+                  </div>
+
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Objective Lenses</label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Objective Lenses"
+                        rows="2"
+                        name="objectiveLenses"
+                        value={values.objectiveLenses}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="Number and types of objective lenses (e.g., 4x, 10x, 40x)"></Tooltip>
+                    </div>
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Power Source</label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Power Source"
+                        rows="2"
+                        name="powerSource"
+                        value={values.powerSource}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="Power requirements (e.g., battery, AC adapter)."></Tooltip>
+                    </div>
+                    <span className={styles.error}></span>
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Resolution</label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Resolution"
+                        rows="2"
+                        name="resolution"
+                        value={values.resolution}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="Maximum resolution the microscope can achieve."></Tooltip>
+                    </div>
+                    <span className={styles.error}></span>
+                  </div>
+                </div>
+              </div>
+            )}
+            {/* End the Laboratory Supplies */}
+
+            {/* Start the Diagnostic and Monitoring Devices */}
+            {selectedSchema === "DiagnosticAndMonitoringDevices" && (
+              <div className={styles.section}>
+                <span className={styles.formHead}>Product Identification</span>
+                <div className={styles.formSection}>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Diagnostic Functions
+                      <span className={styles.labelStamp}>*</span>
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Diagnostic Functions"
+                        rows="2"
+                        name="diagnosticFunctions"
+                        value={values.diagnosticFunctions}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="Specific diagnostic tests or functions that the tool performs"></Tooltip>
+                    </div>
+                    {touched.diagnosticFunctions &&
+                      errors.diagnosticFunctions && (
+                        <span className={styles.error}>
+                          {errors.diagnosticFunctions}
+                        </span>
+                      )}
+                  </div>
+
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Flow Rate</label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Flow Rate"
+                        rows="2"
+                        name="flowRate"
+                        value={values.flowRate}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="Adjustable flow rate range (e.g., 1-5 LPM, 1-10 LPM)"></Tooltip>
+                    </div>
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Concentration</label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Concentration"
+                        rows="2"
+                        name="concentration"
+                        value={values.concentration}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip
+                        content=" Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
+                          ,Alcohol-based disinfectants are typically 70-90%
+                          concentration for optimal  antimicrobial
+                          efficacy. Oxygen concentration level provided by the
+                          device (e.g., 95%)"
+                      ></Tooltip>
+                    </div>
+                    <span className={styles.error}></span>
+                  </div>
+                </div>
+                <span className={styles.formHead}>Technical Details</span>
+                <div className={styles.formSection}>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Measurement Range
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <input
+                        className={styles.formInput}
+                        type="text"
+                        placeholder="Enter Measurement Range"
+                        // autoComplete="off"
+                        name="measurementRange"
+                        value={values.measurementRange}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 75, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content=" Blood pressure range the monitor can measure (e.g., 0-300 mmHg)."></Tooltip>
+                    </div>
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Noise Level</label>
+                    <div className={styles.tooltipContainer}>
+                      <input
+                        className={styles.formInput}
+                        type="text"
+                        placeholder="Enter Noise Level"
+                        // autoComplete="off"
+                        name="noiseLevel"
+                        value={values.noiseLevel}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 20, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content=" Operating noise level (e.g., 40 dB)."></Tooltip>
+                    </div>
+                    <span className={styles.error}></span>
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Usage Rate</label>
+                    <input
+                      className={styles.formInput}
+                      type="text"
+                      placeholder="Enter Usage Rate"
+                      // autoComplete="off"
+                      name="usageRate"
+                      value={values.usageRate}
+                      onChange={(e) =>
+                        handleInputChange(e, setFieldValue, 75, "all")
+                      }
+                      onBlur={handleBlur}
+                    />
+                    <span className={styles.error}></span>
+                  </div>
+
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Maintenance Notes
+                    </label>
+                    <textarea
+                      className={styles.formInput}
+                      placeholder="Enter Maintenance Notes"
+                      rows="2"
+                      name="maintenanceNotes"
+                      value={values.maintenanceNotes}
+                      onChange={(e) =>
+                        handleInputChange(e, setFieldValue, 2000, "all")
+                      }
+                      onBlur={handleBlur}
+                    />
+                    <span className={styles.error}></span>
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Compatible Equipment
+                    </label>
+                    <textarea
+                      className={styles.formInput}
+                      placeholder="Enter Compatible Equipment"
+                      rows="2"
+                      name="compatibleEquipment"
+                      value={values.compatibleEquipment}
+                      onChange={(e) =>
+                        handleInputChange(e, setFieldValue, 2000, "all")
+                      }
+                      onBlur={handleBlur}
+                    />
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Specification
+                      <span className={styles.labelStamp}>*</span>
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Specification"
+                        rows="2"
+                        name="specification"
+                        value={values.specification}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="Technical Specification of the tool  (e.g., hardware, software, network diagnostics, etc.)"></Tooltip>
+                    </div>
+                    {touched.specification && errors.specification && (
+                      <span className={styles.error}>
+                        {errors.specification}
+                      </span>
+                    )}
+                    <AddProductFileUpload
+                      styles={styles}
+                      fieldInputName={"specificationFile"}
+                      setFieldValue={setFieldValue}
+                      initialValues={values}
+                      label=""
+                      tooltip={false}
+                      showLabel={false}
+                    />
+                    {touched.specificationFile && errors.specificationFile && (
+                      <span className={styles.error}>
+                        {errors.specificationFile}
+                      </span>
+                    )}
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Performance Testing Report
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Performance Testing Report"
+                        rows="2"
+                        name="performanceTestingReport"
+                        value={values.performanceTestingReport}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip
+                        content=" Results from any internal or external product testing
+                          (e.g.,
+                          nebulizer output, CPAP pressure and airflow
+                          testing)."
+                      ></Tooltip>
+                    </div>
+                    <AddProductFileUpload
+                      styles={styles}
+                      fieldInputName={"performanceTestingReportFile"}
+                      setFieldValue={setFieldValue}
+                      initialValues={values}
+                      label=""
+                      tooltip={false}
+                      showLabel={false}
+                    />
+                    {touched.performanceTestingReportFile &&
+                      errors.performanceTestingReportFile && (
+                        <span className={styles.error}>
+                          {errors.performanceTestingReportFile}
+                        </span>
+                      )}
+                  </div>
+                </div>
+              </div>
+            )}
+            {/* End the Diagnostic and Monitoring Devices */}
+
+            {/* Start the Hospital and Clinic Supplies */}
+            {selectedSchema === "HospitalAndClinicSupplies" && (
+              <div className={styles.section}>
+                <span className={styles.formHead}>Product Identification</span>
+                <div className={styles.formSection}>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Thickness</label>
+                    <div className={styles.tooltipContainer}>
+                      <input
+                        className={styles.formInput}
+                        type="text"
+                        placeholder="Enter Thickness"
+                        // autoComplete="off"
+                        name="thickness"
+                        value={values.thickness}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 75, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content=" The thickness of the Item (e.g., in mil or gauge)."></Tooltip>
+                    </div>
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Product Material</label>
+                    <div className={styles.tooltipContainer}>
+                      <input
+                        className={styles.formInput}
+                        type="text"
+                        placeholder="Enter Product Material"
+                        // autoComplete="off"
+                        name="productMaterial"
+                        value={values.productMaterial}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 1000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="Material used (e.g., Latex, Nitrile, Vinyl, Rubber, stainless steel, titanium etc.)."></Tooltip>
+                    </div>
+                    <span className={styles.error}></span>
+                  </div>
+
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Purpose</label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Purpose"
+                        rows="2"
+                        name="purpose"
+                        value={values.purpose}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="Intended use type (e.g., oily, dry, curly, fine, thick, straight, medical, industrial etc)"></Tooltip>
+                    </div>
+                    <span className={styles.error}></span>
+                  </div>
+
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Chemical Resistance
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Chemical Resistance"
+                        rows="2"
+                        name="chemicalResistance"
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="Any specific chemical resistance features"></Tooltip>
+                    </div>
+                    <span className={styles.error}></span>
+                  </div>
+
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Powdered</label>
+                    <div className={styles.tooltipContainer}>
+                      <span className={styles.formCheckboxSection}>
+                        <input
+                          type="checkbox"
+                          id="powdered"
+                          checked={
+                            values?.powdered || checked["powdered"] || false
+                          }
+                          onChange={(e) => {
+                            handleCheckboxChange(
+                              "powdered",
+                              e?.target?.checked
+                            );
+                            setFieldValue("powdered", e?.target?.checked);
+                          }}
+                        />
+
+                        <label className={styles.checkText} htmlFor="powdered">
+                          Whether the gloves are powdered <br />
+                          or powder-free.
+                        </label>
+                      </span>
+                      <Tooltip content="Whether the gloves are powdered or powder-free."></Tooltip>
+                    </div>
+                    <span className={styles.error}></span>
+                  </div>
+
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Texture</label>
+                    <div className={styles.tooltipContainer}>
+                      <span className={styles.formCheckboxSection}>
+                        <input
+                          type="checkbox"
+                          id="texture"
+                          checked={
+                            values?.texture || checked["texture"] || false
+                          }
+                          onChange={(e) => {
+                            handleCheckboxChange("texture", e?.target?.checked);
+                            setFieldValue("texture", e?.target?.checked);
+                          }}
+                        />
+
+                        <label className={styles.checkText} htmlFor="texture">
+                          Whether the item have texture <br /> or smooth
+                        </label>
+                      </span>
+                      <Tooltip content="Whether the item have texture or smooth"></Tooltip>
+                    </div>
+                    <span className={styles.error}></span>
+                  </div>
+                </div>
+                <div className={styles.innerProductContainer}>
+                  <div className={styles.innerSection}>
+                    <span className={styles.formHead}>Storage & Handling</span>
+                    <div className={styles.productInnerContainer}>
+                      <label className={styles.formLabel}>
+                        Shelf Life/Expiry
+                        <span className={styles.labelStamp}>*</span>
+                      </label>
+                      <div className={styles.tooltipContainer}>
+                        <input
+                          className={styles.formInput}
+                          type="text"
+                          placeholder="Enter Shelf Life/Expiry"
+                          // autoComplete="off"
+                          name="expiry"
+                          value={values?.expiry}
+                          onChange={(e) =>
+                            handleInputChange(e, setFieldValue, 20, "all")
+                          }
+                          onBlur={handleBlur}
+                        />
+                        <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
+                      </div>
+                      {touched.expiry && errors.expiry && (
+                        <span className={styles.error}>{errors.expiry}</span>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className={styles.innerMonitorSection}>
+                    <span className={styles.formHead}>
+                      Monitoring and Adherence
+                    </span>
+                    <div className={styles.formInnerSection}>
+                      <div className={styles.productInnerContainer}>
+                        <label className={styles.formLabel}>Sterilized</label>
+                        <div className={styles.tooltipContainer}>
+                          <span className={styles.formCheckboxSection}>
+                            <input
+                              type="checkbox"
+                              id="sterilized"
+                              checked={checked["sterilized"] || false}
+                              onChange={(e) => {
+                                handleCheckboxChange(
+                                  "sterilized",
+                                  e?.target?.checked
+                                );
+                                setFieldValue("sterilized", e?.target?.checked);
+                              }}
+                            />
+
+                            <label
+                              className={styles.checkText}
+                              htmlFor="sterilized"
+                            >
+                              Whether the item is sterilized <br />
+                              or non-sterile.
+                            </label>
+                          </span>
+                          <Tooltip content="Whether the item is sterilized or non-sterile."></Tooltip>
+                        </div>
+                        <span className={styles.error}></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <span className={styles.formHead}>Technical Details</span>
+                <div className={styles.formSection}>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Adhesiveness</label>
+                    <div className={styles.tooltipContainer}>
+                      <input
+                        className={styles.formInput}
+                        type="text"
+                        placeholder="Enter Adhesiveness"
+                        // autoComplete="off"
+                        name="adhesiveness"
+                        value={values.adhesiveness}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 75, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="Adhesive or non-adhesive."></Tooltip>
+                    </div>
+                  </div>
+
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Absorbency</label>
+                    <div className={styles.tooltipContainer}>
+                      <input
+                        className={styles.formInput}
+                        type="text"
+                        placeholder="Enter Absorbency"
+                        // autoComplete="off"
+                        name="absorbency"
+                        value={values.absorbency}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 75, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="Whether the suture is absorbable or non-absorbable."></Tooltip>
+                    </div>
+                  </div>
+
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Elasticity</label>
+                    <div className={styles.tooltipContainer}>
+                      <input
+                        className={styles.formInput}
+                        type="text"
+                        placeholder="Enter Elasticity"
+                        // autoComplete="off"
+                        name="elasticity"
+                        value={values.elasticity}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 75, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="Stretch for tapes"></Tooltip>
+                    </div>
+                    <span className={styles.error}></span>
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Fluid Resistance</label>
+                    <div className={styles.tooltipContainer}>
+                      <span className={styles.formCheckboxSection}>
+                        <input
+                          type="checkbox"
+                          id="fluidResistance"
+                          checked={
+                            values?.fluidResistance ||
+                            checked["fluidResistance"] ||
+                            false
+                          }
+                          onChange={(e) => {
+                            handleCheckboxChange(
+                              "fluidResistance",
+                              e?.target?.checked
+                            );
+                            setFieldValue(
+                              "fluidResistance",
+                              e?.target?.checked
+                            );
+                          }}
+                        />
+                        <label
+                          className={styles.checkText}
+                          htmlFor="fluidResistance"
+                        >
+                          Resistance to fluid penetration (e.g., <br /> for
+                          surgical masks)
+                        </label>
+                      </span>
+                      <Tooltip content="Resistance to fluid penetration (e.g., for surgical masks)"></Tooltip>
+                    </div>
+                    <span className={styles.error}></span>
+                  </div>
+                </div>
+              </div>
             )}
             {/* End the Hospital and Clinic Supplies */}
 
@@ -4112,7 +3911,6 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="strength"
                           value={values.strength}
-                          
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 20, "all")
                           }
@@ -4158,7 +3956,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="purpose"
                           value={values.purpose}
-                          
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -4180,7 +3977,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="targetCondition"
                           value={values.targetCondition}
-                          
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -4203,7 +3999,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="coating"
                           value={values.coating}
-                         
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -4267,7 +4062,6 @@ const AddProduct = ({ placeholder }) => {
                               // autoComplete="off"
                               name="elasticity"
                               value={values.elasticity}
-                              
                               onChange={(e) =>
                                 handleInputChange(e, setFieldValue, 75, "all")
                               }
@@ -4287,7 +4081,6 @@ const AddProduct = ({ placeholder }) => {
                               // autoComplete="off"
                               name="absorbency"
                               value={values.absorbency}
-                              
                               onChange={(e) =>
                                 handleInputChange(e, setFieldValue, 75, "all")
                               }
@@ -4308,7 +4101,6 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="breathability"
                               value={values.breathability}
-                              
                               onChange={(e) =>
                                 handleInputChange(e, setFieldValue, 2000, "all")
                               }
@@ -4329,7 +4121,6 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="colorOptions"
                               value={values.colorOptions}
-                              
                               onChange={(e) =>
                                 handleInputChange(e, setFieldValue, 2000, "all")
                               }
@@ -4370,7 +4161,6 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="productMaterial"
                           value={values.productMaterial}
-                          
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 100, "all")
                           }
@@ -4389,7 +4179,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="purpose"
                           value={values.purpose}
-                          
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -4409,7 +4198,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="targetCondition"
                           value={values.targetCondition}
-                          
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -4450,7 +4238,6 @@ const AddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="expiry"
                             value={values?.expiry}
-                            
                             onChange={(e) =>
                               handleInputChange(e, setFieldValue, 20, "all")
                             }
@@ -4477,7 +4264,6 @@ const AddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="usageRate"
                             value={values.usageRate}
-                            
                             onChange={(e) =>
                               handleInputChange(e, setFieldValue, 75, "all")
                             }
@@ -4497,7 +4283,6 @@ const AddProduct = ({ placeholder }) => {
                             rows="2"
                             name="maintenanceNotes"
                             value={values.maintenanceNotes}
-                            
                             onChange={(e) =>
                               handleInputChange(e, setFieldValue, 2000, "all")
                             }
@@ -4517,7 +4302,6 @@ const AddProduct = ({ placeholder }) => {
                             rows="2"
                             name="compatibleEquipment"
                             value={values.compatibleEquipment}
-                            
                             onChange={(e) =>
                               handleInputChange(e, setFieldValue, 2000, "all")
                             }
@@ -4600,7 +4384,6 @@ const AddProduct = ({ placeholder }) => {
                         // autoComplete="off"
                         name="diameter"
                         value={values.diameter}
-                        
                         onChange={(e) =>
                           handleInputChange(e, setFieldValue, 4, "all")
                         }
@@ -4618,7 +4401,6 @@ const AddProduct = ({ placeholder }) => {
                         rows="2"
                         name="lensPower"
                         value={values.lensPower}
-                        
                         onChange={(e) =>
                           handleInputChange(e, setFieldValue, 9, "all")
                         }
@@ -4635,7 +4417,6 @@ const AddProduct = ({ placeholder }) => {
                         rows="2"
                         name="baseCurve"
                         value={values.baseCurve}
-                        
                         onChange={(e) =>
                           handleInputChange(e, setFieldValue, 2000, "all")
                         }
@@ -4652,7 +4433,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="colorOptions"
                           value={values.colorOptions}
-                          
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -4671,1218 +4451,1123 @@ const AddProduct = ({ placeholder }) => {
             {/* Start the Home Healthcare Products */}
 
             {selectedSchema === "HomeHealthcareProducts" && (
-              
-                <div className={styles.section}>
-                  <span className={styles.formHead}>
-                    Product Identification
-                  </span>
-                  <div className={styles.formSection}>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Flow Rate</label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Flow Rate"
-                          rows="2"
-                          name="flowRate"
-                          value={values.flowRate}
-                          
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="Adjustable flow rate range (e.g., 1-5 LPM, 1-10 LPM)"></Tooltip>
-                      </div>
+              <div className={styles.section}>
+                <span className={styles.formHead}>Product Identification</span>
+                <div className={styles.formSection}>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Flow Rate</label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Flow Rate"
+                        rows="2"
+                        name="flowRate"
+                        value={values.flowRate}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="Adjustable flow rate range (e.g., 1-5 LPM, 1-10 LPM)"></Tooltip>
                     </div>
+                  </div>
 
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Concentration</label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Concentration"
-                          rows="2"
-                          name="concentration"
-                          value={values.concentration}
-                          
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip
-                          content="Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Concentration</label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Concentration"
+                        rows="2"
+                        name="concentration"
+                        value={values.concentration}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip
+                        content="Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
                           ,Alcohol-based disinfectants are typically 70-90%
                          
                           concentration for optimal antimicrobial efficacy.
                           Oxygen concentration level
                          provided by the device (e.g., 95%)"
-                        ></Tooltip>
-                      </div>
+                      ></Tooltip>
                     </div>
                   </div>
-                  <div className={styles.innerProductContainer}>
-                    <div className={styles.innerSection}>
-                      <span className={styles.formHead}>
-                        Storage & Handling
-                      </span>
+                </div>
+                <div className={styles.innerProductContainer}>
+                  <div className={styles.innerSection}>
+                    <span className={styles.formHead}>Storage & Handling</span>
+                    <div className={styles.productInnerContainer}>
+                      <label className={styles.formLabel}>
+                        Shelf Life/Expiry
+                        <span className={styles.labelStamp}>*</span>
+                      </label>
+                      <div className={styles.tooltipContainer}>
+                        <input
+                          className={styles.formInput}
+                          type="text"
+                          placeholder="Enter Shelf Life/Expiry"
+                          // autoComplete="off"
+                          name="expiry"
+                          value={values?.expiry}
+                          onChange={(e) =>
+                            handleInputChange(e, setFieldValue, 20, "all")
+                          }
+                          onBlur={handleBlur}
+                        />
+                        <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
+                      </div>
+                      {touched.expiry && errors.expiry && (
+                        <span className={styles.error}>{errors.expiry}</span>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className={styles.innerSection}>
+                    <span className={styles.formHead}>Technical Details</span>
+                    <div className={styles.formInnerSection}>
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
-                          Shelf Life/Expiry
-                          <span className={styles.labelStamp}>*</span>
+                          Max Weight Capacity
                         </label>
                         <div className={styles.tooltipContainer}>
                           <input
                             className={styles.formInput}
                             type="text"
-                            placeholder="Enter Shelf Life/Expiry"
+                            placeholder="Enter Max Weight Capacity"
                             // autoComplete="off"
-                            name="expiry"
-                            value={values?.expiry}
-                            
+                            name="maxWeightCapacity"
+                            value={values.maxWeightCapacity}
                             onChange={(e) =>
-                              handleInputChange(e, setFieldValue, 20, "all")
+                              handleInputChange(e, setFieldValue, 75, "all")
                             }
                             onBlur={handleBlur}
                           />
-                          <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
+                          <Tooltip content="The maximum weight capacity that the mobility aid can support (e.g., 250 lbs for a walker)."></Tooltip>
                         </div>
-                        {touched.expiry && errors.expiry && (
-                          <span className={styles.error}>{errors.expiry}</span>
-                        )}
+                        <span className={styles.error}></span>
                       </div>
-                    </div>
-
-                    <div className={styles.innerSection}>
-                      <span className={styles.formHead}>Technical Details</span>
-                      <div className={styles.formInnerSection}>
-                        <div className={styles.productInnerContainer}>
-                          <label className={styles.formLabel}>
-                            Max Weight Capacity
-                          </label>
-                          <div className={styles.tooltipContainer}>
-                            <input
-                              className={styles.formInput}
-                              type="text"
-                              placeholder="Enter Max Weight Capacity"
-                              // autoComplete="off"
-                              name="maxWeightCapacity"
-                              value={values.maxWeightCapacity}
-                              
-                              onChange={(e) =>
-                                handleInputChange(e, setFieldValue, 75, "all")
-                              }
-                              onBlur={handleBlur}
-                            />
-                            <Tooltip content="The maximum weight capacity that the mobility aid can support (e.g., 250 lbs for a walker)."></Tooltip>
-                          </div>
-                          <span className={styles.error}></span>
+                      <div className={styles.productInnerContainer}>
+                        <label className={styles.formLabel}>Grip Type</label>
+                        <div className={styles.tooltipContainer}>
+                          <input
+                            className={styles.formInput}
+                            type="text"
+                            placeholder="Enter Grip Type"
+                            // autoComplete="off"
+                            name="gripType"
+                            value={values.gripType}
+                            onChange={(e) =>
+                              handleInputChange(e, setFieldValue, 75, "text")
+                            }
+                            onBlur={handleBlur}
+                          />
+                          <Tooltip content="Type of grips or handles (e.g., ergonomic, foam, rubberized handles for better comfort)."></Tooltip>
                         </div>
-                        <div className={styles.productInnerContainer}>
-                          <label className={styles.formLabel}>Grip Type</label>
-                          <div className={styles.tooltipContainer}>
-                            <input
-                              className={styles.formInput}
-                              type="text"
-                              placeholder="Enter Grip Type"
-                              // autoComplete="off"
-                              name="gripType"
-                              value={values.gripType}
-                              
-                              onChange={(e) =>
-                                handleInputChange(e, setFieldValue, 75, "text")
-                              }
-                              onBlur={handleBlur}
-                            />
-                            <Tooltip content="Type of grips or handles (e.g., ergonomic, foam, rubberized handles for better comfort)."></Tooltip>
-                          </div>
-                          <span className={styles.error}></span>
+                        <span className={styles.error}></span>
+                      </div>
+                      <div className={styles.productInnerContainer}>
+                        <label className={styles.formLabel}>Battery Type</label>
+                        <div className={styles.tooltipContainer}>
+                          <input
+                            className={styles.formInput}
+                            type="text"
+                            placeholder="Enter Battery Type"
+                            // autoComplete="off"
+                            name="batteryType"
+                            value={values.batteryType}
+                            onChange={(e) =>
+                              handleInputChange(e, setFieldValue, 75, "all")
+                            }
+                            onBlur={handleBlur}
+                          />
+                          <Tooltip content="Type of Battery Installed to Operate the Item"></Tooltip>
                         </div>
-                        <div className={styles.productInnerContainer}>
-                          <label className={styles.formLabel}>
-                            Battery Type
-                          </label>
-                          <div className={styles.tooltipContainer}>
-                            <input
-                              className={styles.formInput}
-                              type="text"
-                              placeholder="Enter Battery Type"
-                              // autoComplete="off"
-                              name="batteryType"
-                              value={values.batteryType}
-                              
-                              onChange={(e) =>
-                                handleInputChange(e, setFieldValue, 75, "all")
-                              }
-                              onBlur={handleBlur}
-                            />
-                            <Tooltip content="Type of Battery Installed to Operate the Item"></Tooltip>
-                          </div>
-                          <span className={styles.error}></span>
+                        <span className={styles.error}></span>
+                      </div>
+                      <div className={styles.productInnerContainer}>
+                        <label className={styles.formLabel}>Battery Size</label>
+                        <div className={styles.tooltipContainer}>
+                          <input
+                            className={styles.formInput}
+                            type="text"
+                            placeholder="Enter Battery Size"
+                            // autoComplete="off"
+                            name="batterySize"
+                            value={values.batterySize}
+                            onChange={(e) =>
+                              handleInputChange(e, setFieldValue, 75, "all")
+                            }
+                            onBlur={handleBlur}
+                          />
+                          <Tooltip content="Size of Battery Installed to Operate the Item"></Tooltip>
                         </div>
-                        <div className={styles.productInnerContainer}>
-                          <label className={styles.formLabel}>
-                            Battery Size
-                          </label>
-                          <div className={styles.tooltipContainer}>
-                            <input
-                              className={styles.formInput}
-                              type="text"
-                              placeholder="Enter Battery Size"
-                              // autoComplete="off"
-                              name="batterySize"
-                              value={values.batterySize}
-                              
-                              onChange={(e) =>
-                                handleInputChange(e, setFieldValue, 75, "all")
-                              }
-                              onBlur={handleBlur}
-                            />
-                            <Tooltip content="Size of Battery Installed to Operate the Item"></Tooltip>
-                          </div>
-                          <span className={styles.error}></span>
+                        <span className={styles.error}></span>
+                      </div>
+                      <div className={styles.productInnerContainer}>
+                        <label className={styles.formLabel}>
+                          Color Options
+                        </label>
+                        <div className={styles.tooltipContainer}>
+                          <textarea
+                            className={styles.formInput}
+                            placeholder="Enter Color Options"
+                            rows="2"
+                            name="colorOptions"
+                            value={values.colorOptions}
+                            onChange={(e) =>
+                              handleInputChange(e, setFieldValue, 2000, "all")
+                            }
+                            onBlur={handleBlur}
+                          />
+                          <Tooltip content="Available colors (e.g., black, beige, grey, tortoiseshell, frame color or lense color etc)"></Tooltip>
                         </div>
-                        <div className={styles.productInnerContainer}>
-                          <label className={styles.formLabel}>
-                            Color Options
-                          </label>
-                          <div className={styles.tooltipContainer}>
-                            <textarea
-                              className={styles.formInput}
-                              placeholder="Enter Color Options"
-                              rows="2"
-                              name="colorOptions"
-                              value={values.colorOptions}
-                              
-                              onChange={(e) =>
-                                handleInputChange(e, setFieldValue, 2000, "all")
-                              }
-                              onBlur={handleBlur}
-                            />
-                            <Tooltip content="Available colors (e.g., black, beige, grey, tortoiseshell, frame color or lense color etc)"></Tooltip>
-                          </div>
-                          <span className={styles.error}></span>
+                        <span className={styles.error}></span>
+                      </div>
+                      <div className={styles.productInnerContainer}>
+                        <label className={styles.formLabel}>Foldability</label>
+                        <div className={styles.tooltipContainer}>
+                          <textarea
+                            className={styles.formInput}
+                            placeholder="Enter Foldability"
+                            rows="2"
+                            name="foldability"
+                            value={values.foldability}
+                            onChange={(e) =>
+                              handleInputChange(e, setFieldValue, 2000, "all")
+                            }
+                            onBlur={handleBlur}
+                          />
+                          <Tooltip content="Whether the product can be folded for easy storage (e.g., foldable walkers)."></Tooltip>
                         </div>
-                        <div className={styles.productInnerContainer}>
-                          <label className={styles.formLabel}>
-                            Foldability
-                          </label>
-                          <div className={styles.tooltipContainer}>
-                            <textarea
-                              className={styles.formInput}
-                              placeholder="Enter Foldability"
-                              rows="2"
-                              name="foldability"
-                              value={values.foldability}
-                              
-                              onChange={(e) =>
-                                handleInputChange(e, setFieldValue, 2000, "all")
-                              }
-                              onBlur={handleBlur}
-                            />
-                            <Tooltip content="Whether the product can be folded for easy storage (e.g., foldable walkers)."></Tooltip>
-                          </div>
-                          <span className={styles.error}></span>
+                        <span className={styles.error}></span>
+                      </div>
+                      <div className={styles.productInnerContainer}>
+                        <label className={styles.formLabel}>
+                          Locking Mechanism
+                        </label>
+                        <div className={styles.tooltipContainer}>
+                          <textarea
+                            className={styles.formInput}
+                            placeholder="Enter Locking Mechanism"
+                            rows="2"
+                            name="lockingMechanism"
+                            value={values.lockingMechanism}
+                            onChange={(e) =>
+                              handleInputChange(e, setFieldValue, 2000, "all")
+                            }
+                            onBlur={handleBlur}
+                          />
+                          <Tooltip content="Details on any locking mechanisms (e.g., locking wheels or adjustable legs on walkers)"></Tooltip>
                         </div>
-                        <div className={styles.productInnerContainer}>
-                          <label className={styles.formLabel}>
-                            Locking Mechanism
-                          </label>
-                          <div className={styles.tooltipContainer}>
-                            <textarea
-                              className={styles.formInput}
-                              placeholder="Enter Locking Mechanism"
-                              rows="2"
-                              name="lockingMechanism"
-                              value={values.lockingMechanism}
-                              
-                              onChange={(e) =>
-                                handleInputChange(e, setFieldValue, 2000, "all")
-                              }
-                              onBlur={handleBlur}
-                            />
-                            <Tooltip content="Details on any locking mechanisms (e.g., locking wheels or adjustable legs on walkers)"></Tooltip>
-                          </div>
-                          <span className={styles.error}></span>
-                        </div>
-                        <div className={styles.productInnerContainer}>
-                          <label className={styles.formLabel}>
-                            Type of Support
-                          </label>
-                          <div className={styles.tooltipContainer}>
-                            <textarea
-                              className={styles.formInput}
-                              placeholder="Enter Type of Support"
-                              rows="2"
-                              name="typeOfSupport"
-                              value={values.typeOfSupport}
-                              
-                              onChange={(e) =>
-                                handleInputChange(e, setFieldValue, 2000, "all")
-                              }
-                              onBlur={handleBlur}
-                            />
-                            <Tooltip
-                              content=" The type of support provided by the aid (e.g.,
+                        <span className={styles.error}></span>
+                      </div>
+                      <div className={styles.productInnerContainer}>
+                        <label className={styles.formLabel}>
+                          Type of Support
+                        </label>
+                        <div className={styles.tooltipContainer}>
+                          <textarea
+                            className={styles.formInput}
+                            placeholder="Enter Type of Support"
+                            rows="2"
+                            name="typeOfSupport"
+                            value={values.typeOfSupport}
+                            onChange={(e) =>
+                              handleInputChange(e, setFieldValue, 2000, "all")
+                            }
+                            onBlur={handleBlur}
+                          />
+                          <Tooltip
+                            content=" The type of support provided by the aid (e.g.,
                               two-legged,
                              four-legged walker, or wall-mounted grab
                               bar)."
-                            ></Tooltip>
-                          </div>
-                          <span className={styles.error}></span>
+                          ></Tooltip>
                         </div>
-                        <div className={styles.productInnerContainer}>
-                          <label className={styles.formLabel}>
-                            Performance Testing Report
-                          </label>
-                          <div className={styles.tooltipContainer}>
-                            <textarea
-                              className={styles.formInput}
-                              placeholder="Enter Performance Testing Report"
-                              rows="2"
-                              name="performanceTestingReport"
-                              value={values.performanceTestingReport}
-                              
-                              onChange={(e) =>
-                                handleInputChange(e, setFieldValue, 2000, "all")
-                              }
-                              onBlur={handleBlur}
-                            />
-                            <Tooltip
-                              content="   Results from any internal or external product
+                        <span className={styles.error}></span>
+                      </div>
+                      <div className={styles.productInnerContainer}>
+                        <label className={styles.formLabel}>
+                          Performance Testing Report
+                        </label>
+                        <div className={styles.tooltipContainer}>
+                          <textarea
+                            className={styles.formInput}
+                            placeholder="Enter Performance Testing Report"
+                            rows="2"
+                            name="performanceTestingReport"
+                            value={values.performanceTestingReport}
+                            onChange={(e) =>
+                              handleInputChange(e, setFieldValue, 2000, "all")
+                            }
+                            onBlur={handleBlur}
+                          />
+                          <Tooltip
+                            content="   Results from any internal or external product
                               testing (e.g.,
                                nebulizer output, CPAP pressure and airflow
                               testing)."
-                            ></Tooltip>
-                          </div>
-                          <AddProductFileUpload
-                            fieldInputName={"performanceTestingReportFile"}
-                            setFieldValue={setFieldValue}
-                            initialValues={values}
-                            label=""
-                            
-                            tooltip={false}
-                            showLabel={false}
-                          />
-                          {touched.performanceTestingReportFile &&
-                            errors.performanceTestingReportFile && (
-                              <span className={styles.error}>
-                                {errors.performanceTestingReportFile}
-                              </span>
-                            )}
+                          ></Tooltip>
                         </div>
+                        <AddProductFileUpload
+                          styles={styles}
+                          fieldInputName={"performanceTestingReportFile"}
+                          setFieldValue={setFieldValue}
+                          initialValues={values}
+                          label=""
+                          tooltip={false}
+                          showLabel={false}
+                        />
+                        {touched.performanceTestingReportFile &&
+                          errors.performanceTestingReportFile && (
+                            <span className={styles.error}>
+                              {errors.performanceTestingReportFile}
+                            </span>
+                          )}
                       </div>
                     </div>
                   </div>
                 </div>
-             
+              </div>
             )}
             {/* End the Home Healthcare Products */}
 
             {/* Start the Alternative Medicines */}
             {selectedSchema === "AlternativeMedicines" && (
-              
-                <div className={styles.section}>
-                  <span className={styles.formHead}>
-                    Product Identification
-                  </span>
-                  <div className={styles.formSection}>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Composition/Ingredients
-                        <span className={styles.labelStamp}>*</span>
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Composition/Ingredients"
-                          rows="2"
-                          name="composition"
-                          value={values.composition}
-                          
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="Description of the active ingredients and components of the vaccine.."></Tooltip>
-                      </div>
-                      {touched.composition && errors.composition && (
-                        <span className={styles.error}>
-                          {errors.composition}
-                        </span>
-                      )}
+              <div className={styles.section}>
+                <span className={styles.formHead}>Product Identification</span>
+                <div className={styles.formSection}>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Composition/Ingredients
+                      <span className={styles.labelStamp}>*</span>
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Composition/Ingredients"
+                        rows="2"
+                        name="composition"
+                        value={values.composition}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="Description of the active ingredients and components of the vaccine.."></Tooltip>
                     </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Purpose</label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Purpose"
-                          rows="2"
-                          name="purpose"
-                          value={values.purpose}
-                          
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip
-                          content="  Purpose (e.g., COVID-19 detection, blood glucose
+                    {touched.composition && errors.composition && (
+                      <span className={styles.error}>{errors.composition}</span>
+                    )}
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Purpose</label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Purpose"
+                        rows="2"
+                        name="purpose"
+                        value={values.purpose}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip
+                        content="  Purpose (e.g., COVID-19 detection, blood glucose
                           monitoring, cholesterol level check,Pain
                           relief,Prevention of infection.,Cooling
                           and soothing.,Moisturizing and healing,
                           procedure or use case of tool, Relieves symptoms,
                           promotes healing, or prevents recurrence.)"
-                        ></Tooltip>
-                      </div>
+                      ></Tooltip>
                     </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Health Claims</label>
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Health Claims</label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Health Claims"
+                        rows="2"
+                        name="healthClaims"
+                        value={values.healthClaims}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="  Verified by clinical trials or regulatory agencies."></Tooltip>
+                    </div>
+                    <AddProductFileUpload
+                      styles={styles}
+                      fieldInputName={"healthClaimsFile"}
+                      setFieldValue={setFieldValue}
+                      initialValues={values}
+                      label=""
+                      tooltip={false}
+                      showLabel={false}
+                    />
+                    {touched.healthClaimsFile && errors.healthClaimsFile && (
+                      <span className={styles.error}>
+                        {errors.healthClaimsFile}
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <div className={styles.innerProductContainer}>
+                  <div className={styles.innerSection}>
+                    <span className={styles.formHead}>Storage & Handling</span>
+                    <div className={styles.productInnerContainer}>
+                      <label className={styles.formLabel}>
+                        Shelf Life/Expiry
+                        <span className={styles.labelStamp}>*</span>
+                      </label>
                       <div className={styles.tooltipContainer}>
-                        <textarea
+                        <input
                           className={styles.formInput}
-                          placeholder="Enter Health Claims"
-                          rows="2"
-                          name="healthClaims"
-                          value={values.healthClaims}
-                          
+                          type="text"
+                          placeholder="Enter Shelf Life/Expiry"
+                          // autoComplete="off"
+                          name="expiry"
+                          value={values?.expiry}
                           onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
+                            handleInputChange(e, setFieldValue, 20, "all")
                           }
                           onBlur={handleBlur}
                         />
-                        <Tooltip content="  Verified by clinical trials or regulatory agencies."></Tooltip>
+                        <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
                       </div>
-                      <AddProductFileUpload
-                        fieldInputName={"healthClaimsFile"}
-                        setFieldValue={setFieldValue}
-                        initialValues={values}
-                        label=""
-                        
-                        tooltip={false}
-                        showLabel={false}
-                      />
-                      {touched.healthClaimsFile && errors.healthClaimsFile && (
-                        <span className={styles.error}>
-                          {errors.healthClaimsFile}
-                        </span>
+                      {touched.expiry && errors.expiry && (
+                        <span className={styles.error}>{errors.expiry}</span>
                       )}
                     </div>
                   </div>
-                  <div className={styles.innerProductContainer}>
-                    <div className={styles.innerSection}>
-                      <span className={styles.formHead}>
-                        Storage & Handling
-                      </span>
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>
-                          Shelf Life/Expiry
-                          <span className={styles.labelStamp}>*</span>
-                        </label>
-                        <div className={styles.tooltipContainer}>
-                          <input
-                            className={styles.formInput}
-                            type="text"
-                            placeholder="Enter Shelf Life/Expiry"
-                            // autoComplete="off"
-                            name="expiry"
-                            value={values?.expiry}
-                            
-                            onChange={(e) =>
-                              handleInputChange(e, setFieldValue, 20, "all")
-                            }
-                            onBlur={handleBlur}
-                          />
-                          <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
-                        </div>
-                        {touched.expiry && errors.expiry && (
-                          <span className={styles.error}>{errors.expiry}</span>
-                        )}
-                      </div>
-                    </div>
-                  </div>
                 </div>
-              
+              </div>
             )}
             {/* End the Alternative Medicines */}
 
             {/* Start the Emergency and First Aid Supplies */}
             {selectedSchema === "EmergencyAndFirstAidSupplies" && (
-          
-                <div className={styles.section}>
-                  <span className={styles.formHead}>
-                    Product Identification
-                  </span>
-                  <div className={styles.formSection}>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Composition/Ingredients
-                        <span className={styles.labelStamp}>*</span>
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Composition/Ingredients"
-                          rows="2"
-                          name="composition"
-                          value={values.composition}
-                          
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="Description of the active ingredients and components of the vaccine."></Tooltip>
-                      </div>
-                      {touched.composition && errors.composition && (
-                        <span className={styles.error}>
-                          {errors.composition}
-                        </span>
-                      )}
+              <div className={styles.section}>
+                <span className={styles.formHead}>Product Identification</span>
+                <div className={styles.formSection}>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Composition/Ingredients
+                      <span className={styles.labelStamp}>*</span>
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Composition/Ingredients"
+                        rows="2"
+                        name="composition"
+                        value={values.composition}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="Description of the active ingredients and components of the vaccine."></Tooltip>
                     </div>
-
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Product Longevity
-                        <span className={styles.labelStamp}>*</span>
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Product Longevity"
-                          rows="2"
-                          name="productLongevity"
-                          value={values.productLongevity}
-                          
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="Expected lifespan of the product (e.g., single-use vs. reusable items)."></Tooltip>
-                      </div>
-                      {touched.productLongevity && errors.productLongevity && (
-                        <span className={styles.error}>
-                          {errors.productLongevity}
-                        </span>
-                      )}
-                    </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Foldability<span className={styles.labelStamp}>*</span>
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Foldability"
-                          rows="2"
-                          name="foldability"
-                          value={values.foldability}
-                          
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="Whether the product can be folded for easy storage (e.g., foldable walkers)."></Tooltip>
-                      </div>
-                      {touched.foldability && errors.foldability && (
-                        <span className={styles.error}>
-                          {errors.foldability}
-                        </span>
-                      )}
-                    </div>
+                    {touched.composition && errors.composition && (
+                      <span className={styles.error}>{errors.composition}</span>
+                    )}
                   </div>
-                  <div className={styles.innerProductContainer}>
-                    <div className={styles.innerSection}>
-                      <span className={styles.formHead}>
-                        Storage & Handling
+
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Product Longevity
+                      <span className={styles.labelStamp}>*</span>
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Product Longevity"
+                        rows="2"
+                        name="productLongevity"
+                        value={values.productLongevity}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="Expected lifespan of the product (e.g., single-use vs. reusable items)."></Tooltip>
+                    </div>
+                    {touched.productLongevity && errors.productLongevity && (
+                      <span className={styles.error}>
+                        {errors.productLongevity}
                       </span>
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>
-                          Shelf Life/Expiry
-                          <span className={styles.labelStamp}>*</span>
-                        </label>
-                        <div className={styles.tooltipContainer}>
-                          <input
-                            className={styles.formInput}
-                            type="text"
-                            placeholder="Enter Shelf Life/Expiry"
-                            // autoComplete="off"
-                            name="expiry"
-                            value={values?.expiry}
-                            
-                            onChange={(e) =>
-                              handleInputChange(e, setFieldValue, 20, "all")
-                            }
-                            onBlur={handleBlur}
-                          />
-                          <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
-                        </div>
-                        {touched.expiry && errors.expiry && (
-                          <span className={styles.error}>{errors.expiry}</span>
-                        )}
+                    )}
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Foldability<span className={styles.labelStamp}>*</span>
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Foldability"
+                        rows="2"
+                        name="foldability"
+                        value={values.foldability}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="Whether the product can be folded for easy storage (e.g., foldable walkers)."></Tooltip>
+                    </div>
+                    {touched.foldability && errors.foldability && (
+                      <span className={styles.error}>{errors.foldability}</span>
+                    )}
+                  </div>
+                </div>
+                <div className={styles.innerProductContainer}>
+                  <div className={styles.innerSection}>
+                    <span className={styles.formHead}>Storage & Handling</span>
+                    <div className={styles.productInnerContainer}>
+                      <label className={styles.formLabel}>
+                        Shelf Life/Expiry
+                        <span className={styles.labelStamp}>*</span>
+                      </label>
+                      <div className={styles.tooltipContainer}>
+                        <input
+                          className={styles.formInput}
+                          type="text"
+                          placeholder="Enter Shelf Life/Expiry"
+                          // autoComplete="off"
+                          name="expiry"
+                          value={values?.expiry}
+                          onChange={(e) =>
+                            handleInputChange(e, setFieldValue, 20, "all")
+                          }
+                          onBlur={handleBlur}
+                        />
+                        <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
                       </div>
+                      {touched.expiry && errors.expiry && (
+                        <span className={styles.error}>{errors.expiry}</span>
+                      )}
                     </div>
                   </div>
                 </div>
-             
+              </div>
             )}
 
             {/* End the Emergency and First Aid Supplies */}
 
             {/* Start the Disinfection and Hygiene Supplies */}
             {selectedSchema === "DisinfectionAndHygieneSupplies" && (
-             
-                <div className={styles.section}>
-                  <span className={styles.formHead}>
-                    Product Identification
-                  </span>
-                  <div className={styles.formSection}>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Composition/Ingredients
-                        <span className={styles.labelStamp}>*</span>
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Composition/Ingredients"
-                          rows="2"
-                          name="composition"
-                          value={values.composition}
-                          
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="Description of the active ingredients and components of the vaccine."></Tooltip>
-                      </div>
-                      {touched.composition && errors.composition && (
-                        <span className={styles.error}>
-                          {errors.composition}
-                        </span>
-                      )}
+              <div className={styles.section}>
+                <span className={styles.formHead}>Product Identification</span>
+                <div className={styles.formSection}>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Composition/Ingredients
+                      <span className={styles.labelStamp}>*</span>
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Composition/Ingredients"
+                        rows="2"
+                        name="composition"
+                        value={values.composition}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="Description of the active ingredients and components of the vaccine."></Tooltip>
                     </div>
+                    {touched.composition && errors.composition && (
+                      <span className={styles.error}>{errors.composition}</span>
+                    )}
+                  </div>
 
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Concentration</label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Concentration"
-                          rows="2"
-                          name="concentration"
-                          value={values.concentration}
-                          
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip
-                          content="  Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Concentration</label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Concentration"
+                        rows="2"
+                        name="concentration"
+                        value={values.concentration}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip
+                        content="  Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
                           ,Alcohol-based disinfectants are typically 70-90%
                           concentration <br /> for optimal antimicrobial
                           efficacy. Oxygen concentration level provided by the
                           device (e.g., 95%)"
-                        ></Tooltip>
-                      </div>
-                    </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Formulation</label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Formulation"
-                          rows="2"
-                          name="formulation"
-                          value={values.formulation}
-                          
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="The type of formulation (e.g., gel, cream, lotion, serum, mask, foam etc)."></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
-                    </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Fragrance</label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Fragrance"
-                          rows="2"
-                          name="fragrance"
-                          value={values.fragrance}
-                          
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="Whether the product contains fragrance or is fragrance-free."></Tooltip>
-                      </div>
-                      <span className={styles.error}></span>
+                      ></Tooltip>
                     </div>
                   </div>
-                  <div className={styles.innerProductContainer}>
-                    <div className={styles.innerSection}>
-                      <span className={styles.formHead}>
-                        Storage & Handling
-                      </span>
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>
-                          Shelf Life/Expiry
-                          <span className={styles.labelStamp}>*</span>
-                        </label>
-                        <div className={styles.tooltipContainer}>
-                          <input
-                            className={styles.formInput}
-                            type="text"
-                            placeholder="Enter Shelf Life/Expiry"
-                            // autoComplete="off"
-                            name="expiry"
-                            value={values?.expiry}
-                            
-                            onChange={(e) =>
-                              handleInputChange(e, setFieldValue, 20, "all")
-                            }
-                            onBlur={handleBlur}
-                          />
-                          <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
-                        </div>
-                        {touched.expiry && errors.expiry && (
-                          <span className={styles.error}>{errors.expiry}</span>
-                        )}
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Formulation</label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Formulation"
+                        rows="2"
+                        name="formulation"
+                        value={values.formulation}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="The type of formulation (e.g., gel, cream, lotion, serum, mask, foam etc)."></Tooltip>
+                    </div>
+                    <span className={styles.error}></span>
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Fragrance</label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Fragrance"
+                        rows="2"
+                        name="fragrance"
+                        value={values.fragrance}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="Whether the product contains fragrance or is fragrance-free."></Tooltip>
+                    </div>
+                    <span className={styles.error}></span>
+                  </div>
+                </div>
+                <div className={styles.innerProductContainer}>
+                  <div className={styles.innerSection}>
+                    <span className={styles.formHead}>Storage & Handling</span>
+                    <div className={styles.productInnerContainer}>
+                      <label className={styles.formLabel}>
+                        Shelf Life/Expiry
+                        <span className={styles.labelStamp}>*</span>
+                      </label>
+                      <div className={styles.tooltipContainer}>
+                        <input
+                          className={styles.formInput}
+                          type="text"
+                          placeholder="Enter Shelf Life/Expiry"
+                          // autoComplete="off"
+                          name="expiry"
+                          value={values?.expiry}
+                          onChange={(e) =>
+                            handleInputChange(e, setFieldValue, 20, "all")
+                          }
+                          onBlur={handleBlur}
+                        />
+                        <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
                       </div>
+                      {touched.expiry && errors.expiry && (
+                        <span className={styles.error}>{errors.expiry}</span>
+                      )}
                     </div>
                   </div>
                 </div>
-              
+              </div>
             )}
             {/* End the Disinfection and Hygiene Supplies */}
 
             {/* Start the Nutrition and Dietary Products */}
             {selectedSchema === "NutritionAndDietaryProducts" && (
-             
-                <div className={styles.section}>
-                  <span className={styles.formHead}>
-                    Product Identification
-                  </span>
-                  <div className={styles.formSection}>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Dairy Free<span className={styles.labelStamp}>*</span>
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <Select
-                          className={styles.formSelect}
-                          options={dairyfeeOptions}
-                          placeholder="Select Dairy Free"
-                          name="dairyFree"
-                          onChange={(selectedOption) =>
-                            setFieldValue("dairyFree", selectedOption?.value)
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="Is the product dairy free?"></Tooltip>
-                      </div>
-                      {touched.dairyFree && errors.dairyFree && (
-                        <span className={styles.error}>{errors.dairyFree}</span>
-                      )}
+              <div className={styles.section}>
+                <span className={styles.formHead}>Product Identification</span>
+                <div className={styles.formSection}>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Dairy Free<span className={styles.labelStamp}>*</span>
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <Select
+                        className={styles.formSelect}
+                        options={dairyfeeOptions}
+                        placeholder="Select Dairy Free"
+                        name="dairyFree"
+                        onChange={(selectedOption) =>
+                          setFieldValue("dairyFree", selectedOption?.value)
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="Is the product dairy free?"></Tooltip>
                     </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Flavor Options
-                        <span className={styles.labelStamp}>*</span>
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Flavor Options"
-                          rows="2"
-                          name="flavorOptions"
-                          value={values.flavorOptions}
-                          
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip
-                          content=" Protein powders often come in a wide variety of
+                    {touched.dairyFree && errors.dairyFree && (
+                      <span className={styles.error}>{errors.dairyFree}</span>
+                    )}
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Flavor Options
+                      <span className={styles.labelStamp}>*</span>
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Flavor Options"
+                        rows="2"
+                        name="flavorOptions"
+                        value={values.flavorOptions}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip
+                        content=" Protein powders often come in a wide variety of
                           flavors like 
                           chocolate, vanilla, strawberry, cookies & cream, etc."
-                        ></Tooltip>
-                      </div>
-                      {touched.flavorOptions && errors.flavorOptions && (
-                        <span className={styles.error}>
-                          {errors.flavorOptions}
-                        </span>
-                      )}
+                      ></Tooltip>
                     </div>
+                    {touched.flavorOptions && errors.flavorOptions && (
+                      <span className={styles.error}>
+                        {errors.flavorOptions}
+                      </span>
+                    )}
+                  </div>
 
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Amino Acid Profile
-                        <span className={styles.labelStamp}>*</span>
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Amino Acid Profile"
-                          rows="2"
-                          name="aminoAcidProfile"
-                          value={values.aminoAcidProfile}
-                          
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content=" Full spectrum or specific amino acids like BCAAs (Branched-Chain Amino Acids)."></Tooltip>
-                      </div>
-                      {touched.aminoAcidProfile && errors.aminoAcidProfile && (
-                        <span className={styles.error}>
-                          {errors.aminoAcidProfile}
-                        </span>
-                      )}
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Amino Acid Profile
+                      <span className={styles.labelStamp}>*</span>
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Amino Acid Profile"
+                        rows="2"
+                        name="aminoAcidProfile"
+                        value={values.aminoAcidProfile}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content=" Full spectrum or specific amino acids like BCAAs (Branched-Chain Amino Acids)."></Tooltip>
                     </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Fat Content<span className={styles.labelStamp}>*</span>
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Fat Content"
-                          rows="2"
-                          name="fatContent"
-                          value={values.fatContent}
-                          
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="Varies based on type (e.g., whey isolate vs. concentrate)"></Tooltip>
-                      </div>
-                      {touched.fatContent && errors.fatContent && (
-                        <span className={styles.error}>
-                          {errors.fatContent}
-                        </span>
-                      )}
+                    {touched.aminoAcidProfile && errors.aminoAcidProfile && (
+                      <span className={styles.error}>
+                        {errors.aminoAcidProfile}
+                      </span>
+                    )}
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Fat Content<span className={styles.labelStamp}>*</span>
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Fat Content"
+                        rows="2"
+                        name="fatContent"
+                        value={values.fatContent}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="Varies based on type (e.g., whey isolate vs. concentrate)"></Tooltip>
                     </div>
+                    {touched.fatContent && errors.fatContent && (
+                      <span className={styles.error}>{errors.fatContent}</span>
+                    )}
+                  </div>
 
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Health Benefit
-                        <span className={styles.labelStamp}>*</span>
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Health Benefit"
-                          rows="2"
-                          name="healthBenefit"
-                          value={values.healthBenefit}
-                          
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="Info about the health benefits (e.g., “Boosts immunity”, “Supports joint health”)"></Tooltip>
-                      </div>
-                      {touched.healthBenefit && errors.healthBenefit && (
-                        <span className={styles.error}>
-                          {errors.healthBenefit}
-                        </span>
-                      )}
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Health Benefit
+                      <span className={styles.labelStamp}>*</span>
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Health Benefit"
+                        rows="2"
+                        name="healthBenefit"
+                        value={values.healthBenefit}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="Info about the health benefits (e.g., “Boosts immunity”, “Supports joint health”)"></Tooltip>
                     </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Purpose</label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Purpose"
-                          rows="2"
-                          name="purpose"
-                          value={values.purpose}
-                          
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip
-                          content="     Purpose (e.g., COVID-19 detection, blood glucose
+                    {touched.healthBenefit && errors.healthBenefit && (
+                      <span className={styles.error}>
+                        {errors.healthBenefit}
+                      </span>
+                    )}
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Purpose</label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Purpose"
+                        rows="2"
+                        name="purpose"
+                        value={values.purpose}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip
+                        content="     Purpose (e.g., COVID-19 detection, blood glucose
                           monitoring, cholesterol level check,Pain
                           relief,Prevention of infection.,Cooling and soothing.
                          
                           Moisturizing and healing, procedure or use case of
                           tool, Relieves symptoms, promotes healing, or prevents
                           recurrence.)"
-                        ></Tooltip>
-                      </div>
+                      ></Tooltip>
                     </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Composition/Ingredients
-                        <span className={styles.labelStamp}>*</span>
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Composition/Ingredients"
-                          rows="2"
-                          name="composition"
-                          value={values.composition}
-                          
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="Description of the active ingredients and components of the vaccine."></Tooltip>
-                      </div>
-                      {touched.composition && errors.composition && (
-                        <span className={styles.error}>
-                          {errors.composition}
-                        </span>
-                      )}
+                  </div>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Composition/Ingredients
+                      <span className={styles.labelStamp}>*</span>
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Composition/Ingredients"
+                        rows="2"
+                        name="composition"
+                        value={values.composition}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="Description of the active ingredients and components of the vaccine."></Tooltip>
                     </div>
+                    {touched.composition && errors.composition && (
+                      <span className={styles.error}>{errors.composition}</span>
+                    )}
+                  </div>
 
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Additives & Sweeteners
-                        <span className={styles.labelStamp}>*</span>
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Additives & Sweeteners"
-                          rows="2"
-                          name="additivesNSweeteners"
-                          value={values.additivesNSweeteners}
-                          
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip
-                          content=" Some proteins contain artificial sweeteners (e.g.,
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Additives & Sweeteners
+                      <span className={styles.labelStamp}>*</span>
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Additives & Sweeteners"
+                        rows="2"
+                        name="additivesNSweeteners"
+                        value={values.additivesNSweeteners}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip
+                        content=" Some proteins contain artificial sweeteners (e.g.,
                           sucralose, aspartame),
                           while others use natural sweeteners (e.g.,
                           stevia, monk fruit)."
-                        ></Tooltip>
-                      </div>
-                      {touched.additivesNSweeteners &&
-                        errors.additivesNSweeteners && (
-                          <span className={styles.error}>
-                            {errors.additivesNSweeteners}
-                          </span>
-                        )}
+                      ></Tooltip>
                     </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Vegan</label>
-                      <div className={styles.tooltipContainer}>
-                        <span className={styles.formCheckboxSection}>
-                          <input
-                            type="checkbox"
-                            id="vegan"
-                            name="vegan"
-                            onBlur={handleBlur}
-                            checked={values?.vegan || checked["vegan"] || false}
-                            onChange={(e) => {
-                              handleCheckboxChange("vegan", e?.target?.checked);
-                              setFieldValue("vegan", e?.target?.checked);
-                            }}
-                          />
-                          <label className={styles.checkText} htmlFor="vegan">
-                            Whether the product is vegan (i.e. <br />, no
-                            animal-derived ingredients).
-                          </label>
+                    {touched.additivesNSweeteners &&
+                      errors.additivesNSweeteners && (
+                        <span className={styles.error}>
+                          {errors.additivesNSweeteners}
                         </span>
-                        <Tooltip content="Description of the active and/or inactive ingredients and components."></Tooltip>
-                      </div>
-                    </div>
+                      )}
                   </div>
-                  <div className={styles.innerProductContainer}>
-                    <div className={styles.innerSection}>
-                      <span className={styles.formHead}>
-                        Storage & Handling
-                      </span>
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>
-                          Shelf Life/Expiry
-                          <span className={styles.labelStamp}>*</span>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>Vegan</label>
+                    <div className={styles.tooltipContainer}>
+                      <span className={styles.formCheckboxSection}>
+                        <input
+                          type="checkbox"
+                          id="vegan"
+                          name="vegan"
+                          onBlur={handleBlur}
+                          checked={values?.vegan || checked["vegan"] || false}
+                          onChange={(e) => {
+                            handleCheckboxChange("vegan", e?.target?.checked);
+                            setFieldValue("vegan", e?.target?.checked);
+                          }}
+                        />
+                        <label className={styles.checkText} htmlFor="vegan">
+                          Whether the product is vegan (i.e. <br />, no
+                          animal-derived ingredients).
                         </label>
-                        <div className={styles.tooltipContainer}>
-                          <input
-                            className={styles.formInput}
-                            type="text"
-                            placeholder="Enter Shelf Life/Expiry"
-                            // autoComplete="off"
-                            name="expiry"
-                            value={values?.expiry}
-                            
-                            onChange={(e) =>
-                              handleInputChange(e, setFieldValue, 20, "all")
-                            }
-                            onBlur={handleBlur}
-                          />
-                          <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
-                        </div>
-                        {touched.expiry && errors.expiry && (
-                          <span className={styles.error}>{errors.expiry}</span>
-                        )}
-                      </div>
+                      </span>
+                      <Tooltip content="Description of the active and/or inactive ingredients and components."></Tooltip>
                     </div>
                   </div>
                 </div>
-              
+                <div className={styles.innerProductContainer}>
+                  <div className={styles.innerSection}>
+                    <span className={styles.formHead}>Storage & Handling</span>
+                    <div className={styles.productInnerContainer}>
+                      <label className={styles.formLabel}>
+                        Shelf Life/Expiry
+                        <span className={styles.labelStamp}>*</span>
+                      </label>
+                      <div className={styles.tooltipContainer}>
+                        <input
+                          className={styles.formInput}
+                          type="text"
+                          placeholder="Enter Shelf Life/Expiry"
+                          // autoComplete="off"
+                          name="expiry"
+                          value={values?.expiry}
+                          onChange={(e) =>
+                            handleInputChange(e, setFieldValue, 20, "all")
+                          }
+                          onBlur={handleBlur}
+                        />
+                        <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
+                      </div>
+                      {touched.expiry && errors.expiry && (
+                        <span className={styles.error}>{errors.expiry}</span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
             )}
 
             {/* End the Nutrition and Dietary Products */}
 
             {/* Start the Healthcare IT Solutions */}
             {selectedSchema === "HealthcareITSolutions" && (
-            
-                <div className={styles.section}>
-                  <span className={styles.formHead}>
-                    Product Identification
-                  </span>
-                  <div className={styles.formSection}>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Scalability Info
-                        <span className={styles.labelStamp}>*</span>
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Scalability Info"
-                          rows="2"
-                          name="scalabilityInfo"
-                          value={values.scalabilityInfo}
-                          
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <Tooltip content="Easily adjustable storage to accommodate growing data volumes."></Tooltip>
+              <div className={styles.section}>
+                <span className={styles.formHead}>Product Identification</span>
+                <div className={styles.formSection}>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Scalability Info
+                      <span className={styles.labelStamp}>*</span>
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      <textarea
+                        className={styles.formInput}
+                        placeholder="Enter Scalability Info"
+                        rows="2"
+                        name="scalabilityInfo"
+                        value={values.scalabilityInfo}
+                        onChange={(e) =>
+                          handleInputChange(e, setFieldValue, 2000, "all")
+                        }
+                        onBlur={handleBlur}
+                      />
+                      <Tooltip content="Easily adjustable storage to accommodate growing data volumes."></Tooltip>
+                    </div>
+                    {touched.scalabilityInfo && errors.scalabilityInfo && (
+                      <span className={styles.error}>
+                        {errors.scalabilityInfo}
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <div className={styles.innerProductContainer}>
+                  <div className={styles.innerSection}>
+                    <span className={styles.formHead}>
+                      Additional Information
+                    </span>
+                    <div className={styles.formInnerSection}>
+                      <div className={styles.productInnerContainer}>
+                        <label className={styles.formLabel}>
+                          License<span className={styles.labelStamp}>*</span>
+                        </label>
+                        <div className={styles.tooltipContainer}>
+                          <textarea
+                            className={styles.formInput}
+                            placeholder="Enter License"
+                            rows="2"
+                            name="license"
+                            value={values.license}
+                            onChange={(e) =>
+                              handleInputChange(e, setFieldValue, 50, "all")
+                            }
+                            onBlur={handleBlur}
+                          />
+                          <Tooltip content="License Terms"></Tooltip>
+                        </div>
+                        {touched.license && errors.license && (
+                          <span className={styles.error}>{errors.license}</span>
+                        )}
                       </div>
-                      {touched.scalabilityInfo && errors.scalabilityInfo && (
-                        <span className={styles.error}>
-                          {errors.scalabilityInfo}
-                        </span>
-                      )}
+                      <div className={styles.productInnerContainer}>
+                        <label className={styles.formLabel}>
+                          Add-Ons<span className={styles.labelStamp}>*</span>
+                        </label>
+                        <div className={styles.tooltipContainer}>
+                          <textarea
+                            className={styles.formInput}
+                            placeholder="Enter Add-Ons"
+                            rows="2"
+                            name="addOns"
+                            value={values.addOns}
+                            onChange={(e) =>
+                              handleInputChange(e, setFieldValue, 2000, "all")
+                            }
+                            onBlur={handleBlur}
+                          />
+                          <Tooltip content="White-label solutions for branding. ,Custom integrations or API usage."></Tooltip>
+                        </div>
+                        {touched.addOns && errors.addOns && (
+                          <span className={styles.error}>{errors.addOns}</span>
+                        )}
+                      </div>
+                      <div className={styles.productInnerContainer}>
+                        <label className={styles.formLabel}>
+                          User Access
+                          <span className={styles.labelStamp}>*</span>
+                        </label>
+                        <div className={styles.tooltipContainer}>
+                          <textarea
+                            className={styles.formInput}
+                            placeholder="Enter User Access"
+                            rows="2"
+                            name="userAccess"
+                            value={values.userAccess}
+                            onChange={(e) =>
+                              handleInputChange(e, setFieldValue, 2000, "all")
+                            }
+                            onBlur={handleBlur}
+                          />
+                          <Tooltip content="Patients Easy-to-use apps for booking and attending consultations."></Tooltip>
+                        </div>
+                        {touched.userAccess && errors.userAccess && (
+                          <span className={styles.error}>
+                            {errors.userAccess}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
-                  <div className={styles.innerProductContainer}>
-                    <div className={styles.innerSection}>
-                      <span className={styles.formHead}>
-                        Additional Information
-                      </span>
-                      <div className={styles.formInnerSection}>
-                        <div className={styles.productInnerContainer}>
-                          <label className={styles.formLabel}>
-                            License<span className={styles.labelStamp}>*</span>
-                          </label>
-                          <div className={styles.tooltipContainer}>
-                            <textarea
-                              className={styles.formInput}
-                              placeholder="Enter License"
-                              rows="2"
-                              name="license"
-                              value={values.license}
-                              
-                              onChange={(e) =>
-                                handleInputChange(e, setFieldValue, 50, "all")
-                              }
-                              onBlur={handleBlur}
-                            />
-                            <Tooltip content="License Terms"></Tooltip>
-                          </div>
-                          {touched.license && errors.license && (
-                            <span className={styles.error}>
-                              {errors.license}
-                            </span>
-                          )}
-                        </div>
-                        <div className={styles.productInnerContainer}>
-                          <label className={styles.formLabel}>
-                            Add-Ons<span className={styles.labelStamp}>*</span>
-                          </label>
-                          <div className={styles.tooltipContainer}>
-                            <textarea
-                              className={styles.formInput}
-                              placeholder="Enter Add-Ons"
-                              rows="2"
-                              name="addOns"
-                              value={values.addOns}
-                              
-                              onChange={(e) =>
-                                handleInputChange(e, setFieldValue, 2000, "all")
-                              }
-                              onBlur={handleBlur}
-                            />
-                            <Tooltip content="White-label solutions for branding. ,Custom integrations or API usage."></Tooltip>
-                          </div>
-                          {touched.addOns && errors.addOns && (
-                            <span className={styles.error}>
-                              {errors.addOns}
-                            </span>
-                          )}
-                        </div>
-                        <div className={styles.productInnerContainer}>
-                          <label className={styles.formLabel}>
-                            User Access
-                            <span className={styles.labelStamp}>*</span>
-                          </label>
-                          <div className={styles.tooltipContainer}>
-                            <textarea
-                              className={styles.formInput}
-                              placeholder="Enter User Access"
-                              rows="2"
-                              name="userAccess"
-                              value={values.userAccess}
-                              
-                              onChange={(e) =>
-                                handleInputChange(e, setFieldValue, 2000, "all")
-                              }
-                              onBlur={handleBlur}
-                            />
-                            <Tooltip content="Patients Easy-to-use apps for booking and attending consultations."></Tooltip>
-                          </div>
-                          {touched.userAccess && errors.userAccess && (
-                            <span className={styles.error}>
-                              {errors.userAccess}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    </div>
 
-                    <div className={styles.innerMonitorSection}>
-                      <span className={styles.formHead}>Technical Details</span>
-                      <div className={styles.formInnerSection}>
-                        <div className={styles.productInnerContainer}>
-                          <label className={styles.formLabel}>
-                            Key Features
-                            <span className={styles.labelStamp}>*</span>
-                          </label>
-                          <div className={styles.tooltipContainer}>
-                            <textarea
-                              className={styles.formInput}
-                              placeholder="Enter Key Features"
-                              rows="2"
-                              name="keyFeatures"
-                              value={values.keyFeatures}
-                              
-                              onChange={(e) =>
-                                handleInputChange(e, setFieldValue, 2000, "all")
-                              }
-                              onBlur={handleBlur}
-                            />
-                            <Tooltip
-                              content="Remote monitoring of vital signs (e.g., heart
+                  <div className={styles.innerMonitorSection}>
+                    <span className={styles.formHead}>Technical Details</span>
+                    <div className={styles.formInnerSection}>
+                      <div className={styles.productInnerContainer}>
+                        <label className={styles.formLabel}>
+                          Key Features
+                          <span className={styles.labelStamp}>*</span>
+                        </label>
+                        <div className={styles.tooltipContainer}>
+                          <textarea
+                            className={styles.formInput}
+                            placeholder="Enter Key Features"
+                            rows="2"
+                            name="keyFeatures"
+                            value={values.keyFeatures}
+                            onChange={(e) =>
+                              handleInputChange(e, setFieldValue, 2000, "all")
+                            }
+                            onBlur={handleBlur}
+                          />
+                          <Tooltip
+                            content="Remote monitoring of vital signs (e.g., heart
                               rate, blood pressure, glucose levels).
                               Real-time data transmission to healthcare
                               providers or mobile apps."
-                            ></Tooltip>
-                          </div>
-                          {touched.keyFeatures && errors.keyFeatures && (
+                          ></Tooltip>
+                        </div>
+                        {touched.keyFeatures && errors.keyFeatures && (
+                          <span className={styles.error}>
+                            {errors.keyFeatures}
+                          </span>
+                        )}
+                      </div>
+                      <div className={styles.productInnerContainer}>
+                        <label className={styles.formLabel}>
+                          Core Functionalities
+                          <span className={styles.labelStamp}>*</span>
+                        </label>
+                        <div className={styles.tooltipContainer}>
+                          <textarea
+                            className={styles.formInput}
+                            placeholder="Enter Core Functionalities"
+                            rows="2"
+                            name="coreFunctionalities"
+                            value={values.coreFunctionalities}
+                            onChange={(e) =>
+                              handleInputChange(e, setFieldValue, 2000, "all")
+                            }
+                            onBlur={handleBlur}
+                          />
+                          <Tooltip content="Continuous or on-demand monitoring (e.g., ECG, blood oxygen levels, heart rate)."></Tooltip>
+                        </div>
+                        {touched.coreFunctionalities &&
+                          errors.coreFunctionalities && (
                             <span className={styles.error}>
-                              {errors.keyFeatures}
+                              {errors.coreFunctionalities}
                             </span>
                           )}
-                        </div>
-                        <div className={styles.productInnerContainer}>
-                          <label className={styles.formLabel}>
-                            Core Functionalities
-                            <span className={styles.labelStamp}>*</span>
-                          </label>
-                          <div className={styles.tooltipContainer}>
-                            <textarea
-                              className={styles.formInput}
-                              placeholder="Enter Core Functionalities"
-                              rows="2"
-                              name="coreFunctionalities"
-                              value={values.coreFunctionalities}
-                              
-                              onChange={(e) =>
-                                handleInputChange(e, setFieldValue, 2000, "all")
-                              }
-                              onBlur={handleBlur}
-                            />
-                            <Tooltip content="Continuous or on-demand monitoring (e.g., ECG, blood oxygen levels, heart rate)."></Tooltip>
-                          </div>
-                          {touched.coreFunctionalities &&
-                            errors.coreFunctionalities && (
-                              <span className={styles.error}>
-                                {errors.coreFunctionalities}
-                              </span>
-                            )}
-                        </div>
-                        <div className={styles.productInnerContainer}>
-                          <label className={styles.formLabel}>
-                            Interoperability
-                            <span className={styles.labelStamp}>*</span>
-                          </label>
-                          <div className={styles.tooltipContainer}>
-                            <textarea
-                              className={styles.formInput}
-                              placeholder="Enter Interoperability"
-                              rows="2"
-                              name="interoperability"
-                              value={values.interoperability}
-                              
-                              onChange={(e) =>
-                                handleInputChange(e, setFieldValue, 2000, "all")
-                              }
-                              onBlur={handleBlur}
-                            />
-                            <Tooltip content="Adheres to HL7/FHIR standards for healthcare data exchange."></Tooltip>
-                          </div>
-                          {touched.interoperability &&
-                            errors.interoperability && (
-                              <span className={styles.error}>
-                                {errors.interoperability}
-                              </span>
-                            )}
-                          <AddProductFileUpload
-                            fieldInputName={"interoperabilityFile"}
-                            setFieldValue={setFieldValue}
-                            initialValues={values}
-                            label=""
-                            // fileUpload={interoperabilityUpload}
-                            tooltip={false}
-                            showLabel={false}
+                      </div>
+                      <div className={styles.productInnerContainer}>
+                        <label className={styles.formLabel}>
+                          Interoperability
+                          <span className={styles.labelStamp}>*</span>
+                        </label>
+                        <div className={styles.tooltipContainer}>
+                          <textarea
+                            className={styles.formInput}
+                            placeholder="Enter Interoperability"
+                            rows="2"
+                            name="interoperability"
+                            value={values.interoperability}
+                            onChange={(e) =>
+                              handleInputChange(e, setFieldValue, 2000, "all")
+                            }
+                            onBlur={handleBlur}
                           />
-
-                          {touched.interoperabilityFile &&
-                            errors.interoperabilityFile && (
-                              <span className={styles.error}>
-                                {errors.interoperabilityFile}
-                              </span>
-                            )}
+                          <Tooltip content="Adheres to HL7/FHIR standards for healthcare data exchange."></Tooltip>
                         </div>
+                        {touched.interoperability &&
+                          errors.interoperability && (
+                            <span className={styles.error}>
+                              {errors.interoperability}
+                            </span>
+                          )}
+                        <AddProductFileUpload
+                          styles={styles}
+                          fieldInputName={"interoperabilityFile"}
+                          setFieldValue={setFieldValue}
+                          initialValues={values}
+                          label=""
+                          // fileUpload={interoperabilityUpload}
+                          tooltip={false}
+                          showLabel={false}
+                        />
+
+                        {touched.interoperabilityFile &&
+                          errors.interoperabilityFile && (
+                            <span className={styles.error}>
+                              {errors.interoperabilityFile}
+                            </span>
+                          )}
                       </div>
                     </div>
                   </div>
                 </div>
-              
+              </div>
             )}
             {/* End the Healthcare IT Solutions */}
 
@@ -5893,7 +5578,6 @@ const AddProduct = ({ placeholder }) => {
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Date of Manufacture
-                   
                   </label>
                   <div className={styles.tooltipContainer}>
                     <DatePicker
@@ -5905,7 +5589,7 @@ const AddProduct = ({ placeholder }) => {
                       maxDate={new Date()}
                       value={values.date}
                       onChange={(date) => {
-                        setFieldValue("date", date); 
+                        setFieldValue("date", date);
                       }}
                       onBlur={handleBlur}
                     />
@@ -5916,10 +5600,7 @@ const AddProduct = ({ placeholder }) => {
                   )}
                 </div>
                 <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>
-                    SKU
-                 
-                  </label>
+                  <label className={styles.formLabel}>SKU</label>
                   <div className={styles.tooltipContainer}>
                     <input
                       className={styles.formInput}
@@ -5928,7 +5609,6 @@ const AddProduct = ({ placeholder }) => {
                       // autoComplete="off"
                       name="sku"
                       value={values.sku}
-                      
                       onChange={(e) =>
                         handleInputChange(
                           e,
@@ -5978,9 +5658,7 @@ const AddProduct = ({ placeholder }) => {
                     options={countries}
                     placeholderButtonLabel="Select Countries"
                     name="countries"
-                    
                     onChange={(selectedOptions) => {
-                     
                       const selectedValues = selectedOptions
                         ? selectedOptions.map((option) => option.label)
                         : [];
@@ -6013,7 +5691,6 @@ const AddProduct = ({ placeholder }) => {
                   <div className={styles.formHeadSection}>
                     <span className={styles.formHead}>Stocked In Details</span>
                     {
-                     
                       <span
                         className={styles.formAddButton}
                         onClick={() =>
@@ -6039,7 +5716,6 @@ const AddProduct = ({ placeholder }) => {
                         <div className={styles.productContainer}>
                           <label className={styles.formLabel}>
                             Country where Stock Trades
-                           
                           </label>
                           <Select
                             className={styles.formSelect}
@@ -6078,12 +5754,8 @@ const AddProduct = ({ placeholder }) => {
                                     .replace(/\D/g, "")
                                     .slice(0, 6);
                                 }}
-                               
                               />
-                           
                             </div>
-
-                          
                           </div>
                         </div>
 
@@ -6104,7 +5776,7 @@ const AddProduct = ({ placeholder }) => {
                           </div>
                         )}
                       </div>
-                     
+
                       <div key={index} className={styles.formSection}>
                         <div className={styles.productContainer}>
                           <span className={styles.error}>
@@ -6165,7 +5837,7 @@ const AddProduct = ({ placeholder }) => {
                     <label className={styles.formLabel}>
                       Quantity<span className={styles.labelStamp}>*</span>
                     </label>
-                   
+
                     <div className={styles.weightContainer}>
                       <div className={styles.weightSection}>
                         <div className={styles.tooltipContainer}>
@@ -6181,7 +5853,7 @@ const AddProduct = ({ placeholder }) => {
                             onChange={(e) =>
                               setFieldValue(
                                 `productPricingDetails.${index}.quantityFrom`,
-                                e.target.value.replace(/\D/g, "") 
+                                e.target.value.replace(/\D/g, "")
                               )
                             }
                             onBlur={handleBlur}
@@ -6214,8 +5886,7 @@ const AddProduct = ({ placeholder }) => {
                           />
                         </div>
                         <span className={styles.error}>
-                          {touched.productPricingDetails?.[index]
-                            ?.quantityTo &&
+                          {touched.productPricingDetails?.[index]?.quantityTo &&
                             errors.productPricingDetails?.[index]?.quantityTo}
                         </span>
                       </div>
@@ -6292,7 +5963,6 @@ const AddProduct = ({ placeholder }) => {
                     <div
                       className={styles.formCloseSection}
                       onClick={() => {
-                      
                         setFieldValue(
                           `productPricingDetails.${index}.quantityFrom`,
                           ""
@@ -6384,13 +6054,8 @@ const AddProduct = ({ placeholder }) => {
 
                   {/* Date of Expiry Section */}
                   <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Date of Expiry
-                     
-                    </label>
+                    <label className={styles.formLabel}>Date of Expiry</label>
                     <div className={styles.tooltipContainer}>
-                     
-                     
                       <DatePicker
                         className={styles.formDate}
                         clearIcon={null}
@@ -6424,12 +6089,10 @@ const AddProduct = ({ placeholder }) => {
                     <div
                       className={styles.formCloseSection}
                       onClick={() => {
-                        
                         setFieldValue(`cNCFileNDate.${index}.file`, {});
                         setFieldValue(`cNCFileNDate.${index}.date`, "");
                         setFieldValue(`cNCFileNDate.${index}.preview`, false);
 
-                       
                         const updatedList = values.cNCFileNDate.filter(
                           (_, elindex) => elindex !== index
                         );
@@ -6457,11 +6120,11 @@ const AddProduct = ({ placeholder }) => {
               <div className={styles.formSection}>
                 <div className={styles.productContainer}>
                   <AddProductFileUpload
+                    styles={styles}
                     fieldInputName={"safetyDatasheet"}
                     setFieldValue={setFieldValue}
                     initialValues={values}
                     label="Safety Datasheet"
-                   
                     tooltip="Specific safety information, instructions or precautions related to product"
                   />
                   {touched.safetyDatasheet && errors.safetyDatasheet && (
@@ -6472,11 +6135,11 @@ const AddProduct = ({ placeholder }) => {
                 </div>
                 <div className={styles.productContainer}>
                   <AddProductFileUpload
+                    styles={styles}
                     fieldInputName={"healthHazardRating"}
                     setFieldValue={setFieldValue}
                     initialValues={values}
                     label="Health Hazard Rating"
-                   
                     tooltip="Health Hazard Rating Document"
                   />
                   {touched.healthHazardRating && errors.healthHazardRating && (
@@ -6487,11 +6150,11 @@ const AddProduct = ({ placeholder }) => {
                 </div>
                 <div className={styles.productContainer}>
                   <AddProductFileUpload
+                    styles={styles}
                     fieldInputName={"environmentalImpact"}
                     setFieldValue={setFieldValue}
                     initialValues={values}
                     label="Environmental Impact"
-                    
                     tooltip="Environment Impact Rating Document"
                   />
                   {touched.environmentalImpact &&
@@ -6519,7 +6182,6 @@ const AddProduct = ({ placeholder }) => {
                     // autoComplete="off"
                     name="warranty"
                     value={values.warranty}
-                    
                     onChange={(e) =>
                       handleInputChange(e, setFieldValue, 20, "all")
                     }
@@ -6528,11 +6190,11 @@ const AddProduct = ({ placeholder }) => {
                 </div>
                 <div className={styles.productContainer}>
                   <AddProductFileUpload
+                    styles={styles}
                     fieldInputName={"guidelinesFile"}
                     setFieldValue={setFieldValue}
                     initialValues={values}
                     label="User Guidelines"
-                  
                     tooltip="Specific information, instructions related to product."
                   />
                   {touched.guidelinesFile && errors.guidelinesFile && (
@@ -6551,7 +6213,6 @@ const AddProduct = ({ placeholder }) => {
                       // autoComplete="off"
                       name="other"
                       value={values.other}
-                      
                       onChange={(e) =>
                         handleInputChange(e, setFieldValue, 100, "all")
                       }
@@ -6572,13 +6233,15 @@ const AddProduct = ({ placeholder }) => {
 
             {/* Start button section */}
             <div className={styles.buttonContainer}>
-              <button className={styles.buttonCancel} onClick={handleCancel}>Cancel</button>
-              <button className={styles.buttonSubmit} type="submit" disabled={loading}>
-                {loading ? (
-                    <div className='loading-spinner'></div>
-                ) : (
-                    'Submit'
-                )}
+              <button className={styles.buttonCancel} onClick={handleCancel}>
+                Cancel
+              </button>
+              <button
+                className={styles.buttonSubmit}
+                type="submit"
+                disabled={loading}
+              >
+                {loading ? <div className="loading-spinner"></div> : "Submit"}
               </button>
             </div>
 

@@ -46,7 +46,6 @@ const ApprovedProduct = () => {
 
   const [loading, setLoading] = useState(true);
   const [productList, setProductList] = useState([]);
-  const [medicineList, setMedicineList] = useState([]);
   const [totalProducts, setTotalProducts] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const listPerPage = 8;
@@ -77,7 +76,7 @@ const ApprovedProduct = () => {
         )
       );
       if (response.meta.requestStatus === "fulfilled") {
-        setMedicineList(response.payload.products);
+        setProductList(response.payload.products);
         setTotalProducts(response.payload?.totalItems);
         setLoading(false);
       }
@@ -151,7 +150,7 @@ const ApprovedProduct = () => {
             <div className={styles.main}>
               {activeLink === "new" && (
                 <ApprovedNewProducts
-                  productList={medicineList}
+                  productList={productList}
                   totalProducts={totalProducts}
                   currentPage={currentPage}
                   listPerPage={listPerPage}
@@ -161,7 +160,7 @@ const ApprovedProduct = () => {
               )}
               {activeLink === "secondary" && (
                 <ApprovedSecondaryProducts
-                  productList={medicineList}
+                  productList={productList}
                   totalProducts={totalProducts}
                   currentPage={currentPage}
                   listPerPage={listPerPage}

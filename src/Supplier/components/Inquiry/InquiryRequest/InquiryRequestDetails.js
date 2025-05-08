@@ -147,10 +147,10 @@ const InquiryRequestDetails = ({ socket }) => {
   return (
     <div className="inquiry-details-container">
       <div className="inquiry-details-conatiner-heading">
-        Inquiry ID: <span>{inquiryDetails?.enquiry_id || 'Loading...'}</span>
+        Inquiry ID: <span>{inquiryDetails?.enquiry_id || ""}</span>
       </div>
       {loading || !inquiryDetails ? (
-        <Loader />
+        <Loader/>
       ) : (
         <>
           <div className="inquiry-details-section">

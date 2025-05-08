@@ -9,18 +9,28 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserData } from "../../../../redux/reducers/userDataSlice";
 import Loader from "../Loader/Loader";
+import {
+  extractLast13WithExtension,
+  renderFiles,
+  renderFiles2,
+} from "../../../../utils/helper";
 
 // Utility function to check if a value is valid (not null, undefined, or empty)
 const isValid = (value) => {
-  if (Array.isArray(value)) return value.length > 0 && value.some((item) => item);
-  if (typeof value === "object" && value !== null) return Object.values(value).some((val) => isValid(val));
-  return value !== null && value !== undefined && value !== "" && value !== "N/A";
+  if (Array.isArray(value))
+    return value.length > 0 && value.some((item) => item);
+  if (typeof value === "object" && value !== null)
+    return Object.values(value).some((val) => isValid(val));
+  return (
+    value !== null && value !== undefined && value !== "" && value !== "N/A"
+  );
 };
 
 // Utility function to check if files are valid
 const hasValidFiles = (files) => {
   if (!files) return false;
-  if (Array.isArray(files)) return files.length > 0 && files.some((file) => file);
+  if (Array.isArray(files))
+    return files.length > 0 && files.some((file) => file);
   return isValid(files);
 };
 
@@ -30,60 +40,24 @@ const Profile = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
-
-  const extractFileName = (url) => (url ? url.split("/")?.pop() : "Unknown");
-
-  const renderFiles = (files, type) => {
-    if (!Array.isArray(files)) {
-      if (!files || files === "") {
-        return <div>No files available</div>;
-      }
-      files = [files];
-    }
-
-    return files.map((file, index) => {
-      const fileUrl = `${process.env.REACT_APP_SERVER_URL}/Uploads/buyer/buyer_images/${file}`;
-
-      if (file?.endsWith(".pdf")) {
-        return (
-          <div key={index} className={styles.pdfSection}>
-            <FaFilePdf size={50} color="red" style={{ cursor: "pointer" }} />
-            <div className={styles.fileName}>{extractFileName(file)}</div>
-          </div>
-        );
-      } else if (
-        file?.endsWith(".vnd.openxmlformats-officedocument.wordprocessingml.document") ||
-        file?.endsWith(".docx")
-      ) {
-        const docxFileName = file.replace(
-          ".vnd.openxmlformats-officedocument.wordprocessingml.document",
-          ".docx"
-        );
-        return (
-          <div key={index} className={styles.docxSection}>
-            <FaFileWord size={50} color="blue" style={{ cursor: "pointer" }} />
-            <div className={styles.fileName}>{extractFileName(docxFileName)}</div>
-          </div>
-        );
-      } else {
-        return (
-          <img
-            key={index}
-            src={fileUrl}
-            alt={type}
-            className={styles.documentImage}
-          />
-        );
-      }
-    });
-  };
+  const documentsArray = [
+    { headings: "Trade License", keyword: "license_image" },
+    { headings: "Tax Certificate", keyword: "tax_image" },
+    { headings: "Certificate", keyword: "certificate_image" },
+    {
+      headings: "Medical Practitioner",
+      keyword: "medical_certificate",
+    },
+  ];
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
         if (id || localStorage?.getItem("_id")) {
-          await dispatch(fetchUserData(id || localStorage?.getItem("_id"))).unwrap();
+          await dispatch(
+            fetchUserData(id || localStorage?.getItem("_id"))
+          ).unwrap();
         }
       } catch (error) {
         console.error("Failed to fetch user data:", error);
@@ -158,7 +132,11 @@ const Profile = () => {
         {user?.buyer_image && (
           <div className={styles.imgSection}>
             <img
-              src={`${process.env.REACT_APP_SERVER_URL}/Uploads/buyer/buyer_images/${user?.buyer_image}`}
+              src={
+                user?.buyer_image?.[0]?.startsWith("http")
+                  ? user?.buyer_image?.[0]
+                  : `${process.env.REACT_APP_SERVER_URL}/uploads/buyer/buyer_images/${user?.buyer_image?.[0]}`
+              }
               alt="Buyer Profile"
               className={styles.profileImage}
             />
@@ -170,7 +148,10 @@ const Profile = () => {
               {user?.buyer_name} ({user?.buyer_type || "N/A"})
             </span>
           </div>
-          {(hasAddressDetails || user?.websiteAddress || user?.buyer_email || user?.buyer_mobile) && (
+          {(hasAddressDetails ||
+            user?.websiteAddress ||
+            user?.buyer_email ||
+            user?.buyer_mobile) && (
             <div className={styles.contentIconSection}>
               <div className={styles.addressSection}>
                 {user?.websiteAddress && (
@@ -191,7 +172,9 @@ const Profile = () => {
                 {user?.buyer_email && (
                   <div className={styles.iconSection}>
                     <MdOutlineAttachEmail className={styles.icon} />
-                    <span className={styles.textSection}>{user?.buyer_email}</span>
+                    <span className={styles.textSection}>
+                      {user?.buyer_email}
+                    </span>
                   </div>
                 )}
                 {user?.buyer_mobile && (
@@ -210,27 +193,27 @@ const Profile = () => {
                     <div className={styles.addressContainers}>
                       {(user?.registeredAddress?.company_reg_address ||
                         user?.buyer_address) && (
-                          <span className={styles.textSection}>
-                            {user?.registeredAddress?.company_reg_address ||
-                              user?.buyer_address}
-                          </span>
-                        )}
+                        <span className={styles.textSection}>
+                          {user?.registeredAddress?.company_reg_address ||
+                            user?.buyer_address}
+                        </span>
+                      )}
                       {(user?.registeredAddress?.locality ||
                         user?.registeredAddress?.land_mark) && (
-                          <span className={styles.textSection}>
-                            {user?.registeredAddress?.locality}{" "}
-                            {user?.registeredAddress?.land_mark}
-                          </span>
-                        )}
+                        <span className={styles.textSection}>
+                          {user?.registeredAddress?.locality}{" "}
+                          {user?.registeredAddress?.land_mark}
+                        </span>
+                      )}
                       {(user?.registeredAddress?.state ||
                         user?.registeredAddress?.city ||
                         user?.registeredAddress?.country) && (
-                          <span className={styles.textSection}>
-                            {user?.registeredAddress?.city}{" "}
-                            {user?.registeredAddress?.state}{" "}
-                            {user?.registeredAddress?.country}
-                          </span>
-                        )}
+                        <span className={styles.textSection}>
+                          {user?.registeredAddress?.city}{" "}
+                          {user?.registeredAddress?.state}{" "}
+                          {user?.registeredAddress?.country}
+                        </span>
+                      )}
                       {user?.registeredAddress?.pincode && (
                         <span className={styles.textSection}>
                           {user?.registeredAddress?.pincode}
@@ -253,32 +236,55 @@ const Profile = () => {
               <div className={styles.companyInnerContainer}>
                 {user?.registration_no && (
                   <div className={styles.companyDetails}>
-                    <div className={styles.companyHead}>Company Registration No.</div>
-                    <div className={styles.companyText}>{user?.registration_no}</div>
+                    <div className={styles.companyHead}>
+                      Company Registration No.
+                    </div>
+                    <div className={styles.companyText}>
+                      {user?.registration_no}
+                    </div>
                   </div>
                 )}
                 {user?.vat_reg_no && (
                   <div className={styles.companyDetails}>
-                    <div className={styles.companyHead}>GST/VAT Registration No.</div>
+                    <div className={styles.companyHead}>
+                      GST/VAT Registration No.
+                    </div>
                     <div className={styles.companyText}>{user?.vat_reg_no}</div>
                   </div>
                 )}
-
+                {user?.sales_person_name && (
+                  <div className={styles.companyDetails}>
+                    <div className={styles.companyHead}>
+                      Medhub Global Sales Representative
+                    </div>
+                    <div className={styles.companyText}>
+                      {user?.sales_person_name}
+                    </div>
+                  </div>
+                )}
                 {user?.country_of_origin && (
                   <div className={styles.companyDetails}>
                     <div className={styles.companyHead}>Country of Origin</div>
-                    <div className={styles.companyText}>{user?.country_of_origin}</div>
+                    <div className={styles.companyText}>
+                      {user?.country_of_origin}
+                    </div>
                   </div>
                 )}
                 {user?.country_of_operation && (
                   <div className={styles.companyDetails}>
-                    <div className={styles.companyHead}>Country of Operation</div>
-                    <div className={styles.companyText}>{user?.country_of_operation}</div>
+                    <div className={styles.companyHead}>
+                      Country of Operation
+                    </div>
+                    <div className={styles.companyText}>
+                      {user?.country_of_operation}
+                    </div>
                   </div>
                 )}
                 {user?.license_no && (
                   <div className={styles.companyDetails}>
-                    <div className={styles.companyHead}>Company License No.</div>
+                    <div className={styles.companyHead}>
+                      Company License No.
+                    </div>
                     <div className={styles.companyText}>{user?.license_no}</div>
                   </div>
                 )}
@@ -286,33 +292,51 @@ const Profile = () => {
               <div className={styles.companyInnerContainer}>
                 {user?.sales_person_name && (
                   <div className={styles.companyDetails}>
-                    <div className={styles.companyHead}>Medhub Global Sales Representative</div>
-                    <div className={styles.companyText}>{user?.sales_person_name}</div>
+                    <div className={styles.companyHead}>
+                      Country of Operation
+                    </div>
+                    <div className={styles.companyText}>
+                      {user?.country_of_operation}
+                    </div>
                   </div>
                 )}
 
                 {user?.activity_code && (
                   <div className={styles.companyDetails}>
-                    <div className={styles.companyHead}>Business/Trade Activity Code</div>
-                    <div className={styles.companyText}>{user?.activity_code}</div>
+                    <div className={styles.companyHead}>
+                      Business/Trade Activity Code
+                    </div>
+                    <div className={styles.companyText}>
+                      {user?.activity_code}
+                    </div>
                   </div>
                 )}
                 {user?.approx_yearly_purchase_value && (
                   <div className={styles.companyDetails}>
-                    <div className={styles.companyHead}>Approx. Yearly Purchase Value</div>
-                    <div className={styles.companyText}>{user?.approx_yearly_purchase_value}</div>
+                    <div className={styles.companyHead}>
+                      Approx. Yearly Purchase Value
+                    </div>
+                    <div className={styles.companyText}>
+                      {user?.approx_yearly_purchase_value}
+                    </div>
                   </div>
                 )}
                 {user?.interested_in && (
                   <div className={styles.companyDetails}>
                     <div className={styles.companyHead}>Interested In</div>
-                    <div className={styles.companyText}>{user?.interested_in}</div>
+                    <div className={styles.companyText}>
+                      {user?.interested_in}
+                    </div>
                   </div>
                 )}
                 {user?.license_expiry_date && (
                   <div className={styles.companyDetails}>
-                    <div className={styles.companyHead}>License Expiry/ Renewal Date</div>
-                    <div className={styles.companyText}>{user?.license_expiry_date}</div>
+                    <div className={styles.companyHead}>
+                      License Expiry/ Renewal Date
+                    </div>
+                    <div className={styles.companyText}>
+                      {user?.license_expiry_date}
+                    </div>
                   </div>
                 )}
               </div>
@@ -339,13 +363,17 @@ const Profile = () => {
                 {user?.contact_person_name && (
                   <div className={styles.companyDetails}>
                     <div className={styles.companyHead}>Contact Name</div>
-                    <div className={styles.companyText}>{user?.contact_person_name}</div>
+                    <div className={styles.companyText}>
+                      {user?.contact_person_name}
+                    </div>
                   </div>
                 )}
                 {user?.contact_person_email && (
                   <div className={styles.companyDetails}>
                     <div className={styles.companyHead}>Email ID</div>
-                    <div className={styles.companyText}>{user?.contact_person_email}</div>
+                    <div className={styles.companyText}>
+                      {user?.contact_person_email}
+                    </div>
                   </div>
                 )}
               </div>
@@ -354,61 +382,54 @@ const Profile = () => {
                   <div className={styles.companyDetails}>
                     <div className={styles.companyHead}>Mobile No.</div>
                     <div className={styles.companyText}>
-                      {user?.contact_person_country_code} {user?.contact_person_mobile}
+                      {user?.contact_person_country_code}{" "}
+                      {user?.contact_person_mobile}
                     </div>
                   </div>
                 )}
                 {user?.designation && (
                   <div className={styles.companyDetails}>
                     <div className={styles.companyHead}>Designation</div>
-                    <div className={styles.companyText}>{user?.designation}</div>
+                    <div className={styles.companyText}>
+                      {user?.designation}
+                    </div>
                   </div>
                 )}
               </div>
             </div>
           </div>
         </div>
-      )}   
-
-      {hasDocuments && (
-        <div className={styles.documentContainer}>
-          <div className={styles.documentMainHeading}>Documents</div>
-          <div className={styles.documentSection}>
-            {hasValidFiles(user?.license_image) && (
-              <div className={styles.documentInnerSection}>
-                <div className={styles.documentDocName}>Trade License</div>
-                <div className={styles.documentDocContent}>
-                  {renderFiles(user?.license_image, "Trade License")}
-                </div>
-              </div>
-            )}
-            {hasValidFiles(user?.tax_image) && (
-              <div className={styles.documentInnerSection}>
-                <div className={styles.documentDocName}>Tax Certificate</div>
-                <div className={styles.documentDocContent}>
-                  {renderFiles(user?.tax_image, "Tax Certificate")}
-                </div>
-              </div>
-            )}
-            {hasValidFiles(user?.certificate_image) && (
-              <div className={styles.documentInnerSection}>
-                <div className={styles.documentDocName}>Certificate</div>
-                <div className={styles.documentDocContent}>
-                  {renderFiles(user?.certificate_image, "Certificate")}
-                </div>
-              </div>
-            )}
-            {hasValidFiles(user?.medical_certificate) && (
-              <div className={styles.documentInnerSection}>
-                <div className={styles.documentDocName}>Medical Practitioner</div>
-                <div className={styles.documentDocContent}>
-                  {renderFiles(user?.medical_certificate, "Medical Practitioner")}
-                </div>
-              </div>
-            )}
+      )}
+      {hasActivityCode && (
+        <div className={styles.textareaSeaction}>
+          <div className={styles.textareaHead}>
+            Business/Trade Activity Code
           </div>
+          <span className={styles.textareaContent}>{user?.activity_code}</span>
         </div>
       )}
+      {/* )} */}
+      {/* style the documents section */}
+      <div className={styles.documentContainer}>
+        <div className={styles.documentMainHeading}>Documents</div>
+        <div className={styles.documentSection}>
+          {documentsArray?.map(
+            (ele, index) =>
+              user?.[ele?.keyword]?.length > 0 && (
+                <div className={styles.documentInnerSection}>
+                  <div className={styles.documentDocName}>{ele?.headings}</div>
+                  <div className={styles.documentDocContent}>
+                    {renderFiles2(user?.[ele?.keyword], ele?.headings, styles)}
+                    {ele?.headings == "Certificate" &&
+                      user?.certificateFileNDate?.[index]?.date && (
+                        <p>{user?.certificateFileNDate?.[index]?.date}</p>
+                      )}
+                  </div>
+                </div>
+              )
+          )}
+        </div>
+      </div>
     </div>
   );
 };

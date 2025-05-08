@@ -7,13 +7,15 @@ import { Tooltip as ReactTooltip } from "react-tooltip";
 import "react-responsive-modal/styles.css";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import PhoneInTalkOutlinedIcon from "@mui/icons-material/PhoneInTalkOutlined";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { postRequestWithToken } from "../../../api/Requests";
 import { toast } from "react-toastify";
+// import BuyerCustomModal from "./BuyerCustomModal";
 import { FaFilePdf, FaFileWord } from "react-icons/fa";
 import { apiRequests } from "../../../../api/index";
+import { extractLast13WithExtension, renderFiles } from "../../../../utils/helper";
 
-const DetailsBuyerRequest = () => {
+const BuyerDetailsNew = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { buyerId } = useParams();
   const navigate = useNavigate();
@@ -40,118 +42,7 @@ const DetailsBuyerRequest = () => {
     setOpen(false);
     setPdfUrl(null);
   };
-  const extractFileName = (url) => {
-    return url.split("/")?.pop();
-  };
-  const renderFiles = (files, type, hasDate = false) => {
-    if (!files) return null;
-
-    return files.map((item, index) => {
-      const serverUrl = process.env.REACT_APP_SERVER_URL;
-      let file, date;
-      if (hasDate) {
-        file = item.file;
-        date = item.date;
-      } else {
-        file = item;
-      }
-
-      if (file?.endsWith(".pdf")) {
-        return (
-          <div key={index} className="buyer-details-pdf-section">
-            <FaFilePdf
-              size={50}
-              color="red"
-              style={{ cursor: "pointer" }}
-              onClick={() =>
-                window.open(
-                  file?.startsWith("http")
-                    ? file
-                    : `${serverUrl}uploads/buyer/${type}/${file}`,
-                  "_blank"
-                )
-              }
-            />
-            <div
-              className="pdf-url"
-              onClick={() =>
-                window.open(
-                  file?.startsWith("http")
-                    ? file
-                    : `${serverUrl}uploads/buyer/${type}/${file}`,
-                  "_blank"
-                )
-              }
-            >
-              {extractFileName(file)}
-            </div>
-            {hasDate && date && (
-              <div className="certificate-expiry-date">
-                Expiry Date: {new Date(date).toLocaleDateString()}
-              </div>
-            )}
-          </div>
-        );
-      } else if (
-        file?.endsWith(
-          ".vnd.openxmlformats-officedocument.wordprocessingml.document"
-        ) ||
-        file?.endsWith(".docx")
-      ) {
-        const docxFileName = file.replace(
-          ".vnd.openxmlformats-officedocument.wordprocessingml.document",
-          ".docx"
-        );
-        const docxUrl = file?.startsWith("http")
-          ? file
-          : `${serverUrl}uploads/buyer/${type}/${docxFileName}`;
-
-        return (
-          <div key={index} className="buyer-details-docx-section">
-            <FaFileWord
-              size={50}
-              color="blue"
-              style={{ cursor: "pointer" }}
-              onClick={() => window.open(docxUrl, "_blank")}
-            />
-            <div>
-              <div
-                className="docx-url"
-                onClick={() => window.open(docxUrl, "_blank")}
-              >
-                {extractFileName(docxFileName)}
-              </div>
-              {hasDate && date && (
-                <div className="expiry-date">
-                  Expiry Date: {new Date(date).toLocaleDateString()}
-                </div>
-              )}
-            </div>
-          </div>
-        );
-      } else {
-        return (
-          <div key={index} className="buyer-details-image-section">
-            <img
-              src={
-                file?.startsWith("http")
-                  ? file
-                  : `${serverUrl}uploads/buyer/${type}/${file}`
-              }
-              alt={type}
-              className="buyer-details-document-image"
-            />
-            {hasDate && date && (
-              <div className="expiry-date">
-                Expiry Date: {new Date(date).toLocaleDateString()}
-              </div>
-            )}
-          </div>
-        );
-      }
-    });
-  };
-
+  
   const [loading, setLoading] = useState(false);
   const [rejectLoading, setRejectLoading] = useState(false);
   const [buyerDetails, setBuyerDetails] = useState();
@@ -224,8 +115,17 @@ const DetailsBuyerRequest = () => {
   return (
     <div className="buyer-details-container">
       <div className="buyer-details-inner-conatiner">
-        <div className="buyer-details-container-heading">
-          Buyer ID: {buyerDetails?.buyer_id}
+        <div className="buyer-details-edit-button-container">
+          <div className="buyer-details-container-heading">
+            Buyer ID: {buyerDetails?.buyer_id}
+          </div>
+          {buyerDetails?.account_status == 1 && (
+            <>
+              <Link to={`/admin/edit-details/buyer/${buyerDetails?._id}`}>
+                <span className="buyer-details-edit-button">Edit</span>
+              </Link>
+            </>
+          )}
         </div>
         <div className="buyer-details-left-inner-container">
           <div className="buyer-details-left-uppar-section">
@@ -234,9 +134,9 @@ const DetailsBuyerRequest = () => {
                 <div className="buyer-details-company-logo-section">
                   <img
                     src={
-                      buyerDetails?.buyer_image?.[0]?.startsWith("http")
-                        ? buyerDetails?.buyer_image?.[0]
-                        : `${process.env.REACT_APP_SERVER_URL}uploads/buyer/buyer_images/${buyerDetails?.buyer_image?.[0]}`
+                      buyerDetails?.buyer_image[0]?.startsWith("http")
+                        ? buyerDetails?.buyer_image[0]
+                        : `${process.env.REACT_APP_SERVER_URL}uploads/buyer/buyer_images/${buyerDetails?.buyer_image[0]}`
                     }
                     alt="CompanyLogo"
                   />
@@ -372,10 +272,12 @@ const DetailsBuyerRequest = () => {
               <div className="buyer-details-inner-section">
                 <div className="buyer-details-inner-head">
                   Sales Person Name :
-                  <FaEdit className="edit-icon" onClick={handleEditClick} />
+                  {buyerDetails?.account_status == 0 && (
+                    <FaEdit className="edit-icon" onClick={handleEditClick} />
+                  )}
                 </div>
                 <div className="buyer-details-inner-text">
-                  {isEditable ? (
+                  {buyerDetails?.account_status == 0 && isEditable ? (
                     <input
                       type="text"
                       defaultValue={buyerDetails?.sales_person_name}
@@ -549,30 +451,36 @@ const DetailsBuyerRequest = () => {
         </div>
 
         <div className="buyer-details-container">
-          <div className="buyer-details-button-containers">
-            <div
-              className="buyer-details-button-accept"
-              onClick={() => handleAcceptReject("accept")}
-              disabled={loading}
-            >
-              {loading ? <div className="loading-spinner"></div> : "Accept"}
+          {buyerDetails?.account_status == 0 && (
+            <div className="buyer-details-button-containers">
+              <div
+                className="buyer-details-button-accept"
+                onClick={() => handleAcceptReject("accept")}
+                disabled={loading}
+              >
+                {loading ? <div className="loading-spinner"></div> : "Accept"}
+              </div>
+              <div
+                className="buyer-details-button-reject"
+                onClick={() => handleAcceptReject("reject")}
+                disabled={rejectLoading}
+              >
+                {rejectLoading ? (
+                  <div className="loading-spinner"></div>
+                ) : (
+                  "Reject"
+                )}
+              </div>
             </div>
-            <div
-              className="buyer-details-button-reject"
-              onClick={() => handleAcceptReject("reject")}
-              disabled={rejectLoading}
-            >
-              {rejectLoading ? (
-                <div className="loading-spinner"></div>
-              ) : (
-                "Reject"
-              )}
-            </div>
-          </div>
+          )}
+{/* 
+          {buyerDetails?.account_status == 0 && isModalOpen && (
+            <BuyerCustomModal onClose={closeModal} />
+          )} */}
         </div>
       </div>
     </div>
   );
 };
 
-export default DetailsBuyerRequest;
+export default BuyerDetailsNew;

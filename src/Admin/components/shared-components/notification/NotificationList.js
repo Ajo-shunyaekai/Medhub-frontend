@@ -56,10 +56,10 @@ const NotificationList = () => {
                 break;
             case 'buyerregistration':
                 navigate(`/admin/buyer-details/${eventId}`);
-                break;
+                break;   
             case 'supplierregistration':
                 navigate(`/admin/supplier-details/${eventId}`);
-                break;
+                break;        
             default:
                 navigate('/admin/');
                 break;

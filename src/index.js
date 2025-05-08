@@ -1,30 +1,26 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import App from "./App";
 import store from "./redux/store";
 import { Provider } from "react-redux";
 import reportWebVitals from "./reportWebVitals";
+import { BrowserRouter } from "react-router-dom";
+
+const App = lazy(() => import("./App"));
+const Loader = lazy(() => import("./Buyer/components/SharedComponents/Loader/Loader"));
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
-// if ('serviceWorker' in navigator) {
-//     navigator.serviceWorker
-//       .register('./firebase-messaging-sw.js')
-//       .then((registration) => {
-//       })
-//       .catch((err) => {
-//       });
-//   }
-
 root.render(
   // <React.StrictMode>
-  <Provider store={store}>
-    <App />
-  </Provider>
+  <BrowserRouter>
+    <Provider store={store}>
+      <Suspense fallback={<Loader />}>
+        <App />
+      </Suspense>
+    </Provider>
+  </BrowserRouter>
   // </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
