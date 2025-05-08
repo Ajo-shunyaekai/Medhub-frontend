@@ -1348,7 +1348,7 @@ export const logisticsRoutesConfig = [
     component: lazy(() =>
       import("./LogisticsPanel/components/ForgotPassword/ForgotPassword")
     ),
-  },  
+  },
   {
     path: "/logistics/sign-up",
     component: lazy(() => import("./LogisticsPanel/components/Signup/Signup")),
@@ -1445,6 +1445,27 @@ export const logisticsNestedRoutes = [
     component: lazy(() =>
       import("./LogisticsPanel//components/SharedComponents/Profile/Profile")
     ),
+  },
+  {
+    path: "*",
+    component: lazy(() =>
+      import("./Buyer/components/SharedComponents/Error/Error")
+    ),
+  },
+];
+
+export const subscriptionRoutesConfig = [
+  {
+    path: "/subscription/:userType/:userId/select-plan",
+    component: lazy(() => import("./SubscriptionPlan/SubscriptionPage")),
+  },
+  {
+    path: "/subscription/:userType/:userId/successful",
+    component: lazy(() => import("./SubscriptionPlan/PayementSucsessful")),
+  },
+  {
+    path: "/subscription/:userType/:userId/failure",
+    component: lazy(() => import("./SubscriptionPlan/PaymentFailure")),
   },
   {
     path: "*",

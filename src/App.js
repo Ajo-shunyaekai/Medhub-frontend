@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { io } from "socket.io-client";
@@ -11,10 +11,9 @@ import "react-toastify/dist/ReactToastify.css";
 import { BuyerNotificationProvider } from "./Buyer/BuyerRoutes/Router";
 import { AdminNotificationProvider } from "./Admin/AdminRoutes/Router";
 import { SupplierNotificationProvider } from "./Supplier/SupplierRoutes/Router";
-import LogisticsRoutes from "./LogisticsPanel/LogisticsRoutes/Router";
-import SubscriptionRoutes from "./SubscriptionPlan/LandingSubscription";
 import Layout from "./Buyer/components/SharedComponents/layout";
 import Loader from "./Buyer/components/SharedComponents/Loader/Loader";
+import LogisticsLayout from "./LogisticsPanel/components/SharedComponents/LogisticsLayout";
 import {
   adminNestedRoutes,
   adminRoutesConfig,
@@ -22,12 +21,12 @@ import {
   buyerRoutesConfig,
   logisticsNestedRoutes,
   logisticsRoutesConfig,
+  subscriptionRoutesConfig,
   supplierNestedRoutes,
   supplierRoutesConfig,
 } from "./allRoutes";
 import Error from "./Buyer/components/SharedComponents/Error/Error";
 import { initGA, sendPageview } from "./analytics";
-import LogisticsLayout from "./LogisticsPanel/components/SharedComponents/LogisticsLayout";
 
 // Socket Connection
 const socket = io.connect(process.env.REACT_APP_SERVER_URL, {
@@ -68,21 +67,6 @@ const App = () => {
     loadCss();
   }, [currentPath]);
 
-  const renderSidebar = () => {
-    switch (currentPath) {
-      // case "supplier":
-      //   return <SupplierSidebar />;
-      // case "admin":
-      //   return <AdminSidebar />;
-      // case "logistics":
-      //   return <LogisticsRoutes />;
-      case "subscription":
-        return <SubscriptionRoutes />;
-      // default:
-      //   return <BuyerSidebar />;
-    }
-  };
-
   const renderRoutes = (routes, parentPath = "") =>
     routes.map(({ path, component: Component, children, index }, idx) => (
       <Route
@@ -102,7 +86,6 @@ const App = () => {
   return (
     <div className="App">
       <ToastContainer />
-      {renderSidebar()}
       <Suspense fallback={<Loader />}>
         <Routes>
           {renderRoutes(buyerRoutesConfig)}
@@ -142,6 +125,7 @@ const App = () => {
           <Route path="/logistics" element={<LogisticsLayout />}>
             {renderRoutes(logisticsNestedRoutes)}
           </Route>
+          {renderRoutes(subscriptionRoutesConfig)}
           <Route path="*" element={<Error socket={socket} />} />
         </Routes>
       </Suspense>
