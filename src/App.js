@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { io } from "socket.io-client";
@@ -20,11 +20,14 @@ import {
   adminRoutesConfig,
   buyerNestedRoutes,
   buyerRoutesConfig,
+  logisticsNestedRoutes,
+  logisticsRoutesConfig,
   supplierNestedRoutes,
   supplierRoutesConfig,
 } from "./allRoutes";
 import Error from "./Buyer/components/SharedComponents/Error/Error";
 import { initGA, sendPageview } from "./analytics";
+import LogisticsLayout from "./LogisticsPanel/components/SharedComponents/LogisticsLayout";
 
 // Socket Connection
 const socket = io.connect(process.env.REACT_APP_SERVER_URL, {
@@ -134,6 +137,10 @@ const App = () => {
             }
           >
             {renderRoutes(adminNestedRoutes)}
+          </Route>
+          {renderRoutes(logisticsRoutesConfig)}
+          <Route path="/logistics" element={<LogisticsLayout />}>
+            {renderRoutes(logisticsNestedRoutes)}
           </Route>
           <Route path="*" element={<Error socket={socket} />} />
         </Routes>
