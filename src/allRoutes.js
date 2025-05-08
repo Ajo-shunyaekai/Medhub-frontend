@@ -5,8 +5,7 @@ export const buyerRoutesConfig = [
   {
     path: "/buyer/login",
     component: lazy(() =>
-      // import("./Buyer/components/SharedComponents/Login/Login")
-      import("./pages/login/Login")
+      import("./Buyer/components/SharedComponents/Login/Login")
     ),
   },
   {
@@ -18,7 +17,7 @@ export const buyerRoutesConfig = [
   {
     path: "/buyer/sign-up",
     component: lazy(() =>
-      import("./Buyer/components/SharedComponents/Login/Login")
+      import("./Buyer/components/SharedComponents/SignUp/SignUp")
     ),
   },
   {
@@ -390,8 +389,7 @@ export const supplierRoutesConfig = [
   {
     path: "/supplier/login",
     component: lazy(() =>
-      // import("./Supplier/components/SharedComponents/Signup/SupplierLogin")
-      import("./pages/login/Login")
+      import("./Supplier/components/SharedComponents/Signup/SupplierLogin")
     ),
   },
   {
@@ -743,8 +741,7 @@ export const adminRoutesConfig = [
   {
     path: "/admin/login",
     component: lazy(() =>
-      // import("./Admin/components/shared-components/login/Login")
-      import("./pages/login/Login")
+      import("./Admin/components/shared-components/login/Login")
     ),
   },
   {
