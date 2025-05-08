@@ -1323,48 +1323,48 @@ const categoriesData = [
           ?.sort()
           ?.concat(["Other"]),
       },
-      {
-        name: "First Aid Kits",
-        anotherCategories: [
-          "Basic First Aid Kits",
-          "Trauma First Aid Kits",
-          "Travel First Aid Kits",
-          "Workplace First Aid Kits",
-          "Burn Care Kits",
-          "Emergency Medical",
-          "Services",
-        ]
-          ?.sort()
-          ?.concat(["Other"]),
-      },
-      {
-        name: "Emergency Medical Equipment",
-        anotherCategories: [
-          "Defibrillators",
-          "Ventilators",
-          "Suction Machines",
-          "Emergency Resuscitation Kits",
-          "Transport Ventilators",
-          "Oxygen Supply Kits",
-          "Services",
-        ]
-          ?.sort()
-          ?.concat(["Other"]),
-      },
-      {
-        name: "Trauma Care Products",
-        anotherCategories: [
-          "Trauma Bandages",
-          "Hemostatic Dressings",
-          "Cervical Collars",
-          "Splints & Braces",
-          "Trauma Stretchers",
-          "Emergency Wound Care Kits",
-          "Services",
-        ]
-          ?.sort()
-          ?.concat(["Other"]),
-      },
+      // {
+      //   name: "First Aid Kits",
+      //   anotherCategories: [
+      //     "Basic First Aid Kits",
+      //     "Trauma First Aid Kits",
+      //     "Travel First Aid Kits",
+      //     "Workplace First Aid Kits",
+      //     "Burn Care Kits",
+      //     "Emergency Medical",
+      //     "Services",
+      //   ]
+      //     ?.sort()
+      //     ?.concat(["Other"]),
+      // },
+      // {
+      //   name: "Emergency Medical Equipment",
+      //   anotherCategories: [
+      //     "Defibrillators",
+      //     "Ventilators",
+      //     "Suction Machines",
+      //     "Emergency Resuscitation Kits",
+      //     "Transport Ventilators",
+      //     "Oxygen Supply Kits",
+      //     "Services",
+      //   ]
+      //     ?.sort()
+      //     ?.concat(["Other"]),
+      // },
+      // {
+      //   name: "Trauma Care Products",
+      //   anotherCategories: [
+      //     "Trauma Bandages",
+      //     "Hemostatic Dressings",
+      //     "Cervical Collars",
+      //     "Splints & Braces",
+      //     "Trauma Stretchers",
+      //     "Emergency Wound Care Kits",
+      //     "Services",
+      //   ]
+      //     ?.sort()
+      //     ?.concat(["Other"]),
+      // },
     ]?.sort((a, b) => a?.name?.localeCompare(b?.name)),
   },
   //   -------------------------------------   Orthopedic Supplies  -------------------------------------
