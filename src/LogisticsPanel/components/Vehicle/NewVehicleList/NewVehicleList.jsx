@@ -24,7 +24,7 @@ function NewVehicleList() {
     const [list, setList]                 = useState([]);
     const [totalList, setTotalList]       = useState();
     const [currentPage, setCurrentPage]   = useState(1);
-    const listPerPage                     = 5;
+    const listPerPage                     = 10;
 
     const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
