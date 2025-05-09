@@ -1023,7 +1023,7 @@ const EditAddProduct = ({ placeholder }) => {
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   Product Type/Form
-                  <span className={styles?.labelStamp}>*</span>
+                  {/* <span className={styles?.labelStamp}>*</span> */}
                 </label>
                 <div className={styles.tooltipContainer}>
                   <input
@@ -1045,9 +1045,9 @@ const EditAddProduct = ({ placeholder }) => {
                     walker, cane, crutches, grab bar, scooter etc.)"
                   ></Tooltip>
                 </div>
-                {formik.touched.form && formik.errors.form && (
+                {/* {formik.touched.form && formik.errors.form && (
                   <span className={styles.error}>{formik.errors.form}</span>
-                )}
+                )} */}
               </div>
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
@@ -1188,7 +1188,7 @@ const EditAddProduct = ({ placeholder }) => {
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   Product Weight & Units
-                  <span className={styles.labelStamp}>*</span>
+                  {/* <span className={styles.labelStamp}>*</span> */}
                 </label>
                 <div className={styles.weightContainer}>
                   <div className={styles.weightSection}>
@@ -1213,11 +1213,11 @@ const EditAddProduct = ({ placeholder }) => {
                       />
                       <Tooltip content="in (g, kg, lbs, l, ml, oz, gal, t)"></Tooltip>
                     </div>
-                    {formik?.touched.weight && formik?.errors.weight && (
+                    {/* {formik?.touched.weight && formik?.errors.weight && (
                       <span className={styles.error}>
                         {formik?.errors.weight}
                       </span>
-                    )}
+                    )} */}
                   </div>
                   <div className={styles.unitSection}>
                     <Select
@@ -1233,11 +1233,11 @@ const EditAddProduct = ({ placeholder }) => {
                         formik.setFieldValue("unit", selectedOption?.value);
                       }}
                     />
-                    {formik?.touched.unit && formik?.errors.unit && (
+                    {/* {formik?.touched.unit && formik?.errors.unit && (
                       <span className={styles.error}>
                         {formik?.errors.unit}
                       </span>
-                    )}
+                    )} */}
                   </div>
                 </div>
               </div>
@@ -1352,7 +1352,7 @@ const EditAddProduct = ({ placeholder }) => {
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   Manufacturer Name
-                  <span className={styles?.labelStamp}>*</span>
+                  {/* <span className={styles?.labelStamp}>*</span> */}
                 </label>
                 <input
                   className={styles.formInput}
@@ -1370,17 +1370,17 @@ const EditAddProduct = ({ placeholder }) => {
                     handleInputChange(e, formik.setFieldValue, 75, "all",["manufacturer"])
                   }
                 />
-                {formik.touched.manufacturer && formik.errors.manufacturer && (
+                {/* {formik.touched.manufacturer && formik.errors.manufacturer && (
                   <span className={styles.error}>
                     {formik.errors.manufacturer}
                   </span>
-                )}
+                )} */}
               </div>
 
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   Manufacturer Contry of Origin
-                  <span className={styles?.labelStamp}>*</span>
+                  {/* <span className={styles?.labelStamp}>*</span> */}
                 </label>
                 <Select
                   name="countryOfOrigin"
@@ -1401,12 +1401,12 @@ const EditAddProduct = ({ placeholder }) => {
                   }}
                 />
 
-                {formik.touched.countryOfOrigin &&
+                {/* {formik.touched.countryOfOrigin &&
                   formik.errors.countryOfOrigin && (
                     <span className={styles.error}>
                       {formik.errors.countryOfOrigin}
                     </span>
-                  )}
+                  )} */}
               </div>
 
               <div className={styles.productContainer}>
@@ -1994,7 +1994,7 @@ const EditAddProduct = ({ placeholder }) => {
                     <div className={styles.productInnerContainer}>
                       <label className={styles.formLabel}>
                         Shelf Life/Expiry
-                        <span className={styles?.labelStamp}>*</span>
+                        {/* <span className={styles?.labelStamp}>*</span> */}
                       </label>
                       <div className={styles.tooltipContainer}>
                         <input
@@ -2016,11 +2016,11 @@ const EditAddProduct = ({ placeholder }) => {
                         />
                         <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
                       </div>
-                      {formik.touched.expiry && formik.errors.expiry && (
+                      {/* {formik.touched.expiry && formik.errors.expiry && (
                         <span className={styles.error}>
                           {formik.errors.expiry}
                         </span>
-                      )}
+                      )} */}
                     </div>
                   </div>
 
@@ -2843,7 +2843,7 @@ const EditAddProduct = ({ placeholder }) => {
                     <div className={styles.productInnerContainer}>
                       <label className={styles.formLabel}>
                         Shelf Life/Expiry
-                        <span className={styles?.labelStamp}>*</span>
+                        {/* <span className={styles?.labelStamp}>*</span> */}
                       </label>
                       <div className={styles.tooltipContainer}>
                         <input
@@ -2866,11 +2866,11 @@ const EditAddProduct = ({ placeholder }) => {
                         <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
                       </div>
                     </div>
-                    {formik.touched.expiry && formik.errors.expiry && (
+                    {/* {formik.touched.expiry && formik.errors.expiry && (
                       <span className={styles.error}>
                         {formik.errors.expiry}
                       </span>
-                    )}
+                    )} */}
                   </div>
                 </div>
               </div>
@@ -3286,7 +3286,7 @@ const EditAddProduct = ({ placeholder }) => {
                     <div className={styles.productInnerContainer}>
                       <label className={styles.formLabel}>
                         Shelf Life/Expiry
-                        <span className={styles?.labelStamp}>*</span>
+                        {/* <span className={styles?.labelStamp}>*</span> */}
                       </label>
                       <div className={styles.tooltipContainer}>
                         <input
@@ -3308,11 +3308,11 @@ const EditAddProduct = ({ placeholder }) => {
                         />
                         <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
                       </div>
-                      {formik.touched.expiry && formik.errors.expiry && (
+                      {/* {formik.touched.expiry && formik.errors.expiry && (
                         <span className={styles.error}>
                           {formik.errors.expiry}
                         </span>
-                      )}
+                      )} */}
                     </div>
                   </div>
 
@@ -3611,7 +3611,7 @@ const EditAddProduct = ({ placeholder }) => {
                     <div className={styles.productInnerContainer}>
                       <label className={styles.formLabel}>
                         Shelf Life/Expiry
-                        <span className={styles?.labelStamp}>*</span>
+                        {/* <span className={styles?.labelStamp}>*</span> */}
                       </label>
                       <div className={styles.tooltipContainer}>
                         <input
@@ -3633,11 +3633,11 @@ const EditAddProduct = ({ placeholder }) => {
                         />
                         <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
                       </div>
-                      {formik.touched.expiry && formik.errors.expiry && (
+                      {/* {formik.touched.expiry && formik.errors.expiry && (
                         <span className={styles.error}>
                           {formik.errors.expiry}
                         </span>
-                      )}
+                      )} */}
                     </div>
                   </div>
 
@@ -4603,7 +4603,7 @@ const EditAddProduct = ({ placeholder }) => {
                     <div className={styles.productInnerContainer}>
                       <label className={styles.formLabel}>
                         Shelf Life/Expiry
-                        <span className={styles?.labelStamp}>*</span>
+                        {/* <span className={styles?.labelStamp}>*</span> */}
                       </label>
                       <div className={styles.tooltipContainer}>
                         <input
@@ -4625,11 +4625,11 @@ const EditAddProduct = ({ placeholder }) => {
                         />
                         <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
                       </div>
-                      {formik.touched.expiry && formik.errors.expiry && (
+                      {/* {formik.touched.expiry && formik.errors.expiry && (
                         <span className={styles.error}>
                           {formik.errors.expiry}
                         </span>
-                      )}
+                      )} */}
                     </div>
                   </div>
 
@@ -5165,7 +5165,7 @@ const EditAddProduct = ({ placeholder }) => {
                     <div className={styles.productInnerContainer}>
                       <label className={styles.formLabel}>
                         Shelf Life/Expiry
-                        <span className={styles?.labelStamp}>*</span>
+                        {/* <span className={styles?.labelStamp}>*</span> */}
                       </label>
                       <div className={styles.tooltipContainer}>
                         <input
@@ -5187,11 +5187,11 @@ const EditAddProduct = ({ placeholder }) => {
                         />
                         <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
                       </div>
-                      {formik.touched.expiry && formik.errors.expiry && (
+                      {/* {formik.touched.expiry && formik.errors.expiry && (
                         <span className={styles.error}>
                           {formik.errors.expiry}
                         </span>
-                      )}
+                      )} */}
                     </div>
                   </div>
 
@@ -5488,7 +5488,7 @@ const EditAddProduct = ({ placeholder }) => {
                     <div className={styles.productInnerContainer}>
                       <label className={styles.formLabel}>
                         Shelf Life/Expiry
-                        <span className={styles?.labelStamp}>*</span>
+                        {/* <span className={styles?.labelStamp}>*</span> */}
                       </label>
                       <div className={styles.tooltipContainer}>
                         <input
@@ -5510,11 +5510,11 @@ const EditAddProduct = ({ placeholder }) => {
                         />
                         <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
                       </div>
-                      {formik.touched.expiry && formik.errors.expiry && (
+                      {/* {formik.touched.expiry && formik.errors.expiry && (
                         <span className={styles.error}>
                           {formik.errors.expiry}
                         </span>
-                      )}
+                      )} */}
                     </div>
                   </div>
 
@@ -5924,7 +5924,7 @@ const EditAddProduct = ({ placeholder }) => {
                     <div className={styles.productInnerContainer}>
                       <label className={styles.formLabel}>
                         Shelf Life/Expiry
-                        <span className={styles?.labelStamp}>*</span>
+                        {/* <span className={styles?.labelStamp}>*</span> */}
                       </label>
                       <div className={styles.tooltipContainer}>
                         <input
@@ -5946,11 +5946,11 @@ const EditAddProduct = ({ placeholder }) => {
                         />
                         <Tooltip content=" Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
                       </div>
-                      {formik.touched.expiry && formik.errors.expiry && (
+                      {/* {formik.touched.expiry && formik.errors.expiry && (
                         <span className={styles.error}>
                           {formik.errors.expiry}
                         </span>
-                      )}
+                      )} */}
                     </div>
                   </div>
                 </div>
@@ -6062,7 +6062,7 @@ const EditAddProduct = ({ placeholder }) => {
                     <div className={styles.productInnerContainer}>
                       <label className={styles.formLabel}>
                         Shelf Life/Expiry
-                        <span className={styles?.labelStamp}>*</span>
+                        {/* <span className={styles?.labelStamp}>*</span> */}
                       </label>
                       <div className={styles.tooltipContainer}>
                         <input
@@ -6084,11 +6084,11 @@ const EditAddProduct = ({ placeholder }) => {
                         />
                         <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
                       </div>
-                      {formik.touched.expiry && formik.errors.expiry && (
+                      {/* {formik.touched.expiry && formik.errors.expiry && (
                         <span className={styles.error}>
                           {formik.errors.expiry}
                         </span>
-                      )}
+                      )} */}
                     </div>
                   </div>
                 </div>
@@ -6213,7 +6213,7 @@ const EditAddProduct = ({ placeholder }) => {
                     <div className={styles.productInnerContainer}>
                       <label className={styles.formLabel}>
                         Shelf Life/Expiry
-                        <span className={styles?.labelStamp}>*</span>
+                        {/* <span className={styles?.labelStamp}>*</span> */}
                       </label>
                       <div className={styles.tooltipContainer}>
                         <input
@@ -6235,11 +6235,11 @@ const EditAddProduct = ({ placeholder }) => {
                         />
                         <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
                       </div>
-                      {formik.touched.expiry && formik.errors.expiry && (
+                      {/* {formik.touched.expiry && formik.errors.expiry && (
                         <span className={styles.error}>
                           {formik.errors.expiry}
                         </span>
-                      )}
+                      )} */}
                     </div>
                   </div>
                 </div>
@@ -6545,7 +6545,7 @@ const EditAddProduct = ({ placeholder }) => {
                     <div className={styles.productInnerContainer}>
                       <label className={styles.formLabel}>
                         Shelf Life/Expiry
-                        <span className={styles?.labelStamp}>*</span>
+                        {/* <span className={styles?.labelStamp}>*</span> */}
                       </label>
                       <div className={styles.tooltipContainer}>
                         <input
@@ -6567,11 +6567,11 @@ const EditAddProduct = ({ placeholder }) => {
                         />
                         <Tooltip content=" Expected shelf life of the item under proper storage conditions or Expiry date."></Tooltip>
                       </div>
-                      {formik.touched.expiry && formik.errors.expiry && (
+                      {/* {formik.touched.expiry && formik.errors.expiry && (
                         <span className={styles.error}>
                           {formik.errors.expiry}
                         </span>
-                      )}
+                      )} */}
                     </div>
                   </div>
                 </div>
