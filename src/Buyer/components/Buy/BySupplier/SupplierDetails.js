@@ -246,7 +246,7 @@ const SupplierDetails = () => {
   <div className={styles.cardContainer}>
     <span className={styles.cardHeads}>Bank Details</span>
     <div className={styles.cardContents}>
-      {supplier.bank_details.split(', ').map((detail, index) => (
+      {supplier?.bank_details?.split(', ').map((detail, index) => (
         <div key={index} className={styles.bankDetail}>
           {detail.trim()}
         </div>

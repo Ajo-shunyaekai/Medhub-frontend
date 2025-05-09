@@ -4,7 +4,7 @@ import styles from './ProductDetails/productdetail.module.css'
 import PDFIcon from '../../assets/images/pdf.png';
 import DocxIcon from '../../assets/images/doc.png'
 const extractFileName = (url) => {
-  return url.split("/")?.pop();
+  return url?.split("/")?.pop();
 };
 const getExtension = (filename) => {
   const parts = filename?.split('.');

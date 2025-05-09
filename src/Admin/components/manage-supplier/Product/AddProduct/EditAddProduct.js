@@ -208,59 +208,6 @@ const EditAddProduct = ({ placeholder }) => {
     }));
   };
 
-  //handle field input
-  // const handleInputChange = (
-  //   e,
-  //   setFieldValue,
-  //   textLimit = 15,
-  //   allowedType = "all",
-  //   restrictSpecialForFields = [],
-  //   allowedSpecialChars = ""
-  // ) => {
-  //   let { value, name } = e.target;
-  //   value = value.slice(0, Number(textLimit));
-  //   if (name === "dimension") {
-  //     value = value.replace(/[^0-9x.]/g, "")?.toLowerCase();
-  //     value = value.replace(/x{2,}/g, "x");
-  //     const parts = value.split("x").map((part, index) => {
-  //       part = part.replace(/^(\d{1,5})\.(\d{0,2}).*/, "$1.$2");
-
-  //       // Ensure only one decimal per number
-  //       part = part.replace(/(\..*)\./g, "$1");
-
-  //       return part;
-  //     });
-
-  //     // Join back using "x" but ensure it doesn't remove already typed "x"
-  //     value = parts.join("x");
-
-  //     setFieldValue(name, value);
-  //     return;
-  //   }
-
-  //   // Restrict input type
-  //   if (allowedType === "number") {
-  //     value = value.replace(/[^0-9]/g, ""); // Allow only numbers
-  //   } else if (allowedType === "text") {
-  //     value = value.replace(/[^a-zA-Z\s]/g, ""); // Allow only text and spaces
-  //   } else if (
-  //     allowedType === "all" &&
-  //     restrictSpecialForFields.includes(name)
-  //   ) {
-      
-
-  //     const allowedPattern = new RegExp(
-  //       `[^a-zA-Z0-9\\s${allowedSpecialChars}]`,
-  //       "g"
-  //     );
-  //     value = value.replace(allowedPattern, "");
-  //   } else if (allowedType === "decimal") {
-  //     if (!/^\d*\.?\d*$/.test(value)) return;
-  //   }
-
-  //   setFieldValue(name, value);
-  // };
-
   const handleInputChange = (
     e,
     setFieldValue,
@@ -283,7 +230,7 @@ const EditAddProduct = ({ placeholder }) => {
         value = value.replace(/x{2,}/g, "x");
 
         // Split the values by "x" while keeping their sequence
-        const parts = value.split("x").map((part, index) => {
+        const parts = value?.split("x").map((part, index) => {
             // Allow up to 5 digits before decimal and 2 after
             part = part.replace(/^(\d{1,5})\.(\d{0,2}).*/, "$1.$2");
 
@@ -612,6 +559,15 @@ const EditAddProduct = ({ placeholder }) => {
           className={styles.form}
           onSubmit={(e) => {
             e.preventDefault();
+
+              const fields = Object.keys(formik.initialValues);
+              const touchedFields = fields.reduce((acc, key) => {
+                acc[key] = true;
+                return acc;
+              }, {});
+            
+              // Mark all fields as touched to trigger validation display
+              formik.setTouched(touchedFields, true);
 
             // Check if the form is changed and no validation errors
             if (Object.keys(formik.errors).length === 0) {

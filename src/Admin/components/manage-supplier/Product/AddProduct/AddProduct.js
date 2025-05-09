@@ -108,47 +108,6 @@ const AddProduct = ({ placeholder }) => {
       [id]: vallue,
     }));
   };
-  // const handleInputChange = (
-  //   e,
-  //   setFieldValue,
-  //   textLimit = 15,
-  //   allowedType = "all",
-  //   restrictSpecialForFields = [],
-  //   allowedSpecialChars = ""
-  // ) => {
-  //   let { value, name } = e.target;
-  //   value = value.slice(0, Number(textLimit));
-  //   if (name === "dimension") {
-  //     value = value.replace(/[^0-9x.]/g, "")?.toLowerCase();
-  //     value = value.replace(/x{2,}/g, "x");
-  //     const parts = value.split("x").map((part, index) => {
-  //       part = part.replace(/^(\d{1,5})\.(\d{0,2}).*/, "$1.$2");
-  //       part = part.replace(/(\..*)\./g, "$1");
-  //       return part;
-  //     });
-  //     value = parts.join("x");
-  //     setFieldValue(name, value);
-  //     return;
-  //   }
-  //   if (allowedType === "number") {
-  //     value = value.replace(/[^0-9]/g, ""); 
-  //   } else if (allowedType === "text") {
-  //     value = value.replace(/[^a-zA-Z\s]/g, ""); 
-  //   } else if (
-  //     allowedType === "all" &&
-  //     restrictSpecialForFields.includes(name)
-  //   ) {
-  //     const allowedPattern = new RegExp(
-  //       `[^a-zA-Z0-9\\s${allowedSpecialChars}]`,
-  //       "g"
-  //     );
-  //     value = value.replace(allowedPattern, "");
-  //   } else if (allowedType === "decimal") {
-  //     if (!/^\d*\.?\d*$/.test(value)) return;
-  //   }
-
-  //   setFieldValue(name, value);
-  // };
   
   const handleInputChange = (
     e,
@@ -172,7 +131,7 @@ const AddProduct = ({ placeholder }) => {
         value = value.replace(/x{2,}/g, "x");
 
         // Split the values by "x" while keeping their sequence
-        const parts = value.split("x").map((part, index) => {
+        const parts = value?.split("x").map((part, index) => {
             // Allow up to 5 digits before decimal and 2 after
             part = part.replace(/^(\d{1,5})\.(\d{0,2}).*/, "$1.$2");
 
@@ -5909,11 +5868,11 @@ const AddProduct = ({ placeholder }) => {
 
                           value = value.replace(/[^0-9.]/g, "");
 
-                          if (value.split(".").length > 2) {
+                          if (value?.split(".").length > 2) {
                             value = value.slice(0, -1);
                           }
 
-                          let parts = value.split(".");
+                          let parts = value?.split(".");
                           if (parts[0].length > 9) {
                             parts[0] = parts[0].slice(0, 9);
                           }

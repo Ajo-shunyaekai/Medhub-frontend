@@ -141,7 +141,7 @@ const CancelInquiryList = () => {
                                         className={styles['cancel-inquiry-input']}
                                     />
                                     <span className={styles['cancel-inquiry-text']}>
-                                        {reason.split(/(?=[A-Z])/).join(' ')}
+                                        {reason?.split(/(?=[A-Z])/).join(' ')}
                                     </span>
                                 </label>
                             </div>

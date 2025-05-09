@@ -235,7 +235,7 @@ const EditAddProduct = ({ placeholder }) => {
   //     value = value.replace(/x{2,}/g, "x");
 
   //     // Split the values by "x" while keeping their sequence
-  //     const parts = value.split("x").map((part, index) => {
+  //     const parts = value?.split("x").map((part, index) => {
   //       // Allow up to 5 digits before decimal and 2 after
   //       part = part.replace(/^(\d{1,5})\.(\d{0,2}).*/, "$1.$2");
 
@@ -297,7 +297,7 @@ const EditAddProduct = ({ placeholder }) => {
         value = value.replace(/x{2,}/g, "x");
 
         // Split the values by "x" while keeping their sequence
-        const parts = value.split("x").map((part, index) => {
+        const parts = value?.split("x").map((part, index) => {
             // Allow up to 5 digits before decimal and 2 after
             part = part.replace(/^(\d{1,5})\.(\d{0,2}).*/, "$1.$2");
 
@@ -628,12 +628,20 @@ const EditAddProduct = ({ placeholder }) => {
           className={styles.form}
           onSubmit={(e) => {
             e.preventDefault();
-
-            // Check if the form is changed and no validation errors
+          
+            const fields = Object.keys(formik.initialValues);
+            const touchedFields = fields.reduce((acc, key) => {
+              acc[key] = true;
+              return acc;
+            }, {});
+          
+            // Mark all fields as touched to trigger validation display
+            formik.setTouched(touchedFields, true);
+          
+            // Check if the form is valid
             if (Object.keys(formik.errors).length === 0) {
               formik.handleSubmit();
             } else {
-              // If validation errors exist or no change, show the error message
               toast.error("Please fill the required fields correctly.");
             }
           }}

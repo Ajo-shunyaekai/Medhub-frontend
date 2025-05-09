@@ -72,7 +72,7 @@ function PayModal({
     if (name === "date") {
       // Validate the format dd/mm/yyyy
       if (value.trim() && /^\d{2}\/\d{2}\/\d{4}$/.test(value)) {
-        const [day, month, year] = value.split("/").map(Number);
+        const [day, month, year] = value?.split("/").map(Number);
         const currentYear = new Date().getFullYear();
 
         // Helper function to check if a year is a leap year

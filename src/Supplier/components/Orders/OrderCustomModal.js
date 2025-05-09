@@ -499,13 +499,13 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
         
         if (name === 'weight') {
             filteredValue = value.replace(/[^0-9.]/g, '');
-            const parts = filteredValue.split('.');
+            const parts = filteredValue?.split('.');
             if (parts.length > 2) {
                 filteredValue = parts[0] + '.' + parts.slice(1).join('');
             }
             // Limit to 6 digits including decimal places
-            if (filteredValue.split('.').length > 1) {
-                const [integerPart, decimalPart] = filteredValue.split('.');
+            if (filteredValue?.split('.').length > 1) {
+                const [integerPart, decimalPart] = filteredValue?.split('.');
                 if (decimalPart.length > 5) {
                     filteredValue = integerPart + '.' + decimalPart.slice(0, 5);
                 }

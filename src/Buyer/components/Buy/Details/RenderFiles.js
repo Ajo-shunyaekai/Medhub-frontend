@@ -5,7 +5,7 @@ import PDFIcon from '../../../assets/images/pdf.png';
 import DocxIcon from '../../../assets/images/doc.png'
  
 const extractFileName = (url) => {
-  return url.split("/")?.pop();
+  return url?.split("/")?.pop();
 };
 
 const fallbackImageUrl = "https://medhub.shunyaekai.com/uploads/fallbackImage.jpg";

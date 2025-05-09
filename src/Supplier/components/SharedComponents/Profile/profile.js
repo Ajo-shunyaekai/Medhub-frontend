@@ -330,7 +330,7 @@ const Profile = () => {
               <div className={styles.companyContainerContactSection}>
                 <div className={styles.textareaHead}>Bank Details</div>
                 <div className={styles.textareaContent}>
-                  {user.bank_details.split(',').slice(0, 2).map((line, index) => (
+                  {user.bank_details?.split(',').slice(0, 2).map((line, index) => (
                     <span key={index} style={{ display: 'block' }}>
                       {line.trim()}
                     </span>

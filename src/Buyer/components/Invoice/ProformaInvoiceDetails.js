@@ -43,8 +43,8 @@ function ProformaDetailsPage() {
           if (response.result?.supplier?.bank_details) {
             const [bankName, accountNo, sortCode] =
               response.result.supplier.bank_details
-                .split(",")
-                .map((item) => item.trim());
+                ?.split(",")
+                ?.map((item) => item?.trim());
 
             setBankDetails({ bankName, accountNo, sortCode });
           }

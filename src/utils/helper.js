@@ -5,11 +5,24 @@ import { useDropzone } from "react-dropzone";
 import Tooltip from "@mui/material/Tooltip";
 import Information from "../Admin/assets/Images/infomation.svg";
 
-const extractFileName = (url) => (url ? url.split("/")?.pop() : "Unknown");
+const extractFileName = (url) => (url ? url?.split("/")?.pop() : "Unknown");
 
 export function extractLast13WithExtension(filename) {
+  // Check if filename is provided and is a string
+  if (!filename || typeof filename !== "string") {
+    console.error("Invalid filename provided:", filename);
+    return ""; // Return an empty string or some default value
+  }
+
   // Split the filename at the period to separate the extension
   const parts = filename.split(".");
+
+  // Check if there is an extension
+  if (parts.length < 2) {
+    console.error("No extension found in filename:", filename);
+    return ""; // Return an empty string or handle the case as needed
+  }
+
   const extension = parts[parts.length - 1]; // Get the file extension
 
   // Remove the extension and get the last 13 characters before the extension

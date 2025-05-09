@@ -4,7 +4,7 @@ import styles from "./productdetail.module.css";
 import { extractLast13WithExtension } from "../../../../utils/helper";
 
 const extractFileName = (url) => {
-  return url.split("/")?.pop();
+  return url?.split("/")?.pop();
 };
 
 const RenderProductFiles = ({ files }) => {

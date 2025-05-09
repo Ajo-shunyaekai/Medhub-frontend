@@ -96,8 +96,8 @@ const OngoingInquiriesList = () => {
           ? "Quotation Received"
           : row?.enquiry_status
               ?.split(" ")
-              .map((word) => word?.charAt(0)?.toUpperCase() + word?.slice(1))
-              .join(" ") || "-",
+              ?.map((word) => word?.charAt(0)?.toUpperCase() + word?.slice(1))
+              ?.join(" ") || "-",
       sortable: true,
     },
     {

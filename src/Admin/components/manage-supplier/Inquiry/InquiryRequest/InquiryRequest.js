@@ -31,9 +31,9 @@ const InquiryRequest = ({ inquiryList, totalInquiries, currentPage, inquiriesPer
         <div>
           {row?.enquiry_status
             ? row?.enquiry_status
-                .split(' ')
-                .map(word => word?.charAt(0)?.toUpperCase() + word?.slice(1))
-                .join(' ')
+                ?.split(' ')
+                ?.map(word => word?.charAt(0)?.toUpperCase() + word?.slice(1))
+                ?.join(' ')
             : 'N/A'}
         </div>
       ),

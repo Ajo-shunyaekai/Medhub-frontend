@@ -405,7 +405,7 @@ export const addProductValidationSchema = Yup.object({
   //     if (!value) return false;
 
   //     // Split the date and convert to numbers
-  //     const parts = value.split('-');
+  //     const parts = ?.split('-');
   //     if (parts.length !== 3) return false;
 
   //     const day = parseInt(parts[0], 10);
@@ -427,7 +427,7 @@ export const addProductValidationSchema = Yup.object({
   //   function (value) {
   //     if (!value) return true;
 
-  //     const parts = value.split("-");
+  //     const parts = ?.split("-");
   //     if (parts.length !== 3) return true;
 
   //     const day = parseInt(parts[0], 10);
@@ -1333,7 +1333,7 @@ export const editProductValidationSchema = Yup.object({
   //     if (!value) return false;
 
   //     // Split the date and convert to numbers
-  //     const parts = value.split('-');
+  //     const parts = ?.split('-');
   //     if (parts.length !== 3) return false;
 
   //     const day = parseInt(parts[0], 10);
@@ -1355,7 +1355,7 @@ export const editProductValidationSchema = Yup.object({
   //   function (value) {
   //     if (!value) return true;
 
-  //     const parts = value.split("-");
+  //     const parts = ?.split("-");
   //     if (parts.length !== 3) return true;
 
   //     const day = parseInt(parts[0], 10);
