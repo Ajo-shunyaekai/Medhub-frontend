@@ -21,7 +21,7 @@
 .invoice-heading {
   padding-top: 5px;
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 500;
   color: #5e676f;
 }
 .complete-conatiner-head {
@@ -51,7 +51,7 @@
   cursor: pointer !important;
 }
 .invoice-wrapper-left-icons {
-  color: #99a0ac;
+  color: #333;
   cursor: pointer !important;
 }
 

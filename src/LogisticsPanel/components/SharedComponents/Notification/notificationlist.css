@@ -15,7 +15,7 @@
 }
   .notification-name-2{
     font-size: 20px;
-    font-weight: 600;
+      font-weight: 500;
     margin-top: 10px;
   }
   
@@ -56,7 +56,7 @@
   }
   .notification-section-heading {
     font-size: 13px;
-    color: #99a0ac;
+    color: #333;
     display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;

@@ -1,5 +1,5 @@
 import { lazy } from "react";
-
+ 
 // Lazy imports using array
 export const buyerRoutesConfig = [
   {
@@ -35,7 +35,7 @@ export const buyerRoutesConfig = [
     ),
   },
 ];
-
+ 
 export const buyerNestedRoutes = [
   {
     index: true,
@@ -177,7 +177,7 @@ export const buyerNestedRoutes = [
       },
     ],
   },
-
+ 
   {
     path: "create-po/:inquiryId",
     component: lazy(() =>
@@ -268,7 +268,7 @@ export const buyerNestedRoutes = [
       import("./Buyer/components/Subscription/SubscriptionInvoiceDetails")
     ),
   },
-
+ 
   {
     path: "invoice",
     component: lazy(() => import("./Buyer/components/Invoice/index")),
@@ -384,7 +384,7 @@ export const buyerNestedRoutes = [
     ),
   },
 ];
-
+ 
 export const supplierRoutesConfig = [
   {
     path: "/supplier/login",
@@ -419,7 +419,7 @@ export const supplierRoutesConfig = [
     ),
   },
 ];
-
+ 
 export const supplierNestedRoutes = [
   {
     index: true,
@@ -736,7 +736,7 @@ export const supplierNestedRoutes = [
     ),
   },
 ];
-
+ 
 export const adminRoutesConfig = [
   {
     path: "/admin/login",
@@ -751,7 +751,7 @@ export const adminRoutesConfig = [
     ),
   },
 ];
-
+ 
 export const adminNestedRoutes = [
   {
     index: true,
@@ -1303,15 +1303,15 @@ export const adminNestedRoutes = [
           )
         ),
       },
+      {
+        path: "secondary",
+        component: lazy(() =>
+          import(
+            "./Admin/components/manage-supplier/Product/List/SecondaryProductList"
+          )
+        ),
+      },
     ],
-  },
-  {
-    path: "secondary",
-    component: lazy(() =>
-      import(
-        "./Admin/components/manage-supplier/Product/List/SecondaryProductList"
-      )
-    ),
   },
   {
     path: "supplier/:supplierId/edit-product/:id",
@@ -1334,7 +1334,7 @@ export const adminNestedRoutes = [
     ),
   },
 ];
-
+ 
 export const logisticsRoutesConfig = [
   {
     path: "/logistics/login",
@@ -1357,7 +1357,7 @@ export const logisticsRoutesConfig = [
     ),
   },
 ];
-
+ 
 export const logisticsNestedRoutes = [
   {
     index: true,
@@ -1450,7 +1450,7 @@ export const logisticsNestedRoutes = [
     ),
   },
 ];
-
+ 
 export const subscriptionRoutesConfig = [
   {
     path: "/subscription/:userType/:userId/select-plan",

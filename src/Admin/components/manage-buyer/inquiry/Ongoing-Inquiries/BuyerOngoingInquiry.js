@@ -76,7 +76,7 @@ const BuyerOngoingInquiry = ({ inquiryList, totalInquiries, currentPage, inquiri
                     }
                     .rdt_TableCell {
                             
-                        color: #99a0ac;
+                        color: #333;
                     }
                     .rdt_TableCellStatus {
                             

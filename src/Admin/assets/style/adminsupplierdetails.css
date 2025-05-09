@@ -18,7 +18,7 @@
   
   .suppliers-details-conatiner-heading {
     font-size: 20px;
-    font-weight: 600;
+      font-weight: 500;
   }
   
   .suppliers-details-section {
@@ -199,7 +199,7 @@
   .table-assign-driver-heading {
     color: #192039;
     font-size: 18px;
-    font-weight: 600;
+      font-weight: 500;
     padding: 0px 10px;
   }
   
@@ -346,7 +346,7 @@
   }
   
   .suppliers-details-left-top-main-heading {
-    color: #99a0ac;
+    color: #333;
     font-size: 12px;
   }
   
@@ -359,17 +359,17 @@
   }
   
   .suppliers-details-left-bottom-vehicle-head {
-    color: #99a0ac;
+    color: #333;
     font-size: 12px;
   }
   
   .suppliers-details-left-bottom-vehichle-no-head {
-    color: #99a0ac;
+    color: #333;
     font-size: 12px;
   }
   
   .suppliers-details-right-inner-section-heading {
-    color: #99a0ac;
+    color: #333;
     font-size: 13px;
   }
   
@@ -386,7 +386,7 @@
   }
   
   .suppliers-details-top-bottom-order-heading {
-    color: #99a0ac;
+    color: #333;
     font-size: 12px;
   }
   
@@ -456,7 +456,7 @@
   }
   
   .suppliers-details-payment-remark-text {
-    color: #99a0ac;
+    color: #333;
     font-size: 14px;
   }
   
@@ -634,7 +634,7 @@
       width: 46%;
   }
   .active-order-details-middle-bottom-vehicle-head {
-    color: #99a0ac;
+    color: #333;
     font-size: 12px;
   }
   .active-order-details-middle-bottom-vehicle-text {

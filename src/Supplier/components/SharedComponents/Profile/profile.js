@@ -4,7 +4,6 @@ import { MdOutlineAttachEmail } from "react-icons/md";
 import { RiHonourLine } from "react-icons/ri";
 import { LuPhoneCall } from "react-icons/lu";
 import { FaRegAddressCard } from "react-icons/fa";
-import { FaFilePdf, FaFileWord } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserData } from "../../../../redux/reducers/userDataSlice";
@@ -21,7 +20,7 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
   const documentsArray = [
     { headings: "Trade License", keyword: "license_image" },
-    { headings: "Tax Certificate", keyword: "tax_image" },
+
     { headings: "Certificate", keyword: "certificate_image" },
     {
       headings: "Medical Practitioner",
@@ -49,9 +48,8 @@ const Profile = () => {
       <div className={styles.profileHeadSection}>
         <div className={styles.MainHeading}>Profile</div>
         <Link
-          to={`/supplier/edit-profile/${
-            user?._id || localStorage?.getItem("_id")
-          }`}
+          to={`/supplier/edit-profile/${user?._id || localStorage?.getItem("_id")
+            }`}
         >
           <div className={styles.EditButtonSection}>
             <span className={styles.editButton}>Edit</span>
@@ -92,7 +90,7 @@ const Profile = () => {
                       href={user?.websiteAddress}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={styles.textSection}
+                      className={styles.textLink}
                     >
                       {user?.websiteAddress}
                     </a>
@@ -124,42 +122,42 @@ const Profile = () => {
               user?.registeredAddress?.state ||
               user?.registeredAddress?.country ||
               user?.registeredAddress?.pincode) && (
-              <div className={styles.addressSection}>
-                <div className={styles.iconSection}>
-                  <FaRegAddressCard className={styles.icon} />
-                  <div className={styles.addressContainers}>
-                    {(user?.registeredAddress?.company_reg_address ||
-                      user?.supplier_address) && (
-                      <span className={styles.textSection}>
-                        {user?.registeredAddress?.company_reg_address ||
-                          user?.supplier_address}
-                      </span>
-                    )}
-                    {(user?.registeredAddress?.locality ||
-                      user?.registeredAddress?.land_mark) && (
-                      <span className={styles.textSection}>
-                        {user?.registeredAddress?.locality}{" "}
-                        {user?.registeredAddress?.land_mark}
-                      </span>
-                    )}
-                    {(user?.registeredAddress?.city ||
-                      user?.registeredAddress?.state ||
-                      user?.registeredAddress?.country) && (
-                      <span className={styles.textSection}>
-                        {user?.registeredAddress?.city}{" "}
-                        {user?.registeredAddress?.state}{" "}
-                        {user?.registeredAddress?.country}
-                      </span>
-                    )}
-                    {user?.registeredAddress?.pincode && (
-                      <span className={styles.textSection}>
-                        {user?.registeredAddress?.pincode}
-                      </span>
-                    )}
+                <div className={styles.addressSection}>
+                  <div className={styles.iconSection}>
+                    <FaRegAddressCard className={styles.icon} />
+                    <div className={styles.addressContainers}>
+                      {(user?.registeredAddress?.company_reg_address ||
+                        user?.supplier_address) && (
+                          <span className={styles.textSection}>
+                            {user?.registeredAddress?.company_reg_address ||
+                              user?.supplier_address}
+                          </span>
+                        )}
+                      {(user?.registeredAddress?.locality ||
+                        user?.registeredAddress?.land_mark) && (
+                          <span className={styles.textSection}>
+                            {user?.registeredAddress?.locality}{" "}
+                            {user?.registeredAddress?.land_mark}
+                          </span>
+                        )}
+                      {(user?.registeredAddress?.city ||
+                        user?.registeredAddress?.state ||
+                        user?.registeredAddress?.country) && (
+                          <span className={styles.textSection}>
+                            {user?.registeredAddress?.city}{" "}
+                            {user?.registeredAddress?.state}{" "}
+                            {user?.registeredAddress?.country}
+                          </span>
+                        )}
+                      {user?.registeredAddress?.pincode && (
+                        <span className={styles.textSection}>
+                          {user?.registeredAddress?.pincode}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
+              )}
           </div>
         </div>
       </div>
@@ -172,104 +170,116 @@ const Profile = () => {
         user?.country_of_origin ||
         user?.tags ||
         user?.license_expiry_date) && (
-        <div className={styles.companySection}>
-          <div className={styles.companyContainerSection}>
-            <div className={styles.companyMainHeading}>Company Details</div>
-            <div className={styles.companyDetailsSection}>
-              <div className={styles.companyInnerContainer}>
-                {user?.registration_no && (
-                  <div className={styles.companyDetails}>
-                    <div className={styles.companyHead}>
-                      Company Registration No.
+          <div className={styles.companySection}>
+            <div className={styles.companyContainerSection}>
+              <div className={styles.companyMainHeading}>Company Details</div>
+              <div className={styles.companyDetailsSection}>
+                <div className={styles.companyInnerContainer}>
+                  {user?.registration_no && (
+                    <div className={styles.companyDetails}>
+                      <div className={styles.companyHead}>
+                        Company Registration No.
+                      </div>
+                      <div className={styles.companyText}>
+                        {user?.registration_no}
+                      </div>
                     </div>
-                    <div className={styles.companyText}>
-                      {user?.registration_no}
+                  )}
+                  {user?.vat_reg_no && (
+                    <div className={styles.companyDetails}>
+                      <div className={styles.companyHead}>
+                        VAT Registration No.
+                      </div>
+                      <div className={styles.companyText}>{user?.vat_reg_no}</div>
                     </div>
-                  </div>
-                )}
-                {user?.vat_reg_no && (
-                  <div className={styles.companyDetails}>
-                    <div className={styles.companyHead}>
-                      VAT Registration No.
+                  )}
+                  {user?.categories && (
+                    <div className={styles.companyDetails}>
+                      <div className={styles.companyHead}>
+                        Categories you Trade In
+                      </div>
+                      <div className={styles.companyText}>
+                        {user.categories.join(', ')}
+                      </div>
                     </div>
-                    <div className={styles.companyText}>{user?.vat_reg_no}</div>
-                  </div>
-                )}
-                {user?.categories && (
-                  <div className={styles.companyDetails}>
-                    <div className={styles.companyHead}>
-                      Categories you Trade In
+                  )}
+                  {user?.sales_person_name && (
+                    <div className={styles.companyDetails}>
+                      <div className={styles.companyHead}>
+                        Medhub Global Sales Representative
+                      </div>
+                      <div className={styles.companyText}>
+                        {user?.sales_person_name}
+                      </div>
                     </div>
-                    <div className={styles.companyText}>{user?.categories}</div>
-                  </div>
-                )}
-                {user?.sales_person_name && (
-                  <div className={styles.companyDetails}>
-                    <div className={styles.companyHead}>
-                      Medhub Global Sales Representative
+                  )}
+                  {user?.activity_code && (
+                    <div className={styles.companyDetails}>
+                      <div className={styles.companyHead}>
+                        Business/Trade Activity Code
+                      </div>
+                      <div className={styles.companyText}>
+                        {user?.activity_code}
+                      </div>
                     </div>
-                    <div className={styles.companyText}>
-                      {user?.sales_person_name}
+                  )}
+                  {user?.categories && (
+                    <div className={styles.companyDetails}>
+                      <div className={styles.companyHead}>
+                        Company License No.
+                      </div>
+                      <div className={styles.companyText}>{user?.license_no}</div>
                     </div>
-                  </div>
-                )}
-                {user?.categories && (
-                  <div className={styles.companyDetails}>
-                    <div className={styles.companyHead}>
-                      Company License No.
+                  )}
+                </div>
+                <div className={styles.companyInnerContainer}>
+                  {user?.country_of_operation && (
+                    <div className={styles.companyDetails}>
+                      <div className={styles.companyHead}>
+                        Country of Operation
+                      </div>
+                      <div className={styles.companyText}>
+                        {user?.country_of_operation}
+                      </div>
                     </div>
-                    <div className={styles.companyText}>{user?.license_no}</div>
-                  </div>
-                )}
-              </div>
-              <div className={styles.companyInnerContainer}>
-                {user?.country_of_operation && (
-                  <div className={styles.companyDetails}>
-                    <div className={styles.companyHead}>
-                      Country of Operation
+                  )}
+                  {user?.country_of_origin && (
+                    <div className={styles.companyDetails}>
+                      <div className={styles.companyHead}>Country of Origin</div>
+                      <div className={styles.companyText}>
+                        {user?.country_of_origin}
+                      </div>
                     </div>
-                    <div className={styles.companyText}>
-                      {user?.country_of_operation}
+                  )}
+                  {user?.tags && (
+                    <div className={styles.companyDetails}>
+                      <div className={styles.companyHead}>Tags</div>
+                      <div className={styles.companyText}>{user?.tags}</div>
                     </div>
-                  </div>
-                )}
-                {user?.country_of_origin && (
-                  <div className={styles.companyDetails}>
-                    <div className={styles.companyHead}>Country of Origin</div>
-                    <div className={styles.companyText}>
-                      {user?.country_of_origin}
+                  )}
+                  {user?.license_no && (
+                    <div className={styles.companyDetails}>
+                      <div className={styles.companyHead}>
+                        Company License No.
+                      </div>
+                      <div className={styles.companyText}>{user?.license_no}</div>
                     </div>
-                  </div>
-                )}
-                {user?.tags && (
-                  <div className={styles.companyDetails}>
-                    <div className={styles.companyHead}>Tags</div>
-                    <div className={styles.companyText}>{user?.tags}</div>
-                  </div>
-                )}
-                {user?.license_no && (
-                  <div className={styles.companyDetails}>
-                    <div className={styles.companyHead}>
-                      Company License No.
+                  )}
+                  {user?.license_expiry_date && (
+                    <div className={styles.companyDetails}>
+                      <div className={styles.companyHead}>
+                        License Expiry/ Renewal Date
+                      </div>
+                      <div className={styles.companyText}>
+                        {user?.license_expiry_date}
+                      </div>
                     </div>
-                    <div className={styles.companyText}>{user?.license_no}</div>
-                  </div>
-                )}
-                {user?.license_expiry_date && (
-                  <div className={styles.companyDetails}>
-                    <div className={styles.companyHead}>
-                      License Expiry/ Renewal Date
-                    </div>
-                    <div className={styles.companyText}>
-                      {user?.license_expiry_date}
-                    </div>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
       {(user?.description || user?.activity_code) && (
         <div className={styles.textareaContainer}>
           {user?.description && (
@@ -280,16 +290,7 @@ const Profile = () => {
               </span>
             </div>
           )}
-          {user?.activity_code && (
-            <div className={styles.textareaSeaction}>
-              <div className={styles.textareaHead}>
-                Business/Trade Activity Code
-              </div>
-              <span className={styles.textareaContent}>
-                {user?.activity_code}
-              </span>
-            </div>
-          )}
+
         </div>
       )}
       {(user?.contact_person_name ||
@@ -297,44 +298,48 @@ const Profile = () => {
         user?.contact_person_mobile_no ||
         user?.designation ||
         user?.bank_details) && (
-        <div className={styles.companySection}>
-          <div className={styles.companyContainerContactSection}>
-            <div className={styles.companyMainHeading}>Contact Details</div>
-            {user?.contact_person_name && (
-              <div className={styles.companyDetails}>
-                <div className={styles.companyHead}>Contact Name</div>
-                <div className={styles.companyText}>
-                  {user?.contact_person_name}
+          <div className={styles.companySection}>
+            <div className={styles.companyContainerContactSection}>
+              <div className={styles.companyMainHeading}>Contact Details</div>
+              {user?.contact_person_name && (
+                <div className={styles.companyDetails}>
+                  <div className={styles.companyHead}>Contact Name</div>
+                  <div className={styles.companyText}>
+                    {user?.contact_person_name}
+                  </div>
                 </div>
-              </div>
-            )}
-            {(user?.contact_person_country_code ||
-              user?.contact_person_mobile_no) && (
-              <div className={styles.companyDetails}>
-                <div className={styles.companyHead}>Mobile No.</div>
-                <div className={styles.companyText}>
-                  {user?.contact_person_country_code}{" "}
-                  {user?.contact_person_mobile_no}
+              )}
+              {(user?.contact_person_country_code ||
+                user?.contact_person_mobile_no) && (
+                  <div className={styles.companyDetails}>
+                    <div className={styles.companyHead}>Mobile No.</div>
+                    <div className={styles.companyText}>
+                      {user?.contact_person_country_code}{" "}
+                      {user?.contact_person_mobile_no}
+                    </div>
+                  </div>
+                )}
+              {user?.designation && (
+                <div className={styles.companyDetails}>
+                  <div className={styles.companyHead}>Designation</div>
+                  <div className={styles.companyText}>{user?.designation}</div>
                 </div>
-              </div>
-            )}
-            {user?.designation && (
-              <div className={styles.companyDetails}>
-                <div className={styles.companyHead}>Designation</div>
-                <div className={styles.companyText}>{user?.designation}</div>
+              )}
+            </div>
+            {user?.bank_details && (
+              <div className={styles.companyContainerContactSection}>
+                <div className={styles.textareaHead}>Bank Details</div>
+                <div className={styles.textareaContent}>
+                  {user.bank_details.split(',').slice(0, 2).map((line, index) => (
+                    <span key={index} style={{ display: 'block' }}>
+                      {line.trim()}
+                    </span>
+                  ))}
+                </div>
               </div>
             )}
           </div>
-          {user?.bank_details && (
-            <div className={styles.companyContainerContactSection}>
-              <div className={styles.textareaHead}>Bank Details</div>
-              <span className={styles.textareaContent}>
-                {user?.bank_details}
-              </span>
-            </div>
-          )}
-        </div>
-      )}
+        )}
       {/* style the documents section */}
       <div className={styles.documentContainer}>
         <div className={styles.documentMainHeading}>Documents</div>

@@ -17,7 +17,7 @@
 
 .MainHead {
     font-size: 20px;
-    font-weight: 600;
+      font-weight: 500;
 }
 
 .logisticsSection {
@@ -40,7 +40,7 @@
 
 .logisticsCompanyHead {
     font-size: 20px;
-    font-weight: 600;
+      font-weight: 500;
 }
 
 .logisticsInnerSection {
@@ -57,7 +57,7 @@
 }
 
 .logisticsInnerText {
-    color: #99a0ac;
+    color: #333;
     font-size: 14px;
     overflow-wrap: break-word;
     text-align: end;
@@ -91,7 +91,7 @@ justify-content: start;
     font-weight: 500;
 }
 .logisticsAddText{
-    color: #99a0ac;
+    color: #333;
     font-size: 14px;
 }
 .packageMainContainer{
@@ -101,7 +101,7 @@ justify-content: start;
 }
 .packageMainHeading{
     font-size: 20px;
-    font-weight: 600;
+      font-weight: 500;
 }
 .packageConatiner{
     display: flex
@@ -183,7 +183,7 @@ justify-content: start;
 
 .tableHeading {
     font-size: 20px;
-    font-weight: 600;
+      font-weight: 500;
 }
 .logisticsText{
     font-size: 14px;
@@ -239,7 +239,7 @@ justify-content: start;
 }
 
 .tableContent span {
-    color: #99a0ac;
+    color: #333;
     font-size: 14px;
 }
 
