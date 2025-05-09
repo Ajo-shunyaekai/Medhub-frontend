@@ -32,7 +32,7 @@
   
   .ongoing-details-conatiner-heading{
     font-size: 20px;
-    font-weight: 600;
+      font-weight: 500;
   }
   
   .ongoing-details-section {
@@ -202,7 +202,7 @@
   .table-assign-driver-heading {
     color: #192039;
     font-size: 18px;
-    font-weight: 600;
+      font-weight: 500;
   }
   
   .table> :not(caption)>*>* {
@@ -357,22 +357,22 @@
     font-weight: 500;
     font-size: 13px;
     line-height: 15px;
-    color: #99a0ac !important;
+    color: #333 !important;
      cursor: pointer !important;;
   }
   
   .ongoing-details-left-bottom-vehicle-head {
-    color: #99a0ac;
+    color: #333;
     font-size: 12px;
   }
   
   .ongoing-details-left-bottom-vehichle-no-head {
-    color: #99a0ac;
+    color: #333;
     font-size: 12px;
   }
   
   .ongoing-details-right-inner-section-heading {
-    color: #99a0ac;
+    color: #333;
     font-size: 13px;
   }
   
@@ -389,7 +389,7 @@
   }
   
   .ongoing-details-top-bottom-order-heading {
-    color: #99a0ac;
+    color: #333;
     font-size: 12px;
   }
   
@@ -407,7 +407,7 @@
   .table-g-not-names {
     font-size: 13px;
     font-weight: 500;
-color: #99a0ac !important;
+    color: #333 !important;
   }
   
   .table-g-driver-name {
@@ -417,7 +417,7 @@ color: #99a0ac !important;
   }
   
   .table-g-not-name {
-    color: #99a0ac;
+    color: #333;
     font-size: 13px;
     font-weight: 500;
   }
@@ -425,7 +425,7 @@ color: #99a0ac !important;
   .ongoing-details-payment-first-terms-heading {
     color: #5e676f;
     font-size: 16px;
-    font-weight: 600;
+      font-weight: 500;
   }
   
   .ongoing-details-payment-first-terms-text {
@@ -462,7 +462,7 @@ color: #99a0ac !important;
   }
   
   .ongoing-details-payment-remark-text {
-    color: #99a0ac;
+    color: #333;
     font-size: 14px;
   }
   

@@ -17,7 +17,7 @@
 
 .heading {
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 500;
   padding-top: 10px;
 }
 
@@ -28,7 +28,7 @@
 
 .Button {
   background-color: #ffffff;
-  color: #99a0ac;
+  color: #333;
   padding: 10px 20px;
   border-radius: 4px;
   font-size: 14px;
@@ -202,7 +202,7 @@
 
 .th {
   width: 4%;
-  color: #99a0ac !important;
+      color: #333 !important;
   font-size: 14px !important;
   font-weight: 600 !important;
   background-color: transparent !important;
@@ -215,7 +215,7 @@
   padding: 1rem 0.5rem !important;
   border: none !important;
   font-size: 14px !important;
-  color: #99a0ac !important;
+      color: #333 !important;
   font-weight: 500;
 }
 

@@ -203,7 +203,7 @@ const PendingInvoicesList = () => {
                     color: #333;
                 }
                 .rdt_TableCell {
-                    color: #99a0ac;
+                    color: #333;
                     font-weight: 500 !important;
                 }
                 .rdt_TableCellStatus {

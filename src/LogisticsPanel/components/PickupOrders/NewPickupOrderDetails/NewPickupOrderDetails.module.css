@@ -17,7 +17,7 @@
 
 .MainHead {
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 500;
 } */
 
 .pickupOrderDetailsContainer {
@@ -39,7 +39,7 @@
 
 .logisticsCompanyHead {
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 500;
   color: #282f86;
   margin-bottom: 10px !important;
 }
@@ -59,7 +59,7 @@
 }
 
 .logisticsInnerText {
-  color: #99a0ac;
+  color: #333;
   font-size: 14px;
   overflow-wrap: break-word;
   text-align: end;
@@ -99,7 +99,7 @@
   color: #282f86;
 }
 .logisticsAddText {
-  color: #99a0ac;
+  color: #333;
   font-size: 14px;
 }
 .packageMainContainer {
@@ -109,7 +109,7 @@
 }
 .packageMainHeading {
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 500;
   color: #282f86;
 }
 .packageConatiner {
@@ -203,7 +203,7 @@
 
 .tableHeading {
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 500;
   color: #282f86;
 }
 .logisticsText {
@@ -263,7 +263,7 @@
 }
 
 .tableContent span {
-  color: #99a0ac;
+  color: #333;
   font-size: 14px;
 }
 
@@ -342,7 +342,7 @@
 
 .logisticsCompanyHead {
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .logisticsInnerSection {
@@ -359,7 +359,7 @@
 }
 
 .logisticsInnerText {
-  color: #99a0ac;
+  color: #333;
   font-size: 14px;
   overflow-wrap: break-word;
   text-align: end;
@@ -392,7 +392,7 @@
   font-weight: 500;
 }
 .logisticsAddText {
-  color: #99a0ac;
+  color: #333;
   font-size: 14px;
 }
 .packageMainContainer {
@@ -402,7 +402,7 @@
 }
 .packageMainHeading {
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 500;
 }
 .packageConatiner {
   display: flex;
@@ -472,7 +472,7 @@
 
 .tableHeading {
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 500;
 }
 .logisticsText {
   font-size: 14px;
@@ -528,7 +528,7 @@
 }
 
 .tableContent span {
-  color: #99a0ac;
+  color: #333;
   font-size: 14px;
 }
 

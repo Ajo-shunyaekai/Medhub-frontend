@@ -16,7 +16,7 @@
   }
   .inquiry-details-conatiner-heading {
     font-size: 20px;
-    font-weight: 600;
+      font-weight: 500;
   }
   .inquiry-details-section {
     width: 100%;
@@ -179,7 +179,7 @@
 .inquiry-details-payment-terms{
   color: #192039;
     font-size: 18px;
-    font-weight: 600;
+      font-weight: 500;
     padding: 0px 10px;
 }
 .inquiry-details-ul {
@@ -210,7 +210,7 @@
   .table-assign-driver-heading {
     color: #192039;
     font-size: 18px;
-    font-weight: 600;
+      font-weight: 500;
     padding: 0px 10px;
   }
   .table > :not(caption) > * > * {
@@ -267,7 +267,7 @@
     font-size: 13px;
     font-weight: 500;
     border: none;
-    border-bottom: 1px dotted #99a0ac;
+    border-bottom: 1px dotted #333;
 }
   .table-reject-button {
     background-color: #f54394;
@@ -377,7 +377,7 @@
     row-gap: 6px;
   }
   .inquiry-details-left-top-main-heading {
-    color: #99a0ac;
+    color: #333;
     font-size: 12px;
   }
   .inquiry-details-left-top-main-contents {
@@ -388,15 +388,15 @@
      cursor: pointer !important;;
   }
   .inquiry-details-left-bottom-vehicle-head {
-    color: #99a0ac;
+    color: #333;
     font-size: 12px;
   }
   .inquiry-details-left-bottom-vehichle-no-head {
-    color: #99a0ac;
+    color: #333;
     font-size: 12px;
   }
   .inquiry-details-right-inner-section-heading {
-    color: #99a0ac;
+    color: #333;
     font-size: 13px;
   }
   .inquiry-details-left-bottom-vehicle-text {
@@ -410,7 +410,7 @@
     line-height: 15px;
   }
   .inquiry-details-top-bottom-inquiry-heading {
-    color: #99a0ac;
+    color: #333;
     font-size: 12px;
   }
   .inquiry-details-top-bottom-inquiry-content {
@@ -468,7 +468,7 @@
     font-weight: 500;
   }
   .inquiry-details-payment-remark-text {
-    color: #99a0ac;
+    color: #333;
     font-size: 14px;
   }
   .inquiry-details-payment-right-section-heading {
@@ -579,7 +579,7 @@
     padding: 6px;
     border: none;
     outline: none;
-    border-bottom: 1px dotted #99a0ac;
+    border-bottom: 1px dotted #333;
      cursor: pointer !important;;
     flex: 1;
     padding-right: 30px;

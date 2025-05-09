@@ -16,7 +16,7 @@
   }
   .actives-main-head {
     font-size: 20px;
-    font-weight: 600;
+      font-weight: 500;
     margin-top: 10px;
   }
   
@@ -61,9 +61,9 @@
   }
   
   .actives-header-text-color {
-    color: #99a0ac;
+    color: #333;
     font-size: 12px;
-    font-weight: 600;
+      font-weight: 500;
     background-color: transparent !important;
   }
   
@@ -73,7 +73,7 @@
   }
   
   .actives-table-text-color-2 {
-    color: #99a0ac;
+    color: #333;
     font-size: 14px;
   }
   
@@ -99,7 +99,7 @@
   }
   
   .actives-pagi-total {
-    color: #99a0ac;
+    color: #333;
     font-size: 14px;
   }
   

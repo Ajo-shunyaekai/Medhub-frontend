@@ -38,7 +38,7 @@
 
 .heading {
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .form {
@@ -103,7 +103,7 @@
 
 .formHead {
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .formAddButton {
@@ -579,7 +579,7 @@
 
 .modalTitle {
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 500;
   margin-bottom: 14px;
 }
 

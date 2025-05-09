@@ -26,7 +26,7 @@
 }
 .cardMainHeading{
     font-size: 22px;
-    font-weight: 600;
+      font-weight: 500;
 }
 .innerContainer{
     display: flex;
@@ -72,7 +72,7 @@
 .mainHeading{
     color: #5e676f;
     font-size: 22px;
-    font-weight: 600;
+      font-weight: 500;
 }
 .section{
     display: flex;
@@ -85,7 +85,7 @@
     min-width: 130px;
 }
 .text{
-    color: #99a0ac;
+    color: #333;
     font-size: 13px;
     font-weight: 500;
     line-height: 20px;

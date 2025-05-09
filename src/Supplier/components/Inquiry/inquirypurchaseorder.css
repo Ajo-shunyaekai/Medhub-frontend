@@ -117,9 +117,9 @@
   }
   
   .header-text-color {
-    color: #99a0ac;
+    color: #333;
     font-size: 12px;
-    font-weight: 600;
+      font-weight: 500;
     background-color: transparent !important;
   }
   
@@ -129,7 +129,7 @@
   }
   
   .table-text-color-2 {
-    color: #99a0ac;
+    color: #333;
     font-size: 14px;
   }
   
@@ -154,7 +154,7 @@
   }
   
   .pagi-total {
-    color: #99a0ac;
+    color: #333;
     font-size: 14px;
   }
   

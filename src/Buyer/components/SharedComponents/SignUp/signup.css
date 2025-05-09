@@ -139,7 +139,7 @@
 }
 
 .select-option-type {
-  color: #99a0ac;
+  color: #333;
 }
 
 .css-13cymwt-control {
@@ -198,7 +198,7 @@
   padding: 9px !important;
   font-size: 13px !important;
   font-weight: 500 !important;
-  color: #99a0ac !important;
+      color: #333 !important;
 }
 
 .css-13cymwt-control {
@@ -212,7 +212,7 @@
 
 .css-qbdosj-Input {
   margin: 0px !important;
-  color: #99a0ac !important;
+      color: #333 !important;
 }
 
 .css-t3ipsp-control {
@@ -241,7 +241,7 @@
     .css-1fdsijx-ValueContainer {
       padding: 9px !important;
       font-size: 13px !important;
-      color: #99a0ac !important;
+      color: #333 !important;
       height: auto !important;
     }
   }

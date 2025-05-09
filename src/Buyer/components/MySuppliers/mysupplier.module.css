@@ -17,7 +17,7 @@
 
 .mySupplierMainHead {
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 500;
   margin-top: 10px;
 }
 
@@ -75,7 +75,7 @@
 .mySupplierNameHead {
   color: #5e676f;
   font-size: 22px;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .mySupplierCardFirstSection {
@@ -99,7 +99,7 @@
 
 .mySupplierCardText {
   width: 100%;
-  color: #99a0ac;
+  color: #333;
   font-size: 13px;
   font-weight: 500;
 }

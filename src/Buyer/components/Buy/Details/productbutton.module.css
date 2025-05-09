@@ -12,7 +12,7 @@
 
 .heading {
     font-size: 20px;
-    font-weight: 600;
+      font-weight: 500;
     padding-top: 10px;
 }
 
@@ -25,7 +25,7 @@
 
 .supplierBtn {
     background-color: #f5f5f6;
-    color: #99a0ac;
+    color: #333;
     padding: 10px 20px;
     border-radius: 4px;
     font-size: 14px;
@@ -41,7 +41,7 @@
 
 .productBtn {
     background-color: #ffffff;
-    color: #99a0ac;
+    color: #333;
     padding: 10px 20px;
     border-radius: 4px;
     font-size: 14px;

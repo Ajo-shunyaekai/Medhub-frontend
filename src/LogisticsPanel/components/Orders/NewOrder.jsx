@@ -13,7 +13,7 @@ function NewOrder() {
   const [totalList, setTotalList]     = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [activeLink, setActiveLink]   = useState('pending');
-  const listPerPage = 5;
+  const listPerPage = 10;
 
   const handleLinkClick = (link) => {
     setCurrentPage(1);
