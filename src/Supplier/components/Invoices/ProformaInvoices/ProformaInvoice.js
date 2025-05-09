@@ -455,12 +455,12 @@ const ProformaInvoice = ({ socket }) => {
     let cleanedValue = value.replace(/[^0-9.]/g, "");
 
     // Ensure only one decimal point is allowed
-    if (cleanedValue.split(".").length > 2) {
+    if (cleanedValue?.split(".").length > 2) {
       cleanedValue = cleanedValue.replace(/\.+$/, ""); // Remove extra decimal points
     }
 
     // Split into integer and decimal parts
-    let [integerPart, decimalPart] = cleanedValue.split(".");
+    let [integerPart, decimalPart] = cleanedValue?.split(".");
 
     // Limit the integer part to 9 digits
     if (integerPart.length > 9) {

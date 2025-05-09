@@ -316,7 +316,7 @@ const SignUp = ({ socket }) => {
         return;
       }
 
-      const [day, month, year] = value.split("-").map(Number);
+      const [day, month, year] = value?.split("-").map(Number);
 
       // Validate date components
       if (
@@ -848,7 +848,7 @@ const SignUp = ({ socket }) => {
   };
 
   const parseDateString = (dateString) => {
-    const [day, month, year] = dateString.split("/");
+    const [day, month, year] = dateString?.split("/");
     return new Date(`${year}-${month}-${day}`);
   };
 

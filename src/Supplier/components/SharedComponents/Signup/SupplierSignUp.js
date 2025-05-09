@@ -261,7 +261,7 @@ const SupplierSignUp = ({ socket }) => {
         [name]: value,
       }));
       if (value.length === 10) {
-        const [day, month, year] = value.split("-").map(Number);
+        const [day, month, year] = value?.split("-").map(Number);
         const inputDate = new Date(year, month - 1, day);
         const currentDate = new Date();
         currentDate.setHours(0, 0, 0, 0);
@@ -730,7 +730,7 @@ const SupplierSignUp = ({ socket }) => {
   };
 
   const parseDateString = (dateString) => {
-    const [day, month, year] = dateString.split("/");
+    const [day, month, year] = dateString?.split("/");
     return new Date(`${year}-${month}-${day}`);
   };
 

@@ -36,9 +36,9 @@ const ActiveSellerOrder = ({ orderList, totalOrders, currentPage, ordersPerPage,
         <div>
           {row?.status
             ? row?.status
-                .split(' ')
-                .map(word => word?.charAt(0)?.toUpperCase() + word?.slice(1))
-                .join(' ')
+                ?.split(' ')
+                ?.map(word => word?.charAt(0)?.toUpperCase() + word?.slice(1))
+                ?.join(' ')
             : 'N/A'}
         </div>
       ),

@@ -28,7 +28,7 @@ const BuyerDetails = () => {
         setPdfUrl(null);
     };
     const extractFileName = (url) => {
-        return url.split('/')?.pop();
+        return url?.split('/')?.pop();
     };
 
 

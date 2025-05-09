@@ -81,9 +81,9 @@ const TotalPO = () => {
         <div>
           {row?.po_status
             ? row?.po_status
-                .split(" ")
-                .map((word) => word?.charAt(0)?.toUpperCase() + word?.slice(1))
-                .join(" ")
+                ?.split(" ")
+                ?.map((word) => word?.charAt(0)?.toUpperCase() + word?.slice(1))
+                ?.join(" ")
             : ""}
         </div>
       ),

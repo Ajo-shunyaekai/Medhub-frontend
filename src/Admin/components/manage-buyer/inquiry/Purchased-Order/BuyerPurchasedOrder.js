@@ -35,7 +35,7 @@ const BuyerPurchasedOrder = ({ poList, totalList, currentPage, listPerPage, hand
       sortable: true,
       cell: row => (
         <div className={styles.tableText}>
-          {row?.po_status ? row?.po_status.split(' ').map(word => word?.charAt(0)?.toUpperCase() + word?.slice(1)).join(' ') : ''}
+          {row?.po_status ? row?.po_status?.split(' ').map(word => word?.charAt(0)?.toUpperCase() + word?.slice(1)).join(' ') : ''}
         </div>
       ),
     },

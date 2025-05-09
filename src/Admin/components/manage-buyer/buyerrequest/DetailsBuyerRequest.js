@@ -41,7 +41,7 @@ const DetailsBuyerRequest = () => {
     setPdfUrl(null);
   };
   const extractFileName = (url) => {
-    return url.split("/")?.pop();
+    return url?.split("/")?.pop();
   };
   const renderFiles = (files, type, hasDate = false) => {
     if (!files) return null;

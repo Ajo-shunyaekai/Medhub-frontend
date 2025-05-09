@@ -228,7 +228,7 @@ const SupplierDetails = () => {
               <div className="buyer-details-description-content">
                 {supplierDetails?.bank_details
                   ?.split("\r\n")
-                  .map((line, index) => (
+                  ?.map((line, index) => (
                     <div key={index}>{line}</div>
                   ))}
               </div>

@@ -337,14 +337,14 @@ const Sidebar = ({ children, dragWindow,
                                                             }
                                                         >
                                                             <div className={styles.noti_profile_text}>
-                                                                {data.message.split(' ').length > 2 ? (
+                                                                {data?.message?.split(' ').length > 2 ? (
                                                                     <>
                                                                         <div className={styles.noti_time_content}>
                                                                             <span className={styles.noti_message_part_top}>
-                                                                                {data.message.split(' ').slice(0, 2).join(' ')}
+                                                                                {data?.message?.split(' ').slice(0, 2).join(' ')}
                                                                             </span>
                                                                             <span className={styles.noti_message_part_bottom}>
-                                                                                {data.message.split(' ').slice(2).join(' ')}
+                                                                                {data?.message?.split(' ').slice(2).join(' ')}
                                                                             </span>
                                                                             <span className={styles.noti_time}>{moment(data.createdAt).fromNow()}</span>
                                                                         </div>

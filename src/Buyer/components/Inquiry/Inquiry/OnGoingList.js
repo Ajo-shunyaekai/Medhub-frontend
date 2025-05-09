@@ -92,11 +92,11 @@ const AssignDriver = ({ items, inquiryDetails }) => {
                       ? 'Quotation Received'
                       : item?.status
                           ?.split(' ')
-                          .map(
+                          ?.map(
                             (word) =>
                               word?.charAt(0)?.toUpperCase() + word?.slice(1)
                           )
-                          .join(' ')}
+                          ?.join(' ')}
                   </span>
                 </div>
               </td>

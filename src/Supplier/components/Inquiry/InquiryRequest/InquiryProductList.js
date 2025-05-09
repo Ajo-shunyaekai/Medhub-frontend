@@ -164,7 +164,7 @@ const InquiryProductList = ({ items, setQuotationItems, inquiryDetails, quotatio
                                     <div className="table-g-section-content">
                                         <span className="table-g-driver-name">Status</span>
                                         <span className="table-g-not-name">
-                                            {item.status?.split(' ').map(word => word?.charAt(0)?.toUpperCase() + word?.slice(1)).join(' ')}
+                                            {item?.status?.split(' ').map(word => word?.charAt(0)?.toUpperCase() + word?.slice(1)).join(' ')}
                                         </span>
                                     </div>
                                 </td>

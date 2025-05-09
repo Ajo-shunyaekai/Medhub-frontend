@@ -35,7 +35,7 @@ const OnGoingongoing = ({ inquiryList, totalInquiries, currentPage, inquiryPerPa
     },
     {
       name: 'Status',
-      selector: row => row?.enquiry_status.split(' ').map(word => word?.charAt(0)?.toUpperCase() + word?.slice(1)).join(' '),
+      selector: row => row?.enquiry_status?.split(' ').map(word => word?.charAt(0)?.toUpperCase() + word?.slice(1)).join(' '),
       sortable: true,
      
     },

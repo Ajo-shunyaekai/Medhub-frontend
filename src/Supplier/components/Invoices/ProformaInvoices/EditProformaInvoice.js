@@ -277,8 +277,8 @@ const EditProformaInvoice = () => {
 
   const handleBuyerPhoneChange = (value) => {
    
-    const countryCode = value.split(" ")[0].replace("+", "");
-    const mobileNumber = value.split(" ")[1] || "";
+    const countryCode = value?.split(" ")[0].replace("+", "");
+    const mobileNumber = value?.split(" ")[1] || "";
 
     // Format the phone number
     const formattedPhoneNumber = formatPhoneNumber(mobileNumber, countryCode);

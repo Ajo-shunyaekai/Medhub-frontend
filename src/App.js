@@ -45,7 +45,7 @@ const App = () => {
     sendPageview(location?.pathname + location?.search);
   }, [location]);
 
-  const currentPath = location.pathname.split("/")[1] || "buyer";
+  const currentPath = location.pathname?.split("/")[1] || "buyer";
 
   useEffect(() => {
     const loadCss = async () => {

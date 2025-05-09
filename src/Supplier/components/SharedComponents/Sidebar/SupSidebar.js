@@ -331,7 +331,7 @@ const SupSidebar = ({ children, dragWindow,
                                             <div className={styles.noti_top_wrapper}>
                                                 {notificationList && notificationList.length > 0 ? (
                                                     notificationList.slice(0, 5).map((data, i) => {
-                                                        const words = data.message.split(' ');
+                                                        const words = data?.message?.split(' ');
                                                         const heading = words.slice(0, 2).join(' ');
                                                         const content = words.slice(2).join(' ');
                                                         return (
@@ -339,10 +339,10 @@ const SupSidebar = ({ children, dragWindow,
                                                                 className={styles.noti_profile_wrapper}
                                                                 onClick={() =>
                                                                     handleNavigation(
-                                                                        data.notification_id,
-                                                                        data.event,
-                                                                        data.event_id,
-                                                                        data.link_id
+                                                                        data?.notification_id,
+                                                                        data?.event,
+                                                                        data?.event_id,
+                                                                        data?.link_id
                                                                     )
                                                                 }
                                                                 key={i}
@@ -352,7 +352,7 @@ const SupSidebar = ({ children, dragWindow,
                                                                     <span className={styles.noti_heading}>{heading}</span>
                                                                     <span className={styles.noti_content}>{content}
                                                                     </span>
-                                                                    <span className={styles.noti_time}>{moment(data.createdAt).fromNow()}</span>
+                                                                    <span className={styles.noti_time}>{moment(data?.createdAt).fromNow()}</span>
                                                                     </div>
                                                                    
                                                                 </div>
