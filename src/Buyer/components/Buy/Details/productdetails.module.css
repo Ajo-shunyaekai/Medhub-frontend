@@ -147,13 +147,13 @@
 
 .heading {
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 500;
   padding-top: 5px;
 }
 
 .innerHead {
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 500;
   margin-bottom: 8px;
 }
 
@@ -256,7 +256,7 @@
 
 .medicineText {
   width: 50%;
-  color: #99a0ac;
+  color: #333;
   font-size: 14px;
   font-weight: 500;
   word-wrap: break-word;
@@ -266,7 +266,7 @@
 
 .medicineTexts {
   width: 75%;
-  color: #99a0ac;
+  color: #333;
   font-size: 14px;
   font-weight: 500;
   word-wrap: break-word;
@@ -275,7 +275,7 @@
 }
 
 .medicineContent {
-  color: #99a0ac;
+  color: #333;
   font-size: 14px;
   font-weight: 500;
   word-wrap: break-word;
@@ -285,7 +285,7 @@
 }
 
 .medicineDescriptionContent {
-  color: #99a0ac;
+  color: #333;
   font-size: 14px;
   font-weight: 500;
   word-wrap: break-word;
@@ -340,7 +340,7 @@
   border: none !important;
   border-radius: 4px !important;
   box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
-  color: #99a0ac;
+  color: #333;
   font-size: 14px;
   font-weight: 500;
   outline: none !important;

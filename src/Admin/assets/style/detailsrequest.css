@@ -44,8 +44,8 @@ margin-top: 20px;
 font-size: 13px;
 line-height: 0px;
 outline: none !important;
-color: #99a0ac !important;
-border: 1px solid #99a0ac;
+    color: #333 !important;
+border: 1px solid #333;
 width: 100%;
 box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 padding: 2px;
@@ -116,7 +116,7 @@ border-radius: 4px;
 
 .buyer-details-main-head {
     font-size: 20px;
-    font-weight: 600;
+      font-weight: 500;
     margin-top: 10px;
 }
 .buyer-details-uppar-main-logo-section{
@@ -194,7 +194,7 @@ border-radius: 4px;
 }
 .buyer-details-company-type-sec-text{
     font-size: 14px;
-    color: #99a0ac;
+    color: #333;
 }
 .buyer-details-company-type-section{
     background-color: #ffffff;
@@ -257,7 +257,7 @@ border-radius: 4px;
 
 .buyer-details-description-content {
     font-size: 13px;
-    color: #99a0ac;
+    color: #333;
 }
 
 .buyer-details-left-uppar-head {
@@ -268,7 +268,7 @@ border-radius: 4px;
 
 .buyer-details-left-inner-sec-text {
     font-size: 14px;
-    color: #99a0ac;
+    color: #333;
 }
 
 .buyer-details-left-inner-mobile-button {
@@ -351,7 +351,7 @@ border-radius: 4px;
 .buyer-details-name {
     text-align: center;
     font-size: 24px;
-    font-weight: 600;
+      font-weight: 500;
 }
 
 .buyer-details-card-section {
@@ -424,7 +424,7 @@ border-radius: 4px;
 
 .buyer-details-inner-text {
     font-size: 13px;
-    color: #99a0ac;
+    color: #333;
     text-align: end;
     display: -webkit-box;
     -webkit-line-clamp: 3;
@@ -449,12 +449,12 @@ border-radius: 4px;
 
 .buyer-details-card-conteianer-text {
     font-size: 14px;
-    color: #99a0ac;
+    color: #333;
     text-align: start;
 }
 
 .buyer-details-card-image-section {
-    border: 1px solid #99a0ac;
+    border: 1px solid #333;
     padding: 6px 10px;
     border-radius: 4px;
 }
@@ -545,7 +545,7 @@ border-radius: 4px;
 
 .table-g-supply-text {
     font-size: 13px;
-    color: #99a0ac;
+    color: #333;
 }
 
 .supply-details-thead-section {

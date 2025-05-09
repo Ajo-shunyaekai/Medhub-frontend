@@ -30,8 +30,8 @@
 }
 .invoice-card-conts-text {
   font-size: 14px;
-  color: #99a0ac;
-  font-weight: 600;
+  color: #333;
+  font-weight: 500;
 }
 .invoice-card-img-container {
   border-radius: 4px;
@@ -86,7 +86,7 @@
    cursor: pointer !important;;
   font-size: 33px;
   color: black;
-  font-weight: 600;
+  font-weight: 500;
   background-color: transparent;
 }
 

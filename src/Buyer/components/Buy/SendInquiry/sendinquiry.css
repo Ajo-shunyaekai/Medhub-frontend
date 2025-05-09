@@ -24,7 +24,7 @@
 
 .send-enquiry-heading {
     font-size: 20px;
-    font-weight: 600;
+      font-weight: 500;
     margin-top: 10px;
 }
 
@@ -66,7 +66,7 @@
 
 .send-enquiry-upper-left-text {
     font-size: 14px;
-    color: #99a0ac;
+    color: #333;
 }
 
 .send-enquiry-upper-right-sec {
@@ -88,7 +88,7 @@
 
 .send-enquiry-upper-right-number {
     font-size: 14px;
-    color: #99a0ac;
+    color: #333;
 }
 
 .send-enquiry-upper-right-button-sec {
@@ -230,7 +230,7 @@
 .send-enquiry-inner-top-heading {
     font-size: 22px;
     line-height: 26px;
-    font-weight: 600;
+      font-weight: 500;
     color: #5e676f;
 }
 
@@ -249,13 +249,13 @@
 .send-enquiry-inner-top-supplier {
     font-size: 12px;
     line-height: 18px;
-    color: #99a0ac;
+    color: #333;
     width: 650px;
 }
 
 .send-enquiry-inner-top-name {
     font-size: 12px;
-    color: #99a0ac;
+    color: #333;
 }
 
 .send-enquiry-inner-bottom-section {
@@ -281,7 +281,7 @@
 
 .send-enquiry-inner-bootom-text {
     font-size: 13px;
-    color: #99a0ac;
+    color: #333;
 }
 
 .send-enquiry-remove-section {
@@ -313,7 +313,7 @@
 .send-enquiry-supplier-list-text {
     font-size: 20px;
     font-weight: 500;
-    color: #99a0ac;
+    color: #333;
 }
 
 .send-enquiry-clear-icon {

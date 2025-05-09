@@ -22,7 +22,7 @@
 
 .MainHeading {
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 500;
   padding-top: 10px;
 }
 
@@ -125,7 +125,7 @@
 
 .textSection {
   font-size: 14px;
-  color: #99a0ac !important;
+      color: #333 !important;
   font-weight: 500;
   line-height: 20px;
 }
@@ -177,7 +177,7 @@
 
 .companyMainHeading {
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .companyDetails {
@@ -200,7 +200,7 @@
   word-wrap: break-word;
   word-break: break-word;
   overflow-wrap: break-word;
-  color: #99a0ac;
+  color: #333;
   font-weight: 500;
   font-size: 13px;
   text-align: end;
@@ -226,12 +226,12 @@
 
 .textareaHead {
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .textareaContent {
   font-weight: 500;
-  color: #99a0ac;
+  color: #333;
   font-size: 14px;
   line-height: 20px;
 }
@@ -252,7 +252,7 @@
 
 .documentMainHeading {
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .documentSection {

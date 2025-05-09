@@ -50,7 +50,7 @@
 }
 .cancel-inquiry-heading{
     font-size: 20px;
-    font-weight: 600;
+      font-weight: 500;
     margin-top: 10px;
 }
 .form-main-container{
@@ -64,7 +64,7 @@
 .form-select-reason-head{
     color: #192039;
     font-size: 16px;
-    font-weight: 600;
+      font-weight: 500;
 }
 .checkboxContainer{
     width: 280px;
@@ -77,11 +77,11 @@ flex-direction: column;
 .form-cancel-heading{
     color: #192039;
     font-size: 18px;
-    font-weight: 600;
+      font-weight: 500;
 }
 .form-cancel-text{
     font-size: 14px;
-    color: #99a0ac;
+    color: #333;
 }
 .label {
     display: flex;

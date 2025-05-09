@@ -34,7 +34,7 @@
 }
 .order-details-id-name{
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 500;
 }
 .active-details-medicine-details{
   font-size: 14px;
@@ -47,7 +47,7 @@
   font-size: 20px;
   display: flex
 ;
-  font-weight: 600;
+  font-weight: 500;
   flex-direction: column;
 }
 .active-order-details-section {
@@ -203,7 +203,7 @@
 .table-assign-driver-heading {
   color: #192039;
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 500;
   padding: 0px 10px;
 }
 .table > :not(caption) > * > * {
@@ -347,7 +347,7 @@
   row-gap: 6px;
 }
 .active-order-details-left-top-main-heading {
-  color: #99a0ac;
+  color: #333;
   font-size: 12px;
 }
 .active-order-details-left-top-main-contents {
@@ -358,15 +358,15 @@
    cursor: pointer !important;;
 }
 .active-order-details-left-bottom-vehicle-head {
-  color: #99a0ac;
+  color: #333;
   font-size: 12px;
 }
 .active-order-details-left-bottom-vehichle-no-head {
-  color: #99a0ac;
+  color: #333;
   font-size: 12px;
 }
 .active-order-details-right-inner-section-heading {
-  color: #99a0ac;
+  color: #333;
   font-size: 13px;
 }
 .active-order-details-left-bottom-vehicle-text {
@@ -380,7 +380,7 @@
   line-height: 15px;
 }
 .active-order-details-top-bottom-order-heading {
-  color: #99a0ac;
+  color: #333;
   font-size: 12px;
 }
 .active-order-details-top-bottom-order-content {
@@ -432,7 +432,7 @@
   font-weight: 500;
 }
 .active-order-details-payment-remark-text {
-  color: #99a0ac;
+  color: #333;
   font-size: 14px;
 }
 .active-order-details-payment-right-section-heading {

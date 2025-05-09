@@ -19,7 +19,7 @@
 }
 .rejected-main-head {
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 500;
   margin-top: 10px;
 }
 
@@ -63,9 +63,9 @@
 }
 
 .rejected-header-text-color {
-  color: #99a0ac;
+  color: #333;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 500;
   background-color: transparent !important;
 }
 
@@ -75,7 +75,7 @@
 }
 
 .rejected-table-text-color-2 {
-  color: #99a0ac;
+  color: #333;
   font-size: 14px;
 }
 
@@ -101,7 +101,7 @@
 }
 
 .rejected-pagi-total {
-  color: #99a0ac;
+  color: #333;
   font-size: 14px;
 }
 

@@ -1,38 +1,26 @@
+/* Import Ubuntu font (optional if already in index.html) */
+/* @import url("https://fonts.googleapis.com/css?family=Ubuntu:300,300i,400,400i,500,500i,700,700i&display=swap"); */
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Ubuntu', sans-serif; /* Prioritize Ubuntu */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: 'Ubuntu', sans-serif;
 }
 
-/* MultiSelectDropdown Css */
+/* MultiSelectDropdown CSS */
 .css-1dyz3mf {
   height: 80px !important;
   overflow-y: auto !important;
+  font-family: 'Ubuntu', sans-serif !important; /* Ensure Ubuntu font */
 }
 
-/* Select Dropdown Css */
+/* Select Dropdown CSS */
 .css-hlgwow {
   padding: 1px 8px !important;
+  font-family: 'Ubuntu', sans-serif !important; /* Ensure Ubuntu font */
 }
-
-/* a:hover {
-  color: currentColor !important;
-  text-decoration: none !important;
-} */
-/* .ezChKM {
-  width: 100% !important;
-  max-width: 98% !important;
-}
-
-.iFRJsP {
-  width: 100% !important;
-  max-width: 98% !important;
-} */

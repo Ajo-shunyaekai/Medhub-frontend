@@ -38,7 +38,7 @@
 
 .transaction-details-main-head {
     font-size: 20px;
-    font-weight: 600;
+      font-weight: 500;
     margin-top: 10px;
 }
 .transaction-details-uppar-main-logo-section{
@@ -112,7 +112,7 @@
     font-weight: 500;
 }
 .transaction-details-company-type-sec-text{
-    color: #99a0ac;
+    color: #333;
     font-size: 14px;
     font-weight: 500;
     overflow-wrap: break-word;
@@ -164,7 +164,7 @@
 
 .transaction-details-description-content {
     font-size: 13px;
-    color: #99a0ac;
+    color: #333;
 }
 
 .transaction-details-left-uppar-head {
@@ -175,7 +175,7 @@
 
 .transaction-details-left-inner-sec-text {
     font-size: 14px;
-    color: #99a0ac;
+    color: #333;
 }
 
 .transaction-details-left-inner-mobile-button {
@@ -256,7 +256,7 @@
 .transaction-details-name {
     text-align: center;
     font-size: 24px;
-    font-weight: 600;
+      font-weight: 500;
 }
 
 .transaction-details-card-section {
@@ -318,7 +318,7 @@
 
 .transaction-details-inner-text {
     font-size: 13px;
-    color: #99a0ac;
+    color: #333;
     text-align: end;
     display: -webkit-box;
     -webkit-line-clamp: 3;
@@ -344,12 +344,12 @@
 
 .transaction-details-card-conteianer-text {
     font-size: 14px;
-    color: #99a0ac;
+    color: #333;
     text-align: start;
 }
 
 .transaction-details-card-image-section {
-    border: 1px solid #99a0ac;
+    border: 1px solid #333;
     padding: 6px 10px;
     border-radius: 4px;
 }
@@ -436,7 +436,7 @@
 
 .table-g-supply-text {
     font-size: 13px;
-    color: #99a0ac;
+    color: #333;
 }
 
 .supply-details-thead-section {

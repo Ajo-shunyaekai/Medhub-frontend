@@ -38,7 +38,7 @@
 
 .seller-details-main-head {
     font-size: 20px;
-    font-weight: 600;
+      font-weight: 500;
     margin-top: 10px;
 }
 .seller-details-uppar-main-logo-section{
@@ -115,7 +115,7 @@
     overflow-wrap: break-word;
     white-space: normal;
     word-break: break-word;
-    color: #99a0ac;
+    color: #333;
 }
 .seller-details-company-type-section{
     background-color: #ffffff;
@@ -168,7 +168,7 @@
     overflow-wrap: break-word;
     white-space: normal;
     word-break: break-word;
-    color: #99a0ac;
+    color: #333;
 }
 
 .seller-details-left-uppar-head {
@@ -179,7 +179,7 @@
 
 .seller-details-left-inner-sec-text {
     font-size: 14px;
-    color: #99a0ac;
+    color: #333;
 }
 
 .seller-details-left-inner-mobile-button {
@@ -260,7 +260,7 @@
 .seller-details-name {
     text-align: center;
     font-size: 24px;
-    font-weight: 600;
+      font-weight: 500;
 }
 
 .seller-details-card-section {
@@ -320,7 +320,7 @@
 
 .seller-details-inner-text {
     font-size: 13px;
-    color: #99a0ac;
+    color: #333;
     text-align: end;
     display: -webkit-box;
     -webkit-line-clamp: 3;
@@ -346,12 +346,12 @@
 
 .seller-details-card-conteianer-text {
     font-size: 14px;
-    color: #99a0ac;
+    color: #333;
     text-align: start;
 }
 
 .seller-details-card-image-section {
-    border: 1px solid #99a0ac;
+    border: 1px solid #333;
     padding: 6px 10px;
     border-radius: 4px;
 }
@@ -438,7 +438,7 @@
 
 .table-g-supply-text {
     font-size: 13px;
-    color: #99a0ac;
+    color: #333;
 }
 
 .supply-details-thead-section {

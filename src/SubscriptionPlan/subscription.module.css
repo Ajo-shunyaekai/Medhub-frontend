@@ -8,7 +8,7 @@
   -ms-overflow-style: none;
   display: flex;
   justify-content: center;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif !important;
+    font-family: 'Ubuntu', sans-serif;
 }
  
 .container::-webkit-scrollbar {
@@ -266,9 +266,7 @@
   -ms-overflow-style: none;
   display: flex;
   justify-content: center;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif !important;
+  font-family: 'Ubuntu', sans-serif;
 }
  
 .container1::-webkit-scrollbar {
