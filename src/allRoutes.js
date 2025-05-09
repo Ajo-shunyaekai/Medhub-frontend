@@ -1303,15 +1303,15 @@ export const adminNestedRoutes = [
           )
         ),
       },
+      {
+        path: "secondary",
+        component: lazy(() =>
+          import(
+            "./Admin/components/manage-supplier/Product/List/SecondaryProductList"
+          )
+        ),
+      },
     ],
-  },
-  {
-    path: "secondary",
-    component: lazy(() =>
-      import(
-        "./Admin/components/manage-supplier/Product/List/SecondaryProductList"
-      )
-    ),
   },
   {
     path: "supplier/:supplierId/edit-product/:id",
