@@ -17,7 +17,7 @@
 .buyer-product-details-stength {
   font-size: 24px;
   font-weight: 500;
-  color: #5e676f;
+  color: #212121;
 }
 .buyer-product-details-inner-company-stockedin{
   display: flex;
@@ -28,7 +28,7 @@
   width: 220px;
   font-size: 13px;
   font-weight: 500;
-  color: #5e676f !important;
+  color: #212121 !important;
 }
 /* button container code */
 .buyer-product-details-sec-two-button-cont {
@@ -65,7 +65,7 @@
 
 /* end the button container code */
 .buyer-product-details-heading {
-  color: #5e676f;
+  color: #212121;
   margin: 0px 0.5rem;
   font-size: 20px;
   font-weight: 500;
@@ -142,12 +142,12 @@
   font-size: 28px;
   line-height: 28px;
   font-weight: 500;
-  color: #5e676f;
+  color: #212121;
 }
 
 .buyer-product-details-sec-one-left p {
   font-size: 14px;
-  color: #5e676f;
+  color: #212121;
   font-weight: 500;
   text-transform: capitalize;
 }
@@ -167,7 +167,7 @@
 }
 
 .buyer-product-details-mfg {
-  color: #5e676f;
+  color: #212121;
   font-size: 12px;
   text-align: center;
   margin-top: 5px;
@@ -225,13 +225,13 @@
 
 .buyer-product-details-two-right-text {
   font-size: 14px;
-  color: #333;
+  color: #616161;
   font-weight: 500;
 }
 
 .buyer-product-details-four-right-text {
   font-size: 14px;
-  color: #333;
+  color: #616161;
   font-weight: 500;
   width: 720px;
   /* border: 1px solid red; */
@@ -262,11 +262,11 @@
 .buyer-product-range-heading {
   font-size: 14px;
   font-weight: 500;
-  color: #5e676f;
+  color: #212121;
 }
 
 .buyer-product-range-text {
-  color: #333;
+  color: #616161;
   display: flex;
   flex-direction: column;
   justify-content: start;
@@ -276,7 +276,7 @@
 }
 
 .buyer-product-range-select {
-  color: #333;
+  color: #616161;
   border-radius: 4px;
   display: flex;
   flex-direction: column;
@@ -288,7 +288,7 @@
   outline: none;
   font-size: 13px;
   padding: 11px 10px;
-  color: #5e676f;
+  color: #212121;
   width: 100%;
   border: none;
   border-radius: 4px;
@@ -311,14 +311,14 @@
 .buyer-product-details-mfg-heading {
   font-size: 16px;
   text-transform: capitalize;
-  color: #5e676f;
+  color: #212121;
   font-weight: 500;
   margin-bottom: 0.5rem;
 }
 
 .buyer-product-details-mfg-details {
   font-size: 14px;
-  color: #333;
+  color: #616161;
   font-weight: 500;
 }
 
@@ -353,7 +353,7 @@
 .buyer-product-details-main-company-stockedin{
   width: 220px;
   font-size: 13px;
-  color: #5e676f;
+  color: #212121;
 }
 .buyer-product-details-main-company-totalquantity{
   font-size: 14px;
@@ -366,7 +366,7 @@
 }
 
 .buyer-product-details-inner-copmany-head {
-  color: #5e676f !important;
+  color: #212121 !important;
   font-size: 14px;
   width: 200px;
   font-weight: 500;
@@ -374,7 +374,7 @@
 
 .buyer-product-details-inner-copmany-text {
   font-size: 14px;
-  color: #333;
+  color: #616161;
   font-weight: 500;
   display: flex;
   flex-direction: column;
@@ -573,7 +573,7 @@
 .buyer-product-details-card-section-heading {
   width: 100%;
   font-size: 16px;
-  color: #5e676f;
+  color: #212121;
   font-weight: 500;
 }
 
@@ -639,12 +639,12 @@
   font-size: 22px;
   line-height: 26px;
   font-weight: 500;
-  color: #5e676f;
+  color: #212121;
 }
 
 .buyer-product-details-card-medicine-text {
   font-size: 12px;
-  color: #333;
+  color: #616161;
 }
 
 .buyer-product-details-card-text-section {
@@ -662,7 +662,7 @@
 
 .buyer-product-details-card-test-text {
   font-size: 13px;
-  color: #333;
+  color: #616161;
   width: 104px;
     display: -webkit-box;
     -webkit-line-clamp: 1;
@@ -721,8 +721,8 @@
 .buyer-product-details-cancel-button{
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
     background-color: #ffffff;
-    border: 1px solid #5e676f;
-    color: #5e676f;
+    border: 1px solid #212121;
+    color: #212121;
     padding: 6px 22px;
     border-radius: 4px;
     display: flex;

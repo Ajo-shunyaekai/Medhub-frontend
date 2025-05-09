@@ -22,7 +22,7 @@
   padding-top: 5px;
   font-size: 20px;
   font-weight: 500;
-  color: #5e676f;
+  color: #212121;
 }
 .invoiceHeading{
   cursor: pointer !important;
@@ -52,7 +52,7 @@
 }
 
 .invoice-wrapper-left-icons {
-  color: #333;
+  color: #616161;
 }
 
 .invoice-left-wrapper {
@@ -66,7 +66,7 @@
   display: flex !important;
   column-gap: 10px;
   font-size: 14px;
-  color: #5e676f;
+  color: #212121;
 }
 
 .invoice-wrapper-left-text.active {

@@ -151,7 +151,7 @@ ul {
 }
 
 .noti_profile {
-  color: #5e676f;
+  color: #212121;
   font-weight: 500;
   font-size: 11px;
   display: flex;
@@ -166,7 +166,7 @@ ul {
   font-size: 13px;
   font-weight: 500;
   line-height: 20px;
-  color: #5e676f;
+  color: #212121;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -189,7 +189,7 @@ ul {
 .noti_time {
   text-align: center;
   font-size: 12px !important;
-  color: #333;
+  color: #616161;
   width: 80px;
 }
 .noti_profile_text span {
@@ -207,7 +207,7 @@ ul {
 }
 
 .noti_see_all_num {
-  color: #5e676f;
+  color: #212121;
   font-weight: 500;
   font-size: 14px;
 }
@@ -252,7 +252,7 @@ ul {
 }
 
 .profile_text:hover {
-  color: #5e676f;
+  color: #212121;
 }
 
 .profile_sign_out {
@@ -264,7 +264,7 @@ ul {
 }
 
 .profile_sign_out:hover {
-  color: #5e676f;
+  color: #212121;
 }
 
 .drawerMenus {

@@ -199,7 +199,7 @@
 .custom-dropdown {
   background-color: #ffffff !important;
   width: 100% !important;
-  color: #5e676f !important;
+  color: #212121 !important;
   border-radius: 4px !important;
   outline: none !important;
   border: none !important;
@@ -237,8 +237,8 @@
 .signup-form-button-cancel {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
   background-color: #ffffff;
-  border: 1px solid #5e676f;
-  color: #5e676f;
+  border: 1px solid #212121;
+  color: #212121;
   padding: 6px 22px;
   border-radius: 4px;
   display: flex;
@@ -355,7 +355,7 @@
   padding: 10px 12px 10px 8px !important; */
   padding: 20px 12px !important;
   font-size: 14px !important;
-  color: #5e676f !important;
+  color: #212121 !important;
   font-weight: 500 !important;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
 }
@@ -366,7 +366,7 @@
   padding: 20px 12px;
   border: none !important;
   font-size: 14px !important;
-  color: #5e676f !important;
+  color: #212121 !important;
 }
 
 .react-international-phone-country-selector-button__button-content {
@@ -402,12 +402,12 @@
 }
 
 .signup-form-checkbox-input:not(.placeholder) {
-  color: #5e676f !important;
+  color: #212121 !important;
   /* Change this to your desired option color */
 }
 
 .select-option-type {
-  color: #333;
+  color: #616161;
 }
 
 .css-13cymwt-control {

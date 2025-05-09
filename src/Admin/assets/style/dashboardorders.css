@@ -63,33 +63,33 @@
 }
 
 .rejected-header-text-color {
-  color: #333;
+  color: #616161;
   font-size: 12px;
   font-weight: 500;
   background-color: transparent !important;
 }
 
 .rejected-table-text-color {
-  color: #5e676f;
+  color: #212121;
   font-size: 14px;
 }
 
 .rejected-table-text-color-2 {
-  color: #333;
+  color: #616161;
   font-size: 14px;
 }
 
 .rejected-table-order-1 {
   width: 14%;
   background-color: transparent !important;
-  color: #5e676f !important;
+  color: #212121 !important;
   font-size: 14px;
 }
 
 .rejected-table-order-2 {
   width: 22%;
   background-color: transparent !important;
-  color: #5e676f !important;
+  color: #212121 !important;
   font-size: 14px;
 }
 
@@ -101,7 +101,7 @@
 }
 
 .rejected-pagi-total {
-  color: #333;
+  color: #616161;
   font-size: 14px;
 }
 

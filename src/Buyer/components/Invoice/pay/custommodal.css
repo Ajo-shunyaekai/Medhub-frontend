@@ -3,8 +3,8 @@
 .modal-handle-close-invoice-cont {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
   background-color: #ffffff !important;
-  border: 1px solid #5e676f !important; 
-  color: #5e676f !important;
+  border: 1px solid #212121 !important; 
+  color: #212121 !important;
   padding: 6px 22px !important; 
   border-radius: 4px !important;
   display: flex !important;
@@ -22,9 +22,9 @@
   display: none !important;
 }
 .modal-handle-close-invoice-cont:hover {
-  color: #5e676f !important;
+  color: #212121 !important;
   background-color: #ffffff !important;
-  border-color: #5e676f!important;
+  border-color: #212121!important;
 }
 .modal-handle-save-invoice-cont {
   border: none !important;

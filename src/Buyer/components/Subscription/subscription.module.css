@@ -28,7 +28,7 @@
 
 .Button {
   background-color: #ffffff;
-  color: #333;
+  color: #616161;
   padding: 10px 20px;
   border-radius: 4px;
   font-size: 14px;
@@ -208,7 +208,7 @@
   background-color: transparent !important;
   padding: 1rem 0.5rem !important;
   border: none !important;
-  color: #5e676f !important;
+  color: #212121 !important;
 }
 
 .td {

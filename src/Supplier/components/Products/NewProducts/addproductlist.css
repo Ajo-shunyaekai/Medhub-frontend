@@ -69,11 +69,11 @@
     font-size: 22px;
     line-height: 26px;
       font-weight: 500;
-    color: #5e676f;
+    color: #212121;
   }
   .buy-product-card-first-copmany-description {
     font-size: 12px;
-    color: #333;
+    color: #616161;
     display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
@@ -90,7 +90,7 @@
   .buy-product-card-second-text {
     width: 130px;
     font-size: 13px;
-    color: #333;
+    color: #616161;
     display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
