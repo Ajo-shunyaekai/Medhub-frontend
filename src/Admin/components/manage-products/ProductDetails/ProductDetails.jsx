@@ -480,7 +480,7 @@ const ProductDetails = () => {
                   </div>
                   <div className={styles.inventoryContainer}>
                     <span className={styles.inventoryInput}>
-                      {ele?.deliveryTime}
+                      {ele?.deliveryTime || "TBC- based on quantity"}
                     </span>
                   </div>
                 </div>

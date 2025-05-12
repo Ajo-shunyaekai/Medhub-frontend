@@ -102,7 +102,6 @@ const AddProduct = ({ placeholder }) => {
   const [open, setOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
 
- 
   const handleSelectFile = (file) => {
     setSelectedFile(file);
   };
@@ -123,7 +122,7 @@ const AddProduct = ({ placeholder }) => {
     allowedType = "all",
     restrictSpecialForFields = [],
     allowedSpecialChars = ""
-) => {
+  ) => {
     let { value, name } = e.target;
 
     // Apply character limit
@@ -131,51 +130,51 @@ const AddProduct = ({ placeholder }) => {
 
     // Dimension field validation
     if (name === "dimension") {
-        // Allow only numbers, "x", and "."
-        value = value.replace(/[^0-9x.]/g, "")?.toLowerCase();
+      // Allow only numbers, "x", and "."
+      value = value.replace(/[^0-9x.]/g, "")?.toLowerCase();
 
-        // Prevent multiple consecutive "x"
-        value = value.replace(/x{2,}/g, "x");
+      // Prevent multiple consecutive "x"
+      value = value.replace(/x{2,}/g, "x");
 
-        // Split the values by "x" while keeping their sequence
-        const parts = value?.split("x").map((part, index) => {
-            // Allow up to 5 digits before decimal and 2 after
-            part = part.replace(/^(\d{1,5})\.(\d{0,2}).*/, "$1.$2");
+      // Split the values by "x" while keeping their sequence
+      const parts = value?.split("x").map((part, index) => {
+        // Allow up to 5 digits before decimal and 2 after
+        part = part.replace(/^(\d{1,5})\.(\d{0,2}).*/, "$1.$2");
 
-            // Ensure only one decimal per number
-            part = part.replace(/(\..*)\./g, "$1");
+        // Ensure only one decimal per number
+        part = part.replace(/(\..*)\./g, "$1");
 
-            return part;
-        });
+        return part;
+      });
 
-        // Join back using "x" but ensure it doesn't remove already typed "x"
-        value = parts.join("x");
+      // Join back using "x" but ensure it doesn't remove already typed "x"
+      value = parts.join("x");
 
-        setFieldValue(name, value);
-        return;
+      setFieldValue(name, value);
+      return;
     }
 
     // Restrict input type
     if (allowedType === "number") {
-        value = value.replace(/[^0-9]/g, ""); // Allow only numbers
+      value = value.replace(/[^0-9]/g, ""); // Allow only numbers
     } else if (allowedType === "text") {
-        value = value.replace(/[^a-zA-Z\s]/g, ""); // Allow only text and spaces
+      value = value.replace(/[^a-zA-Z\s]/g, ""); // Allow only text and spaces
     } else if (
-        allowedType === "all" &&
-        restrictSpecialForFields.includes(name)
+      allowedType === "all" &&
+      restrictSpecialForFields.includes(name)
     ) {
-        // Allow "-" in "brand" and "manufacturer"
-        const allowedPattern = new RegExp(
-            `[^a-zA-Z0-9\\s\\-(${allowedSpecialChars})]`,
-            "g"
-        );
-        value = value.replace(allowedPattern, "");
+      // Allow "-" in "brand" and "manufacturer"
+      const allowedPattern = new RegExp(
+        `[^a-zA-Z0-9\\s\\-(${allowedSpecialChars})]`,
+        "g"
+      );
+      value = value.replace(allowedPattern, "");
     } else if (allowedType === "decimal") {
-        if (!/^\d*\.?\d*$/.test(value)) return;
+      if (!/^\d*\.?\d*$/.test(value)) return;
     }
 
     setFieldValue(name, value);
-};
+  };
 
   // End the checked container
   const editor = useRef(null);
@@ -297,15 +296,13 @@ const AddProduct = ({ placeholder }) => {
             values?.stockedInDetails?.map((section) => ({
               country: section?.country || "",
               quantity: section?.quantity || "",
-              
             }))
           );
-          
 
           const productPricingDetailsUpdated = JSON.stringify(
             values?.productPricingDetails?.map((section) => ({
               price: section?.price || "",
-           
+
               quantityFrom: section?.quantityFrom || "",
               quantityTo: section?.quantityTo || "",
               deliveryTime: section?.deliveryTime || "",
@@ -349,7 +346,6 @@ const AddProduct = ({ placeholder }) => {
           }
           formData.append("cNCFileNDate", cNCFileNDateUpdated);
 
-       
           dispatch(addProduct(formData)).then((response) => {
             if (response?.meta.requestStatus === "fulfilled") {
               navigate("/supplier/product"); // Change this to your desired route
@@ -357,7 +353,6 @@ const AddProduct = ({ placeholder }) => {
             }
             setLoading(false);
           });
-         
         }}
       >
         {({
@@ -386,7 +381,6 @@ const AddProduct = ({ placeholder }) => {
                     // autoComplete="off"
                     name="name"
                     value={values.name}
-                     
                     onChange={(e) =>
                       handleInputChange(
                         e,
@@ -436,7 +430,7 @@ const AddProduct = ({ placeholder }) => {
                     onChange={(selectedOption) => {
                       setFieldValue("category", selectedOption?.value);
                       setSelectedCategory(selectedOption);
-                    
+
                       setSelectedSubCategory(null);
                       setFieldValue("subCategory", "");
                       setSelectedLevel3Category(null);
@@ -489,7 +483,6 @@ const AddProduct = ({ placeholder }) => {
                         : []
                     }
                     value={selectedLevel3Category}
-                  
                     onChange={(selectedOption) => {
                       setSelectedLevel3Category(selectedOption);
                       setFieldValue("anotherCategory", selectedOption?.value);
@@ -553,7 +546,6 @@ const AddProduct = ({ placeholder }) => {
                         options={countries}
                         placeholderButtonLabel="Select Countries"
                         name="countryAvailable"
-                       
                         onChange={(selectedOptions) => {
                           // Ensure we map selected options correctly
                           const selectedValues = selectedOptions
@@ -583,7 +575,6 @@ const AddProduct = ({ placeholder }) => {
                         // autoComplete="off"
                         name="minimumPurchaseUnit"
                         value={values.minimumPurchaseUnit}
-                         
                         onChange={(e) =>
                           handleInputChange(e, setFieldValue, 4, "number")
                         }
@@ -610,7 +601,6 @@ const AddProduct = ({ placeholder }) => {
                     // autoComplete="off"
                     name="upc"
                     value={values.upc}
-                     
                     onChange={(e) =>
                       handleInputChange(
                         e,
@@ -638,7 +628,6 @@ const AddProduct = ({ placeholder }) => {
                     // autoComplete="off"
                     name="model"
                     value={values.model}
-                     
                     onChange={(e) =>
                       handleInputChange(e, setFieldValue, 20, "all")
                     }
@@ -660,7 +649,6 @@ const AddProduct = ({ placeholder }) => {
                     value={values.aboutManufacturer}
                     name="aboutManufacturer"
                     onBlur={handleBlur}
-                     
                     onChange={(e) =>
                       handleInputChange(e, setFieldValue, 500, "all")
                     }
@@ -680,7 +668,6 @@ const AddProduct = ({ placeholder }) => {
                     // autoComplete="off"
                     name="brand"
                     value={values.brand}
-                     
                     onChange={(e) =>
                       handleInputChange(e, setFieldValue, 75, "all", ["brand"])
                     }
@@ -701,7 +688,6 @@ const AddProduct = ({ placeholder }) => {
                       // autoComplete="off"
                       name="form"
                       value={values.form}
-                       
                       onChange={(e) =>
                         handleInputChange(e, setFieldValue, 50, "text")
                       }
@@ -732,7 +718,6 @@ const AddProduct = ({ placeholder }) => {
                       // autoComplete="off"
                       name="quantity"
                       value={values.quantity}
-                       
                       onChange={(e) =>
                         handleInputChange(e, setFieldValue, 8, "number")
                       }
@@ -757,7 +742,6 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="volumn"
                           value={values.volumn}
-                           
                           onChange={(e) =>
                             handleInputChange(
                               e,
@@ -788,10 +772,8 @@ const AddProduct = ({ placeholder }) => {
                           setFieldValue("volumeUnit", selectedOption?.value);
                         }}
                       />
-                     
                     </div>
                   </div>
-                 
                 </div>
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>Product Dimension</label>
@@ -805,7 +787,6 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="dimension"
                           value={values.dimension}
-                           
                           onChange={(e) =>
                             handleInputChange(
                               e,
@@ -831,10 +812,8 @@ const AddProduct = ({ placeholder }) => {
                           setFieldValue("dimensionUnit", selectedOption?.value);
                         }}
                       />
-                   
                     </div>
                   </div>
-               
                 </div>
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
@@ -851,7 +830,6 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="weight"
                           value={values.weight}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 9, "decimal", [
                               "weight",
@@ -881,7 +859,6 @@ const AddProduct = ({ placeholder }) => {
                     </div>
                   </div>
                 </div>
-             
 
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
@@ -896,8 +873,6 @@ const AddProduct = ({ placeholder }) => {
                       // autoComplete="off"
                       name="unit_tax"
                       value={values.unit_tax}
-                       
-                   
                       onChange={(e) =>
                         handleInputChange(e, setFieldValue, 9, "decimal", [
                           "unit_tax",
@@ -915,10 +890,8 @@ const AddProduct = ({ placeholder }) => {
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Product Packaging Type
-                  
                   </label>
                   <div className={styles.tooltipContainer}>
-                  
                     <input
                       className={styles.formInput}
                       type="text"
@@ -936,15 +909,12 @@ const AddProduct = ({ placeholder }) => {
                       backpack, case )."
                     ></Tooltip>
                   </div>
-                  
                 </div>
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Product Packaging Material
-                   
                   </label>
                   <div className={styles.tooltipContainer}>
-                   
                     <input
                       className={styles.formInput}
                       type="text"
@@ -957,8 +927,6 @@ const AddProduct = ({ placeholder }) => {
                     />
                     <Tooltip content="The material used for packaging (e.g., plastic, glass, aluminum, cardboard, thermocol etc)"></Tooltip>
                   </div>
-
-                
                 </div>
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>Storage Conditions</label>
@@ -969,7 +937,6 @@ const AddProduct = ({ placeholder }) => {
                       placeholder="Enter Storage Conditions"
                       // autoComplete="off"
                       name="storage"
-                       
                       onChange={(e) =>
                         handleInputChange(e, setFieldValue, 75, "all")
                       }
@@ -992,7 +959,6 @@ const AddProduct = ({ placeholder }) => {
                     name="manufacturer"
                     value={values.manufacturer}
                     onBlur={handleBlur}
-                    
                     onChange={(e) =>
                       handleInputChange(e, setFieldValue, 75, "all", [
                         "manufacturer",
@@ -1014,7 +980,7 @@ const AddProduct = ({ placeholder }) => {
                     options={countries}
                     placeholder="Select Country of Origin"
                     // autoComplete="off"
-                    
+
                     onBlur={handleBlur}
                     onChange={(selectedOption) => {
                       setFieldValue("countryOfOrigin", selectedOption.label);
@@ -1068,7 +1034,7 @@ const AddProduct = ({ placeholder }) => {
                     />
                   </div>
                 )}
-               
+
                 <RichTextEditor
                   label="Product Description"
                   name="description"
@@ -1097,7 +1063,6 @@ const AddProduct = ({ placeholder }) => {
                         // autoComplete="off"
                         name="interoperability"
                         value={values.interoperability}
-                         
                         onChange={(e) =>
                           handleInputChange(e, setFieldValue, 75, "all")
                         }
@@ -1116,7 +1081,6 @@ const AddProduct = ({ placeholder }) => {
                         placeholder="Enter Laser Type"
                         // autoComplete="off"
                         name="laserType"
-                         
                         onChange={(e) =>
                           handleInputChange(e, setFieldValue, 75, "all")
                         }
@@ -1135,7 +1099,6 @@ const AddProduct = ({ placeholder }) => {
                         placeholder="Enter Cooling System"
                         // autoComplete="off"
                         name="coolingSystem"
-                         
                         onChange={(e) =>
                           handleInputChange(e, setFieldValue, 75, "all")
                         }
@@ -1155,7 +1118,6 @@ const AddProduct = ({ placeholder }) => {
                         placeholder="Enter Spot Size"
                         // autoComplete="off"
                         name="spotSize"
-                         
                         onChange={(e) =>
                           handleInputChange(e, setFieldValue, 4, "number")
                         }
@@ -1176,7 +1138,6 @@ const AddProduct = ({ placeholder }) => {
                         rows="2"
                         name="diagnosticFunctions"
                         value={values.diagnosticFunctions}
-                         
                         onChange={(e) =>
                           handleInputChange(e, setFieldValue, 2000, "all")
                         }
@@ -1196,7 +1157,6 @@ const AddProduct = ({ placeholder }) => {
                         rows="2"
                         name="performanceTestingReport"
                         value={values.performanceTestingReport}
-                         
                         onChange={(e) =>
                           handleInputChange(e, setFieldValue, 2000, "all")
                         }
@@ -1214,7 +1174,6 @@ const AddProduct = ({ placeholder }) => {
                       setFieldValue={setFieldValue}
                       initialValues={values}
                       label=""
-                     
                       tooltip={false}
                       showLabel={false}
                     />
@@ -1237,7 +1196,6 @@ const AddProduct = ({ placeholder }) => {
                         rows="2"
                         name="specification"
                         value={values.specification}
-                         
                         onChange={(e) =>
                           handleInputChange(e, setFieldValue, 2000, "all")
                         }
@@ -1257,7 +1215,6 @@ const AddProduct = ({ placeholder }) => {
                       setFieldValue={setFieldValue}
                       initialValues={values}
                       label=""
-                    
                       tooltip={false}
                       showLabel={false}
                     />
@@ -1292,7 +1249,6 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="genericName"
                           value={values.genericName}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 75, "all")
                           }
@@ -1319,7 +1275,6 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="drugClass"
                           value={values.drugClass}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 75, "all")
                           }
@@ -1343,7 +1298,6 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="strength"
                           value={values.strength}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 20, "all")
                           }
@@ -1396,7 +1350,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="composition"
                           value={values.composition}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -1419,7 +1372,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="formulation"
                           value={values.formulation}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -1427,7 +1379,6 @@ const AddProduct = ({ placeholder }) => {
                         />
                         <Tooltip content="The type of formulation (e.g., gel, cream, lotion, serum, mask, foam etc)."></Tooltip>
                       </div>
-                      
                     </div>
 
                     <div className={styles.productContainer}>
@@ -1439,7 +1390,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="purpose"
                           value={values.purpose}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -1459,7 +1409,6 @@ const AddProduct = ({ placeholder }) => {
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Drug Administration Route
-                    
                       </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
@@ -1468,7 +1417,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="drugAdministrationRoute"
                           value={values.drugAdministrationRoute}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -1550,7 +1498,6 @@ const AddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="expiry"
                             value={values?.expiry}
-                             
                             onChange={(e) =>
                               handleInputChange(e, setFieldValue, 75, "all")
                             }
@@ -1580,7 +1527,6 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="sideEffectsAndWarnings"
                               value={values.sideEffectsAndWarnings}
-                               
                               onChange={(e) =>
                                 handleInputChange(e, setFieldValue, 2000, "all")
                               }
@@ -1593,7 +1539,6 @@ const AddProduct = ({ placeholder }) => {
                               Alcohol)"
                             ></Tooltip>
                           </div>
-                        
                         </div>
                         <div className={styles.productInnerContainer}>
                           <label className={styles.formLabel}>Allergens</label>
@@ -1604,7 +1549,6 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="allergens"
                               value={values.allergens}
-                               
                               onChange={(e) =>
                                 handleInputChange(e, setFieldValue, 2000, "all")
                               }
@@ -1639,7 +1583,6 @@ const AddProduct = ({ placeholder }) => {
                           placeholder="Enter SPF"
                           // autoComplete="off"
                           name="spf"
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 75, "all")
                           }
@@ -1657,7 +1600,6 @@ const AddProduct = ({ placeholder }) => {
                           type="text"
                           name="fragrance"
                           value={values.fragrance}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -1678,7 +1620,6 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="strength"
                           value={values.strength}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 20, "all")
                           }
@@ -1703,7 +1644,6 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="elasticity"
                           value={values.elasticity}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 75, "all")
                           }
@@ -1723,7 +1663,6 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="adhesiveness"
                           value={values.adhesiveness}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 75, "all")
                           }
@@ -1743,7 +1682,6 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="thickness"
                           value={values.thickness}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 5, "numer")
                           }
@@ -1788,7 +1726,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="formulation"
                           value={values.formulation}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -1811,7 +1748,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="composition"
                           value={values.composition}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -1837,7 +1773,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="purpose"
                           value={values.purpose}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -1860,7 +1795,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="targetCondition"
                           value={values.targetCondition}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -1886,7 +1820,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="drugAdministrationRoute"
                           value={values.drugAdministrationRoute}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -1920,7 +1853,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="drugClass"
                           value={values.drugClass}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -1941,7 +1873,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="concentration"
                           value={values.concentration}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -1967,7 +1898,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="moisturizers"
                           value={values.moisturizers}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -1985,7 +1915,6 @@ const AddProduct = ({ placeholder }) => {
                           placeholder="Enter Filler Type"
                           rows="2"
                           name="fillerType"
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -2109,8 +2038,6 @@ const AddProduct = ({ placeholder }) => {
                             <span className={styles.labelStamp}>*</span>
                           </label>
                           <div className={styles.tooltipContainer}>
-                           
-
                             <Select
                               className={styles.formSelect}
                               options={dermatologistOptions}
@@ -2166,8 +2093,6 @@ const AddProduct = ({ placeholder }) => {
                             <span className={styles.labelStamp}>*</span>
                           </label>
                           <div className={styles.tooltipContainer}>
-                        
-
                             <Select
                               className={styles.formSelect}
                               options={pediatricianOptions}
@@ -2205,7 +2130,6 @@ const AddProduct = ({ placeholder }) => {
                                 setFieldValue={setFieldValue}
                                 initialValues={values}
                                 label=""
-                               
                                 tooltip={false}
                                 showLabel={false}
                               />
@@ -2236,7 +2160,6 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="sideEffectsAndWarnings"
                               value={values.sideEffectsAndWarnings}
-                               
                               onChange={(e) =>
                                 handleInputChange(e, setFieldValue, 2000, "all")
                               }
@@ -2259,7 +2182,6 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="allergens"
                               value={values.allergens}
-                               
                               onChange={(e) =>
                                 handleInputChange(e, setFieldValue, 2000, "all")
                               }
@@ -2287,7 +2209,6 @@ const AddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="expiry"
                             value={values?.expiry}
-                             
                             onChange={(e) =>
                               handleInputChange(e, setFieldValue, 75, "all")
                             }
@@ -2327,7 +2248,6 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="genericName"
                           value={values.genericName}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 75, "all")
                           }
@@ -2348,7 +2268,6 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="strength"
                           value={values.strength}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 20, "all")
                           }
@@ -2401,7 +2320,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="healthBenefit"
                           value={values.healthBenefit}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -2428,7 +2346,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="composition"
                           value={values.composition}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -2451,7 +2368,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="formulation"
                           value={values.formulation}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -2471,7 +2387,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="purpose"
                           value={values.purpose}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -2502,7 +2417,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="drugAdministrationRoute"
                           value={values.drugAdministrationRoute}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -2535,7 +2449,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="drugClass"
                           value={values.drugClass}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -2558,7 +2471,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="additivesNSweeteners"
                           value={values.additivesNSweeteners}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -2582,7 +2494,6 @@ const AddProduct = ({ placeholder }) => {
                       <label className={styles.formLabel}>
                         Controlled Substance
                       </label>
-                
 
                       <div className={styles.tooltipContainer}>
                         <span className={styles.formCheckboxSection}>
@@ -2703,7 +2614,6 @@ const AddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="expiry"
                             value={values?.expiry}
-                             
                             onChange={(e) =>
                               handleInputChange(e, setFieldValue, 20, "all")
                             }
@@ -2734,7 +2644,6 @@ const AddProduct = ({ placeholder }) => {
                               // autoComplete="off"
                               name="sideEffectsAndWarnings"
                               value={values.sideEffectsAndWarnings}
-                               
                               onChange={(e) =>
                                 handleInputChange(e, setFieldValue, 2000, "all")
                               }
@@ -2757,7 +2666,6 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="allergens"
                               value={values.allergens}
-                               
                               onChange={(e) =>
                                 handleInputChange(e, setFieldValue, 2000, "all")
                               }
@@ -2792,7 +2700,6 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="thickness"
                           value={values.thickness}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 5, "all")
                           }
@@ -2813,7 +2720,6 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="productMaterial"
                           value={values.productMaterial}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 75, "all")
                           }
@@ -2867,7 +2773,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="purpose"
                           value={values.purpose}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -2887,7 +2792,6 @@ const AddProduct = ({ placeholder }) => {
                           placeholder="Enter Chemical Resistance"
                           rows="2"
                           name="chemicalResistance"
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -2907,7 +2811,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="shape"
                           value={values.shape}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -2927,7 +2830,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="coating"
                           value={values.coating}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -3015,7 +2917,6 @@ const AddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="expiry"
                             value={values?.expiry}
-                             
                             onChange={(e) =>
                               handleInputChange(e, setFieldValue, 20, "all")
                             }
@@ -3043,7 +2944,6 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="allergens"
                               value={values.allergens}
-                               
                               onChange={(e) =>
                                 handleInputChange(e, setFieldValue, 2000, "all")
                               }
@@ -3102,7 +3002,6 @@ const AddProduct = ({ placeholder }) => {
                               // autoComplete="off"
                               name="filtrationEfficiency"
                               value={values.filtrationEfficiency}
-                               
                               onChange={(e) =>
                                 handleInputChange(e, setFieldValue, 4, "all")
                               }
@@ -3124,7 +3023,6 @@ const AddProduct = ({ placeholder }) => {
                               // autoComplete="off"
                               name="breathability"
                               value={values.breathability}
-                               
                               onChange={(e) =>
                                 handleInputChange(e, setFieldValue, 75, "all")
                               }
@@ -3146,7 +3044,6 @@ const AddProduct = ({ placeholder }) => {
                               // autoComplete="off"
                               name="layerCount"
                               value={values.layerCount}
-                               
                               onChange={(e) =>
                                 handleInputChange(e, setFieldValue, 20, "all")
                               }
@@ -3279,7 +3176,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="shape"
                           value={values.shape}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -3298,7 +3194,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="coating"
                           value={values.coating}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -3316,7 +3211,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="purpose"
                           value={values.purpose}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -3343,7 +3237,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="casNumber"
                           value={values.casNumber}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -3362,7 +3255,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="grade"
                           value={values.grade}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -3382,7 +3274,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="concentration"
                           value={values.concentration}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -3412,7 +3303,6 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="connectivity"
                           value={values.connectivity}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 75, "all")
                           }
@@ -3433,7 +3323,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="magnificationRange"
                           value={values.magnificationRange}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -3454,7 +3343,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="objectiveLenses"
                           value={values.objectiveLenses}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -3472,7 +3360,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="powerSource"
                           value={values.powerSource}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -3491,7 +3378,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="resolution"
                           value={values.resolution}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -3527,7 +3413,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="diagnosticFunctions"
                           value={values.diagnosticFunctions}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -3552,7 +3437,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="flowRate"
                           value={values.flowRate}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -3570,7 +3454,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="concentration"
                           value={values.concentration}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -3601,7 +3484,6 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="measurementRange"
                           value={values.measurementRange}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 75, "all")
                           }
@@ -3620,7 +3502,6 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="noiseLevel"
                           value={values.noiseLevel}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 20, "all")
                           }
@@ -3639,7 +3520,6 @@ const AddProduct = ({ placeholder }) => {
                         // autoComplete="off"
                         name="usageRate"
                         value={values.usageRate}
-                         
                         onChange={(e) =>
                           handleInputChange(e, setFieldValue, 75, "all")
                         }
@@ -3658,7 +3538,6 @@ const AddProduct = ({ placeholder }) => {
                         rows="2"
                         name="maintenanceNotes"
                         value={values.maintenanceNotes}
-                         
                         onChange={(e) =>
                           handleInputChange(e, setFieldValue, 2000, "all")
                         }
@@ -3676,7 +3555,6 @@ const AddProduct = ({ placeholder }) => {
                         rows="2"
                         name="compatibleEquipment"
                         value={values.compatibleEquipment}
-                         
                         onChange={(e) =>
                           handleInputChange(e, setFieldValue, 2000, "all")
                         }
@@ -3695,7 +3573,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="specification"
                           value={values.specification}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -3736,7 +3613,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="performanceTestingReport"
                           value={values.performanceTestingReport}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -3790,7 +3666,6 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="thickness"
                           value={values.thickness}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 75, "all")
                           }
@@ -3811,7 +3686,6 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="productMaterial"
                           value={values.productMaterial}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 1000, "all")
                           }
@@ -3831,7 +3705,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="purpose"
                           value={values.purpose}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -3852,7 +3725,6 @@ const AddProduct = ({ placeholder }) => {
                           placeholder="Enter Chemical Resistance"
                           rows="2"
                           name="chemicalResistance"
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -3941,7 +3813,6 @@ const AddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="expiry"
                             value={values?.expiry}
-                             
                             onChange={(e) =>
                               handleInputChange(e, setFieldValue, 20, "all")
                             }
@@ -4008,7 +3879,6 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="adhesiveness"
                           value={values.adhesiveness}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 75, "all")
                           }
@@ -4028,7 +3898,6 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="absorbency"
                           value={values.absorbency}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 75, "all")
                           }
@@ -4048,7 +3917,6 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="elasticity"
                           value={values.elasticity}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 75, "all")
                           }
@@ -4121,7 +3989,6 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="strength"
                           value={values.strength}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 20, "all")
                           }
@@ -4167,7 +4034,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="purpose"
                           value={values.purpose}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -4189,7 +4055,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="targetCondition"
                           value={values.targetCondition}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -4212,7 +4077,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="coating"
                           value={values.coating}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -4276,7 +4140,6 @@ const AddProduct = ({ placeholder }) => {
                               // autoComplete="off"
                               name="elasticity"
                               value={values.elasticity}
-                               
                               onChange={(e) =>
                                 handleInputChange(e, setFieldValue, 75, "all")
                               }
@@ -4296,7 +4159,6 @@ const AddProduct = ({ placeholder }) => {
                               // autoComplete="off"
                               name="absorbency"
                               value={values.absorbency}
-                               
                               onChange={(e) =>
                                 handleInputChange(e, setFieldValue, 75, "all")
                               }
@@ -4317,7 +4179,6 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="breathability"
                               value={values.breathability}
-                               
                               onChange={(e) =>
                                 handleInputChange(e, setFieldValue, 2000, "all")
                               }
@@ -4338,7 +4199,6 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="colorOptions"
                               value={values.colorOptions}
-                               
                               onChange={(e) =>
                                 handleInputChange(e, setFieldValue, 2000, "all")
                               }
@@ -4379,7 +4239,6 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="productMaterial"
                           value={values.productMaterial}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 100, "all")
                           }
@@ -4398,7 +4257,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="purpose"
                           value={values.purpose}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -4418,7 +4276,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="targetCondition"
                           value={values.targetCondition}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -4459,7 +4316,6 @@ const AddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="expiry"
                             value={values?.expiry}
-                             
                             onChange={(e) =>
                               handleInputChange(e, setFieldValue, 20, "all")
                             }
@@ -4486,7 +4342,6 @@ const AddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="usageRate"
                             value={values.usageRate}
-                             
                             onChange={(e) =>
                               handleInputChange(e, setFieldValue, 75, "all")
                             }
@@ -4506,7 +4361,6 @@ const AddProduct = ({ placeholder }) => {
                             rows="2"
                             name="maintenanceNotes"
                             value={values.maintenanceNotes}
-                             
                             onChange={(e) =>
                               handleInputChange(e, setFieldValue, 2000, "all")
                             }
@@ -4526,7 +4380,6 @@ const AddProduct = ({ placeholder }) => {
                             rows="2"
                             name="compatibleEquipment"
                             value={values.compatibleEquipment}
-                             
                             onChange={(e) =>
                               handleInputChange(e, setFieldValue, 2000, "all")
                             }
@@ -4609,7 +4462,6 @@ const AddProduct = ({ placeholder }) => {
                         // autoComplete="off"
                         name="diameter"
                         value={values.diameter}
-                         
                         onChange={(e) =>
                           handleInputChange(e, setFieldValue, 4, "all")
                         }
@@ -4627,7 +4479,6 @@ const AddProduct = ({ placeholder }) => {
                         rows="2"
                         name="lensPower"
                         value={values.lensPower}
-                         
                         onChange={(e) =>
                           handleInputChange(e, setFieldValue, 9, "all")
                         }
@@ -4644,7 +4495,6 @@ const AddProduct = ({ placeholder }) => {
                         rows="2"
                         name="baseCurve"
                         value={values.baseCurve}
-                         
                         onChange={(e) =>
                           handleInputChange(e, setFieldValue, 2000, "all")
                         }
@@ -4661,7 +4511,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="colorOptions"
                           value={values.colorOptions}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -4695,7 +4544,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="flowRate"
                           value={values.flowRate}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -4714,7 +4562,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="concentration"
                           value={values.concentration}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -4749,7 +4596,6 @@ const AddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="expiry"
                             value={values?.expiry}
-                             
                             onChange={(e) =>
                               handleInputChange(e, setFieldValue, 20, "all")
                             }
@@ -4778,7 +4624,6 @@ const AddProduct = ({ placeholder }) => {
                               // autoComplete="off"
                               name="maxWeightCapacity"
                               value={values.maxWeightCapacity}
-                               
                               onChange={(e) =>
                                 handleInputChange(e, setFieldValue, 75, "all")
                               }
@@ -4798,7 +4643,6 @@ const AddProduct = ({ placeholder }) => {
                               // autoComplete="off"
                               name="gripType"
                               value={values.gripType}
-                               
                               onChange={(e) =>
                                 handleInputChange(e, setFieldValue, 75, "text")
                               }
@@ -4820,7 +4664,6 @@ const AddProduct = ({ placeholder }) => {
                               // autoComplete="off"
                               name="batteryType"
                               value={values.batteryType}
-                               
                               onChange={(e) =>
                                 handleInputChange(e, setFieldValue, 75, "all")
                               }
@@ -4842,7 +4685,6 @@ const AddProduct = ({ placeholder }) => {
                               // autoComplete="off"
                               name="batterySize"
                               value={values.batterySize}
-                               
                               onChange={(e) =>
                                 handleInputChange(e, setFieldValue, 75, "all")
                               }
@@ -4863,7 +4705,6 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="colorOptions"
                               value={values.colorOptions}
-                               
                               onChange={(e) =>
                                 handleInputChange(e, setFieldValue, 2000, "all")
                               }
@@ -4884,7 +4725,6 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="foldability"
                               value={values.foldability}
-                               
                               onChange={(e) =>
                                 handleInputChange(e, setFieldValue, 2000, "all")
                               }
@@ -4905,7 +4745,6 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="lockingMechanism"
                               value={values.lockingMechanism}
-                               
                               onChange={(e) =>
                                 handleInputChange(e, setFieldValue, 2000, "all")
                               }
@@ -4926,7 +4765,6 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="typeOfSupport"
                               value={values.typeOfSupport}
-                               
                               onChange={(e) =>
                                 handleInputChange(e, setFieldValue, 2000, "all")
                               }
@@ -4952,7 +4790,6 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="performanceTestingReport"
                               value={values.performanceTestingReport}
-                               
                               onChange={(e) =>
                                 handleInputChange(e, setFieldValue, 2000, "all")
                               }
@@ -5010,7 +4847,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="composition"
                           value={values.composition}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -5033,7 +4869,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="purpose"
                           value={values.purpose}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -5058,7 +4893,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="healthClaims"
                           value={values.healthClaims}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -5072,7 +4906,6 @@ const AddProduct = ({ placeholder }) => {
                         setFieldValue={setFieldValue}
                         initialValues={values}
                         label=""
-                       
                         tooltip={false}
                         showLabel={false}
                       />
@@ -5101,7 +4934,6 @@ const AddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="expiry"
                             value={values?.expiry}
-                             
                             onChange={(e) =>
                               handleInputChange(e, setFieldValue, 20, "all")
                             }
@@ -5140,7 +4972,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="composition"
                           value={values.composition}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -5167,7 +4998,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="productLongevity"
                           value={values.productLongevity}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -5192,7 +5022,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="foldability"
                           value={values.foldability}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -5225,7 +5054,6 @@ const AddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="expiry"
                             value={values?.expiry}
-                             
                             onChange={(e) =>
                               handleInputChange(e, setFieldValue, 20, "all")
                             }
@@ -5265,7 +5093,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="composition"
                           value={values.composition}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -5289,7 +5116,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="concentration"
                           value={values.concentration}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -5313,7 +5139,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="formulation"
                           value={values.formulation}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -5332,7 +5157,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="fragrance"
                           value={values.fragrance}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -5361,7 +5185,6 @@ const AddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="expiry"
                             value={values?.expiry}
-                             
                             onChange={(e) =>
                               handleInputChange(e, setFieldValue, 20, "all")
                             }
@@ -5421,7 +5244,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="flavorOptions"
                           value={values.flavorOptions}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -5452,7 +5274,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="aminoAcidProfile"
                           value={values.aminoAcidProfile}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -5477,7 +5298,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="fatContent"
                           value={values.fatContent}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -5504,7 +5324,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="healthBenefit"
                           value={values.healthBenefit}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -5527,7 +5346,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="purpose"
                           value={values.purpose}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -5556,7 +5374,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="composition"
                           value={values.composition}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -5583,7 +5400,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="additivesNSweeteners"
                           value={values.additivesNSweeteners}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -5645,7 +5461,6 @@ const AddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="expiry"
                             value={values?.expiry}
-                             
                             onChange={(e) =>
                               handleInputChange(e, setFieldValue, 20, "all")
                             }
@@ -5685,7 +5500,6 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="scalabilityInfo"
                           value={values.scalabilityInfo}
-                           
                           onChange={(e) =>
                             handleInputChange(e, setFieldValue, 2000, "all")
                           }
@@ -5717,7 +5531,6 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="license"
                               value={values.license}
-                               
                               onChange={(e) =>
                                 handleInputChange(e, setFieldValue, 50, "all")
                               }
@@ -5742,7 +5555,6 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="addOns"
                               value={values.addOns}
-                               
                               onChange={(e) =>
                                 handleInputChange(e, setFieldValue, 2000, "all")
                               }
@@ -5768,7 +5580,6 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="userAccess"
                               value={values.userAccess}
-                               
                               onChange={(e) =>
                                 handleInputChange(e, setFieldValue, 2000, "all")
                               }
@@ -5800,7 +5611,6 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="keyFeatures"
                               value={values.keyFeatures}
-                               
                               onChange={(e) =>
                                 handleInputChange(e, setFieldValue, 2000, "all")
                               }
@@ -5831,7 +5641,6 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="coreFunctionalities"
                               value={values.coreFunctionalities}
-                               
                               onChange={(e) =>
                                 handleInputChange(e, setFieldValue, 2000, "all")
                               }
@@ -5858,7 +5667,6 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="interoperability"
                               value={values.interoperability}
-                               
                               onChange={(e) =>
                                 handleInputChange(e, setFieldValue, 2000, "all")
                               }
@@ -5878,7 +5686,6 @@ const AddProduct = ({ placeholder }) => {
                             setFieldValue={setFieldValue}
                             initialValues={values}
                             label=""
-                           
                             tooltip={false}
                             showLabel={false}
                           />
@@ -5905,11 +5712,8 @@ const AddProduct = ({ placeholder }) => {
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Date of Manufacture
-                   
                   </label>
                   <div className={styles.tooltipContainer}>
-                   
-
                     <DatePicker
                       className={styles.formDate}
                       clearIcon={null}
@@ -5930,10 +5734,7 @@ const AddProduct = ({ placeholder }) => {
                   )}
                 </div>
                 <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>
-                    SKU
-                  
-                  </label>
+                  <label className={styles.formLabel}>SKU</label>
                   <div className={styles.tooltipContainer}>
                     <input
                       className={styles.formInput}
@@ -5942,7 +5743,6 @@ const AddProduct = ({ placeholder }) => {
                       // autoComplete="off"
                       name="sku"
                       value={values.sku}
-                       
                       onChange={(e) =>
                         handleInputChange(
                           e,
@@ -5992,7 +5792,6 @@ const AddProduct = ({ placeholder }) => {
                     options={countries}
                     placeholderButtonLabel="Select Countries"
                     name="countries"
-                  
                     onChange={(selectedOptions) => {
                       // Ensure we map selected options correctly
                       const selectedValues = selectedOptions
@@ -6027,7 +5826,6 @@ const AddProduct = ({ placeholder }) => {
                   <div className={styles.formHeadSection}>
                     <span className={styles.formHead}>Stocked In Details</span>
                     {
-                      
                       <span
                         className={styles.formAddButton}
                         onClick={() =>
@@ -6053,7 +5851,6 @@ const AddProduct = ({ placeholder }) => {
                         <div className={styles.productContainer}>
                           <label className={styles.formLabel}>
                             Country where Stock Trades
-                          
                           </label>
                           <Select
                             className={styles.formSelect}
@@ -6076,28 +5873,22 @@ const AddProduct = ({ placeholder }) => {
                         <div className={styles.productContainer}>
                           <label className={styles.formLabel}>
                             Stock Quantity
-                          
                           </label>
                           <div className={styles.productQuantityContainer}>
                             <div className={styles.quantitySection}>
                               <Field
                                 name={`stockedInDetails.${index}.quantity`}
                                 className={styles.quantityInput}
-                              
                                 placeholder="Enter Quantity"
                                 // autoComplete="off"
-                              
+
                                 onInput={(e) => {
                                   e.target.value = e.target.value
                                     .replace(/\D/g, "")
                                     .slice(0, 6);
                                 }}
-                             
                               />
-                           
                             </div>
-
-                          
                           </div>
                         </div>
 
@@ -6118,7 +5909,7 @@ const AddProduct = ({ placeholder }) => {
                           </div>
                         )}
                       </div>
-                     
+
                       <div key={index} className={styles.formSection}>
                         <div className={styles.productContainer}>
                           <span className={styles.error}>
@@ -6161,7 +5952,6 @@ const AddProduct = ({ placeholder }) => {
                     setFieldValue("productPricingDetails", [
                       ...values.productPricingDetails,
                       {
-                       
                         quantityFrom: "",
                         quantityTo: "",
                         price: "",
@@ -6179,7 +5969,7 @@ const AddProduct = ({ placeholder }) => {
                     <label className={styles.formLabel}>
                       Quantity<span className={styles.labelStamp}>*</span>
                     </label>
-                   
+
                     <div className={styles.weightContainer}>
                       <div className={styles.weightSection}>
                         <div className={styles.tooltipContainer}>
@@ -6287,7 +6077,6 @@ const AddProduct = ({ placeholder }) => {
                       type="text"
                       placeholder="Enter Est. Delivery Time in days"
                       className={styles.formInput}
-                      
                       // onInput={(e) => {
                       //   e.target.value = e.target.value
                       //     .replace(/\D/g, "")
@@ -6296,8 +6085,14 @@ const AddProduct = ({ placeholder }) => {
 
                       onChange={(e) => {
                         // Allow only alphanumeric characters, spaces, hyphens
-                        const value = e.target.value.replace(/[^a-zA-Z0-9 \-]/g, "");
-                        setFieldValue(`productPricingDetails.${index}.deliveryTime`, value);
+                        const value = e.target.value.replace(
+                          /[^a-zA-Z0-9 \-]/g,
+                          ""
+                        );
+                        setFieldValue(
+                          `productPricingDetails.${index}.deliveryTime`,
+                          value || "TBC- based on quantity"
+                        );
                       }}
                     />
                     <span className={styles.error}>
@@ -6310,7 +6105,6 @@ const AddProduct = ({ placeholder }) => {
                     <div
                       className={styles.formCloseSection}
                       onClick={() => {
-                       
                         setFieldValue(
                           `productPricingDetails.${index}.quantityFrom`,
                           ""
@@ -6347,7 +6141,6 @@ const AddProduct = ({ placeholder }) => {
             {/* End the Product Pricing */}
 
             {/* Start the Compliances and certificate */}
-         
 
             {/* Start the Compliances and certificate 222222222 */}
             <div className={styles.section}>
@@ -6358,7 +6151,6 @@ const AddProduct = ({ placeholder }) => {
                 <span
                   className={styles.formAddButton}
                   onClick={() => {
-                   
                     values.cNCFileNDate?.length < 4 &&
                       setFieldValue("cNCFileNDate", [
                         ...values.cNCFileNDate,
@@ -6408,13 +6200,10 @@ const AddProduct = ({ placeholder }) => {
 
                   {/* Date of Expiry Section */}
                   <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Date of Expiry
-                    
-                    </label>
+                    <label className={styles.formLabel}>Date of Expiry</label>
                     <div className={styles.tooltipContainer}>
                       {/* Date Mask Input */}
-                     
+
                       <DatePicker
                         className={styles.formDate}
                         clearIcon={null}
@@ -6486,7 +6275,6 @@ const AddProduct = ({ placeholder }) => {
                     setFieldValue={setFieldValue}
                     initialValues={values}
                     label="Safety Datasheet"
-                   
                     tooltip="Specific safety information, instructions or precautions related to product"
                   />
                   {touched.safetyDatasheet && errors.safetyDatasheet && (
@@ -6502,7 +6290,6 @@ const AddProduct = ({ placeholder }) => {
                     setFieldValue={setFieldValue}
                     initialValues={values}
                     label="Health Hazard Rating"
-                   
                     tooltip="Health Hazard Rating Document"
                   />
                   {touched.healthHazardRating && errors.healthHazardRating && (
@@ -6518,7 +6305,6 @@ const AddProduct = ({ placeholder }) => {
                     setFieldValue={setFieldValue}
                     initialValues={values}
                     label="Environmental Impact"
-                   
                     tooltip="Environment Impact Rating Document"
                   />
                   {touched.environmentalImpact &&
@@ -6546,7 +6332,6 @@ const AddProduct = ({ placeholder }) => {
                     // autoComplete="off"
                     name="warranty"
                     value={values.warranty}
-                     
                     onChange={(e) =>
                       handleInputChange(e, setFieldValue, 20, "all")
                     }
@@ -6560,7 +6345,6 @@ const AddProduct = ({ placeholder }) => {
                     setFieldValue={setFieldValue}
                     initialValues={values}
                     label="User Guidelines"
-                   
                     tooltip="Specific information, instructions related to product."
                   />
                   {touched.guidelinesFile && errors.guidelinesFile && (
@@ -6579,7 +6363,6 @@ const AddProduct = ({ placeholder }) => {
                       // autoComplete="off"
                       name="other"
                       value={values.other}
-                       
                       onChange={(e) =>
                         handleInputChange(e, setFieldValue, 100, "all")
                       }
@@ -6627,7 +6410,6 @@ const AddProduct = ({ placeholder }) => {
           selectedFile={selectedFile}
         />
       )}
-     
     </div>
   );
 };

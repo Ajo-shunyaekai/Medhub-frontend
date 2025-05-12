@@ -276,7 +276,11 @@ const SendInquiry = ({ socket }) => {
                             </div>
                             <div className="send-enquiry-inner-image">
                               <img
-                                src={`${process.env.REACT_APP_SERVER_URL}uploads/products/${product?.medicine_image[0]}`}
+                                src={
+                                  product?.medicine_image[0]?.startsWith("http")
+                                    ? product?.medicine_image[0]
+                                    : `${process.env.REACT_APP_SERVER_URL}uploads/products/${product?.medicine_image[0]}`
+                                }
                                 alt="Product"
                               />
                             </div>
@@ -327,7 +331,7 @@ const SendInquiry = ({ socket }) => {
                                             "Days"
                                           )
                                         : `${product.est_delivery_days} Days`
-                                      : ""}
+                                      : "TBC- based on quantity"}
                                   </span>
                                 </div>
                               </div>

@@ -125,7 +125,6 @@ const EditAddProduct = ({ placeholder }) => {
         values?.stockedInDetails?.map((section) => ({
           country: section?.country || "",
           quantity: section?.quantity || "",
-          
         }))
       );
       const productPricingDetailsUpdated = JSON.stringify(
@@ -261,7 +260,6 @@ const EditAddProduct = ({ placeholder }) => {
   //     allowedType === "all" &&
   //     restrictSpecialForFields.includes(name)
   //   ) {
-      
 
   //     const allowedPattern = new RegExp(
   //       `[^a-zA-Z0-9\\s${allowedSpecialChars}]`,
@@ -282,7 +280,7 @@ const EditAddProduct = ({ placeholder }) => {
     allowedType = "all",
     restrictSpecialForFields = [],
     allowedSpecialChars = ""
-) => {
+  ) => {
     let { value, name } = e.target;
 
     // Apply character limit
@@ -290,51 +288,51 @@ const EditAddProduct = ({ placeholder }) => {
 
     // Dimension field validation
     if (name === "dimension") {
-        // Allow only numbers, "x", and "."
-        value = value.replace(/[^0-9x.]/g, "")?.toLowerCase();
+      // Allow only numbers, "x", and "."
+      value = value.replace(/[^0-9x.]/g, "")?.toLowerCase();
 
-        // Prevent multiple consecutive "x"
-        value = value.replace(/x{2,}/g, "x");
+      // Prevent multiple consecutive "x"
+      value = value.replace(/x{2,}/g, "x");
 
-        // Split the values by "x" while keeping their sequence
-        const parts = value?.split("x").map((part, index) => {
-            // Allow up to 5 digits before decimal and 2 after
-            part = part.replace(/^(\d{1,5})\.(\d{0,2}).*/, "$1.$2");
+      // Split the values by "x" while keeping their sequence
+      const parts = value?.split("x").map((part, index) => {
+        // Allow up to 5 digits before decimal and 2 after
+        part = part.replace(/^(\d{1,5})\.(\d{0,2}).*/, "$1.$2");
 
-            // Ensure only one decimal per number
-            part = part.replace(/(\..*)\./g, "$1");
+        // Ensure only one decimal per number
+        part = part.replace(/(\..*)\./g, "$1");
 
-            return part;
-        });
+        return part;
+      });
 
-        // Join back using "x" but ensure it doesn't remove already typed "x"
-        value = parts.join("x");
+      // Join back using "x" but ensure it doesn't remove already typed "x"
+      value = parts.join("x");
 
-        setFieldValue(name, value);
-        return;
+      setFieldValue(name, value);
+      return;
     }
 
     // Restrict input type
     if (allowedType === "number") {
-        value = value.replace(/[^0-9]/g, ""); // Allow only numbers
+      value = value.replace(/[^0-9]/g, ""); // Allow only numbers
     } else if (allowedType === "text") {
-        value = value.replace(/[^a-zA-Z\s]/g, ""); // Allow only text and spaces
+      value = value.replace(/[^a-zA-Z\s]/g, ""); // Allow only text and spaces
     } else if (
-        allowedType === "all" &&
-        restrictSpecialForFields.includes(name)
+      allowedType === "all" &&
+      restrictSpecialForFields.includes(name)
     ) {
-        // Allow "-" in "brand" and "manufacturer"
-        const allowedPattern = new RegExp(
-            `[^a-zA-Z0-9\\s\\-(${allowedSpecialChars})]`,
-            "g"
-        );
-        value = value.replace(allowedPattern, "");
+      // Allow "-" in "brand" and "manufacturer"
+      const allowedPattern = new RegExp(
+        `[^a-zA-Z0-9\\s\\-(${allowedSpecialChars})]`,
+        "g"
+      );
+      value = value.replace(allowedPattern, "");
     } else if (allowedType === "decimal") {
-        if (!/^\d*\.?\d*$/.test(value)) return;
+      if (!/^\d*\.?\d*$/.test(value)) return;
     }
 
     setFieldValue(name, value);
-};
+  };
 
   // End the checked container
   const editor = useRef(null);
@@ -450,12 +448,12 @@ const EditAddProduct = ({ placeholder }) => {
         packageType: general?.packageType || "",
         packageMaterial: general?.packageMaterial || "",
         packageMaterialIfOther: general?.packageMaterialIfOther || "",
-        
+
         sku: inventoryDetails?.sku || "", // Nested access for inventoryDetails
         stock: inventoryDetails?.stock || "",
         stockQuantity: inventoryDetails?.stockQuantity || "",
         countries: inventoryDetails?.countries || [], // Assuming countries exists
-        
+
         date: inventoryDetails?.date || "",
         complianceFile: productDetail?.complianceFile || [],
         cNCFileNDate: productDetail?.cNCFileNDate?.filter(
@@ -628,16 +626,16 @@ const EditAddProduct = ({ placeholder }) => {
           className={styles.form}
           onSubmit={(e) => {
             e.preventDefault();
-          
+
             const fields = Object.keys(formik.initialValues);
             const touchedFields = fields.reduce((acc, key) => {
               acc[key] = true;
               return acc;
             }, {});
-          
+
             // Mark all fields as touched to trigger validation display
             formik.setTouched(touchedFields, true);
-          
+
             // Check if the form is valid
             if (Object.keys(formik.errors).length === 0) {
               formik.handleSubmit();
@@ -660,7 +658,6 @@ const EditAddProduct = ({ placeholder }) => {
                   // autoComplete="off"
                   name="name"
                   value={formik?.values?.name}
-                 
                   onChange={(e) =>
                     handleInputChange(
                       e,
@@ -690,7 +687,7 @@ const EditAddProduct = ({ placeholder }) => {
                     (option) =>
                       option?.value?.replaceAll(" product", "") ===
                       formik?.values?.market
-                  )} 
+                  )}
                   onChange={(selectedOption) => {
                     const selectedValue = selectedOption?.value; // e.g., "new product"
                     const marketValue = selectedValue?.replaceAll(
@@ -774,7 +771,6 @@ const EditAddProduct = ({ placeholder }) => {
                     formik.setFieldValue("subCategory", selectedOption?.value); // Update Formik state
                   }}
                   placeholder="Select Sub Category"
-                 
                 />
 
                 {formik.touched.subCategory && formik.errors.subCategory && (
@@ -837,7 +833,6 @@ const EditAddProduct = ({ placeholder }) => {
                     );
                   }}
                   placeholder="Select Level 3 Category"
-                 
                 />
               </div>
 
@@ -856,7 +851,6 @@ const EditAddProduct = ({ placeholder }) => {
                       placeholder="dd/MM/yyyy"
                       name="purchasedOn"
                       maxDate={new Date()}
-                     
                       value={parseDate(formik?.values?.purchasedOn)}
                       onChange={(date) => {
                         formik.setFieldValue("purchasedOn", date); // This updates Formik's value
@@ -907,7 +901,6 @@ const EditAddProduct = ({ placeholder }) => {
                       options={countries}
                       placeholderButtonLabel="Select Countries"
                       name="countryAvailable"
-                    
                       value={formik.values?.countryAvailable.map((country) => ({
                         label: country,
                         value: country,
@@ -945,7 +938,6 @@ const EditAddProduct = ({ placeholder }) => {
                       // autoComplete="off"
                       name="minimumPurchaseUnit"
                       value={formik?.values?.minimumPurchaseUnit}
-                    
                       onChange={(e) =>
                         handleInputChange(e, formik.setFieldValue, 4, "number")
                       }
@@ -972,7 +964,6 @@ const EditAddProduct = ({ placeholder }) => {
                   // autoComplete="off"
                   name="upc"
                   value={formik?.values?.upc}
-                   
                   onChange={(e) =>
                     handleInputChange(
                       e,
@@ -1000,7 +991,6 @@ const EditAddProduct = ({ placeholder }) => {
                   // autoComplete="off"
                   name="model"
                   value={formik?.values?.model}
-                   
                   onChange={(e) =>
                     handleInputChange(e, formik.setFieldValue, 20, "all")
                   }
@@ -1022,7 +1012,6 @@ const EditAddProduct = ({ placeholder }) => {
                   value={formik?.values?.aboutManufacturer}
                   name="aboutManufacturer"
                   onBlur={formik?.handleBlur}
-                   
                   onChange={(e) =>
                     handleInputChange(e, formik.setFieldValue, 500, "all")
                   }
@@ -1043,9 +1032,10 @@ const EditAddProduct = ({ placeholder }) => {
                   // autoComplete="off"
                   name="brand"
                   value={formik?.values?.brand}
-                   
                   onChange={(e) =>
-                    handleInputChange(e, formik.setFieldValue, 75, "all",["brand"])
+                    handleInputChange(e, formik.setFieldValue, 75, "all", [
+                      "brand",
+                    ])
                   }
                   onBlur={formik?.handleBlur}
                 />
@@ -1064,7 +1054,6 @@ const EditAddProduct = ({ placeholder }) => {
                     // autoComplete="off"
                     name="form"
                     value={formik?.values?.form}
-                     
                     onChange={(e) =>
                       handleInputChange(e, formik.setFieldValue, 25, "text")
                     }
@@ -1094,7 +1083,6 @@ const EditAddProduct = ({ placeholder }) => {
                     // autoComplete="off"
                     name="quantity"
                     value={formik?.values?.quantity}
-                     
                     onChange={(e) =>
                       handleInputChange(e, formik.setFieldValue, 8, "number")
                     }
@@ -1106,8 +1094,6 @@ const EditAddProduct = ({ placeholder }) => {
                   <span className={styles.error}>{formik.errors.quantity}</span>
                 )}
               </div>
-
-             
 
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>Product Volume</label>
@@ -1121,7 +1107,6 @@ const EditAddProduct = ({ placeholder }) => {
                         // autoComplete="off"
                         name="volumn"
                         value={formik?.values?.volumn}
-                           
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -1157,13 +1142,9 @@ const EditAddProduct = ({ placeholder }) => {
                         );
                       }}
                     />
-                   
                   </div>
                 </div>
-              
               </div>
-
-            
 
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>Product Dimension</label>
@@ -1177,7 +1158,6 @@ const EditAddProduct = ({ placeholder }) => {
                         // autoComplete="off"
                         name="dimension"
                         value={formik?.values?.dimension}
-                           
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -1210,13 +1190,9 @@ const EditAddProduct = ({ placeholder }) => {
                         );
                       }}
                     />
-                    
                   </div>
                 </div>
-             
               </div>
-
-             
 
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
@@ -1233,7 +1209,6 @@ const EditAddProduct = ({ placeholder }) => {
                         // autoComplete="off"
                         name="weight"
                         value={formik?.values?.weight}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -1288,7 +1263,6 @@ const EditAddProduct = ({ placeholder }) => {
                     // autoComplete="off"
                     name="unit_tax"
                     value={formik?.values?.unit_tax}
-                     
                     onChange={(e) =>
                       handleInputChange(e, formik.setFieldValue, 9, "decimal")
                     }
@@ -1303,10 +1277,8 @@ const EditAddProduct = ({ placeholder }) => {
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   Product Packaging Type
-                  
                 </label>
                 <div className={styles.tooltipContainer}>
-                 
                   <input
                     className={styles.formInput}
                     type="text"
@@ -1333,10 +1305,8 @@ const EditAddProduct = ({ placeholder }) => {
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   Product Packaging Material
-               
                 </label>
                 <div className={styles.tooltipContainer}>
-                
                   <input
                     className={styles.formInput}
                     type="text"
@@ -1351,7 +1321,6 @@ const EditAddProduct = ({ placeholder }) => {
                 </div>
 
                 {/* Show text field when "Other" is selected */}
-              
 
                 {/* Display error message if any */}
                 {formik.touched.packageMaterial &&
@@ -1376,7 +1345,6 @@ const EditAddProduct = ({ placeholder }) => {
                     placeholder="Enter Storage Conditions"
                     // autoComplete="off"
                     name="storage"
-                     
                     value={formik?.values?.storage}
                     onChange={(e) =>
                       handleInputChange(e, formik.setFieldValue, 30, "all")
@@ -1403,7 +1371,9 @@ const EditAddProduct = ({ placeholder }) => {
                   //   formik.setFieldValue("manufacturer", e.target.value);
                   // }}
                   onChange={(e) =>
-                    handleInputChange(e, formik.setFieldValue, 75, "all",["manufacturer"])
+                    handleInputChange(e, formik.setFieldValue, 75, "all", [
+                      "manufacturer",
+                    ])
                   }
                 />
                 {/* {formik.touched.manufacturer && formik.errors.manufacturer && (
@@ -1506,7 +1476,6 @@ const EditAddProduct = ({ placeholder }) => {
                 )}
               </div>
               <div className={styles.descriptionContainer}>
-              
                 <RichTextEditor
                   label="Product Description"
                   name="description"
@@ -1517,7 +1486,6 @@ const EditAddProduct = ({ placeholder }) => {
                   onBlur={() =>
                     formik?.handleBlur({ target: { name: "description" } })
                   }
-                
                   height={300}
                 />
                 {formik.touched.description && formik.errors.description && (
@@ -1526,8 +1494,6 @@ const EditAddProduct = ({ placeholder }) => {
                   </span>
                 )}
               </div>
-
-             
             </div>
           </div>
 
@@ -1547,7 +1513,6 @@ const EditAddProduct = ({ placeholder }) => {
                       // autoComplete="off"
                       name="interoperability"
                       value={formik?.values?.interoperability}
-                       
                       onChange={(e) =>
                         handleInputChange(e, formik.setFieldValue, 50, "all")
                       }
@@ -1567,7 +1532,6 @@ const EditAddProduct = ({ placeholder }) => {
                       // autoComplete="off"
                       name="laserType"
                       value={formik?.values?.laserType}
-                       
                       onChange={(e) =>
                         handleInputChange(e, formik.setFieldValue, 50, "all")
                       }
@@ -1587,7 +1551,6 @@ const EditAddProduct = ({ placeholder }) => {
                       // autoComplete="off"
                       name="coolingSystem"
                       value={formik?.values?.coolingSystem}
-                       
                       onChange={(e) =>
                         handleInputChange(e, formik.setFieldValue, 50, "all")
                       }
@@ -1608,7 +1571,6 @@ const EditAddProduct = ({ placeholder }) => {
                       // autoComplete="off"
                       name="spotSize"
                       value={formik?.values?.spotSize}
-                       
                       onChange={(e) =>
                         handleInputChange(e, formik.setFieldValue, 4, "number")
                       }
@@ -1629,7 +1591,6 @@ const EditAddProduct = ({ placeholder }) => {
                       rows="2"
                       name="diagnosticFunctions"
                       value={formik?.values?.diagnosticFunctions}
-                       
                       onChange={(e) =>
                         handleInputChange(e, formik.setFieldValue, 1000, "all")
                       }
@@ -1649,7 +1610,6 @@ const EditAddProduct = ({ placeholder }) => {
                       rows="2"
                       name="performanceTestingReport"
                       value={formik?.values?.performanceTestingReport}
-                       
                       onChange={(e) =>
                         handleInputChange(e, formik.setFieldValue, 1000, "all")
                       }
@@ -1706,7 +1666,6 @@ const EditAddProduct = ({ placeholder }) => {
                       rows="2"
                       name="specification"
                       value={formik?.values?.specification}
-                       
                       onChange={(e) =>
                         handleInputChange(e, formik.setFieldValue, 1000, "all")
                       }
@@ -1778,7 +1737,6 @@ const EditAddProduct = ({ placeholder }) => {
                         // autoComplete="off"
                         name="genericName"
                         value={formik?.values?.genericName}
-                         
                         onChange={(e) =>
                           handleInputChange(e, formik.setFieldValue, 50, "all")
                         }
@@ -1806,7 +1764,6 @@ const EditAddProduct = ({ placeholder }) => {
                         // autoComplete="off"
                         name="drugClass"
                         value={formik?.values?.drugClass}
-                         
                         onChange={(e) =>
                           handleInputChange(e, formik.setFieldValue, 25, "all")
                         }
@@ -1832,7 +1789,6 @@ const EditAddProduct = ({ placeholder }) => {
                         // autoComplete="off"
                         name="strength"
                         value={formik?.values?.strength}
-                         
                         onChange={(e) =>
                           handleInputChange(e, formik.setFieldValue, 10, "all")
                         }
@@ -1892,7 +1848,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="composition"
                         value={formik?.values?.composition}
-                         
                         onChange={(e) =>
                           handleInputChange(e, formik.setFieldValue, 100, "all")
                         }
@@ -1916,7 +1871,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="formulation"
                         value={formik?.values?.formulation}
-                         
                         onChange={(e) =>
                           handleInputChange(e, formik.setFieldValue, 50, "all")
                         }
@@ -1936,7 +1890,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="purpose"
                         value={formik?.values?.purpose}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -1970,7 +1923,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="drugAdministrationRoute"
                         value={formik?.values?.drugAdministrationRoute}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -2056,7 +2008,6 @@ const EditAddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="expiry"
                           value={formik?.values?.expiry}
-                           
                           onChange={(e) =>
                             handleInputChange(
                               e,
@@ -2093,7 +2044,6 @@ const EditAddProduct = ({ placeholder }) => {
                             rows="2"
                             name="sideEffectsAndWarnings"
                             value={formik?.values?.sideEffectsAndWarnings}
-                             
                             onChange={(e) =>
                               handleInputChange(
                                 e,
@@ -2122,7 +2072,6 @@ const EditAddProduct = ({ placeholder }) => {
                             rows="2"
                             name="allergens"
                             value={formik?.values?.allergens}
-                             
                             onChange={(e) =>
                               handleInputChange(
                                 e,
@@ -2162,7 +2111,6 @@ const EditAddProduct = ({ placeholder }) => {
                         // autoComplete="off"
                         name="spf"
                         value={formik?.values?.spf}
-                         
                         onChange={(e) =>
                           handleInputChange(e, formik.setFieldValue, 10, "all")
                         }
@@ -2183,7 +2131,6 @@ const EditAddProduct = ({ placeholder }) => {
                         // autoComplete="off"
                         name="strength"
                         value={formik?.values?.strength}
-                         
                         onChange={(e) =>
                           handleInputChange(e, formik.setFieldValue, 20, "all")
                         }
@@ -2210,7 +2157,6 @@ const EditAddProduct = ({ placeholder }) => {
                         // autoComplete="off"
                         name="elasticity"
                         value={formik?.values?.elasticity}
-                         
                         onChange={(e) =>
                           handleInputChange(e, formik.setFieldValue, 50, "all")
                         }
@@ -2230,7 +2176,6 @@ const EditAddProduct = ({ placeholder }) => {
                         // autoComplete="off"
                         name="adhesiveness"
                         value={formik?.values?.adhesiveness}
-                         
                         onChange={(e) =>
                           handleInputChange(e, formik.setFieldValue, 50, "all")
                         }
@@ -2250,7 +2195,6 @@ const EditAddProduct = ({ placeholder }) => {
                         // autoComplete="off"
                         name="thickness"
                         value={formik?.values?.thickness}
-                         
                         onChange={(e) =>
                           handleInputChange(e, formik.setFieldValue, 5, "numer")
                         }
@@ -2300,7 +2244,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="formulation"
                         value={formik?.values?.formulation}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -2325,7 +2268,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="fragrance"
                         value={formik?.values?.fragrance}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -2351,7 +2293,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="composition"
                         value={formik?.values?.composition}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -2383,7 +2324,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="purpose"
                         value={formik?.values?.purpose}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -2411,7 +2351,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="targetCondition"
                         value={formik?.values?.targetCondition}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -2443,7 +2382,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="drugAdministrationRoute"
                         value={formik?.values?.drugAdministrationRoute}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -2482,7 +2420,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="drugClass"
                         value={formik?.values?.drugClass}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -2510,7 +2447,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="concentration"
                         value={formik?.values?.concentration}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -2540,7 +2476,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="moisturizers"
                         value={formik?.values?.moisturizers}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -2564,7 +2499,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="fillerType"
                         value={formik?.values?.fillerType}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -2703,7 +2637,6 @@ const EditAddProduct = ({ placeholder }) => {
                             options={dermatologistOptions}
                             placeholder="Select Dermatologist Tested"
                             name="dermatologistTested"
-                           
                             value={dermatologistOptions.find(
                               (option) =>
                                 option?.value ===
@@ -2780,7 +2713,6 @@ const EditAddProduct = ({ placeholder }) => {
                             options={pediatricianOptions}
                             placeholder="Select Pediatrician Recommended"
                             name="pediatricianRecommended"
-                           
                             value={pediatricianOptions.find(
                               (option) =>
                                 option?.value ===
@@ -2866,7 +2798,6 @@ const EditAddProduct = ({ placeholder }) => {
                             rows="2"
                             name="sideEffectsAndWarnings"
                             value={formik?.values?.sideEffectsAndWarnings}
-                             
                             onChange={(e) =>
                               handleInputChange(
                                 e,
@@ -2894,7 +2825,6 @@ const EditAddProduct = ({ placeholder }) => {
                             rows="2"
                             name="allergens"
                             value={formik?.values?.allergens}
-                             
                             onChange={(e) =>
                               handleInputChange(
                                 e,
@@ -2925,7 +2855,6 @@ const EditAddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="expiry"
                           value={formik?.values?.expiry}
-                           
                           onChange={(e) =>
                             handleInputChange(
                               e,
@@ -2972,7 +2901,6 @@ const EditAddProduct = ({ placeholder }) => {
                         // autoComplete="off"
                         name="genericName"
                         value={formik?.values?.genericName}
-                         
                         onChange={(e) =>
                           handleInputChange(e, formik.setFieldValue, 50, "all")
                         }
@@ -2993,7 +2921,6 @@ const EditAddProduct = ({ placeholder }) => {
                         // autoComplete="off"
                         name="strength"
                         value={formik?.values?.strength}
-                         
                         onChange={(e) =>
                           handleInputChange(e, formik.setFieldValue, 20, "all")
                         }
@@ -3020,7 +2947,6 @@ const EditAddProduct = ({ placeholder }) => {
                         options={vitalHealthOptions}
                         placeholder="Select OTC Classification"
                         name="otcClassification"
-                       
                         value={pharmaOptions.find(
                           (option) =>
                             option?.value === formik?.values?.otcClassification
@@ -3053,7 +2979,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="healthBenefit"
                         value={formik?.values?.healthBenefit}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -3086,7 +3011,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="composition"
                         value={formik?.values?.composition}
-                         
                         onChange={(e) =>
                           handleInputChange(e, formik.setFieldValue, 500, "all")
                         }
@@ -3110,7 +3034,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="formulation"
                         value={formik?.values?.formulation}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -3135,7 +3058,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="purpose"
                         value={formik?.values?.purpose}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -3170,7 +3092,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="drugAdministrationRoute"
                         value={formik?.values?.drugAdministrationRoute}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -3208,7 +3129,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="drugClass"
                         value={formik?.values?.drugClass}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -3238,7 +3158,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="additivesNSweeteners"
                         value={formik?.values?.additivesNSweeteners}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -3378,7 +3297,6 @@ const EditAddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="expiry"
                           value={formik?.values?.expiry}
-                           
                           onChange={(e) =>
                             handleInputChange(
                               e,
@@ -3416,7 +3334,6 @@ const EditAddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="sideEffectsAndWarnings"
                             value={formik?.values?.sideEffectsAndWarnings}
-                             
                             onChange={(e) =>
                               handleInputChange(
                                 e,
@@ -3444,7 +3361,6 @@ const EditAddProduct = ({ placeholder }) => {
                             rows="2"
                             name="allergens"
                             value={formik?.values?.allergens}
-                             
                             onChange={(e) =>
                               handleInputChange(
                                 e,
@@ -3483,7 +3399,6 @@ const EditAddProduct = ({ placeholder }) => {
                         // autoComplete="off"
                         name="thickness"
                         value={formik?.values?.thickness}
-                         
                         onChange={(e) =>
                           handleInputChange(e, formik.setFieldValue, 5, "all")
                         }
@@ -3502,7 +3417,6 @@ const EditAddProduct = ({ placeholder }) => {
                         // autoComplete="off"
                         name="productMaterial"
                         value={formik?.values?.productMaterial}
-                         
                         onChange={(e) =>
                           handleInputChange(e, formik.setFieldValue, 25, "all")
                         }
@@ -3545,7 +3459,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="purpose"
                         value={formik?.values?.purpose}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -3571,7 +3484,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="chemicalResistance"
                         value={formik?.values?.chemicalResistance}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -3596,7 +3508,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="shape"
                         value={formik?.values?.shape}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -3621,7 +3532,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="coating"
                         value={formik?.values?.coating}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -3712,7 +3622,6 @@ const EditAddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="expiry"
                           value={formik?.values?.expiry}
-                           
                           onChange={(e) =>
                             handleInputChange(
                               e,
@@ -3747,7 +3656,6 @@ const EditAddProduct = ({ placeholder }) => {
                             rows="2"
                             name="allergens"
                             value={formik?.values?.allergens}
-                             
                             onChange={(e) =>
                               handleInputChange(
                                 e,
@@ -3815,7 +3723,6 @@ const EditAddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="filtrationEfficiency"
                             value={formik?.values?.filtrationEfficiency}
-                             
                             onChange={(e) =>
                               handleInputChange(
                                 e,
@@ -3842,7 +3749,6 @@ const EditAddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="breathability"
                             value={formik?.values?.breathability}
-                             
                             onChange={(e) =>
                               handleInputChange(
                                 e,
@@ -3867,7 +3773,6 @@ const EditAddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="layerCount"
                             value={formik?.values?.layerCount}
-                             
                             onChange={(e) =>
                               handleInputChange(
                                 e,
@@ -3984,7 +3889,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="shape"
                         value={formik?.values?.shape}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -4008,7 +3912,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="coating"
                         value={formik?.values?.coating}
-                         
                         onChange={(e) =>
                           handleInputChange(e, formik.setFieldValue, 50, "all")
                         }
@@ -4026,7 +3929,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="purpose"
                         value={formik?.values?.purpose}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -4057,7 +3959,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="casNumber"
                         value={formik?.values?.casNumber}
-                         
                         onChange={(e) =>
                           handleInputChange(e, formik.setFieldValue, 20, "all")
                         }
@@ -4076,7 +3977,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="grade"
                         value={formik?.values?.grade}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -4101,7 +4001,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="concentration"
                         value={formik?.values?.concentration}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -4134,7 +4033,6 @@ const EditAddProduct = ({ placeholder }) => {
                         // autoComplete="off"
                         name="connectivity"
                         value={formik?.values?.connectivity}
-                         
                         onChange={(e) =>
                           handleInputChange(e, formik.setFieldValue, 20, "all")
                         }
@@ -4155,7 +4053,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="magnificationRange"
                         value={formik?.values?.magnificationRange}
-                         
                         onChange={(e) =>
                           handleInputChange(e, formik.setFieldValue, 20, "all")
                         }
@@ -4174,7 +4071,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="objectiveLenses"
                         value={formik?.values?.objectiveLenses}
-                         
                         onChange={(e) =>
                           handleInputChange(e, formik.setFieldValue, 20, "all")
                         }
@@ -4192,7 +4088,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="powerSource"
                         value={formik?.values?.powerSource}
-                         
                         onChange={(e) =>
                           handleInputChange(e, formik.setFieldValue, 500, "all")
                         }
@@ -4211,7 +4106,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="resolution"
                         value={formik?.values?.resolution}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -4251,7 +4145,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="diagnosticFunctions"
                         value={formik?.values?.diagnosticFunctions}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -4281,7 +4174,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="flowRate"
                         value={formik?.values?.flowRate}
-                         
                         onChange={(e) =>
                           handleInputChange(e, formik.setFieldValue, 20, "all")
                         }
@@ -4299,7 +4191,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="concentration"
                         value={formik?.values?.concentration}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -4335,7 +4226,6 @@ const EditAddProduct = ({ placeholder }) => {
                         // autoComplete="off"
                         name="measurementRange"
                         value={formik?.values?.measurementRange}
-                         
                         onChange={(e) =>
                           handleInputChange(e, formik.setFieldValue, 20, "all")
                         }
@@ -4354,7 +4244,6 @@ const EditAddProduct = ({ placeholder }) => {
                         // autoComplete="off"
                         name="noiseLevel"
                         value={formik?.values?.noiseLevel}
-                         
                         onChange={(e) =>
                           handleInputChange(e, formik.setFieldValue, 20, "all")
                         }
@@ -4373,7 +4262,6 @@ const EditAddProduct = ({ placeholder }) => {
                       // autoComplete="off"
                       name="usageRate"
                       value={formik?.values?.usageRate}
-                       
                       onChange={(e) =>
                         handleInputChange(e, formik.setFieldValue, 20, "all")
                       }
@@ -4392,7 +4280,6 @@ const EditAddProduct = ({ placeholder }) => {
                       rows="2"
                       name="maintenanceNotes"
                       value={formik?.values?.maintenanceNotes}
-                       
                       onChange={(e) =>
                         handleInputChange(e, formik.setFieldValue, 1000, "all")
                       }
@@ -4410,7 +4297,6 @@ const EditAddProduct = ({ placeholder }) => {
                       rows="2"
                       name="compatibleEquipment"
                       value={formik?.values?.compatibleEquipment}
-                       
                       onChange={(e) =>
                         handleInputChange(e, formik.setFieldValue, 1000, "all")
                       }
@@ -4429,7 +4315,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="specification"
                         value={formik?.values?.specification}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -4492,7 +4377,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="performanceTestingReport"
                         value={formik?.values?.performanceTestingReport}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -4570,7 +4454,6 @@ const EditAddProduct = ({ placeholder }) => {
                         // autoComplete="off"
                         name="thickness"
                         value={formik?.values?.thickness}
-                         
                         onChange={(e) =>
                           handleInputChange(e, formik.setFieldValue, 20, "all")
                         }
@@ -4589,7 +4472,6 @@ const EditAddProduct = ({ placeholder }) => {
                         // autoComplete="off"
                         name="productMaterial"
                         value={formik?.values?.productMaterial}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -4614,7 +4496,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="purpose"
                         value={formik?.values?.purpose}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -4641,7 +4522,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="chemicalResistance"
                         value={formik?.values?.chemicalResistance}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -4734,7 +4614,6 @@ const EditAddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="expiry"
                           value={formik?.values?.expiry}
-                           
                           onChange={(e) =>
                             handleInputChange(
                               e,
@@ -4812,7 +4691,6 @@ const EditAddProduct = ({ placeholder }) => {
                         // autoComplete="off"
                         name="adhesiveness"
                         value={formik?.values?.adhesiveness}
-                         
                         onChange={(e) =>
                           handleInputChange(e, formik.setFieldValue, 50, "all")
                         }
@@ -4832,7 +4710,6 @@ const EditAddProduct = ({ placeholder }) => {
                         // autoComplete="off"
                         name="absorbency"
                         value={formik?.values?.absorbency}
-                         
                         onChange={(e) =>
                           handleInputChange(e, formik.setFieldValue, 50, "all")
                         }
@@ -4852,7 +4729,6 @@ const EditAddProduct = ({ placeholder }) => {
                         // autoComplete="off"
                         name="elasticity"
                         value={formik?.values?.elasticity}
-                         
                         onChange={(e) =>
                           handleInputChange(e, formik.setFieldValue, 20, "all")
                         }
@@ -4922,7 +4798,6 @@ const EditAddProduct = ({ placeholder }) => {
                         // autoComplete="off"
                         name="strength"
                         value={formik?.values?.strength}
-                         
                         onChange={(e) =>
                           handleInputChange(e, formik.setFieldValue, 20, "all")
                         }
@@ -4975,7 +4850,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="purpose"
                         value={formik?.values?.purpose}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -5002,7 +4876,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="targetCondition"
                         value={formik?.values?.targetCondition}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -5031,7 +4904,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="coating"
                         value={formik?.values?.coating}
-                         
                         onChange={(e) =>
                           handleInputChange(e, formik.setFieldValue, 100, "all")
                         }
@@ -5099,7 +4971,6 @@ const EditAddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="elasticity"
                             value={formik?.values?.elasticity}
-                             
                             onChange={(e) =>
                               handleInputChange(
                                 e,
@@ -5124,7 +4995,6 @@ const EditAddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="absorbency"
                             value={formik?.values?.absorbency}
-                             
                             onChange={(e) =>
                               handleInputChange(
                                 e,
@@ -5150,7 +5020,6 @@ const EditAddProduct = ({ placeholder }) => {
                             rows="2"
                             name="breathability"
                             value={formik?.values?.breathability}
-                             
                             onChange={(e) =>
                               handleInputChange(
                                 e,
@@ -5176,7 +5045,6 @@ const EditAddProduct = ({ placeholder }) => {
                             rows="2"
                             name="colorOptions"
                             value={formik?.values?.colorOptions}
-                             
                             onChange={(e) =>
                               handleInputChange(
                                 e,
@@ -5219,7 +5087,6 @@ const EditAddProduct = ({ placeholder }) => {
                         // autoComplete="off"
                         name="productMaterial"
                         value={formik?.values?.productMaterial}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -5243,7 +5110,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="purpose"
                         value={formik?.values?.purpose}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -5266,7 +5132,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="targetCondition"
                         value={formik?.values?.targetCondition}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -5311,7 +5176,6 @@ const EditAddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="expiry"
                           value={formik?.values?.expiry}
-                           
                           onChange={(e) =>
                             handleInputChange(
                               e,
@@ -5345,7 +5209,6 @@ const EditAddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="usageRate"
                           value={formik?.values?.usageRate}
-                           
                           onChange={(e) =>
                             handleInputChange(
                               e,
@@ -5370,7 +5233,6 @@ const EditAddProduct = ({ placeholder }) => {
                           rows="2"
                           name="maintenanceNotes"
                           value={formik?.values?.maintenanceNotes}
-                           
                           onChange={(e) =>
                             handleInputChange(
                               e,
@@ -5395,7 +5257,6 @@ const EditAddProduct = ({ placeholder }) => {
                           rows="2"
                           name="compatibleEquipment"
                           value={formik?.values?.compatibleEquipment}
-                           
                           onChange={(e) =>
                             handleInputChange(
                               e,
@@ -5498,7 +5359,6 @@ const EditAddProduct = ({ placeholder }) => {
                       // autoComplete="off"
                       name="diameter"
                       value={formik?.values?.diameter}
-                       
                       onChange={(e) =>
                         handleInputChange(e, formik.setFieldValue, 4, "all")
                       }
@@ -5516,7 +5376,6 @@ const EditAddProduct = ({ placeholder }) => {
                       rows="2"
                       name="lensPower"
                       value={formik?.values?.lensPower}
-                       
                       onChange={(e) =>
                         handleInputChange(e, formik.setFieldValue, 5, "all")
                       }
@@ -5533,7 +5392,6 @@ const EditAddProduct = ({ placeholder }) => {
                       rows="2"
                       name="baseCurve"
                       value={formik?.values?.baseCurve}
-                       
                       onChange={(e) =>
                         handleInputChange(e, formik.setFieldValue, 100, "all")
                       }
@@ -5550,7 +5408,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="colorOptions"
                         value={formik?.values?.colorOptions}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -5588,7 +5445,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="flowRate"
                         value={formik?.values?.flowRate}
-                         
                         onChange={(e) =>
                           handleInputChange(e, formik.setFieldValue, 20, "all")
                         }
@@ -5607,7 +5463,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="concentration"
                         value={formik?.values?.concentration}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -5644,7 +5499,6 @@ const EditAddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="expiry"
                           value={formik?.values?.expiry}
-                           
                           onChange={(e) =>
                             handleInputChange(
                               e,
@@ -5680,7 +5534,6 @@ const EditAddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="maxWeightCapacity"
                             value={formik?.values?.maxWeightCapacity}
-                             
                             onChange={(e) =>
                               handleInputChange(
                                 e,
@@ -5705,7 +5558,6 @@ const EditAddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="gripType"
                             value={formik?.values?.gripType}
-                             
                             onChange={(e) =>
                               handleInputChange(
                                 e,
@@ -5730,7 +5582,6 @@ const EditAddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="batteryType"
                             value={formik?.values?.batteryType}
-                             
                             onChange={(e) =>
                               handleInputChange(
                                 e,
@@ -5755,7 +5606,6 @@ const EditAddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="batterySize"
                             value={formik?.values?.batterySize}
-                             
                             onChange={(e) =>
                               handleInputChange(
                                 e,
@@ -5781,7 +5631,6 @@ const EditAddProduct = ({ placeholder }) => {
                             rows="2"
                             name="colorOptions"
                             value={formik?.values?.colorOptions}
-                             
                             onChange={(e) =>
                               handleInputChange(
                                 e,
@@ -5805,7 +5654,6 @@ const EditAddProduct = ({ placeholder }) => {
                             rows="2"
                             name="foldability"
                             value={formik?.values?.foldability}
-                             
                             onChange={(e) =>
                               handleInputChange(
                                 e,
@@ -5831,7 +5679,6 @@ const EditAddProduct = ({ placeholder }) => {
                             rows="2"
                             name="lockingMechanism"
                             value={formik?.values?.lockingMechanism}
-                             
                             onChange={(e) =>
                               handleInputChange(
                                 e,
@@ -5857,7 +5704,6 @@ const EditAddProduct = ({ placeholder }) => {
                             rows="2"
                             name="typeOfSupport"
                             value={formik?.values?.typeOfSupport}
-                             
                             onChange={(e) =>
                               handleInputChange(
                                 e,
@@ -5888,7 +5734,6 @@ const EditAddProduct = ({ placeholder }) => {
                             rows="2"
                             name="performanceTestingReport"
                             value={formik?.values?.performanceTestingReport}
-                             
                             onChange={(e) =>
                               handleInputChange(
                                 e,
@@ -5971,7 +5816,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="composition"
                         value={formik?.values?.composition}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -6000,7 +5844,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="purpose"
                         value={formik?.values?.purpose}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -6030,7 +5873,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="healthClaims"
                         value={formik?.values?.healthClaims}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -6093,7 +5935,6 @@ const EditAddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="expiry"
                           value={formik?.values?.expiry}
-                           
                           onChange={(e) =>
                             handleInputChange(
                               e,
@@ -6138,7 +5979,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="composition"
                         value={formik?.values?.composition}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -6171,7 +6011,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="productLongevity"
                         value={formik?.values?.productLongevity}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -6203,7 +6042,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="foldability"
                         value={formik?.values?.foldability}
-                         
                         onChange={(e) =>
                           handleInputChange(e, formik.setFieldValue, 100, "all")
                         }
@@ -6235,7 +6073,6 @@ const EditAddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="expiry"
                           value={formik?.values?.expiry}
-                           
                           onChange={(e) =>
                             handleInputChange(
                               e,
@@ -6281,7 +6118,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="composition"
                         value={formik?.values?.composition}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -6311,7 +6147,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="concentration"
                         value={formik?.values?.concentration}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -6340,7 +6175,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="formulation"
                         value={formik?.values?.formulation}
-                         
                         onChange={(e) =>
                           handleInputChange(e, formik.setFieldValue, 100, "all")
                         }
@@ -6359,7 +6193,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="fragrance"
                         value={formik?.values?.fragrance}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -6391,7 +6224,6 @@ const EditAddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="expiry"
                           value={formik?.values?.expiry}
-                           
                           onChange={(e) =>
                             handleInputChange(
                               e,
@@ -6467,7 +6299,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="flavorOptions"
                         value={formik?.values?.flavorOptions}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -6504,7 +6335,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="aminoAcidProfile"
                         value={formik?.values?.aminoAcidProfile}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -6536,7 +6366,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="fatContent"
                         value={formik?.values?.fatContent}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -6568,7 +6397,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="healthBenefit"
                         value={formik?.values?.healthBenefit}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -6597,7 +6425,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="purpose"
                         value={formik?.values?.purpose}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -6631,7 +6458,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="composition"
                         value={formik?.values?.composition}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -6664,7 +6490,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="additivesNSweeteners"
                         value={formik?.values?.additivesNSweeteners}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -6731,7 +6556,6 @@ const EditAddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="expiry"
                           value={formik?.values?.expiry}
-                           
                           onChange={(e) =>
                             handleInputChange(
                               e,
@@ -6777,7 +6601,6 @@ const EditAddProduct = ({ placeholder }) => {
                         rows="2"
                         name="scalabilityInfo"
                         value={formik?.values?.scalabilityInfo}
-                         
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -6816,7 +6639,6 @@ const EditAddProduct = ({ placeholder }) => {
                             rows="2"
                             name="license"
                             value={formik?.values?.license}
-                             
                             onChange={(e) =>
                               handleInputChange(
                                 e,
@@ -6847,7 +6669,6 @@ const EditAddProduct = ({ placeholder }) => {
                             rows="2"
                             name="addOns"
                             value={formik?.values?.addOns}
-                             
                             onChange={(e) =>
                               handleInputChange(
                                 e,
@@ -6878,7 +6699,6 @@ const EditAddProduct = ({ placeholder }) => {
                             rows="2"
                             name="userAccess"
                             value={formik?.values?.userAccess}
-                             
                             onChange={(e) =>
                               handleInputChange(
                                 e,
@@ -6916,7 +6736,6 @@ const EditAddProduct = ({ placeholder }) => {
                             rows="2"
                             name="keyFeatures"
                             value={formik?.values?.keyFeatures}
-                             
                             onChange={(e) =>
                               handleInputChange(
                                 e,
@@ -6953,7 +6772,6 @@ const EditAddProduct = ({ placeholder }) => {
                             rows="2"
                             name="coreFunctionalities"
                             value={formik?.values?.coreFunctionalities}
-                             
                             onChange={(e) =>
                               handleInputChange(
                                 e,
@@ -6985,7 +6803,6 @@ const EditAddProduct = ({ placeholder }) => {
                             rows="2"
                             name="interoperability"
                             value={formik?.values?.interoperability}
-                             
                             onChange={(e) =>
                               handleInputChange(
                                 e,
@@ -7063,7 +6880,6 @@ const EditAddProduct = ({ placeholder }) => {
                     // autoComplete="off"
                     name="sku"
                     value={formik?.values?.sku}
-                     
                     onChange={(e) =>
                       handleInputChange(
                         e,
@@ -7083,13 +6899,8 @@ const EditAddProduct = ({ placeholder }) => {
                 )}
               </div>
               <div className={styles.productContainer}>
-                <label className={styles.formLabel}>
-                  Date of Manufacture
-                
-                </label>
+                <label className={styles.formLabel}>Date of Manufacture</label>
                 <div className={styles.tooltipContainer}>
-                
-
                   <DatePicker
                     className={styles.formDate}
                     clearIcon={null}
@@ -7097,7 +6908,6 @@ const EditAddProduct = ({ placeholder }) => {
                     placeholder="dd/MM/yyyy"
                     name="date"
                     maxDate={new Date()}
-                  
                     value={parseDate(formik.values.date)}
                     onChange={(date) => {
                       formik.setFieldValue("date", date); // This updates Formik's value
@@ -7144,7 +6954,6 @@ const EditAddProduct = ({ placeholder }) => {
                   options={countries}
                   placeholderButtonLabel="Select Countries"
                   name="countries"
-                
                   value={formik.values?.countries.map((country) => ({
                     label: country,
                     value: country,
@@ -7213,7 +7022,6 @@ const EditAddProduct = ({ placeholder }) => {
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Country where Stock Trades
-                       
                       </label>
                       <Select
                         className={styles.formSelect}
@@ -7249,10 +7057,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
 
                     <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Stock Quantity
-                      
-                      </label>
+                      <label className={styles.formLabel}>Stock Quantity</label>
                       <div className={styles.productQuantityContainer}>
                         <div className={styles.quantitySection}>
                           <input
@@ -7266,11 +7071,7 @@ const EditAddProduct = ({ placeholder }) => {
                             }
                             onChange={formik.handleChange}
                           />
-
-                        
                         </div>
-
-                     
                       </div>
                       <span className={styles.error}>
                         {formik.touched.stockedInDetails?.[index]?.quantity &&
@@ -7348,7 +7149,7 @@ const EditAddProduct = ({ placeholder }) => {
                             Quantity
                             <span className={styles?.labelStamp}>*</span>
                           </label>
-                        
+
                           <div className={styles.weightContainer}>
                             <div className={styles.weightSection}>
                               <div className={styles.tooltipContainer}>
@@ -7391,10 +7192,9 @@ const EditAddProduct = ({ placeholder }) => {
                                 }
                                 onBlur={formik?.handleBlur}
                               />
-                             
                             </div>
                           </div>
-                         
+
                           <span className={styles.error}>
                             {formik.touched.productPricingDetails?.[index]
                               ?.quantityFrom &&
@@ -7443,8 +7243,14 @@ const EditAddProduct = ({ placeholder }) => {
                             className={styles.formInput}
                             onChange={(e) => {
                               // Allow only alphanumeric characters, spaces, hyphens
-                              const value = e.target.value.replace(/[^a-zA-Z0-9 \-]/g, "");
-                              formik?.setFieldValue(`productPricingDetails.${index}.deliveryTime`, value);
+                              const value = e.target.value.replace(
+                                /[^a-zA-Z0-9 \-]/g,
+                                ""
+                              );
+                              formik?.setFieldValue(
+                                `productPricingDetails.${index}.deliveryTime`,
+                                value || "TBC- based on quantity"
+                              );
                             }}
                           />
                           <span className={styles.error}>
@@ -7539,13 +7345,9 @@ const EditAddProduct = ({ placeholder }) => {
 
                   {/* Date of Expiry Section */}
                   <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Date of Expiry
-                     
-                    </label>
+                    <label className={styles.formLabel}>Date of Expiry</label>
                     <div className={styles.tooltipContainer}>
                       {/* Date Mask Input */}
-                      
 
                       <DatePicker
                         className={styles.formDate}
@@ -7553,11 +7355,9 @@ const EditAddProduct = ({ placeholder }) => {
                         format="dd/MM/yyyy"
                         placeholder="dd/MM/yyyy"
                         name={`cNCFileNDate.${index}.date`}
-                     
                         value={parseDate(ele?.date)}
                         minDate={new Date()}
                         onChange={(e) => {
-                         
                           formik?.setFieldValue(
                             `cNCFileNDate.${index}.date`,
                             e
@@ -7751,7 +7551,6 @@ const EditAddProduct = ({ placeholder }) => {
                   // autoComplete="off"
                   name="warranty"
                   value={formik?.values?.warranty}
-                   
                   onChange={(e) =>
                     handleInputChange(e, formik.setFieldValue, 20, "all")
                   }
@@ -7800,7 +7599,6 @@ const EditAddProduct = ({ placeholder }) => {
                     // autoComplete="off"
                     name="other"
                     value={formik?.values?.other}
-                     
                     onChange={(e) =>
                       handleInputChange(e, formik.setFieldValue, 100, "all")
                     }

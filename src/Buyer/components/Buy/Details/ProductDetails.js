@@ -3581,7 +3581,7 @@ const ProductDetails = () => {
                         </div>
                         <div className={styles.inventoryContainer}>
                           <span className={styles.inventoryInput} readOnly>
-                            {selectedOption.deliveryTime || "N/A"}
+                            {selectedOption.deliveryTime || "TBC- based on quantity"}
                           </span>
                         </div>
                         <div className={styles.inventoryContainer}>
