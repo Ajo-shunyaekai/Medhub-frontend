@@ -215,7 +215,7 @@ const EditAddProduct = ({ placeholder }) => {
     allowedType = "all",
     restrictSpecialForFields = [],
     allowedSpecialChars = ""
-) => {
+  ) => {
     let { value, name } = e.target;
 
     // Apply character limit
@@ -223,51 +223,51 @@ const EditAddProduct = ({ placeholder }) => {
 
     // Dimension field validation
     if (name === "dimension") {
-        // Allow only numbers, "x", and "."
-        value = value.replace(/[^0-9x.]/g, "")?.toLowerCase();
+      // Allow only numbers, "x", and "."
+      value = value.replace(/[^0-9x.]/g, "")?.toLowerCase();
 
-        // Prevent multiple consecutive "x"
-        value = value.replace(/x{2,}/g, "x");
+      // Prevent multiple consecutive "x"
+      value = value.replace(/x{2,}/g, "x");
 
-        // Split the values by "x" while keeping their sequence
-        const parts = value?.split("x").map((part, index) => {
-            // Allow up to 5 digits before decimal and 2 after
-            part = part.replace(/^(\d{1,5})\.(\d{0,2}).*/, "$1.$2");
+      // Split the values by "x" while keeping their sequence
+      const parts = value?.split("x").map((part, index) => {
+        // Allow up to 5 digits before decimal and 2 after
+        part = part.replace(/^(\d{1,5})\.(\d{0,2}).*/, "$1.$2");
 
-            // Ensure only one decimal per number
-            part = part.replace(/(\..*)\./g, "$1");
+        // Ensure only one decimal per number
+        part = part.replace(/(\..*)\./g, "$1");
 
-            return part;
-        });
+        return part;
+      });
 
-        // Join back using "x" but ensure it doesn't remove already typed "x"
-        value = parts.join("x");
+      // Join back using "x" but ensure it doesn't remove already typed "x"
+      value = parts.join("x");
 
-        setFieldValue(name, value);
-        return;
+      setFieldValue(name, value);
+      return;
     }
 
     // Restrict input type
     if (allowedType === "number") {
-        value = value.replace(/[^0-9]/g, ""); // Allow only numbers
+      value = value.replace(/[^0-9]/g, ""); // Allow only numbers
     } else if (allowedType === "text") {
-        value = value.replace(/[^a-zA-Z\s]/g, ""); // Allow only text and spaces
+      value = value.replace(/[^a-zA-Z\s]/g, ""); // Allow only text and spaces
     } else if (
-        allowedType === "all" &&
-        restrictSpecialForFields.includes(name)
+      allowedType === "all" &&
+      restrictSpecialForFields.includes(name)
     ) {
-        // Allow "-" in "brand" and "manufacturer"
-        const allowedPattern = new RegExp(
-            `[^a-zA-Z0-9\\s\\-(${allowedSpecialChars})]`,
-            "g"
-        );
-        value = value.replace(allowedPattern, "");
+      // Allow "-" in "brand" and "manufacturer"
+      const allowedPattern = new RegExp(
+        `[^a-zA-Z0-9\\s\\-(${allowedSpecialChars})]`,
+        "g"
+      );
+      value = value.replace(allowedPattern, "");
     } else if (allowedType === "decimal") {
-        if (!/^\d*\.?\d*$/.test(value)) return;
+      if (!/^\d*\.?\d*$/.test(value)) return;
     }
 
     setFieldValue(name, value);
-};
+  };
 
   // End the checked container
   const editor = useRef(null);
@@ -560,14 +560,14 @@ const EditAddProduct = ({ placeholder }) => {
           onSubmit={(e) => {
             e.preventDefault();
 
-              const fields = Object.keys(formik.initialValues);
-              const touchedFields = fields.reduce((acc, key) => {
-                acc[key] = true;
-                return acc;
-              }, {});
-            
-              // Mark all fields as touched to trigger validation display
-              formik.setTouched(touchedFields, true);
+            const fields = Object.keys(formik.initialValues);
+            const touchedFields = fields.reduce((acc, key) => {
+              acc[key] = true;
+              return acc;
+            }, {});
+
+            // Mark all fields as touched to trigger validation display
+            formik.setTouched(touchedFields, true);
 
             // Check if the form is changed and no validation errors
             if (Object.keys(formik.errors).length === 0) {
@@ -786,7 +786,6 @@ const EditAddProduct = ({ placeholder }) => {
                       placeholder="dd/MM/yyyy"
                       name="purchasedOn"
                       maxDate={new Date()}
-                    
                       value={parseDate(formik?.values?.purchasedOn)}
                       onChange={(date) => {
                         formik.setFieldValue("purchasedOn", date); // This updates Formik's value
@@ -837,20 +836,18 @@ const EditAddProduct = ({ placeholder }) => {
                       options={countries}
                       placeholderButtonLabel="Select Countries"
                       name="countryAvailable"
-                      
                       value={formik.values?.countryAvailable.map((country) => ({
                         label: country,
                         value: country,
                       }))}
                       onChange={(selectedOptions) => {
-                     
                         const selectedValues = selectedOptions
                           ? selectedOptions.map((option) => option?.label)
                           : [];
                         formik.setFieldValue(
                           "countryAvailable",
                           selectedValues
-                        ); 
+                        );
                       }}
                       onBlur={formik?.handleBlur} // Optional: add this if the component has a blur event
                     />
@@ -970,7 +967,9 @@ const EditAddProduct = ({ placeholder }) => {
                   name="brand"
                   value={formik?.values?.brand}
                   onChange={(e) =>
-                    handleInputChange(e, formik.setFieldValue, 75, "all",["brand"])
+                    handleInputChange(e, formik.setFieldValue, 75, "all", [
+                      "brand",
+                    ])
                   }
                   onBlur={formik?.handleBlur}
                 />
@@ -1030,8 +1029,6 @@ const EditAddProduct = ({ placeholder }) => {
                 )}
               </div>
 
-             
-
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>Product Volume</label>
                 <div className={styles.weightContainer}>
@@ -1041,10 +1038,8 @@ const EditAddProduct = ({ placeholder }) => {
                         className={styles.formInput}
                         type="text"
                         placeholder="Enter Volume"
-                     
                         name="volumn"
                         value={formik?.values?.volumn}
-                       
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -1080,13 +1075,9 @@ const EditAddProduct = ({ placeholder }) => {
                         );
                       }}
                     />
-                  
                   </div>
                 </div>
-                
               </div>
-
-              
 
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>Product Dimension</label>
@@ -1100,7 +1091,6 @@ const EditAddProduct = ({ placeholder }) => {
                         // autoComplete="off"
                         name="dimension"
                         value={formik?.values?.dimension}
-                       
                         onChange={(e) =>
                           handleInputChange(
                             e,
@@ -1133,13 +1123,9 @@ const EditAddProduct = ({ placeholder }) => {
                         );
                       }}
                     />
-                   
                   </div>
                 </div>
-              
               </div>
-
-             
 
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
@@ -1181,7 +1167,6 @@ const EditAddProduct = ({ placeholder }) => {
                       options={packagingUnits}
                       placeholder="Select Units"
                       onBlur={formik?.handleBlur}
-                   
                       value={packagingUnits.find(
                         (option) => option?.value === formik?.values?.unit
                       )}
@@ -1224,10 +1209,8 @@ const EditAddProduct = ({ placeholder }) => {
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   Product Packaging Type
-                  
                 </label>
                 <div className={styles.tooltipContainer}>
-                  
                   <input
                     className={styles.formInput}
                     type="text"
@@ -1254,10 +1237,8 @@ const EditAddProduct = ({ placeholder }) => {
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   Product Packaging Material
-                  
                 </label>
                 <div className={styles.tooltipContainer}>
-                 
                   <input
                     className={styles.formInput}
                     type="text"
@@ -1270,8 +1251,6 @@ const EditAddProduct = ({ placeholder }) => {
                   />
                   <Tooltip content="The material used for packaging (e.g., plastic, glass, aluminum, cardboard, thermocol etc)."></Tooltip>
                 </div>
-
-               
 
                 {/* Display error message if any */}
                 {formik.touched.packageMaterial &&
@@ -1323,7 +1302,9 @@ const EditAddProduct = ({ placeholder }) => {
                   // }}
 
                   onChange={(e) =>
-                    handleInputChange(e, formik.setFieldValue, 75, "all",["manufacturer"])
+                    handleInputChange(e, formik.setFieldValue, 75, "all", [
+                      "manufacturer",
+                    ])
                   }
                 />
                 {/* {formik.touched.manufacturer && formik.errors.manufacturer && (
@@ -1410,7 +1391,6 @@ const EditAddProduct = ({ placeholder }) => {
                     acceptTypes={{
                       "application/pdf": [],
                     }}
-                    
                     error={
                       (formik.touched.purchaseInvoiceFile ||
                         formik.touched.purchaseInvoiceFileNew ||
@@ -1444,8 +1424,6 @@ const EditAddProduct = ({ placeholder }) => {
                   </span>
                 )}
               </div>
-
-             
             </div>
           </div>
 
@@ -6823,10 +6801,7 @@ const EditAddProduct = ({ placeholder }) => {
             <span className={styles.formHead}>Inventory</span>
             <div className={styles.formSection}>
               <div className={styles.productContainer}>
-                <label className={styles.formLabel}>
-                  SKU
-                 
-                </label>
+                <label className={styles.formLabel}>SKU</label>
                 <div className={styles.tooltipContainer}>
                   <input
                     className={styles.formInput}
@@ -6854,13 +6829,8 @@ const EditAddProduct = ({ placeholder }) => {
                 )}
               </div>
               <div className={styles.productContainer}>
-                <label className={styles.formLabel}>
-                  Date of Manufacture
-                 
-                </label>
+                <label className={styles.formLabel}>Date of Manufacture</label>
                 <div className={styles.tooltipContainer}>
-                 
-
                   <DatePicker
                     className={styles.formDate}
                     clearIcon={null}
@@ -6868,7 +6838,6 @@ const EditAddProduct = ({ placeholder }) => {
                     placeholder="dd/MM/yyyy"
                     name="date"
                     maxDate={new Date()}
-                  
                     value={parseDate(formik.values.date)}
                     onChange={(date) => {
                       formik.setFieldValue("date", date); // This updates Formik's value
@@ -6915,7 +6884,6 @@ const EditAddProduct = ({ placeholder }) => {
                   options={countries}
                   placeholderButtonLabel="Select Countries"
                   name="countries"
-                
                   value={formik.values?.countries.map((country) => ({
                     label: country,
                     value: country,
@@ -6984,7 +6952,6 @@ const EditAddProduct = ({ placeholder }) => {
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Country where Stock Trades
-                        
                       </label>
                       <Select
                         className={styles.formSelect}
@@ -7020,10 +6987,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
 
                     <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Stock Quantity
-                       
-                      </label>
+                      <label className={styles.formLabel}>Stock Quantity</label>
                       <div className={styles.productQuantityContainer}>
                         <div className={styles.quantitySection}>
                           <input
@@ -7037,11 +7001,7 @@ const EditAddProduct = ({ placeholder }) => {
                             }
                             onChange={formik.handleChange}
                           />
-
-                        
                         </div>
-
-                       
                       </div>
                       <span className={styles.error}>
                         {formik.touched.stockedInDetails?.[index]?.quantity &&
@@ -7119,7 +7079,7 @@ const EditAddProduct = ({ placeholder }) => {
                             Quantity
                             <span className={styles?.labelStamp}>*</span>
                           </label>
-                        
+
                           <div className={styles.weightContainer}>
                             <div className={styles.weightSection}>
                               <div className={styles.tooltipContainer}>
@@ -7162,10 +7122,9 @@ const EditAddProduct = ({ placeholder }) => {
                                 }
                                 onBlur={formik?.handleBlur}
                               />
-                             
                             </div>
                           </div>
-                         
+
                           <span className={styles.error}>
                             {formik.touched.productPricingDetails?.[index]
                               ?.quantityFrom &&
@@ -7214,8 +7173,14 @@ const EditAddProduct = ({ placeholder }) => {
                             className={styles.formInput}
                             onChange={(e) => {
                               // Allow only alphanumeric characters, spaces, hyphens
-                              const value = e.target.value.replace(/[^a-zA-Z0-9 \-]/g, "");
-                              formik?.setFieldValue(`productPricingDetails.${index}.deliveryTime`, value);
+                              const value = e.target.value.replace(
+                                /[^a-zA-Z0-9 \-]/g,
+                                ""
+                              );
+                              formik?.setFieldValue(
+                                `productPricingDetails.${index}.deliveryTime`,
+                                value || "TBC- based on quantity"
+                              );
                             }}
                           />
                           <span className={styles.error}>
@@ -7310,24 +7275,17 @@ const EditAddProduct = ({ placeholder }) => {
 
                   {/* Date of Expiry Section */}
                   <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Date of Expiry
-                    
-                    </label>
+                    <label className={styles.formLabel}>Date of Expiry</label>
                     <div className={styles.tooltipContainer}>
-                     
-
                       <DatePicker
                         className={styles.formDate}
                         clearIcon={null}
                         format="dd/MM/yyyy"
                         placeholder="dd/MM/yyyy"
                         name={`cNCFileNDate.${index}.date`}
-                        
                         value={parseDate(ele?.date)}
                         minDate={new Date()}
                         onChange={(e) => {
-                         
                           formik?.setFieldValue(
                             `cNCFileNDate.${index}.date`,
                             e
@@ -7351,7 +7309,6 @@ const EditAddProduct = ({ placeholder }) => {
                           alt="information"
                         />
                       </span>
-                   
                     </div>
                     <span className={styles.error}>
                       {formik?.touched.cNCFileNDate?.[index]?.date &&
@@ -7364,7 +7321,6 @@ const EditAddProduct = ({ placeholder }) => {
                     <div
                       className={styles.formCloseSection}
                       onClick={() => {
-                       
                         formik?.setFieldValue(`cNCFileNDate.${index}.file`, []);
                         formik?.setFieldValue(`cNCFileNDate.${index}.date`, "");
                         formik?.setFieldValue(

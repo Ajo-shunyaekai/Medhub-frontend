@@ -197,7 +197,8 @@ const ProductDetails = () => {
               (Last Modified Date:{" "}
               {moment(productDetail?.updatedAt || new Date()).format(
                 "DD/MM/YYYY"
-              )})
+              )}
+              )
             </span>
           )}
           <div className={styles.innerSection}>
@@ -509,7 +510,7 @@ const ProductDetails = () => {
                   </div>
                   <div className={styles.inventoryContainer}>
                     <span className={styles.inventoryInput}>
-                      {ele?.deliveryTime}
+                      {ele?.deliveryTime || "TBC- based on quantity"}
                     </span>
                   </div>
                 </div>

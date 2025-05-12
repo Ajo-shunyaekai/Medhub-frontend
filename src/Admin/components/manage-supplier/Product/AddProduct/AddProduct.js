@@ -108,7 +108,7 @@ const AddProduct = ({ placeholder }) => {
       [id]: vallue,
     }));
   };
-  
+
   const handleInputChange = (
     e,
     setFieldValue,
@@ -116,7 +116,7 @@ const AddProduct = ({ placeholder }) => {
     allowedType = "all",
     restrictSpecialForFields = [],
     allowedSpecialChars = ""
-) => {
+  ) => {
     let { value, name } = e.target;
 
     // Apply character limit
@@ -124,52 +124,52 @@ const AddProduct = ({ placeholder }) => {
 
     // Dimension field validation
     if (name === "dimension") {
-        // Allow only numbers, "x", and "."
-        value = value.replace(/[^0-9x.]/g, "")?.toLowerCase();
+      // Allow only numbers, "x", and "."
+      value = value.replace(/[^0-9x.]/g, "")?.toLowerCase();
 
-        // Prevent multiple consecutive "x"
-        value = value.replace(/x{2,}/g, "x");
+      // Prevent multiple consecutive "x"
+      value = value.replace(/x{2,}/g, "x");
 
-        // Split the values by "x" while keeping their sequence
-        const parts = value?.split("x").map((part, index) => {
-            // Allow up to 5 digits before decimal and 2 after
-            part = part.replace(/^(\d{1,5})\.(\d{0,2}).*/, "$1.$2");
+      // Split the values by "x" while keeping their sequence
+      const parts = value?.split("x").map((part, index) => {
+        // Allow up to 5 digits before decimal and 2 after
+        part = part.replace(/^(\d{1,5})\.(\d{0,2}).*/, "$1.$2");
 
-            // Ensure only one decimal per number
-            part = part.replace(/(\..*)\./g, "$1");
+        // Ensure only one decimal per number
+        part = part.replace(/(\..*)\./g, "$1");
 
-            return part;
-        });
+        return part;
+      });
 
-        // Join back using "x" but ensure it doesn't remove already typed "x"
-        value = parts.join("x");
+      // Join back using "x" but ensure it doesn't remove already typed "x"
+      value = parts.join("x");
 
-        setFieldValue(name, value);
-        return;
+      setFieldValue(name, value);
+      return;
     }
 
     // Restrict input type
     if (allowedType === "number") {
-        value = value.replace(/[^0-9]/g, ""); // Allow only numbers
+      value = value.replace(/[^0-9]/g, ""); // Allow only numbers
     } else if (allowedType === "text") {
-        value = value.replace(/[^a-zA-Z\s]/g, ""); // Allow only text and spaces
+      value = value.replace(/[^a-zA-Z\s]/g, ""); // Allow only text and spaces
     } else if (
-        allowedType === "all" &&
-        restrictSpecialForFields.includes(name)
+      allowedType === "all" &&
+      restrictSpecialForFields.includes(name)
     ) {
-        // Allow "-" in "brand" and "manufacturer"
-        const allowedPattern = new RegExp(
-            `[^a-zA-Z0-9\\s\\-(${allowedSpecialChars})]`,
-            "g"
-        );
-        value = value.replace(allowedPattern, "");
+      // Allow "-" in "brand" and "manufacturer"
+      const allowedPattern = new RegExp(
+        `[^a-zA-Z0-9\\s\\-(${allowedSpecialChars})]`,
+        "g"
+      );
+      value = value.replace(allowedPattern, "");
     } else if (allowedType === "decimal") {
-        if (!/^\d*\.?\d*$/.test(value)) return;
+      if (!/^\d*\.?\d*$/.test(value)) return;
     }
 
     setFieldValue(name, value);
-};
-  
+  };
+
   const editor = useRef(null);
   const [content, setContent] = useState("");
 
@@ -5908,8 +5908,14 @@ const AddProduct = ({ placeholder }) => {
                       // }}
                       onChange={(e) => {
                         // Allow only alphanumeric characters, spaces, hyphens
-                        const value = e.target.value.replace(/[^a-zA-Z0-9 \-]/g, "");
-                        setFieldValue(`productPricingDetails.${index}.deliveryTime`, value);
+                        const value = e.target.value.replace(
+                          /[^a-zA-Z0-9 \-]/g,
+                          ""
+                        );
+                        setFieldValue(
+                          `productPricingDetails.${index}.deliveryTime`,
+                          value || "TBC- based on quantity"
+                        );
                       }}
                     />
                     <span className={styles.error}>
