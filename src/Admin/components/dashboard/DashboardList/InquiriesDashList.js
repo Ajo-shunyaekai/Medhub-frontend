@@ -36,13 +36,13 @@ const InquiriesDashList = () => {
     setActiveLink(link);
     switch (link) {
       case "request":
-        navigate(`/admin/inquiries-section/request?filterValue=${filterValue}`);
+        navigate(`/admin/inquiries-section/request`);
         break;
       case "ongoing":
-        navigate(`/admin/inquiries-section/ongoing?filterValue=${filterValue}`);
+        navigate(`/admin/inquiries-section/ongoing`);
         break;
       default:
-        navigate(`/admin/inquiries-section/request?filterValue=${filterValue}`);
+        navigate(`/admin/inquiries-section/request`);
     }
   };
 

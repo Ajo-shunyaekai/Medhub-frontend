@@ -59,19 +59,19 @@ const AdminDashboard = () => {
                     <div className='buyer-panel-cart-left-top-section'>
                         <div className='buyer-panel-cart-top-right-section'>
                             <div className='buyer-panel-top-container'>
-                                <Link className='buyer-panel-top-content-section' to={`/admin/buyer-request?filterValue=${filterValue}`}>
+                                <Link className='buyer-panel-top-content-section' to={`/admin/buyer-request`}>
 
                                     <div className='buyer-panel-top-head'>No. of Buyer Request</div>
                                     <div className='buyer-panel-top-text'>{dashboardData?.buyerRegisReqCount.count || 0}</div>
 
                                 </Link>
-                                <Link className='buyer-panel-top-content-section' to={`/admin/supplier-request?filterValue=${filterValue}`}>
+                                <Link className='buyer-panel-top-content-section' to={`/admin/supplier-request`}>
 
                                     <div className='buyer-panel-top-head'>No. of Supplier Request</div>
                                     <div className='buyer-panel-top-text'>{dashboardData?.supplierRegisReqCount.count || 0}</div>
 
                                 </Link>
-                                <Link className='buyer-panel-top-content-section' to={`/admin/total-request-list?filterValue=${filterValue}`}>
+                                <Link className='buyer-panel-top-content-section' to={`/admin/total-request-list`}>
 
                                     <div className='buyer-panel-top-head'>Total Request</div>
                                     <div className='buyer-panel-top-text'> {(Number(dashboardData?.buyerRegisReqCount.count) || 0) + (Number(dashboardData?.supplierRegisReqCount.count) || 0)}</div>
@@ -79,7 +79,7 @@ const AdminDashboard = () => {
                                 </Link>
                             </div>
                             <div className='buyer-panel-bottom-container'>
-                                <Link className='buyer-panel-bottom-cart-cont' to={`/admin/rejected-buyer?filterValue=${filterValue}`}>
+                                <Link className='buyer-panel-bottom-cart-cont' to={`/admin/rejected-buyer`}>
 
                                     <div className='buyer-panel-bottom-head'>Rejected Buyer: <span className='buyer-panel-bottom-text'>{dashboardData?.buyerRejectedReqCount?.count || 0}</span></div>
                                     <div className='buyer-panel-bottom-graph'>
@@ -87,7 +87,7 @@ const AdminDashboard = () => {
                                     </div>
 
                                 </Link>
-                                <Link className='buyer-panel-bottom-cart-cont' to={`/admin/rejected-supplier?filterValue=${filterValue}`}>
+                                <Link className='buyer-panel-bottom-cart-cont' to={`/admin/rejected-supplier`}>
 
                                     <div className='buyer-panel-bottom-head'>Rejected Supplier: <span className='buyer-panel-bottom-text'>{dashboardData?.supplierRejectedReqCount?.count || 0}</span></div>
                                     <div className='buyer-panel-bottom-graph'>
@@ -105,7 +105,7 @@ const AdminDashboard = () => {
                         </div>
                     </div>
                     <div className='admin-panel-cart-left-bottom-section'>
-                        <Link className='admin-panel-cart-left-bottom-container' to={`/admin/approved-buyer?filterValue=${filterValue}`}>
+                        <Link className='admin-panel-cart-left-bottom-container' to={`/admin/approved-buyer`}>
 
                             <div className='admin-panel-left-bottom-cart-top'>
                                 <span className='admin-panel-left-bottom-pert'>{dashboardData?.buyerAcceptedReqCount?.count || 0}</span>
@@ -116,7 +116,7 @@ const AdminDashboard = () => {
                             </div>
 
                         </Link>
-                        <Link className='admin-panel-cart-left-bottom-container' to={`/admin/approved-supplier?filterValue=${filterValue}`}>
+                        <Link className='admin-panel-cart-left-bottom-container' to={`/admin/approved-supplier`}>
 
                             <div className='admin-panel-left-bottom-cart-top'>
                                 <span className='admin-panel-left-bottom-pert'>{dashboardData?.supplierAcceptedReqCount?.count || 0}</span>
@@ -128,7 +128,7 @@ const AdminDashboard = () => {
 
                         </Link>
 
-                        <Link className='admin-panel-cart-left-bottom-container' to={`/admin/total-approved-request?filterValue=${filterValue}`}>
+                        <Link className='admin-panel-cart-left-bottom-container' to={`/admin/total-approved-request`}>
 
                             <div className='admin-panel-left-bottom-cart-top'>
                                 <span className='admin-panel-left-bottom-pert'> {(Number(dashboardData?.buyerAcceptedReqCount.count) || 0) + (Number(dashboardData?.supplierAcceptedReqCount.count) || 0)}</span>
@@ -168,7 +168,7 @@ const AdminDashboard = () => {
             <div className='main-bottom-cart-container'>
                 <div className='bottom-section-left-cont'>
                     <Link
-                        to={`/admin/inquiries-section/request?filterValue=${filterValue}`}
+                        to={`/admin/inquiries-section/request`}
                     >
                         <div className='bottom-text-cont'>
                             <div className='buyer-panel-top-head'>Total Inquiries</div>
@@ -184,7 +184,7 @@ const AdminDashboard = () => {
                 <div className='bottom-section-left-cont'>
                     <Link
 
-                        to={`/admin/total-PO?filterValue=${filterValue}`}
+                        to={`/admin/total-po`}
                     >
                         <div className='bottom-text-cont'>
                             <div className='buyer-panel-top-head'>Total PO</div>
@@ -200,7 +200,7 @@ const AdminDashboard = () => {
                 <div className='bottom-section-left-cont'>
                     <Link
 
-                        to={`/admin/total-active-orders?filterValue=${filterValue}`}
+                        to={`/admin/total-active-orders`}
                     >
                         <div className='bottom-text-cont'>
                             <div className='buyer-panel-top-head'>Total Active Orders</div>
@@ -215,7 +215,7 @@ const AdminDashboard = () => {
                 <div className='bottom-section-left-cont'>
                     <Link
 
-                        to={`/admin/total-completed-order?filterValue=${filterValue}`}
+                        to={`/admin/total-completed-order`}
                     >
                         <div className='bottom-text-cont'>
                             <div className='buyer-panel-top-head'>Total Completed Orders</div>
