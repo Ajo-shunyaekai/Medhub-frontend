@@ -7,6 +7,8 @@ import RenderProductFiles from "../RenderProductFiles";
 import { useState, useEffect } from "react";
 import Modal from "react-modal";
 import CloseIcon from "../../../assets/images/Icon.svg";
+import moment from "moment";
+
 Modal.setAppElement("#root");
 
 const ProductDetails = () => {
@@ -189,7 +191,15 @@ const ProductDetails = () => {
         {/* End Secondar Market section */}
         {/* Start general information section */}
         <div className={styles.mainContainer}>
-          <span className={styles.innerHead}>General Information</span>
+          <span className={styles.innerHead}>General Information</span>{" "}
+          {productDetail?.updatedAt && (
+            <span className={styles.medicineHead2}>
+              (Last Modified Date:{" "}
+              {moment(productDetail?.updatedAt || new Date()).format(
+                "DD/MM/YYYY"
+              )})
+            </span>
+          )}
           <div className={styles.innerSection}>
             <div className={styles.mainSection}>
               {productDetail?.category && (
