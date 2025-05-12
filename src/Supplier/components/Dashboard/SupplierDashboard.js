@@ -67,9 +67,9 @@ const SupplierDashboard = () => {
  
         <div className={styles.dashboardContainer}>
             <div className={styles.pageTitle}>Dashboard</div>
-            <div className={styles.navButton}>
+            {/* <div className={styles.navButton}>
                 <div className={styles.button}>Analytics</div>
-            </div>
+            </div> */}
             <div className={styles.wrapper}>
                 <div className={styles.leftAside}>
                     <div className={styles.orderSection}>

@@ -51,9 +51,9 @@ const AdminDashboard = () => {
 
         <div className='buyer-panel-dashboard-section'>
             <div className='buyer-panel-dashboard-heading'>Dashboard</div>
-            <div className='buyer-panel-analystic-button' >
+            {/* <div className='buyer-panel-analystic-button' >
                 <div className='buyer-panel-buttons'>Analytics</div>
-            </div>
+            </div> */}
             <div className='buyer-panel-cart-main-container'>
                 <div className='buyer-panel-cart-left-main-container'>
                     <div className='buyer-panel-cart-left-top-section'>
