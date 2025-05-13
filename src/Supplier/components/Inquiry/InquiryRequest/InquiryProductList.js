@@ -23,34 +23,54 @@ const InquiryProductList = ({
 
   const handleAcceptChange = (itemId) => {
     const item = items.find((item) => item._id === itemId);
+    const existing = quotationItems.find((q) => q._id === itemId);
+    const deliveryDays = existing?.est_delivery_days || "";
+
     setAcceptedOrders((prev) =>
       prev.includes(itemId)
         ? prev.filter((id) => id !== itemId)
         : [...prev, itemId]
     );
     setRejectedOrders((prev) => prev.filter((id) => id !== itemId));
-
     setPrices((prev) => ({ ...prev, [itemId]: "" }));
-    setQuotationItems((prev) => prev.filter((order) => order._id !== itemId));
 
-    if (!acceptedOrders.includes(itemId)) {
-      setQuotationItems((prev) => [...prev, { ...item, accepted: true }]);
-    }
+    setQuotationItems((prev) => {
+      const filtered = prev.filter((order) => order._id !== itemId);
+      return [
+        ...filtered,
+        {
+          ...item,
+          accepted: true,
+          est_delivery_days: deliveryDays,
+        },
+      ];
+    });
   };
 
   const handleRejectChange = (itemId) => {
     const item = items.find((item) => item._id === itemId);
+    const existing = quotationItems.find((q) => q._id === itemId);
+    const deliveryDays = existing?.est_delivery_days || "";
+
     setRejectedOrders((prev) =>
       prev.includes(itemId)
         ? prev.filter((id) => id !== itemId)
         : [...prev, itemId]
     );
     setAcceptedOrders((prev) => prev.filter((id) => id !== itemId));
-    setQuotationItems((prev) => prev.filter((order) => order._id !== itemId));
 
-    if (!rejectedOrders.includes(itemId)) {
-      setQuotationItems((prev) => [...prev, { ...item, accepted: false }]);
-    }
+    setQuotationItems((prev) => {
+      const filtered = prev.filter((order) => order._id !== itemId);
+      return [
+        ...filtered,
+        {
+          ...item,
+          accepted: false,
+          counterPrice: prices[itemId] ? parseFloat(prices[itemId]) : "",
+          est_delivery_days: deliveryDays,
+        },
+      ];
+    });
   };
 
   const handlePriceChange = (itemId, value) => {
@@ -161,7 +181,8 @@ const InquiryProductList = ({
                   <span className="table-g-driver-name">
                     Est. Delivery Time
                   </span>
-                  {inquiryDetails?.enquiry_status ? (
+                  {inquiryDetails?.enquiry_status?.toLowerCase() !=
+                  "pending" ? (
                     <span className="table-g-not-name">
                       {inquiryDetails?.quotation_items?.[index]
                         ?.est_delivery_days
