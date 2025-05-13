@@ -8,7 +8,7 @@
     -ms-overflow-style: none;
     display: flex;
     justify-content: center;
-    font-family: 'Ubuntu', sans-serif;
+     
 }
 .container::-webkit-scrollbar{
 display: none;

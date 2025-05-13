@@ -88,8 +88,8 @@ const ProformaList = ({
       cell: (row) => (
         <span className={styles.itemTitle}>
           {moment(row?.created_at).format("DD/MM/YYYY")}
-          <br />
-          {moment(row?.created_at).format("HH:mm:ss")}
+          {/* <br />
+          {moment(row?.created_at).format("HH:mm:ss")} */}
         </span>
       ),
     },

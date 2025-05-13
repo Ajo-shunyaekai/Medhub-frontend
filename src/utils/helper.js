@@ -155,7 +155,8 @@ export const renderFiles = (files, type, hasDate = false) => {
   });
 };
 
-export const renderFiles2 = (files, type, styles) => {
+
+export const renderFiles2 = (files, type, styles, certificateFileNDate) => {
   if (!Array.isArray(files)) {
     if (!files || files === "") {
       return <div>No files available</div>;
@@ -167,6 +168,10 @@ export const renderFiles2 = (files, type, styles) => {
     const fileUrl = file?.startsWith("http")
       ? file
       : `${process.env.REACT_APP_SERVER_URL}/uploads/supplier/supplier_image_files/${file}`;
+
+    const expiryDate = certificateFileNDate?.find(
+      (item) => item.file === file
+    )?.date;
 
     if (
       (file?.startsWith("http")
@@ -180,14 +185,23 @@ export const renderFiles2 = (files, type, styles) => {
             size={50}
             color="red"
             style={{ cursor: "pointer" }}
-            // onClick={() => window.open(fileUrl, "_blank")}
+            onClick={() => window.open(fileUrl, "_blank")} // Uncommented
           />
           <div
             className={styles.fileName}
-            // onClick={() => window.open(fileUrl, "_blank")}
+            onClick={() => window.open(fileUrl, "_blank")} // Uncommented
           >
             {extractLast13WithExtension(file)}
           </div>
+          {type === "Certificate" && expiryDate && (
+            <p className={styles.expiryDate}>
+              Expiry date: {new Date(expiryDate).toLocaleDateString('en-GB', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+              }).split('/').join('-')}
+            </p>
+          )}
         </div>
       );
     } else if (
@@ -208,7 +222,7 @@ export const renderFiles2 = (files, type, styles) => {
       );
       const docxUrl = file?.startsWith("http")
         ? file
-        : `${process.env.REACT_APP_SERVER_URL}/uploads/supplier/supplier_image_files/${docxFileName}`;
+        : `${process.env.REACT_APP_SERVER_URL}/Uploads/supplier/supplier_image_files/${docxFileName}`;
 
       return (
         <div key={index} className={styles.docxSection}>
@@ -216,11 +230,11 @@ export const renderFiles2 = (files, type, styles) => {
             size={50}
             color="blue"
             style={{ cursor: "pointer" }}
-            // onClick={() => window.open(docxUrl, "_blank")}
+            onClick={() => window.open(docxUrl, "_blank")} // Uncommented
           />
           <div
             className={styles.fileName}
-            // onClick={() => window.open(docxUrl, "_blank")}
+            onClick={() => window.open(docxUrl, "_blank")} // Uncommented
           >
             {extractLast13WithExtension(file)}
           </div>

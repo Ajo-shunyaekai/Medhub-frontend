@@ -94,7 +94,7 @@ const PendingInvoice = ({
         return (
           <div>
             <div>{moment(dateToDisplay).tz("Asia/Kolkata").format("DD/MM/YYYY")}</div>
-            <div>{moment(dateToDisplay).tz("Asia/Kolkata").format("HH:mm:ss")}</div>
+            {/* <div>{moment(dateToDisplay).tz("Asia/Kolkata").format("HH:mm:ss")}</div> */}
           </div>
         );
       },

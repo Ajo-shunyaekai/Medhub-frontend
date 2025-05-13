@@ -106,7 +106,6 @@ const NotificationList = () => {
             name: 'Date',
             selector: row => row?.createdAt,
             sortable: true,
-            width: '250px',
             cell: row => (
                 <div>
                     {moment(row?.createdAt).format("DD/MM/YYYY HH:mm")}
@@ -124,7 +123,6 @@ const NotificationList = () => {
         },
         {
             name: 'Action',
-            width: '100px',
             cell: row => (
                 <div
                     className={styles.actionButton}

@@ -97,7 +97,9 @@
     outline: none !important;
     padding: 10px !important;
 }
-
+.signupFormSectionPhoneInput{
+    border: 2px solid red;
+}
 /* Style the address container */
 .labelstamp {
     color: red;

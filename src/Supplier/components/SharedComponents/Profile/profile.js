@@ -19,9 +19,10 @@ const Profile = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const documentsArray = [
+    { headings: "Certificate", keyword: "certificate_image" },
     { headings: "Trade License", keyword: "license_image" },
 
-    { headings: "Certificate", keyword: "certificate_image" },
+    
     {
       headings: "Medical Practitioner",
       keyword: "medical_certificate",
@@ -188,7 +189,7 @@ const Profile = () => {
                   {user?.vat_reg_no && (
                     <div className={styles.companyDetails}>
                       <div className={styles.companyHead}>
-                        VAT Registration No.
+                       GST/VAT Registration No.
                       </div>
                       <div className={styles.companyText}>{user?.vat_reg_no}</div>
                     </div>
@@ -350,11 +351,7 @@ const Profile = () => {
                 <div className={styles.documentInnerSection}>
                   <div className={styles.documentDocName}>{ele?.headings}</div>
                   <div className={styles.documentDocContent}>
-                    {renderFiles2(user?.[ele?.keyword], ele?.headings, styles)}
-                    {ele?.headings == "Certificate" &&
-                      user?.certificateFileNDate?.[index]?.date && (
-                        <p>{user?.certificateFileNDate?.[index]?.date}</p>
-                      )}
+                    {renderFiles2(user?.[ele?.keyword], ele?.headings, styles, user?.certificateFileNDate)}
                   </div>
                 </div>
               )

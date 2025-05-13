@@ -336,17 +336,17 @@
 }
 
 .inventoryInput {
-  background-color: #fff !important;
-  border: none !important;
-  border-radius: 4px !important;
-  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
-  color: #333;
-  font-size: 14px;
-  font-weight: 500;
-  outline: none !important;
-  padding: 12px !important;
-  position: relative !important;
-  width: 100% !important;
+    background-color: #fff !important;
+    border: none !important;
+    border-radius: 4px !important;
+    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+    color: #333;
+    font-size: 14px;
+    font-weight: 500;
+    outline: none !important;
+    padding: 10px 12px !important;
+    position: relative !important;
+    width: 100% !important;
 }
 .errorText {
   font-size: 12px;
@@ -356,7 +356,7 @@
 .manufacturerMainContainer {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 14px;
 }
 
 .manufacturerContainer {
@@ -456,7 +456,7 @@
 
 .additionalInnerSection {
   display: flex;
-  width: 100%;
+  width: 50%;
   gap: 10px;
 }
 
@@ -554,8 +554,8 @@
 }
 
 .uploadImage {
-  width: 100px;
-  height: auto;
+    width: 50px;
+    height: auto;
 }
 
 .complianceIcon {

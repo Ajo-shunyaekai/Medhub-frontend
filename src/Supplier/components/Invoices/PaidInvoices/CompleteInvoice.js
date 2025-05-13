@@ -96,9 +96,9 @@ const CompleteInvoice = ({
             <div>
               {moment(dateToDisplay).tz("Asia/Kolkata").format("DD/MM/YYYY")}
             </div>
-            <div>
+            {/* <div>
               {moment(dateToDisplay).tz("Asia/Kolkata").format("HH:mm:ss")}
-            </div>
+            </div> */}
           </div>
         );
       },
