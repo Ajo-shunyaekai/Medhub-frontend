@@ -60,7 +60,7 @@ const ActiveAssignDriver = ({ productList = [] }) => {
                                             ? order.est_delivery_days.toLowerCase().includes('days')
                                                 ? order.est_delivery_days.replace(/days/i, 'Days')
                                                 : `${order.est_delivery_days} Days`
-                                            : '10 Days'}
+                                            : 'TBC- based on quantity'}
                                     </span>
                                 </div>
                             </td>

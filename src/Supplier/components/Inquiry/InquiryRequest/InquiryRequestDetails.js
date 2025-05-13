@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import '../inquiryrequestdetails.css';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import InquiryProductList from './InquiryProductList';
-import { FaPlus, FaMinus } from 'react-icons/fa';
-import { postRequestWithToken } from '../../../api/Requests';
-import { toast } from 'react-toastify';
-import { apiRequests } from '../../../../api';
-import Loader from '../../SharedComponents/Loader/Loader';
+import React, { useEffect, useState } from "react";
+import "../inquiryrequestdetails.css";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import InquiryProductList from "./InquiryProductList";
+import { FaPlus, FaMinus } from "react-icons/fa";
+import { postRequestWithToken } from "../../../api/Requests";
+import { toast } from "react-toastify";
+import { apiRequests } from "../../../../api";
+import Loader from "../../SharedComponents/Loader/Loader";
 
 const InquiryRequestDetails = ({ socket }) => {
-  const supplierIdSessionStorage = localStorage?.getItem('supplier_id');
-  const supplierIdLocalStorage = localStorage?.getItem('supplier_id');
+  const supplierIdSessionStorage = localStorage?.getItem("supplier_id");
+  const supplierIdLocalStorage = localStorage?.getItem("supplier_id");
   const { inquiryId } = useParams();
   const navigate = useNavigate();
-  const [paymentTerms, setPaymentTerms] = useState(['']);
+  const [paymentTerms, setPaymentTerms] = useState([""]);
   const [loading, setLoading] = useState(true);
   const [inquiryDetails, setInquiryDetails] = useState(null);
   const [acceptChecked, setAcceptChecked] = useState(false);
@@ -21,7 +21,7 @@ const InquiryRequestDetails = ({ socket }) => {
   const [quotationItems, setQuotationItems] = useState([]);
 
   const handleAddTerm = () => {
-    setPaymentTerms([...paymentTerms, '']);
+    setPaymentTerms([...paymentTerms, ""]);
   };
 
   const handleTermChange = (index, value) => {
@@ -39,7 +39,7 @@ const InquiryRequestDetails = ({ socket }) => {
     const fetchData = async () => {
       if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
         localStorage.clear();
-        navigate('/supplier/login');
+        navigate("/supplier/login");
         return;
       }
 
@@ -55,7 +55,7 @@ const InquiryRequestDetails = ({ socket }) => {
           obj
         );
         if (response?.code !== 200) {
-          toast('Failed to fetch inquiry details', { type: 'error' });
+          toast("Failed to fetch inquiry details", { type: "error" });
           setLoading(false);
           return;
         }
@@ -65,7 +65,7 @@ const InquiryRequestDetails = ({ socket }) => {
           quotation_items: response?.result?.quotation_items || [],
         });
       } catch (error) {
-        toast('Error fetching inquiry details', { type: 'error' });
+        toast("Error fetching inquiry details", { type: "error" });
       } finally {
         setLoading(false);
       }
@@ -74,22 +74,29 @@ const InquiryRequestDetails = ({ socket }) => {
   }, [inquiryId, navigate, supplierIdSessionStorage, supplierIdLocalStorage]);
 
   const email = inquiryDetails?.buyer?.contact_person_email;
-  const subject = `Inquiry about Inquiry ${inquiryDetails?.enquiry_id || 'unknown'}`;
+  const subject = `Inquiry about Inquiry ${
+    inquiryDetails?.enquiry_id || "unknown"
+  }`;
   const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
 
   const handleSubmitQuotation = () => {
     if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
       localStorage.clear();
-      navigate('/supplier/login');
+      navigate("/supplier/login");
       return;
     }
 
     if (quotationItems.length !== inquiryDetails?.items.length) {
-      return toast('Please Accept or Enter the Counter Price to Proceed', { type: 'error' });
+      return toast("Please Accept or Enter the Counter Price to Proceed", {
+        type: "error",
+      });
     }
 
-    if (paymentTerms.length === 0 || paymentTerms.every((term) => term.trim() === '')) {
-      return toast('Payment Term is Required', { type: 'error' });
+    if (
+      paymentTerms.length === 0 ||
+      paymentTerms.every((term) => term.trim() === "")
+    ) {
+      return toast("Payment Term is Required", { type: "error" });
     }
 
     const validationErrors = quotationItems.some(
@@ -97,9 +104,27 @@ const InquiryRequestDetails = ({ socket }) => {
     );
 
     if (validationErrors) {
-      toast('Counter Price must be Provided for Items that are not Accepted.', {
-        type: 'error',
+      toast("Counter Price must be Provided for Items that are not Accepted.", {
+        type: "error",
       });
+      return;
+    }
+
+    // ✅ Validate est_delivery_days
+    const invalidDeliveryTime = quotationItems.some(
+      (item) =>
+        item.est_delivery_days === "TBC- based on quantity" ||
+        isNaN(Number(item.est_delivery_days)) ||
+        Number(item.est_delivery_days) <= 0
+    );
+
+    if (invalidDeliveryTime) {
+      toast(
+        'Estimated Delivery Days must be a valid number greater than 0 and not "TBC- based on quantity".',
+        {
+          type: "error",
+        }
+      );
       return;
     }
 
@@ -124,21 +149,21 @@ const InquiryRequestDetails = ({ socket }) => {
       payment_terms: paymentTerms,
     };
 
-    postRequestWithToken('enquiry/submit-quotation', obj, async (response) => {
+    postRequestWithToken("enquiry/submit-quotation", obj, async (response) => {
       if (response?.code === 200) {
-        toast(response.message, { type: 'success' });
+        toast(response.message, { type: "success" });
 
-        socket.emit('submitQuotation', {
+        socket.emit("submitQuotation", {
           buyerId: inquiryDetails?.buyer.buyer_id,
-          message: 'You’ve received a quote from the supplier!',
+          message: "You’ve received a quote from the supplier!",
           link: process.env.REACT_APP_PUBLIC_URL,
         });
 
         setTimeout(() => {
-          navigate('/supplier/inquiry-purchase-orders/ongoing');
+          navigate("/supplier/inquiry-purchase-orders/ongoing");
         }, 300);
       } else {
-        toast(response.message, { type: 'error' });
+        toast(response.message, { type: "error" });
       }
       setLoading(false);
     });
@@ -150,7 +175,7 @@ const InquiryRequestDetails = ({ socket }) => {
         Inquiry ID: <span>{inquiryDetails?.enquiry_id || ""}</span>
       </div>
       {loading || !inquiryDetails ? (
-        <Loader/>
+        <Loader />
       ) : (
         <>
           <div className="inquiry-details-section">
@@ -158,22 +183,31 @@ const InquiryRequestDetails = ({ socket }) => {
               <div className="inquiry-details-top-inner-section">
                 <div className="inquiry-details-left-inner-section-container">
                   <div className="inquiry-details-left-top-containers">
-                    <Link to={`/supplier/buyer-details/${inquiryDetails?.buyer.buyer_id}`}>
+                    <Link
+                      to={`/supplier/buyer-details/${inquiryDetails?.buyer.buyer_id}`}
+                    >
                       <div className="inquiry-details-top-inquiry-cont">
-                        <div className="inquiry-details-left-top-main-heading"> Buyer Name</div>
+                        <div className="inquiry-details-left-top-main-heading">
+                          {" "}
+                          Buyer Name
+                        </div>
                         <div className="inquiry-details-left-top-main-contents">
                           {inquiryDetails?.buyer.buyer_name}
                         </div>
                       </div>
                     </Link>
                     <div className="inquiry-details-top-inquiry-cont">
-                      <div className="inquiry-details-left-top-main-heading">Type</div>
+                      <div className="inquiry-details-left-top-main-heading">
+                        Type
+                      </div>
                       <div className="inquiry-details-left-top-main-contents">
                         {inquiryDetails?.buyer?.buyer_type}
                       </div>
                     </div>
                     <div className="inquiry-details-top-inquiry-cont">
-                      <div className="inquiry-details-left-top-main-heading">Country of Origin</div>
+                      <div className="inquiry-details-left-top-main-heading">
+                        Country of Origin
+                      </div>
                       <div className="inquiry-details-left-top-main-contents">
                         {inquiryDetails?.buyer?.country_of_origin}
                       </div>
@@ -186,7 +220,9 @@ const InquiryRequestDetails = ({ socket }) => {
           <div className="inquiry-details-assign-driver-section">
             <InquiryProductList
               inquiryDetails={inquiryDetails}
-              items={inquiryDetails?.items || []}
+              items={
+                inquiryDetails?.items || []
+              }
               quotation={inquiryDetails?.quotation_items || []}
               setAcceptChecked={setAcceptChecked}
               setCounterChecked={setCounterChecked}
@@ -196,22 +232,32 @@ const InquiryRequestDetails = ({ socket }) => {
           </div>
           <div className="inquiry-details-payment-container">
             <div className="inquiry-details-payment-left-section">
-              {inquiryDetails?.enquiry_status !== 'Quotation submitted' &&
-                inquiryDetails?.enquiry_status !== 'cancelled' &&
-                inquiryDetails?.enquiry_status !== 'PO created' && (
+              {inquiryDetails?.enquiry_status !== "Quotation submitted" &&
+                inquiryDetails?.enquiry_status !== "cancelled" &&
+                inquiryDetails?.enquiry_status !== "PO created" && (
                   <div className="inquiry-details-payment-detention-cont">
                     <div className="inquiry-details-payment-first-terms-heading">
-                      <span className="inquiry-details-payment-terms">Payment Terms</span>
-                      <FaPlus className="add-term-icon" onClick={handleAddTerm} />
+                      <span className="inquiry-details-payment-terms">
+                        Payment Terms
+                      </span>
+                      <FaPlus
+                        className="add-term-icon"
+                        onClick={handleAddTerm}
+                      />
                     </div>
                     <div className="inquiry-details-payment-first-terms-text">
                       {paymentTerms.map((term, index) => (
-                        <div key={index} className="inquiry-details-payment-section">
+                        <div
+                          key={index}
+                          className="inquiry-details-payment-section"
+                        >
                           <input
                             className="inquiry-details-payment-sec-input"
                             type="text"
                             value={term}
-                            onChange={(e) => handleTermChange(index, e.target.value)}
+                            onChange={(e) =>
+                              handleTermChange(index, e.target.value)
+                            }
                             placeholder="Enter payment term"
                           />
                           {paymentTerms.length > 1 && (
@@ -228,14 +274,14 @@ const InquiryRequestDetails = ({ socket }) => {
             </div>
           </div>
           <div className="inquiry-details-button-section">
-            {inquiryDetails?.enquiry_status === 'pending' && (
+            {inquiryDetails?.enquiry_status === "pending" && (
               <>
                 <button
                   className="inquiry-details-submit-button"
                   onClick={handleSubmitQuotation}
                   disabled={loading}
                 >
-                  {loading ? <Loader /> : 'Submit Quotation'}
+                  {loading ? <Loader /> : "Submit Quotation"}
                 </button>
                 <a href={mailtoLink} className="inquiry-details-cancel-button">
                   Contact Buyer

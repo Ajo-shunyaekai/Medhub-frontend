@@ -71,7 +71,7 @@ const SupplierMedicineCard = ({
                     <span className={styles.text}>
                       {estimatedDeliveryTime !== "N/A"
                         ? `${estimatedDeliveryTime} Days`
-                        : "N/A"}
+                        : "TBC- based on quantity"}
                     </span>
                   </div>
                   <div className={styles.section}>

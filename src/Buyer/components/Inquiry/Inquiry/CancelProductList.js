@@ -76,7 +76,7 @@ const CancelProductList = ({ items, inquiryDetails }) => {
                       ? item.est_delivery_days.toLowerCase().includes('days')
                         ? item.est_delivery_days.replace(/days/i, 'Days')
                         : `${item.est_delivery_days} Days`
-                      : '-'}
+                      : 'TBC- based on quantity'}
                   </span>
                 </div>
               </td>
