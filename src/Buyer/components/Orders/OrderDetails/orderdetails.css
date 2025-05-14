@@ -332,7 +332,7 @@ background-color: #282f86;
 }
 
 .table-assign-driver-heading {
-  color: #192039;
+  color: #212121;
   font-size: 18px;
   font-weight: 500;
   padding: 0px 10px;
@@ -393,7 +393,7 @@ background-color: #282f86;
 
 /* Start the Address Container Section */
 .active-order-transportation-heading {
-  color: #192039;
+  color: #212121;
   font-size: 18px;
   font-weight: 500;
 }
@@ -634,7 +634,7 @@ background-color: #282f86;
 }
 
 .details-payment-heading {
-  color: #192039;
+  color: #212121;
   font-size: 18px;
   font-weight: 500;
 }

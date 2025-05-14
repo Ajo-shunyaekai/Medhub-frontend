@@ -22,12 +22,12 @@ function CircularBar({ totalPurchase }) {
                         text: {
                             fill: '#212121',
                             fontSize: '15px',
-                            fontWeight: '450'
+                            fontWeight: '550'
                         },
                     }}
                 />
                 <div style={{ position: 'absolute', top: '56%', left: '50%', transform: 'translateX(-50%)' }}>
-                    <p style={{ textAlign: 'center', fontSize: '13px', margin: '0', color: '#99a0ac' }}>USD</p>
+                    <p style={{ textAlign: 'center', fontSize: '13px', margin: '0', color: '#616161' }}>USD</p>
                 </div>
                 <svg style={{ height: 0 }}>
                     <defs>
