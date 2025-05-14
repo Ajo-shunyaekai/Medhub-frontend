@@ -95,7 +95,18 @@ function InvoiceTemplate({ invoice }) {
                     <div className='invoice-template-button' onClick={handleDownload}>Download</div>
                 </div>
                 <div id='invoice-content'>
-                    <div style={{ maxWidth: '800px', margin: 'auto', padding: '30px', border: '1px solid #eee', fontSize: '16px', lineHeight: '24px', color: '#555', backgroundColor: '#FFFFFF' }}>
+                    <div 
+                    style=
+                    {{ maxWidth: '800px',
+                     margin: 'auto', 
+                     padding: '30px', 
+                     border: '1px solid #eee', 
+                     fontSize: '16px', 
+                     lineHeight: '24px', 
+                     color: '#555', 
+                     backgroundColor: '#FFFFFF',
+                     boxShadow:" 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d"
+                      }}>
                         <div style={{ textAlign: 'center', fontWeight: '500', fontSize: '30px', margin: '0px 0px 20px 0px' }}>Invoice</div>
                         <table style={{ fontSize: '12px' }}>
                             <thead>
@@ -118,7 +129,7 @@ function InvoiceTemplate({ invoice }) {
                                                 <tr style={{ borderBottom: '1px dotted #99a0ac' }}>
                                                     <td style={{ verticalAlign: 'top', width: '60%', paddingRight: '20px', paddingBottom: '20px' }}>
                                                         <h1 style={{ fontSize: '14px', fontWeight: 500, paddingBottom: '3px' }}>From :</h1>
-                                                        <p style={{ fontSize: '16px', fontWeight: 500, paddingBottom: '6px' }}>{invoiceDetails?.supplier_name}</p>
+                                                        <p style={{ fontSize: '16px', fontWeight: 500, }}>{invoiceDetails?.supplier_name}</p>
                                                         <p style={{ fontSize: '13px', fontWeight: 500 }}>{invoiceDetails?.supplier_address}</p>
                                                         <td style={{ display: 'flex', justifyContent: 'start' }}>
                                                             <p style={{ fontSize: '13px', fontWeight: 500 }}>VAT Reg No :</p>
@@ -127,7 +138,7 @@ function InvoiceTemplate({ invoice }) {
                                                     </td>
                                                     <td style={{ verticalAlign: 'top', width: '40%', paddingBottom: '20px' }}>
                                                         <h1 style={{ fontSize: '14px', fontWeight: 500, paddingBottom: '3px', textAlign: 'end' }}>To :</h1>
-                                                        <p style={{ fontSize: '16px', fontWeight: 500, paddingBottom: '6px', textAlign: 'end' }}>{invoiceDetails?.buyer_name}</p>
+                                                        <p style={{ fontSize: '16px', fontWeight: 500, textAlign: 'end' }}>{invoiceDetails?.buyer_name}</p>
                                                         <p style={{ fontSize: '13px', fontWeight: 500, textAlign: 'end' }}>{invoiceDetails?.buyer_address}</p>
                                                         <td style={{ display: 'flex', justifyContent: 'end' }}>
                                                             <p style={{ fontSize: '13px', fontWeight: 500 }}>VAT Reg No :</p>

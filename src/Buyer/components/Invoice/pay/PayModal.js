@@ -343,15 +343,16 @@ function PayModal({
         </div>
       </Modal.Body>
       <Modal.Footer>
+         <Button className="modal-handle-save-invoice-cont" onClick={handleSave}>
+          Submit
+        </Button>
         <Button
           className="modal-handle-close-invoice-cont"
           onClick={handleClose}
         >
           Cancel
         </Button>
-        <Button className="modal-handle-save-invoice-cont" onClick={handleSave}>
-          Submit
-        </Button>
+       
       </Modal.Footer>
     </Modal>
   );

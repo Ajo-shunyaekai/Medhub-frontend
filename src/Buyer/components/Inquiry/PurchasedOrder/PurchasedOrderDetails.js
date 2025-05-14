@@ -197,7 +197,7 @@ const PurchasedOrderDetails = () => {
                             style={{
                               fontSize: "16px",
                               fontWeight: 500,
-                              paddingBottom: "6px",
+                             
                             }}
                           >
                             {poDetails?.buyer_name}
@@ -277,7 +277,6 @@ const PurchasedOrderDetails = () => {
                             style={{
                               fontSize: "16px",
                               fontWeight: 500,
-                              paddingBottom: "6px",
                               textAlign: "end",
                             }}
                           >
