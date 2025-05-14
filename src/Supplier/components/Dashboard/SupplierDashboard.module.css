@@ -112,7 +112,7 @@ body::first-letter {
 }
 
 .totalorders {
-  color: #212121;
+  color: #616161;
   font-size: 0.825rem;
   font-weight: 500;
 }
@@ -145,7 +145,7 @@ body::first-letter {
 
 .totalInvoice {
   font-size: 0.825rem;
-  color: #282f86;
+  color: #616161;
   font-weight: 500;
 }
 
@@ -192,7 +192,7 @@ body::first-letter {
 }
 
 .performaCardCounts {
-  color: #212121;
+  color: #616161;
   font-size: 14px;
   font-weight: 500;
 }
@@ -234,6 +234,7 @@ body::first-letter {
 
 .countryTitle {
   color: #282f86 !important;
+  font-weight: 550;
   font-size: 0.825rem;
 }
 

@@ -27,7 +27,7 @@ function CircularBar({totalSalesAmount}) {
                     }}
                 />
                 <div style={{ position: 'absolute', top: '56%', left: '50%', transform: 'translateX(-50%)' }}>
-                    <p style={{ textAlign: 'center', fontSize: '13px', margin: '0', color: '#99a0ac' }}>USD</p>
+                    <p style={{ textAlign: 'center', fontSize: '13px', margin: '0', color: '#616161' }}>USD</p>
                 </div>
                 <svg style={{ height: 0 }}>
                     <defs>
@@ -40,6 +40,6 @@ function CircularBar({totalSalesAmount}) {
             </div>
         </div>
     );
-}
+}   
 
 export default CircularBar;

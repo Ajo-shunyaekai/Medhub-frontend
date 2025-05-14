@@ -1,5 +1,6 @@
 import styles from "./productdetails.module.css";
 import Select from "react-select";
+import '../../../assets/style/react-input-phone.css'
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Select from "react-select";
 import styles from "./category.module.css";
+import '../../../SharedComponents/SignUp/signup.css'
 import categoryArrays from "../../../../../utils/Category";
 
 const AccordionFilter = ({

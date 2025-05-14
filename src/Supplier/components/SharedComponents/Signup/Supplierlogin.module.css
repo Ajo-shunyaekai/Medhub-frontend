@@ -145,6 +145,7 @@ background-color: #282f86;
   margin-top: -6px;
 }
 .loginFormMainPassword {
+  color: #282f86 !important;
   font-size: 14px;
   font-weight: 500;
    cursor: pointer !important;;
@@ -176,6 +177,7 @@ background-color: #282f86;
 }
 .loginSignupHere {
   font-size: 14px;
+   color: #282f86 !important;
   font-weight: 500;
    cursor: pointer !important;;
 }

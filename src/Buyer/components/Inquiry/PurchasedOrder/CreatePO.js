@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styles from "../createInvoice.module.css";
 import { PhoneInput } from "react-international-phone";
+import "react-international-phone/style.css";
+import "../../../assets/style/react-input-phone.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { postRequestWithToken } from "../../../../api/Requests";
 import { toast } from "react-toastify";
