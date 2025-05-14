@@ -146,6 +146,7 @@ function ProformaDetailsPage() {
               lineHeight: "24px",
               color: "#555",
               backgroundColor: "#FFFFFF",
+              boxShadow:"0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d"
             }}
           >
             <div

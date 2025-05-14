@@ -45,7 +45,7 @@
 }
 
 .active-order-main-create-invoice {
-  background: linear-gradient(to left, #00dcff, #0075ce);
+background-color: #282f86;
   color: white;
   padding: 6px 16px;
   border-radius: 4px;
@@ -207,7 +207,7 @@
 }
 
 .active-order-details-left-top-main-heading-button {
-  background: linear-gradient(to left, #00dcff, #0075ce);
+background-color: #282f86;
   color: white;
   padding: 6px 16px;
   border-radius: 4px;
@@ -221,7 +221,7 @@
 
 
 .ongoing-enguiries-details-buttons {
-  background: linear-gradient(to left, #00dcff, #0075ce);
+background-color: #282f86;
   color: white;
   padding: 6px 16px;
   border-radius: 4px;
@@ -526,7 +526,7 @@
 }
 
 .active-order-details-submit-button {
-  background: linear-gradient(to left, #00dcff, #0075ce);
+background-color: #282f86;
   color: white;
   padding: 6px 22px;
   border-radius: 4px;
@@ -600,7 +600,7 @@
 }
 
 .active-invoice-list {
-  background: linear-gradient(to left, #00dcff, #0075ce);
+background-color: #282f86;
   color: white !important;
   padding: 6px 16px;
   border-radius: 4px;

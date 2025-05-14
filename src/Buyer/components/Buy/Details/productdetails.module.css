@@ -7,7 +7,7 @@
 }
 
 .mainContainerFilter {
-  background: linear-gradient(270deg, #00dcff, #0075ce);
+ background-color: #282f86;
   color: #fff;
   padding: 12px;
 }
@@ -212,7 +212,7 @@
 }
 
 .editButton {
-  background: linear-gradient(270deg, #00dcff, #0075ce);
+ background-color: #282f86;
   border: none !important;
   outline: none !important;
   border-radius: 4px;
@@ -413,7 +413,7 @@
   gap: 20px;
 }
 .submitButton {
-  background: linear-gradient(to left, #00dcff, #0075ce);
+background-color: #282f86;
   color: white;
   outline: none !important;
   border: none !important;
@@ -572,7 +572,7 @@
 
 .PurcahseButton {
   align-items: center;
-  background: linear-gradient(270deg, #00dcff, #0075ce);
+ background-color: #282f86;
   border: none !important;
   border-radius: 4px;
   color: #fff;

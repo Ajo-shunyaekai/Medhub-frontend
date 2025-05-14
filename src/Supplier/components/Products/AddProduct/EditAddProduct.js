@@ -7618,15 +7618,17 @@ const EditAddProduct = ({ placeholder }) => {
 
           {/* Start button section */}
           <div className={styles.buttonContainer}>
-            <button className={styles.buttonCancel} onClick={handleCancel}>
-              Cancel
-            </button>
+            
             <button
               className={styles.buttonSubmit}
               type="submit"
               disabled={loading}
             >
               {loading ? <div className="loading-spinner"></div> : "Submit"}
+            </button>
+
+            <button className={styles.buttonCancel} onClick={handleCancel}>
+              Cancel
             </button>
           </div>
 

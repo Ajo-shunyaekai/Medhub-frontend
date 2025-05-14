@@ -42,8 +42,9 @@ const FileUploadModal = ({ onClose, onSelectFile, onHandleUpload, modaltitle, ti
           {error && <p className={styles.errorText}>{error}</p>}
         </div>
         <div className={styles.modalButtonContainer}>
-          <button className={styles.buttonCancel} onClick={onClose}>Cancel</button>
           <button className={styles.buttonSubmit} onClick={handleUploadClick}>{title}</button>
+          <button className={styles.buttonCancel} onClick={onClose}>Cancel</button>
+          
         </div>
       </div>
     </div>

@@ -123,7 +123,7 @@
   .create-invoices-submit {
     border: none !important;
     outline: none !important;
-     background: linear-gradient(to left, #00dcff, #0075ce);
+ background-color: #282f86;
     color: white;
     padding: 6px 22px;
     border-radius: 4px;
@@ -167,7 +167,7 @@
   }
   
   .create-invoice-add-item-button {
-    background: linear-gradient(270deg, #00dcff, #0075ce);
+   background-color: #282f86;
     border-radius: 4px;
     color: #fff;
     column-gap: 8px;
@@ -277,7 +277,7 @@
   }
   
   .optionButton.selected {
-    background: linear-gradient(270deg, #00dcff, #0075ce);
+   background-color: #282f86;
     border-radius: 4px;
     color: #fff;
     column-gap: 8px;

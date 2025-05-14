@@ -45,7 +45,7 @@
 .signupFormButtonSubmit {
   border: none !important;
   outline: none !important;
-  background: linear-gradient(to left, #00dcff, #0075ce);
+background-color: #282f86;
   color: white;
   padding: 6px 22px;
   border-radius: 4px;
@@ -101,7 +101,7 @@
 
 .conditionDownload {
   display: flex;
-  background: linear-gradient(to left, #00dcff, #0075ce);
+background-color: #282f86;
   color: white;
   padding: 5px 18px;
   border-radius: 4px;

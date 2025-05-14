@@ -90,7 +90,12 @@ function InvoiceDesign() {
                     <div className='invoice-template-button'  onClick={handleDownload}>Download</div>
                 </div>
                 <div id='invoice-content'>
-                    <div style={{ maxWidth: '800px', margin: 'auto auto 10rem', padding: '30px', border: '1px solid #eee', fontSize: '16px', lineHeight: '24px', color: '#555', backgroundColor: '#FFFFFF' }}>
+                    <div
+                     style={{ maxWidth: '800px', margin: 'auto auto 10rem', padding: '30px', 
+
+                        border: '1px solid #eee', fontSize: '16px', lineHeight: '24px', color: '#555', backgroundColor: '#FFFFFF',
+                        boxShadow:"0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d"
+                         }}>
                         <div style={{ textAlign: 'center', fontWeight: '500', fontSize: '30px', margin: '0px 0px 20px 0px' }}>Invoice</div>
                         <table style={{ fontSize: '12px' }}>
                             <thead>

@@ -14,6 +14,11 @@
 .container::-webkit-scrollbar {
     display: none;
 }
+.headingSecContainer{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
 
 .heading {
     font-size: 20px;
@@ -83,7 +88,7 @@
 }
 
 .editButton {
-    background: linear-gradient(270deg, #00dcff, #0075ce);
+   background-color: #282f86;
     border: none !important;
     outline: none !important;
     border-radius: 4px;
@@ -115,13 +120,12 @@
     font-size: 14px;
     font-weight: 500;
     width: 250px;
+    color: #212121;
 }
 
 .medicineHead2 {
     font-size: 14px;
-    font-weight: 500;
-    width: 250px;
-    margin-top: -20px;
+    font-weight: 500;   
 }
 
 .medicineHeadings{
@@ -401,7 +405,7 @@
 }
 .PurcahseButton{
     align-items: center;
-    background: linear-gradient(270deg, #00dcff, #0075ce);
+   background-color: #282f86;
     border: none !important;
     border-radius: 4px;
     color: #fff;

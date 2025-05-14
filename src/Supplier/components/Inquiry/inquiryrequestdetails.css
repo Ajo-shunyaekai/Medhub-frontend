@@ -146,7 +146,7 @@
     width: 22vw;
   }
   .inquiry-details-left-top-main-heading-button {
-     background: linear-gradient(to left, #00dcff, #0075ce);
+ background-color: #282f86;
     color: white;
     padding: 6px 16px;
     border-radius: 4px;
@@ -489,7 +489,7 @@
      cursor: pointer !important;;
   }
   .inquiry-details-submit-button {
-     background: linear-gradient(to left, #00dcff, #0075ce);
+ background-color: #282f86;
     color: white;
     outline: none !important;
     border: none !important;

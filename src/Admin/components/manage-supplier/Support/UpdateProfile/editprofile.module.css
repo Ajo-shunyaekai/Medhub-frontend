@@ -236,7 +236,7 @@
   margin-top: 16px;
 }
 .editButtonSubmit {
-  background: linear-gradient(270deg, #00dcff, #0075ce);
+ background-color: #282f86;
   border: none !important;
   border-radius: 4px;
   color: #fff;
