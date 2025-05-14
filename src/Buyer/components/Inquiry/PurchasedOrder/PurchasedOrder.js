@@ -54,7 +54,7 @@ const PurchasedOrder = ({ poList, totalPoList, currentPage, inquiryPerPage, hand
             <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
           </div>
           </Link>
-          <Link to={`/buyer/edit-create-po/${row?.purchaseOrder_id}`}>
+          <Link to={`/buyer/edit-po/${row?.purchaseOrder_id}`}>
           <div className={styles.activeBtn}>
             <EditIcon className={styles['table-icon']} onClick={() => showModal(row)} />
               </div>
