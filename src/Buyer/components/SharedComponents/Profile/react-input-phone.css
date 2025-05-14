@@ -1,0 +1,168 @@
+.react-international-phone-input-container .react-international-phone-input {
+  border: none !important;
+  width: 100% !important;
+  padding: 22px 0 22px 8px !important;
+  font-size: 14px !important;
+  color: #212121 !important;
+  font-weight: 500 !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+}
+
+.react-international-phone-country-selector-button {
+  padding: 22px 0 22px 8px !important;
+  border: none !important;
+  font-size: 14px !important;
+  color: #212121 !important;
+}
+
+.react-international-phone-country-selector-button__button-content {
+  outline: none !important;
+  border: none !important;
+}
+
+.react-international-phone-input-container {
+  width: 100% !important;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+}
+
+.company-type-container {
+  width: 48.4%;
+}
+
+.company-type-header {
+  font-size: 20px;
+}
+
+.select-drop {
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  width: 100%;
+  padding: 12px;
+}
+
+.signup-form-checkbox-input.placeholder {
+  color: black;
+}
+
+.signup-form-checkbox-input:not(.placeholder) {
+  color: #212121 !important;
+}
+
+.select-option-type {
+  color: #616161;
+}
+
+.css-13cymwt-control {
+  border: none !important;
+  outline: none !important;
+}
+
+.css-1r4vtzz {
+  width: 100% !important;
+  padding: 11px !important;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+}
+
+.css-48ayfv {
+  width: 100% !important;
+  padding: 12px !important;
+}
+
+.customMultiSelect {
+  width: 100% !important;
+}
+
+.css-1jqq78o-placeholder {
+  font-size: 13px !important;
+  font-weight: 500 !important;
+}
+.css-19bb58m {
+  padding: 7.5px !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+}
+
+.css-1dimb5e-singleValue {
+  font-size: 13px !important;
+  font-weight: 500 !important;
+}
+.css-tr4s17-option {
+  font-size: 13px !important;
+  font-weight: 500 !important;
+}
+.css-10wo9uf-option {
+  font-size: 13px !important;
+  font-weight: 500 !important;
+}
+
+.css-d7l1ni-option {
+  font-size: 13px !important;
+  font-weight: 500 !important;
+}
+
+.css-1fdsijx-ValueContainer {
+  padding: 9px !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #333 !important;
+}
+
+.css-13cymwt-control {
+  outline: none !important;
+  min-height: 0px !important;
+  border: none !important;
+  cursor: pointer !important;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+}
+
+.css-qbdosj-Input {
+  margin: 0px !important;
+  color: #333 !important;
+}
+
+.css-t3ipsp-control {
+  min-height: 0px !important;
+  outline: 0 !important;
+  border-color: #fff !important;
+  box-shadow: unset !important;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+}
+
+.css-t3ipsp-control:hover {
+  border-color: #fff !important;
+}
+
+.css-3w2yfm-ValueContainer {
+  padding: 10px 8px !important;
+}
+
+@media not all and (min-resolution: 0.001dpcm) {
+  @supports (-webkit-appearance: none) {
+    .css-13cymwt-control {
+      padding: 9px !important;
+    }
+
+    .css-1fdsijx-ValueContainer {
+      padding: 9px !important;
+      font-size: 13px !important;
+      color: #333 !important;
+      height: auto !important;
+    }
+  }
+}
+
+@media screen and (max-width: 1400px) {
+  .css-1fdsijx-ValueContainer {
+    padding: 8px !important;
+  }
+
+  .css-1r4vtzz {
+    width: 100% !important;
+    padding: 9px !important;
+  }
+}
