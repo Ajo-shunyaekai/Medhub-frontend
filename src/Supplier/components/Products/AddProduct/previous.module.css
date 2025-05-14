@@ -86,7 +86,7 @@
   }
   
   .create-invoice-div-input {
-    color: #5e676f !important; 
+    color: #212121 !important; 
     outline: none !important;
     border: none !important;
     background-color: #ffffff !important;
@@ -109,8 +109,8 @@
   .create-invoices-cancel {
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
     background-color: #ffffff;
-    border: 1px solid #5e676f;
-    color: #5e676f;
+    border: 1px solid #212121;
+    color: #212121;
     padding: 6px 22px;
     border-radius: 4px;
     display: flex;
@@ -293,7 +293,7 @@
     outline: none !important;
     border: none !important;
     background-color: #ffffff !important;
-    color: #5e676f !important; 
+    color: #212121 !important; 
     padding: 10px !important;
     font-weight: 500 !important;
     font-size: 14px !important;

@@ -1,13 +1,13 @@
 .support-heading {
   padding-top: 5px;
   font-size: 18px;
-  color: #5e676f;
+  color: #212121;
   font-weight: 500;
 }
 .faq-heading {
   font-size: 16px !important;
   font-weight: 500;
-  color: #5e676f !important;
+  color: #212121 !important;
 }
 .faq-container {
   height: 600px;
@@ -33,12 +33,12 @@
 
 .accordion-button {
   padding: 1rem;
-  color: #5e676f;
+  color: #212121;
   font-size: 14px;
   font-weight: 500 !important;
 }
 .accordion-button:not(.collapsed) {
-  color: #5e676f !important;
+  color: #212121 !important;
   font-weight: 500 !important;
   background-color: #ffffff !important;
 }
@@ -46,7 +46,7 @@
   padding: 1rem;
   font-size: 14px;
   font-weight: 500;
-  color: #333;
+  color: #616161;
 }
 
 @media (max-width: 1280px) {

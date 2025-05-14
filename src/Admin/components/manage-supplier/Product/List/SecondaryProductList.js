@@ -86,26 +86,27 @@ const SecondaryProductList = ({ products, totalItems, currentPage, itemsPerPage,
             background-color: #ffffff !important;
             border-bottom: none !important;
           }
-          .rdt_TableHeadRow {
+           .rdt_TableHeadRow {
             background-color: #f9f9fa;
-            font-weight: bold;
-            border-bottom: none !important;
+    font-weight: bold !important;
+    font-size: 14px !important;
+    border-bottom: none !important;
           }
           .rdt_TableBody {
             gap: 10px !important;
           }
           .rdt_TableCol {
                 
-            color: #333;
+            color: #616161;
           }
           .rdt_TableCell {
                 
-            color: #333;
+            color: #616161;
             font-weight: 500 !important;
           }
           .rdt_TableCellStatus {
                 
-            color: #333;
+            color: #616161;
           }
         `}
       </style>

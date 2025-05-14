@@ -13,7 +13,7 @@
 }
 
 .no-data-found {
-    color: #5e676f !important;
+    color: #212121 !important;
     padding: 14px 10px;
     background-color: #fff;
     border-radius: 4px;
@@ -66,7 +66,7 @@
 
 .send-enquiry-upper-left-text {
     font-size: 14px;
-    color: #333;
+    color: #616161;
 }
 
 .send-enquiry-upper-right-sec {
@@ -88,7 +88,7 @@
 
 .send-enquiry-upper-right-number {
     font-size: 14px;
-    color: #333;
+    color: #616161;
 }
 
 .send-enquiry-upper-right-button-sec {
@@ -163,7 +163,7 @@
     border-radius: 4px;
     height: 18px;
     width: 18px;
-    border: 1px solid #5e676f;
+    border: 1px solid #212121;
 }
 
 .custom-checkbox-label input:checked~.custom-checkbox-checkmark {
@@ -231,7 +231,7 @@
     font-size: 22px;
     line-height: 26px;
       font-weight: 500;
-    color: #5e676f;
+    color: #212121;
 }
 
 .send-enquiry-inner-top-strength {
@@ -249,13 +249,13 @@
 .send-enquiry-inner-top-supplier {
     font-size: 12px;
     line-height: 18px;
-    color: #333;
+    color: #616161;
     width: 650px;
 }
 
 .send-enquiry-inner-top-name {
     font-size: 12px;
-    color: #333;
+    color: #616161;
 }
 
 .send-enquiry-inner-bottom-section {
@@ -281,7 +281,7 @@
 
 .send-enquiry-inner-bootom-text {
     font-size: 13px;
-    color: #333;
+    color: #616161;
 }
 
 .send-enquiry-remove-section {
@@ -313,7 +313,7 @@
 .send-enquiry-supplier-list-text {
     font-size: 20px;
     font-weight: 500;
-    color: #333;
+    color: #616161;
 }
 
 .send-enquiry-clear-icon {

@@ -173,10 +173,10 @@
 
 .buttonCancel {
   background-color: #fff;
-  border: 1px solid #5e676f;
+  border: 1px solid #212121;
   border-radius: 4px;
   box-shadow: 0 1px 2px #0000000d !important;
-  color: #5e676f;
+  color: #212121;
   align-items: center;
   cursor: pointer !important;
   display: flex;

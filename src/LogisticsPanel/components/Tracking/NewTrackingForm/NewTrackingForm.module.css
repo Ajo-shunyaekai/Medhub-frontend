@@ -123,7 +123,7 @@ form {
   padding-top: 5px;
   font-size: 20px;
   font-weight: 500;
-  color: #5e676f;
+  color: #212121;
   text-transform: capitalize;
 }
 
@@ -418,7 +418,7 @@ form {
   border: none;
   background: transparent;
   cursor: pointer;
-  color: #5e676f;
+  color: #212121;
   cursor: pointer !important;
 } */
 
@@ -469,7 +469,7 @@ form {
   outline: none !important;
   border: none !important;
   background-color: #ffffff !important;
-  color: #5e676f !important;
+  color: #212121 !important;
   padding: 10px !important;
   font-size: 14px !important;
   border-radius: 4px !important;
@@ -578,10 +578,10 @@ form {
 
 .buttonCancel {
   background-color: #fff;
-  border: 1px solid #5e676f;
+  border: 1px solid #212121;
   border-radius: 4px;
   box-shadow: 0 1px 2px #0000000d !important;
-  color: #5e676f;
+  color: #212121;
   align-items: center;
   cursor: pointer !important;
   display: flex;

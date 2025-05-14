@@ -20,7 +20,7 @@ function CircularBar() {
                             stroke: `url(#gradient)`,
                         },
                         text: {
-                            fill: '#5e676f',
+                            fill: '#212121',
                             fontSize: '15px',
                             fontWeight: '450'
                         },

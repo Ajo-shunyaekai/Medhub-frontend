@@ -34,26 +34,26 @@ body{
 }
 
 .nav_icon_color {
-  color: #333;
+  color: #616161;
   font-size: 22px !important;
    cursor: pointer !important;;
 }
 
 .nav_icon_color_two {
-  color: #333;
+  color: #616161;
   font-size: 22px !important;
    cursor: pointer !important;;
 }
 
 .nav_notifi_right .nav_icon_color_two {
   display: none !important;
-  color: #333;
+  color: #616161;
   font-size: 22px !important;
    cursor: pointer !important;;
 }
 
 .nav_icon_color_two_3 {
-  color: #333;
+  color: #616161;
   font-size: 22px !important;
    cursor: pointer !important;;
   display: none !important;
@@ -73,7 +73,7 @@ flex-direction: column;
   width: 180px;
     font-size: 14px;
     display: flex;
-    color: #5e676f;
+    color: #212121;
     text-decoration: none;
     justify-content: start;
     align-items: center;
@@ -107,7 +107,7 @@ flex-direction: column;
 }
 
 .product_search_input::placeholder {
-  color: #333;
+  color: #616161;
 }
 
 .nav_notifi_right {
@@ -156,7 +156,7 @@ flex-direction: column;
   font-size: 13px;
   font-weight: 500;
   line-height: 20px;
-  color: #5e676f;
+  color: #212121;
   display: flex
 ;
   flex-direction: column;
@@ -164,7 +164,7 @@ flex-direction: column;
 }
 .noti_time{
   font-size: 11px !important;
-  color: #333;
+  color: #616161;
 }
 .noti_content{
   display: flex
@@ -177,7 +177,7 @@ flex-direction: column;
   width: 100%;
   font-size: 14px;
   font-weight: 500;
-  color: #5e676f;
+  color: #212121;
   padding: 10px 14px;
   border-bottom: 1px solid #a0afb926;
 }
@@ -204,7 +204,7 @@ font-weight: 500;
 }
 
 .noti_see_all_num {
-  color: #5e676f;
+  color: #212121;
   font-size: 14px;
   font-weight: 500;
 }
@@ -235,7 +235,7 @@ font-weight: 500;
 .profile_wrapper a {
   list-style: none;
   text-decoration: none;
-  color: #5e676f;
+  color: #212121;
   width: 100%;
   max-width: 90%;
 }
@@ -276,7 +276,7 @@ font-weight: 500;
 }
 
 .profile_sign_out {
-  color: #5e676f;
+  color: #212121;
   padding: 8px 14px;
  font-size: 14px;
  font-weight: 500;
@@ -334,7 +334,7 @@ main {
   font-weight: 500;
   font-size: 14px;
   display: flex;
-  color: #5e676f;
+  color: #212121;
   text-decoration: none;
   justify-content: start;
   align-items: center;

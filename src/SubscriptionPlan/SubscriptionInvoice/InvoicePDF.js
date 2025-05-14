@@ -38,8 +38,8 @@ const styles = StyleSheet.create({
     color: "#282f86",
     paddingBottom: 10,
   },
-  titleText: { fontSize: 12, color: "#5e676f" },
-  infoText: { fontSize: 12, color: "#5e676f", paddingBottom: 10 },
+  titleText: { fontSize: 12, color: "#212121" },
+  infoText: { fontSize: 12, color: "#212121", paddingBottom: 10 },
   table: { display: "table", width: "100%" },
   row: {
     flexDirection: "row",
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#e1f2ff",
     color: "#333",
   },
-  cell: { flex: 1, fontSize: 12, padding: 12, color: "#5e676f" },
+  cell: { flex: 1, fontSize: 12, padding: 12, color: "#212121" },
 });
 
 const InvoicePDF = ({ user, subscriptionDetails }) => (

@@ -73,7 +73,7 @@
 }
 
 .mySupplierNameHead {
-  color: #5e676f;
+  color: #212121;
   font-size: 22px;
   font-weight: 500;
 }
@@ -99,7 +99,7 @@
 
 .mySupplierCardText {
   width: 100%;
-  color: #333;
+  color: #616161;
   font-size: 13px;
   font-weight: 500;
 }
@@ -128,7 +128,7 @@
   border-radius: 4px;
   width: 100%;
   text-align: left !important;
-  color: #5e676f !important;
+  color: #212121 !important;
   font-size: 14px;
   font-weight: 500;
   display: flex;
