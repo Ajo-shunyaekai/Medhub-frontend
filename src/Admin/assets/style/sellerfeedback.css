@@ -212,7 +212,7 @@
 
 .seller-details-left-company-type-text {
     align-items: center;
-    background: linear-gradient(270deg, #00dcff, #0075ce);
+   background-color: #282f86;
     border: none !important;
     border-radius: 4px;
     color: #fff;
@@ -508,7 +508,7 @@
 
 }
 .seller-details-button-accept{
-    background: linear-gradient(270deg, #00dcff, #0075ce);
+   background-color: #282f86;
     border: none !important;
     border-radius: 4px;
     color: #fff;

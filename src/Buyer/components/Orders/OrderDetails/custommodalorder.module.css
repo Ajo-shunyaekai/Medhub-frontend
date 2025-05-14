@@ -149,7 +149,7 @@ font-weight: 500;
     width: 100%;
 }
 .custom-modal-label-button-section{
-     background: linear-gradient(to left, #00dcff, #0075ce);
+ background-color: #282f86;
     color: white;
     padding: 6px 16px;
     border-radius: 4px;

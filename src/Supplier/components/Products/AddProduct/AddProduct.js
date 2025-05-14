@@ -6383,16 +6383,17 @@ const AddProduct = ({ placeholder }) => {
 
             {/* Start button section */}
             <div className={styles.buttonContainer}>
-              <button className={styles.buttonCancel} onClick={handleCancel}>
-                Cancel
-              </button>
-              <button
+               <button
                 className={styles.buttonSubmit}
                 type="submit"
                 disabled={loading}
               >
                 {loading ? <div className="loading-spinner"></div> : "Submit"}
               </button>
+              <button className={styles.buttonCancel} onClick={handleCancel}>
+                Cancel
+              </button>
+             
             </div>
 
             {/* End button section */}

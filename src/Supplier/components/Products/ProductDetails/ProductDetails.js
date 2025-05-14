@@ -186,6 +186,7 @@ const openPurchaseInvoice = () => {
         {/* End Secondar Market section */}
         {/* Start general information section */}
         <div className={styles.mainContainer}>
+          <div className={styles.headingSecContainer}>
           <span className={styles.innerHead}>General Information</span>{" "}
           {productDetail?.updatedAt && (
             <span className={styles.medicineHead2}>
@@ -196,6 +197,7 @@ const openPurchaseInvoice = () => {
               )
             </span>
           )}
+          </div>
           <div className={styles.innerSection}>
             <div className={styles.mainSection}>
               {productDetail?.category && (

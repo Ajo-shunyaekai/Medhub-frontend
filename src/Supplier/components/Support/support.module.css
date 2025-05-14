@@ -177,7 +177,7 @@
   border: none !important;
   padding: 6px 24px !important;
   border-radius: 4px !important;
-  background: linear-gradient(to left, #00dcff, #0075ce) !important;
+  background-color: #282f86 !important;
   color: #ffffff !important;
 }
 .error-message {
