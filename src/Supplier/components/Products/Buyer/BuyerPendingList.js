@@ -120,7 +120,8 @@ const BuyerPendingList = () => {
                     }
                     .rdt_TableCol {
                         text-align: center;
-                        color: #616161;
+                        color: #212121 !important;
+    font-weight: 600 !important;
                     }
                     .rdt_TableCell {
                         text-align: center;

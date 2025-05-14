@@ -77,7 +77,8 @@ const ActiveBuyerOrder = ({ orderList, totalOrders, currentPage, ordersPerPage, 
                     }
                     .rdt_TableCol {
                             
-                        color: #616161;
+                        color: #212121 !important;
+    font-weight: 600 !important;
                     }
                     .rdt_TableCell {
                             
