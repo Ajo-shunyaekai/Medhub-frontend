@@ -4,6 +4,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { postRequestWithToken } from "../../../../api/Requests";
 import { toast } from "react-toastify";
 import { PhoneInput } from "react-international-phone";
+import "react-international-phone/style.css";
+import "../../../assets/style/react-input-phone.css";
 
 const countryCodes = [
   "+1", // USA, Canada
