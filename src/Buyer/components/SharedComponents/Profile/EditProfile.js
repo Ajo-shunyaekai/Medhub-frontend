@@ -15,6 +15,7 @@ import {
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../Loader/Loader";
+import "./react-input-phone.css";
 
 const EditProfile = () => {
   const dispatch = useDispatch();

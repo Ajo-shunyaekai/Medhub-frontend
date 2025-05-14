@@ -96,6 +96,7 @@ const SendInquiry = ({ socket }) => {
       if (response?.code === 200) {
         setList(response?.result?.data);
         setTotalItems(response?.result?.totalItems);
+        localStorage?.setItem("list_count", response.result.totalItems);
         dispatch(updateInquiryCartCount(response.result.totalItems));
         const initialCheckedState = {};
         response?.result?.data.forEach((supplier) => {

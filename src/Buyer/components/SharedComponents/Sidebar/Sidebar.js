@@ -34,6 +34,7 @@ const Sidebar = ({ children, dragWindow,
     const navigate = useNavigate();
     const dispatch = useDispatch()
     const { inquiriesCartCount } = useSelector(state => state.inquiryReducer)
+    const listCount = localStorage.getItem("list_count");
 
     // Search bar toggle function
     const [isSearchVisible, setSearchVisible] = useState(false);
@@ -286,7 +287,7 @@ const Sidebar = ({ children, dragWindow,
                             <input type="text" placeholder='Search products...' className={styles.product_search_input} />
                         </div>
                         <div className={styles.nav_notifi_right}>
-                            <Badge badgeContent={inquiriesCartCount} color="secondary">
+                            <Badge badgeContent={inquiriesCartCount || listCount} color="secondary">
                                 <Link to='/buyer/send-inquiry'>
                                     <ShoppingCartCheckoutIcon className={styles.nav_icon_color} />
                                 </Link>
