@@ -7,7 +7,7 @@
   background-attachment: fixed;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  font-family: 'Ubuntu', sans-serif;
+   
 }
 
 .invoiceMainContainer::-webkit-scrollbar {

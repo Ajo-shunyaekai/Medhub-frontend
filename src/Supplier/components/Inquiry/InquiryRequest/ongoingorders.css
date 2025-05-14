@@ -96,7 +96,7 @@
 }
 
 .ongoing-section-heading {
-  color: #333;
+  color: #616161;
   font-size: 13px;
   font-weight: 400;
 }
@@ -124,7 +124,7 @@
 }
 .pending-products-no-orders{
   background-color: #ffffff !important;
-  color: #5e676f !important;
+  color: #212121 !important;
   padding: 14px 10px !important;
   border-radius: 4px !important;
   font-size: 14px !important;

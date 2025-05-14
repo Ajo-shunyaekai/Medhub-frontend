@@ -2,7 +2,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #5e676f !important;
+    color: #212121 !important;
     position: fixed;
     z-index: 1000;
     left: 0;
@@ -45,7 +45,7 @@
 
 .dropdownButton {
     width: 100% !important;
-    color: #5e676f !important;
+    color: #212121 !important;
     border-radius: 4px !important;
     outline: none !important;
     border: none !important;
@@ -88,7 +88,7 @@
 
 .selectInputGroups {
     width: 100% !important;
-    color: #5e676f !important;
+    color: #212121 !important;
     border-radius: 4px !important;
     outline: none !important;
     border: none !important;

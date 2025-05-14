@@ -189,7 +189,7 @@
 
 .companyHead {
   font-size: 14px;
-  color: #5e676f !important;
+  color: #212121 !important;
   font-weight: 500;
   line-height: 20px;
   min-width: 250px !important;
@@ -200,7 +200,7 @@
   word-wrap: break-word;
   word-break: break-word;
   overflow-wrap: break-word;
-  color: #333;
+  color: #616161;
   font-weight: 500;
   font-size: 13px;
   text-align: end;
@@ -231,7 +231,7 @@
 
 .textareaContent {
   font-weight: 500;
-  color: #333;
+  color: #616161;
   font-size: 14px;
   line-height: 20px;
 }
@@ -270,7 +270,7 @@
 
 .documentDocName {
   font-size: 14px;
-  color: #5e676f !important;
+  color: #212121 !important;
   font-weight: 500;
   line-height: 20px;
 }
@@ -372,7 +372,7 @@
 .editInput {
   outline: none !important;
   border: none !important;
-  color: #5e676f !important;
+  color: #212121 !important;
   font-weight: 500 !important;
   background-color: #ffffff !important;
   padding: 12px !important;
@@ -416,8 +416,8 @@
 .editCancel {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
   background-color: #ffffff;
-  border: 1px solid #5e676f;
-  color: #5e676f;
+  border: 1px solid #212121;
+  color: #212121;
   padding: 6px 22px;
   border-radius: 4px;
   display: flex;

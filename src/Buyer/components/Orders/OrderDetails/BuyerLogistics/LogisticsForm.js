@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import { Country, State, City } from "country-state-city";
 import { PhoneInput } from "react-international-phone";
+import "react-international-phone/style.css";
 import styles from "./logistics.module.css";
+import '../../../SharedComponents/SignUp/signup.css'
 import { Link } from "react-router-dom";
 import { useNavigate, useParams } from "react-router-dom";
 import { useFormik } from "formik";

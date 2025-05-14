@@ -56,16 +56,11 @@ const ProductDetails = () => {
   const isImageExtension = (fileName) => {
     return /\.(png|jpe?g|gif|bmp|webp)$/i.test(fileName);
   };
-
-  const isValidHttpUrl = (url) => {
-    try {
-      const parsedUrl = new URL(url);
-      return (
-        (parsedUrl.protocol === "http:" || parsedUrl.protocol === "https:") &&
-        isImageExtension(parsedUrl.pathname)
-      );
-    } catch (_) {
-      return false;
+const openPurchaseInvoice = () => {
+    if (pdfFile) {
+      window.open(pdfUrl, "_blank");
+    } else {
+      alert("No purchase invoice file available.");
     }
   };
 
@@ -173,12 +168,12 @@ const ProductDetails = () => {
                 </div>
               )}
 
-              {productDetail?.secondaryMarketDetails?.purchaseInvoiceFile
+           {productDetail?.secondaryMarketDetails?.purchaseInvoiceFile
                 ?.length > 0 && (
                 <div className={styles.mainPurchaseSection}>
                   <button
                     className={styles.PurcahseButton}
-                    onClick={() => setModalIsOpen(true)}
+                    onClick={openPurchaseInvoice}
                   >
                     View Purchase Invoice
                   </button>
@@ -3346,41 +3341,26 @@ const ProductDetails = () => {
 
         {/* End Additional information */}
         {/* Start Manufacturer section */}
-        {(productDetail?.general?.manufacturer ||
-          // productDetail?.general?.aboutManufacturer ||
-          productDetail?.general?.countryOfOrigin) && (
-          <div className={styles.mainManufacturerContainer}>
-            <span className={styles.innerHead}>Manufacturer Details</span>
-            <div className={styles.manufacturerMainContainer}>
-              {(productDetail?.general?.manufacturer ||
-                productDetail?.general?.countryOfOrigin) && (
-                <div className={styles.manufacturerContainer}>
-                  {productDetail?.general?.manufacturer && (
-                    <div className={styles.manufacturersection}>
-                      <span className={styles.medicineHead}>
-                        Manufacturer Name
-                      </span>
-                      <span className={styles.medicineText}>
-                        {productDetail?.general?.manufacturer}
-                      </span>
-                    </div>
-                  )}
-                  {productDetail?.general?.countryOfOrigin && (
-                    <div className={styles.manufacturersection}>
-                      <span className={styles.medicineHead}>
-                        Contry of Origin
-                      </span>
-                      <span className={styles.medicineText}>
-                        {productDetail?.general?.countryOfOrigin}
-                      </span>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-
+      
+<div className={styles.mainManufacturerContainer}>
+  <span className={styles.innerHead}>Manufacturer Details</span>
+  <div className={styles.manufacturerMainContainer}>
+    <div className={styles.manufacturerContainer}>
+      <div className={styles.manufacturersection}>
+        <span className={styles.medicineHead}>Manufacturer Name</span>
+        <span className={styles.medicineText}>
+          {productDetail?.general?.manufacturer || "N/A"}
+        </span>
+      </div>
+      <div className={styles.manufacturersection}>
+        <span className={styles.medicineHead}>Country of Origin</span>
+        <span className={styles.medicineText}>
+          {productDetail?.general?.countryOfOrigin || "N/A"}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
         {/* End Manufacturer section */}
 
         {/* Modal for PDF Preview */}

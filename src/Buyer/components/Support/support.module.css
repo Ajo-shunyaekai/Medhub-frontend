@@ -47,7 +47,7 @@
 .support-heading {
   padding-top: 5px;
   font-size: 20px;
-  color: #5e676f;
+  color: #212121;
   text-transform: capitalize;
 }
 
@@ -95,7 +95,7 @@
 .support-btn {
   padding: 10px 20px;
   border-radius: 4px;
-  color: #333;
+  color: #616161;
   background-color: #ffffff;
    cursor: pointer !important;;
   font-size: 14px;
@@ -111,7 +111,7 @@
   max-width: 100%;
   font-size: 22px;
   font-weight: 500;
-  color: #5e676f;
+  color: #212121;
   text-transform: capitalize;
   padding: 1rem 0px;
 }
@@ -123,7 +123,7 @@
   padding: 12px 15px;
   border-radius: 4px;
   outline: none;
-  color: #5e676f;
+  color: #212121;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
@@ -135,7 +135,7 @@
   padding: 12px 15px;
   border-radius: 4px;
   outline: none;
-  color: #5e676f;
+  color: #212121;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
@@ -151,7 +151,7 @@
   padding-top: 5px;
   font-size: 20px;
   font-weight: 500;
-  color: #5e676f;
+  color: #212121;
   text-transform: capitalize;
 }
 

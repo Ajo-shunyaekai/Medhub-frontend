@@ -15,7 +15,7 @@
     cursor: pointer !important;
     text-decoration: none !important;
     font-size: 12px !important;
-    color: #5e676f !important;
+    color: #212121 !important;
 }
 .transaction-details-pdf-section{
     display: flex;
@@ -107,12 +107,12 @@
     gap: 1rem;
 }
 .transaction-details-company-type-sec-head{
-    color: #5e676f !important;
+    color: #212121 !important;
     font-size: 16px;
     font-weight: 500;
 }
 .transaction-details-company-type-sec-text{
-    color: #333;
+    color: #616161;
     font-size: 14px;
     font-weight: 500;
     overflow-wrap: break-word;
@@ -164,7 +164,7 @@
 
 .transaction-details-description-content {
     font-size: 13px;
-    color: #333;
+    color: #616161;
 }
 
 .transaction-details-left-uppar-head {
@@ -175,7 +175,7 @@
 
 .transaction-details-left-inner-sec-text {
     font-size: 14px;
-    color: #333;
+    color: #616161;
 }
 
 .transaction-details-left-inner-mobile-button {
@@ -295,7 +295,7 @@
     
 }
 .transaction-details-company-logo-heading{
-    color: #5e676f !important;
+    color: #212121 !important;
     font-size: 16px;
     font-weight: 500;
 }
@@ -318,7 +318,7 @@
 
 .transaction-details-inner-text {
     font-size: 13px;
-    color: #333;
+    color: #616161;
     text-align: end;
     display: -webkit-box;
     -webkit-line-clamp: 3;
@@ -335,7 +335,7 @@
 }
 
 .transaction-details-card-conteianer-head {
-    color: #5e676f !important;
+    color: #212121 !important;
     font-size: 14px;
     font-weight: 500;
     text-align: start;
@@ -344,7 +344,7 @@
 
 .transaction-details-card-conteianer-text {
     font-size: 14px;
-    color: #333;
+    color: #616161;
     text-align: start;
 }
 
@@ -436,7 +436,7 @@
 
 .table-g-supply-text {
     font-size: 13px;
-    color: #333;
+    color: #616161;
 }
 
 .supply-details-thead-section {
@@ -492,10 +492,10 @@
 }
 .transaction-details-button-reject{
     background-color: #fff;
-    border: 1px solid #5e676f;
+    border: 1px solid #212121;
     border-radius: 4px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, .05) !important;
-    color: #5e676f;
+    color: #212121;
     align-items: center;
      cursor: pointer !important;;
     display: flex;

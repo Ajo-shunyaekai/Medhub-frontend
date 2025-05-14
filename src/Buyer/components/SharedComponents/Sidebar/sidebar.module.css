@@ -1,5 +1,5 @@
 body{
-  font-family: 'Ubuntu', sans-serif;
+   
 }
 
 .nav_container {
@@ -40,26 +40,26 @@ body{
 }
 
 .nav_icon_color {
-  color: #333;
+  color: #616161;
   font-size: 22px !important;
    cursor: pointer !important;;
 }
 
 .nav_icon_color_two {
-  color: #333;
+  color: #616161;
   font-size: 22px !important;
    cursor: pointer !important;;
 }
 
 .nav_notifi_right .nav_icon_color_two {
   display: none !important;
-  color: #333;
+  color: #616161;
   font-size: 22px !important;
    cursor: pointer !important;;
 }
 
 .nav_icon_color_two_3 {
-  color: #333;
+  color: #616161;
   font-size: 22px !important;
    cursor: pointer !important;;
   display: none !important;
@@ -91,7 +91,7 @@ body{
 }
 
 .product_search_input::placeholder {
-  color: #333;
+  color: #616161;
 }
 
 .nav_notifi_right {
@@ -132,7 +132,7 @@ body{
       width: 100%;
       font-size: 14px;
       font-weight: 500;
-      color: #5e676f;
+      color: #212121;
       padding: 10px 14px;
       border-bottom: 1px solid #a0afb926;
 }
@@ -142,7 +142,7 @@ body{
 }
 
 .noti_profile {
-  color:#5e676f;
+  color:#212121;
   font-weight: 500;
   font-size: 11px;
   display: flex;
@@ -157,7 +157,7 @@ body{
   font-size: 13px;
   font-weight: 500;
   line-height: 20px;
-  color: #5e676f;
+  color: #212121;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -180,7 +180,7 @@ body{
 }
 .noti_time{
   font-size: 11px !important;
-  color: #333;
+  color: #616161;
 }
 .noti_profile_text span {
   cursor: pointer !important;
@@ -198,7 +198,7 @@ body{
 }
 
 .noti_see_all_num {
-  color: #5e676f;
+  color: #212121;
   font-weight: 500;
   font-size: 14px;
 }
@@ -229,7 +229,7 @@ body{
 .profile_wrapper a {
   list-style: none;
   text-decoration: none;
-  color: #5e676f;
+  color: #212121;
   width: 100%;
   max-width: 90%;
 }
@@ -270,7 +270,7 @@ body{
 }
 
 .profile_sign_out {
-  color: #5e676f;
+  color: #212121;
   font-weight: 500;
   padding: 8px 14px;
  font-size: 14px;
@@ -328,7 +328,7 @@ body{
   font-weight: 500;
   font-size: 14px;
   display: flex;
-  color: #5e676f;
+  color: #212121;
   text-decoration: none;
   justify-content: start;
   align-items: center;

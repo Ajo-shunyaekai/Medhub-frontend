@@ -251,10 +251,10 @@ const AdmSidebar = ({
               >
                 Manage Supplier
                 {isIconOpen ? (
-                   <KeyboardArrowUpOutlinedIcon style={{ color: "#5e676f", cursor:"pointer" }} /> 
+                   <KeyboardArrowUpOutlinedIcon style={{ color: "#212121", cursor:"pointer" }} /> 
                 ) : (
                    <KeyboardArrowDownOutlinedIcon
-                      style={{ color: "#5e676f", cursor:"pointer" }}
+                      style={{ color: "#212121", cursor:"pointer" }}
                     />
                 )}
               </div>
@@ -339,10 +339,10 @@ const AdmSidebar = ({
               >
                 Manage Buyer
                 {isBuyerIconOpen ? (
-                   <KeyboardArrowUpOutlinedIcon style={{ color: "#5e676f", cursor:"pointer" }} />
+                   <KeyboardArrowUpOutlinedIcon style={{ color: "#212121", cursor:"pointer" }} />
                 ) : (
                    <KeyboardArrowDownOutlinedIcon
-                      style={{ color: "#5e676f", cursor:"pointer" }}
+                      style={{ color: "#212121", cursor:"pointer" }}
                     /> 
                 )}
               </div>
@@ -427,10 +427,10 @@ const AdmSidebar = ({
                 Manage Products{" "}
               </div>
               {isProductIconOpen ? (
-                 <KeyboardArrowUpOutlinedIcon style={{ color: "#5e676f", cursor:"pointer" }} /> 
+                 <KeyboardArrowUpOutlinedIcon style={{ color: "#212121", cursor:"pointer" }} /> 
               ) : (
                  <KeyboardArrowDownOutlinedIcon
-                      style={{ color: "#5e676f", cursor:"pointer" }}
+                      style={{ color: "#212121", cursor:"pointer" }}
                     /> 
               )}
             </div>
@@ -720,10 +720,10 @@ const AdmSidebar = ({
                 >
                   Manage Supplier
                   {isIconOpen ? (
-                     <KeyboardArrowUpOutlinedIcon style={{ color: "#5e676f", cursor:"pointer" }} /> 
+                     <KeyboardArrowUpOutlinedIcon style={{ color: "#212121", cursor:"pointer" }} /> 
                   ) : (
                      <KeyboardArrowDownOutlinedIcon
-                      style={{ color: "#5e676f", cursor:"pointer" }}
+                      style={{ color: "#212121", cursor:"pointer" }}
                     />
                      
                   )}
@@ -828,10 +828,10 @@ const AdmSidebar = ({
                 >
                   Manage Buyer
                   {isBuyerIconOpen ? (
-                     <KeyboardArrowUpOutlinedIcon style={{ color: "#5e676f", cursor:"pointer" }} />
+                     <KeyboardArrowUpOutlinedIcon style={{ color: "#212121", cursor:"pointer" }} />
                   ) : (
                      <KeyboardArrowDownOutlinedIcon
-                      style={{ color: "#5e676f", cursor:"pointer" }}
+                      style={{ color: "#212121", cursor:"pointer" }}
                     />
                      
                   )}
@@ -938,10 +938,10 @@ const AdmSidebar = ({
                 >
                   Manage Products
                   {isProductIconOpen ? (
-                     <KeyboardArrowUpOutlinedIcon style={{ color: "#5e676f", cursor:"pointer" }} /> 
+                     <KeyboardArrowUpOutlinedIcon style={{ color: "#212121", cursor:"pointer" }} /> 
                   ) : (
                      <KeyboardArrowDownOutlinedIcon
-                      style={{ color: "#5e676f", cursor:"pointer" }}
+                      style={{ color: "#212121", cursor:"pointer" }}
                     />
                      
                   )}

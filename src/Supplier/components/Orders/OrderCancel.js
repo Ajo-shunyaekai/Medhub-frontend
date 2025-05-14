@@ -42,7 +42,7 @@ const OrderCancel = ({ setModal, orderId,  activeLink }) => {
             <div className="order-cancel-container">
                 <div className="order-cancel-header">
                     <div className="order-cancel-heading">Order ID : {orderId}</div>
-                    <CloseIcon onClick={handleClose} style={{ fontSize: '20px', color: '#5e676f' }} />
+                    <CloseIcon onClick={handleClose} style={{ fontSize: '20px', color: '#212121' }} />
                 </div>
 
                 <div className="order-cancel-content">

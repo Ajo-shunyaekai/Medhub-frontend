@@ -164,7 +164,7 @@ const SupplierDetails = () => {
                    href={supplier.websiteAddress}
                    target="_blank"
                    rel="noopener noreferrer"
-                   className={styles.typeHead}
+                   className={styles.typeLink}
                  >
                    {supplier.websiteAddress}
                  </a>

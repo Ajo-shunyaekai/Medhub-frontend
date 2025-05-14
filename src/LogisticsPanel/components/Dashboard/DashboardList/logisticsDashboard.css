@@ -21,7 +21,7 @@
 }
 
 .completed-order-table {
-  color: #5e676f !important;
+  color: #212121 !important;
   font-size: 14px;
 }
 
@@ -80,19 +80,19 @@
 }
 
 .completed-header-text-color {
-  color: #333;
+  color: #616161;
   font-size: 12px;
   font-weight: 500;
   background-color: transparent !important;
 }
 
 .completed-table-text-color {
-  color: #5e676f;
+  color: #212121;
   font-size: 14px;
 }
 
 .completed-table-text-color-2 {
-  color: #333;
+  color: #616161;
   font-size: 14px;
 }
 
@@ -114,7 +114,7 @@
 }
 
 .completed-pagi-total {
-  color: #333;
+  color: #616161;
   font-size: 14px;
 }
 

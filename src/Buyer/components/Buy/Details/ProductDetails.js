@@ -19,9 +19,9 @@ import { addToList } from "../../../../redux/reducers/listSlice";
 import { updateInquiryCartCount } from "../../../../redux/reducers/inquirySlice";
 import { postRequestWithToken } from "../../../../api/Requests";
 import Loader from "../../SharedComponents/Loader/Loader";
-
+ 
 Modal.setAppElement("#root");
-
+ 
 // Validation schema using Yup
 const validationSchema = Yup.object().shape({
   selectedQuantity: Yup.string().required("Quantity Range is Required"),
@@ -34,7 +34,7 @@ const validationSchema = Yup.object().shape({
     .positive("Must be a positive price")
     .typeError("Must be a number"),
 });
-
+ 
 const ProductDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -50,15 +50,15 @@ const ProductDetails = () => {
       ? pdfFile
       : `${process.env.REACT_APP_SERVER_URL}/uploads/products/${pdfFile}`
     : "https://morth.nic.in/sites/default/files/dd12-13_0.pdf";
-
+ 
   const fallbackImageUrl =
     "https://medhub.shunyaekai.com/uploads/fallbackImage.jpg";
-
+ 
   // Utility to check if URL ends with image extension
   const isImageExtension = (fileName) => {
     return /\.(png|jpe?g|gif|bmp|webp)$/i.test(fileName);
   };
-
+ 
   const inventoryList = productDetail?.inventoryDetails?.inventoryList || [];
   const [productList, setProductList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -73,13 +73,13 @@ const ProductDetails = () => {
     totalQuantity: [],
   });
   const itemsPerPage = 5;
-
+ 
   const searchTimeoutRef = useRef(null);
-
+ 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-
+ 
   useEffect(() => {
     if (id) {
       setLoading(true); // Set loading true before fetching
@@ -88,7 +88,7 @@ const ProductDetails = () => {
       });
     }
   }, [id, dispatch]);
-
+ 
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -115,12 +115,12 @@ const ProductDetails = () => {
     };
     fetchData();
   }, [id, dispatch, currentPage, searchKey]);
-
+ 
   const getCategoryData = (property) => {
     if (!productDetail?.category) return null;
     return productDetail[productDetail.category]?.[property];
   };
-
+ 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
     if (searchTimeoutRef.current) {
@@ -131,7 +131,7 @@ const ProductDetails = () => {
       setCurrentPage(1);
     }, 500);
   };
-
+ 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       if (searchTimeoutRef.current) {
@@ -141,21 +141,21 @@ const ProductDetails = () => {
       setCurrentPage(1);
     }
   };
-
+ 
   const quantityOptions = inventoryList.map((ele) => ({
     value: `${ele.quantityFrom}-${ele.quantityTo}`,
     label: `${ele.quantityFrom} - ${ele.quantityTo}`,
     price: ele.price,
     deliveryTime: ele.deliveryTime,
   }));
-
+ 
   // Get the first quantity option as the default
   const defaultOption = quantityOptions[0] || {
     value: "",
     price: "",
     deliveryTime: "",
   };
-
+ 
   const handleSubmit = (values, { resetForm }) => {
     console.log("values", values);
     setLoading(true); // Set loading true during form submission
@@ -163,14 +163,14 @@ const ProductDetails = () => {
     const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
     const buyerId =
       localStorage?.getItem("_id") || localStorage?.getItem("_id");
-
+ 
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
       localStorage?.clear();
       navigate("/buyer/login");
       setLoading(false);
       return;
     }
-
+ 
     const obj = {
       buyerId,
       buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
@@ -184,7 +184,7 @@ const ProductDetails = () => {
       unit_tax: productDetail?.general?.unit_tax,
       est_delivery_time: values?.deliveryTime,
     };
-
+ 
     postRequestWithToken("buyer/add-to-list", obj, async (response) => {
       if (response?.code === 200) {
         toast(response.message, { type: "success" });
@@ -200,22 +200,22 @@ const ProductDetails = () => {
       }
     });
   };
-
+ 
   // Create a ref for the container to scroll
   const containerRef = useRef(null);
-
+ 
   // Scroll to the top of the component when the id changes
   useEffect(() => {
     if (containerRef.current) {
       containerRef.current.scrollTop = 0;
     }
   }, [id]);
-
+ 
   // Render Loader if loading is true, otherwise render the content
   if (loading) {
     return <Loader />;
   }
-
+ 
   return (
     <div className={styles.container} ref={containerRef}>
       <div className={styles.section}>
@@ -292,7 +292,7 @@ const ProductDetails = () => {
                       </span>
                     </div>
                   )}
-
+ 
                   {productDetail?.secondaryMarketDetails
                     ?.minimumPurchaseUnit && (
                     <div className={styles.medicinesSection}>
@@ -309,7 +309,7 @@ const ProductDetails = () => {
                   )}
                 </div>
               )}
-
+ 
               {productDetail?.secondaryMarketDetails?.purchaseInvoiceFile
                 ?.length > 0 && (
                 <div className={styles.mainPurchaseSection}>
@@ -324,7 +324,7 @@ const ProductDetails = () => {
             </div>
           </div>
         )}
-
+ 
         {/* End Secondar Market section */}
         {/* Start general information section */}
         <div className={styles.mainContainer}>
@@ -387,7 +387,7 @@ const ProductDetails = () => {
                   </span>
                 </div>
               )}
-
+ 
               {productDetail?.general?.packageType && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>
@@ -439,7 +439,7 @@ const ProductDetails = () => {
                   </span>
                 </div>
               )}
-
+ 
               {productDetail?.general?.upc && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>UPC</span>
@@ -464,7 +464,7 @@ const ProductDetails = () => {
                   </span>
                 </div>
               )}
-
+ 
               {productDetail?.storage && (
                 <div className={styles.additionalInnerSection}>
                   <span className={styles.medicineHead}>
@@ -478,9 +478,9 @@ const ProductDetails = () => {
             </div>
           </div>
         </div>
-
+ 
         {/* End general information section */}
-
+ 
         {productDetail?.general?.aboutManufacturer && (
           <div className={styles.mainContainer}>
             <div className={styles.manufacturerDescriptionSection}>
@@ -494,7 +494,7 @@ const ProductDetails = () => {
             </div>
           </div>
         )}
-
+ 
         {/* Start product description */}
         {productDetail?.general?.description && (
           <div className={styles.mainContainer}>
@@ -510,9 +510,9 @@ const ProductDetails = () => {
           </div>
         )}
         {/* End the product description */}
-
+ 
         {/* Start product image section */}
-
+ 
         <div className={styles.mainContainer}>
           <span className={styles.innerHead}>Product Images</span>
           <div className={styles.productImageSection}>
@@ -520,13 +520,13 @@ const ProductDetails = () => {
               const baseUrl = process.env.REACT_APP_SERVER_URL?.endsWith("/")
                 ? process.env.REACT_APP_SERVER_URL
                 : `${process.env.REACT_APP_SERVER_URL}/`;
-
+ 
               const imgUrl = img?.startsWith("http")
                 ? img
                 : `${baseUrl}uploads/products/${img}`;
-
+ 
               const isImageFile = isImageExtension(imgUrl);
-
+ 
               return (
                 <div className={styles.imageContainer} key={index}>
                   <img
@@ -543,7 +543,7 @@ const ProductDetails = () => {
             })}
           </div>
         </div>
-
+ 
         {/* End product image section */}
         {/* Start Inventory & Packaging section */}
         {(productDetail?.inventoryDetails?.stockedInDetails?.length > 0 ||
@@ -589,7 +589,7 @@ const ProductDetails = () => {
                       </div>
                     )}
                   </div>
-
+ 
                   <div className={styles.mainSection}>
                     {productDetail?.inventoryDetails?.stock && (
                       <div className={styles.medicinesSection}>
@@ -628,7 +628,7 @@ const ProductDetails = () => {
                       </span>
                       <span className={styles.medicineHeadings}>Quantity</span>
                     </div>
-
+ 
                     {productDetail?.inventoryDetails?.stockedInDetails?.map(
                       (ele) => (
                         <div className={styles.medicinesSection}>
@@ -683,9 +683,9 @@ const ProductDetails = () => {
             </div>
           </div>
         )}
-
+ 
         {/* End Manufacturer section */}
-
+ 
         {/* Start the category details section */}
         {/* Medical Equipment and Devices */}
         {productDetail?.category === "MedicalEquipmentAndDevices" &&
@@ -731,7 +731,7 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
-
+ 
                 {/* Drug Class & Controlled Substance */}
                 {["coolingSystem", "spotSize"].some(getCategoryData) && (
                   <div className={styles.mainSection}>
@@ -757,11 +757,11 @@ const ProductDetails = () => {
                   </div>
                 )}
               </div>
-
+ 
               {/* Textarea Section */}
               <div className={styles.textareaContainer}>
                 {/* Composition & Formulation */}
-
+ 
                 {[
                   "specification",
                   "specificationFile",
@@ -792,7 +792,7 @@ const ProductDetails = () => {
                         <span className={styles.medicineContent}>
                           {getCategoryData("performanceTestingReport")}
                         </span>
-
+ 
                         <div className={styles.uploadFileSection}>
                           <RenderProductFiles
                             files={getCategoryData(
@@ -823,7 +823,7 @@ const ProductDetails = () => {
             </div>
           )}
         {/* End Medical Equipment and Devices */}
-
+ 
         {/* Pharmaceuticals */}
         {productDetail?.category === "Pharmaceuticals" &&
           [
@@ -878,7 +878,7 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
-
+ 
                 {/* Drug Class & Controlled Substance */}
                 {["drugClass", "expiry", "controlledSubstance"].some(
                   getCategoryData
@@ -913,7 +913,7 @@ const ProductDetails = () => {
                   </div>
                 )}
               </div>
-
+ 
               {/* Textarea Section */}
               {[
                 "composition",
@@ -939,7 +939,7 @@ const ProductDetails = () => {
                           </span>
                         </div>
                       )}
-
+ 
                       {getCategoryData("drugAdministrationRoute") && (
                         <div className={styles.textareaInnerSection}>
                           <span className={styles.medicineHead}>
@@ -952,7 +952,7 @@ const ProductDetails = () => {
                       )}
                     </div>
                   )}
-
+ 
                   {/* Purpose & Drug Administration */}
                   {["purpose", "formulation"].some(getCategoryData) && (
                     <div className={styles.textareaSection}>
@@ -999,7 +999,7 @@ const ProductDetails = () => {
                       )}
                     </div>
                   )}
-
+ 
                   {/* Side Effects & Allergens */}
                   {["sideEffectsAndWarnings", "allergens"].some(
                     getCategoryData
@@ -1030,7 +1030,7 @@ const ProductDetails = () => {
             </div>
           )}
         {/* End Pharmaceuticals */}
-
+ 
         {/* Skin, Hair and Cosmetic Supplies */}
         {productDetail?.category === "SkinHairCosmeticSupplies" &&
           [
@@ -1111,7 +1111,7 @@ const ProductDetails = () => {
                         <span className={styles.medicineText}>Yes</span>
                       </div>
                     )}
-
+ 
                     {getCategoryData("elasticity") && (
                       <div className={styles.medicinesSection}>
                         <span className={styles.medicineHead}>Elasticity</span>
@@ -1120,7 +1120,7 @@ const ProductDetails = () => {
                         </span>
                       </div>
                     )}
-
+ 
                     {getCategoryData("fragrance") && (
                       <div className={styles.medicinesSection}>
                         <span className={styles.medicineHead}>Fragrance</span>
@@ -1140,7 +1140,7 @@ const ProductDetails = () => {
                         </span>
                       </div>
                     )}
-
+ 
                     {getCategoryData("dermatologistTestedFile") && (
                       <div className={styles.medicinesFileSection}>
                         <span className={styles.medicineHead}>Upload File</span>
@@ -1218,7 +1218,7 @@ const ProductDetails = () => {
                         </span>
                       </div>
                     )}
-
+ 
                     {getCategoryData("pediatricianRecommendedFile") && (
                       <div className={styles.medicinesFileSection}>
                         <span className={styles.medicineHead}>Upload File</span>
@@ -1304,7 +1304,7 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
-
+ 
                 {["sideEffectsAndWarnings", "concentration"].some(
                   getCategoryData
                 ) && (
@@ -1368,9 +1368,9 @@ const ProductDetails = () => {
               </div>
             </div>
           )}
-
+ 
         {/* End Skin, Hair and Cosmetic Supplies */}
-
+ 
         {/* Vital Health and Wellness */}
         {productDetail?.category == "VitalHealthAndWellness" &&
           [
@@ -1543,7 +1543,7 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
-
+ 
                 {["sideEffectsAndWarnings", "allergens"].some(
                   getCategoryData
                 ) && (
@@ -1569,7 +1569,7 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
-
+ 
                 {["additivesNSweeteners"].some(getCategoryData) && (
                   <div className={styles.textareaSection}>
                     {getCategoryData("additivesNSweeteners") && (
@@ -1587,11 +1587,11 @@ const ProductDetails = () => {
               </div>
             </div>
           )}
-
+ 
         {/* End Vital Health and Wellness */}
-
+ 
         {/* Medical Consumables and Disposables */}
-
+ 
         {productDetail?.category == "MedicalConsumablesAndDisposables" &&
           [
             "thickness",
@@ -1661,7 +1661,7 @@ const ProductDetails = () => {
                         </span>
                       </div>
                     )}
-
+ 
                     {getCategoryData("texture") === true && (
                       <div className={styles.medicinesSection}>
                         <span className={styles.medicineHead}>Texture</span>
@@ -1798,7 +1798,7 @@ const ProductDetails = () => {
             </div>
           )}
         {/* End Medical Consumables and Disposables */}
-
+ 
         {/* Laboratory Supplies */}
         {productDetail?.category == "LaboratorySupplies" &&
           [
@@ -1917,7 +1917,7 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
-
+ 
                 {["shape", "coating"].some(getCategoryData) && (
                   <div className={styles.textareaSection}>
                     {getCategoryData("shape") && (
@@ -1938,7 +1938,7 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
-
+ 
                 {["purpose", "casNumber"].some(getCategoryData) && (
                   <div className={styles.textareaSection}>
                     {getCategoryData("purpose") && (
@@ -1959,7 +1959,7 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
-
+ 
                 {["grade", "concentration"].some(getCategoryData) && (
                   <div className={styles.textareaSection}>
                     {getCategoryData("grade") && (
@@ -1985,9 +1985,9 @@ const ProductDetails = () => {
               </div>
             </div>
           )}
-
+ 
         {/* End Laboratory Supplies */}
-
+ 
         {/* Diagnostic and Monitoring Devices */}
         {productDetail?.category == "DiagnosticAndMonitoringDevices" &&
           [
@@ -2100,7 +2100,7 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
-
+ 
                 {["compatibleEquipment"].some(getCategoryData) && (
                   <div className={styles.textareaSection}>
                     {getCategoryData("compatibleEquipment") && (
@@ -2116,7 +2116,7 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
-
+ 
                 {[
                   "specification",
                   "specificationFile",
@@ -2147,7 +2147,7 @@ const ProductDetails = () => {
                         <span className={styles.medicineContent}>
                           {getCategoryData("performanceTestingReport")}
                         </span>
-
+ 
                         <div className={styles.uploadFileSection}>
                           <RenderProductFiles
                             files={getCategoryData(
@@ -2162,11 +2162,11 @@ const ProductDetails = () => {
               </div>
             </div>
           )}
-
+ 
         {/* End Diagnostic and Monitoring Devices */}
-
+ 
         {/* Hospital and Clinic Supplies */}
-
+ 
         {productDetail?.category == "HospitalAndClinicSupplies" &&
           [
             "adhesiveness",
@@ -2206,7 +2206,7 @@ const ProductDetails = () => {
                         </span>
                       </div>
                     )}
-
+ 
                     {getCategoryData("absorbency") && (
                       <div className={styles.medicinesSection}>
                         <span className={styles.medicineHead}>Absorbency</span>
@@ -2318,11 +2318,11 @@ const ProductDetails = () => {
               </div>
             </div>
           )}
-
+ 
         {/* End Hospital and Clinic Supplies */}
-
+ 
         {/* Orthopedic Supplies */}
-
+ 
         {productDetail?.category == "OrthopedicSupplies" &&
           [
             "elasticity",
@@ -2352,7 +2352,7 @@ const ProductDetails = () => {
                         </span>
                       </div>
                     )}
-
+ 
                     {getCategoryData("sterilized") === true && (
                       <div className={styles.medicinesSection}>
                         <span className={styles.medicineHead}> Sterilized</span>
@@ -2442,7 +2442,7 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
-
+ 
                 {["coating"].some(getCategoryData) && (
                   <div className={styles.textareaSection}>
                     {getCategoryData("coating") && (
@@ -2458,9 +2458,9 @@ const ProductDetails = () => {
               </div>
             </div>
           )}
-
+ 
         {/* End Orthopedic Supplies */}
-
+ 
         {/* Dental Products */}
         {productDetail?.category == "DentalProducts" &&
           [
@@ -2539,7 +2539,7 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
-
+ 
                 {["maintenanceNotes", "compatibleEquipment"].some(
                   getCategoryData
                 ) && (
@@ -2571,9 +2571,9 @@ const ProductDetails = () => {
               </div>
             </div>
           )}
-
+ 
         {/* End Dental Products */}
-
+ 
         {/* Eye Care Supplies */}
         {productDetail?.category == "EyeCareSupplies" &&
           [
@@ -2656,7 +2656,7 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
-
+ 
                 {["colorOptions"].some(getCategoryData) && (
                   <div className={styles.textareaSection}>
                     {getCategoryData("colorOptions") && (
@@ -2675,7 +2675,7 @@ const ProductDetails = () => {
             </div>
           )}
         {/* End Eye Care Supplies */}
-
+ 
         {/* Home Healthcare Products */}
         {productDetail?.category == "HomeHealthcareProducts" &&
           [
@@ -2748,7 +2748,7 @@ const ProductDetails = () => {
                         </span>
                       </div>
                     )}
-
+ 
                     {getCategoryData("batteryType") && (
                       <div className={styles.medicinesSection}>
                         <span className={styles.medicineHead}>
@@ -2787,7 +2787,7 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
-
+ 
                 {["lockingMechanism", "typeOfSupport"].some(
                   getCategoryData
                 ) && (
@@ -2814,7 +2814,7 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
-
+ 
                 {["flowRate", "concentration"].some(getCategoryData) && (
                   <div className={styles.textareaSection}>
                     {getCategoryData("flowRate") && (
@@ -2854,7 +2854,7 @@ const ProductDetails = () => {
                         </span>
                       </div>
                     )}
-
+ 
                     {getCategoryData("performanceTestingReportFile") && (
                       <div className={styles.uploadFileSection}>
                         <RenderProductFiles
@@ -2869,9 +2869,9 @@ const ProductDetails = () => {
               </div>
             </div>
           )}
-
+ 
         {/* End Home Healthcare Products */}
-
+ 
         {/* Alternative Medicines */}
         {productDetail?.category == "AlternativeMedicines" &&
           [
@@ -2925,7 +2925,7 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
-
+ 
                 {["healthClaims", "healthClaimsFiles"].some(
                   getCategoryData
                 ) && (
@@ -2953,11 +2953,11 @@ const ProductDetails = () => {
               </div>
             </div>
           )}
-
+ 
         {/* End Alternative Medicines */}
-
+ 
         {/* Emergency and First Aid Supplies */}
-
+ 
         {productDetail?.category == "EmergencyAndFirstAidSupplies" &&
           ["expiry", "composition", "productLongevity", "foldability"].some(
             getCategoryData
@@ -3024,9 +3024,9 @@ const ProductDetails = () => {
               </div>
             </div>
           )}
-
+ 
         {/* End Emergency and First Aid Supplies */}
-
+ 
         {/* Disinfection and Hygiene Supplies */}
         {productDetail?.category == "DisinfectionAndHygieneSupplies" &&
           [
@@ -3107,9 +3107,9 @@ const ProductDetails = () => {
               </div>
             </div>
           )}
-
+ 
         {/* End Disinfection and Hygiene Supplies */}
-
+ 
         {/* Nutrition and Dietary Products */}
         {productDetail?.category == "NutritionAndDietaryProducts" &&
           [
@@ -3239,7 +3239,7 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
-
+ 
                 {["purpose"].some(getCategoryData) && (
                   <div className={styles.textareaSection}>
                     {getCategoryData("purpose") && (
@@ -3255,9 +3255,9 @@ const ProductDetails = () => {
               </div>
             </div>
           )}
-
+ 
         {/* End Nutrition and Dietary Products */}
-
+ 
         {/* Healthcare IT Solutions */}
         {productDetail?.category == "HealthcareITSolutions" &&
           [
@@ -3374,9 +3374,9 @@ const ProductDetails = () => {
             </div>
           )}
         {/* End Healthcare IT Solutions */}
-
+ 
         {/* End the category details section */}
-
+ 
         {/* Start Compliance & Certification Health & Safety */}
         {(productDetail?.cNCFileNDate?.length > 0 ||
           productDetail?.healthNSafety?.safetyDatasheet?.length > 0 ||
@@ -3451,7 +3451,7 @@ const ProductDetails = () => {
           </div>
         )}
         {/* End Compliance & Certification Health & Safety */}
-
+ 
         {/* Start Additional information */}
         {(productDetail?.additional?.other ||
           productDetail?.additional?.warranty ||
@@ -3481,7 +3481,7 @@ const ProductDetails = () => {
                   )}
                 </div>
               )}
-
+ 
               {productDetail?.additional?.guidelinesFile?.length > 0 && (
                 <div className={styles.additionalUploadSection}>
                   <div className={styles.additionalUploadSection}>
@@ -3497,7 +3497,7 @@ const ProductDetails = () => {
             </div>
           </div>
         )}
-
+ 
         {/* End Additional information */}
         {/* Start the product inventory section */}
         {productDetail?.inventoryDetails?.inventoryList?.length > 0 && (
@@ -3525,7 +3525,7 @@ const ProductDetails = () => {
                   <span className={styles.inventoryHead}>Target Price</span>
                 </div>
               </div>
-
+ 
               <Formik
                 initialValues={{
                   selectedQuantity: defaultOption.value,
@@ -3543,7 +3543,7 @@ const ProductDetails = () => {
                     quantityOptions.find(
                       (opt) => opt.value === values.selectedQuantity
                     ) || defaultOption;
-
+ 
                   return (
                     <Form className={styles.formSection}>
                       <div className={styles.fromContainer}>
@@ -3667,7 +3667,7 @@ const ProductDetails = () => {
           >
             <img className={styles.closeImg} src={CloseIcon} alt="closeIcon" />
           </div>
-
+ 
           {/* PDF display with loading and error handling */}
           {pdfFile ? (
             <iframe
@@ -3686,5 +3686,5 @@ const ProductDetails = () => {
     </div>
   );
 };
-
+ 
 export default ProductDetails;

@@ -5,7 +5,7 @@
     border: unset !important;
     border-radius: 0px !important;
     outline: none !important;
-    color: #5e676f !important;
+    color: #212121 !important;
 }
 .stdropdown-input {
     border: none !important;
@@ -15,7 +15,7 @@
     -webkit-user-select: none;
     user-select: none;
     width: 100% !important;
-    color: #5e676f !important;
+    color: #212121 !important;
     border-radius: 4px !important;
     outline: none !important;
     border: none !important;
@@ -29,11 +29,11 @@
 .stdropdown-container {
     border: none !important;
     border-radius: 4px !important;
-    color: #5e676f !important;
+    color: #212121 !important;
 }
 .stdropdown-item {
     font-size: 14px !important;
-    color: #5e676f !important;
+    color: #212121 !important;
 }
 .stdropdown-item.selected {
     background-color: #ffffff !important;

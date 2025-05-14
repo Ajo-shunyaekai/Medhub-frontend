@@ -1,11 +1,11 @@
 .pending-invo-container {
     color: blue;
-  font-family: 'Ubuntu', sans-serif;
+   
   }
   .table {
     width: 100%;
     border-collapse: collapse;
-  font-family: 'Ubuntu', sans-serif;
+   
   }
   
   .table th,
@@ -28,7 +28,7 @@
   }
   .item-title {
     font-size: 13px;
-    color: #333;
+    color: #616161;
   }
   
   .invoice-details-button-row {

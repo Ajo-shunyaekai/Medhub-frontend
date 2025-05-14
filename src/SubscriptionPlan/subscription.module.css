@@ -8,7 +8,7 @@
   -ms-overflow-style: none;
   display: flex;
   justify-content: center;
-    font-family: 'Ubuntu', sans-serif;
+     
 }
  
 .container::-webkit-scrollbar {
@@ -266,7 +266,7 @@
   -ms-overflow-style: none;
   display: flex;
   justify-content: center;
-  font-family: 'Ubuntu', sans-serif;
+   
 }
  
 .container1::-webkit-scrollbar {
