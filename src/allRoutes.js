@@ -29,6 +29,12 @@ export const buyerRoutesConfig = [
     component: lazy(() => import("./Policies/Terms&Conditions")),
   },
   {
+    path: "/buyer/thank-you",
+    component: lazy(() =>
+      import("./Buyer/components/Buy/SendInquiry/ThankYou")
+    ),
+  },
+  {
     path: "*",
     component: lazy(() =>
       import("./Buyer/components/SharedComponents/Error/Error")
@@ -369,12 +375,6 @@ export const buyerNestedRoutes = [
       import(
         "./Buyer/components/Orders/OrderDetails/BuyerLogistics/LogisticsAddress"
       )
-    ),
-  },
-  {
-    path: "/buyer/thank-you",
-    component: lazy(() =>
-      import("./Buyer/components/Buy/SendInquiry/ThankYou")
     ),
   },
   {
