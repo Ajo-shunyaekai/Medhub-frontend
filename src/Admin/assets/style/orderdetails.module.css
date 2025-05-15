@@ -175,8 +175,9 @@ color: #000;
     box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
     padding: 26px 20px;
     width: 100%;
+    display: none;
 }
 .invoiceListSection{
-    margin-bottom: 24rem;
-    margin-top: -20rem;;
+      margin-bottom: 24rem;
+    margin-top: -20rem;
 }

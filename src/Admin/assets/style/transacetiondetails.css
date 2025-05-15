@@ -311,9 +311,8 @@
     gap: 1rem;
 }
 .transaction-details-company-img-container img{
-    width: 100%;
-    max-width: 40%;
-  height: 20vh;
+   width: 160px;
+   height: auto;
 }
 
 .transaction-details-inner-text {

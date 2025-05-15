@@ -86,8 +86,9 @@ function ProformaInvoiceDetails() {
               border: "1px solid #eee",
               fontSize: "16px",
               lineHeight: "24px",
-              color: "#555",
+              color: "#212121",
               backgroundColor: "#FFFFFF",
+              boxShadow:"0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d"
             }}
           >
             <div
@@ -170,7 +171,7 @@ function ProformaInvoiceDetails() {
                               style={{
                                 fontSize: "16px",
                                 fontWeight: 500,
-                                paddingBottom: "6px",
+                                  
                               }}
                             >
                               {orderDetails?.supplier_name}
@@ -178,8 +179,9 @@ function ProformaInvoiceDetails() {
                             <p
                               style={{
                                 fontSize: "13px",
-                                lineHeight: "16px",
-                                color: "#99a0ac",
+                                lineHeight: "18px",
+                                fontWeight:"550",
+                                  color: "#616161",
                               }}
                             >
                               {orderDetails?.supplier_address}
@@ -189,8 +191,9 @@ function ProformaInvoiceDetails() {
                               <p
                                 style={{
                                   fontSize: "13px",
-                                  lineHeight: "16px",
-                                  color: "#99a0ac",
+                                   lineHeight: "18px",
+                                fontWeight:"550",
+                                    color: "#616161",
                                 }}
                               >
                                 {
@@ -204,8 +207,9 @@ function ProformaInvoiceDetails() {
                               <p
                                 style={{
                                   fontSize: "13px",
-                                  lineHeight: "16px",
-                                  color: "#99a0ac",
+                                  lineHeight: "18px",
+                                fontWeight:"550",
+                                    color: "#616161",
                                 }}
                               >
                                 {
@@ -224,8 +228,9 @@ function ProformaInvoiceDetails() {
                               <p
                                 style={{
                                   fontSize: "13px",
-                                  lineHeight: "16px",
-                                  color: "#99a0ac",
+                                   lineHeight: "18px",
+                                fontWeight:"550",
+                                    color: "#616161",
                                 }}
                               >
                                 {
@@ -253,22 +258,14 @@ function ProformaInvoiceDetails() {
                                 justifyContent: "start",
                               }}
                             >
+                             
                               <p
                                 style={{
                                   fontSize: "13px",
-                                  lineHeight: "16px",
-                                  color: "#99a0ac",
-                                  paddingTop: "6px",
-                                }}
-                              >
-                                Mobile No. :
-                              </p>
-                              <p
-                                style={{
-                                  fontSize: "13px",
-                                  lineHeight: "16px",
-                                  color: "#99a0ac",
-                                  paddingTop: "6px",
+                                  lineHeight: "18px",
+                                fontWeight:"550",
+                                    color: "#616161",
+                                 
                                 }}
                               >
                                 &nbsp; {orderDetails?.supplier_mobile}
@@ -280,22 +277,14 @@ function ProformaInvoiceDetails() {
                                 justifyContent: "start",
                               }}
                             >
+                             
                               <p
                                 style={{
                                   fontSize: "13px",
-                                  lineHeight: "16px",
-                                  color: "#99a0ac",
-                                  paddingTop: "6px",
-                                }}
-                              >
-                                Email ID :
-                              </p>
-                              <p
-                                style={{
-                                  fontSize: "13px",
-                                  lineHeight: "16px",
-                                  color: "#99a0ac",
-                                  paddingTop: "6px",
+                                  lineHeight: "18px",
+                                fontWeight:"550",
+                                    color: "#616161",
+                                  
                                 }}
                               >
                                 &nbsp;{orderDetails?.supplier_email}
@@ -323,7 +312,7 @@ function ProformaInvoiceDetails() {
                               style={{
                                 fontSize: "16px",
                                 fontWeight: 500,
-                                paddingBottom: "6px",
+                                  
                                 textAlign: "end",
                               }}
                             >
@@ -332,9 +321,10 @@ function ProformaInvoiceDetails() {
                             <p
                               style={{
                                 fontSize: "13px",
-                                lineHeight: "16px",
-                                color: "#99a0ac",
-                                lineHeight: "16px",
+                                lineHeight: "18px",
+                                fontWeight:"550",
+                                  color: "#616161",
+                               
                                 textAlign: "end",
                               }}
                             >
@@ -345,9 +335,10 @@ function ProformaInvoiceDetails() {
                               <p
                                 style={{
                                   fontSize: "13px",
-                                  lineHeight: "16px",
-                                  color: "#99a0ac",
-                                  lineHeight: "16px",
+                                 lineHeight: "18px",
+                                fontWeight:"550",
+                                    color: "#616161",
+                                
                                   textAlign: "end",
                                 }}
                               >
@@ -362,9 +353,10 @@ function ProformaInvoiceDetails() {
                               <p
                                 style={{
                                   fontSize: "13px",
-                                  lineHeight: "16px",
-                                  color: "#99a0ac",
-                                  lineHeight: "16px",
+                                  lineHeight: "18px",
+                                fontWeight:"550",
+                                    color: "#616161",
+                               
                                   textAlign: "end",
                                 }}
                               >
@@ -382,9 +374,10 @@ function ProformaInvoiceDetails() {
                               <p
                                 style={{
                                   fontSize: "13px",
-                                  lineHeight: "16px",
-                                  color: "#99a0ac",
-                                  lineHeight: "16px",
+                                 lineHeight: "18px",
+                                fontWeight:"550",
+                                    color: "#616161",
+                               
                                   textAlign: "end",
                                 }}
                               >
@@ -404,22 +397,14 @@ function ProformaInvoiceDetails() {
                             <td
                               style={{ display: "flex", justifyContent: "end" }}
                             >
+                            
                               <p
                                 style={{
                                   fontSize: "13px",
-                                  lineHeight: "16px",
-                                  color: "#99a0ac",
-                                  paddingTop: "6px",
-                                }}
-                              >
-                                Mobile No. :
-                              </p>
-                              <p
-                                style={{
-                                  fontSize: "13px",
-                                  lineHeight: "16px",
-                                  color: "#99a0ac",
-                                  paddingTop: "6px",
+                                  lineHeight: "18px",
+                                fontWeight:"550",
+                                    color: "#616161",
+                                
                                 }}
                               >
                                 &nbsp;{orderDetails?.buyer_mobile}
@@ -428,22 +413,14 @@ function ProformaInvoiceDetails() {
                             <td
                               style={{ display: "flex", justifyContent: "end" }}
                             >
+                             
                               <p
                                 style={{
                                   fontSize: "13px",
-                                  lineHeight: "16px",
-                                  color: "#99a0ac",
-                                  paddingTop: "6px",
-                                }}
-                              >
-                                Email ID :
-                              </p>
-                              <p
-                                style={{
-                                  fontSize: "13px",
-                                  lineHeight: "16px",
-                                  color: "#99a0ac",
-                                  paddingTop: "6px",
+                                  lineHeight: "18px",
+                                fontWeight:"550",
+                                    color: "#616161",
+                                 
                                 }}
                               >
                                 &nbsp; {orderDetails?.buyer_email}
@@ -861,7 +838,7 @@ function ProformaInvoiceDetails() {
                           fontSize: "13px",
                           lineHeight: "20px",
                           marginTop: "4px",
-                          color: "#99a0ac",
+                            color: "#616161",
                         }}
                       >
                         {orderDetails?.enquiry?.payment_terms?.map(

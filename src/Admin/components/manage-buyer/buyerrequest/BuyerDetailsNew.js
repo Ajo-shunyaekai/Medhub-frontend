@@ -150,6 +150,9 @@ const BuyerDetailsNew = () => {
                       <div className="buyer-details-left-uppar-head">
                         {buyerDetails?.buyer_name}
                       </div>
+                        <div className="buyer-details-left-link-container">
+                        {buyerDetails?.websiteAddress}
+                      </div>
                     </div>
                     <div className="buyer-details-left-inner-img-container">
                       <div className="buyer-details-left-inner-mobile-button">

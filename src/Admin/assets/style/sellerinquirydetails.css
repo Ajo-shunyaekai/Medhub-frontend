@@ -185,8 +185,8 @@
 .inquiry-details-ul {
   display: flex;
   margin-bottom: 0px !important;
-  color: #212121 !important;
-  font-weight: 500;
+  color: #616161 !important;
+  font-weight: 550;
   font-size: 13px;
   line-height: 15px;
    cursor: pointer !important;;
@@ -379,6 +379,7 @@
   .inquiry-details-left-top-main-heading {
     color: #616161;
     font-size: 12px;
+    font-weight: 550;
   }
   .inquiry-details-left-top-main-contents {
     color: #212121 !important;
@@ -423,8 +424,10 @@
     font-size: 13px;
   }
   .table-g-driver-name {
-    color: #212121;
+    color: #616161;
+    font-weight: 550;
     font-size: 13px;
+
   }
   .table-g-not-name {
     color: #212121;
