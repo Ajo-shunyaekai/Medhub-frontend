@@ -191,7 +191,8 @@ const DetailsBuyerRequest = () => {
       sales_person_name: salesPersonName,
     };
     if (!salesPersonName || salesPersonName === "") {
-      return toast("Sales Person is required", { type: "error" });
+       toast("Medhub Global Sales Representative is required", { type: "error" });
+       return
     }
     if (action === "accept") {
       setLoading(true);
@@ -371,7 +372,7 @@ const DetailsBuyerRequest = () => {
             <div className="buyer-details-inner-left-section">
               <div className="buyer-details-inner-section">
                 <div className="buyer-details-inner-head">
-                  Sales Person Name :
+                  Medhub Global Sales Representative :
                   <FaEdit className="edit-icon" onClick={handleEditClick} />
                 </div>
                 <div className="buyer-details-inner-text">
@@ -381,7 +382,7 @@ const DetailsBuyerRequest = () => {
                       defaultValue={buyerDetails?.sales_person_name}
                       onChange={handleChange}
                       className="editable-details"
-                      placeholder="Sales Person Name"
+                      placeholder="Medhub Global Sales Representative"
                     />
                   ) : (
                     <span>{buyerDetails?.sales_person_name}</span>
