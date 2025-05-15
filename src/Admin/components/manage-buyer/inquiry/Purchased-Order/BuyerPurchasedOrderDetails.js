@@ -88,7 +88,8 @@ const BuyerPurchasedOrderDetails = () => {
             border: "1px solid #eee",
             fontSize: "16px",
             lineHeight: "24px",
-            color: "#555",
+            color: "#212121",
+            boxShadow:"0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d",
             backgroundColor: "#FFFFFF",
           }}
         >
@@ -181,7 +182,7 @@ const BuyerPurchasedOrderDetails = () => {
                             style={{
                               fontSize: "16px",
                               fontWeight: 500,
-                              paddingBottom: "6px",
+                                
                             }}
                           >
                             {poDetails?.buyer_name}
@@ -189,8 +190,9 @@ const BuyerPurchasedOrderDetails = () => {
                           <p
                             style={{
                               fontSize: "13px",
-                              lineHeight: "16px",
-                              color: "#99a0ac",
+                              lineHeight: "18px",
+                              fontWeight:"550",
+                              color: "#616161",
                             }}
                           >
                             {poDetails?.buyer_address}
@@ -199,22 +201,14 @@ const BuyerPurchasedOrderDetails = () => {
                           <td
                             style={{ display: "flex", justifyContent: "start" }}
                           >
+                           
                             <p
                               style={{
                                 fontSize: "13px",
-                                lineHeight: "16px",
-                                color: "#99a0ac",
-                                paddingTop: "6px",
-                              }}
-                            >
-                              Mobile No. :
-                            </p>
-                            <p
-                              style={{
-                                fontSize: "13px",
-                                lineHeight: "16px",
-                                color: "#99a0ac",
-                                paddingTop: "6px",
+                               lineHeight: "18px",
+                              fontWeight:"550",
+                                color: "#616161",
+                                    
                               }}
                             >
                               &nbsp;{poDetails?.buyer_country_code}{" "}
@@ -224,22 +218,14 @@ const BuyerPurchasedOrderDetails = () => {
                           <td
                             style={{ display: "flex", justifyContent: "start" }}
                           >
+                            
                             <p
                               style={{
                                 fontSize: "13px",
-                                lineHeight: "16px",
-                                color: "#99a0ac",
-                                paddingTop: "6px",
-                              }}
-                            >
-                              Email ID :
-                            </p>
-                            <p
-                              style={{
-                                fontSize: "13px",
-                                lineHeight: "16px",
-                                color: "#99a0ac",
-                                paddingTop: "6px",
+                               lineHeight: "18px",
+                              fontWeight:"550",
+                                color: "#616161",
+                                    
                               }}
                             >
                               &nbsp;{poDetails?.buyer_email}
@@ -251,9 +237,10 @@ const BuyerPurchasedOrderDetails = () => {
                             <p
                               style={{
                                 fontSize: "13px",
-                                lineHeight: "16px",
-                                color: "#99a0ac",
-                                paddingTop: "6px",
+                               lineHeight: "18px",
+                              fontWeight:"550",
+                                color: "#616161",
+                                    
                               }}
                             >
                               Company Registration No. :
@@ -261,9 +248,10 @@ const BuyerPurchasedOrderDetails = () => {
                             <p
                               style={{
                                 fontSize: "13px",
-                                lineHeight: "16px",
-                                color: "#99a0ac",
-                                paddingTop: "6px",
+                              lineHeight: "18px",
+                              fontWeight:"550",
+                                color: "#616161",
+                                    
                               }}
                             >
                               &nbsp;{poDetails?.buyer_regNo}
@@ -291,7 +279,7 @@ const BuyerPurchasedOrderDetails = () => {
                             style={{
                               fontSize: "16px",
                               fontWeight: 500,
-                              paddingBottom: "6px",
+                                
                               textAlign: "end",
                             }}
                           >
@@ -300,8 +288,9 @@ const BuyerPurchasedOrderDetails = () => {
                           <p
                             style={{
                               fontSize: "13px",
-                              lineHeight: "16px",
-                              color: "#99a0ac",
+                             lineHeight: "18px",
+                              fontWeight:"550",
+                              color: "#616161",
                               textAlign: "end",
                             }}
                           >
@@ -311,22 +300,14 @@ const BuyerPurchasedOrderDetails = () => {
                           <td
                             style={{ display: "flex", justifyContent: "end" }}
                           >
+                           
                             <p
                               style={{
                                 fontSize: "13px",
-                                lineHeight: "16px",
-                                color: "#99a0ac",
-                                paddingTop: "6px",
-                              }}
-                            >
-                              Mobile No. :
-                            </p>
-                            <p
-                              style={{
-                                fontSize: "13px",
-                                lineHeight: "16px",
-                                color: "#99a0ac",
-                                paddingTop: "6px",
+                              lineHeight: "18px",
+                              fontWeight:"550",
+                                color: "#616161",
+                                    
                               }}
                             >
                               &nbsp;{poDetails?.supplier_country_code}{" "}
@@ -336,22 +317,14 @@ const BuyerPurchasedOrderDetails = () => {
                           <td
                             style={{ display: "flex", justifyContent: "end" }}
                           >
+                            
                             <p
                               style={{
                                 fontSize: "13px",
-                                lineHeight: "16px",
-                                color: "#99a0ac",
-                                paddingTop: "6px",
-                              }}
-                            >
-                              Email ID :
-                            </p>
-                            <p
-                              style={{
-                                fontSize: "13px",
-                                lineHeight: "16px",
-                                color: "#99a0ac",
-                                paddingTop: "6px",
+                               lineHeight: "18px",
+                              fontWeight:"550",
+                                color: "#616161",
+                                    
                               }}
                             >
                               &nbsp;{poDetails?.supplier_email}
@@ -363,9 +336,10 @@ const BuyerPurchasedOrderDetails = () => {
                             <p
                               style={{
                                 fontSize: "13px",
-                                lineHeight: "16px",
-                                color: "#99a0ac",
-                                paddingTop: "6px",
+                              lineHeight: "18px",
+                              fontWeight:"550",
+                                color: "#616161",
+                                    
                               }}
                             >
                               Company Registration No. :
@@ -373,9 +347,10 @@ const BuyerPurchasedOrderDetails = () => {
                             <p
                               style={{
                                 fontSize: "13px",
-                                lineHeight: "16px",
-                                color: "#99a0ac",
-                                paddingTop: "6px",
+                               lineHeight: "18px",
+                              fontWeight:"550",
+                                color: "#616161",
+                                    
                               }}
                             >
                               &nbsp;{poDetails?.supplier_regNo}
@@ -633,9 +608,10 @@ const BuyerPurchasedOrderDetails = () => {
                       <div
                         style={{
                           fontSize: "13px",
+                          fontWeight:"500",
                           lineHeight: "20px",
                           marginTop: "4px",
-                          color: "#99a0ac",
+                          color: "#616161",
                         }}
                       >
                         <p

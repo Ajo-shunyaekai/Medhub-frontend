@@ -30,6 +30,7 @@
   }
   .table-assign-date-time{
     color: #212121;
+    font-weight: 550;
     font-size: 13px;
   }
   .table-card-body-container{
@@ -218,7 +219,7 @@
   }
   
   .table-assign-driver-heading {
-    color: #192039;
+    color: #212121;
     font-size: 18px;
       font-weight: 500;
   }
@@ -366,13 +367,13 @@
   
   .ongoing-details-left-top-main-heading {
     color: #616161;
+    font-weight: 550;
     font-size: 12px;
   }
   
   .ongoing-details-left-top-main-contents {
     font-weight: 500;
-    font-size: 13px;
-    line-height: 15px;
+    font-size: 14px;
     color: #212121 !important;
      cursor: pointer !important;;
   }
@@ -421,13 +422,14 @@
   }
   
   .table-g-not-names {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 500;
     color: #212121;
   }
   
   .table-g-driver-name {
-    color: #212121;
+    color: #616161;
+    font-weight: 550;
     font-size: 13px;
   }
   
@@ -444,8 +446,8 @@
   }
   
   .ongoing-details-payment-first-terms-text {
-    font-size: 13px;
-    font-weight: 500;
+    font-size: 14px;
+    font-weight: 550;
     padding: 0px 10px;
 }
   

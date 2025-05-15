@@ -5,6 +5,7 @@ import "react-calendar/dist/Calendar.css";
 import "react-tooltip/dist/react-tooltip.css";
 import countryList from "react-select-country-list";
 import { PhoneInput } from "react-international-phone";
+import '../../../assets/style/react-input-phone.css'
 import "react-international-phone/style.css";
 import { Country, State, City } from "country-state-city";
 import categoryArrays from "../../../../utils/Category";
@@ -720,6 +721,28 @@ const EditProfileDetails = () => {
                     )}
                 </div>
               )}
+
+               <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>
+                  Company Website
+                 
+                </label>
+                <Field
+                    className={styles?.formInput}
+                    type="text"
+                    placeholder="Enter Company Website"
+                    name="websiteAddress"
+                    value={formik?.values?.websiteAddress}
+                    onChange={formik?.handleChange}
+                    onBlur={formik?.handleBlur}
+                  />
+                  {formik?.touched?.websiteAddress &&
+                    formik?.errors?.websiteAddress && (
+                      <span className={styles?.error}>
+                        {formik?.errors?.websiteAddress}
+                      </span>
+                    )}
+              </div>
 
               <div className={styles?.productContainer}>
                 <label className={styles?.formLabel}>

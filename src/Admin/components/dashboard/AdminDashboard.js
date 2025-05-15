@@ -8,11 +8,9 @@ import CircularBar from './chart/CircularBar';
 import ConversionChart from './chart/ConversionChart';
 import SearchEngineChart from './chart/SearchEngineChart'
 import DirectlyChart from './chart/DirectlyChart'
-import PinkBar from './chart/PinkBar'
-import Trending from '../../assets/Images/dashboard/trendingup.svg'
 import Arrow from '../../assets/Images/dashboard/arrow.svg'
 import { postRequestWithToken } from '../../api/Requests';
-import { countryToCodeMapping, convertCountryToCode } from '../shared-components/countryCodes/countryCode'
+import {convertCountryToCode } from '../shared-components/countryCodes/countryCode'
 
 
 const AdminDashboard = () => {
