@@ -26,7 +26,7 @@ const InquiryPurchaseOrder = () => {
     switch (path) {
       case "/buyer/inquiry":
         return "ongoing";
-      case "/buyer/inquiry/Purchased-Order":
+      case "/buyer/inquiry/purchased-order":
         return "purchased";
       default:
         return "ongoing";
@@ -42,7 +42,7 @@ const InquiryPurchaseOrder = () => {
         navigate("/buyer/inquiry");
         break;
       case "purchased":
-        navigate("/buyer/inquiry/Purchased-Order");
+        navigate("/buyer/inquiry/purchased-order");
         break;
       default:
         navigate("/buyer/inquiry");

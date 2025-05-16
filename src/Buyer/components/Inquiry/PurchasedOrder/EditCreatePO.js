@@ -486,7 +486,7 @@ const EditCreatePO = ({ socket }) => {
             // send other details if needed
           });
           setTimeout(() => {
-            navigate("/buyer/inquiry/Purchased-Order");
+            navigate("/buyer/inquiry/purchased-order");
             setLoading(true);
           }, 1000);
         } else {

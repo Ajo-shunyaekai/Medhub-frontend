@@ -352,7 +352,7 @@ const CreatePO = ({ socket }) => {
             link: process.env.REACT_APP_PUBLIC_URL,
           });
           setTimeout(() => {
-            navigate("/buyer/inquiry/Purchased-Order");
+            navigate("/buyer/inquiry/purchased-order");
             setLoading(false);
           }, 1000);
         } else {
