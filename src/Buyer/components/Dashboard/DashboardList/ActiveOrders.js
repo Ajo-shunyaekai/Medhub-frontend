@@ -126,7 +126,7 @@ const OngoingOrders = () => {
               <RemoveRedEyeOutlinedIcon className={styles["table-icon"]} />
             </div>
           </Link>
-          {row?.status == "Awaiting Details from Supplier" && (
+          {/* {row?.status == "Awaiting Details from Supplier" && (
             <div
               className={styles.activeBtn2}
               onClick={() => {
@@ -135,7 +135,7 @@ const OngoingOrders = () => {
             >
               <NotificationsNoneOutlinedIcon className={styles["table-icon"]} />
             </div>
-          )}
+          )} */}
         </>
       ),
       ignoreRowClick: true,
