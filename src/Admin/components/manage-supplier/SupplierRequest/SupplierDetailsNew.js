@@ -12,7 +12,10 @@ import { toast } from "react-toastify";
 import { FaFilePdf, FaFileWord } from "react-icons/fa";
 import SupplierCustomModal from "./SupplierCustomModal";
 import { apiRequests } from "../../../../api/index";
-import { extractLast13WithExtension, renderFiles } from "../../../../utils/helper";
+import {
+  extractLast13WithExtension,
+  renderFiles,
+} from "../../../../utils/helper";
 const SupplierDetailsNew = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [supplierDetails, setSupplierDetails] = useState();
@@ -43,7 +46,7 @@ const SupplierDetailsNew = () => {
     setOpen(false);
     setPdfUrl(null);
   };
-  
+
   useEffect(() => {
     const getSupplierdetails = async () => {
       if (!adminIdSessionStorage && !adminIdLocalStorage) {
@@ -82,8 +85,10 @@ const SupplierDetailsNew = () => {
       sales_person_name: salesPersonName,
     };
     if (!salesPersonName || salesPersonName === "") {
-       toast("Medhub Global Sales Representative is required", { type: "error" });
-       return 
+      toast("Medhub Global Sales Representative is required", {
+        type: "error",
+      });
+      return;
     }
 
     if (action === "accept") {
@@ -159,7 +164,7 @@ const SupplierDetailsNew = () => {
                       <div className="buyer-details-left-uppar-head">
                         {supplierDetails?.supplier_name}
                       </div>
-                       <div className="buyer-details-left-link-container">
+                      <div className="buyer-details-left-link-container">
                         {supplierDetails?.websiteAddress}
                       </div>
                     </div>
@@ -436,7 +441,14 @@ const SupplierDetailsNew = () => {
                 <div className="buyer-details-company-img-container">
                   {renderFiles(
                     supplierDetails?.certificateFileNDate?.length > 0
-                      ? supplierDetails?.certificateFileNDate
+                      ? supplierDetails?.certificateFileNDate?.map(
+                          (ele, index) => ({
+                            ...ele,
+                            file: ele?.file
+                              ? ele?.file
+                              : supplierDetails?.certificate_image?.[index],
+                          })
+                        )
                       : supplierDetails?.certificate_image,
                     "certificate_image",
                     supplierDetails?.certificateFileNDate?.length > 0

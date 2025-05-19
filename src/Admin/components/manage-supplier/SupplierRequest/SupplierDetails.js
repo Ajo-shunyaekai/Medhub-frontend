@@ -127,10 +127,9 @@ const SupplierDetails = () => {
                       <div className="buyer-details-left-uppar-head">
                         {supplierDetails?.supplier_name}
                       </div>
- <div className="buyer-details-left-link-container">
+                      <div className="buyer-details-left-link-container">
                         {supplierDetails?.websiteAddress}
                       </div>
-                     
                     </div>
                     <div className="buyer-details-left-inner-img-container">
                       <div className="buyer-details-left-inner-mobile-button">
@@ -296,59 +295,90 @@ const SupplierDetails = () => {
             </div>
           </div>
 
-
-                        <div className='buyers-details-section'>
-                            <div className='buyer-details-inner-left-section'>
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Medhub Global Sales Representative :</div>
-                                    <div className='buyer-details-inner-text'>{supplierDetails?.sales_person_name}</div>
-                                </div>
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Company Registration No. :</div>
-                                    <div className='buyer-details-inner-text'>{supplierDetails?.registration_no}</div>
-                                </div>
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>GST/VAT Registration No :</div>
-                                    <div className='buyer-details-inner-text'>{supplierDetails?.vat_reg_no}</div>
-                                </div>
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Country of Origin :</div>
-                                    <div className='buyer-details-inner-text'>{supplierDetails?.country_of_origin}</div>
-                                </div>
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Country of Operation :</div>
-                                    <div className='buyer-details-inner-text'>{supplierDetails?.country_of_operation?.join(', ')}</div>
-                                </div>
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Category you Trade in :</div>
-                                    <div className='buyer-details-inner-text'>{supplierDetails?.categories?.join(', ')}</div>
-                                </div>
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Tags :</div>
-                                    <div className='buyer-details-inner-text'>{supplierDetails?.tags}</div>
-                                </div>
-
-
-                            </div>
-                            <div className='buyer-details-inner-left-section'>
-
-
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Business/Trade Activity Code :</div>
-                                    <div className='buyer-details-inner-text'>{supplierDetails?.activity_code || '-'}</div>
-                                </div>
-                                {supplierDetails?.license_no && (
-                                    <div className='buyer-details-inner-section'>
-                                        <div className='buyer-details-inner-head'>License No. :</div>
-                                        <div className='buyer-details-inner-text'>{supplierDetails?.license_no}</div>
-                                    </div>
-                                )}
-                                {supplierDetails?.license_expiry_date && (
-                                    <div className='buyer-details-inner-section'>
-                                        <div className='buyer-details-inner-head'>License Expiry Date :</div>
-                                        <div className='buyer-details-inner-text'>{supplierDetails?.license_expiry_date}</div>
-                                    </div>
-                                )}
+          <div className="buyers-details-section">
+            <div className="buyer-details-inner-left-section">
+              <div className="buyer-details-inner-section">
+                <div className="buyer-details-inner-head">
+                  Medhub Global Sales Representative :
+                </div>
+                <div className="buyer-details-inner-text">
+                  {supplierDetails?.sales_person_name}
+                </div>
+              </div>
+              <div className="buyer-details-inner-section">
+                <div className="buyer-details-inner-head">
+                  Company Registration No. :
+                </div>
+                <div className="buyer-details-inner-text">
+                  {supplierDetails?.registration_no}
+                </div>
+              </div>
+              <div className="buyer-details-inner-section">
+                <div className="buyer-details-inner-head">
+                  GST/VAT Registration No :
+                </div>
+                <div className="buyer-details-inner-text">
+                  {supplierDetails?.vat_reg_no}
+                </div>
+              </div>
+              <div className="buyer-details-inner-section">
+                <div className="buyer-details-inner-head">
+                  Country of Origin :
+                </div>
+                <div className="buyer-details-inner-text">
+                  {supplierDetails?.country_of_origin}
+                </div>
+              </div>
+              <div className="buyer-details-inner-section">
+                <div className="buyer-details-inner-head">
+                  Country of Operation :
+                </div>
+                <div className="buyer-details-inner-text">
+                  {supplierDetails?.country_of_operation?.join(", ")}
+                </div>
+              </div>
+              <div className="buyer-details-inner-section">
+                <div className="buyer-details-inner-head">
+                  Category you Trade in :
+                </div>
+                <div className="buyer-details-inner-text">
+                  {supplierDetails?.categories?.join(", ")}
+                </div>
+              </div>
+              <div className="buyer-details-inner-section">
+                <div className="buyer-details-inner-head">Tags :</div>
+                <div className="buyer-details-inner-text">
+                  {supplierDetails?.tags}
+                </div>
+              </div>
+            </div>
+            <div className="buyer-details-inner-left-section">
+              <div className="buyer-details-inner-section">
+                <div className="buyer-details-inner-head">
+                  Business/Trade Activity Code :
+                </div>
+                <div className="buyer-details-inner-text">
+                  {supplierDetails?.activity_code || "-"}
+                </div>
+              </div>
+              {supplierDetails?.license_no && (
+                <div className="buyer-details-inner-section">
+                  <div className="buyer-details-inner-head">License No. :</div>
+                  <div className="buyer-details-inner-text">
+                    {supplierDetails?.license_no}
+                  </div>
+                </div>
+              )}
+              {supplierDetails?.license_expiry_date && (
+                <div className="buyer-details-inner-section">
+                  <div className="buyer-details-inner-head">
+                    License Expiry Date :
+                  </div>
+                  <div className="buyer-details-inner-text">
+                    {supplierDetails?.license_expiry_date}
+                  </div>
+                </div>
+              )}
 
               <div className="buyer-details-inner-section">
                 <div className="buyer-details-inner-head">
@@ -414,7 +444,14 @@ const SupplierDetails = () => {
                 <div className="buyer-details-company-img-container">
                   {renderFiles(
                     supplierDetails?.certificateFileNDate?.length > 0
-                      ? supplierDetails?.certificateFileNDate
+                      ? supplierDetails?.certificateFileNDate?.map(
+                          (ele, index) => ({
+                            ...ele,
+                            file: ele?.file
+                              ? ele?.file
+                              : supplierDetails?.certificate_image?.[index],
+                          })
+                        )
                       : supplierDetails?.certificate_image,
                     "certificate_image",
                     supplierDetails?.certificateFileNDate?.length > 0

@@ -84,12 +84,12 @@ const SupplierRequestDetails = () => {
       action: action,
       sales_person_name: salesPersonName,
     };
-    console
+
     if (!salesPersonName || salesPersonName === "") {
       toast("Medhub Global Sales Representative is required", {
         type: "error",
       });
-      return
+      return;
     }
 
     if (action === "accept") {
@@ -417,7 +417,14 @@ const SupplierRequestDetails = () => {
                 <div className="buyer-details-company-img-container">
                   {renderFiles(
                     supplierDetails?.certificateFileNDate?.length > 0
-                      ? supplierDetails?.certificateFileNDate
+                      ? supplierDetails?.certificateFileNDate?.map(
+                          (ele, index) => ({
+                            ...ele,
+                            file: ele?.file
+                              ? ele?.file
+                              : supplierDetails?.certificate_image?.[index],
+                          })
+                        )
                       : supplierDetails?.certificate_image,
                     "certificate_image",
                     supplierDetails?.certificateFileNDate?.length > 0

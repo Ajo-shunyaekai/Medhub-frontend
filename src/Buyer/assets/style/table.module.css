@@ -70,6 +70,18 @@ background-color: #282f86;
     cursor: pointer !important;
 }
 
+.activeBtn2 {
+    background-color: #282f86;
+    margin-left: 5px;
+    border-radius: 4px;
+    color: #fff;
+    display: flex;
+    padding: 2px 6px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer !important;
+}
+
 .table-icon {
     cursor: pointer !important;
     font-size: 19px !important;

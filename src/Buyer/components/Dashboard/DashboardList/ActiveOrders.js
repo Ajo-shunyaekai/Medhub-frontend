@@ -2,15 +2,19 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import DataTable from "react-data-table-component";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
+import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import OrderCancel from "../../Orders/OrderCancel/OrderCancel";
 import moment from "moment/moment";
 import { apiRequests } from "../../../../api";
 import PaginationComponent from "../../SharedComponents/Pagination/pagination";
 import Loader from "../../SharedComponents/Loader/Loader";
 import styles from "../../../assets/style/table.module.css";
+import { useDispatch } from "react-redux";
+import { remindSupplier } from "../../../../redux/reducers/orderSlice";
 
 const OngoingOrders = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const [modal, setModal] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
@@ -116,11 +120,23 @@ const OngoingOrders = () => {
       name: "Action",
       grow: 1,
       cell: (row) => (
-        <Link to={`/buyer/order-details/${row?.order_id}`}>
-          <div className={styles.activeBtn}>
-            <RemoveRedEyeOutlinedIcon className={styles["table-icon"]} />
-          </div>
-        </Link>
+        <>
+          <Link to={`/buyer/order-details/${row?.order_id}`}>
+            <div className={styles.activeBtn}>
+              <RemoveRedEyeOutlinedIcon className={styles["table-icon"]} />
+            </div>
+          </Link>
+          {/* {row?.status == "Awaiting Details from Supplier" && (
+            <div
+              className={styles.activeBtn2}
+              onClick={() => {
+                dispatch(remindSupplier(row?._id));
+              }}
+            >
+              <NotificationsNoneOutlinedIcon className={styles["table-icon"]} />
+            </div>
+          )} */}
+        </>
       ),
       ignoreRowClick: true,
       allowOverflow: true,

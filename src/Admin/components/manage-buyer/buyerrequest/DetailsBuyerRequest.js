@@ -191,8 +191,10 @@ const DetailsBuyerRequest = () => {
       sales_person_name: salesPersonName,
     };
     if (!salesPersonName || salesPersonName === "") {
-       toast("Medhub Global Sales Representative is required", { type: "error" });
-       return
+      toast("Medhub Global Sales Representative is required", {
+        type: "error",
+      });
+      return;
     }
     if (action === "accept") {
       setLoading(true);
@@ -526,7 +528,14 @@ const DetailsBuyerRequest = () => {
                 <div className="buyer-details-company-img-container">
                   {renderFiles(
                     buyerDetails?.certificateFileNDate?.length > 0
-                      ? buyerDetails?.certificateFileNDate
+                      ? buyerDetails?.certificateFileNDate?.map(
+                          (ele, index) => ({
+                            ...ele,
+                            file: ele?.file
+                              ? ele?.file
+                              : buyerDetails?.certificate_image?.[index],
+                          })
+                        )
                       : buyerDetails?.certificate_image,
                     "certificate_images",
                     buyerDetails?.certificateFileNDate?.length > 0

@@ -13,7 +13,10 @@ import { toast } from "react-toastify";
 // import BuyerCustomModal from "./BuyerCustomModal";
 import { FaFilePdf, FaFileWord } from "react-icons/fa";
 import { apiRequests } from "../../../../api/index";
-import { extractLast13WithExtension, renderFiles } from "../../../../utils/helper";
+import {
+  extractLast13WithExtension,
+  renderFiles,
+} from "../../../../utils/helper";
 
 const BuyerDetailsNew = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -42,7 +45,7 @@ const BuyerDetailsNew = () => {
     setOpen(false);
     setPdfUrl(null);
   };
-  
+
   const [loading, setLoading] = useState(false);
   const [rejectLoading, setRejectLoading] = useState(false);
   const [buyerDetails, setBuyerDetails] = useState();
@@ -82,8 +85,10 @@ const BuyerDetailsNew = () => {
       sales_person_name: salesPersonName,
     };
     if (!salesPersonName || salesPersonName === "") {
-       toast("Medhub Global Sales Representative is required", { type: "error" });
-       return
+      toast("Medhub Global Sales Representative is required", {
+        type: "error",
+      });
+      return;
     }
     if (action === "accept") {
       setLoading(true);
@@ -150,7 +155,7 @@ const BuyerDetailsNew = () => {
                       <div className="buyer-details-left-uppar-head">
                         {buyerDetails?.buyer_name}
                       </div>
-                        <div className="buyer-details-left-link-container">
+                      <div className="buyer-details-left-link-container">
                         {buyerDetails?.websiteAddress}
                       </div>
                     </div>
@@ -431,7 +436,14 @@ const BuyerDetailsNew = () => {
                 <div className="buyer-details-company-img-container">
                   {renderFiles(
                     buyerDetails?.certificateFileNDate?.length > 0
-                      ? buyerDetails?.certificateFileNDate
+                      ? buyerDetails?.certificateFileNDate?.map(
+                          (ele, index) => ({
+                            ...ele,
+                            file: ele?.file
+                              ? ele?.file
+                              : buyerDetails?.certificate_image?.[index],
+                          })
+                        )
                       : buyerDetails?.certificate_image,
                     "certificate_images",
                     buyerDetails?.certificateFileNDate?.length > 0
@@ -477,7 +489,7 @@ const BuyerDetailsNew = () => {
               </div>
             </div>
           )}
-{/* 
+          {/* 
           {buyerDetails?.account_status == 0 && isModalOpen && (
             <BuyerCustomModal onClose={closeModal} />
           )} */}
