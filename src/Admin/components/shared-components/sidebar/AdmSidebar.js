@@ -970,9 +970,9 @@ const AdmSidebar = ({
         ) : (
           ""
         )}
-        <main style={{ marginTop: isSearchVisible ? "30px" : "0" }}>
+        <div className={styles.mainContainer} style={{ marginTop: isSearchVisible ? "30px" : "0" }}>
           <Outlet />
-        </main>
+        </div>
       </div>
       <div>
         <Drawer open={open} onClose={toggleDrawer(false)}>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
+import "../../../assets/style/react-input-phone.css";
 import { useNavigate } from "react-router-dom";
 import RichTextEditor from "./ProductDescriptionEditor";
 import Select, { components } from "react-select";
@@ -12,7 +13,6 @@ import "./addproduct.css";
 import styles from "./addproduct.module.css";
 import categoryArrays from "../../../../utils/Category";
 import { Field, Form, Formik } from "formik";
-// import AddProductFileUpload from "./AddPRoductFileUpload";
 import { useDispatch } from "react-redux";
 import Tooltip from "../../SharedComponents/Tooltip/Tooltip";
 import {

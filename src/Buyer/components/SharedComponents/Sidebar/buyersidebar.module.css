@@ -384,10 +384,7 @@ body{
 
 @media screen and (max-width: 1200px) {
   main {
-    max-width: 100%;
-  }
-  .sidebar_text {
-    width: 140px;
+        max-width: 80%;
   }
 }
 

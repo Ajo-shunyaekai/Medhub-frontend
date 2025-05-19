@@ -14,9 +14,9 @@ function ProformaDetailsPage() {
 
   const [orderDetails, setOrderDetails] = useState();
   const [bankDetails, setBankDetails] = useState({
-    bankName: "",
-    accountNo: "",
-    sortCode: "",
+    bank_name: "",
+    account_number: "",
+    sort_code: "",
   });
   const [loading, setLoading] = useState(true);
 
@@ -40,13 +40,15 @@ function ProformaDetailsPage() {
         );
         if (response?.code === 200) {
           setOrderDetails(response.result);
-          if (response.result?.supplier?.bank_details) {
-            const [bankName, accountNo, sortCode] =
-              response.result.supplier.bank_details
-                ?.split(",")
-                ?.map((item) => item?.trim());
-
-            setBankDetails({ bankName, accountNo, sortCode });
+          // Extract bank details from invoices[0]
+          if (response.result?.invoices?.[0]) {
+            const { bank_name, account_number, sort_code } =
+              response.result.invoices[0];
+            setBankDetails({
+              bank_name: bank_name || "",
+              account_number: account_number || "",
+              sort_code: sort_code || "",
+            });
           }
         }
       } catch (error) {
@@ -144,9 +146,10 @@ function ProformaDetailsPage() {
               border: "1px solid #eee",
               fontSize: "16px",
               lineHeight: "24px",
-              color: "#555",
+              color: "#212121",
               backgroundColor: "#FFFFFF",
-              boxShadow:" 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d",
+              boxShadow:
+                "0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d",
             }}
           >
             <div
@@ -167,7 +170,7 @@ function ProformaDetailsPage() {
                       Invoice Number :{" "}
                     </p>
                     <p style={{ fontSize: "16px", fontWeight: "500" }}>
-                       {orderDetails?.invoice_no}
+                      {orderDetails?.invoice_no}
                     </p>
                   </td>
                   <td style={{ display: "flex", justifyContent: "end" }}>
@@ -175,7 +178,7 @@ function ProformaDetailsPage() {
                       Invoice Date :{" "}
                     </p>
                     <p style={{ fontSize: "16px", fontWeight: "500" }}>
-                       {orderDetails?.invoice_date}
+                      {orderDetails?.invoice_date}
                     </p>
                   </td>
                   <td
@@ -183,14 +186,13 @@ function ProformaDetailsPage() {
                       display: "flex",
                       justifyContent: "end",
                       paddingBottom: "10px",
-                       
                     }}
                   >
                     <p style={{ fontSize: "16px", fontWeight: "500" }}>
                       Payment Due date :{" "}
                     </p>
                     <p style={{ fontSize: "16px", fontWeight: "500" }}>
-                       {orderDetails?.payment_due_date}
+                      {orderDetails?.payment_due_date}
                     </p>
                   </td>
                 </tr>
@@ -230,7 +232,6 @@ function ProformaDetailsPage() {
                               style={{
                                 fontSize: "16px",
                                 fontWeight: 500,
-                                
                               }}
                             >
                               {orderDetails?.supplier_name}
@@ -238,68 +239,34 @@ function ProformaDetailsPage() {
                             <p
                               style={{
                                 fontSize: "13px",
+                                color: "#616161",
                                 fontWeight: 500,
                               }}
                             >
-                              {orderDetails?.supplier_address}
+                              {[
+                                orderDetails?.supplier_address,
+                                orderDetails?.supplier_logistics_data?.locality,
+                                orderDetails?.supplier_logistics_data?.land_mark,
+                              ]
+                                .filter(Boolean)
+                                .join(" ")}
                             </p>
-                            {orderDetails?.supplier_registered_address
-                              ?.locality && (
-                              <p
-                                style={{
-                                  fontSize: "13px",
-                                  fontWeight: 500,
-                                }}
-                              >
-                                {
-                                  orderDetails?.supplier_registered_address
-                                    ?.locality
-                                }
-                              </p>
-                            )}
-                            {orderDetails?.supplier_registered_address
-                              ?.land_mark && (
-                              <p
-                                style={{
-                                  fontSize: "13px",
-                                  fontWeight: 500,
-                                }}
-                              >
-                                {
-                                  orderDetails?.supplier_registered_address
-                                    ?.land_mark
-                                }
-                              </p>
-                            )}
-                            {(orderDetails?.supplier_registered_address?.city ||
-                              orderDetails?.supplier_registered_address
-                                ?.state ||
-                              orderDetails?.supplier_registered_address
-                                ?.pincode ||
-                              orderDetails?.supplier_registered_address
+                            {(orderDetails?.supplier_logistics_data?.city ||
+                              orderDetails?.supplier_logistics_data?.state ||
+                              orderDetails?.supplier_logistics_data?.pincode ||
+                              orderDetails?.supplier_logistics_data
                                 ?.country) && (
                               <p
                                 style={{
                                   fontSize: "13px",
+                                  color: "#616161",
                                   fontWeight: 500,
                                 }}
                               >
-                                {
-                                  orderDetails?.supplier_registered_address
-                                    ?.city
-                                }{" "}
-                                {
-                                  orderDetails?.supplier_registered_address
-                                    ?.state
-                                }{" "}
-                                {
-                                  orderDetails?.supplier_registered_address
-                                    ?.pincode
-                                }{" "}
-                                {
-                                  orderDetails?.supplier_registered_address
-                                    ?.country
-                                }{" "}
+                                {orderDetails?.supplier_logistics_data?.city}{" "}
+                                {orderDetails?.supplier_logistics_data?.state}{" "}
+                                {orderDetails?.supplier_logistics_data?.pincode}{" "}
+                                {orderDetails?.supplier_logistics_data?.country}
                               </p>
                             )}
                             <td
@@ -311,10 +278,11 @@ function ProformaDetailsPage() {
                               <p
                                 style={{
                                   fontSize: "13px",
+                                  color: "#616161",
                                   fontWeight: 500,
                                 }}
                               >
-                                 {orderDetails?.supplier_mobile}
+                                {orderDetails?.supplier_mobile}
                               </p>
                             </td>
                             <td
@@ -326,10 +294,11 @@ function ProformaDetailsPage() {
                               <p
                                 style={{
                                   fontSize: "13px",
+                                  color: "#616161",
                                   fontWeight: 500,
                                 }}
                               >
-                                 {orderDetails?.supplier_email}
+                                {orderDetails?.supplier_email}
                               </p>
                             </td>
                           </td>
@@ -354,7 +323,6 @@ function ProformaDetailsPage() {
                               style={{
                                 fontSize: "16px",
                                 fontWeight: 500,
-                                
                                 textAlign: "end",
                               }}
                             >
@@ -363,63 +331,35 @@ function ProformaDetailsPage() {
                             <p
                               style={{
                                 fontSize: "13px",
+                                color: "#616161",
                                 fontWeight: 500,
                                 textAlign: "end",
                               }}
                             >
-                              {orderDetails?.buyer_address}
+                              {[
+                                orderDetails?.buyer_address,
+                                orderDetails?.buyer_logistics_data?.locality,
+                                orderDetails?.buyer_logistics_data?.land_mark,
+                              ]
+                                .filter(Boolean)
+                                .join(" ")}
                             </p>
-                            {orderDetails?.buyer_registered_address?.locality && (
+                            {(orderDetails?.buyer_logistics_data?.city ||
+                              orderDetails?.buyer_logistics_data?.state ||
+                              orderDetails?.buyer_logistics_data?.pincode ||
+                              orderDetails?.buyer_logistics_data?.country) && (
                               <p
                                 style={{
                                   fontSize: "13px",
+                                  color: "#616161",
                                   fontWeight: 500,
                                   textAlign: "end",
                                 }}
                               >
-                                {
-                                  orderDetails?.buyer_registered_address
-                                    ?.locality
-                                }
-                              </p>
-                            )}
-                            {orderDetails?.buyer_registered_address
-                              ?.land_mark && (
-                              <p
-                                style={{
-                                  fontSize: "13px",
-                                  fontWeight: 500,
-                                  textAlign: "end",
-                                }}
-                              >
-                                {
-                                  orderDetails?.buyer_registered_address
-                                    ?.land_mark
-                                }
-                              </p>
-                            )}
-                            {(orderDetails?.buyer_registered_address?.city ||
-                              orderDetails?.buyer_registered_address?.state ||
-                              orderDetails?.buyer_registered_address?.pincode ||
-                              orderDetails?.buyer_registered_address
-                                ?.country) && (
-                              <p
-                                style={{
-                                  fontSize: "13px",
-                                  fontWeight: 500,
-                                  textAlign: "end",
-                                }}
-                              >
-                                {orderDetails?.buyer_registered_address?.city}{" "}
-                                {orderDetails?.buyer_registered_address?.state}{" "}
-                                {
-                                  orderDetails?.buyer_registered_address
-                                    ?.pincode
-                                }{" "}
-                                {
-                                  orderDetails?.buyer_registered_address
-                                    ?.country
-                                }{" "}
+                                {orderDetails?.buyer_logistics_data?.city}{" "}
+                                {orderDetails?.buyer_logistics_data?.state}{" "}
+                                {orderDetails?.buyer_logistics_data?.pincode}{" "}
+                                {orderDetails?.buyer_logistics_data?.country}
                               </p>
                             )}
                             <td
@@ -428,10 +368,11 @@ function ProformaDetailsPage() {
                               <p
                                 style={{
                                   fontSize: "13px",
+                                  color: "#616161",
                                   fontWeight: 500,
                                 }}
                               >
-                                 {orderDetails?.buyer_mobile}
+                                {orderDetails?.buyer_mobile}
                               </p>
                             </td>
                             <td
@@ -440,10 +381,11 @@ function ProformaDetailsPage() {
                               <p
                                 style={{
                                   fontSize: "13px",
+                                  color: "#616161",
                                   fontWeight: 500,
                                 }}
                               >
-                                 {orderDetails?.buyer_email}
+                                {orderDetails?.buyer_email}
                               </p>
                             </td>
                           </td>
@@ -713,9 +655,10 @@ function ProformaDetailsPage() {
                                         style={{
                                           fontSize: "14px",
                                           fontWeight: "500",
+                                          color: "#616161",
                                         }}
                                       >
-                                        {bankDetails?.bankName}
+                                        {bankDetails?.bank_name}
                                       </p>
                                     </tr>
                                     <tr
@@ -739,9 +682,10 @@ function ProformaDetailsPage() {
                                         style={{
                                           fontSize: "14px",
                                           fontWeight: "500",
+                                          color: "#616161",
                                         }}
                                       >
-                                        {bankDetails?.accountNo}
+                                        {bankDetails?.account_number}
                                       </p>
                                     </tr>
                                     <tr
@@ -765,9 +709,10 @@ function ProformaDetailsPage() {
                                         style={{
                                           fontSize: "14px",
                                           fontWeight: "500",
+                                          color: "#616161",
                                         }}
                                       >
-                                        {bankDetails?.sortCode}
+                                        {bankDetails?.sort_code}
                                       </p>
                                     </tr>
                                   </td>
@@ -882,6 +827,7 @@ function ProformaDetailsPage() {
                         style={{
                           fontSize: "13px",
                           fontWeight: 500,
+                          color: "#616161",
                           lineHeight: "20px",
                           marginTop: "4px",
                         }}

@@ -103,8 +103,8 @@ const PurchasedOrderDetails = () => {
             border: "1px solid #eee",
             fontSize: "16px",
             lineHeight: "24px",
-            color: "#555",
-            boxShadow:'0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d',
+            color: "#212121",
+            boxShadow: '0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d',
             backgroundColor: "#FFFFFF",
           }}
         >
@@ -197,7 +197,7 @@ const PurchasedOrderDetails = () => {
                             style={{
                               fontSize: "16px",
                               fontWeight: 500,
-                             
+
                             }}
                           >
                             {poDetails?.buyer_name}
@@ -205,6 +205,8 @@ const PurchasedOrderDetails = () => {
                           <p
                             style={{
                               fontSize: "13px",
+                              color: "#616161",
+                              lineHeight: "18px",
                               fontWeight: "500",
                             }}
                           >
@@ -216,6 +218,8 @@ const PurchasedOrderDetails = () => {
                             <p
                               style={{
                                 fontSize: "13px",
+                                color: "#616161",
+                                lineHeight: "18px",
                                 fontWeight: "500",
                               }}
                             >
@@ -229,6 +233,8 @@ const PurchasedOrderDetails = () => {
                             <p
                               style={{
                                 fontSize: "13px",
+                                color: "#616161",
+                                lineHeight: "18px",
                                 fontWeight: "500",
                               }}
                             >
@@ -241,6 +247,8 @@ const PurchasedOrderDetails = () => {
                             <p
                               style={{
                                 fontSize: "13px",
+                                color: "#616161",
+                                lineHeight: "18px",
                                 fontWeight: "500",
                               }}
                             >
@@ -249,6 +257,8 @@ const PurchasedOrderDetails = () => {
                             <p
                               style={{
                                 fontSize: "13px",
+                                color: "#616161",
+                                lineHeight: "18px",
                                 fontWeight: "500",
                               }}
                             >
@@ -285,6 +295,8 @@ const PurchasedOrderDetails = () => {
                           <p
                             style={{
                               fontSize: "13px",
+                              color: "#616161",
+                              lineHeight: "18px",
                               fontWeight: "500",
                               textAlign: "end",
                             }}
@@ -297,6 +309,8 @@ const PurchasedOrderDetails = () => {
                             <p
                               style={{
                                 fontSize: "13px",
+                                color: "#616161",
+                                lineHeight: "18px",
                                 fontWeight: "500",
                               }}
                             >
@@ -310,6 +324,8 @@ const PurchasedOrderDetails = () => {
                             <p
                               style={{
                                 fontSize: "13px",
+                                color: "#616161",
+                                lineHeight: "18px",
                                 fontWeight: "500",
                               }}
                             >
@@ -322,6 +338,8 @@ const PurchasedOrderDetails = () => {
                             <p
                               style={{
                                 fontSize: "13px",
+                                color: "#616161",
+                                lineHeight: "18px",
                                 fontWeight: "500",
                               }}
                             >
@@ -330,6 +348,8 @@ const PurchasedOrderDetails = () => {
                             <p
                               style={{
                                 fontSize: "13px",
+                                color: "#616161",
+                                lineHeight: "18px",
                                 fontWeight: "500",
                               }}
                             >
@@ -591,6 +611,7 @@ const PurchasedOrderDetails = () => {
                       <div
                         style={{
                           fontSize: "13px",
+                          color: "#616161",
                           lineHeight: "20px",
                           marginTop: "4px",
                         }}

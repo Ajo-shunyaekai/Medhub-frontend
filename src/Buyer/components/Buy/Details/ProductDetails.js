@@ -449,11 +449,11 @@ const ProductDetails = () => {
                   </span>
                 </div>
               )}
-              {productDetail?.general?.brand && (
+              {productDetail?.general?.dimension && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Product Dimension</span>
                   <span className={styles.medicineText}>
-                    {productDetail?.general?.brand}
+                    {productDetail?.general?.dimension} {""} {productDetail?.general?.dimensionUnit}
                   </span>
                 </div>
               )}
@@ -467,7 +467,7 @@ const ProductDetails = () => {
               )}
  
               {productDetail?.storage && (
-                <div className={styles.additionalInnerSection}>
+                <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>
                     Storage Conditions
                   </span>
@@ -3471,11 +3471,11 @@ const ProductDetails = () => {
                     </div>
                   )}
                   {productDetail?.additional?.other && (
-                    <div className={styles.manufacturerDescriptionSection}>
+                    <div className={styles.additionalInnerSection}>
                       <span className={styles.medicineHead}>
                         Other Information
                       </span>
-                      <span className={styles.medicineContent}>
+                      <span className={styles.medicineText}>
                         {productDetail?.additional?.other}
                       </span>
                     </div>
@@ -3549,26 +3549,26 @@ const ProductDetails = () => {
                     <Form className={styles.formSection}>
                       <div className={styles.fromContainer}>
                         <div className={styles.inventoryContainer}>
-                          <Select
-                            options={quantityOptions}
-                            value={quantityOptions.find(
-                              (opt) => opt.value === values.selectedQuantity
-                            )}
-                            placeholder="Select Quantity"
-                            onChange={(option) => {
-                              setFieldValue(
-                                "selectedQuantity",
-                                option?.value || ""
-                              );
-                              setFieldValue("targetPrice", ""); // Reset target price when quantity changes
-                            }}
-                            className={
-                              errors.selectedQuantity &&
-                              touched.selectedQuantity
-                                ? styles.errorSelect
-                                : ""
-                            }
-                          />
+                            <Select
+                              options={quantityOptions}
+                              value={quantityOptions.find(
+                                (opt) => opt.value === values.selectedQuantity
+                              )}
+                              placeholder="Select Quantity"
+                              onChange={(option) => {
+                                setFieldValue(
+                                  "selectedQuantity",
+                                  option?.value || ""
+                                );
+                                setFieldValue("targetPrice", ""); // Reset target price when quantity changes
+                              }}
+                              className={
+                                errors.selectedQuantity &&
+                                touched.selectedQuantity
+                                  ? styles.errorSelect
+                                  : ""
+                              }
+                            />
                           <ErrorMessage
                             name="selectedQuantity"
                             component="span"

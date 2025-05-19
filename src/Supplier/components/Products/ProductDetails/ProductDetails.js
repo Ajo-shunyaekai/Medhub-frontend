@@ -298,7 +298,7 @@ const openPurchaseInvoice = () => {
                   </span>
                 </div>
               )}
-              {productDetail?.general?.weight && (
+               {productDetail?.general?.weight && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Product Weight</span>
                   <span className={styles.medicineText}>
@@ -307,7 +307,6 @@ const openPurchaseInvoice = () => {
                   </span>
                 </div>
               )}
-
               {productDetail?.general?.upc && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>UPC</span>
@@ -316,7 +315,7 @@ const openPurchaseInvoice = () => {
                   </span>
                 </div>
               )}
-              {productDetail?.general?.brand && (
+             {productDetail?.general?.dimension && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Product Dimension</span>
                   <span className={styles.medicineText}>
@@ -335,7 +334,7 @@ const openPurchaseInvoice = () => {
               )}
 
               {productDetail?.storage && (
-                <div className={styles.additionalInnerSection}>
+                <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>
                     Storage Conditions
                   </span>
@@ -3313,11 +3312,11 @@ const openPurchaseInvoice = () => {
                     </div>
                   )}
                   {productDetail?.additional?.other && (
-                    <div className={styles.manufacturerDescriptionSection}>
+                    <div className={styles.additionalInnerSection}>
                       <span className={styles.medicineHead}>
                         Other Information
                       </span>
-                      <span className={styles.medicineContent}>
+                      <span className={styles.medicineText}>
                         {productDetail?.additional?.other}
                       </span>
                     </div>
