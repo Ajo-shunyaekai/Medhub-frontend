@@ -327,18 +327,18 @@ const Profile = () => {
                 </div>
               )}
             </div>
-            {user?.bank_details && (
-              <div className={styles.companyContainerContactSection}>
-                <div className={styles.textareaHead}>Bank Details</div>
-                <div className={styles.textareaContent}>
-                  {user.bank_details?.split(',').slice(0, 2).map((line, index) => (
-                    <span key={index} style={{ display: 'block' }}>
-                      {line.trim()}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )}
+           {user?.bank_details && (
+  <div className={styles.companyContainerContactSection}>
+    <div className={styles.textareaHead}>Bank Details</div>
+    <div className={styles.textareaContent}>
+      {user.bank_details.split(',').slice(0, 2).map((line, index) => (
+        <div key={index} style={{ display: 'block' }}>
+          {line.trim()}
+        </div>
+      ))}
+    </div>
+  </div>
+)}
           </div>
         )}
       {/* style the documents section */}

@@ -37,13 +37,6 @@
   flex-wrap: wrap;
   margin-top: 10px;
 }
-.uploaded-image {
-  width: 80px;
-  height: 80px;
-  object-fit: cover;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
 
 .close-icon {
   position: absolute;
@@ -76,11 +69,6 @@
   height: 100px;
 }
 
-.uploaded-image {
-  transition: transform 0.3s ease;
-  width: 150px;
-  height: auto;
-}
 
 .remove-icon {
   position: absolute;
@@ -100,12 +88,6 @@
 .upload-text {
   font-size: 14px;
 }
-.uploaded-image {
-  max-width: 100%;
-   cursor: pointer !important;;
-}
-
-
 .modal-image {
   max-width: 100%;
   height: auto;
@@ -126,16 +108,19 @@
 }
 
 .image-preview{
-  position: relative;
-  width: 9.6vw;
-  height: 100px;
+    position: relative;
+    width: 120px;
+    height: 120px;
 }
 
 
 .image-preview img{
-  width: 100%;
-  height: 100%;
-  object-fit: fill;
+      width: 100%;
+    height: 100%;
+    object-fit: fill;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+    border-radius: 4px;
+    padding: 16px;
 }
 
 

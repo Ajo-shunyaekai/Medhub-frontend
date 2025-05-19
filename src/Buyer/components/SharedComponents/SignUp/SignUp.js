@@ -1472,6 +1472,25 @@ const SignUp = ({ socket }) => {
                 <div className={styles.signupFormSectionContainer}>
                   <div className={styles.signupInnerHeading}>Documents</div>
                   <div className={styles.signupFormInnerDivSection}>
+                     <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
+                        Upload Company Logo<span className={styles.labelStamp}>*</span>
+                      </label>
+                    
+                      <ImageUploaders
+                        onUploadStatusChange={handleImageUpload}
+                        filePreviews={logoPreviews}
+                        setFilePreviews={setlogoPreviews}
+                        imageType="logo"
+                        reset={resetUploaders}
+                        allowMultiple={false}
+                        showTooltip={true}
+                        tooltipMessage="Only JPEG and PNG image formats are allowed."
+                      />
+                      {errors.logoImage && (
+                        <div className={styles.signupErrors}>{errors.logoImage}</div>
+                      )}
+                    </div>
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
                         Upload Trade License
@@ -1494,25 +1513,7 @@ const SignUp = ({ socket }) => {
                         </div>
                       )}
                     </div>
-                    <div className={styles.signupFormSectionDiv}>
-                      <label className={styles.signupFormSectionLabel}>
-                        Upload Company Logo<span className={styles.labelStamp}>*</span>
-                      </label>
-                    
-                      <ImageUploaders
-                        onUploadStatusChange={handleImageUpload}
-                        filePreviews={logoPreviews}
-                        setFilePreviews={setlogoPreviews}
-                        imageType="logo"
-                        reset={resetUploaders}
-                        allowMultiple={false}
-                        showTooltip={true}
-                        tooltipMessage="Only JPEG and PNG image formats are allowed."
-                      />
-                      {errors.logoImage && (
-                        <div className={styles.signupErrors}>{errors.logoImage}</div>
-                      )}
-                    </div>
+                   
 
                     <div className={styles.signupDocumentSection}>
                       <div className={styles.signupAddButtonSection}>
