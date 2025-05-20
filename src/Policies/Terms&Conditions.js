@@ -328,7 +328,8 @@ const TermsAndConditions = ({ setShowTnC, setIsChecked }) => {
                     <p className={styles.psection}>RAKEZ Free Zone, Ras Al Khaimah, United Arab Emirates</p>
                 </li>
                 <li>
-                    <strong className={styles.strong}>Email:</strong> connect@medhub.global
+                    <strong className={styles.strong}>Email:</strong><a className={styles.link} href="mailto:connect@medhub.global">connect@medhub.global</a>
+                     
                 </li>
                 <li>
                     By signing up or using the Platform, you acknowledge that you have read, understood, and agreed to these Terms and Conditions.

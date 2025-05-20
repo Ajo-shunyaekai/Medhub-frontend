@@ -150,6 +150,9 @@ background-color: #282f86;
     flex-direction: column;
     gap: 14px;
 }
+.link{
+  color: #282f86 !important;
+}
 .loading-spinner {
   border: 2px solid #ffffff;
   border-left-color: #fff; /* Spinner color */

@@ -165,7 +165,7 @@ const handleDownload = () => {
                     <p className={styles.psection}>Request a copy of your data in a structured, machine-readable format.</p>
                     <h3 className={styles.sectionContentTitle}>7.5 Opt-Out:</h3>
                     <p className={styles.psection}>Opt-out of marketing communications by following the instructions in our emails or contacting us directly.</p>
-                    <p className={styles.psection}>To exercise any of these rights, please contact us at <a href="mailto:connect@medhub.global">connect@medhub.global</a>.</p>
+                    <p className={styles.psection}>To exercise any of these rights, please contact us at <a className={styles.link} href="mailto:connect@medhub.global">connect@medhub.global</a>.</p>
 
                     <h2 className={styles.sectionTitle}>8. Cookies and Tracking Technologies</h2>
                     <p className={styles.psection}>We use cookies to:</p>
@@ -193,7 +193,7 @@ const handleDownload = () => {
                     <address className={styles.psection}>
                         One Vision Technologies FZ-LLC<br />
                         RAKEZ Free Zone, Ras Al Khaimah, United Arab Emirates<br />
-                        Email: <a href="mailto:connect@medhub.global">connect@medhub.global</a>
+                      <strong className={styles.strong}>  Email: </strong> <a className={styles.link} href="mailto:connect@medhub.global">connect@medhub.global</a>
                     </address>
 
                     <p className={styles.psection}>By using MedHub Global, you acknowledge that you have read, understood, and agreed to this Privacy Policy. If you do not agree, please discontinue use of the platform.</p>
