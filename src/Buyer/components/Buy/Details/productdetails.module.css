@@ -152,6 +152,7 @@
 }
 
 .innerHead {
+  color: #212121;
   font-size: 18px;
   font-weight: 500;
   margin-bottom: 8px;
@@ -332,6 +333,7 @@
 }
 
 .inventoryHead {
+  color: #212121;
   font-size: 14px;
   font-weight: 500;
 }

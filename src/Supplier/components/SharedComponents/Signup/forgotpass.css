@@ -5,6 +5,9 @@
     width: 100%;
     height: 100vh;
 }
+.labelstamp{
+    color: red;
+}
 .password-input-container{
     position: relative;
     display: flex;
@@ -83,7 +86,8 @@
 .verify-footer {
     margin-top: 16px;
     font-size: 14px;
-    color: #666666;
+    font-weight: 500;
+    color: #212121;
 }
 
 .resend-link {

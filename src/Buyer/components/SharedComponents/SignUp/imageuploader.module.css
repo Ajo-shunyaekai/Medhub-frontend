@@ -75,6 +75,7 @@
   font-size: 13px;
   font-weight: 500 !important;
   cursor: pointer !important;
+  color: #616161 !important;
 }
 .uploaded-image {
   max-width: 100%;

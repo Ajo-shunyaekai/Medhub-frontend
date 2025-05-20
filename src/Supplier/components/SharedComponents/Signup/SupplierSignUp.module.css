@@ -129,6 +129,7 @@ background-color: #282f86;
 }
 .signupFormSectionHeading {
   width: 100%;
+  color: #212121;
   font-size: 22px;
   line-height: normal;
   font-weight: 500;
@@ -137,16 +138,19 @@ background-color: #282f86;
 }
 .signupInnerHeading {
   font-size: 18px;
+  color: #212121;
   font-weight: 500;
 }
 .signupFormSectionLabel {
   font-size: 14px;
+    color: #212121;
   font-weight: 500;
 }
 
 .signupFormSectionInput {
   position: relative !important;
   width: 100% !important;
+  color: #616161 !important;
   font-weight: 500 !important;
   border-radius: 4px !important;
   outline: none !important;
