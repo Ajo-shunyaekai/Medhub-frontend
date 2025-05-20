@@ -154,6 +154,7 @@ const PendingInvoice = ({
         </div>
       ),
        sortable: true,
+       width : '300px',
     },
   ];
 

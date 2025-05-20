@@ -126,6 +126,7 @@ ul {
 
 .cardHeading {
     font-size: 24px;
+    color: #212121;
     font-weight: 500;
 }
 
@@ -151,6 +152,7 @@ ul {
 .cardHead {
     font-size: 14px;
     font-weight: 500;
+    color: #212121;
 }
 
 .cardText {
@@ -161,7 +163,8 @@ ul {
     text-overflow: ellipsis;
     white-space: normal;
     font-size: 14px;
-    font-weight: 400;
+    color: #616161;
+    font-weight: 500;
 
 }
 

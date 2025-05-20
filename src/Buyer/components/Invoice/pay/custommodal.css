@@ -58,6 +58,7 @@
   justify-content: center !important;
 }
 .modal-title {
+  color: #212121 !important;
   font-size: 16px !important;
 }
 .modal-header {
@@ -74,6 +75,7 @@
   row-gap: 20px;
 }
 .modal-class-head-invoice-cont {
+  color: #212121;
   font-size: 14px;
   font-weight: 500;
 }
@@ -96,11 +98,13 @@
   background-color: #fff !important;
 }
 .modal-class-input-invoice-cont {
+  color: #616161 !important;
+  font-weight: 500 !important;
   width: 100% !important;
   outline: none !important;
   border: none !important;
   background-color: #ffffff !important;
-  padding: 12px !important;
+  padding: 10px !important;
   font-size: 14px !important;
   border-radius: 4px !important;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
@@ -117,8 +121,10 @@
 
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
   .modal-pay-dropdown-invoice-cont {
-    padding: 12px  !important;
-    border-radius: 4px !important;
+           padding: 12px !important;
+        border-radius: 4px !important;
+        color: #616161 !important;
+        font-weight: 500 !important;
   }
 }
 

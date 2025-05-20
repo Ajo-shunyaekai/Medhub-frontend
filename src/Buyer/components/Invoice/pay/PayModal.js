@@ -3,6 +3,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import UploadDocument from "./UploadDocument";
 import "./custommodal.css";
+import "../../../assets/style/react-input-phone.css"
 import {
   postRequestWithToken,
   postRequestWithTokenAndFile,
@@ -10,6 +11,7 @@ import {
 import { toast } from "react-toastify";
 import { InputMask } from "@react-input/mask";
 import { useNavigate } from "react-router-dom";
+import Select from "react-select";
 
 const injectStyles = () => {
   const style = document.createElement("style");
@@ -51,6 +53,13 @@ function PayModal({
   const [isImageUploaded, setIsImageUploaded] = useState(false);
   const [uploadedImage, setUploadedImage] = useState(null);
   const [errors, setErrors] = useState({});
+
+  // Options for react-select
+  const paymentOptions = [
+    { value: "", label: "Select" },
+    { value: "Cheque", label: "Cheque" },
+    { value: "Online", label: "Net Banking" },
+  ];
 
   useEffect(() => {
     if (!showModal) {
@@ -266,16 +275,16 @@ function PayModal({
             <label className="modal-class-head-invoice-cont">
               Mode of Payment
             </label>
-            <select
-              className="modal-pay-dropdown-invoice-cont"
-              defaultValue="Select"
-              value={modeOfPayment}
-              onChange={(e) => handleChange("modeOfPayment", e.target.value)}
-            >
-              <option value="">Select</option>
-              <option value="Cheque">Cheque</option>
-              <option value="Online">Net Banking</option>
-            </select>
+            <Select
+              options={paymentOptions}
+              value={paymentOptions.find(
+                (option) => option.value === modeOfPayment
+              )}
+              onChange={(selectedOption) =>
+                handleChange("modeOfPayment", selectedOption.value)
+              }
+              placeholder="Select"
+            />
             {errors.modeOfPayment && (
               <span className="error">{errors.modeOfPayment}</span>
             )}
@@ -343,7 +352,7 @@ function PayModal({
         </div>
       </Modal.Body>
       <Modal.Footer>
-         <Button className="modal-handle-save-invoice-cont" onClick={handleSave}>
+        <Button className="modal-handle-save-invoice-cont" onClick={handleSave}>
           Submit
         </Button>
         <Button
@@ -352,7 +361,6 @@ function PayModal({
         >
           Cancel
         </Button>
-       
       </Modal.Footer>
     </Modal>
   );
