@@ -411,6 +411,9 @@ background-color: #282f86;
 }
 
 /* end the modal code */
+.Toastify__toast-container--top-right {
+    top: 54px !important;
+}
 @media screen and (max-width: 1420px) {
     .send-enquiry-container {
         max-width: 1000px;

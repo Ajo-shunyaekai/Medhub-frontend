@@ -103,9 +103,9 @@ const VerifyOTP = ({ step, setStep }) => {
                 borderRadius: "8px",
                 width: "54px",
                 height: "54px",
-                fontSize: "12px",
-                color: "#000",
-                fontWeight: "400",
+                fontSize: "14px",
+                color: "#282f86",
+                fontWeight: "500",
                 caretColor: "blue",
               }}
               focusStyle={{

@@ -164,22 +164,30 @@ function ProformaDetailsPage() {
             </div>
             <table style={{ fontSize: "12px" }}>
               <thead>
-                <tr style={{ borderBottom: "1px dotted #99a0ac" }}>
+                <tr style={{ borderBottom: "1px solid #616161" }}>
                   <td style={{ display: "flex", justifyContent: "end" }}>
-                    <p style={{ fontSize: "16px", fontWeight: "500" }}>
-                      Invoice Number :{" "}
-                    </p>
-                    <p style={{ fontSize: "16px", fontWeight: "500" }}>
-                      {orderDetails?.invoice_no}
-                    </p>
+                    {orderDetails?.invoice_no && (
+                      <>
+                        <p style={{ fontSize: "16px", fontWeight: "500" }}>
+                          Invoice Number :{" "}
+                        </p>
+                        <p style={{ fontSize: "16px", fontWeight: "500" }}>
+                          {orderDetails.invoice_no}
+                        </p>
+                      </>
+                    )}
                   </td>
                   <td style={{ display: "flex", justifyContent: "end" }}>
-                    <p style={{ fontSize: "16px", fontWeight: "500" }}>
-                      Invoice Date :{" "}
-                    </p>
-                    <p style={{ fontSize: "16px", fontWeight: "500" }}>
-                      {orderDetails?.invoice_date}
-                    </p>
+                    {orderDetails?.invoice_date && (
+                      <>
+                        <p style={{ fontSize: "16px", fontWeight: "500" }}>
+                          Invoice Date :{" "}
+                        </p>
+                        <p style={{ fontSize: "16px", fontWeight: "500" }}>
+                          {orderDetails.invoice_date}
+                        </p>
+                      </>
+                    )}
                   </td>
                   <td
                     style={{
@@ -188,12 +196,16 @@ function ProformaDetailsPage() {
                       paddingBottom: "10px",
                     }}
                   >
-                    <p style={{ fontSize: "16px", fontWeight: "500" }}>
-                      Payment Due date :{" "}
-                    </p>
-                    <p style={{ fontSize: "16px", fontWeight: "500" }}>
-                      {orderDetails?.payment_due_date}
-                    </p>
+                    {orderDetails?.payment_due_date && (
+                      <>
+                        <p style={{ fontSize: "16px", fontWeight: "500" }}>
+                          Payment Due date :{" "}
+                        </p>
+                        <p style={{ fontSize: "16px", fontWeight: "500" }}>
+                          {orderDetails.payment_due_date}
+                        </p>
+                      </>
+                    )}
                   </td>
                 </tr>
               </thead>
@@ -210,7 +222,7 @@ function ProformaDetailsPage() {
                       }}
                     >
                       <tbody>
-                        <tr style={{ borderBottom: "1px dotted #99a0ac" }}>
+                        <tr style={{ borderBottom: "1px solid #616161" }}>
                           <td
                             style={{
                               verticalAlign: "top",
@@ -228,34 +240,41 @@ function ProformaDetailsPage() {
                             >
                               From :
                             </h1>
-                            <p
-                              style={{
-                                fontSize: "16px",
-                                fontWeight: 500,
-                              }}
-                            >
-                              {orderDetails?.supplier_name}
-                            </p>
-                            <p
-                              style={{
-                                fontSize: "13px",
-                                color: "#616161",
-                                fontWeight: 500,
-                              }}
-                            >
-                              {[
-                                orderDetails?.supplier_address,
-                                orderDetails?.supplier_logistics_data?.locality,
-                                orderDetails?.supplier_logistics_data?.land_mark,
-                              ]
-                                .filter(Boolean)
-                                .join(" ")}
-                            </p>
+                            {orderDetails?.supplier_name && (
+                              <p
+                                style={{
+                                  fontSize: "16px",
+                                  fontWeight: 500,
+                                }}
+                              >
+                                {orderDetails.supplier_name}
+                              </p>
+                            )}
+                            {[
+                              orderDetails?.supplier_address,
+                              orderDetails?.supplier_logistics_data?.locality,
+                              orderDetails?.supplier_logistics_data?.land_mark,
+                            ].some(Boolean) && (
+                              <p
+                                style={{
+                                  fontSize: "13px",
+                                  color: "#616161",
+                                  fontWeight: 500,
+                                }}
+                              >
+                                {[
+                                  orderDetails?.supplier_address,
+                                  orderDetails?.supplier_logistics_data?.locality,
+                                  orderDetails?.supplier_logistics_data?.land_mark,
+                                ]
+                                  .filter(Boolean)
+                                  .join(" ")}
+                              </p>
+                            )}
                             {(orderDetails?.supplier_logistics_data?.city ||
                               orderDetails?.supplier_logistics_data?.state ||
                               orderDetails?.supplier_logistics_data?.pincode ||
-                              orderDetails?.supplier_logistics_data
-                                ?.country) && (
+                              orderDetails?.supplier_logistics_data?.country) && (
                               <p
                                 style={{
                                   fontSize: "13px",
@@ -263,44 +282,48 @@ function ProformaDetailsPage() {
                                   fontWeight: 500,
                                 }}
                               >
-                                {orderDetails?.supplier_logistics_data?.city}{" "}
-                                {orderDetails?.supplier_logistics_data?.state}{" "}
-                                {orderDetails?.supplier_logistics_data?.pincode}{" "}
-                                {orderDetails?.supplier_logistics_data?.country}
+                                {orderDetails?.supplier_logistics_data?.city && orderDetails.supplier_logistics_data.city}{" "}
+                                {orderDetails?.supplier_logistics_data?.state && orderDetails.supplier_logistics_data.state}{" "}
+                                {orderDetails?.supplier_logistics_data?.pincode && orderDetails.supplier_logistics_data.pincode}{" "}
+                                {orderDetails?.supplier_logistics_data?.country && orderDetails.supplier_logistics_data.country}
                               </p>
                             )}
-                            <td
-                              style={{
-                                display: "flex",
-                                justifyContent: "start",
-                              }}
-                            >
-                              <p
+                            {orderDetails?.supplier_mobile && (
+                              <td
                                 style={{
-                                  fontSize: "13px",
-                                  color: "#616161",
-                                  fontWeight: 500,
+                                  display: "flex",
+                                  justifyContent: "start",
                                 }}
                               >
-                                {orderDetails?.supplier_mobile}
-                              </p>
-                            </td>
-                            <td
-                              style={{
-                                display: "flex",
-                                justifyContent: "start",
-                              }}
-                            >
-                              <p
+                                <p
+                                  style={{
+                                    fontSize: "13px",
+                                    color: "#616161",
+                                    fontWeight: 500,
+                                  }}
+                                >
+                                  {orderDetails.supplier_mobile}
+                                </p>
+                              </td>
+                            )}
+                            {orderDetails?.supplier_email && (
+                              <td
                                 style={{
-                                  fontSize: "13px",
-                                  color: "#616161",
-                                  fontWeight: 500,
+                                  display: "flex",
+                                  justifyContent: "start",
                                 }}
                               >
-                                {orderDetails?.supplier_email}
-                              </p>
-                            </td>
+                                <p
+                                  style={{
+                                    fontSize: "13px",
+                                    color: "#616161",
+                                    fontWeight: 500,
+                                  }}
+                                >
+                                  {orderDetails.supplier_email}
+                                </p>
+                              </td>
+                            )}
                           </td>
                           <td
                             style={{
@@ -319,31 +342,39 @@ function ProformaDetailsPage() {
                             >
                               To :
                             </h1>
-                            <p
-                              style={{
-                                fontSize: "16px",
-                                fontWeight: 500,
-                                textAlign: "end",
-                              }}
-                            >
-                              {orderDetails?.buyer_name}
-                            </p>
-                            <p
-                              style={{
-                                fontSize: "13px",
-                                color: "#616161",
-                                fontWeight: 500,
-                                textAlign: "end",
-                              }}
-                            >
-                              {[
-                                orderDetails?.buyer_address,
-                                orderDetails?.buyer_logistics_data?.locality,
-                                orderDetails?.buyer_logistics_data?.land_mark,
-                              ]
-                                .filter(Boolean)
-                                .join(" ")}
-                            </p>
+                            {orderDetails?.buyer_name && (
+                              <p
+                                style={{
+                                  fontSize: "16px",
+                                  fontWeight: 500,
+                                  textAlign: "end",
+                                }}
+                              >
+                                {orderDetails.buyer_name}
+                              </p>
+                            )}
+                            {[
+                              orderDetails?.buyer_address,
+                              orderDetails?.buyer_logistics_data?.locality,
+                              orderDetails?.buyer_logistics_data?.land_mark,
+                            ].some(Boolean) && (
+                              <p
+                                style={{
+                                  fontSize: "13px",
+                                  color: "#616161",
+                                  fontWeight: 500,
+                                  textAlign: "end",
+                                }}
+                              >
+                                {[
+                                  orderDetails?.buyer_address,
+                                  orderDetails?.buyer_logistics_data?.locality,
+                                  orderDetails?.buyer_logistics_data?.land_mark,
+                                ]
+                                  .filter(Boolean)
+                                  .join(" ")}
+                              </p>
+                            )}
                             {(orderDetails?.buyer_logistics_data?.city ||
                               orderDetails?.buyer_logistics_data?.state ||
                               orderDetails?.buyer_logistics_data?.pincode ||
@@ -356,38 +387,38 @@ function ProformaDetailsPage() {
                                   textAlign: "end",
                                 }}
                               >
-                                {orderDetails?.buyer_logistics_data?.city}{" "}
-                                {orderDetails?.buyer_logistics_data?.state}{" "}
-                                {orderDetails?.buyer_logistics_data?.pincode}{" "}
-                                {orderDetails?.buyer_logistics_data?.country}
+                                {orderDetails?.buyer_logistics_data?.city && orderDetails.buyer_logistics_data.city}{" "}
+                                {orderDetails?.buyer_logistics_data?.state && orderDetails.buyer_logistics_data.state}{" "}
+                                {orderDetails?.buyer_logistics_data?.pincode && orderDetails.buyer_logistics_data.pincode}{" "}
+                                {orderDetails?.buyer_logistics_data?.country && orderDetails.buyer_logistics_data.country}
                               </p>
                             )}
-                            <td
-                              style={{ display: "flex", justifyContent: "end" }}
-                            >
-                              <p
-                                style={{
-                                  fontSize: "13px",
-                                  color: "#616161",
-                                  fontWeight: 500,
-                                }}
-                              >
-                                {orderDetails?.buyer_mobile}
-                              </p>
-                            </td>
-                            <td
-                              style={{ display: "flex", justifyContent: "end" }}
-                            >
-                              <p
-                                style={{
-                                  fontSize: "13px",
-                                  color: "#616161",
-                                  fontWeight: 500,
-                                }}
-                              >
-                                {orderDetails?.buyer_email}
-                              </p>
-                            </td>
+                            {orderDetails?.buyer_mobile && (
+                              <td style={{ display: "flex", justifyContent: "end" }}>
+                                <p
+                                  style={{
+                                    fontSize: "13px",
+                                    color: "#616161",
+                                    fontWeight: 500,
+                                  }}
+                                >
+                                  {orderDetails.buyer_mobile}
+                                </p>
+                              </td>
+                            )}
+                            {orderDetails?.buyer_email && (
+                              <td style={{ display: "flex", justifyContent: "end" }}>
+                                <p
+                                  style={{
+                                    fontSize: "13px",
+                                    color: "#616161",
+                                    fontWeight: 500,
+                                  }}
+                                >
+                                  {orderDetails.buyer_email}
+                                </p>
+                              </td>
+                            )}
                           </td>
                         </tr>
                         <tr>
@@ -399,8 +430,7 @@ function ProformaDetailsPage() {
                                     style={{
                                       padding: "8px 0",
                                       fontWeight: 500,
-                                      borderBottom:
-                                        "1px dotted rgb(153, 160, 172)",
+                                      borderBottom: "1px solid #616161",
                                       width: "40px",
                                     }}
                                   >
@@ -410,9 +440,8 @@ function ProformaDetailsPage() {
                                     style={{
                                       padding: "8px 0",
                                       fontWeight: 500,
-                                      borderBottom:
-                                        "1px dotted rgb(153, 160, 172)",
-                                      width: "150px",
+                                      borderBottom: "1px solid #616161",
+                                      width: "180px",
                                     }}
                                   >
                                     Name
@@ -421,8 +450,7 @@ function ProformaDetailsPage() {
                                     style={{
                                       padding: "8px 0",
                                       fontWeight: 500,
-                                      borderBottom:
-                                        "1px dotted rgb(153, 160, 172)",
+                                      borderBottom: "1px solid #616161",
                                       width: "40px",
                                     }}
                                   >
@@ -432,8 +460,7 @@ function ProformaDetailsPage() {
                                     style={{
                                       padding: "8px 0",
                                       fontWeight: 500,
-                                      borderBottom:
-                                        "1px dotted rgb(153, 160, 172)",
+                                      borderBottom: "1px solid #616161",
                                       textAlign: "end",
                                       width: "100px",
                                     }}
@@ -444,8 +471,7 @@ function ProformaDetailsPage() {
                                     style={{
                                       padding: "8px 0",
                                       fontWeight: 500,
-                                      borderBottom:
-                                        "1px dotted rgb(153, 160, 172)",
+                                      borderBottom: "1px solid #616161",
                                       textAlign: "end",
                                       width: "100px",
                                     }}
@@ -456,8 +482,7 @@ function ProformaDetailsPage() {
                                     style={{
                                       padding: "8px 0",
                                       fontWeight: 500,
-                                      borderBottom:
-                                        "1px dotted rgb(153, 160, 172)",
+                                      borderBottom: "1px solid #616161",
                                       textAlign: "end",
                                       width: "120px",
                                     }}
@@ -474,6 +499,7 @@ function ProformaDetailsPage() {
                                         paddingBlock: "12px",
                                         display: "flex",
                                         alignItems: "baseline",
+                                        verticalAlign: "baseline",
                                       }}
                                     >
                                       <p
@@ -485,73 +511,85 @@ function ProformaDetailsPage() {
                                         {index + 1}.
                                       </p>
                                     </td>
-                                    <td style={{ paddingBlock: "12px" }}>
-                                      <p
-                                        style={{
-                                          fontWeight: 500,
-                                          fontSize: "14px",
-                                        }}
-                                      >
-                                        {item.medicine_name} (
-                                        {item?.medicine_details?.strength ||
-                                          "150mg"}
-                                        )
-                                      </p>
+                                    <td style={{ paddingBlock: "12px", verticalAlign: "baseline" }}>
+                                      {(item?.medicine_name || item?.medicine_details?.strength) && (
+                                        <p
+                                          style={{  
+                                            fontWeight: 500,
+                                            fontSize: "14px",
+                                            lineHeight: "20px",
+                                          }}
+                                        >
+                                          {item?.medicine_name ? item.medicine_name : ""}{" "}
+                                          {item?.medicine_details?.strength && `(${item.medicine_details.strength || "150mg"})`}
+                                        </p>
+                                      )}
                                     </td>
-                                    <td style={{ paddingBlock: "12px" }}>
-                                      <p
-                                        style={{
-                                          fontWeight: 500,
-                                          fontSize: "13px",
-                                        }}
-                                      >
-                                        {item?.quantity_required}
-                                      </p>
-                                    </td>
-                                    <td
-                                      style={{
-                                        paddingBlock: "12px",
-                                        textAlign: "end",
-                                      }}
-                                    >
-                                      <p
-                                        style={{
-                                          fontWeight: 500,
-                                          fontSize: "13px",
-                                        }}
-                                      >
-                                        {item.unit_price.toFixed(2)} USD
-                                      </p>
+                                    <td style={{ paddingBlock: "12px", verticalAlign: "baseline" }}>
+                                      {item?.quantity_required && (
+                                        <p
+                                          style={{
+                                            fontWeight: 500,
+                                            fontSize: "13px",
+                                          }}
+                                        >
+                                          {item.quantity_required}
+                                        </p>
+                                      )}
                                     </td>
                                     <td
                                       style={{
                                         paddingBlock: "12px",
                                         textAlign: "end",
+                                        verticalAlign: "baseline",
                                       }}
                                     >
-                                      <p
-                                        style={{
-                                          fontWeight: 500,
-                                          fontSize: "13px",
-                                        }}
-                                      >
-                                        {item.unit_tax}%
-                                      </p>
+                                      {item?.unit_price && (
+                                        <p
+                                          style={{
+                                            fontWeight: 500,
+                                            fontSize: "13px",
+                                          }}
+                                        >
+                                          {item.unit_price.toFixed(2)} USD
+                                        </p>
+                                      )}
                                     </td>
                                     <td
                                       style={{
                                         paddingBlock: "12px",
                                         textAlign: "end",
+                                        verticalAlign: "baseline",
                                       }}
                                     >
-                                      <p
-                                        style={{
-                                          fontWeight: 500,
-                                          fontSize: "13px",
-                                        }}
-                                      >
-                                        {item.total_amount.toFixed(2)} USD
-                                      </p>
+                                      {item?.unit_tax && (
+                                        <p
+                                          style={{
+                                            fontWeight: 500,
+                                            fontSize: "13px",
+                                          }}
+                                        >
+                                          {item.unit_tax}%
+                                        </p>
+                                      )}
+                                    </td>
+                                    <td
+                                      style={{
+                                        paddingBlock: "12px",
+                                        textAlign: "end",
+                                        verticalAlign: "baseline",
+                                      }}
+                                    >
+                                      {item?.total_amount && (
+                                        <p
+                                          style={{
+                                            fontWeight: 500,
+                                            fontSize: "13px",
+                                          }}
+                                        >
+                                          {item.total_amount.toFixed(2)} USD
+                                        </p>
+                                      )}
                                     </td>
                                   </tr>
                                 </tbody>
@@ -560,8 +598,8 @@ function ProformaDetailsPage() {
                             <table>
                               <tbody
                                 style={{
-                                  borderTop: "1px dotted rgb(153, 160, 172)",
-                                  borderBottom: "1px dotted rgb(153, 160, 172)",
+                                  borderTop: "1px solid #616161",
+                                  borderBottom: "1px solid #616161",
                                 }}
                               >
                                 <tr>
@@ -573,37 +611,39 @@ function ProformaDetailsPage() {
                                       }}
                                     >
                                       <tbody>
-                                        <tr
-                                          style={{
-                                            display: "flex",
-                                            justifyContent: "end",
-                                            alignItems: "center",
-                                            columnGap: "10px",
-                                            paddingTop: "6px",
-                                          }}
-                                        >
-                                          <p
+                                        {totalAmount > 0 && (
+                                          <tr
                                             style={{
-                                              textAlign: "end",
-                                              fontSize: "14px",
-                                              fontWeight: "500",
-                                              paddingBottom: "10px",
+                                              display: "flex",
+                                              justifyContent: "end",
+                                              alignItems: "center",
+                                              columnGap: "10px",
+                                              paddingTop: "6px",
                                             }}
                                           >
-                                            Grand Total :
-                                          </p>
-                                          <p
-                                            style={{
-                                              textAlign: "end",
-                                              fontWeight: "500",
-                                              fontSize: "14px",
-                                              paddingBottom: "10px",
-                                              width: "150px",
-                                            }}
-                                          >
-                                            {totalAmount.toFixed(2)} USD
-                                          </p>
-                                        </tr>
+                                            <p
+                                              style={{
+                                                textAlign: "end",
+                                                fontSize: "14px",
+                                                fontWeight: "500",
+                                                paddingBottom: "10px",
+                                              }}
+                                            >
+                                              Grand Total :
+                                            </p>
+                                            <p
+                                              style={{
+                                                textAlign: "end",
+                                                fontWeight: "500",
+                                                fontSize: "14px",
+                                                paddingBottom: "10px",
+                                                width: "150px",
+                                              }}
+                                            >
+                                              {totalAmount.toFixed(2)} USD
+                                            </p>
+                                          </tr>
+                                        )}
                                       </tbody>
                                     </table>
                                   </td>
@@ -613,7 +653,7 @@ function ProformaDetailsPage() {
                             <table>
                               <tbody
                                 style={{
-                                  borderBottom: "1px dotted rgb(153, 160, 172)",
+                                  borderBottom: "1px solid #616161",
                                 }}
                               >
                                 <tr>
@@ -634,87 +674,93 @@ function ProformaDetailsPage() {
                                     >
                                       Bank Details :
                                     </h1>
-                                    <tr
-                                      style={{
-                                        display: "flex",
-                                        justifyContent: "start",
-                                        alignItems: "center",
-                                        paddingTop: "8px",
-                                      }}
-                                    >
-                                      <p
+                                    {bankDetails?.bank_name && (
+                                      <tr
                                         style={{
-                                          fontSize: "14px",
-                                          fontWeight: "500",
-                                          width: "100px",
+                                          display: "flex",
+                                          justifyContent: "start",
+                                          alignItems: "center",
+                                          paddingTop: "8px",
                                         }}
                                       >
-                                        Bank Name :
-                                      </p>
-                                      <p
+                                        <p
+                                          style={{
+                                            fontSize: "14px",
+                                            fontWeight: "500",
+                                            width: "100px",
+                                          }}
+                                        >
+                                          Bank Name :
+                                        </p>
+                                        <p
+                                          style={{
+                                            fontSize: "14px",
+                                            fontWeight: "500",
+                                            color: "#616161",
+                                          }}
+                                        >
+                                          {bankDetails.bank_name}
+                                        </p>
+                                      </tr>
+                                    )}
+                                    {bankDetails?.account_number && (
+                                      <tr
                                         style={{
-                                          fontSize: "14px",
-                                          fontWeight: "500",
-                                          color: "#616161",
+                                          display: "flex",
+                                          justifyContent: "start",
+                                          alignItems: "center",
+                                          paddingTop: "8px",
                                         }}
                                       >
-                                        {bankDetails?.bank_name}
-                                      </p>
-                                    </tr>
-                                    <tr
-                                      style={{
-                                        display: "flex",
-                                        justifyContent: "start",
-                                        alignItems: "center",
-                                        paddingTop: "8px",
-                                      }}
-                                    >
-                                      <p
+                                        <p
+                                          style={{
+                                            fontSize: "14px",
+                                            fontWeight: "500",
+                                            width: "100px",
+                                          }}
+                                        >
+                                          Account No :
+                                        </p>
+                                        <p
+                                          style={{
+                                            fontSize: "14px",
+                                            fontWeight: "500",
+                                            color: "#616161",
+                                          }}
+                                        >
+                                          {bankDetails.account_number}
+                                        </p>
+                                      </tr>
+                                    )}
+                                    {bankDetails?.sort_code && (
+                                      <tr
                                         style={{
-                                          fontSize: "14px",
-                                          fontWeight: "500",
-                                          width: "100px",
+                                          display: "flex",
+                                          justifyContent: "start",
+                                          alignItems: "center",
+                                          paddingTop: "8px",
                                         }}
                                       >
-                                        Account No :
-                                      </p>
-                                      <p
-                                        style={{
-                                          fontSize: "14px",
-                                          fontWeight: "500",
-                                          color: "#616161",
-                                        }}
-                                      >
-                                        {bankDetails?.account_number}
-                                      </p>
-                                    </tr>
-                                    <tr
-                                      style={{
-                                        display: "flex",
-                                        justifyContent: "start",
-                                        alignItems: "center",
-                                        paddingTop: "8px",
-                                      }}
-                                    >
-                                      <p
-                                        style={{
-                                          fontSize: "14px",
-                                          fontWeight: "500",
-                                          width: "100px",
-                                        }}
-                                      >
-                                        Sort Code :
-                                      </p>
-                                      <p
-                                        style={{
-                                          fontSize: "14px",
-                                          fontWeight: "500",
-                                          color: "#616161",
-                                        }}
-                                      >
-                                        {bankDetails?.sort_code}
-                                      </p>
-                                    </tr>
+                                        <p
+                                          style={{
+                                            fontSize: "14px",
+                                            fontWeight: "500",
+                                            width: "100px",
+                                          }}
+                                        >
+                                          Sort Code :
+                                        </p>
+                                        <p
+                                          style={{
+                                            fontSize: "14px",
+                                            fontWeight: "500",
+                                            color: "#616161",
+                                          }}
+                                        >
+                                          {bankDetails.sort_code}
+                                        </p>
+                                      </tr>
+                                    )}
                                   </td>
                                   <td style={{ width: "550px" }}>
                                     <table
@@ -724,36 +770,37 @@ function ProformaDetailsPage() {
                                       }}
                                     >
                                       <tbody>
-                                        <tr
-                                          style={{
-                                            display: "flex",
-                                            justifyContent: "end",
-                                            alignItems: "center",
-                                            columnGap: "10px",
-                                            marginTop: "8px",
-                                          }}
-                                        >
-                                          <p
+                                        {orderDetails?.deposit_requested && (
+                                          <tr
                                             style={{
-                                              textAlign: "end",
-                                              fontSize: "14px",
-                                              fontWeight: "500",
+                                              display: "flex",
+                                              justifyContent: "end",
+                                              alignItems: "center",
+                                              columnGap: "10px",
+                                              marginTop: "8px",
                                             }}
                                           >
-                                            Deposit Requested :
-                                          </p>
-                                          <p
-                                            style={{
-                                              textAlign: "end",
-                                              fontWeight: "500",
-                                              fontSize: "14px",
-                                              width: "100px",
-                                            }}
-                                          >
-                                            {orderDetails?.deposit_requested}{" "}
-                                            USD
-                                          </p>
-                                        </tr>
+                                            <p
+                                              style={{
+                                                textAlign: "end",
+                                                fontSize: "14px",
+                                                fontWeight: "500",
+                                              }}
+                                            >
+                                              Deposit Requested :
+                                            </p>
+                                            <p
+                                              style={{
+                                                textAlign: "end",
+                                                fontWeight: "500",
+                                                fontSize: "14px",
+                                                width: "100px",
+                                              }}
+                                            >
+                                              {orderDetails.deposit_requested} USD
+                                            </p>
+                                          </tr>
+                                        )}
                                         {orderDetails?.deposit_due_date && (
                                           <tr
                                             style={{
@@ -762,6 +809,7 @@ function ProformaDetailsPage() {
                                               alignItems: "center",
                                               columnGap: "10px",
                                               paddingTop: "8px",
+                                              marginBottom:'10px'
                                             }}
                                           >
                                             <p
@@ -781,7 +829,7 @@ function ProformaDetailsPage() {
                                                 width: "100px",
                                               }}
                                             >
-                                              {orderDetails?.deposit_due_date}
+                                              {orderDetails.deposit_due_date}
                                             </p>
                                           </tr>
                                         )}
@@ -802,7 +850,7 @@ function ProformaDetailsPage() {
                 <tbody
                   style={{
                     width: "100%",
-                    borderBottom: "1px dotted rgb(153, 160, 172)",
+                    borderBottom: "1px solid #616161",
                   }}
                 >
                   <tr>
@@ -832,9 +880,32 @@ function ProformaDetailsPage() {
                           marginTop: "4px",
                         }}
                       >
-                        {orderDetails?.enquiry?.payment_terms?.map((data, i) => (
+                        {orderDetails?.enquiry?.payment_terms?.length > 0 ? (
+                          orderDetails.enquiry.payment_terms.map((data, i) => (
+                            data && (
+                              <p
+                                key={i}
+                                style={{
+                                  position: "relative",
+                                  paddingLeft: "20px",
+                                }}
+                              >
+                                <span
+                                  style={{
+                                    position: "absolute",
+                                    left: "0",
+                                    top: "0",
+                                    fontSize: "22px",
+                                  }}
+                                >
+                                  •
+                                </span>
+                                {data || "50% advance"}
+                              </p>
+                            )
+                          ))
+                        ) : (
                           <p
-                            key={i}
                             style={{
                               position: "relative",
                               paddingLeft: "20px",
@@ -850,9 +921,9 @@ function ProformaDetailsPage() {
                             >
                               •
                             </span>
-                            {data || "50% advance"}
+                            50% advance
                           </p>
-                        ))}
+                        )}
                       </div>
                     </td>
                   </tr>
