@@ -42,7 +42,7 @@
     width: 100%;
     justify-content: space-between;
     align-items: baseline;
-    border-bottom: 1px dotted #333;
+    border-bottom:  1px solid #616161;
   }
   .purchange-logo{
     width: 80px;

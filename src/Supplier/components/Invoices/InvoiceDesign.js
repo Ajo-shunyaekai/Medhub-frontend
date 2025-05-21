@@ -99,7 +99,7 @@ function InvoiceDesign() {
                         <div style={{ textAlign: 'center', fontWeight: '500', fontSize: '30px', margin: '0px 0px 20px 0px' }}>Invoice</div>
                         <table style={{ fontSize: '12px' }}>
                             <thead>
-                                <tr style={{ borderBottom: '1px dotted #99a0ac' }}>
+                                <tr style={{ borderBottom: '1px solid #616161' }}>
                                     <td style={{ display: 'flex', justifyContent: 'end' }}>
                                         <p style={{ fontSize: '16px', fontWeight: '500' }}>Invoice Number : </p>
                                         <p style={{ fontSize: '16px', fontWeight: '500' }}>&nbsp;{invoiceDetails?.invoice_no}</p>
@@ -115,7 +115,7 @@ function InvoiceDesign() {
                                     <td>
                                         <table style={{ padding: '20px 16px', width: '100%', borderRadius: '12px', tableLayout: 'fixed', marginTop: '20px' }}>
                                             <tbody>
-                                                <tr style={{ borderBottom: '1px dotted #99a0ac' }}>
+                                                <tr style={{ borderBottom: '1px solid #616161' }}>
                                                     <td style={{ verticalAlign: 'top', width: '60%', paddingRight: '20px', paddingBottom: '20px' }}>
                                                         <h1 style={{ fontSize: '14px', fontWeight: 500, paddingBottom: '3px' }}>From :</h1>
                                                         <p style={{ fontSize: '16px', fontWeight: 500}}>{invoiceDetails?.supplier_name}</p>
@@ -153,12 +153,12 @@ function InvoiceDesign() {
                                                         <table style={{ width: '100%', borderSpacing: 0, }}>
                                                             <thead>
                                                                 <tr style={{ textTransform: 'uppercase' }}>
-                                                                    <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', width: '40px' }}>S.No</td>
-                                                                    <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', width: '150px' }}>Product Name</td>
-                                                                    <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', width: '40px' }}>Qty</td>
-                                                                    <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', textAlign: 'end', width: '100px' }}>Price</td>
-                                                                    <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', textAlign: 'end', width: '100px' }}>Unit Tax %</td>
-                                                                    <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', textAlign: 'end', width: '120px' }}>Total</td>
+                                                                    <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px solid #616161', width: '40px', }}>S.No</td>
+                                                                    <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px solid #616161', width: '180px' }}>Product Name</td>
+                                                                    <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px solid #616161', width: '40px' }}>Qty</td>
+                                                                    <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px solid #616161', textAlign: 'end', width: '100px' }}>Price</td>
+                                                                    <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px solid #616161', textAlign: 'end', width: '100px' }}>Unit Tax %</td>
+                                                                    <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px solid #616161', textAlign: 'end', width: '120px' }}>Total</td>
                                                                 </tr>
                                                             </thead>
                                                             {
@@ -169,19 +169,19 @@ function InvoiceDesign() {
                                                                             <td style={{ paddingBlock: '12px', display: 'flex', alignItems: 'baseline' }}>
                                                                                 <p style={{ fontWeight: 500, fontSize: '14px' }}>{i + 1}.</p>
                                                                             </td>
-                                                                            <td style={{ paddingBlock: '12px' }}>
-                                                                                <p style={{ fontWeight: 500, fontSize: '14px' }}>{item.medicine_name}</p>
+                                                                            <td style={{ paddingBlock: '12px',verticalAlign:"baseline" }}>
+                                                                                <p style={{ fontWeight: 500, fontSize: '14px', lineHeight:"20px" }}>{item.medicine_name}</p>
                                                                             </td>
-                                                                            <td style={{ paddingBlock: '12px' }}>
+                                                                            <td style={{ paddingBlock: '12px',verticalAlign:"baseline" }}>
                                                                                 <p style={{ fontWeight: 500, fontSize: '13px', }}>{item?.quantity_required}</p>
                                                                             </td>
-                                                                            <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
+                                                                            <td style={{ paddingBlock: '12px',verticalAlign:"baseline", textAlign: 'end' }}>
                                                                                 <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.counter_price || item.target_price} USD</p>
                                                                             </td>
-                                                                            <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
+                                                                            <td style={{ paddingBlock: '12px',verticalAlign:"baseline", textAlign: 'end' }}>
                                                                                 <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.unit_tax}%</p>
                                                                             </td>
-                                                                            <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
+                                                                            <td style={{ paddingBlock: '12px',verticalAlign:"baseline", textAlign: 'end' }}>
                                                                                 <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.total_amount} USD </p>
                                                                             </td>
                                                                         </tr>
@@ -193,7 +193,7 @@ function InvoiceDesign() {
                                                            
                                                         </table>
                                                         <table>
-                                                            <tbody style={{ borderTop: '1px dotted rgb(153, 160, 172)', borderBottom: '1px dotted rgb(153, 160, 172)' }}>
+                                                            <tbody style={{ borderTop: '1px solid #616161', borderBottom: '1px solid #616161' }}>
                                                                 <tr>
                                                                     <td style={{ verticalAlign: 'top', paddingBottom: '20px', width: '42%' }}>
                                                                         <h1 style={{ fontSize: '16px', fontWeight: '500', marginTop: '16px', textAlign: 'start' }}>Bank Details :</h1>
@@ -233,7 +233,7 @@ function InvoiceDesign() {
                                 </tr>
                             </tbody>
                             <tfoot>
-                                <tbody style={{ width: '100vw', borderBottom: '1px dotted rgb(153, 160, 172)' }}>
+                                <tbody style={{ width: '100vw', borderBottom: '1px solid #616161' }}>
                                     <tr>
                                         <td style={{ verticalAlign: 'top', width: '100vw', paddingRight: '20px', paddingBottom: '20px' }}>
                                             <h1 style={{ fontSize: '16px', fontWeight: '500', marginTop: '16px' }}>Payment Terms :</h1>
