@@ -5645,7 +5645,7 @@ const AddProduct = ({ placeholder }) => {
                 </div>
               </div>
 
-              {inventoryStockedCountries?.length > 0 ? (
+              {/* {inventoryStockedCountries?.length > 0 ? ( */}
                 <div className={styles.formStockContainer}>
                   <div className={styles.formHeadSection}>
                     <span className={styles.formHead}>Stocked In Details</span>
@@ -5675,6 +5675,7 @@ const AddProduct = ({ placeholder }) => {
                         <div className={styles.productContainer}>
                           <label className={styles.formLabel}>
                             Country where Stock Trades
+                            <span className={styles.labelStamp}>*</span>
                           </label>
                           <Select
                             className={styles.formSelect}
@@ -5754,7 +5755,7 @@ const AddProduct = ({ placeholder }) => {
                     </>
                   ))}
                 </div>
-              ) : (
+              {/* ) : (
                 <div className={styles.formStockContainer}>
                   <div className={styles.formHeadSection}>
                     <label className={styles.formLabel}>
@@ -5763,7 +5764,7 @@ const AddProduct = ({ placeholder }) => {
                     </label>
                   </div>
                 </div>
-              )}
+              )} */}
             </div>
 
             {/* End the Inventory */}

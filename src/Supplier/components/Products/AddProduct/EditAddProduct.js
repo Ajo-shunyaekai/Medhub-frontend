@@ -7014,15 +7014,16 @@ const EditAddProduct = ({ placeholder }) => {
                 </span>
               </div>
 
-              {formik?.values?.countries.map((country) => ({
+              {/* {formik?.values?.countries.map((country) => ({
                 label: country,
                 value: country,
-              }))?.length > 0 ? (
-                formik?.values?.stockedInDetails?.map((stock, index) => (
+              }))?.length > 0 ? ( */}
+                {formik?.values?.stockedInDetails?.map((stock, index) => (
                   <div key={index} className={styles.formSection}>
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Country where Stock Trades
+                         <span className={styles.labelStamp}>*</span>
                       </label>
                       <Select
                         className={styles.formSelect}
@@ -7064,7 +7065,7 @@ const EditAddProduct = ({ placeholder }) => {
                           <input
                             name={`stockedInDetails.${index}.quantity`}
                             className={styles.quantityInput}
-                            placeholder={stock.placeholder}
+                            placeholder='Enter Quantity'
                             type="number"
                             value={
                               formik?.values?.stockedInDetails[index]
@@ -7097,8 +7098,8 @@ const EditAddProduct = ({ placeholder }) => {
                       </div>
                     )}
                   </div>
-                ))
-              ) : (
+                  ))}
+              {/* ) : (
                 <div className={styles.formStockContainer}>
                   <div className={styles.formHeadSection}>
                     <label className={styles.formLabel}>
@@ -7107,7 +7108,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </label>
                   </div>
                 </div>
-              )}
+              )} */}
             </div>
           </div>
 

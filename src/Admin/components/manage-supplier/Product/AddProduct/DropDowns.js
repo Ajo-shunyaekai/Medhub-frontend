@@ -365,6 +365,18 @@ export const addProductValidationSchema = Yup.object({
   countries: Yup.array()
     .min(1, "At least one country must be selected.")
     .of(Yup.string().required("Country Available is required.")),
+
+  stockedInDetails: Yup.array()
+    .of(
+      Yup.object({
+        country: Yup.string().required("Country is required."),
+        // quantity: Yup.number()
+        //   .required("Quantity is required.")
+        //   .positive("Quantity must be greater than 0"),
+        // type: Yup.string().required("Type is required."),
+      })
+    ),
+    // .min(1, "At least one product is required."), // Optional: You can enforce at least one item in the array
   
   productPricingDetails: Yup.array()
     .of(
@@ -1194,6 +1206,18 @@ export const editProductValidationSchema = Yup.object({
   countries: Yup.array()
     .min(1, "At least one country must be selected.")
     .of(Yup.string().required("Country Available is required.")),
+
+  stockedInDetails: Yup.array()
+    .of(
+      Yup.object({
+        country: Yup.string().required("Country is required."),
+        // quantity: Yup.number()
+        //   .required("Quantity is required.")
+        //   .positive("Quantity must be greater than 0"),
+        // type: Yup.string().required("Type is required."),
+      })
+    ),
+    // .min(1, "At least one product is required."), // Optional: You can enforce at least one item in the array
   
   productPricingDetails: Yup.array()
     .of(
