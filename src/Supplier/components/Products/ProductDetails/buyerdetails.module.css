@@ -64,6 +64,7 @@
 }
 
 .mainHead {
+  color: #212121;
   font-size: 24px;
   font-weight: 500;
 }
@@ -120,11 +121,13 @@
 }
 
 .cardHeads {
+  color: #212121;
   font-size: 15px;
   font-weight: 500;
 }
 
 .cardHead {
+  color:#212121;
   font-size: 15px;
   font-weight: 500;
   width: 34%;
@@ -134,9 +137,11 @@
 .cardContents {
   font-size: 14px;
   font-weight: 500;
+  color: #616161;
 }
 
 .cardContent {
+  color: #616161;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   display: -webkit-box;
@@ -182,13 +187,15 @@
 }
 
 .rightHead {
+  color: #212121;
   font-size: 14px;
   font-weight: 500;
 }
 
 .rightContent {
   font-size: 14px;
-  font-weight: 400;
+  color: #616161;
+  font-weight: 500;
 }
 
 .buttonContainer {

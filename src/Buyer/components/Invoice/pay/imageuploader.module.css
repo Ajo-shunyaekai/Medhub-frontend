@@ -42,12 +42,13 @@
 }
 
 .remove-icon {
-  position: absolute;
-  right: 10px;
-   cursor: pointer !important;;
-  width: 10px;
-  height: 14px;
-  color: #212121 !important;
+ position: absolute;
+    top: 8px;
+    right: 10px;
+    cursor: pointer !important;
+    width: 10px;
+    height: 14px;
+    color: #212121 !important;
 }
 
 .upload-icon {
@@ -65,6 +66,8 @@
 }
 .upload-text {
   font-size: 13px;
+  font-weight: 500;
+  color: #616161;
 }
 .uploaded-image {
   max-width: 100%;

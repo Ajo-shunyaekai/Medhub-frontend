@@ -65,7 +65,9 @@ background-color: #282f86;
   display: flex;
   flex-direction: column;
 }
-
+.active-order-details-conatiner-heading span{
+  color: #212121;
+}
 .active-order-details-section {
   width: 100%;
   display: flex;

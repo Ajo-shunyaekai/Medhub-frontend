@@ -1637,13 +1637,7 @@ const SignUp = ({ socket }) => {
                   </div>
                 </div>
                 <div className={styles.signupFormContButton}>
-                  <div
-                    className={styles.signupFormButtonCancel}
-                    onClick={handleCancel}
-                  >
-                    Cancel
-                  </div>
-                  <button
+                   <button
                     type="submit"
                     className={styles.signupFormButtonSubmit}
                     disabled={loading}
@@ -1655,6 +1649,13 @@ const SignUp = ({ socket }) => {
                       "Submit"
                     )}
                   </button>
+                  <div
+                    className={styles.signupFormButtonCancel}
+                    onClick={handleCancel}
+                  >
+                    Cancel
+                  </div>
+                 
                 </div>
               </form>
             </div>

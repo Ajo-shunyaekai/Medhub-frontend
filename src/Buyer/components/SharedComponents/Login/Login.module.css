@@ -32,6 +32,7 @@
 }
 .loginContainerFormSectionHeading {
   width: 100%;
+  color: #212121;
   font-size: 20px;
   line-height: normal;
   font-weight: 500;
@@ -51,19 +52,20 @@
   row-gap: 10px;
 }
 .loginFormMainLabel {
+  color: #212121;
   font-size: 14px;
   font-weight: 500;
 }
 .loginFormMainInput {
   width: 100% !important;
   font-weight: 500 !important;
-  color: #212121 !important;
+  color: #616161 !important;
   border-radius: 4px !important;
   outline: none !important;
   border: none !important;
   margin-bottom: 0px !important;
   padding: 12px !important;
-  font-size: 13px !important;
+  font-size: 14px !important;
   border-color: transparent !important;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
   appearance: none !important;
@@ -173,6 +175,7 @@ background-color: #282f86;
 .loginSignupContent {
   font-size: 14px;
   font-weight: 500;
+  color: #212121;
 }
 .loginSignupHere {
   color: #282f86 !important;

@@ -90,10 +90,9 @@ const VerifyOTP = ({ step, setStep }) => {
       {({ setFieldValue, values }) => (
         <Form className="login-main-form-section">
           <div className="otp-inputs">
-            {/* <label className="login-form-main-label">OTP*</label> */}
             <OtpInput
-              value={values.otp} // Now it refers to Formik's state
-              onChange={(otp) => setFieldValue("otp", otp)} // Update Formik state
+              value={values.otp}
+              onChange={(otp) => setFieldValue("otp", otp)} 
               numInputs={6}
               separator={<span style={{ width: "8px" }}></span>}
               isInputNum={true}
@@ -103,9 +102,9 @@ const VerifyOTP = ({ step, setStep }) => {
                 borderRadius: "8px",
                 width: "54px",
                 height: "54px",
-                fontSize: "12px",
-                color: "#000",
-                fontWeight: "400",
+                fontSize: "14px",
+                color: "#282f86",
+                fontWeight: "500",
                 caretColor: "blue",
               }}
               focusStyle={{
