@@ -90,6 +90,9 @@ const NotificationList = () => {
             case 'Profile Edit Rejected':
                 navigate(`/supplier/profile/${localStorage?.getItem('_id')}`);
                 break;
+            case 'remindSupplierToProceedOrder':
+                navigate(`/supplier/active-orders-details/${eventId}`);
+                break;
             default:
                 navigate('/supplier/');
                 break;

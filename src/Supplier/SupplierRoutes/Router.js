@@ -124,6 +124,10 @@ export const SupplierNotificationProvider = ({ children }) => {
           event: "editMedicineRequestUpdated",
           title: "Update on Edit Medicine Request",
         },
+        {
+          event: "remindSupplier",
+          title: "Request from Buyer to Proceed Order",
+        },
       ];
 
       notificationEvents.forEach(({ event, title }) => {

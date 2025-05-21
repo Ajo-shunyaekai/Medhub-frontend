@@ -68,16 +68,21 @@ const ActiveOrder = ({
               <RemoveRedEyeOutlinedIcon className={styles["table-icon"]} />
             </div>
           </Link>
-          {/* {row?.status == "Awaiting Details from Supplier" && (
+          {row?.status == "Awaiting Details from Supplier" && (
             <div
               className={styles.activeBtn2}
               onClick={() => {
-                dispatch(remindSupplier(row?._id));
+                dispatch(
+                  remindSupplier({
+                    id: row?._id,
+                    supplier_id: row?.supplier_id,
+                  })
+                );
               }}
             >
               <NotificationsNoneOutlinedIcon className={styles["table-icon"]} />
             </div>
-          )} */}
+          )}
         </>
       ),
       ignoreRowClick: true,

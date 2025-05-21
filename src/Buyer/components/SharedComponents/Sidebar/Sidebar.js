@@ -237,13 +237,7 @@ const Sidebar = ({ children, dragWindow,
         return () => {
             window.removeEventListener('resize', calculateSidebarWidth);
         };
-    }, []); // Empty dependency array to run this effect only once on mount
-
-
-    // ======================
-
-
-   
+    }, []); // Empty dependency array to run this effect only once on mount   
 
     const handleNavigation = (notificationId, event, eventId, linkId) => {
         const eventRoutes = {
@@ -258,11 +252,7 @@ const Sidebar = ({ children, dragWindow,
         const route = eventRoutes[event] || "/buyer/";
         setIsNotificationOpen(false);
         navigate(route);
-
-       
     };
-
-
 
     const handleNotificationNavigate = () => {
         setIsNotificationOpen(false)

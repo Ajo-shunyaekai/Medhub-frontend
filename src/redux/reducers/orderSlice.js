@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import "react-toastify/dist/ReactToastify.css";
 import { apiRequests } from "../../api";
 import { toast } from "react-toastify";
+import { io } from "socket.io-client";
 
 const initialState = {
   orders: [],
@@ -10,6 +11,11 @@ const initialState = {
   error: null,
   orderData: {},
 };
+
+// Socket Connection
+const socket = io.connect(process.env.REACT_APP_SERVER_URL, {
+  autoConnect: false,
+});
 
 export const fetchOrderListRedux = createAsyncThunk(
   "order/fetchOrderListRedux",
@@ -104,10 +110,10 @@ export const submitPickupDetails = createAsyncThunk(
 
 export const remindSupplier = createAsyncThunk(
   "order/remindSupplier",
-  async (values, { rejectWithValue }) => {
+  async ({ id, supplier_id }, { rejectWithValue }) => {
     try {
       const response = await apiRequests?.postRequest(
-        `order/remind-supplier/${values}`,
+        `order/remind-supplier/${id}`
       );
       if (response?.code != 200) {
         toast(response?.message, { type: "error" });
@@ -115,6 +121,12 @@ export const remindSupplier = createAsyncThunk(
       }
       const { data, message } = await response;
       toast.success(message);
+
+      socket.emit("remindSupplierToProceedOrder", {
+        supplierId: supplier_id,
+        message: `Please Proceed with the order ${id}`,
+        link: process.env.REACT_APP_PUBLIC_URL,
+      });
 
       return data;
       // return rejectWithValue(response?.data?.err);
