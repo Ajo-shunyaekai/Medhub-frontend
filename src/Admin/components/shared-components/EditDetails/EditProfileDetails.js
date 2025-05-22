@@ -1681,14 +1681,15 @@ const EditProfileDetails = () => {
           </div>
 
           <div className={styles?.buttonContainer}>
-            <button type="button" className={styles?.buttonCancel}
-            onClick={handleCancel}
-            >
-              Cancel
-            </button>
+           
             <button type="submit" className={styles?.buttonSubmit}>
               Submit
             </button>
+             <button type="button" className={styles?.buttonCancel}
+            onClick={handleCancel}
+            >
+              Cancel
+            </button>   
           </div>
         </form>
       </FormikProvider>

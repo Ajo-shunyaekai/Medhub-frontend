@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Select, { components } from "react-select";
+import "../../../assets/style/react-input-phone.css"
 import "react-date-picker/dist/DatePicker.css";
 import "react-calendar/dist/Calendar.css";
 import "react-tooltip/dist/react-tooltip.css";

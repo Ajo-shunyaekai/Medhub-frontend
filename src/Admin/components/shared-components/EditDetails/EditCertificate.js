@@ -168,7 +168,9 @@ const EditCertificate = ({
 
   return (
     <div className={styles.compliancesContainer}>
-      {showLabel && <label className={styles.formLabel}>{label}</label>}
+      {showLabel && <label className={styles.formLabel}>{label}
+         <span className={styles.labelStamp}>*</span>
+        </label>}
       <div className={styles.tooltipContainer}>
         <div {...fileUpload?.getRootProps({ className: styles.uploadBox })}>
           <input {...fileUpload?.getInputProps()} />

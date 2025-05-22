@@ -1,6 +1,6 @@
 .container {
     width: 100%;
-    max-width: 98%;
+    max-width: 94%;
     height: 100vh;
     margin: auto;
     display: flex;
@@ -14,14 +14,26 @@
 .container::-webkit-scrollbar {
     display: none;
 }
+.contain{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.headingSecContainer{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
 
 .heading {
     font-size: 20px;
       font-weight: 500;
     padding-top: 5px;
+    color: #212121;
 }
 
 .innerHead {
+    color: #212121;
     font-size: 18px;
       font-weight: 500;
     margin-bottom: 8px;
@@ -70,7 +82,10 @@
     display: flex;
     justify-content: space-between;
     align-items: start;
-   
+    /* background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+    padding: 26px 30px; */
 }
 
 .medicineName {
@@ -112,13 +127,13 @@
     font-size: 14px;
     font-weight: 500;
     width: 250px;
+    color: #212121;
 }
 
 .medicineHead2 {
     font-size: 14px;
     font-weight: 500;
-    width: 250px;
-    margin-top: -20px;
+    color: #212121;   
 }
 
 .medicineHeadings{
@@ -199,6 +214,7 @@
 }
 
 .inventoryHead {
+    color: #212121;
     font-size: 14px;
     font-weight: 500;
 }
@@ -251,8 +267,8 @@
 }
 
 .imageContainer {
-    width: 24%;
-    height: 240px;
+    width: 16%;
+    height: 150px;
     overflow: hidden;
 }
 
@@ -282,7 +298,7 @@
 
 .additionalInnerSection {
     display: flex;
-    width: 100%;
+    width: 50%;
     gap: 10px;
 }
 
@@ -393,7 +409,9 @@
     width: 150px;
     height: auto;
 }
+.mainPurchaseSection{
 
+}
 .PurcahseButton{
     align-items: center;
    background-color: #282f86;

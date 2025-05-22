@@ -163,6 +163,7 @@ const ProductDetails = () => {
         {/* End Secondar Market section */}
         {/* Start general information section */}
         <div className={styles.mainContainer}>
+          <div className={styles.contain}>
           <span className={styles.innerHead}>General Information</span>{" "}
           {productDetail?.updatedAt && (
             <span className={styles.medicineHead2}>
@@ -172,6 +173,7 @@ const ProductDetails = () => {
               )})
             </span>
           )}
+          </div>
           <div className={styles.innerSection}>
             <div className={styles.mainSection}>
               {productDetail?.category && (
@@ -457,14 +459,14 @@ const ProductDetails = () => {
             <div className={styles.innerInventorySection}>
               <div className={styles.inventorySection}>
                 <div className={styles.inventoryContainer}>
-                  <span className={styles.inventoryHead}>Quantity</span>
+                  <span className={styles.inventoryHead}>Quantity*</span>
                 </div>
                 <div className={styles.inventoryContainer}>
-                  <span className={styles.inventoryHead}>Cost Per Product</span>
+                  <span className={styles.inventoryHead}>Cost Per Product*</span>
                 </div>
                 <div className={styles.inventoryContainer}>
                   <span className={styles.inventoryHead}>
-                    Est. Delivery Time
+                    Est. Delivery Time*
                   </span>
                 </div>
               </div>

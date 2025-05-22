@@ -33,7 +33,7 @@
 .buyer-details-left-link-container{
     color: #282f86;
     font-size: 13px;
-    font-weight: 550;
+    font-weight: 500;
     cursor: pointer !important;
 }
 .buyer-details-edit-button {
@@ -54,7 +54,7 @@
     line-height: 0px;
     outline: none !important;
     color: #616161 !important;
-    font-weight: 550;
+     font-weight: 500;
     border: 1px solid #616161;
     width: 100%;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
@@ -66,14 +66,6 @@
     cursor: pointer !important;
     margin-left: 10px;
 }
-
-.pdf-url {
-    cursor: pointer !important;
-    text-decoration: none !important;
-    font-size: 12px !important;
-    color: #212121 !important;
-}
-
 .buyer-details-button-text {
     background-color: #31c971;
     border-radius: 4px;
@@ -118,6 +110,7 @@
 }
 
 .buyer-details-container-heading {
+    color: #212121;
     font-size: 20px;
     font-weight: 500;
 }
@@ -212,14 +205,14 @@
 
 .buyer-details-company-type-sec-head {
     font-size: 14px;
-    font-weight: 550;
+     font-weight: 500;
 color: #212121;
 }
 
 .buyer-details-company-type-sec-text {
     font-size: 14px;
     color: #616161;
-    font-weight: 550;
+     font-weight: 500;
 }
 
 .buyer-details-company-type-section {
@@ -283,6 +276,7 @@ color: #212121;
 }
 
 .buyer-details-description-head {
+    color: #212121;
     font-size: 14px;
     font-weight: 500;
 }
@@ -290,12 +284,12 @@ color: #212121;
 .buyer-details-description-content {
     font-size: 13px;
     color: #616161;
+    font-weight: 500;
 }
 
 .buyer-details-left-uppar-head {
     font-size: 20px;
     font-weight: 500;
-    line-height: 20px;
     color: #212121;
 }
 
@@ -420,6 +414,10 @@ color: #212121;
 
 .pdf-url,
 .docx-url {
+    cursor: pointer !important;
+    text-decoration: none !important;
+    color: #616161 !important;
+    font-weight: 500 !important;
     font-size: 12px !important;
     white-space: normal !important;
     word-wrap: break-word !important;
@@ -429,6 +427,7 @@ color: #212121;
 
 .expiry-date {
     font-size: 12px;
+    color: #616161;
     font-weight: 500;
 }
 
@@ -443,6 +442,7 @@ color: #212121;
 
 .buyer-details-company-logo-heading {
     font-size: 14px;
+    color: #212121;
     font-weight: 500;
 }
 
@@ -471,7 +471,7 @@ color: #212121;
 .buyer-details-inner-text {
     font-size: 13px;
     color: #616161;
-    font-weight: 550;
+     font-weight: 500;
     text-align: end;
     display: -webkit-box;
     -webkit-line-clamp: 3;

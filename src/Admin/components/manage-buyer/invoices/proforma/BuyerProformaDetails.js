@@ -102,7 +102,7 @@ function BuyerProformaDetails() {
             </div>
             <table style={{ fontSize: "12px" }}>
               <thead>
-                <tr style={{ borderBottom: "1px dotted #99a0ac" }}>
+                <tr style={{ borderBottom: "1px solid #616161" }}>
                   <td style={{ display: "flex", justifyContent: "end" }}>
                     <p style={{ fontSize: "16px", fontWeight: "500" }}>
                       Invoice Number :{" "}
@@ -148,7 +148,7 @@ function BuyerProformaDetails() {
                       }}
                     >
                       <tbody>
-                        <tr style={{ borderBottom: "1px dotted #99a0ac" }}>
+                        <tr style={{ borderBottom: "1px solid #616161" }}>
                           <td
                             style={{
                               verticalAlign: "top",
@@ -178,8 +178,8 @@ function BuyerProformaDetails() {
                             <p
                               style={{
                                 fontSize: "13px",
-                                lineHeight: "18px",
-                                fontWeight:"550",
+                                
+                                fontWeight:"500",
                                   color: "#616161",
                               }}
                             >
@@ -195,8 +195,8 @@ function BuyerProformaDetails() {
                               <p
                                 style={{
                                   fontSize: "13px",
-                                lineHeight: "18px",
-                                fontWeight:"550",
+                                
+                                fontWeight:"500",
                                     color: "#616161",
                                      
                                 }}
@@ -214,8 +214,8 @@ function BuyerProformaDetails() {
                               <p
                                 style={{
                                   fontSize: "13px",
-                                 lineHeight: "18px",
-                                fontWeight:"550",
+                                 
+                                fontWeight:"500",
                                     color: "#616161",
                                      
                                 }}
@@ -254,8 +254,8 @@ function BuyerProformaDetails() {
                             <p
                               style={{
                                 fontSize: "13px",
-                               lineHeight: "18px",
-                                fontWeight:"550",
+                               
+                                fontWeight:"500",
                                   color: "#616161",
                                
                                 textAlign: "end",
@@ -271,8 +271,8 @@ function BuyerProformaDetails() {
                               <p
                                 style={{
                                   fontSize: "13px",
-                                  lineHeight: "18px",
-                                fontWeight:"550",
+                                  
+                                fontWeight:"500",
                                     color: "#616161",
                                      
                                 }}
@@ -287,8 +287,8 @@ function BuyerProformaDetails() {
                               <p
                                 style={{
                                   fontSize: "13px",
-                                  lineHeight: "18px",
-                                fontWeight:"550",
+                                  
+                                fontWeight:"500",
                                     color: "#616161",
                                      
                                 }}
@@ -308,7 +308,7 @@ function BuyerProformaDetails() {
                                       padding: "8px 0",
                                       fontWeight: 500,
                                       borderBottom:
-                                        "1px dotted rgb(153, 160, 172)",
+                                        "1px solid #616161",
                                       width: "40px",
                                     }}
                                   >
@@ -319,8 +319,8 @@ function BuyerProformaDetails() {
                                       padding: "8px 0",
                                       fontWeight: 500,
                                       borderBottom:
-                                        "1px dotted rgb(153, 160, 172)",
-                                      width: "150px",
+                                        "1px solid #616161",
+                                      width: "180px",
                                     }}
                                   >
                                     Name
@@ -330,7 +330,7 @@ function BuyerProformaDetails() {
                                       padding: "8px 0",
                                       fontWeight: 500,
                                       borderBottom:
-                                        "1px dotted rgb(153, 160, 172)",
+                                        "1px solid #616161",
                                       width: "40px",
                                     }}
                                   >
@@ -341,7 +341,7 @@ function BuyerProformaDetails() {
                                       padding: "8px 0",
                                       fontWeight: 500,
                                       borderBottom:
-                                        "1px dotted rgb(153, 160, 172)",
+                                        "1px solid #616161",
                                       textAlign: "end",
                                       width: "100px",
                                     }}
@@ -353,7 +353,7 @@ function BuyerProformaDetails() {
                                       padding: "8px 0",
                                       fontWeight: 500,
                                       borderBottom:
-                                        "1px dotted rgb(153, 160, 172)",
+                                        "1px solid #616161",
                                       textAlign: "end",
                                       width: "100px",
                                     }}
@@ -365,7 +365,7 @@ function BuyerProformaDetails() {
                                       padding: "8px 0",
                                       fontWeight: 500,
                                       borderBottom:
-                                        "1px dotted rgb(153, 160, 172)",
+                                        "1px solid #616161",
                                       textAlign: "end",
                                       width: "120px",
                                     }}
@@ -382,6 +382,7 @@ function BuyerProformaDetails() {
                                         paddingBlock: "12px",
                                         display: "flex",
                                         alignItems: "baseline",
+                                        verticalAlign:"baseline"
                                       }}
                                     >
                                       <p
@@ -393,18 +394,19 @@ function BuyerProformaDetails() {
                                         {index + 1}.
                                       </p>
                                     </td>
-                                    <td style={{ paddingBlock: "12px" }}>
+                                    <td style={{ paddingBlock: "12px",verticalAlign:"baseline" }}>
                                       <p
                                         style={{
                                           fontWeight: 500,
                                           fontSize: "14px",
+                                          lineHeight:"20px"
                                         }}
                                       >
                                         {item.medicine_name} (
                                         {item?.strength || "150mg"})
                                       </p>
                                     </td>
-                                    <td style={{ paddingBlock: "12px" }}>
+                                    <td style={{ paddingBlock: "12px",verticalAlign:"baseline" }}>
                                       <p
                                         style={{
                                           fontWeight: 500,
@@ -418,6 +420,7 @@ function BuyerProformaDetails() {
                                       style={{
                                         paddingBlock: "12px",
                                         textAlign: "end",
+                                        verticalAlign:"baseline"
                                       }}
                                     >
                                       <p
@@ -435,6 +438,7 @@ function BuyerProformaDetails() {
                                       style={{
                                         paddingBlock: "12px",
                                         textAlign: "end",
+                                        verticalAlign:"baseline"
                                       }}
                                     >
                                       <p
@@ -450,6 +454,7 @@ function BuyerProformaDetails() {
                                       style={{
                                         paddingBlock: "12px",
                                         textAlign: "end",
+                                        verticalAlign:"baseline"
                                       }}
                                     >
                                       <p
@@ -468,8 +473,8 @@ function BuyerProformaDetails() {
                             <table>
                               <tbody
                                 style={{
-                                  borderTop: "1px dotted rgb(153, 160, 172)",
-                                  borderBottom: "1px dotted rgb(153, 160, 172)",
+                                  borderTop: "1px solid #616161",
+                                  borderBottom: "1px solid #616161",
                                 }}
                               >
                                 <tr>
@@ -521,7 +526,7 @@ function BuyerProformaDetails() {
                                 <tbody
                                   style={{
                                     borderBottom:
-                                      "1px dotted rgb(153, 160, 172)",
+                                      "1px solid #616161",
                                   }}
                                 >
                                   <tr>
@@ -595,7 +600,7 @@ function BuyerProformaDetails() {
                                         </p>
                                       </tr>
                                     </td>
-                                    <td style={{ width: "550px" }}>
+                                    <td style={{ width: "500px" }}>
                                       <table
                                         style={{
                                           width: "100%",
@@ -682,7 +687,7 @@ function BuyerProformaDetails() {
                 <tbody
                   style={{
                     width: "100%",
-                    borderBottom: "1px dotted rgb(153, 160, 172)",
+                    borderBottom: "1px solid #616161",
                   }}
                 >
                   <tr>
@@ -706,7 +711,7 @@ function BuyerProformaDetails() {
                       <div
                         style={{
                           fontSize: "13px",
-                          fontWeight:"550",
+                          fontWeight:"500",
                           lineHeight: "20px",
                           marginTop: "4px",
                             color: "#616161",

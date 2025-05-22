@@ -15,6 +15,7 @@
     display: none;
   }
   .inquiry-details-conatiner-heading {
+    color: #212121;
     font-size: 20px;
       font-weight: 500;
   }
@@ -26,7 +27,7 @@
   .table-g-not-names {
     font-size: 13px;
     font-weight: 500;
-    color: #212121;
+    color: #616161;
   }
   .inquiry-details-left-section {
     display: flex;
@@ -186,7 +187,7 @@
   display: flex;
   margin-bottom: 0px !important;
   color: #616161 !important;
-  font-weight: 550;
+    font-weight: 500;
   font-size: 13px;
   line-height: 15px;
    cursor: pointer !important;;
@@ -208,7 +209,7 @@
     border-radius: 4px;
   }
   .table-assign-driver-heading {
-    color: #192039;
+    color: #212121;
     font-size: 18px;
       font-weight: 500;
     padding: 0px 10px;
@@ -377,15 +378,14 @@
     row-gap: 6px;
   }
   .inquiry-details-left-top-main-heading {
-    color: #616161;
-    font-size: 12px;
-    font-weight: 550;
+    color: #212121;
+    font-size: 13px;
+      font-weight: 500;
   }
   .inquiry-details-left-top-main-contents {
-    color: #212121 !important;
+    color: #616161 !important;
     font-weight: 500;
-    font-size: 13px;
-    line-height: 15px;
+    font-size: 14px;
      cursor: pointer !important;;
   }
   .inquiry-details-left-bottom-vehicle-head {
@@ -424,13 +424,13 @@
     font-size: 13px;
   }
   .table-g-driver-name {
-    color: #616161;
-    font-weight: 550;
+    color: #212121;
+      font-weight: 500;
     font-size: 13px;
 
   }
   .table-g-not-name {
-    color: #212121;
+    color: #616161;
     font-size: 13px;
     font-weight: 500;
   }

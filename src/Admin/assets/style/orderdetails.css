@@ -58,7 +58,7 @@ background-color: #282f86;
 .table-g-not-names {
   font-size: 13px;
   font-weight: 500;
-  color: #212121;
+  color: #616161;
 }
 .active-order-details-left-section {
   display: flex;
@@ -201,13 +201,13 @@ background-color: #282f86;
   border-radius: 4px;
 }
 .table-assign-driver-heading {
-  color: #192039;
+  color: #212121;
   font-size: 18px;
   font-weight: 500;
   padding: 0px 10px;
 }
 .table > :not(caption) > * > * {
-  padding: 10px 10px !important;
+  padding: 10px 10px !important;  
   border-bottom-width: 0px !important;
 }
 .tables-status {
@@ -394,10 +394,11 @@ background-color: #282f86;
 }
 .table-g-driver-name {
   color: #212121;
-  font-size: 13px;
+  font-weight: 500;
+  font-size: 14px;
 }
 .table-g-not-name {
-  color: #212121;
+  color: #616161;
   font-size: 13px;
   font-weight: 500;
 }

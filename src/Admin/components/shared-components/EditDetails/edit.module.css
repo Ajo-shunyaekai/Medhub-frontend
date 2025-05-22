@@ -37,6 +37,7 @@
   }
   
   .heading {
+    color: #212121;
     font-size: 20px;
       font-weight: 500;
   }
@@ -102,6 +103,7 @@
   }
   
   .formHead {
+    color: #212121;
     font-size: 18px;
       font-weight: 500;
   }
@@ -197,6 +199,7 @@
   }
   
   .formLabel {
+    color: #212121;
     font-size: 14px;
     font-weight: 500;
     word-break: break-word;
@@ -204,6 +207,8 @@
   }
   
   .formInput {
+    color: #616161 !important;
+    font-weight: 500;
     background-color: #fff !important;
     border: none !important;
     border-radius: 4px !important;
@@ -650,7 +655,7 @@
   }
   .labelStamp{
     font-size: 16px;
-    color: #ff0000;
+    color: #212121;
   }
   /* End bulk upload section */
   

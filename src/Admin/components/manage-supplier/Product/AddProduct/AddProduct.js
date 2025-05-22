@@ -12,7 +12,7 @@ import "./addproduct.css";
 import styles from "./addproduct.module.css";
 import categoryArrays from "../../../../../utils/Category";
 import { Field, Form, Formik } from "formik";
-// import AddProductFileUpload from "./AddPRoductFileUpload";
+import '../../../../assets/style/react-input-phone.css'
 import { useDispatch } from "react-redux";
 import Tooltip from "./Tooltip";
 import {
@@ -6199,15 +6199,16 @@ const AddProduct = ({ placeholder }) => {
 
             {/* Start button section */}
             <div className={styles.buttonContainer}>
-              <button className={styles.buttonCancel} onClick={handleCancel}>
-                Cancel
-              </button>
+             
               <button
                 className={styles.buttonSubmit}
                 type="submit"
                 disabled={loading}
               >
                 {loading ? <div className="loading-spinner"></div> : "Submit"}
+              </button>
+               <button className={styles.buttonCancel} onClick={handleCancel}>
+                Cancel
               </button>
             </div>
 
