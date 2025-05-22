@@ -325,7 +325,7 @@ font-size: 22px;
   display: none;
 }
 .labelStamp {
-  color: crimson;
+  color: #212121;
 }
 .editForm {
   display: flex;

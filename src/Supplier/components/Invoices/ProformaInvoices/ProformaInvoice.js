@@ -559,7 +559,7 @@ const ProformaInvoice = ({ socket }) => {
           <div className={styles["create-invoice-form-heading"]}>Supplier</div>
           <div className={styles["create-invoice-inner-form-container"]}>
             <div className={styles["create-invoice-div-container"]}>
-              <label className={styles["create-invoice-div-label"]}>Name</label>
+              <label className={styles["create-invoice-div-label"]}>Name*</label>
               <input
                 className={styles["create-invoice-div-input"]}
                 type="text"
@@ -577,7 +577,7 @@ const ProformaInvoice = ({ socket }) => {
 
             <div className={styles["create-invoice-div-container"]}>
               <label className={styles["create-invoice-div-label"]}>
-                Invoice Number
+                Invoice Number*
               </label>
               <input
                 className={styles["create-invoice-div-input"]}
@@ -590,7 +590,7 @@ const ProformaInvoice = ({ socket }) => {
             </div>
             <div className={styles["create-invoice-div-container"]}>
               <label className={styles["create-invoice-div-label"]}>
-                Invoice Generate Date
+                Invoice Generate Date*
               </label>
               <input
                 className={styles["create-invoice-div-input"]}
@@ -603,7 +603,7 @@ const ProformaInvoice = ({ socket }) => {
             </div>
             <div className={styles["create-invoice-div-container"]}>
               <label className={styles["create-invoice-div-label"]}>
-                Payment Due Date
+                Payment Due Date*
               </label>
               <DatePicker
                 className={styles["create-invoice-div-input"]}
@@ -622,7 +622,7 @@ const ProformaInvoice = ({ socket }) => {
             </div>
             <div className={styles["create-invoice-div-container"]}>
               <label className={styles["create-invoice-div-label"]}>
-                Deposit Due Date
+                Deposit Due Date*
               </label>
 
               <DatePicker
@@ -642,7 +642,7 @@ const ProformaInvoice = ({ socket }) => {
             </div>
             <div className={styles["create-invoice-div-container"]}>
               <label className={styles["create-invoice-div-label"]}>
-                Deposit Requested Amount
+                Deposit Requested Amount*
               </label>
               <input
                 className={styles["create-invoice-div-input"]}
@@ -662,7 +662,7 @@ const ProformaInvoice = ({ socket }) => {
             </div>
             <div className={styles["create-invoice-div-container"]}>
               <label className={styles["create-invoice-div-label"]}>
-                Total Due Amount
+                Total Due Amount*
               </label>
 
               <input
@@ -683,7 +683,7 @@ const ProformaInvoice = ({ socket }) => {
             </div>
             <div className={styles["create-invoice-div-container"]}>
               <label className={styles["create-invoice-div-label"]}>
-                Email ID
+                Email ID*
               </label>
               <input
                 className={styles["create-invoice-div-input"]}
@@ -703,7 +703,7 @@ const ProformaInvoice = ({ socket }) => {
 
             <div className={styles["create-invoice-div-container"]}>
               <label className={styles["create-invoice-div-label"]}>
-                Mobile No.
+                Mobile No.*
               </label>
               <PhoneInput
                 className="signup-form-section-phone-input"
@@ -722,7 +722,7 @@ const ProformaInvoice = ({ socket }) => {
             </div>
             <div className={styles["create-invoice-div-container"]}>
               <label className={styles["create-invoice-div-label"]}>
-                Address
+                Address*
               </label>
               <input
                 className={styles["create-invoice-div-input"]}
@@ -743,7 +743,7 @@ const ProformaInvoice = ({ socket }) => {
               <>
                 <div className={styles["create-invoice-div-container"]}>
                   <label className={styles["create-invoice-div-label"]}>
-                    Area/Locality/Road Name
+                    Area/Locality/Road Name*
                   </label>
                   <input
                     className={styles["create-invoice-div-input"]}
@@ -777,7 +777,7 @@ const ProformaInvoice = ({ socket }) => {
                 </div>
                 <div className={styles["create-invoice-div-container"]}>
                   <label className={styles["create-invoice-div-label"]}>
-                    Country
+                    Country*
                   </label>
                   <Select
                     options={Country.getAllCountries()}
@@ -866,7 +866,7 @@ const ProformaInvoice = ({ socket }) => {
           <div className={styles["create-invoice-form-heading"]}>Buyer</div>
           <div className={styles["create-invoice-inner-form-container"]}>
             <div className={styles["create-invoice-div-container"]}>
-              <label className={styles["create-invoice-div-label"]}>Name</label>
+              <label className={styles["create-invoice-div-label"]}>Name*</label>
               <input
                 className={styles["create-invoice-div-input"]}
                 type="text"
@@ -884,7 +884,7 @@ const ProformaInvoice = ({ socket }) => {
             </div>
             <div className={styles["create-invoice-div-container"]}>
               <label className={styles["create-invoice-div-label"]}>
-                Email ID
+                Email ID*
               </label>
               <input
                 className={styles["create-invoice-div-input"]}
@@ -903,7 +903,7 @@ const ProformaInvoice = ({ socket }) => {
             </div>
             <div className={styles["create-invoice-div-container"]}>
               <label className={styles["create-invoice-div-label"]}>
-                Mobile No.
+                Mobile No.*
               </label>
               <PhoneInput
                 className="signup-form-section-phone-input"
@@ -922,7 +922,7 @@ const ProformaInvoice = ({ socket }) => {
             </div>
             <div className={styles["create-invoice-div-container"]}>
               <label className={styles["create-invoice-div-label"]}>
-                Address
+                Address*
               </label>
               <input
                 className={styles["create-invoice-div-input"]}
@@ -943,7 +943,7 @@ const ProformaInvoice = ({ socket }) => {
               <>
                 <div className={styles["create-invoice-div-container"]}>
                   <label className={styles["create-invoice-div-label"]}>
-                    Area/Locality/Road Name
+                    Area/Locality/Road Name*
                   </label>
                   <input
                     className={styles["create-invoice-div-input"]}
@@ -977,7 +977,7 @@ const ProformaInvoice = ({ socket }) => {
                 </div>
                 <div className={styles["create-invoice-div-container"]}>
                   <label className={styles["create-invoice-div-label"]}>
-                    Country
+                    Country*
                   </label>
                   <Select
                     options={Country.getAllCountries()}
@@ -1072,7 +1072,7 @@ const ProformaInvoice = ({ socket }) => {
               <div className={styles["form-item-container"]} key={item.id}>
                 <div className={styles["create-invoice-div-container"]}>
                   <label className={styles["create-invoice-div-label"]}>
-                    Product Name
+                    Product Name*
                   </label>
                   <input
                     className={styles["create-invoice-div-input"]}
@@ -1088,7 +1088,7 @@ const ProformaInvoice = ({ socket }) => {
                 </div>
                 <div className={styles["create-invoice-div-container"]}>
                   <label className={styles["create-invoice-div-label"]}>
-                    Quantity
+                    Quantity*
                   </label>
                   <input
                     className={styles["create-invoice-div-input"]}
@@ -1101,7 +1101,7 @@ const ProformaInvoice = ({ socket }) => {
                 </div>
                 <div className={styles["create-invoice-div-container"]}>
                   <label className={styles["create-invoice-div-label"]}>
-                    Price
+                    Price*
                   </label>
                   <input
                     className={styles["create-invoice-div-input"]}
@@ -1114,7 +1114,7 @@ const ProformaInvoice = ({ socket }) => {
                 </div>
                 <div className={styles["create-invoice-div-container"]}>
                   <label className={styles["create-invoice-div-label"]}>
-                    Tax%
+                    Tax%*
                   </label>
                   <input
                     className={styles["create-invoice-div-input"]}
@@ -1127,7 +1127,7 @@ const ProformaInvoice = ({ socket }) => {
                 </div>
                 <div className={styles["create-invoice-div-container"]}>
                   <label className={styles["create-invoice-div-label"]}>
-                    Total Amount
+                    Total Amount*
                   </label>
                   <input
                     className={styles["create-invoice-div-input"]}
@@ -1147,7 +1147,7 @@ const ProformaInvoice = ({ socket }) => {
             <div className={styles["craete-invoice-form"]}>
               <div className={styles["create-invoice-div-textarea"]}>
                 <label className={styles["create-invoice-div-label"]}>
-                  Payment Terms
+                  Payment Terms*
                 </label>
                 <textarea
                   className={styles["create-invoice-div-input"]}
@@ -1163,7 +1163,7 @@ const ProformaInvoice = ({ socket }) => {
             <div className={styles["craete-invoice-form"]}>
               <div className={styles["create-invoice-div-textarea"]}>
                 <label className={styles["create-invoice-div-label"]}>
-                  Bank Details
+                  Bank Details*
                 </label>
                 <textarea
                   className={styles["create-invoice-div-input"]}

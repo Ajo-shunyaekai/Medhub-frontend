@@ -196,7 +196,7 @@ const PurchasedOrderDetails = () => {
                               fontSize: "13px",
                               color:"#616161",
                               fontWeight:"500",
-                              lineHeight: "18px",
+                                
                                
                             }}
                           >
@@ -210,7 +210,7 @@ const PurchasedOrderDetails = () => {
                               style={{
                                 fontSize: "13px",
                                 fontWeight:"500",
-                                lineHeight: "18px",
+                                  
                                  
                                 paddingTop: "6px",
                               }}
@@ -222,7 +222,7 @@ const PurchasedOrderDetails = () => {
                                 fontSize: "13px",
                                 color:"#616161",
                                 fontWeight:"500",
-                                lineHeight: "18px",
+                                  
                                
                               }}
                             >
@@ -237,7 +237,7 @@ const PurchasedOrderDetails = () => {
                               style={{
                                 fontSize: "13px",
                                 fontWeight:"500",
-                                lineHeight: "18px",
+                                  
                                  
                                 paddingTop: "6px",
                               }}
@@ -249,7 +249,7 @@ const PurchasedOrderDetails = () => {
                                 fontSize: "13px",
                                 color:"#616161",
                                 fontWeight:"500",
-                                lineHeight: "18px",
+                                  
                              
                               }}
                             >
@@ -264,7 +264,7 @@ const PurchasedOrderDetails = () => {
                                 fontSize: "13px",
                                 fontWeight:"500",
                                 color:"#616161",
-                                lineHeight: "18px",
+                                  
                                
                               }}
                             >
@@ -275,7 +275,7 @@ const PurchasedOrderDetails = () => {
                                 fontSize: "13px",
                                 color:"#616161",
                                 fontWeight:"500",
-                                lineHeight: "18px",
+                                  
                                 
                               }}
                             >
@@ -315,7 +315,7 @@ const PurchasedOrderDetails = () => {
                               fontSize: "13px",
                                 fontWeight:"500",
                                 color:"#616161",
-                                lineHeight: "18px",
+                                  
                                
                               textAlign: "end",
                             }}
@@ -331,7 +331,7 @@ const PurchasedOrderDetails = () => {
                               style={{
                                 fontSize: "13px",
                                 fontWeight:"500",
-                                lineHeight: "18px",
+                                  
                                  color:"#616161",
                               
                               }}
@@ -348,7 +348,7 @@ const PurchasedOrderDetails = () => {
                               style={{
                                 fontSize: "13px",
                                 fontWeight:"500",
-                                lineHeight: "18px",
+                                  
                                  color:"#616161",
                                
                               }}
@@ -363,7 +363,7 @@ const PurchasedOrderDetails = () => {
                               style={{
                                 fontSize: "13px",
                                 fontWeight:"500",
-                                lineHeight: "18px",
+                                  
                                color:"#616161",
                               }}
                             >
@@ -373,7 +373,7 @@ const PurchasedOrderDetails = () => {
                               style={{
                                 fontSize: "13px",
                                 fontWeight:"500",
-                                lineHeight: "18px",
+                                  
                                color:"#616161",
                               }}
                             >
@@ -484,7 +484,7 @@ const PurchasedOrderDetails = () => {
                                       style={{
                                         fontWeight: 500,
                                         fontSize: "14px",
-                                        lineHeight:"18px",
+                                      
                                       }}
                                     >
                                       {item.medicine_name}

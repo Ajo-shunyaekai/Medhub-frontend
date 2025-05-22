@@ -247,7 +247,7 @@ function ProformaDetailsPage() {
                                   fontSize: "13px",
                                   color: "#616161",
                                   fontWeight: "500",
-                                  lineHeight: "18px",
+                                     
                                 }}
                               >
                                 {orderDetails.supplier_address}
@@ -265,7 +265,7 @@ function ProformaDetailsPage() {
                                     fontSize: "13px",
                                     color: "#616161",
                                     fontWeight: "500",
-                                    lineHeight: "18px",
+                                       
                                   }}
                                 >
                                   {orderDetails.supplier_mobile}
@@ -284,7 +284,7 @@ function ProformaDetailsPage() {
                                     fontSize: "13px",
                                     color: "#616161",
                                     fontWeight: "500",
-                                    lineHeight: "18px",
+                                       
                                   }}
                                 >
                                   {orderDetails.supplier_email}
@@ -327,7 +327,7 @@ function ProformaDetailsPage() {
                                   fontSize: "13px",
                                   color: "#616161",
                                   fontWeight: "500",
-                                  lineHeight: "18px",
+                                     
                                   textAlign: "end",
                                 }}
                               >
@@ -343,7 +343,7 @@ function ProformaDetailsPage() {
                                     fontSize: "13px",
                                     color: "#616161",
                                     fontWeight: "500",
-                                    lineHeight: "18px",
+                                       
                                   }}
                                 >
                                   {orderDetails.buyer_mobile}
@@ -359,7 +359,7 @@ function ProformaDetailsPage() {
                                     fontSize: "13px",
                                     color: "#616161",
                                     fontWeight: "500",
-                                    lineHeight: "18px",
+                                       
                                   }}
                                 >
                                   {orderDetails.buyer_email}
