@@ -162,7 +162,7 @@ const SupplierLogin = ({socket}) => {
                 <div className={styles.loginContainerFormSectionHeading}>Supplier Login</div>
                 <form className={styles.loginMainFormSection} onSubmit={handleSubmit}>
                     <div className={styles.loginFormMainDiv}>
-                        <label className={styles.loginFormMainLabel}>Email ID</label>
+                        <label className={styles.loginFormMainLabel}>Email ID*</label>
                         <input
                             className={styles.loginFormMainInput}
                             autoComplete='off'
@@ -175,7 +175,7 @@ const SupplierLogin = ({socket}) => {
                         {errors.email && <span className={styles.loginErrors}>{errors.email}</span>}
                     </div>
                     <div className={styles.loginFormMainDiv}>
-                        <label className={styles.loginFormMainLabel}>Password</label>
+                        <label className={styles.loginFormMainLabel}>Password*</label>
                         <div className={styles.loginFormInputEyeContainer}>
                             <input
                                 className={styles.loginFormMainInput}

@@ -390,7 +390,7 @@ const CreateInvoice = ({ socket }) => {
             <div className={styles["create-invoice-inner-form-container"]}>
               <div className={styles["create-invoice-div-container"]}>
                 <label className={styles["create-invoice-div-label"]}>
-                  Name
+                  Name*
                 </label>
                 <input
                   className={styles["create-invoice-div-input"]}
@@ -407,7 +407,7 @@ const CreateInvoice = ({ socket }) => {
 
               <div className={styles["create-invoice-div-container"]}>
                 <label className={styles["create-invoice-div-label"]}>
-                  Invoice Number
+                  Invoice Number*
                 </label>
                 <input
                   className={styles["create-invoice-div-input"]}
@@ -420,7 +420,7 @@ const CreateInvoice = ({ socket }) => {
               </div>
               <div className={styles["create-invoice-div-container"]}>
                 <label className={styles["create-invoice-div-label"]}>
-                  Invoice Generate Date
+                  Invoice Generate Date*
                 </label>
                 <input
                   className={styles["create-invoice-div-input"]}
@@ -434,7 +434,7 @@ const CreateInvoice = ({ socket }) => {
 
               <div className={styles["create-invoice-div-container"]}>
                 <label className={styles["create-invoice-div-label"]}>
-                  Email ID
+                  Email ID*
                 </label>
                 <input
                   className={styles["create-invoice-div-input"]}
@@ -451,7 +451,7 @@ const CreateInvoice = ({ socket }) => {
 
               <div className={styles["create-invoice-div-container"]}>
                 <label className={styles["create-invoice-div-label"]}>
-                  Mobile No.
+                  Mobile No.*
                 </label>
                 <PhoneInput
                   className="signup-form-section-phone-input"
@@ -469,7 +469,7 @@ const CreateInvoice = ({ socket }) => {
               </div>
               <div className={styles["create-invoice-div-container"]}>
                 <label className={styles["create-invoice-div-label"]}>
-                  Address
+                  Address*
                 </label>
                 <input
                   className={styles["create-invoice-div-input"]}
@@ -486,7 +486,7 @@ const CreateInvoice = ({ socket }) => {
 
               <div className={styles["create-invoice-div-container"]}>
                 <label className={styles["create-invoice-div-label"]}>
-                  Country
+                  Country*
                 </label>
                 <Select
                   className={styles["create-invoice-div-input-select"]}
@@ -503,13 +503,13 @@ const CreateInvoice = ({ socket }) => {
 
               <div className={styles["create-invoice-div-container"]}>
                 <label className={styles["create-invoice-div-label"]}>
-                  VAT Reg No.
+                  GST/VAT Reg No.*
                 </label>
                 <input
                   className={styles["create-invoice-div-input"]}
                   type="text"
                   name="supplierVatRegNo"
-                  placeholder="Enter VAT Reg No"
+                  placeholder="Enter GST/VAT Reg No"
                   value={formData.supplierVatRegNo}
                   onChange={handleChange}
                 />
@@ -524,7 +524,7 @@ const CreateInvoice = ({ socket }) => {
             <div className={styles["create-invoice-inner-form-container"]}>
               <div className={styles["create-invoice-div-container"]}>
                 <label className={styles["create-invoice-div-label"]}>
-                  Name
+                  Name*
                 </label>
                 <input
                   className={styles["create-invoice-div-input"]}
@@ -540,7 +540,7 @@ const CreateInvoice = ({ socket }) => {
               </div>
               <div className={styles["create-invoice-div-container"]}>
                 <label className={styles["create-invoice-div-label"]}>
-                  Email ID
+                  Email ID*
                 </label>
                 <input
                   className={styles["create-invoice-div-input"]}
@@ -556,7 +556,7 @@ const CreateInvoice = ({ socket }) => {
               </div>
               <div className={styles["create-invoice-div-container"]}>
                 <label className={styles["create-invoice-div-label"]}>
-                  Mobile No.
+                  Mobile No.*
                 </label>
                 <PhoneInput
                   className="signup-form-section-phone-input"
@@ -571,7 +571,7 @@ const CreateInvoice = ({ socket }) => {
               </div>
               <div className={styles["create-invoice-div-container"]}>
                 <label className={styles["create-invoice-div-label"]}>
-                  Address
+                  Address*
                 </label>
                 <input
                   className={styles["create-invoice-div-input"]}
@@ -587,7 +587,7 @@ const CreateInvoice = ({ socket }) => {
               </div>
               <div className={styles["create-invoice-div-container"]}>
                 <label className={styles["create-invoice-div-label"]}>
-                  Country
+                  Country*
                 </label>
                 <Select
                   className={styles["create-invoice-div-input-select"]}
@@ -605,13 +605,13 @@ const CreateInvoice = ({ socket }) => {
 
               <div className={styles["create-invoice-div-container"]}>
                 <label className={styles["create-invoice-div-label"]}>
-                  VAT Reg No.
+                  GST/VAT Reg No.*
                 </label>
                 <input
                   className={styles["create-invoice-div-input"]}
                   type="text"
                   name="buyerVatRegNo"
-                  placeholder="Enter VAT Reg No"
+                  placeholder="Enter GST/VAT Reg No"
                   value={formData.buyerVatRegNo}
                   readOnly
                 />
@@ -626,7 +626,7 @@ const CreateInvoice = ({ socket }) => {
               <div className={styles["form-item-container"]} key={item.id}>
                 <div className={styles["create-invoice-div-container"]}>
                   <label className={styles["create-invoice-div-label"]}>
-                    Product Name
+                    Product Name*
                   </label>
                   <input
                     className={styles["create-invoice-div-input"]}
@@ -640,7 +640,7 @@ const CreateInvoice = ({ socket }) => {
 
                 <div className={styles["create-invoice-div-container"]}>
                   <label className={styles["create-invoice-div-label"]}>
-                    Quantity
+                    Quantity*
                   </label>
                   <input
                     className={styles["create-invoice-div-input"]}
@@ -654,7 +654,7 @@ const CreateInvoice = ({ socket }) => {
 
                 <div className={styles["create-invoice-div-container"]}>
                   <label className={styles["create-invoice-div-label"]}>
-                    Price
+                    Price*
                   </label>
                   <input
                     className={styles["create-invoice-div-input"]}
@@ -668,7 +668,7 @@ const CreateInvoice = ({ socket }) => {
 
                 <div className={styles["create-invoice-div-container"]}>
                   <label className={styles["create-invoice-div-label"]}>
-                    Tax%
+                    Tax%*
                   </label>
                   <input
                     className={styles["create-invoice-div-input"]}
@@ -685,7 +685,7 @@ const CreateInvoice = ({ socket }) => {
             ))}
             <div className={styles["create-invoice-div-container"]}>
               <label className={styles["create-invoice-div-label"]}>
-                Total Payable Amount
+                Total Payable Amount*
               </label>
               <input
                 className={styles["create-invoice-div-input"]}
@@ -708,7 +708,7 @@ const CreateInvoice = ({ socket }) => {
             <div className={styles["create-invoice-inner-form-container"]}>
               <div className={styles["create-invoice-div-container"]}>
                 <label className={styles["create-invoice-div-label"]}>
-                  Name of Bank
+                  Name of Bank*
                 </label>
                 <input
                   className={styles["create-invoice-div-input"]}
@@ -726,7 +726,7 @@ const CreateInvoice = ({ socket }) => {
               </div>
               <div className={styles["create-invoice-div-container"]}>
                 <label className={styles["create-invoice-div-label"]}>
-                  Account Number
+                  Account Number*
                 </label>
                 <input
                   className={styles["create-invoice-div-input"]}
@@ -744,7 +744,7 @@ const CreateInvoice = ({ socket }) => {
               </div>
               <div className={styles["create-invoice-div-container"]}>
                 <label className={styles["create-invoice-div-label"]}>
-                  Sort Code
+                  Sort Code*
                 </label>
                 <input
                   className={styles["create-invoice-div-input"]}

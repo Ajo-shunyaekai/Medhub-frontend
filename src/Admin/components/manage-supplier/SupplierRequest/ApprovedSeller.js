@@ -91,16 +91,16 @@ const ApprovedSeller = () => {
             selector: row => row?.supplier_type,
             sortable: true,
         },
-        {
-            name: 'Mobile No.',
-            selector: row => row?.supplier_mobile,
-            sortable: true,
-            cell: row => (
-                <>
-                    {row?.supplier_country_code} {row?.supplier_mobile}
-                </>
-            ),
-        },
+        // {
+        //     name: 'Mobile No.',
+        //     selector: row => row?.supplier_mobile,
+        //     sortable: true,
+        //     cell: row => (
+        //         <>
+        //             {row?.supplier_country_code} {row?.supplier_mobile}
+        //         </>
+        //     ),
+        // },
         {
             name: 'Status',
             selector: row => row?.account_status,

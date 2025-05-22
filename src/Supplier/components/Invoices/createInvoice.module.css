@@ -49,9 +49,11 @@
 }
 .create-invoice-form-heading {
   font-size: 18px;
+  color: #212121;
   font-weight: 500;
 }
 .create-invoice-heading {
+  color: #212121;
   font-size: 20px;
   font-weight: 500;
   width: 100%;
@@ -85,10 +87,13 @@
   row-gap: 6px;
 }
 .create-invoice-div-label {
+  color: #212121;
   font-size: 14px;
   font-weight: 500;
 }
 .create-invoice-div-input {
+  color: #616161;
+  font-weight: 500;
   outline: none !important;
   border: none !important;
   background-color: #ffffff !important;

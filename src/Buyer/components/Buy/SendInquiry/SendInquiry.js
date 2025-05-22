@@ -296,7 +296,7 @@ const SendInquiry = ({ socket }) => {
                               <div className="send-enquiry-inner-bottom-section">
                                 <div className="send-enquiry-inner-bottom-container">
                                   <span className="send-enquiry-inner-bootom-head">
-                                    Quantity Required:
+                                    Quantity Required
                                   </span>
                                   <span className="send-enquiry-inner-bootom-text">
                                     {product?.quantity_required}
@@ -304,7 +304,7 @@ const SendInquiry = ({ socket }) => {
                                 </div>
                                 <div className="send-enquiry-inner-bottom-container">
                                   <span className="send-enquiry-inner-bootom-head">
-                                    Unit Price:
+                                   Cost Per Product
                                   </span>
                                   <span className="send-enquiry-inner-bootom-text">
                                     {product?.unit_price} USD
@@ -312,7 +312,7 @@ const SendInquiry = ({ socket }) => {
                                 </div>
                                 <div className="send-enquiry-inner-bottom-container">
                                   <span className="send-enquiry-inner-bootom-head">
-                                    Target Price:
+                                    Target Price
                                   </span>
                                   <span className="send-enquiry-inner-bootom-text">
                                     {product?.target_price} USD
@@ -320,7 +320,7 @@ const SendInquiry = ({ socket }) => {
                                 </div>
                                 <div className="send-enquiry-inner-bottom-container">
                                   <span className="send-enquiry-inner-bootom-head">
-                                    Est. Delivery Time:
+                                    Est. Delivery Time
                                   </span>
                                   <span className="send-enquiry-inner-bootom-text">
                                     {product?.est_delivery_days

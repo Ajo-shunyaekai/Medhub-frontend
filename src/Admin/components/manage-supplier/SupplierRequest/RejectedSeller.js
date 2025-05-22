@@ -101,11 +101,11 @@ const RejectedSuppliers = () => {
       selector: row => row?.supplier_type,
       sortable: true,
     },
-    {
-      name: "Mobile No.",
-      selector: (row) => `${row?.supplier_country_code} ${row?.supplier_mobile}`,
-      sortable: true,
-    },
+    // {
+    //   name: "Mobile No.",
+    //   selector: (row) => `${row?.supplier_country_code} ${row?.supplier_mobile}`,
+    //   sortable: true,
+    // },
     {
       name: "Status",
       selector: (row) =>

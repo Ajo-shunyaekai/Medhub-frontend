@@ -162,7 +162,7 @@ const Login = ({socket}) => {
                 <div className='login-container-form-section-heading'>Login</div>
                 <form className='login-main-form-section' onSubmit={handleSubmit}>
                     <div className='login-form-main-div'>
-                        <label className='login-form-main-label'>Email ID</label>
+                        <label className='login-form-main-label'>Email ID<span className='labelstamp'>*</span></label>
                         <input
                             className='login-form-main-input'
                             autoComplete='off'
@@ -175,7 +175,7 @@ const Login = ({socket}) => {
                         {errors.email && <span className="login-errors">{errors.email}</span>}
                     </div>
                     <div className='login-form-main-div'>
-                        <label className='login-form-main-label'>Password</label>
+                        <label className='login-form-main-label'>Password<span className='labelstamp'>*</span></label>
                         <div className='login-form-input-eye-container'>
                             <input
                                 className='login-form-main-input'

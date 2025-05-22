@@ -32,6 +32,7 @@
 }
 .login-container-form-section-heading {
   width: 100%;
+  color: #212121;
   font-size: 20px;
   line-height: normal;
   font-weight: 500;
@@ -52,12 +53,13 @@
 }
 .login-form-main-label {
   font-size: 14px;
+  color: #212121;
   font-weight: 500;
 }
 .login-form-main-input {
   width: 100% !important;
   font-weight: 500 !important;
-  color: #212121 !important;
+  color: #616161 !important;
   border-radius: 4px !important;
   outline: none !important;
   border: none !important;
