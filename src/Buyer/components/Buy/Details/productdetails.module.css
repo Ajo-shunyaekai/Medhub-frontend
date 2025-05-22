@@ -246,14 +246,13 @@
 .medicineHead {
   font-size: 14px;
   font-weight: 500;
-  width: 250px;
+  min-width: 250px;
   color: #212121;
 }
 
 .medicineHeadings {
   font-size: 14px;
   font-weight: 500;
-  width: 75%;
 }
 
 .medicineText {
@@ -267,7 +266,6 @@
 }
 
 .medicineTexts {
-  width: 75%;
   color: #616161;
   font-size: 14px;
   font-weight: 500;
@@ -654,7 +652,7 @@ background-color: #282f86;
 }
 @media (max-width: 1460px) {
   .medicineHead {
-  width: 220px;
+  min-width: 220px;
 }
 .container {
   max-width: 96%;
@@ -673,7 +671,7 @@ background-color: #282f86;
 
 @media (max-width: 1200px) {
   .medicineHead {
-    width: 200px;
+    min-width: 200px;
   }
     .container {
   max-width: 98%;

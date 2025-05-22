@@ -184,7 +184,7 @@ const Login = ({ socket }) => {
         </div>
         <form className={styles.loginMainFormSection} onSubmit={handleSubmit}>
           <div className={styles.loginFormMainDiv}>
-            <label className={styles.loginFormMainLabel}>Email ID</label>
+            <label className={styles.loginFormMainLabel}>Email ID*</label>
             <input
               className={styles.loginFormMainInput}
               autoComplete="off"
@@ -199,7 +199,7 @@ const Login = ({ socket }) => {
             )}
           </div>
           <div className={styles.loginFormMainDiv}>
-            <label className={styles.loginFormMainLabel}>Password</label>
+            <label className={styles.loginFormMainLabel}>Password*</label>
             <div className={styles.loginFormInputEyeContainer}>
               <input
                 className={styles.loginFormMainInput}

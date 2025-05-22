@@ -6,6 +6,8 @@ import { toast } from "react-toastify";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
 import "../../../assets/style/react-input-phone.css";
+import Select from "react-select";
+import { Country, State, City } from "country-state-city";
 
 const countryCodes = [
   "+1", // USA, Canada
@@ -156,7 +158,7 @@ const countryCodes = [
   "+397", // Andorra
   "+398", // Monaco
   "+399", // Kosovo
-  "+971", //UAE
+  "+971", // UAE
   "+1869", // Saint Kitts and Nevis
   "+1876", // Jamaica
   "+1954", // Venezuela
@@ -166,7 +168,7 @@ const phoneValidationRules = {
   1: /^\d{10}$/, // USA/Canada: 10 digits
   44: /^(\d{10}|\d{11})$/, // UK: 10 or 11 digits
   33: /^\d{10}$/, // France: 10 digits
-  49: /^\d{11,14}$/, // Germany: 11 to 14 digits (including country code)
+  49: /^\d{11,14}$/, // Germany: 11 to 14 digits
   91: /^[6-9]\d{9}$/, // India: 10 digits, starts with 6-9
   81: /^\d{10}$/, // Japan: 10 digits
   82: /^\d{10}$/, // South Korea: 10 digits
@@ -179,79 +181,41 @@ const phoneValidationRules = {
   34: /^\d{9}$/, // Spain: 9 digits
   64: /^\d{9}$/, // New Zealand: 9 digits
   39: /^\d{10}$/, // Italy: 10 digits
-  55: /^\d{11}$/, // Brazil: 11 digits (often with 2-digit area code, note that '55' is duplicated)
-  27: /^\d{10}$/, // South Africa: 10 digits
   53: /^\d{8}$/, // Cuba: 8 digits
   20: /^\d{10}$/, // Egypt: 10 digits
   90: /^\d{10}$/, // Turkey: 10 digits
   7: /^(\d{10}|\d{11})$/, // Russia: 10 or 11 digits
-  44: /^(\d{10}|\d{11})$/, // UK: 10 or 11 digits
-  91: /^[6-9]\d{9}$/, // India: 10 digits, starts with 6-9
-  52: /^\d{10}$/, // Mexico: 10 digits
-  55: /^\d{11}$/, // Brazil: 11 digits
-  91: /^[6-9]\d{9}$/, // India: 10 digits
-  971: /^\d{7,9}$/, // UAE: 7 to 9 digits
   60: /^\d{9,10}$/, // Malaysia: 9 or 10 digits
   62: /^\d{10,13}$/, // Indonesia: 10 to 13 digits
   63: /^\d{10}$/, // Philippines: 10 digits
   86: /^\d{11}$/, // China: 11 digits
-  90: /^\d{10}$/, // Turkey: 10 digits
   98: /^\d{10}$/, // Iran: 10 digits
   92: /^\d{10}$/, // Pakistan: 10 digits
   94: /^\d{10}$/, // Sri Lanka: 10 digits
-  91: /^[6-9]\d{9}$/, // India: 10 digits
-  20: /^\d{10}$/, // Egypt: 10 digits
-  27: /^\d{10}$/, // South Africa: 10 digits
   41: /^\d{10}$/, // Switzerland: 10 digits
   47: /^\d{8}$/, // Norway: 8 digits
   48: /^\d{9}$/, // Poland: 9 digits
   30: /^\d{10}$/, // Greece: 10 digits
   31: /^\d{10}$/, // Netherlands: 10 digits
   32: /^\d{9}$/, // Belgium: 9 digits
-  33: /^\d{10}$/, // France: 10 digits
-  34: /^\d{9}$/, // Spain: 9 digits
   35: /^\d{8,9}$/, // Portugal: 8 or 9 digits
   36: /^\d{9}$/, // Hungary: 9 digits
   37: /^\d{8}$/, // Moldova: 8 digits
-  38: /^\d{9}$/, // Slovenia:
-
   38: /^\d{9}$/, // Slovenia: 9 digits
-  39: /^\d{10}$/, // Italy: 10 digits
   40: /^\d{10}$/, // Romania: 10 digits
-  41: /^\d{10}$/, // Switzerland: 10 digits
   42: /^\d{9}$/, // Slovakia: 9 digits
   43: /^\d{10}$/, // Austria: 10 digits
-  44: /^(\d{10}|\d{11})$/, // UK: 10 or 11 digits (note this is duplicated in the list)
   45: /^\d{8}$/, // Denmark: 8 digits
-  46: /^\d{6,11}$/, // Sweden: 6 to 11 digits
-  47: /^\d{8}$/, // Norway: 8 digits
-  48: /^\d{9}$/, // Poland: 9 digits
-  49: /^\d{11,14}$/, // Germany: 11 to 14 digits (including country code)
   50: /^\d{10}$/, // Mongolia: 10 digits
   51: /^\d{9}$/, // Peru: 9 digits
-  52: /^\d{10}$/, // Mexico: 10 digits
-  53: /^\d{8}$/, // Cuba: 8 digits
   54: /^\d{10}$/, // Argentina: 10 digits
-  55: /^\d{11}$/, // Brazil: 11 digits
   56: /^\d{9}$/, // Chile: 9 digits
   57: /^\d{10}$/, // Colombia: 10 digits
   58: /^\d{11}$/, // Venezuela: 11 digits
-  60: /^\d{9,10}$/, // Malaysia: 9 or 10 digits
-  61: /^(\d{9}|\d{10})$/, // Australia: 9 or 10 digits
-  62: /^\d{10,13}$/, // Indonesia: 10 to 13 digits
-  63: /^\d{10}$/, // Philippines: 10 digits
-  64: /^\d{9}$/, // New Zealand: 9 digits
   65: /^\d{8}$/, // Singapore: 8 digits
   66: /^\d{9,10}$/, // Thailand: 9 or 10 digits
-  81: /^\d{10}$/, // Japan: 10 digits
-  82: /^\d{10}$/, // South Korea: 10 digits
   84: /^\d{10}$/, // Vietnam: 10 digits
-  86: /^\d{11}$/, // China: 11 digits
-  90: /^\d{10}$/, // Turkey: 10 digits
-  92: /^\d{10}$/, // Pakistan: 10 digits
   93: /^\d{9}$/, // Afghanistan: 9 digits
-  94: /^\d{10}$/, // Sri Lanka: 10 digits
-  98: /^\d{10}$/, // Iran: 10 digits
   992: /^\d{9}$/, // Tajikistan: 9 digits
   993: /^\d{9}$/, // Turkmenistan: 9 digits
   994: /^\d{9}$/, // Azerbaijan: 9 digits
@@ -302,6 +266,12 @@ const EditCreatePO = ({ socket }) => {
     buyerContactPersonMobile: "",
     buyerContactPersonCountryCode: "",
     buyerRegNo: "",
+    buyerLocality: "",
+    buyerLandmark: "",
+    buyerCountry: "",
+    buyerState: "",
+    buyerCity: "",
+    buyerPincode: "",
     supplierId: "",
     supplierName: "",
     supplierEmail: "",
@@ -311,11 +281,23 @@ const EditCreatePO = ({ socket }) => {
     supplierContactPersonMobile: "",
     supplierContactPersonCountryCode: "",
     supplierRegNo: "",
+    supplierLocality: "",
+    supplierLandmark: "",
+    supplierCountry: "",
+    supplierState: "",
+    supplierCity: "",
+    supplierPincode: "",
     orderItems: [],
   });
 
   const [loading, setLoading] = useState(false);
   const [poDetails, setPoDetails] = useState();
+  const [selectedBuyerCountry, setSelectedBuyerCountry] = useState(null);
+  const [selectedBuyerState, setSelectedBuyerState] = useState(null);
+  const [selectedBuyerCity, setSelectedBuyerCity] = useState(null);
+  const [selectedSupplierCountry, setSelectedSupplierCountry] = useState(null);
+  const [selectedSupplierState, setSelectedSupplierState] = useState(null);
+  const [selectedSupplierCity, setSelectedSupplierCity] = useState(null);
 
   const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
   const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
@@ -344,6 +326,46 @@ const EditCreatePO = ({ socket }) => {
             data.buyer_mobile || ""
           }`;
 
+          const buyerCountry = Country.getAllCountries().find(
+            (country) => country.name === data.buyer_registered_address?.country
+          );
+          const supplierCountry = Country.getAllCountries().find(
+            (country) => country.name === data.supplier_registered_address?.country
+          );
+
+          const buyerState = buyerCountry
+            ? State.getStatesOfCountry(buyerCountry.isoCode).find(
+                (state) => state.name === data.buyer_registered_address?.state
+              ) || { name: "Other", isoCode: "OTHER" }
+            : null;
+
+          const supplierState = supplierCountry
+            ? State.getStatesOfCountry(supplierCountry.isoCode).find(
+                (state) => state.name === data.supplier_registered_address?.state
+              ) || { name: "Other", isoCode: "OTHER" }
+            : null;
+
+          const buyerCity =
+            buyerState && buyerState.isoCode !== "OTHER"
+              ? City.getCitiesOfState(buyerCountry.isoCode, buyerState.isoCode).find(
+                  (city) => city.name === data.buyer_registered_address?.city
+                ) || { name: "Other" }
+              : { name: data.buyer_registered_address?.city || "Other" };
+
+          const supplierCity =
+            supplierState && supplierState.isoCode !== "OTHER"
+              ? City.getCitiesOfState(supplierCountry.isoCode, supplierState.isoCode).find(
+                  (city) => city.name === data.supplier_registered_address?.city
+                ) || { name: "Other" }
+              : { name: data.supplier_registered_address?.city || "Other" };
+
+          setSelectedBuyerCountry(buyerCountry || null);
+          setSelectedBuyerState(buyerState || null);
+          setSelectedBuyerCity(buyerCity || null);
+          setSelectedSupplierCountry(supplierCountry || null);
+          setSelectedSupplierState(supplierState || null);
+          setSelectedSupplierCity(supplierCity || null);
+
           setFormData((prevFormData) => ({
             ...prevFormData,
             poId: data.purchaseOrder_id,
@@ -355,17 +377,28 @@ const EditCreatePO = ({ socket }) => {
             supplierEmail: data?.supplier_email,
             supplierAddress: data?.supplier_address,
             supplierMobile: formattedSupplierMobile,
-            supplierContactPersonMobile:
-              data?.supplier?.contact_person_mobile_no,
+            supplierContactPersonMobile: data?.supplier?.contact_person_mobile_no,
             supplierContactPersonCountryCode:
               data?.supplier?.contact_person_country_code,
             supplierRegNo: data?.supplier_regNo,
+            supplierLocality: data?.supplier_registered_address?.locality || "",
+            supplierLandmark: data?.supplier_registered_address?.land_mark || "",
+            supplierCountry: data?.supplier_registered_address?.country || "",
+            supplierState: data?.supplier_registered_address?.state || "",
+            supplierCity: data?.supplier_registered_address?.city || "",
+            supplierPincode: data?.supplier_registered_address?.pincode || "",
             buyerId: data.buyer_id,
             buyerName: data?.buyer_name,
             buyerEmail: data?.buyer_email,
             buyerAddress: data?.buyer_address,
             buyerMobile: formattedBuyerMobile,
             buyerRegNo: data?.buyer_regNo,
+            buyerLocality: data?.buyer_registered_address?.locality || "",
+            buyerLandmark: data?.buyer_registered_address?.land_mark || "",
+            buyerCountry: data?.buyer_registered_address?.country || "",
+            buyerState: data?.buyer_registered_address?.state || "",
+            buyerCity: data?.buyer_registered_address?.city || "",
+            buyerPincode: data?.buyer_registered_address?.pincode || "",
             orderItems: data?.items,
           }));
         } else {
@@ -416,27 +449,109 @@ const EditCreatePO = ({ socket }) => {
         newErrors.buyerRegNo = "";
       }
     }
+    if (name === "buyerPincode" || name === "supplierPincode") {
+      if (!/^\d{5,10}$/.test(value)) {
+        newErrors[name] = "Pincode must be 5 to 10 digits";
+        isValid = false;
+      } else {
+        newErrors[name] = "";
+      }
+    }
+    if (name === "buyerLocality" || name === "supplierLocality") {
+      if (!value) {
+        newErrors[name] = "Area/Locality/Road Name is required";
+        isValid = false;
+      } else {
+        newErrors[name] = "";
+      }
+    }
     if (isValid) {
       setFormData((prevState) => ({ ...prevState, [name]: value }));
     }
     setErrors((prevState) => ({ ...prevState, ...newErrors }));
   };
 
+  const handleBuyerCountryChange = (selectedOption) => {
+    setSelectedBuyerCountry(selectedOption);
+    setSelectedBuyerState(null);
+    setSelectedBuyerCity(null);
+    setFormData((prevState) => ({
+      ...prevState,
+      buyerCountry: selectedOption ? selectedOption.name : "",
+      buyerState: "",
+      buyerCity: "",
+    }));
+    setErrors((prevState) => ({ ...prevState, buyerCountry: "" }));
+  };
+
+  const handleBuyerStateChange = (selectedOption) => {
+    setSelectedBuyerState(selectedOption);
+    setSelectedBuyerCity(null);
+    setFormData((prevState) => ({
+      ...prevState,
+      buyerState: selectedOption ? selectedOption.name : "",
+      buyerCity: "",
+    }));
+    setErrors((prevState) => ({ ...prevState, buyerState: "" }));
+  };
+
+  const handleBuyerCityChange = (selectedOption) => {
+    setSelectedBuyerCity(selectedOption);
+    setFormData((prevState) => ({
+      ...prevState,
+      buyerCity: selectedOption ? selectedOption.name : "",
+    }));
+    setErrors((prevState) => ({ ...prevState, buyerCity: "" }));
+  };
+
+  const handleSupplierCountryChange = (selectedOption) => {
+    setSelectedSupplierCountry(selectedOption);
+    setSelectedSupplierState(null);
+    setSelectedSupplierCity(null);
+    setFormData((prevState) => ({
+      ...prevState,
+      supplierCountry: selectedOption ? selectedOption.name : "",
+      supplierState: "",
+      supplierCity: "",
+    }));
+  };
+
+  const handleSupplierStateChange = (selectedOption) => {
+    setSelectedSupplierState(selectedOption);
+    setSelectedSupplierCity(null);
+    setFormData((prevState) => ({
+      ...prevState,
+      supplierState: selectedOption ? selectedOption.name : "",
+      supplierCity: "",
+    }));
+  };
+
+  const handleSupplierCityChange = (selectedOption) => {
+    setSelectedSupplierCity(selectedOption);
+    setFormData((prevState) => ({
+      ...prevState,
+      supplierCity: selectedOption ? selectedOption.name : "",
+    }));
+  };
+
   const resetForm = () => {
     setFormData((prevFormData) => ({
       ...prevFormData,
-     
       buyerName: "",
       buyerEmail: "",
       buyerAddress: "",
       buyerMobile: "",
       buyerRegNo: "",
-     
+      buyerLocality: "",
+      buyerLandmark: "",
+      buyerCountry: "",
+      buyerState: "",
+      buyerCity: "",
+      buyerPincode: "",
     }));
-  };
-
-  const handleCancel = () => {
-    resetForm();
+    setSelectedBuyerCountry(null);
+    setSelectedBuyerState(null);
+    setSelectedBuyerCity(null);
   };
 
   const validateForm = () => {
@@ -449,8 +564,18 @@ const EditCreatePO = ({ socket }) => {
       formErrors.buyerMobile = "Buyer Mobile is Required";
     if (!formData.buyerRegNo)
       formErrors.buyerRegNo = "Buyer VAT Reg No. is Required";
+    if (!formData.buyerLocality)
+      formErrors.buyerLocality = "Area/Locality/Road Name is Required";
+    if (!formData.buyerCountry)
+      formErrors.buyerCountry = "Country is Required";
+    if (!formData.buyerPincode)
+      formErrors.buyerPincode = "Pincode is Required";
     setErrors(formErrors);
     return Object.keys(formErrors).length === 0;
+  };
+
+  const handleCancel = () => {
+    resetForm();
   };
 
   const handleSubmit = (e) => {
@@ -483,7 +608,6 @@ const EditCreatePO = ({ socket }) => {
             inquiryId: enquiryId,
             message: `PO Edited for ${enquiryId}`,
             link: process.env.REACT_APP_PUBLIC_URL,
-            // send other details if needed
           });
           setTimeout(() => {
             navigate("/buyer/inquiry/purchased-order");
@@ -504,12 +628,13 @@ const EditCreatePO = ({ socket }) => {
     const cleanedNumber = phoneNumber.replace(/\D/g, "");
     return `+${countryCode}-${cleanedNumber}`;
   };
+
   const validatePhoneNumber = (phoneNumber, countryCode) => {
     const validationRule = phoneValidationRules[countryCode];
     if (validationRule) {
       return validationRule.test(phoneNumber);
     } else {
-      return false; // Invalid country code
+      return false;
     }
   };
 
@@ -518,7 +643,6 @@ const EditCreatePO = ({ socket }) => {
     let mobileNumber = value;
     let isValidNumber = false;
 
-    // Extract the country code and the mobile number
     for (let code of countryCodes) {
       if (value?.startsWith(code)) {
         countryCode = code.replace("+", "");
@@ -527,7 +651,6 @@ const EditCreatePO = ({ socket }) => {
       }
     }
 
-    // Validate the phone number based on the country code
     if (countryCode && mobileNumber) {
       isValidNumber = validatePhoneNumber(mobileNumber, countryCode);
 
@@ -537,15 +660,14 @@ const EditCreatePO = ({ socket }) => {
           countryCode
         );
 
-        // Update formData with the formatted phone number
         setFormData((prevState) => ({
           ...prevState,
-          [type]: formattedPhoneNumber, // Here, type should be 'buyerMobile' to update the correct field
+          [type]: formattedPhoneNumber,
         }));
       } else {
         setFormData((prevState) => ({
           ...prevState,
-          [type]: "", // Clear the field if invalid
+          [type]: "",
         }));
         console.error(
           "Invalid phone number format for the specified country code"
@@ -554,7 +676,7 @@ const EditCreatePO = ({ socket }) => {
     } else {
       setFormData((prevState) => ({
         ...prevState,
-        [type]: "", // Clear the field if invalid
+        [type]: "",
       }));
       console.error("Invalid phone number format or unknown country code");
     }
@@ -573,7 +695,7 @@ const EditCreatePO = ({ socket }) => {
           <div className={styles["create-invoice-form-heading"]}>Buyer</div>
           <div className={styles["craete-invoice-form"]}>
             <div className={styles["create-invoice-div-container"]}>
-              <label className={styles["create-invoice-div-label"]}>Name</label>
+              <label className={styles["create-invoice-div-label"]}>Name*</label>
               <input
                 className={styles["create-invoice-div-input"]}
                 type="text"
@@ -586,25 +708,25 @@ const EditCreatePO = ({ socket }) => {
                 <p style={{ color: "red" }}>{errors.buyerName}</p>
               )}
             </div>
-            <div className={styles["create-invoice-div-container"]}>
+             <div className={styles["create-invoice-div-container"]}>
               <label className={styles["create-invoice-div-label"]}>
-                Address
+                Company Registration Number*
               </label>
               <input
                 className={styles["create-invoice-div-input"]}
                 type="text"
-                name="buyerAddress"
-                placeholder="Enter Address"
-                value={formData.buyerAddress}
+                name="buyerRegNo"
+                placeholder="Enter Company Registration Number"
+                value={formData.buyerRegNo}
                 onChange={handleChange}
               />
-              {errors.buyerAddress && (
-                <p style={{ color: "red" }}>{errors.buyerAddress}</p>
+              {errors.buyerRegNo && (
+                <p style={{ color: "red" }}>{errors.buyerRegNo}</p>
               )}
             </div>
-            <div className={styles["create-invoice-div-container"]}>
+              <div className={styles["create-invoice-div-container"]}>
               <label className={styles["create-invoice-div-label"]}>
-                Email ID
+                Email ID*
               </label>
               <input
                 className={styles["create-invoice-div-input"]}
@@ -620,7 +742,7 @@ const EditCreatePO = ({ socket }) => {
             </div>
             <div className={styles["create-invoice-div-container"]}>
               <label className={styles["create-invoice-div-label"]}>
-                Mobile Number
+                Mobile Number*
               </label>
               <PhoneInput
                 className="signup-form-section-phone-input"
@@ -634,22 +756,134 @@ const EditCreatePO = ({ socket }) => {
                 <p style={{ color: "red" }}>{errors.buyerMobile}</p>
               )}
             </div>
+           
             <div className={styles["create-invoice-div-container"]}>
               <label className={styles["create-invoice-div-label"]}>
-                Company Registration Number
+               Billing Address*
               </label>
               <input
                 className={styles["create-invoice-div-input"]}
                 type="text"
-                name="buyerRegNo"
-                placeholder="Enter Company Registration Number"
-                value={formData.buyerRegNo}
+                name="buyerAddress"
+                placeholder="Enter Address"
+                value={formData.buyerAddress}
                 onChange={handleChange}
               />
-              {errors.buyerRegNo && (
-                <p style={{ color: "red" }}>{errors.buyerRegNo}</p>
+              {errors.buyerAddress && (
+                <p style={{ color: "red" }}>{errors.buyerAddress}</p>
               )}
             </div>
+            <div className={styles["create-invoice-div-container"]}>
+              <label className={styles["create-invoice-div-label"]}>
+                Area/Locality/Road Name*
+              </label>
+              <input
+                className={styles["create-invoice-div-input"]}
+                type="text"
+                name="buyerLocality"
+                placeholder="Enter Area/Locality/Road Name"
+                value={formData.buyerLocality}
+                onChange={handleChange}
+              />
+              {errors.buyerLocality && (
+                <p style={{ color: "red" }}>{errors.buyerLocality}</p>
+              )}
+            </div>
+            <div className={styles["create-invoice-div-container"]}>
+              <label className={styles["create-invoice-div-label"]}>
+                Landmark
+              </label>
+              <input
+                className={styles["create-invoice-div-input"]}
+                type="text"
+                name="buyerLandmark"
+                placeholder="Enter Landmark"
+                value={formData.buyerLandmark}
+                onChange={handleChange}
+              />
+            </div>
+            <div className={styles["create-invoice-div-container"]}>
+              <label className={styles["create-invoice-div-label"]}>
+                Country*
+              </label>
+              <Select
+                options={Country.getAllCountries()}
+                getOptionLabel={(option) => option.name}
+                getOptionValue={(option) => option.isoCode}
+                value={selectedBuyerCountry}
+                onChange={handleBuyerCountryChange}
+                placeholder="Select Country"
+              />
+              {errors.buyerCountry && (
+                <p style={{ color: "red" }}>{errors.buyerCountry}</p>
+              )}
+            </div>
+            <div className={styles["create-invoice-div-container"]}>
+              <label className={styles["create-invoice-div-label"]}>
+                State/Province
+              </label>
+              <Select
+                options={
+                  selectedBuyerCountry
+                    ? [
+                        ...State.getStatesOfCountry(selectedBuyerCountry.isoCode),
+                        { name: "Other", isoCode: "OTHER" },
+                      ]
+                    : []
+                }
+                getOptionLabel={(option) => option.name}
+                getOptionValue={(option) => option.isoCode}
+                value={selectedBuyerState}
+                onChange={handleBuyerStateChange}
+                placeholder="Select State"
+              />
+              {errors.buyerState && (
+                <p style={{ color: "red" }}>{errors.buyerState}</p>
+              )}
+            </div>
+            <div className={styles["create-invoice-div-container"]}>
+              <label className={styles["create-invoice-div-label"]}>
+                City/Town
+              </label>
+              <Select
+                options={
+                  selectedBuyerState && selectedBuyerState.isoCode !== "OTHER"
+                    ? [
+                        ...City.getCitiesOfState(
+                          selectedBuyerCountry.isoCode,
+                          selectedBuyerState.isoCode
+                        ),
+                        { name: "Other" },
+                      ]
+                    : [{ name: "Other" }]
+                }
+                getOptionLabel={(option) => option.name}
+                getOptionValue={(option) => option.name}
+                value={selectedBuyerCity}
+                onChange={handleBuyerCityChange}
+                placeholder="Select City"
+              />
+              {errors.buyerCity && (
+                <p style={{ color: "red" }}>{errors.buyerCity}</p>
+              )}
+            </div>
+            <div className={styles["create-invoice-div-container"]}>
+              <label className={styles["create-invoice-div-label"]}>
+                Pincode
+              </label>
+              <input
+                className={styles["create-invoice-div-input"]}
+                type="text"
+                name="buyerPincode"
+                placeholder="Enter Pincode"
+                value={formData.buyerPincode}
+                onChange={handleChange}
+              />
+              {errors.buyerPincode && (
+                <p style={{ color: "red" }}>{errors.buyerPincode}</p>
+              )}
+            </div>
+          
           </div>
         </div>
         <div className={styles["create-invoice-section"]}>
@@ -657,7 +891,7 @@ const EditCreatePO = ({ socket }) => {
           <div className={styles["craete-invoice-form"]}>
             <div className={styles["create-invoice-div-container"]}>
               <label className={styles["create-invoice-div-label"]}>
-                PO Date
+                PO Date*
               </label>
               <input
                 className={styles["create-invoice-div-input"]}
@@ -665,25 +899,22 @@ const EditCreatePO = ({ socket }) => {
                 name="poDate"
                 value={formData.poDate}
                 readOnly
-              
               />
             </div>
             <div className={styles["create-invoice-div-container"]}>
               <label className={styles["create-invoice-div-label"]}>
-                PO Number
+                PO Number*
               </label>
               <input
                 className={styles["create-invoice-div-input"]}
                 type="text"
                 name="poNumber"
                 value={formData.poNumber}
-              
                 readOnly
-               
               />
             </div>
             <div className={styles["create-invoice-div-container"]}>
-              <label className={styles["create-invoice-div-label"]}>Name</label>
+              <label className={styles["create-invoice-div-label"]}>Name*</label>
               <input
                 className={styles["create-invoice-div-input"]}
                 type="text"
@@ -691,61 +922,12 @@ const EditCreatePO = ({ socket }) => {
                 placeholder="Enter Name"
                 value={formData.supplierName}
                 readOnly
-               
               />
               {errors.supplierName && <p>{errors.supplierName.message}</p>}
             </div>
-            <div className={styles["create-invoice-div-container"]}>
+             <div className={styles["create-invoice-div-container"]}>
               <label className={styles["create-invoice-div-label"]}>
-                Address
-              </label>
-              <input
-                className={styles["create-invoice-div-input"]}
-                type="text"
-                name="supplierAddress"
-                placeholder="Enter Address"
-                value={formData.supplierAddress}
-                readOnly
-               
-              />
-              {errors.supplierAddress && (
-                <p>{errors.supplierAddress.message}</p>
-              )}
-            </div>
-            <div className={styles["create-invoice-div-container"]}>
-              <label className={styles["create-invoice-div-label"]}>
-                Email ID
-              </label>
-              <input
-                className={styles["create-invoice-div-input"]}
-                type="email"
-                name="supplierEmail"
-                placeholder="Enter Email ID"
-                value={formData.supplierEmail}
-                readOnly
-              
-              />
-              {errors.supplierEmail && <p>{errors.supplierEmail.message}</p>}
-            </div>
-            <div className={styles["create-invoice-div-container"]}>
-              <label className={styles["create-invoice-div-label"]}>
-                Mobile Number
-              </label>
-              <PhoneInput
-                className="signup-form-section-phone-input"
-                defaultCountry="ae"
-                name="supplierMobile"
-              
-                value={formData.supplierMobile}
-                disabled
-                placeholder="Enter Mobile No."
-              
-              />
-              {errors.supplierMobile && <p>{errors.supplierMobile.message}</p>}
-            </div>
-            <div className={styles["create-invoice-div-container"]}>
-              <label className={styles["create-invoice-div-label"]}>
-                Company Registration Number
+                Company Registration Number*
               </label>
               <input
                 className={styles["create-invoice-div-input"]}
@@ -754,10 +936,159 @@ const EditCreatePO = ({ socket }) => {
                 placeholder="Enter Company Registration Number"
                 readOnly
                 value={formData.supplierRegNo}
-              
               />
               {errors.supplierRegNo && <p>{errors.supplierRegNo.message}</p>}
             </div>
+            <div className={styles["create-invoice-div-container"]}>
+              <label className={styles["create-invoice-div-label"]}>
+                Email ID*
+              </label>
+              <input
+                className={styles["create-invoice-div-input"]}
+                type="email"
+                name="supplierEmail"
+                placeholder="Enter Email ID"
+                value={formData.supplierEmail}
+                readOnly
+              />
+              {errors.supplierEmail && <p>{errors.supplierEmail.message}</p>}
+            </div>
+            <div className={styles["create-invoice-div-container"]}>
+              <label className={styles["create-invoice-div-label"]}>
+                Mobile Number*
+              </label>
+              <PhoneInput
+                className="signup-form-section-phone-input"
+                defaultCountry="ae"
+                name="supplierMobile"
+                value={formData.supplierMobile}
+                disabled
+                placeholder="Enter Mobile No."
+              />
+              {errors.supplierMobile && <p>{errors.supplierMobile.message}</p>}
+            </div>
+           
+            <div className={styles["create-invoice-div-container"]}>
+              <label className={styles["create-invoice-div-label"]}>
+               Billing Address*
+              </label>
+              <input
+                className={styles["create-invoice-div-input"]}
+                type="text"
+                name="supplierAddress"
+                placeholder="Enter Address"
+                value={formData.supplierAddress}
+                readOnly
+              />
+              {errors.supplierAddress && (
+                <p>{errors.supplierAddress.message}</p>
+              )}
+            </div>
+            <div className={styles["create-invoice-div-container"]}>
+              <label className={styles["create-invoice-div-label"]}>
+                Area/Locality/Road Name*
+              </label>
+              <input
+                className={styles["create-invoice-div-input"]}
+                type="text"
+                name="supplierLocality"
+                placeholder="Enter Area/Locality/Road Name"
+                value={formData.supplierLocality}
+                readOnly
+              />
+              {errors.supplierLocality && (
+                <p style={{ color: "red" }}>{errors.supplierLocality}</p>
+              )}
+            </div>
+            <div className={styles["create-invoice-div-container"]}>
+              <label className={styles["create-invoice-div-label"]}>
+                Landmark
+              </label>
+              <input
+                className={styles["create-invoice-div-input"]}
+                type="text"
+                name="supplierLandmark"
+                placeholder="Enter Landmark"
+                value={formData.supplierLandmark}
+                readOnly
+              />
+            </div>
+            <div className={styles["create-invoice-div-container"]}>
+              <label className={styles["create-invoice-div-label"]}>
+                Country*
+              </label>
+              <Select
+                options={Country.getAllCountries()}
+                getOptionLabel={(option) => option.name}
+                getOptionValue={(option) => option.isoCode}
+                value={selectedSupplierCountry}
+                onChange={handleSupplierCountryChange}
+                placeholder="Select Country"
+                isDisabled
+              />
+            </div>
+            <div className={styles["create-invoice-div-container"]}>
+              <label className={styles["create-invoice-div-label"]}>
+                State/Province
+              </label>
+              <Select
+                options={
+                  selectedSupplierCountry
+                    ? [
+                        ...State.getStatesOfCountry(selectedSupplierCountry.isoCode),
+                        { name: "Other", isoCode: "OTHER" },
+                      ]
+                    : []
+                }
+                getOptionLabel={(option) => option.name}
+                getOptionValue={(option) => option.isoCode}
+                value={selectedSupplierState}
+                onChange={handleSupplierStateChange}
+                placeholder="Select State"
+                isDisabled
+              />
+            </div>
+            <div className={styles["create-invoice-div-container"]}>
+              <label className={styles["create-invoice-div-label"]}>
+                City/Town
+              </label>
+              <Select
+                options={
+                  selectedSupplierState && selectedSupplierState.isoCode !== "OTHER"
+                    ? [
+                        ...City.getCitiesOfState(
+                          selectedSupplierCountry.isoCode,
+                          selectedSupplierState.isoCode
+                        ),
+                        { name: "Other" },
+                      ]
+                    : [{ name: "Other" }]
+                }
+                getOptionLabel={(option) => option.name}
+                getOptionValue={(option) => option.name}
+                value={selectedSupplierCity}
+                onChange={handleSupplierCityChange}
+                placeholder="Select City"
+                isDisabled
+              />
+            </div>
+            <div className={styles["create-invoice-div-container"]}>
+              <label className={styles["create-invoice-div-label"]}>
+                Pincode
+              </label>
+              <input
+                className={styles["create-invoice-div-input"]}
+                type="text"
+                name="supplierPincode"
+                placeholder="Enter Pincode"
+                value={formData.supplierPincode}
+                readOnly
+              />
+              {errors.supplierPincode && (
+                <p style={{ color: "red" }}>{errors.supplierPincode}</p>
+              )}
+            </div>
+            
           </div>
         </div>
 

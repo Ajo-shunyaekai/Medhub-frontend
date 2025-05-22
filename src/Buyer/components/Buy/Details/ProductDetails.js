@@ -3507,23 +3507,23 @@ const ProductDetails = () => {
             <div className={styles.innerInventorySection}>
               <div className={styles.inventorySection}>
                 <div className={styles.inventoryContainer}>
-                  <span className={styles.inventoryHead}>Quantity</span>
+                  <span className={styles.inventoryHead}>Quantity*</span>
                 </div>
                 <div className={styles.inventoryContainer}>
-                  <span className={styles.inventoryHead}>Cost Per Product</span>
+                  <span className={styles.inventoryHead}>Cost Per Product*</span>
                 </div>
                 <div className={styles.inventoryContainer}>
                   <span className={styles.inventoryHead}>
-                    Est. Delivery Time
+                    Est. Delivery Time*
                   </span>
                 </div>
                 <div className={styles.inventoryContainer}>
                   <span className={styles.inventoryHead}>
-                    Quantity Required
+                    Quantity Required*
                   </span>
                 </div>
                 <div className={styles.inventoryContainer}>
-                  <span className={styles.inventoryHead}>Target Price</span>
+                  <span className={styles.inventoryHead}>Target Price*</span>
                 </div>
               </div>
  
