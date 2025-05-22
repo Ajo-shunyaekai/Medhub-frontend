@@ -3137,7 +3137,7 @@ const ProductDetails = () => {
                       </div>
                     )}
                     {productDetail?.[productDetail?.category]
-                      ?.interoperabilityFile.length > 0 && (
+                      ?.interoperabilityFile?.length > 0 && (
                       <div className={styles.uploadFileSection}>
                         <RenderProductFiles
                           files={
