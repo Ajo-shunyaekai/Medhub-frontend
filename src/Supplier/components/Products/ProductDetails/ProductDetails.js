@@ -142,7 +142,7 @@ const openPurchaseInvoice = () => {
                               {country}
                               {index !==
                                 productDetail?.secondaryMarketDetails
-                                  ?.countryAvailable.length -
+                                  ?.countryAvailable?.length -
                                   1 && ", "}
                             </span>
                           )
@@ -410,7 +410,7 @@ const openPurchaseInvoice = () => {
                                 {country}
                                 {index <
                                 productDetail.inventoryDetails.countries
-                                  .length -
+                                  ?.length -
                                   1
                                   ? ", "
                                   : ""}
