@@ -5491,7 +5491,7 @@ const AddProduct = ({ placeholder }) => {
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Scalability Info
-                        <span className={styles.labelStamp}>*</span>
+                        {/* <span className={styles.labelStamp}>*</span> */}
                       </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
@@ -5507,11 +5507,11 @@ const AddProduct = ({ placeholder }) => {
                         />
                         <Tooltip content="Easily adjustable storage to accommodate growing data volumes."></Tooltip>
                       </div>
-                      {touched.scalabilityInfo && errors.scalabilityInfo && (
+                      {/* {touched.scalabilityInfo && errors.scalabilityInfo && (
                         <span className={styles.error}>
                           {errors.scalabilityInfo}
                         </span>
-                      )}
+                      )} */}
                     </div>
                   </div>
                   <div className={styles.innerProductContainer}>
@@ -5522,7 +5522,8 @@ const AddProduct = ({ placeholder }) => {
                       <div className={styles.formInnerSection}>
                         <div className={styles.productInnerContainer}>
                           <label className={styles.formLabel}>
-                            License<span className={styles.labelStamp}>*</span>
+                            License
+                            {/* <span className={styles.labelStamp}>*</span> */}
                           </label>
                           <div className={styles.tooltipContainer}>
                             <textarea
@@ -5538,15 +5539,16 @@ const AddProduct = ({ placeholder }) => {
                             />
                             <Tooltip content="License Terms"></Tooltip>
                           </div>
-                          {touched.license && errors.license && (
+                          {/* {touched.license && errors.license && (
                             <span className={styles.error}>
                               {errors.license}
                             </span>
-                          )}
+                          )} */}
                         </div>
                         <div className={styles.productInnerContainer}>
                           <label className={styles.formLabel}>
-                            Add-Ons<span className={styles.labelStamp}>*</span>
+                            Add-Ons
+                            {/* <span className={styles.labelStamp}>*</span> */}
                           </label>
                           <div className={styles.tooltipContainer}>
                             <textarea
@@ -5562,16 +5564,16 @@ const AddProduct = ({ placeholder }) => {
                             />
                             <Tooltip content="White-label solutions for branding. ,Custom integrations or API usage."></Tooltip>
                           </div>
-                          {touched.addOns && errors.addOns && (
+                          {/* {touched.addOns && errors.addOns && (
                             <span className={styles.error}>
                               {errors.addOns}
                             </span>
-                          )}
+                          )} */}
                         </div>
                         <div className={styles.productInnerContainer}>
                           <label className={styles.formLabel}>
                             User Access
-                            <span className={styles.labelStamp}>*</span>
+                            {/* <span className={styles.labelStamp}>*</span> */}
                           </label>
                           <div className={styles.tooltipContainer}>
                             <textarea
@@ -5587,11 +5589,11 @@ const AddProduct = ({ placeholder }) => {
                             />
                             <Tooltip content="Patients Easy-to-use apps for booking and attending consultations."></Tooltip>
                           </div>
-                          {touched.userAccess && errors.userAccess && (
+                          {/* {touched.userAccess && errors.userAccess && (
                             <span className={styles.error}>
                               {errors.userAccess}
                             </span>
-                          )}
+                          )} */}
                         </div>
                       </div>
                     </div>
@@ -5602,7 +5604,7 @@ const AddProduct = ({ placeholder }) => {
                         <div className={styles.productInnerContainer}>
                           <label className={styles.formLabel}>
                             Key Features
-                            <span className={styles.labelStamp}>*</span>
+                            {/* <span className={styles.labelStamp}>*</span> */}
                           </label>
                           <div className={styles.tooltipContainer}>
                             <textarea
@@ -5623,16 +5625,16 @@ const AddProduct = ({ placeholder }) => {
                               providers or mobile apps."
                             ></Tooltip>
                           </div>
-                          {touched.keyFeatures && errors.keyFeatures && (
+                          {/* {touched.keyFeatures && errors.keyFeatures && (
                             <span className={styles.error}>
                               {errors.keyFeatures}
                             </span>
-                          )}
+                          )} */}
                         </div>
                         <div className={styles.productInnerContainer}>
                           <label className={styles.formLabel}>
                             Core Functionalities
-                            <span className={styles.labelStamp}>*</span>
+                            {/* <span className={styles.labelStamp}>*</span> */}
                           </label>
                           <div className={styles.tooltipContainer}>
                             <textarea
@@ -5648,17 +5650,17 @@ const AddProduct = ({ placeholder }) => {
                             />
                             <Tooltip content="Continuous or on-demand monitoring (e.g., ECG, blood oxygen levels, heart rate)."></Tooltip>
                           </div>
-                          {touched.coreFunctionalities &&
+                          {/* {touched.coreFunctionalities &&
                             errors.coreFunctionalities && (
                               <span className={styles.error}>
                                 {errors.coreFunctionalities}
                               </span>
-                            )}
+                            )} */}
                         </div>
                         <div className={styles.productInnerContainer}>
                           <label className={styles.formLabel}>
                             Interoperability
-                            <span className={styles.labelStamp}>*</span>
+                            {/* <span className={styles.labelStamp}>*</span> */}
                           </label>
                           <div className={styles.tooltipContainer}>
                             <textarea
@@ -5674,12 +5676,12 @@ const AddProduct = ({ placeholder }) => {
                             />
                             <Tooltip content="Adheres to HL7/FHIR standards for healthcare data exchange."></Tooltip>
                           </div>
-                          {touched.interoperability &&
+                          {/* {touched.interoperability &&
                             errors.interoperability && (
                               <span className={styles.error}>
                                 {errors.interoperability}
                               </span>
-                            )}
+                            )} */}
                           <AddProductFileUpload
                             styles={styles}
                             fieldInputName={"interoperabilityFile"}

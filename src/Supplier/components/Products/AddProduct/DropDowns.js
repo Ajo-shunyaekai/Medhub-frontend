@@ -983,26 +983,26 @@ export const addProductValidationSchema = Yup.object({
   //     then: Yup.string().required("Shelf Life/Expiry is required."),
   //   })
   //   .nullable(),
-  interoperability: Yup.string()
-    .when("category", {
-      is: (category) => ["HealthcareITSolutions"].includes(category),
-      then: Yup.string().required("Interoperability is required."),
-    })
-    .nullable(),
-  interoperabilityFile: Yup.array()
-    .when("category", {
-      is: (category) => ["HealthcareITSolutions"].includes(category),
-      then: Yup.array()
-        .min(1, "At least one file is required for the Interoperability file.")
-        .max(4, "You can upload up to 4 Interoperability files.")
-        .required("Interoperability files is required."),
-      // .test(
-      //   "fileSize",
-      //   "File too large",
-      //   (value) => value && value.size <= 1024 * 1024 * 5
-      // ), // Max 5MB
-    })
-    .nullable(),
+  // interoperability: Yup.string()
+  //   .when("category", {
+  //     is: (category) => ["HealthcareITSolutions"].includes(category),
+  //     then: Yup.string().required("Interoperability is required."),
+  //   })
+  //   .nullable(),
+  // interoperabilityFile: Yup.array()
+  //   .when("category", {
+  //     is: (category) => ["HealthcareITSolutions"].includes(category),
+  //     then: Yup.array()
+  //       .min(1, "At least one file is required for the Interoperability file.")
+  //       .max(4, "You can upload up to 4 Interoperability files.")
+  //       .required("Interoperability files is required."),
+  //     // .test(
+  //     //   "fileSize",
+  //     //   "File too large",
+  //     //   (value) => value && value.size <= 1024 * 1024 * 5
+  //     // ), // Max 5MB
+  //   })
+  //   .nullable(),
   specification: Yup.string()
     .when("category", {
       is: (category) =>
@@ -1221,42 +1221,42 @@ export const addProductValidationSchema = Yup.object({
     })
     .nullable(),
   // Add the other fields under HealthcareITSolutions
-  license: Yup.string()
-    .when("category", {
-      is: "HealthcareITSolutions",
-      then: Yup.string().required("License is required."),
-    })
-    .nullable(),
-  scalabilityInfo: Yup.string()
-    .when("category", {
-      is: "HealthcareITSolutions",
-      then: Yup.string().required("Scalability Info is required."),
-    })
-    .nullable(),
-  addOns: Yup.string()
-    .when("category", {
-      is: "HealthcareITSolutions",
-      then: Yup.string().required("Add-Ons is required."),
-    })
-    .nullable(),
-  userAccess: Yup.string()
-    .when("category", {
-      is: "HealthcareITSolutions",
-      then: Yup.string().required("User Access is required."),
-    })
-    .nullable(),
-  keyFeatures: Yup.string()
-    .when("category", {
-      is: "HealthcareITSolutions",
-      then: Yup.string().required("Key Features is required."),
-    })
-    .nullable(),
-  coreFunctionalities: Yup.string()
-    .when("category", {
-      is: "HealthcareITSolutions",
-      then: Yup.string().required("Core Functionalities is required."),
-    })
-    .nullable(),
+  // license: Yup.string()
+  //   .when("category", {
+  //     is: "HealthcareITSolutions",
+  //     then: Yup.string().required("License is required."),
+  //   })
+  //   .nullable(),
+  // scalabilityInfo: Yup.string()
+  //   .when("category", {
+  //     is: "HealthcareITSolutions",
+  //     then: Yup.string().required("Scalability Info is required."),
+  //   })
+  //   .nullable(),
+  // addOns: Yup.string()
+  //   .when("category", {
+  //     is: "HealthcareITSolutions",
+  //     then: Yup.string().required("Add-Ons is required."),
+  //   })
+  //   .nullable(),
+  // userAccess: Yup.string()
+  //   .when("category", {
+  //     is: "HealthcareITSolutions",
+  //     then: Yup.string().required("User Access is required."),
+  //   })
+  //   .nullable(),
+  // keyFeatures: Yup.string()
+  //   .when("category", {
+  //     is: "HealthcareITSolutions",
+  //     then: Yup.string().required("Key Features is required."),
+  //   })
+  //   .nullable(),
+  // coreFunctionalities: Yup.string()
+  //   .when("category", {
+  //     is: "HealthcareITSolutions",
+  //     then: Yup.string().required("Core Functionalities is required."),
+  //   })
+  //   .nullable(),
 });
 
 export const editProductValidationSchema = Yup.object({
@@ -1919,17 +1919,17 @@ export const editProductValidationSchema = Yup.object({
   //   })
   //   .nullable(),
 
-  interoperability: Yup.string()
-    .when("category", {
-      is: (category) => ["HealthcareITSolutions"].includes(category),
-      then: Yup.string().required("Interoperability is required."),
-    })
-    .nullable(),
-  interoperabilityFile: Yup.array()
-    .max(4, "You can upload up to 4 Interoperability files.")
-    .of(
-      Yup.string().required("A file path is required.") // Since it's now a string
-    ),
+  // interoperability: Yup.string()
+  //   .when("category", {
+  //     is: (category) => ["HealthcareITSolutions"].includes(category),
+  //     then: Yup.string().required("Interoperability is required."),
+  //   })
+  //   .nullable(),
+  // interoperabilityFile: Yup.array()
+  //   .max(4, "You can upload up to 4 Interoperability files.")
+  //   .of(
+  //     Yup.string().required("A file path is required.") // Since it's now a string
+  //   ),
   interoperabilityFileNew: Yup.array()
     .when("category", {
       is: (category) => ["HealthcareITSolutions"].includes(category),
@@ -2241,40 +2241,40 @@ export const editProductValidationSchema = Yup.object({
     })
     .nullable(),
   // Add the other fields under HealthcareITSolutions
-  license: Yup.string()
-    .when("category", {
-      is: "HealthcareITSolutions",
-      then: Yup.string().required("License is required."),
-    })
-    .nullable(),
-  scalabilityInfo: Yup.string()
-    .when("category", {
-      is: "HealthcareITSolutions",
-      then: Yup.string().required("Scalability Info is required."),
-    })
-    .nullable(),
-  addOns: Yup.string()
-    .when("category", {
-      is: "HealthcareITSolutions",
-      then: Yup.string().required("Add-Ons is required."),
-    })
-    .nullable(),
-  userAccess: Yup.string()
-    .when("category", {
-      is: "HealthcareITSolutions",
-      then: Yup.string().required("User Access is required."),
-    })
-    .nullable(),
-  keyFeatures: Yup.string()
-    .when("category", {
-      is: "HealthcareITSolutions",
-      then: Yup.string().required("Key Features is required."),
-    })
-    .nullable(),
-  coreFunctionalities: Yup.string()
-    .when("category", {
-      is: "HealthcareITSolutions",
-      then: Yup.string().required("Core Functionalities is required."),
-    })
-    .nullable(),
+  // license: Yup.string()
+  //   .when("category", {
+  //     is: "HealthcareITSolutions",
+  //     then: Yup.string().required("License is required."),
+  //   })
+  //   .nullable(),
+  // scalabilityInfo: Yup.string()
+  //   .when("category", {
+  //     is: "HealthcareITSolutions",
+  //     then: Yup.string().required("Scalability Info is required."),
+  //   })
+  //   .nullable(),
+  // addOns: Yup.string()
+  //   .when("category", {
+  //     is: "HealthcareITSolutions",
+  //     then: Yup.string().required("Add-Ons is required."),
+  //   })
+  //   .nullable(),
+  // userAccess: Yup.string()
+  //   .when("category", {
+  //     is: "HealthcareITSolutions",
+  //     then: Yup.string().required("User Access is required."),
+  //   })
+  //   .nullable(),
+  // keyFeatures: Yup.string()
+  //   .when("category", {
+  //     is: "HealthcareITSolutions",
+  //     then: Yup.string().required("Key Features is required."),
+  //   })
+  //   .nullable(),
+  // coreFunctionalities: Yup.string()
+  //   .when("category", {
+  //     is: "HealthcareITSolutions",
+  //     then: Yup.string().required("Core Functionalities is required."),
+  //   })
+  //   .nullable(),
 });

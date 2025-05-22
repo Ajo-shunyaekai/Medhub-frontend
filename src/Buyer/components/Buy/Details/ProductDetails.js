@@ -3622,7 +3622,7 @@ const ProductDetails = () => {
                           {loading ? (
                             <div className="loading-spinner"></div>
                           ) : (
-                            "Add to List"
+                            "Add to Cart"
                           )}
                         </button>
                         <button

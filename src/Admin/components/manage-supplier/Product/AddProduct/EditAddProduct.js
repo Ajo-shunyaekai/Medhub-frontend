@@ -6525,7 +6525,7 @@ const EditAddProduct = ({ placeholder }) => {
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Scalability Info
-                      <span className={styles?.labelStamp}>*</span>
+                      {/* <span className={styles?.labelStamp}>*</span> */}
                     </label>
                     <div className={styles.tooltipContainer}>
                       <textarea
@@ -6546,12 +6546,12 @@ const EditAddProduct = ({ placeholder }) => {
                       />
                       <Tooltip content=" Easily adjustable storage to accommodate growing data volumes."></Tooltip>
                     </div>
-                    {formik.touched.scalabilityInfo &&
+                    {/* {formik.touched.scalabilityInfo &&
                       formik.errors.scalabilityInfo && (
                         <span className={styles.error}>
                           {formik.errors.scalabilityInfo}
                         </span>
-                      )}
+                      )} */}
                   </div>
                 </div>
                 <div className={styles.innerProductContainer}>
@@ -6563,7 +6563,7 @@ const EditAddProduct = ({ placeholder }) => {
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
                           License
-                          <span className={styles?.labelStamp}>*</span>
+                          {/* <span className={styles?.labelStamp}>*</span> */}
                         </label>
                         <div className={styles.tooltipContainer}>
                           <textarea
@@ -6584,16 +6584,16 @@ const EditAddProduct = ({ placeholder }) => {
                           />
                           <Tooltip content=" License Terms"></Tooltip>
                         </div>
-                        {formik.touched.license && formik.errors.license && (
+                        {/* {formik.touched.license && formik.errors.license && (
                           <span className={styles.error}>
                             {formik.errors.license}
                           </span>
-                        )}
+                        )} */}
                       </div>
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
                           Add-Ons
-                          <span className={styles?.labelStamp}>*</span>
+                          {/* <span className={styles?.labelStamp}>*</span> */}
                         </label>
                         <div className={styles.tooltipContainer}>
                           <textarea
@@ -6614,16 +6614,16 @@ const EditAddProduct = ({ placeholder }) => {
                           />
                           <Tooltip content="White-label solutions for branding. ,Custom integrations or API usage."></Tooltip>
                         </div>
-                        {formik.touched.addOns && formik.errors.addOns && (
+                        {/* {formik.touched.addOns && formik.errors.addOns && (
                           <span className={styles.error}>
                             {formik.errors.addOns}
                           </span>
-                        )}
+                        )} */}
                       </div>
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
                           User Access
-                          <span className={styles?.labelStamp}>*</span>
+                          {/* <span className={styles?.labelStamp}>*</span> */}
                         </label>
                         <div className={styles.tooltipContainer}>
                           <textarea
@@ -6644,12 +6644,12 @@ const EditAddProduct = ({ placeholder }) => {
                           />
                           <Tooltip content="Patients Easy-to-use apps for booking and attending consultations."></Tooltip>
                         </div>
-                        {formik.touched.userAccess &&
+                        {/* {formik.touched.userAccess &&
                           formik.errors.userAccess && (
                             <span className={styles.error}>
                               {formik.errors.userAccess}
                             </span>
-                          )}
+                          )} */}
                       </div>
                     </div>
                   </div>
@@ -6660,7 +6660,7 @@ const EditAddProduct = ({ placeholder }) => {
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
                           Key Features
-                          <span className={styles?.labelStamp}>*</span>
+                          {/* <span className={styles?.labelStamp}>*</span> */}
                         </label>
                         <div className={styles.tooltipContainer}>
                           <textarea
@@ -6686,17 +6686,17 @@ const EditAddProduct = ({ placeholder }) => {
                               or mobile apps."
                           ></Tooltip>
                         </div>
-                        {formik.touched.keyFeatures &&
+                        {/* {formik.touched.keyFeatures &&
                           formik.errors.keyFeatures && (
                             <span className={styles.error}>
                               {formik.errors.keyFeatures}
                             </span>
-                          )}
+                          )} */}
                       </div>
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
                           Core Functionalities
-                          <span className={styles?.labelStamp}>*</span>
+                          {/* <span className={styles?.labelStamp}>*</span> */}
                         </label>
                         <div className={styles.tooltipContainer}>
                           <textarea
@@ -6717,17 +6717,17 @@ const EditAddProduct = ({ placeholder }) => {
                           />
                           <Tooltip content="Continuous or on-demand monitoring (e.g., ECG, blood oxygen levels, heart rate)."></Tooltip>
                         </div>
-                        {formik.touched.coreFunctionalities &&
+                        {/* {formik.touched.coreFunctionalities &&
                           formik.errors.coreFunctionalities && (
                             <span className={styles.error}>
                               {formik.errors.coreFunctionalities}
                             </span>
-                          )}
+                          )} */}
                       </div>
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
                           Interoperability
-                          <span className={styles?.labelStamp}>*</span>
+                          {/* <span className={styles?.labelStamp}>*</span> */}
                         </label>
                         <div className={styles.tooltipContainer}>
                           <textarea
@@ -6748,12 +6748,12 @@ const EditAddProduct = ({ placeholder }) => {
                           />
                           <Tooltip content="Adheres to HL7/FHIR standards for healthcare data exchange."></Tooltip>
                         </div>
-                        {formik.touched.interoperability &&
+                        {/* {formik.touched.interoperability &&
                           formik.errors.interoperability && (
                             <span className={styles.error}>
                               {formik.errors.interoperability}
                             </span>
-                          )}
+                          )} */}
                         <AddProductFileUpload
                           styles={styles}
                           productDetails={productDetail}
