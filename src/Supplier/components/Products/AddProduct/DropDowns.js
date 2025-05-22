@@ -346,8 +346,11 @@ export const addProductValidationSchema = Yup.object({
   //   "Manufacturer Country of Origin is required."
   // ),
   model: Yup.string()
-  .required("Part/Model Number is required.")
-  .matches(/^[a-zA-Z0-9\s\-\/]+$/, "Part/Model Number can only contain letters, numbers, spaces, hyphens (-), and slashes (/)."),
+    .required("Part/Model Number is required.")
+    .matches(
+      /^[a-zA-Z0-9\s\-\/]+$/,
+      "Part/Model Number can only contain letters, numbers, spaces, hyphens (-), and slashes (/)."
+    ),
   image: Yup.array()
     .max(4, "You can upload up to 4 images.")
     .of(
@@ -360,8 +363,11 @@ export const addProductValidationSchema = Yup.object({
         ) // Max 5MB
     ),
   form: Yup.string()
-  // .required("Product Type/Form is required.")
-  .matches(/^[a-zA-Z0-9\s]+$/, "Product Type/Form must be alphanumeric (letters, numbers, and spaces only)."),
+    // .required("Product Type/Form is required.")
+    .matches(
+      /^[a-zA-Z0-9\s]+$/,
+      "Product Type/Form must be alphanumeric (letters, numbers, and spaces only)."
+    ),
   quantity: Yup.number().required("Product Quantity is required."),
 
   // volumn: Yup.string().required("Product Size/Volumn is required."),
@@ -442,17 +448,16 @@ export const addProductValidationSchema = Yup.object({
   // )
   // .nullable(),
 
-  stockedInDetails: Yup.array()
-    .of(
-      Yup.object({
-        country: Yup.string().required("Country is required."),
-        // quantity: Yup.number()
-        //   .required("Quantity is required.")
-        //   .positive("Quantity must be greater than 0"),
-        // type: Yup.string().required("Type is required."),
-      })
-    ),
-    // .min(1, "At least one product is required."), // Optional: You can enforce at least one item in the array
+  stockedInDetails: Yup.array().of(
+    Yup.object({
+      country: Yup.string().required("Country is required."),
+      // quantity: Yup.number()
+      //   .required("Quantity is required.")
+      //   .positive("Quantity must be greater than 0"),
+      // type: Yup.string().required("Type is required."),
+    })
+  ),
+  // .min(1, "At least one product is required."), // Optional: You can enforce at least one item in the array
   productPricingDetails: Yup.array()
     .of(
       Yup.object({
@@ -1268,8 +1273,11 @@ export const editProductValidationSchema = Yup.object({
   //   "Manufacturer Country of Origin is required."
   // ),
   model: Yup.string()
-  .required("Part/Model Number is required.")
-  .matches(/^[a-zA-Z0-9\s\-\/]+$/, "Part/Model Number can only contain letters, numbers, spaces, hyphens (-), and slashes (/)."),
+    .required("Part/Model Number is required.")
+    .matches(
+      /^[a-zA-Z0-9\s\-\/]+$/,
+      "Part/Model Number can only contain letters, numbers, spaces, hyphens (-), and slashes (/)."
+    ),
   image: Yup.array().max(4, "You can upload up to 4 images."),
   // .of(
   // Yup.string().required("A file path is required.") // Since it's now a string
@@ -1286,18 +1294,21 @@ export const editProductValidationSchema = Yup.object({
         )
     ),
   form: Yup.string()
-  // .required("Product Type/Form is required.")
-  .matches(/^[a-zA-Z0-9\s]+$/, "Product Type/Form must be alphanumeric (letters, numbers, and spaces only)."),
+    // .required("Product Type/Form is required.")
+    .matches(
+      /^[a-zA-Z0-9\s]+$/,
+      "Product Type/Form must be alphanumeric (letters, numbers, and spaces only)."
+    ),
   quantity: Yup.number().required("Product Quantity is required."),
   weight: Yup.number()
-  .typeError("Product Weight must be a number.")
-  .positive("Product Weight must be greater than 0"),
+    .typeError("Product Weight must be a number.")
+    .positive("Product Weight must be greater than 0"),
   // .required("Product Weight is required."),
   // unit: Yup.string().required("Product Weight Unit is required."),
   unit_tax: Yup.number()
-  .typeError("Tax must be a number.")
-  .positive("Tax must be greater than 0")
-  .required("Tax Percentage is required."),
+    .typeError("Tax must be a number.")
+    .positive("Tax must be greater than 0")
+    .required("Tax Percentage is required."),
   // packageType: Yup.string().required("Product Packaging Type is required."),
   // packageMaterial: Yup.string().required(
   //   "Product Packaging Material is required."
@@ -1369,16 +1380,24 @@ export const editProductValidationSchema = Yup.object({
   //   }
   // )
   // .nullable(),
-  stockedInDetails: Yup.array()
-    .of(
-      Yup.object({
-        country: Yup.string().required("Country is required."),
-        // quantity: Yup.number()
-        //   .required("Quantity is required.")
-        //   .positive("Quantity must be greater than 0"),
-        // type: Yup.string().required("Type is required."),
-      })
-    ),
+  stockedInDetails: Yup.array().of(
+    Yup.object({
+      country: Yup.string()
+        .required("Country is required.")
+        .test(
+          "country-in-countries",
+          "Country must be one of the selected countries",
+          (value, context) => {
+            const { countries } = context.parent; // Get the countries array from the form values
+            return countries?.includes(value); // Check if the country exists in the countries array
+          }
+        ),
+      // quantity: Yup.number()
+      //   .required("Quantity is required.")
+      //   .positive("Quantity must be greater than 0"),
+      // type: Yup.string().required("Type is required."),
+    })
+  ),
   //   .min(1, "At least one product is required."), // Optional: You can enforce at least one item in the array
   productPricingDetails: Yup.array()
     .of(
