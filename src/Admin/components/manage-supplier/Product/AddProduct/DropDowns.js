@@ -1212,7 +1212,8 @@ export const editProductValidationSchema = Yup.object({
           "country-in-countries",
           "Country must be one of the selected countries",
           (value, context) => {
-            const { countries } = context.parent; // Get the countries array from the form values
+            const { countries } = context?.from?.[context?.from?.length-1]?.value; // Get the countries array from the form values
+            console.log("context.parent",countries)
             return countries?.includes(value); // Check if the country exists in the countries array
           }
         ),
