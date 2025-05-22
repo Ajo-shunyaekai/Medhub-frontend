@@ -119,7 +119,7 @@ const ProductDetails = () => {
                               {country}
                               {index !==
                                 productDetail?.secondaryMarketDetails
-                                  ?.countryAvailable.length -
+                                  ?.countryAvailable?.length -
                                   1 && ", "}
                             </span>
                           )
@@ -385,7 +385,7 @@ const ProductDetails = () => {
                                 {country}
                                 {index <
                                 productDetail.inventoryDetails.countries
-                                  .length -
+                                  ?.length -
                                   1
                                   ? ", "
                                   : ""}

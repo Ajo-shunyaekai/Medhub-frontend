@@ -285,7 +285,7 @@ const ProductDetails = () => {
                               {country}
                               {index !==
                                 productDetail?.secondaryMarketDetails
-                                  ?.countryAvailable.length -
+                                  ?.countryAvailable?.length -
                                   1 && ", "}
                             </span>
                           )
@@ -579,7 +579,7 @@ const ProductDetails = () => {
                                 {country}
                                 {index <
                                 productDetail.inventoryDetails.countries
-                                  .length -
+                                  ?.length -
                                   1
                                   ? ", "
                                   : ""}
@@ -3359,7 +3359,7 @@ const ProductDetails = () => {
                       </div>
                     )}
                     {productDetail?.[productDetail?.category]
-                      ?.interoperabilityFile.length > 0 && (
+                      ?.interoperabilityFile?.length > 0 && (
                       <div className={styles.uploadFileSection}>
                         <RenderProductFiles
                           files={
