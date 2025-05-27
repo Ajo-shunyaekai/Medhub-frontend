@@ -177,7 +177,7 @@ const CreateInvoice = ({ socket }) => {
             enquiryId: data.enquiry_id,
             supplierId: data.supplier_id,
             supplierName: data?.supplier?.supplier_name,
-            supplierEmail: data?.supplier?.supplier_email,
+            supplierEmail: data?.supplier_email,
             supplierCountry: supplierCountryOption
               ? { label: supplierCountryOption.name, value: supplierCountryOption.isoCode }
               : null,
