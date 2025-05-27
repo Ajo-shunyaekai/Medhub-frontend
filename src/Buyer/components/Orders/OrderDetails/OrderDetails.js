@@ -307,16 +307,6 @@ const OrdersDetails = ({ socket }) => {
                     Mobile: {orderDetails.buyer_logistics_data.mobile_number}
                   </span>
              )}
-                {orderDetails.buyer_logistics_data.mode_of_transport && (
-                  <span className='details-address-text'>
-                    Mode of Transport: {orderDetails.buyer_logistics_data.mode_of_transport}
-                  </span>
-                )}
-                {orderDetails.buyer_logistics_data.extra_services?.length > 0 && (
-                  <span className='details-address-text'>
-                    Extra Services: {orderDetails.buyer_logistics_data.extra_services.join(', ')}
-                  </span>
-                )}
               </div>
             </div>
           )}

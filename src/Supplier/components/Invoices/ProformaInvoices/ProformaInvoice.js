@@ -10,12 +10,8 @@ import "react-date-picker/dist/DatePicker.css";
 import "react-calendar/dist/Calendar.css";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
-import {
-  phoneValidationRules,
-  countryCodes,
-} from "../../../../utils/phoneNumberValidation";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
-import Select, { components } from "react-select";
+import Select from "react-select";
 import { Country, State, City } from "country-state-city";
 
 const ProformaInvoice = ({ socket }) => {
@@ -32,7 +28,7 @@ const ProformaInvoice = ({ socket }) => {
   const [inquiryDetails, setInquiryDetails] = useState();
   const [orderItems, setOrderItems] = useState([]);
   const [grandTotal, setGrandTotal] = useState(0);
-  const [requestedAmount, setrequestedAmount] = useState(0);
+  const [requestedAmount, setRequestedAmount] = useState(0);
   const [depostDueDateError, setDepostDueDateError] = useState("");
   const [depostDueDateValue, setDepostDueDateValue] = useState();
   const [dateError, setDateError] = useState("");
@@ -104,9 +100,9 @@ const ProformaInvoice = ({ socket }) => {
     const day = date.getDate().toString().padStart(2, "0");
     const month = (date.getMonth() + 1).toString().padStart(2, "0");
     const year = date.getFullYear();
-
     return `${day}-${month}-${year}`;
   };
+
   useEffect(() => {
     const today = new Date();
     const day = String(today.getDate()).padStart(2, "0");
@@ -114,7 +110,6 @@ const ProformaInvoice = ({ socket }) => {
     const year = today.getFullYear();
     const formattedDate = `${day}-${month}-${year}`;
     setCurrentDate(formattedDate);
-    
 
     const generateRandomNumber = () =>
       Math.floor(10000000 + Math.random() * 90000000);
@@ -133,7 +128,11 @@ const ProformaInvoice = ({ socket }) => {
     const dueYear = dueDate.getFullYear();
     const formattedDueDate = `${dueDay}-${dueMonth}-${dueYear}`;
     setDueDate(formattedDueDate);
-  
+    setDateValue(dueDate);
+    setFormData((prevState) => ({
+      ...prevState,
+      dueDate: formattedDueDate,
+    }));
   }, []);
 
   useEffect(() => {
@@ -155,107 +154,151 @@ const ProformaInvoice = ({ socket }) => {
           const data = response.result;
           const formattedSupplierMobile = `${
             data?.supplier_country_code || ""
-          }-${data?.supplier_mobile || ""}`;
-          const formattedBuyerMobile = `${data?.buyer_country_code || ""}-${
-            data?.buyer_mobile || ""
-          }`;
-
+          }${data?.supplier_mobile || ""}`;
+          const formattedBuyerMobile = `${
+            data?.buyer_country_code || ""
+          }${data?.buyer_mobile || ""}`;
           const paymentTermsString =
-            response?.result?.enquiry_details[0]?.payment_terms?.join("\n");
+            data?.enquiry_details[0]?.payment_terms?.join("\n") || "";
 
           setFormData((prevFormData) => ({
             ...prevFormData,
             poId: data?.purchaseOrder_id,
-            description: data?.additional_instructions,
+            description: data?.additional_instructions || "",
             supplierId: data?.supplier_id,
-            supplierName: data?.supplier_name,
-            supplierEmail: data?.supplier_email,
-            supplierAddress: data?.supplier_address,
+            supplierName: data?.supplier_name || "",
+            supplierEmail: data?.supplier_email || "",
+            supplierAddress: data?.supplier_address || "",
+            supplierLocality: data?.supplier_registered_address?.locality || "",
+            supplierLandmark: data?.supplier_registered_address?.land_mark || "",
+            supplierCountry: data?.supplier_registered_address?.country || "",
+            supplierState: data?.supplier_registered_address?.state || "",
+            supplierCity: data?.supplier_registered_address?.city || "",
+            supplierPincode: data?.supplier_registered_address?.pincode || "",
             supplierMobile: formattedSupplierMobile,
             supplierContactPersonMobile:
-              data?.supplier_details[0]?.contact_person_mobile_no,
+              data?.supplier_details[0]?.contact_person_mobile_no || "",
             supplierContactPersonCountryCode:
-              data?.supplier_details[0]?.contact_person_country_code,
-            bankDetails: data?.supplier_details[0]?.bank_details,
-            supplierRegNo: data?.supplier_regNo,
-            buyerId: data?.buyer_details?.buyer_id,
-            buyerName: data?.buyer_name,
-            buyerEmail: data?.buyer_email,
-            buyerAddress: data?.buyer_address,
+              data?.supplier_details[0]?.contact_person_country_code || "",
+            bankDetails: data?.supplier_details[0]?.bank_details || "",
+            supplierRegNo: data?.supplier_regNo || "",
+            buyerId: data?.buyer_details[0]?.buyer_id || "",
+            buyerName: data?.buyer_name || "",
+            buyerEmail: data?.buyer_email || "",
+            buyerAddress: data?.buyer_address || "",
+            buyerLocality: data?.buyer_registered_address?.locality || "",
+            buyerLandmark: data?.buyer_registered_address?.land_mark || "",
+            buyerCountry: data?.buyer_registered_address?.country || "",
+            buyerState: data?.buyer_registered_address?.state || "",
+            buyerCity: data?.buyer_registered_address?.city || "",
+            buyerPincode: data?.buyer_registered_address?.pincode || "",
             buyerMobile: formattedBuyerMobile,
-            buyerRegNo: data?.buyer_regNo,
-            orderItems: data?.order_items,
-          
-            totalAmount: data?.total_amount,
+            buyerRegNo: data?.buyer_regNo || "",
+            orderItems: data?.order_items || [],
+            totalAmount: data?.total_amount || "",
             paymentTerms: paymentTermsString,
           }));
-          setOrderItems(data?.order_items);
-          if (data?.buyer_registered_address) {
-            const { country, state, city } = data?.buyer_registered_address;
+          setOrderItems(data?.order_items || []);
 
+          // Set supplier address fields
+          if (data?.supplier_registered_address) {
+            const { country, state, city } = data.supplier_registered_address;
             const countryObj = Country.getAllCountries().find(
               (c) => c.name === country
             );
-            setSelectedCountry(countryObj || "");
+            setSupplierCountry(countryObj || null);
             if (countryObj) {
               const stateObj = State.getStatesOfCountry(
                 countryObj.isoCode
               ).find((s) => s.name === state);
-              setSelectedState(stateObj || "");
-            }
-
-            if (selectedState && selectedState.isoCode !== "OTHER") {
-              const cityObj = City.getCitiesOfState(
-                selectedState.countryCode,
-                selectedState.isoCode
-              ).find((c) => c.name === city);
-              setSelectedCity(cityObj || "");
+              setSupplierState(stateObj || { name: "Other", isoCode: "OTHER" });
+              if (stateObj && stateObj.isoCode !== "OTHER") {
+                const cityObj = City.getCitiesOfState(
+                  stateObj.countryCode,
+                  stateObj.isoCode
+                ).find((c) => c.name === city);
+                setSupplierCity(cityObj || { name: "Other" });
+              } else {
+                setSupplierCity({ name: "Other" });
+              }
             }
           }
 
-          if (data?.supplier_registered_address) {
-            const { country, state, city } = data?.supplier_registered_address;
-
+          // Set buyer address fields
+          if (data?.buyer_registered_address) {
+            const { country, state, city } = data.buyer_registered_address;
             const countryObj = Country.getAllCountries().find(
               (c) => c.name === country
             );
-            setSupplierCountry(countryObj || "");
+            setSelectedCountry(countryObj || null);
             if (countryObj) {
               const stateObj = State.getStatesOfCountry(
                 countryObj.isoCode
               ).find((s) => s.name === state);
-              setSupplierState(stateObj || "");
-            }
-
-            if (supplierState && supplierState.isoCode !== "OTHER") {
-              const cityObj = City.getCitiesOfState(
-                supplierState.countryCode,
-                supplierState.isoCode
-              ).find((c) => c.name === city);
-              setSupplierCity(cityObj || "");
+              setSelectedState(stateObj || { name: "Other", isoCode: "OTHER" });
+              if (stateObj && stateObj.isoCode !== "OTHER") {
+                const cityObj = City.getCitiesOfState(
+                  stateObj.countryCode,
+                  stateObj.isoCode
+                ).find((c) => c.name === city);
+                setSelectedCity(cityObj || { name: "Other" });
+              } else {
+                setSelectedCity({ name: "Other" });
+              }
             }
           }
         } else {
+          toast(response.message, { type: "error" });
         }
       }
     );
-  }, [navigate, supplierIdSessionStorage, supplierIdLocalStorage]);
+  }, [navigate, supplierIdSessionStorage, supplierIdLocalStorage, purchaseOrderId]);
 
   const resetForm = () => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-
-     
-      supplierName: "",
-      supplierEmail: "",
-      supplierAddress: "",
-      supplierMobile: "",
+    setFormData({
+      invoiceDate: "",
+      invoiceDueDate: "",
+      invoiceNumber: "",
       dueDate: "",
+      depositDueDate: "",
       depositRequested: "",
       depositDue: "",
+      supplierName: "",
+      supplierAddress: "",
+      supplierLocality: "",
+      supplierLandmark: "",
+      supplierCountry: "",
+      supplierState: "",
+      supplierCity: "",
+      supplierPincode: "",
+      supplierEmail: "",
+      supplierMobile: "",
+      newSupplierMobile: "",
+      buyerName: "",
+      buyerAddress: "",
+      buyerLocality: "",
+      buyerLandmark: "",
+      buyerCountry: "",
+      buyerState: "",
+      buyerCity: "",
+      buyerPincode: "",
+      buyerEmail: "",
+      buyerMobile: "",
+      newBuyerMobile: "",
+      orderItems: [],
+      paymentTerms: "",
+      bankDetails: "",
       totalDueAmount: "",
-    }));
-    setDateValue();
+      totalAmount: "",
+    });
+    setDateValue(null);
+    setDepostDueDateValue(null);
+    setSelectedCountry(null);
+    setSelectedState("");
+    setSelectedCity("");
+    setSupplierCountry(null);
+    setSupplierState("");
+    setSupplierCity("");
   };
 
   const handleCancel = () => {
@@ -314,7 +357,6 @@ const ProformaInvoice = ({ socket }) => {
       formErrors.supplierMobile = "Supplier Mobile is Required";
     if (!formData.depositRequested)
       formErrors.depositRequested = "Deposit Requested Amount is Required";
-    
     if (!formData.depositDueDate)
       formErrors.depositDueDate = "Deposit Due Date is Required";
     if (!formData.dueDate) formErrors.dueDate = "Payment Due Date is Required";
@@ -360,12 +402,10 @@ const ProformaInvoice = ({ socket }) => {
         supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
         enquiry_id: inquiryDetails?.enquiry_id,
         purchaseOrder_id: purchaseOrderId,
-       
         buyer_id: buyerDetails?.buyer_id,
         orderItems: updatedOrderItems,
         data: {
           ...formData,
-         
           newBuyerMobile: formattedBuyerPhoneNumber,
           newSupplierMobile: formattedSupplierPhoneNumber,
         },
@@ -377,24 +417,19 @@ const ProformaInvoice = ({ socket }) => {
         async (response) => {
           if (response?.code === 200) {
             toast(response.message, { type: "success" });
-
             socket.emit("createOrder", {
               buyerId: inquiryDetails?.buyer_id,
               inquiryId: inquiryDetails?.enquiry_id,
               poId: purchaseOrderId,
               message: `Order Created for ${inquiryDetails?.enquiry_id}`,
               link: process.env.REACT_APP_PUBLIC_URL,
-              // send other details if needed
             });
-           
             navigate("/supplier/order/active");
-          
             setLoading(false);
           } else {
             setLoading(false);
             toast(response.message, { type: "error" });
           }
-         
         }
       );
     } else {
@@ -403,87 +438,81 @@ const ProformaInvoice = ({ socket }) => {
     }
   };
 
-  const handleCountryChange = (selectedOption) => {
-    setSupplierCountry(selectedOption);
-    setSupplierState("");
-    setSupplierCity("");
-
-    if (!selectedOption) {
-      setErrors((prevState) => ({
-        ...prevState,
-        country: "Country is required",
+  const handleCountryChange = (selectedOption, type) => {
+    if (type === "buyer") {
+      setSelectedCountry(selectedOption);
+      setSelectedState("");
+      setSelectedCity("");
+      setFormData((prev) => ({
+        ...prev,
+        buyerCountry: selectedOption?.name || "",
       }));
     } else {
-      setErrors((prevState) => ({ ...prevState, country: "" }));
-      setFormData({ ...formData, supplierCountry: selectedOption?.name });
+      setSupplierCountry(selectedOption);
+      setSupplierState("");
+      setSupplierCity("");
+      setFormData((prev) => ({
+        ...prev,
+        supplierCountry: selectedOption?.name || "",
+      }));
     }
   };
 
-  const handleStateChange = (selectedOption) => {
-    setSupplierState(selectedOption || "");
-    setSupplierCity("");
-
-    if (!selectedOption) {
-      setErrors((prevState) => ({
-        ...prevState,
-        state: "State is required",
+  const handleStateChange = (selectedOption, type) => {
+    if (type === "buyer") {
+      setSelectedState(selectedOption || "");
+      setSelectedCity("");
+      setFormData((prev) => ({
+        ...prev,
+        buyerState: selectedOption?.name || "",
       }));
     } else {
-      setErrors((prevState) => ({ ...prevState, state: "" }));
-      setFormData({ ...formData, supplierState: selectedOption?.name });
+      setSupplierState(selectedOption || "");
+      setSupplierCity("");
+      setFormData((prev) => ({
+        ...prev,
+        supplierState: selectedOption?.name || "",
+      }));
     }
   };
 
-  const handleCityChange = (selectedOption) => {
-    setSupplierCity(selectedOption || "");
-
-    if (!selectedOption) {
-      setErrors((prevState) => ({
-        ...prevState,
-        city: "City is required",
+  const handleCityChange = (selectedOption, type) => {
+    if (type === "buyer") {
+      setSelectedCity(selectedOption || "");
+      setFormData((prev) => ({
+        ...prev,
+        buyerCity: selectedOption?.name || "",
       }));
     } else {
-      setErrors((prevState) => ({ ...prevState, city: "" }));
-      setFormData({ ...formData, supplierCity: selectedOption?.name });
+      setSupplierCity(selectedOption || "");
+      setFormData((prev) => ({
+        ...prev,
+        supplierCity: selectedOption?.name || "",
+      }));
     }
   };
 
   const handleNumberInput = (event) => {
     const { name, value } = event.target;
-
-    // Remove any characters that are not digits or a single decimal point
     let cleanedValue = value.replace(/[^0-9.]/g, "");
-
-    // Ensure only one decimal point is allowed
     if (cleanedValue?.split(".").length > 2) {
-      cleanedValue = cleanedValue.replace(/\.+$/, ""); // Remove extra decimal points
+      cleanedValue = cleanedValue.replace(/\.+$/, "");
     }
-
-    // Split into integer and decimal parts
     let [integerPart, decimalPart] = cleanedValue?.split(".");
-
-    // Limit the integer part to 9 digits
     if (integerPart.length > 9) {
       integerPart = integerPart.slice(0, 9);
     }
-
-    // Limit the decimal part to 3 digits, if it exists
     if (decimalPart && decimalPart.length > 3) {
       decimalPart = decimalPart.slice(0, 3);
     }
-
-    // Recombine the integer and decimal parts
     cleanedValue =
       decimalPart !== undefined ? `${integerPart}.${decimalPart}` : integerPart;
-
-    // Update state
     setFormData((prevState) => ({
       ...prevState,
       [name]: cleanedValue,
     }));
-
-    if (name == "depositRequested") {
-      setrequestedAmount(cleanedValue);
+    if (name === "depositRequested") {
+      setRequestedAmount(cleanedValue);
     }
   };
 
@@ -495,39 +524,29 @@ const ProformaInvoice = ({ socket }) => {
 
   const formatPhoneNumber = (phoneNumber, countryCode) => {
     const cleanedNumber = phoneNumber.replace(/\D/g, "");
-    return `+${countryCode}-${cleanedNumber}`;
+    return `+${countryCode}${cleanedNumber}`;
   };
 
-  const validatePhoneNumber = (phoneNumber, countryCode) => {
-    const validationRule = phoneValidationRules[countryCode];
-    if (validationRule) {
-      return validationRule.test(phoneNumber);
-    } else {
-      return false;
-    }
-  };
   const handlePhoneChange = (value, type) => {
     try {
       const phoneNumber = parsePhoneNumberFromString(value);
       if (phoneNumber && phoneNumber.isValid()) {
         const formattedPhoneNumber = phoneNumber.formatInternational();
-
         setFormData((prevState) => ({
           ...prevState,
           [type]: formattedPhoneNumber,
         }));
       } else {
-        console.error("Invalid phone number");
         setFormData((prevState) => ({
           ...prevState,
-          [type]: "", // Clear the field if invalid
+          [type]: "",
         }));
       }
     } catch (error) {
       console.error("Error parsing phone number:", error);
       setFormData((prevState) => ({
         ...prevState,
-        [type]: "", // Clear the field if an error occurs
+        [type]: "",
       }));
     }
   };
@@ -537,17 +556,14 @@ const ProformaInvoice = ({ socket }) => {
 
   useEffect(() => {
     const grandTotalCalc = orderItems?.reduce((accumulator, item) => {
-    
       return accumulator + (Number.parseInt(item?.total_amount || 0) || 0);
     }, 0);
-
     setGrandTotal(grandTotalCalc);
-    orderItems?.length > 0 &&
-      setFormData({
-        ...formData,
-        totalDueAmount: grandTotalCalc - Number.parseInt(requestedAmount || 0),
-      });
-  }, [orderItems, requestedAmount, grandTotal]);
+    setFormData((prev) => ({
+      ...prev,
+      totalDueAmount: grandTotalCalc - Number.parseInt(requestedAmount || 0),
+    }));
+  }, [orderItems, requestedAmount]);
 
   return (
     <div className={styles["create-invoice-container"]}>
@@ -574,7 +590,6 @@ const ProformaInvoice = ({ socket }) => {
                 </p>
               )}
             </div>
-
             <div className={styles["create-invoice-div-container"]}>
               <label className={styles["create-invoice-div-label"]}>
                 Invoice Number*
@@ -624,7 +639,6 @@ const ProformaInvoice = ({ socket }) => {
               <label className={styles["create-invoice-div-label"]}>
                 Deposit Due Date*
               </label>
-
               <DatePicker
                 className={styles["create-invoice-div-input"]}
                 onChange={handleDepositDueDateChange}
@@ -664,16 +678,13 @@ const ProformaInvoice = ({ socket }) => {
               <label className={styles["create-invoice-div-label"]}>
                 Total Due Amount*
               </label>
-
               <input
                 className={styles["create-invoice-div-input"]}
                 type="text"
                 name="totalDueAmount"
                 placeholder="Enter Total Due Amount"
-              
                 readOnly
                 value={formData.totalDueAmount}
-                onInput={handleNumberInput}
               />
               {errors.totalDueAmount && (
                 <p style={{ color: "red", fontSize: "12px" }}>
@@ -692,7 +703,6 @@ const ProformaInvoice = ({ socket }) => {
                 placeholder="Enter Email ID"
                 value={formData.supplierEmail}
                 onChange={handleChange}
-               
               />
               {errors.supplierEmail && (
                 <p style={{ color: "red", fontSize: "12px" }}>
@@ -700,7 +710,6 @@ const ProformaInvoice = ({ socket }) => {
                 </p>
               )}
             </div>
-
             <div className={styles["create-invoice-div-container"]}>
               <label className={styles["create-invoice-div-label"]}>
                 Mobile No.*
@@ -709,9 +718,7 @@ const ProformaInvoice = ({ socket }) => {
                 className="signup-form-section-phone-input"
                 defaultCountry="uk"
                 name="supplierMobile"
-               
                 value={formData.supplierMobile}
-               
                 onChange={(value) => handlePhoneChange(value, "supplierMobile")}
               />
               {errors.supplierMobile && (
@@ -731,7 +738,6 @@ const ProformaInvoice = ({ socket }) => {
                 placeholder="Enter Address"
                 value={formData.supplierAddress}
                 onChange={handleChange}
-               
               />
               {errors.supplierAddress && (
                 <p style={{ color: "red", fontSize: "12px" }}>
@@ -739,127 +745,101 @@ const ProformaInvoice = ({ socket }) => {
                 </p>
               )}
             </div>
-            {inquiryDetails?.supplier_registered_address && (
-              <>
-                <div className={styles["create-invoice-div-container"]}>
-                  <label className={styles["create-invoice-div-label"]}>
-                    Area/Locality/Road Name*
-                  </label>
-                  <input
-                    className={styles["create-invoice-div-input"]}
-                    type="text"
-                    name="supplierLocality"
-                    placeholder="Enter Area/Locality/Road Name"
-                    value={formData.supplierLocality}
-                    onChange={handleChange}
-                   
-                  />
-                  {errors.buyerEmail && (
-                    <p style={{ color: "red" }}>{errors.buyerEmail}</p>
-                  )}
-                </div>
-                <div className={styles["create-invoice-div-container"]}>
-                  <label className={styles["create-invoice-div-label"]}>
-                    Landmark
-                  </label>
-                  <input
-                    className={styles["create-invoice-div-input"]}
-                    type="text"
-                    name="supplierLandmark"
-                    placeholder="Enter Landmark"
-                    value={formData.supplierLandmark}
-                    onChange={handleChange}
-                   
-                  />
-                  {errors.supplierLandmark && (
-                    <p style={{ color: "red" }}>{errors.supplierLandmark}</p>
-                  )}
-                </div>
-                <div className={styles["create-invoice-div-container"]}>
-                  <label className={styles["create-invoice-div-label"]}>
-                    Country*
-                  </label>
-                  <Select
-                    options={Country.getAllCountries()}
-                    getOptionLabel={(option) => option.name}
-                    getOptionValue={(option) => option.isoCode}
-                    value={supplierCountry}
-                    onChange={handleCountryChange}
-                    placeholder="Select Country"
-                   
-                  />
-                  {errors.buyerEmail && (
-                    <p style={{ color: "red" }}>{errors.buyerEmail}</p>
-                  )}
-                </div>
-                <div className={styles["create-invoice-div-container"]}>
-                  <label className={styles["create-invoice-div-label"]}>
-                    State/Province
-                  </label>
-                  <Select
-                    options={
-                      supplierCountry
-                        ? [
-                            ...State.getStatesOfCountry(
-                              supplierCountry.isoCode
-                            ),
-                            { name: "Other", isoCode: "OTHER" },
-                          ]
-                        : []
-                    }
-                    getOptionLabel={(option) => option.name}
-                    getOptionValue={(option) => option.isoCode}
-                    value={supplierState}
-                    onChange={handleStateChange}
-                    placeholder="Select State"
-                   
-                  />
-                  {errors.buyerEmail && (
-                    <p style={{ color: "red" }}>{errors.buyerEmail}</p>
-                  )}
-                </div>
-                <div className={styles["create-invoice-div-container"]}>
-                  <label className={styles["create-invoice-div-label"]}>
-                    City/Town
-                  </label>
-                  <Select
-                    options={
-                      supplierState && supplierState.isoCode !== "OTHER"
-                        ? [
-                            ...City.getCitiesOfState(
-                              supplierState.countryCode,
-                              supplierState.isoCode
-                            ),
-                            { name: "Other" },
-                          ]
-                        : [{ name: "Other" }]
-                    }
-                    getOptionLabel={(option) => option.name}
-                    getOptionValue={(option) => option.name}
-                    value={supplierCity}
-                    onChange={handleCityChange}
-                    placeholder="Select City"
-                    
-                  />
-                 
-                </div>
-                <div className={styles["create-invoice-div-container"]}>
-                  <label className={styles["create-invoice-div-label"]}>
-                    Pincode
-                  </label>
-                  <input
-                    className={styles["create-invoice-div-input"]}
-                    type="text"
-                    name="supplierPincode"
-                    placeholder="Enter Pincode"
-                    value={formData.supplierPincode}
-                    onChange={handleChange}
-                   
-                  />
-                 
-                </div>
-              </>
-            )}
+            <div className={styles["create-invoice-div-container"]}>
+              <label className={styles["create-invoice-div-label"]}>
+                Area/Locality/Road Name
+              </label>
+              <input
+                className={styles["create-invoice-div-input"]}
+                type="text"
+                name="supplierLocality"
+                placeholder="Enter Area/Locality/Road Name"
+                value={formData.supplierLocality}
+                onChange={handleChange}
+              />
+            </div>
+            <div className={styles["create-invoice-div-container"]}>
+              <label className={styles["create-invoice-div-label"]}>
+                Landmark
+              </label>
+              <input
+                className={styles["create-invoice-div-input"]}
+                type="text"
+                name="supplierLandmark"
+                placeholder="Enter Landmark"
+                value={formData.supplierLandmark}
+                onChange={handleChange}
+              />
+            </div>
+            <div className={styles["create-invoice-div-container"]}>
+              <label className={styles["create-invoice-div-label"]}>
+                Country
+              </label>
+              <Select
+                options={Country.getAllCountries()}
+                getOptionLabel={(option) => option.name}
+                getOptionValue={(option) => option.isoCode}
+                value={supplierCountry}
+                onChange={(option) => handleCountryChange(option, "supplier")}
+                placeholder="Select Country"
+              />
+            </div>
+            <div className={styles["create-invoice-div-container"]}>
+              <label className={styles["create-invoice-div-label"]}>
+                State/Province
+              </label>
+              <Select
+                options={
+                  supplierCountry
+                    ? [
+                        ...State.getStatesOfCountry(supplierCountry.isoCode),
+                        { name: "Other", isoCode: "OTHER" },
+                      ]
+                    : []
+                }
+                getOptionLabel={(option) => option.name}
+                getOptionValue={(option) => option.isoCode}
+                value={supplierState}
+                onChange={(option) => handleStateChange(option, "supplier")}
+                placeholder="Select State"
+              />
+            </div>
+            <div className={styles["create-invoice-div-container"]}>
+              <label className={styles["create-invoice-div-label"]}>
+                City/Town
+              </label>
+              <Select
+                options={
+                  supplierState && supplierState.isoCode !== "OTHER"
+                    ? [
+                        ...City.getCitiesOfState(
+                          supplierState.countryCode,
+                          supplierState.isoCode
+                        ),
+                        { name: "Other" },
+                      ]
+                    : [{ name: "Other" }]
+                }
+                getOptionLabel={(option) => option.name}
+                getOptionValue={(option) => option.name}
+                value={supplierCity}
+                onChange={(option) => handleCityChange(option, "supplier")}
+                placeholder="Select City"
+              />
+            </div>
+            <div className={styles["create-invoice-div-container"]}>
+              <label className={styles["create-invoice-div-label"]}>
+                Pincode
+              </label>
+              <input
+                className={styles["create-invoice-div-input"]}
+                type="text"
+                name="supplierPincode"
+                placeholder="Enter Pincode"
+                value={formData.supplierPincode}
+                onChange={handleChange}
+              />
+            </div>
           </div>
         </div>
         <div className={styles["create-invoice-section"]}>
@@ -872,9 +852,8 @@ const ProformaInvoice = ({ socket }) => {
                 type="text"
                 name="buyerName"
                 placeholder="Enter Name"
-                readOnly
                 value={formData.buyerName}
-               
+                readOnly
               />
               {errors.buyerName && (
                 <p style={{ color: "red", fontSize: "12px" }}>
@@ -891,9 +870,8 @@ const ProformaInvoice = ({ socket }) => {
                 type="text"
                 name="buyerEmail"
                 placeholder="Enter Email ID"
-                readOnly
                 value={formData.buyerEmail}
-              
+                readOnly
               />
               {errors.buyerEmail && (
                 <p style={{ color: "red", fontSize: "12px" }}>
@@ -908,11 +886,9 @@ const ProformaInvoice = ({ socket }) => {
               <PhoneInput
                 className="signup-form-section-phone-input"
                 defaultCountry="ae"
-                name="phoneinput"
-               
+                name="buyerMobile"
                 value={formData.buyerMobile}
                 disabled
-              
               />
               {errors.buyerMobile && (
                 <p style={{ color: "red", fontSize: "12px" }}>
@@ -929,9 +905,8 @@ const ProformaInvoice = ({ socket }) => {
                 type="text"
                 name="buyerAddress"
                 placeholder="Enter Address"
-                readOnly
                 value={formData.buyerAddress}
-               
+                readOnly
               />
               {errors.buyerAddress && (
                 <p style={{ color: "red", fontSize: "12px" }}>
@@ -939,208 +914,175 @@ const ProformaInvoice = ({ socket }) => {
                 </p>
               )}
             </div>
-            {inquiryDetails?.buyer_registered_address && (
-              <>
-                <div className={styles["create-invoice-div-container"]}>
-                  <label className={styles["create-invoice-div-label"]}>
-                    Area/Locality/Road Name*
-                  </label>
-                  <input
-                    className={styles["create-invoice-div-input"]}
-                    type="text"
-                    name="buyerLocality"
-                    placeholder="Enter Area/Locality/Road Name"
-                    value={formData.buyerLocality}
-                    onChange={handleChange}
-                   
-                  />
-                  {errors.buyerEmail && (
-                    <p style={{ color: "red" }}>{errors.buyerEmail}</p>
-                  )}
-                </div>
-                <div className={styles["create-invoice-div-container"]}>
-                  <label className={styles["create-invoice-div-label"]}>
-                    Landmark
-                  </label>
-                  <input
-                    className={styles["create-invoice-div-input"]}
-                    type="text"
-                    name="buyerLandmark"
-                    placeholder="Enter Locality"
-                    value={formData.buyerLandmark}
-                    onChange={handleChange}
-                   
-                  />
-                  {errors.buyerEmail && (
-                    <p style={{ color: "red" }}>{errors.buyerEmail}</p>
-                  )}
-                </div>
-                <div className={styles["create-invoice-div-container"]}>
-                  <label className={styles["create-invoice-div-label"]}>
-                    Country*
-                  </label>
-                  <Select
-                    options={Country.getAllCountries()}
-                    getOptionLabel={(option) => option.name}
-                    getOptionValue={(option) => option.isoCode}
-                    value={selectedCountry}
-                    onChange={handleCountryChange}
-                    placeholder="Select Country"
-                   
-                  />
-                  {errors.buyerEmail && (
-                    <p style={{ color: "red" }}>{errors.buyerEmail}</p>
-                  )}
-                </div>
-                <div className={styles["create-invoice-div-container"]}>
-                  <label className={styles["create-invoice-div-label"]}>
-                    State/Province
-                  </label>
-                  <Select
-                    options={
-                      selectedCountry
-                        ? [
-                            ...State.getStatesOfCountry(
-                              selectedCountry.isoCode
-                            ),
-                            { name: "Other", isoCode: "OTHER" },
-                          ]
-                        : []
-                    }
-                    getOptionLabel={(option) => option.name}
-                    getOptionValue={(option) => option.isoCode}
-                    value={selectedState}
-                    onChange={handleStateChange}
-                    placeholder="Select State"
-                   
-                  />
-                  {errors.buyerEmail && (
-                    <p style={{ color: "red" }}>{errors.buyerEmail}</p>
-                  )}
-                </div>
-                <div className={styles["create-invoice-div-container"]}>
-                  <label className={styles["create-invoice-div-label"]}>
-                    City/Town
-                  </label>
-                  <Select
-                    options={
-                      selectedState && selectedState.isoCode !== "OTHER"
-                        ? [
-                            ...City.getCitiesOfState(
-                              selectedState.countryCode,
-                              selectedState.isoCode
-                            ),
-                            { name: "Other" },
-                          ]
-                        : [{ name: "Other" }]
-                    }
-                    getOptionLabel={(option) => option.name}
-                    getOptionValue={(option) => option.name}
-                    value={selectedCity}
-                    onChange={handleCityChange}
-                    placeholder="Select City"
-                   
-                  />
-                  {errors.buyerEmail && (
-                    <p style={{ color: "red" }}>{errors.buyerEmail}</p>
-                  )}
-                </div>
-                <div className={styles["create-invoice-div-container"]}>
-                  <label className={styles["create-invoice-div-label"]}>
-                    Pincode
-                  </label>
-                  <input
-                    className={styles["create-invoice-div-input"]}
-                    type="text"
-                    name="buyerPincode"
-                    placeholder="Enter Pincode"
-                    value={formData.buyerPincode}
-                    onChange={handleChange}
-                   
-                  />
-                  {errors.buyerEmail && (
-                    <p style={{ color: "red" }}>{errors.buyerEmail}</p>
-                  )}
-                </div>
-              </>
-            )}
+            <div className={styles["create-invoice-div-container"]}>
+              <label className={styles["create-invoice-div-label"]}>
+                Area/Locality/Road Name
+              </label>
+              <input
+                className={styles["create-invoice-div-input"]}
+                type="text"
+                name="buyerLocality"
+                placeholder="Enter Area/Locality/Road Name"
+                value={formData.buyerLocality}
+                onChange={handleChange}
+              />
+            </div>
+            <div className={styles["create-invoice-div-container"]}>
+              <label className={styles["create-invoice-div-label"]}>
+                Landmark
+              </label>
+              <input
+                className={styles["create-invoice-div-input"]}
+                type="text"
+                name="buyerLandmark"
+                placeholder="Enter Landmark"
+                value={formData.buyerLandmark}
+                onChange={handleChange}
+              />
+            </div>
+            <div className={styles["create-invoice-div-container"]}>
+              <label className={styles["create-invoice-div-label"]}>
+                Country
+              </label>
+              <Select
+                options={Country.getAllCountries()}
+                getOptionLabel={(option) => option.name}
+                getOptionValue={(option) => option.isoCode}
+                value={selectedCountry}
+                onChange={(option) => handleCountryChange(option, "buyer")}
+                placeholder="Select Country"
+              />
+            </div>
+            <div className={styles["create-invoice-div-container"]}>
+              <label className={styles["create-invoice-div-label"]}>
+                State/Province
+              </label>
+              <Select
+                options={
+                  selectedCountry
+                    ? [
+                        ...State.getStatesOfCountry(selectedCountry.isoCode),
+                        { name: "Other", isoCode: "OTHER" },
+                      ]
+                    : []
+                }
+                getOptionLabel={(option) => option.name}
+                getOptionValue={(option) => option.isoCode}
+                value={selectedState}
+                onChange={(option) => handleStateChange(option, "buyer")}
+                placeholder="Select State"
+              />
+            </div>
+            <div className={styles["create-invoice-div-container"]}>
+              <label className={styles["create-invoice-div-label"]}>
+                City/Town
+              </label>
+              <Select
+                options={
+                  selectedState && selectedState.isoCode !== "OTHER"
+                    ? [
+                        ...City.getCitiesOfState(
+                          selectedState.countryCode,
+                          selectedState.isoCode
+                        ),
+                        { name: "Other" },
+                      ]
+                    : [{ name: "Other" }]
+                }
+                getOptionLabel={(option) => option.name}
+                getOptionValue={(option) => option.name}
+                value={selectedCity}
+                onChange={(option) => handleCityChange(option, "buyer")}
+                placeholder="Select City"
+              />
+            </div>
+            <div className={styles["create-invoice-div-container"]}>
+              <label className={styles["create-invoice-div-label"]}>
+                Pincode
+              </label>
+              <input
+                className={styles["create-invoice-div-input"]}
+                type="text"
+                name="buyerPincode"
+                placeholder="Enter Pincode"
+                value={formData.buyerPincode}
+                onChange={handleChange}
+              />
+            </div>
           </div>
         </div>
         <div className={styles["create-invoice-section"]}>
-          {orderItems?.map((item, index) => {
-            return (
-              <div className={styles["form-item-container"]} key={item.id}>
-                <div className={styles["create-invoice-div-container"]}>
-                  <label className={styles["create-invoice-div-label"]}>
-                    Product Name*
-                  </label>
-                  <input
-                    className={styles["create-invoice-div-input"]}
-                    type="text"
-                    name={`Qty-${item.id}`}
-                    placeholder="Enter Product Name"
-                    value={
-                      item?.medicine_details?.medicine_name ||
-                      item?.medicine_name
-                    }
-                    readOnly
-                  />
-                </div>
-                <div className={styles["create-invoice-div-container"]}>
-                  <label className={styles["create-invoice-div-label"]}>
-                    Quantity*
-                  </label>
-                  <input
-                    className={styles["create-invoice-div-input"]}
-                    type="text"
-                    name={`Qty-${item.id}`}
-                    placeholder="Enter Quantity"
-                    value={item?.quantity_required}
-                    readOnly
-                  />
-                </div>
-                <div className={styles["create-invoice-div-container"]}>
-                  <label className={styles["create-invoice-div-label"]}>
-                    Price*
-                  </label>
-                  <input
-                    className={styles["create-invoice-div-input"]}
-                    type="text"
-                    name={`UnitPrice-${item.id}`}
-                    placeholder="Enter Price"
-                    value={item?.counter_price || item?.target_price}
-                    readOnly
-                  />
-                </div>
-                <div className={styles["create-invoice-div-container"]}>
-                  <label className={styles["create-invoice-div-label"]}>
-                    Tax%*
-                  </label>
-                  <input
-                    className={styles["create-invoice-div-input"]}
-                    type="text"
-                    name={`UnitPrice-${item.id}`}
-                    placeholder="Enter Tax%"
-                    value={item?.medicine_details?.general?.unit_tax || 0}
-                    readOnly
-                  />
-                </div>
-                <div className={styles["create-invoice-div-container"]}>
-                  <label className={styles["create-invoice-div-label"]}>
-                    Total Amount*
-                  </label>
-                  <input
-                    className={styles["create-invoice-div-input"]}
-                    type="text"
-                    name={`TotalAmount-${item.id}`}
-                    placeholder="Enter Total Amount"
-                    value={item?.total_amount}
-                    readOnly
-                  />
-                </div>
+          {orderItems?.map((item, index) => (
+            <div className={styles["form-item-container"]} key={item._id}>
+              <div className={styles["create-invoice-div-container"]}>
+                <label className={styles["create-invoice-div-label"]}>
+                  Product Name*
+                </label>
+                <input
+                  className={styles["create-invoice-div-input"]}
+                  type="text"
+                  name={`productName-${item._id}`}
+                  placeholder="Enter Product Name"
+                  value={
+                    item?.medicine_details?.general?.name || item?.medicine_name
+                  }
+                  readOnly
+                />
               </div>
-            );
-          })}
+              <div className={styles["create-invoice-div-container"]}>
+                <label className={styles["create-invoice-div-label"]}>
+                  Quantity*
+                </label>
+                <input
+                  className={styles["create-invoice-div-input"]}
+                  type="text"
+                  name={`quantity-${item._id}`}
+                  placeholder="Enter Quantity"
+                  value={item?.quantity_required}
+                  readOnly
+                />
+              </div>
+              <div className={styles["create-invoice-div-container"]}>
+                <label className={styles["create-invoice-div-label"]}>
+                  Price*
+                </label>
+                <input
+                  className={styles["create-invoice-div-input"]}
+                  type="text"
+                  name={`unitPrice-${item._id}`}
+                  placeholder="Enter Price"
+                  value={item?.unit_price || item?.target_price}
+                  readOnly
+                />
+              </div>
+              <div className={styles["create-invoice-div-container"]}>
+                <label className={styles["create-invoice-div-label"]}>
+                  Tax%*
+                </label>
+                <input
+                  className={styles["create-invoice-div-input"]}
+                  type="text"
+                  name={`unitTax-${item._id}`}
+                  placeholder="Enter Tax%"
+                  value={item?.medicine_details?.general?.unit_tax || item?.unit_tax || 0}
+                  readOnly
+                />
+              </div>
+              <div className={styles["create-invoice-div-container"]}>
+                <label className={styles["create-invoice-div-label"]}>
+                  Total Amount*
+                </label>
+                <input
+                  className={styles["create-invoice-div-input"]}
+                  type="text"
+                  name={`totalAmount-${item._id}`}
+                  placeholder="Enter Total Amount"
+                  value={item?.total_amount}
+                  readOnly
+                />
+              </div>
+            </div>
+          ))}
         </div>
         <div className={styles["create-invoice-section"]}>
           <div className={styles.createBankSection}>
@@ -1184,7 +1126,6 @@ const ProformaInvoice = ({ socket }) => {
             className={styles["create-invoices-submit"]}
             disabled={loading}
           >
-            {/* Create Proforma Invoice */}
             {loading ? (
               <div className={styles["loading-spinner"]}></div>
             ) : (

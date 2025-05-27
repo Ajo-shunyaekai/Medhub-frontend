@@ -116,6 +116,39 @@ function ProformaDetailsPage() {
     };
   }, [orderId]);
 
+  // Format supplier and buyer addresses in two lines using registered address
+  const supplierAddressLine1 = [
+    orderDetails?.supplier_registered_address?.company_reg_address,
+    orderDetails?.supplier_registered_address?.locality,
+    orderDetails?.supplier_registered_address?.land_mark,
+  ]
+    .filter(Boolean)
+    .join(", ");
+  const supplierAddressLine2 = [
+    orderDetails?.supplier_registered_address?.city,
+    orderDetails?.supplier_registered_address?.state,
+    orderDetails?.supplier_registered_address?.country,
+    orderDetails?.supplier_registered_address?.pincode,
+  ]
+    .filter(Boolean)
+    .join(", ");
+
+  const buyerAddressLine1 = [
+    orderDetails?.buyer_registered_address?.company_reg_address,
+    orderDetails?.buyer_registered_address?.locality,
+    orderDetails?.buyer_registered_address?.land_mark,
+  ]
+    .filter(Boolean)
+    .join(", ");
+  const buyerAddressLine2 = [
+    orderDetails?.buyer_registered_address?.city,
+    orderDetails?.buyer_registered_address?.state,
+    orderDetails?.buyer_registered_address?.country,
+    orderDetails?.buyer_registered_address?.pincode,
+  ]
+    .filter(Boolean)
+    .join(", ");
+
   return (
     <div className="invoice-template-design">
       <div className="scroll-wrapper">
@@ -216,8 +249,8 @@ function ProformaDetailsPage() {
                           <td
                             style={{
                               verticalAlign: "top",
-                              width: "60%",
-                              paddingRight: "20px",
+                              width: "50%",
+                              paddingRight: "10px",
                               paddingBottom: "20px",
                             }}
                           >
@@ -241,17 +274,17 @@ function ProformaDetailsPage() {
                                 {orderDetails.supplier_name}
                               </p>
                             )}
-                            {orderDetails?.supplier_address && (
-                              <p
+                            {(supplierAddressLine1 || supplierAddressLine2) && (
+                              <div
                                 style={{
                                   fontSize: "13px",
                                   color: "#616161",
                                   fontWeight: "500",
-                                     
                                 }}
                               >
-                                {orderDetails.supplier_address}
-                              </p>
+                                <p>{supplierAddressLine1}</p>
+                                <p>{supplierAddressLine2}</p>
+                              </div>
                             )}
                             {orderDetails?.supplier_mobile && (
                               <td
@@ -265,7 +298,6 @@ function ProformaDetailsPage() {
                                     fontSize: "13px",
                                     color: "#616161",
                                     fontWeight: "500",
-                                       
                                   }}
                                 >
                                   {orderDetails.supplier_mobile}
@@ -284,7 +316,6 @@ function ProformaDetailsPage() {
                                     fontSize: "13px",
                                     color: "#616161",
                                     fontWeight: "500",
-                                       
                                   }}
                                 >
                                   {orderDetails.supplier_email}
@@ -295,7 +326,8 @@ function ProformaDetailsPage() {
                           <td
                             style={{
                               verticalAlign: "top",
-                              width: "40%",
+                              width: "50%",
+                              paddingLeft: "10px",
                               paddingBottom: "20px",
                             }}
                           >
@@ -321,18 +353,18 @@ function ProformaDetailsPage() {
                                 {orderDetails.buyer_name}
                               </p>
                             )}
-                            {orderDetails?.buyer_address && (
-                              <p
+                            {(buyerAddressLine1 || buyerAddressLine2) && (
+                              <div
                                 style={{
                                   fontSize: "13px",
                                   color: "#616161",
                                   fontWeight: "500",
-                                     
                                   textAlign: "end",
                                 }}
                               >
-                                {orderDetails.buyer_address}
-                              </p>
+                                <p>{buyerAddressLine1}</p>
+                                <p>{buyerAddressLine2}</p>
+                              </div>
                             )}
                             {orderDetails?.buyer_mobile && (
                               <td
@@ -343,7 +375,6 @@ function ProformaDetailsPage() {
                                     fontSize: "13px",
                                     color: "#616161",
                                     fontWeight: "500",
-                                       
                                   }}
                                 >
                                   {orderDetails.buyer_mobile}
@@ -359,7 +390,6 @@ function ProformaDetailsPage() {
                                     fontSize: "13px",
                                     color: "#616161",
                                     fontWeight: "500",
-                                       
                                   }}
                                 >
                                   {orderDetails.buyer_email}
@@ -377,8 +407,7 @@ function ProformaDetailsPage() {
                                     style={{
                                       padding: "8px 0",
                                       fontWeight: 500,
-                                      borderBottom:
-                                        "1px solid #616161",
+                                      borderBottom: "1px solid #616161",
                                       width: "40px",
                                     }}
                                   >
@@ -388,8 +417,7 @@ function ProformaDetailsPage() {
                                     style={{
                                       padding: "8px 0",
                                       fontWeight: 500,
-                                      borderBottom:
-                                        "1px solid #616161",
+                                      borderBottom: "1px solid #616161",
                                       width: "150px",
                                     }}
                                   >
@@ -399,24 +427,20 @@ function ProformaDetailsPage() {
                                     style={{
                                       padding: "8px 0",
                                       fontWeight: 500,
-                                      borderBottom:
-                                        "1px solid #616161",
+                                      borderBottom: "1px solid #616161",
                                       width: "40px",
                                     }}
                                   >
                                     Qty
                                   </td>
                                   <td
-                                    style={
-                                      {
-                                        padding: "8px 0",
-                                        fontWeight: 500,
-                                        borderBottom:
-                                          "1px solid #616161",
-                                        textAlign: "end",
-                                        width: "100px",
-                                      }
-                                    }
+                                    style={{
+                                      padding: "8px 0",
+                                      fontWeight: 500,
+                                      borderBottom: "1px solid #616161",
+                                      textAlign: "end",
+                                      width: "100px",
+                                    }}
                                   >
                                     Price
                                   </td>
@@ -424,8 +448,7 @@ function ProformaDetailsPage() {
                                     style={{
                                       padding: "8px 0",
                                       fontWeight: 500,
-                                      borderBottom:
-                                        "1px solid #616161",
+                                      borderBottom: "1px solid #616161",
                                       textAlign: "end",
                                       width: "100px",
                                     }}
@@ -436,8 +459,7 @@ function ProformaDetailsPage() {
                                     style={{
                                       padding: "8px 0",
                                       fontWeight: 500,
-                                      borderBottom:
-                                        "1px solid #616161",
+                                      borderBottom: "1px solid #616161",
                                       textAlign: "end",
                                       width: "120px",
                                     }}
@@ -465,19 +487,29 @@ function ProformaDetailsPage() {
                                         {index + 1}.
                                       </p>
                                     </td>
-                                    <td style={{ paddingBlock: "12px",verticalAlign:"baseline" }}>
+                                    <td
+                                      style={{
+                                        paddingBlock: "12px",
+                                        verticalAlign: "baseline",
+                                      }}
+                                    >
                                       <p
                                         style={{
                                           fontWeight: 500,
                                           fontSize: "14px",
-                                          lineHeight:"20px"
+                                          lineHeight: "20px",
                                         }}
                                       >
                                         {item.medicine_name}{" "}
                                         {item?.strength && `(${item.strength})`}
                                       </p>
                                     </td>
-                                    <td style={{ paddingBlock: "12px", verticalAlign:"baseline" }}>
+                                    <td
+                                      style={{
+                                        paddingBlock: "12px",
+                                        verticalAlign: "baseline",
+                                      }}
+                                    >
                                       {item?.quantity_required && (
                                         <p
                                           style={{
@@ -493,7 +525,7 @@ function ProformaDetailsPage() {
                                       style={{
                                         paddingBlock: "12px",
                                         textAlign: "end",
-                                        verticalAlign:"baseline"
+                                        verticalAlign: "baseline",
                                       }}
                                     >
                                       {(item?.counter_price ||
@@ -514,7 +546,7 @@ function ProformaDetailsPage() {
                                       style={{
                                         paddingBlock: "12px",
                                         textAlign: "end",
-                                        verticalAlign:"baseline"
+                                        verticalAlign: "baseline",
                                       }}
                                     >
                                       {item?.unit_tax && (
@@ -532,7 +564,7 @@ function ProformaDetailsPage() {
                                       style={{
                                         paddingBlock: "12px",
                                         textAlign: "end",
-                                        verticalAlign:"baseline"
+                                        verticalAlign: "baseline",
                                       }}
                                     >
                                       {item?.total_amount && (
@@ -607,8 +639,7 @@ function ProformaDetailsPage() {
                               <table>
                                 <tbody
                                   style={{
-                                    borderBottom:
-                                      "1px solid #616161",
+                                    borderBottom: "1px solid #616161",
                                   }}
                                 >
                                   <tr>

@@ -40,7 +40,6 @@ function ProformaDetailsPage() {
         );
         if (response?.code === 200) {
           setOrderDetails(response.result);
-          // Extract bank details from invoices[0]
           if (response.result?.invoices?.[0]) {
             const { bank_name, account_number, sort_code } =
               response.result.invoices[0];
@@ -124,6 +123,39 @@ function ProformaDetailsPage() {
       window.removeEventListener("message", handleMessage);
     };
   }, [orderId]);
+
+  // Helper function to format address in two lines
+  const formatAddress = (logisticsData) => {
+    const addressComponents = [
+      logisticsData?.company_reg_address,
+      logisticsData?.locality,
+      logisticsData?.land_mark,
+      logisticsData?.city,
+      logisticsData?.state,
+      logisticsData?.country,
+      logisticsData?.pincode,
+    ].filter(Boolean); // Remove falsy values
+
+    if (addressComponents.length === 0) return "N/A";
+
+    // Split into two lines: first line for address and locality, second for the rest
+    const line1 = [logisticsData?.company_reg_address, logisticsData?.locality,logisticsData?.land_mark,].filter(Boolean).join(", ");
+    const line2 = [
+       logisticsData?.country,
+       logisticsData?.state,
+      logisticsData?.city,
+      logisticsData?.pincode,
+    ]
+      .filter(Boolean)
+      .join(", ");
+
+    return (
+      <>
+        <p>{line1 || "N/A"}</p>
+        <p>{line2 || "N/A"}</p>
+      </>
+    );
+  };
 
   if (loading) {
     return <Loader />;
@@ -226,8 +258,8 @@ function ProformaDetailsPage() {
                           <td
                             style={{
                               verticalAlign: "top",
-                              width: "60%",
-                              paddingRight: "20px",
+                              width: "50%",
+                              paddingRight: "10px",
                               paddingBottom: "20px",
                             }}
                           >
@@ -250,44 +282,19 @@ function ProformaDetailsPage() {
                                 {orderDetails.supplier_name}
                               </p>
                             )}
-                            {[
-                              orderDetails?.supplier_address,
-                              orderDetails?.supplier_logistics_data?.locality,
-                              orderDetails?.supplier_logistics_data?.land_mark,
-                            ].some(Boolean) && (
-                              <p
-                                style={{
-                                  fontSize: "13px",
-                                  color: "#616161",
-                                  fontWeight: 500,
-                                }}
-                              >
-                                {[
-                                  orderDetails?.supplier_address,
-                                  orderDetails?.supplier_logistics_data?.locality,
-                                  orderDetails?.supplier_logistics_data?.land_mark,
-                                ]
-                                  .filter(Boolean)
-                                  .join(" ")}
-                              </p>
-                            )}
-                            {(orderDetails?.supplier_logistics_data?.city ||
-                              orderDetails?.supplier_logistics_data?.state ||
-                              orderDetails?.supplier_logistics_data?.pincode ||
-                              orderDetails?.supplier_logistics_data?.country) && (
-                              <p
-                                style={{
-                                  fontSize: "13px",
-                                  color: "#616161",
-                                  fontWeight: 500,
-                                }}
-                              >
-                                {orderDetails?.supplier_logistics_data?.city && orderDetails.supplier_logistics_data.city}{" "}
-                                {orderDetails?.supplier_logistics_data?.state && orderDetails.supplier_logistics_data.state}{" "}
-                                {orderDetails?.supplier_logistics_data?.pincode && orderDetails.supplier_logistics_data.pincode}{" "}
-                                {orderDetails?.supplier_logistics_data?.country && orderDetails.supplier_logistics_data.country}
-                              </p>
-                            )}
+                            <div
+                              style={{
+                                fontSize: "13px",
+                                color: "#616161",
+                                fontWeight: 500,
+                               
+                              }}
+                            >
+                              {formatAddress(
+                               
+                                orderDetails?.supplier_logistics_data
+                              )}
+                            </div>
                             {orderDetails?.supplier_mobile && (
                               <td
                                 style={{
@@ -328,7 +335,8 @@ function ProformaDetailsPage() {
                           <td
                             style={{
                               verticalAlign: "top",
-                              width: "40%",
+                              width: "50%",
+                              paddingLeft: "10px",
                               paddingBottom: "20px",
                             }}
                           >
@@ -353,48 +361,23 @@ function ProformaDetailsPage() {
                                 {orderDetails.buyer_name}
                               </p>
                             )}
-                            {[
-                              orderDetails?.buyer_address,
-                              orderDetails?.buyer_logistics_data?.locality,
-                              orderDetails?.buyer_logistics_data?.land_mark,
-                            ].some(Boolean) && (
-                              <p
-                                style={{
-                                  fontSize: "13px",
-                                  color: "#616161",
-                                  fontWeight: 500,
-                                  textAlign: "end",
-                                }}
-                              >
-                                {[
-                                  orderDetails?.buyer_address,
-                                  orderDetails?.buyer_logistics_data?.locality,
-                                  orderDetails?.buyer_logistics_data?.land_mark,
-                                ]
-                                  .filter(Boolean)
-                                  .join(" ")}
-                              </p>
-                            )}
-                            {(orderDetails?.buyer_logistics_data?.city ||
-                              orderDetails?.buyer_logistics_data?.state ||
-                              orderDetails?.buyer_logistics_data?.pincode ||
-                              orderDetails?.buyer_logistics_data?.country) && (
-                              <p
-                                style={{
-                                  fontSize: "13px",
-                                  color: "#616161",
-                                  fontWeight: 500,
-                                  textAlign: "end",
-                                }}
-                              >
-                                {orderDetails?.buyer_logistics_data?.city && orderDetails.buyer_logistics_data.city}{" "}
-                                {orderDetails?.buyer_logistics_data?.state && orderDetails.buyer_logistics_data.state}{" "}
-                                {orderDetails?.buyer_logistics_data?.pincode && orderDetails.buyer_logistics_data.pincode}{" "}
-                                {orderDetails?.buyer_logistics_data?.country && orderDetails.buyer_logistics_data.country}
-                              </p>
-                            )}
+                            <div
+                              style={{
+                                fontSize: "13px",
+                                color: "#616161",
+                                fontWeight: 500,
+                                textAlign: "end",
+                              
+                              }}
+                            >
+                              {formatAddress(
+                                orderDetails?.buyer_logistics_data
+                              )}
+                            </div>
                             {orderDetails?.buyer_mobile && (
-                              <td style={{ display: "flex", justifyContent: "end" }}>
+                              <td
+                                style={{ display: "flex", justifyContent: "end" }}
+                              >
                                 <p
                                   style={{
                                     fontSize: "13px",
@@ -407,7 +390,9 @@ function ProformaDetailsPage() {
                               </td>
                             )}
                             {orderDetails?.buyer_email && (
-                              <td style={{ display: "flex", justifyContent: "end" }}>
+                              <td
+                                style={{ display: "flex", justifyContent: "end" }}
+                              >
                                 <p
                                   style={{
                                     fontSize: "13px",
@@ -511,21 +496,35 @@ function ProformaDetailsPage() {
                                         {index + 1}.
                                       </p>
                                     </td>
-                                    <td style={{ paddingBlock: "12px", verticalAlign: "baseline" }}>
-                                      {(item?.medicine_name || item?.medicine_details?.strength) && (
+                                    <td
+                                      style={{
+                                        paddingBlock: "12px",
+                                        verticalAlign: "baseline",
+                                      }}
+                                    >
+                                      {(item?.medicine_name ||
+                                        item?.medicine_details?.strength) && (
                                         <p
-                                          style={{  
+                                          style={{
                                             fontWeight: 500,
                                             fontSize: "14px",
                                             lineHeight: "20px",
                                           }}
                                         >
-                                          {item?.medicine_name ? item.medicine_name : ""}{" "}
-                                          {item?.medicine_details?.strength && `(${item.medicine_details.strength || "150mg"})`}
+                                          {item?.medicine_name
+                                            ? item.medicine_name
+                                            : ""}{" "}
+                                          {item?.medicine_details?.strength &&
+                                            `(${item.medicine_details.strength || "150mg"})`}
                                         </p>
                                       )}
                                     </td>
-                                    <td style={{ paddingBlock: "12px", verticalAlign: "baseline" }}>
+                                    <td
+                                      style={{
+                                        paddingBlock: "12px",
+                                        verticalAlign: "baseline",
+                                      }}
+                                    >
                                       {item?.quantity_required && (
                                         <p
                                           style={{
@@ -809,7 +808,7 @@ function ProformaDetailsPage() {
                                               alignItems: "center",
                                               columnGap: "10px",
                                               paddingTop: "8px",
-                                              marginBottom:'10px'
+                                              marginBottom: "10px",
                                             }}
                                           >
                                             <p

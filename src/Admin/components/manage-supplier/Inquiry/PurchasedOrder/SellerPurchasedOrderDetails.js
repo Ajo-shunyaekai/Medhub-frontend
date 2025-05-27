@@ -68,6 +68,27 @@ const SellerPurchasedOrderDetails = () => {
     html2pdf().from(element).set(options).save();
   };
 
+  // Function to format address into two lines
+  const formatAddress = (address) => {
+    if (!address) return { line1: "", line2: "" };
+    const { company_reg_address, locality, land_mark, city, state, country, pincode } = address;
+    const addressParts = [
+      company_reg_address,
+      locality,
+      land_mark,
+      city,
+      state,
+      country,
+      pincode,
+    ].filter((part) => part); // Filter out null or undefined values
+
+    // Split address into two lines
+    const midPoint = Math.ceil(addressParts.length / 2);
+    const line1 = addressParts.slice(0, midPoint).join(", ");
+    const line2 = addressParts.slice(midPoint).join(", ");
+    return { line1, line2 };
+  };
+
   return (
     <div className={styles["purchased-template-design"]}>
       <div className={styles["purchased-scroll-wrapper"]}>
@@ -89,7 +110,7 @@ const SellerPurchasedOrderDetails = () => {
             lineHeight: "24px",
             color: "#212121",
             backgroundColor: "#FFFFFF",
-            boxShadow:"0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d"
+            boxShadow: "0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d",
           }}
         >
           <div
@@ -163,8 +184,8 @@ const SellerPurchasedOrderDetails = () => {
                         <td
                           style={{
                             verticalAlign: "top",
-                            width: "60%",
-                            paddingRight: "20px",
+                            width: "50%",
+                            paddingRight: "10px",
                             paddingBottom: "20px",
                           }}
                         >
@@ -181,7 +202,6 @@ const SellerPurchasedOrderDetails = () => {
                             style={{
                               fontSize: "16px",
                               fontWeight: 500,
-                             
                             }}
                           >
                             {poDetails?.buyer_name}
@@ -189,45 +209,46 @@ const SellerPurchasedOrderDetails = () => {
                           <p
                             style={{
                               fontSize: "13px",
-                               
-                             fontWeight:"500",
+                              fontWeight: "500",
                               color: "#616161",
                             }}
                           >
-                            {poDetails?.buyer_address}
+                            {formatAddress(poDetails?.buyer_registered_address).line1}
                           </p>
-
+                          <p
+                            style={{
+                              fontSize: "13px",
+                              fontWeight: "500",
+                              color: "#616161",
+                            }}
+                          >
+                            {formatAddress(poDetails?.buyer_registered_address).line2}
+                          </p>
                           <td
                             style={{ display: "flex", justifyContent: "start" }}
                           >
-                           
                             <p
                               style={{
                                 fontSize: "13px",
-                                  
-                               fontWeight:"500",
+                                fontWeight: "500",
                                 color: "#616161",
-                               
                               }}
                             >
-                              &nbsp;{poDetails?.buyer_country_code}{" "}
+                              {poDetails?.buyer_country_code}{" "}
                               {poDetails?.buyer_mobile}
                             </p>
                           </td>
                           <td
                             style={{ display: "flex", justifyContent: "start" }}
                           >
-                            
                             <p
                               style={{
                                 fontSize: "13px",
-                                  
-                               fontWeight:"500",
+                                fontWeight: "500",
                                 color: "#616161",
-                               
                               }}
                             >
-                              &nbsp;{poDetails?.buyer_email}
+                              {poDetails?.buyer_email}
                             </p>
                           </td>
                           <td
@@ -236,10 +257,8 @@ const SellerPurchasedOrderDetails = () => {
                             <p
                               style={{
                                 fontSize: "13px",
-                                  
-                                fontWeight:"500",
+                                fontWeight: "500",
                                 color: "#616161",
-                              
                               }}
                             >
                               Company Registration No. :
@@ -247,10 +266,8 @@ const SellerPurchasedOrderDetails = () => {
                             <p
                               style={{
                                 fontSize: "13px",
-                                  
-                                fontWeight:"500",
+                                fontWeight: "500",
                                 color: "#616161",
-                               
                               }}
                             >
                               &nbsp;{poDetails?.buyer_regNo}
@@ -260,7 +277,8 @@ const SellerPurchasedOrderDetails = () => {
                         <td
                           style={{
                             verticalAlign: "top",
-                            width: "40%",
+                            width: "50%",
+                            paddingLeft: "10px",
                             paddingBottom: "20px",
                           }}
                         >
@@ -278,7 +296,6 @@ const SellerPurchasedOrderDetails = () => {
                             style={{
                               fontSize: "16px",
                               fontWeight: 500,
-                             
                               textAlign: "end",
                             }}
                           >
@@ -287,62 +304,61 @@ const SellerPurchasedOrderDetails = () => {
                           <p
                             style={{
                               fontSize: "13px",
-                                
-                             fontWeight:"500",
+                              fontWeight: "500",
                               color: "#616161",
                               textAlign: "end",
                             }}
                           >
-                            {poDetails?.supplier_address}
+                            {formatAddress(poDetails?.supplier_registered_address).line1}
                           </p>
-
+                          <p
+                            style={{
+                              fontSize: "13px",
+                              fontWeight: "500",
+                              color: "#616161",
+                              textAlign: "end",
+                            }}
+                          >
+                            {formatAddress(poDetails?.supplier_registered_address).line2}
+                          </p>
                           <td
                             style={{ display: "flex", justifyContent: "end" }}
                           >
-                           
                             <p
                               style={{
                                 fontSize: "13px",
-                                  
-                                fontWeight:"500",
+                                fontWeight: "500",
                                 color: "#616161",
-                           
                               }}
                             >
-                              &nbsp;{poDetails?.supplier_country_code}{" "}
+                              {poDetails?.supplier_country_code}{" "}
                               {poDetails?.supplier_mobile}
                             </p>
                           </td>
                           <td
                             style={{ display: "flex", justifyContent: "end" }}
                           >
-                           
                             <p
                               style={{
                                 fontSize: "13px",
-                                  
-                                fontWeight:"500",
+                                fontWeight: "500",
                                 color: "#616161",
-                               
                               }}
                             >
-                              &nbsp;{poDetails?.supplier_email}
+                              {poDetails?.supplier_email}
                             </p>
                           </td>
                           <td
                             style={{ display: "flex", justifyContent: "end" }}
                           >
-                           
                             <p
                               style={{
                                 fontSize: "13px",
-                                  
-                               fontWeight:"500",
+                                fontWeight: "500",
                                 color: "#616161",
-                              
                               }}
                             >
-                              &nbsp;{poDetails?.supplier_regNo}
+                              {poDetails?.supplier_regNo}
                             </p>
                           </td>
                         </td>
@@ -356,7 +372,7 @@ const SellerPurchasedOrderDetails = () => {
                                   style={{
                                     padding: "8px 0",
                                     fontWeight: 500,
-                                    borderBottom:"1px solid #616161",
+                                    borderBottom: "1px solid #616161",
                                     width: "40px",
                                   }}
                                 >
@@ -366,8 +382,7 @@ const SellerPurchasedOrderDetails = () => {
                                   style={{
                                     padding: "8px 0",
                                     fontWeight: 500,
-                                    borderBottom:
-                                      "1px solid #616161",
+                                    borderBottom: "1px solid #616161",
                                     width: "180px",
                                   }}
                                 >
@@ -377,8 +392,7 @@ const SellerPurchasedOrderDetails = () => {
                                   style={{
                                     padding: "8px 0",
                                     fontWeight: 500,
-                                    borderBottom:
-                                      "1px solid #616161",
+                                    borderBottom: "1px solid #616161",
                                     width: "40px",
                                   }}
                                 >
@@ -388,8 +402,7 @@ const SellerPurchasedOrderDetails = () => {
                                   style={{
                                     padding: "8px 0",
                                     fontWeight: 500,
-                                    borderBottom:
-                                      "1px solid #616161",
+                                    borderBottom: "1px solid #616161",
                                     textAlign: "end",
                                     width: "100px",
                                   }}
@@ -400,8 +413,7 @@ const SellerPurchasedOrderDetails = () => {
                                   style={{
                                     padding: "8px 0",
                                     fontWeight: 500,
-                                    borderBottom:
-                                      "1px solid #616161",
+                                    borderBottom: "1px solid #616161",
                                     textAlign: "end",
                                     width: "100px",
                                   }}
@@ -412,8 +424,7 @@ const SellerPurchasedOrderDetails = () => {
                                   style={{
                                     padding: "8px 0",
                                     fontWeight: 500,
-                                    borderBottom:
-                                      "1px solid #616161",
+                                    borderBottom: "1px solid #616161",
                                     textAlign: "end",
                                     width: "120px",
                                   }}
@@ -430,7 +441,7 @@ const SellerPurchasedOrderDetails = () => {
                                       paddingBlock: "12px",
                                       display: "flex",
                                       alignItems: "baseline",
-                                      verticalAlign:"baseline"
+                                      verticalAlign: "baseline",
                                     }}
                                   >
                                     <p
@@ -442,18 +453,28 @@ const SellerPurchasedOrderDetails = () => {
                                       {index + 1}.
                                     </p>
                                   </td>
-                                  <td style={{ paddingBlock: "12px",verticalAlign:"baseline" }}>
+                                  <td
+                                    style={{
+                                      paddingBlock: "12px",
+                                      verticalAlign: "baseline",
+                                    }}
+                                  >
                                     <p
                                       style={{
                                         fontWeight: 500,
                                         fontSize: "14px",
-                                        lineHeight:"20px"
+                                        lineHeight: "20px",
                                       }}
                                     >
                                       {item.medicine_name}
                                     </p>
                                   </td>
-                                  <td style={{ paddingBlock: "12px",verticalAlign:"baseline" }}>
+                                  <td
+                                    style={{
+                                      paddingBlock: "12px",
+                                      verticalAlign: "baseline",
+                                    }}
+                                  >
                                     <p
                                       style={{
                                         fontWeight: 500,
@@ -467,7 +488,7 @@ const SellerPurchasedOrderDetails = () => {
                                     style={{
                                       paddingBlock: "12px",
                                       textAlign: "end",
-                                      verticalAlign:"baseline"
+                                      verticalAlign: "baseline",
                                     }}
                                   >
                                     <p
@@ -476,8 +497,7 @@ const SellerPurchasedOrderDetails = () => {
                                         fontSize: "13px",
                                       }}
                                     >
-                                      {item?.counter_price ||
-                                        item?.target_price}{" "}
+                                      {item?.counter_price || item?.target_price}{" "}
                                       USD
                                     </p>
                                   </td>
@@ -485,7 +505,7 @@ const SellerPurchasedOrderDetails = () => {
                                     style={{
                                       paddingBlock: "12px",
                                       textAlign: "end",
-                                      verticalAlign:"baseline"
+                                      verticalAlign: "baseline",
                                     }}
                                   >
                                     <p
@@ -501,7 +521,7 @@ const SellerPurchasedOrderDetails = () => {
                                     style={{
                                       paddingBlock: "12px",
                                       textAlign: "end",
-                                      verticalAlign:"baseline"
+                                      verticalAlign: "baseline",
                                     }}
                                   >
                                     <p
@@ -510,7 +530,7 @@ const SellerPurchasedOrderDetails = () => {
                                         fontSize: "13px",
                                       }}
                                     >
-                                      {item.total_amount.toFixed(2)} USD{" "}
+                                      {item.total_amount.toFixed(2)} USD
                                     </p>
                                   </td>
                                 </tr>
@@ -537,7 +557,7 @@ const SellerPurchasedOrderDetails = () => {
                                           alignItems: "center",
                                           columnGap: "10px",
                                           marginTop: "8px",
-                                          marginBottom:"8px"
+                                          marginBottom: "8px",
                                         }}
                                       >
                                         <p
@@ -602,7 +622,7 @@ const SellerPurchasedOrderDetails = () => {
                       <div
                         style={{
                           fontSize: "13px",
-                           fontWeight:"500",
+                          fontWeight: "500",
                           lineHeight: "20px",
                           marginTop: "4px",
                           color: "#616161",

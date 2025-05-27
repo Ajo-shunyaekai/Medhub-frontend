@@ -132,8 +132,7 @@
 
 .medicineHead2 {
     font-size: 14px;
-    font-weight: 500;
-    color: #212121;   
+    font-weight: 500;   
 }
 
 .medicineHeadings{
@@ -486,9 +485,14 @@ cursor: pointer !important;
     flex-direction: column;
     gap: 10px;
 }
+@media(max-width:1520px){
+.container {
+   margin: unset;
+}
+}
 @media(max-width:1400px){
     .container {
-       max-width: 100%;
+       max-width: 98%;
     }
     .PurcahseButton  {
         padding: 6px 0px;
