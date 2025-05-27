@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import html2pdf from "html2pdf.js";
 import { useNavigate, useParams } from "react-router-dom";
-import { postRequestWithToken } from "../../../../api/Requests";
 import { apiRequests } from "../../../../../api";
 
 function ProformaInvoiceDetails() {
@@ -69,6 +68,15 @@ function ProformaInvoiceDetails() {
     html2pdf().from(element).set(options).save();
   };
 
+  // Format supplier and buyer addresses into two lines
+  const supplierAddress = orderDetails?.supplier_registered_address || {};
+  const supplierAddressLine1 = `${orderDetails?.supplier_address || ''} ${supplierAddress.locality || ''}`.trim();
+  const supplierAddressLine2 = `${supplierAddress.land_mark || ''} ${supplierAddress.city || ''} ${supplierAddress.state || ''} ${supplierAddress.pincode || ''} ${supplierAddress.country || ''}`.trim();
+
+  const buyerAddress = orderDetails?.buyer_registered_address || {};
+  const buyerAddressLine1 = `${orderDetails?.buyer_address || ''} ${buyerAddress.locality || ''}`.trim();
+  const buyerAddressLine2 = `${buyerAddress.land_mark || ''} ${buyerAddress.city || ''} ${buyerAddress.state || ''} ${buyerAddress.pincode || ''} ${buyerAddress.country || ''}`.trim();
+
   return (
     <div className="invoice-template-design">
       <div className="scroll-wrapper">
@@ -88,7 +96,7 @@ function ProformaInvoiceDetails() {
               lineHeight: "24px",
               color: "#212121",
               backgroundColor: "#FFFFFF",
-              boxShadow:"0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d"
+              boxShadow: "0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d",
             }}
           >
             <div
@@ -101,9 +109,9 @@ function ProformaInvoiceDetails() {
             >
               Proforma Invoice
             </div>
-            <table style={{ fontSize: "12px" }}>
+            <table style={{ fontSize: "12px", width: "100%" }}>
               <thead>
-                <tr style={{ borderBottom: " 1px solid #616161" }}>
+                <tr style={{ borderBottom: "1px solid #616161" }}>
                   <td style={{ display: "flex", justifyContent: "end" }}>
                     <p style={{ fontSize: "16px", fontWeight: "500" }}>
                       Invoice Number :{" "}
@@ -149,12 +157,12 @@ function ProformaInvoiceDetails() {
                       }}
                     >
                       <tbody>
-                        <tr style={{ borderBottom: " 1px solid #616161" }}>
+                        <tr style={{ borderBottom: "1px solid #616161" }}>
                           <td
                             style={{
                               verticalAlign: "top",
-                              width: "60%",
-                              paddingRight: "20px",
+                              width: "50%",
+                              paddingRight: "10px",
                               paddingBottom: "20px",
                             }}
                           >
@@ -171,7 +179,6 @@ function ProformaInvoiceDetails() {
                               style={{
                                 fontSize: "16px",
                                 fontWeight: 500,
-                                  
                               }}
                             >
                               {orderDetails?.supplier_name}
@@ -179,96 +186,35 @@ function ProformaInvoiceDetails() {
                             <p
                               style={{
                                 fontSize: "13px",
-                                
-                                fontWeight:"500",
-                                  color: "#616161",
+                                fontWeight: "500",
+                                color: "#616161",
                               }}
                             >
-                              {orderDetails?.supplier_address}
+                              {supplierAddressLine1}
                             </p>
-                            {orderDetails?.supplier_registered_address
-                              ?.locality && (
-                              <p
-                                style={{
-                                  fontSize: "13px",
-                                   
-                                fontWeight:"500",
-                                    color: "#616161",
-                                }}
-                              >
-                                {
-                                  orderDetails?.supplier_registered_address
-                                    ?.locality
-                                }
-                              </p>
-                            )}
-                            {orderDetails?.supplier_registered_address
-                              ?.land_mark && (
-                              <p
-                                style={{
-                                  fontSize: "13px",
-                                  
-                                fontWeight:"500",
-                                    color: "#616161",
-                                }}
-                              >
-                                {
-                                  orderDetails?.supplier_registered_address
-                                    ?.land_mark
-                                }
-                              </p>
-                            )}
-                            {(orderDetails?.supplier_registered_address?.city ||
-                              orderDetails?.supplier_registered_address
-                                ?.state ||
-                              orderDetails?.supplier_registered_address
-                                ?.pincode ||
-                              orderDetails?.supplier_registered_address
-                                ?.country) && (
-                              <p
-                                style={{
-                                  fontSize: "13px",
-                                   
-                                fontWeight:"500",
-                                    color: "#616161",
-                                }}
-                              >
-                                {
-                                  orderDetails?.supplier_registered_address
-                                    ?.city
-                                }{" "}
-                                {
-                                  orderDetails?.supplier_registered_address
-                                    ?.state
-                                }{" "}
-                                {
-                                  orderDetails?.supplier_registered_address
-                                    ?.pincode
-                                }{" "}
-                                {
-                                  orderDetails?.supplier_registered_address
-                                    ?.country
-                                }{" "}
-                              </p>
-                            )}
-                            
+                            <p
+                              style={{
+                                fontSize: "13px",
+                                fontWeight: "500",
+                                color: "#616161",
+                              }}
+                            >
+                              {supplierAddressLine2}
+                            </p>
                             <td
                               style={{
                                 display: "flex",
                                 justifyContent: "start",
                               }}
                             >
-                             
                               <p
                                 style={{
                                   fontSize: "13px",
-                                  
-                                fontWeight:"500",
-                                    color: "#616161",
-                                 
+                                  fontWeight: "500",
+                                  color: "#616161",
                                 }}
                               >
-                              {orderDetails?.supplier_mobile}
+                                {orderDetails?.supplier_mobile}
                               </p>
                             </td>
                             <td
@@ -277,24 +223,22 @@ function ProformaInvoiceDetails() {
                                 justifyContent: "start",
                               }}
                             >
-                             
                               <p
                                 style={{
                                   fontSize: "13px",
-                                  
-                                fontWeight:"500",
-                                    color: "#616161",
-                                  
+                                  fontWeight: "500",
+                                  color: "#616161",
                                 }}
                               >
-                              {orderDetails?.supplier_email}
+                                {orderDetails?.supplier_email}
                               </p>
                             </td>
                           </td>
                           <td
                             style={{
                               verticalAlign: "top",
-                              width: "40%",
+                              width: "50%",
+                              paddingLeft:"10px",
                               paddingBottom: "20px",
                             }}
                           >
@@ -312,7 +256,6 @@ function ProformaInvoiceDetails() {
                               style={{
                                 fontSize: "16px",
                                 fontWeight: 500,
-                                  
                                 textAlign: "end",
                               }}
                             >
@@ -321,90 +264,31 @@ function ProformaInvoiceDetails() {
                             <p
                               style={{
                                 fontSize: "13px",
-                                
-                                fontWeight:"500",
-                                  color: "#616161",
-                               
+                                fontWeight: "500",
+                                color: "#616161",
                                 textAlign: "end",
                               }}
                             >
-                              {orderDetails?.buyer_address}
+                              {buyerAddressLine1}
                             </p>
-                            {orderDetails?.buyer_registered_address
-                              ?.locality && (
-                              <p
-                                style={{
-                                  fontSize: "13px",
-                                 
-                                fontWeight:"500",
-                                    color: "#616161",
-                                
-                                  textAlign: "end",
-                                }}
-                              >
-                                {
-                                  orderDetails?.buyer_registered_address
-                                    ?.locality
-                                }
-                              </p>
-                            )}
-                            {orderDetails?.buyer_registered_address
-                              ?.land_mark && (
-                              <p
-                                style={{
-                                  fontSize: "13px",
-                                  
-                                fontWeight:"500",
-                                    color: "#616161",
-                               
-                                  textAlign: "end",
-                                }}
-                              >
-                                {
-                                  orderDetails?.buyer_registered_address
-                                    ?.land_mark
-                                }
-                              </p>
-                            )}
-                            {(orderDetails?.buyer_registered_address?.city ||
-                              orderDetails?.buyer_registered_address?.state ||
-                              orderDetails?.buyer_registered_address?.pincode ||
-                              orderDetails?.buyer_registered_address
-                                ?.country) && (
-                              <p
-                                style={{
-                                  fontSize: "13px",
-                                 
-                                fontWeight:"500",
-                                    color: "#616161",
-                               
-                                  textAlign: "end",
-                                }}
-                              >
-                                {orderDetails?.buyer_registered_address?.city}{" "}
-                                {orderDetails?.buyer_registered_address?.state}{" "}
-                                {
-                                  orderDetails?.buyer_registered_address
-                                    ?.pincode
-                                }{" "}
-                                {
-                                  orderDetails?.buyer_registered_address
-                                    ?.country
-                                }{" "}
-                              </p>
-                            )}
-                           
+                            <p
+                              style={{
+                                fontSize: "13px",
+                                fontWeight: "500",
+                                color: "#616161",
+                                textAlign: "end",
+                              }}
+                            >
+                              {buyerAddressLine2}
+                            </p>
                             <td
                               style={{ display: "flex", justifyContent: "end" }}
                             >
-                            
                               <p
                                 style={{
                                   fontSize: "13px",
-                                  
-                                fontWeight:"500",
-                                    color: "#616161",
-                                
+                                  fontWeight: "500",
+                                  color: "#616161",
                                 }}
                               >
                                 {orderDetails?.buyer_mobile}
@@ -413,14 +297,11 @@ function ProformaInvoiceDetails() {
                             <td
                               style={{ display: "flex", justifyContent: "end" }}
                             >
-                             
                               <p
                                 style={{
                                   fontSize: "13px",
-                                  
-                                fontWeight:"500",
-                                    color: "#616161",
-                                 
+                                  fontWeight: "500",
+                                  color: "#616161",
                                 }}
                               >
                                 {orderDetails?.buyer_email}
@@ -437,8 +318,7 @@ function ProformaInvoiceDetails() {
                                     style={{
                                       padding: "8px 0",
                                       fontWeight: 500,
-                                      borderBottom:
-                                        " 1px solid #616161",
+                                      borderBottom: "1px solid #616161",
                                       width: "40px",
                                     }}
                                   >
@@ -448,8 +328,7 @@ function ProformaInvoiceDetails() {
                                     style={{
                                       padding: "8px 0",
                                       fontWeight: 500,
-                                      borderBottom:
-                                        " 1px solid #616161",
+                                      borderBottom: "1px solid #616161",
                                       width: "180px",
                                     }}
                                   >
@@ -459,8 +338,7 @@ function ProformaInvoiceDetails() {
                                     style={{
                                       padding: "8px 0",
                                       fontWeight: 500,
-                                      borderBottom:
-                                        " 1px solid #616161",
+                                      borderBottom: "1px solid #616161",
                                       width: "40px",
                                     }}
                                   >
@@ -470,8 +348,7 @@ function ProformaInvoiceDetails() {
                                     style={{
                                       padding: "8px 0",
                                       fontWeight: 500,
-                                      borderBottom:
-                                        " 1px solid #616161",
+                                      borderBottom: "1px solid #616161",
                                       textAlign: "end",
                                       width: "100px",
                                     }}
@@ -482,8 +359,7 @@ function ProformaInvoiceDetails() {
                                     style={{
                                       padding: "8px 0",
                                       fontWeight: 500,
-                                      borderBottom:
-                                        " 1px solid #616161",
+                                      borderBottom: "1px solid #616161",
                                       textAlign: "end",
                                       width: "100px",
                                     }}
@@ -494,8 +370,7 @@ function ProformaInvoiceDetails() {
                                     style={{
                                       padding: "8px 0",
                                       fontWeight: 500,
-                                      borderBottom:
-                                        " 1px solid #616161",
+                                      borderBottom: "1px solid #616161",
                                       textAlign: "end",
                                       width: "120px",
                                     }}
@@ -505,14 +380,14 @@ function ProformaInvoiceDetails() {
                                 </tr>
                               </thead>
                               {orderItems.map((item, index) => (
-                                <tbody>
+                                <tbody key={index}>
                                   <tr>
                                     <td
                                       style={{
                                         paddingBlock: "12px",
                                         display: "flex",
                                         alignItems: "baseline",
-                                        verticalAlign:"baseline"
+                                        verticalAlign: "baseline",
                                       }}
                                     >
                                       <p
@@ -524,19 +399,29 @@ function ProformaInvoiceDetails() {
                                         {index + 1}.
                                       </p>
                                     </td>
-                                    <td style={{ paddingBlock: "12px", verticalAlign:"baseline" }}>
+                                    <td
+                                      style={{
+                                        paddingBlock: "12px",
+                                        verticalAlign: "baseline",
+                                      }}
+                                    >
                                       <p
                                         style={{
                                           fontWeight: 500,
                                           fontSize: "14px",
-                                          lineHeight:"20px"
+                                          lineHeight: "20px",
                                         }}
                                       >
                                         {item.medicine_name} (
                                         {item?.strength || "150mg"})
                                       </p>
                                     </td>
-                                    <td style={{ paddingBlock: "12px",verticalAlign:"baseline" }}>
+                                    <td
+                                      style={{
+                                        paddingBlock: "12px",
+                                        verticalAlign: "baseline",
+                                      }}
+                                    >
                                       <p
                                         style={{
                                           fontWeight: 500,
@@ -550,18 +435,16 @@ function ProformaInvoiceDetails() {
                                       style={{
                                         paddingBlock: "12px",
                                         textAlign: "end",
-                                        verticalAlign:"baseline"
+                                        verticalAlign: "baseline",
                                       }}
                                     >
                                       <p
                                         style={{
                                           fontWeight: 500,
                                           fontSize: "13px",
-
                                         }}
                                       >
-                                        {item?.counter_price ||
-                                          item?.target_price}{" "}
+                                        {item?.counter_price || item?.target_price}{" "}
                                         USD
                                       </p>
                                     </td>
@@ -569,7 +452,7 @@ function ProformaInvoiceDetails() {
                                       style={{
                                         paddingBlock: "12px",
                                         textAlign: "end",
-                                        verticalAlign:"baseline"
+                                        verticalAlign: "baseline",
                                       }}
                                     >
                                       <p
@@ -585,7 +468,7 @@ function ProformaInvoiceDetails() {
                                       style={{
                                         paddingBlock: "12px",
                                         textAlign: "end",
-                                        verticalAlign:"baseline"
+                                        verticalAlign: "baseline",
                                       }}
                                     >
                                       <p
@@ -594,7 +477,7 @@ function ProformaInvoiceDetails() {
                                           fontSize: "13px",
                                         }}
                                       >
-                                        {item.total_amount.toFixed(2)} USD{" "}
+                                        {item.total_amount.toFixed(2)} USD
                                       </p>
                                     </td>
                                   </tr>
@@ -604,8 +487,8 @@ function ProformaInvoiceDetails() {
                             <table>
                               <tbody
                                 style={{
-                                  borderTop: " 1px solid #616161",
-                                  borderBottom: " 1px solid #616161",
+                                  borderTop: "1px solid #616161",
+                                  borderBottom: "1px solid #616161",
                                 }}
                               >
                                 <tr>
@@ -656,8 +539,7 @@ function ProformaInvoiceDetails() {
                               <table>
                                 <tbody
                                   style={{
-                                    borderBottom:
-                                      " 1px solid #616161",
+                                    borderBottom: "1px solid #616161",
                                   }}
                                 >
                                   <tr>
@@ -818,7 +700,7 @@ function ProformaInvoiceDetails() {
                 <tbody
                   style={{
                     width: "100%",
-                    borderBottom: " 1px solid #616161",
+                    borderBottom: "1px solid #616161",
                   }}
                 >
                   <tr>
@@ -838,40 +720,36 @@ function ProformaInvoiceDetails() {
                       >
                         Payment Terms :
                       </h1>
-
                       <div
                         style={{
                           fontSize: "13px",
                           lineHeight: "20px",
                           marginTop: "4px",
-                            color: "#616161",
-                            fontWeight:"500"
+                          color: "#616161",
+                          fontWeight: "500",
                         }}
                       >
-                        {orderDetails?.enquiry?.payment_terms?.map(
-                          (data, i) => {
-                            return (
-                              <p
-                                style={{
-                                  position: "relative",
-                                  paddingLeft: "20px",
-                                }}
-                              >
-                                <span
-                                  style={{
-                                    position: "absolute",
-                                    left: "0",
-                                    top: "0",
-                                    fontSize: "22px",
-                                  }}
-                                >
-                                  •
-                                </span>
-                                {data}
-                              </p>
-                            );
-                          }
-                        )}
+                        {orderDetails?.enquiry?.payment_terms?.map((data, i) => (
+                          <p
+                            key={i}
+                            style={{
+                              position: "relative",
+                              paddingLeft: "20px",
+                            }}
+                          >
+                            <span
+                              style={{
+                                position: "absolute",
+                                left: "0",
+                                top: "0",
+                                fontSize: "22px",
+                              }}
+                            >
+                              •
+                            </span>
+                            {data}
+                          </p>
+                        ))}
                       </div>
                     </td>
                   </tr>
