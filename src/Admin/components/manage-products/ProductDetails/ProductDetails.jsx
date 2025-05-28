@@ -326,7 +326,7 @@ const ProductDetails = () => {
               )}
 
               {productDetail?.storage && (
-                <div className={styles.additionalInnerSection}>
+                <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>
                     Storage Conditions
                   </span>
