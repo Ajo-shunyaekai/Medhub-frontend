@@ -20,9 +20,9 @@ import { addToList } from "../../../../redux/reducers/listSlice";
 import { updateInquiryCartCount } from "../../../../redux/reducers/inquirySlice";
 import { postRequestWithToken } from "../../../../api/Requests";
 import Loader from "../../SharedComponents/Loader/Loader";
- 
+
 Modal.setAppElement("#root");
- 
+
 // Validation schema using Yup
 const validationSchema = Yup.object().shape({
   selectedQuantity: Yup.string().required("Quantity Range is Required"),
@@ -35,7 +35,7 @@ const validationSchema = Yup.object().shape({
     .positive("Must be a positive price")
     .typeError("Must be a number"),
 });
- 
+
 const ProductDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -49,17 +49,17 @@ const ProductDetails = () => {
   const pdfUrl = pdfFile
     ? pdfFile?.startsWith("http")
       ? pdfFile
-      : `${process.env.REACT_APP_SERVER_URL}/uploads/products/${pdfFile}`
+      : `${process.env.REACT_APP_SERVER_URL}/Uploads/products/${pdfFile}`
     : "https://morth.nic.in/sites/default/files/dd12-13_0.pdf";
- 
+
   const fallbackImageUrl =
     "https://medhub.shunyaekai.com/uploads/fallbackImage.jpg";
- 
+
   // Utility to check if URL ends with image extension
   const isImageExtension = (fileName) => {
     return /\.(png|jpe?g|gif|bmp|webp)$/i.test(fileName);
   };
- 
+
   const inventoryList = productDetail?.inventoryDetails?.inventoryList || [];
   const [productList, setProductList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -74,13 +74,13 @@ const ProductDetails = () => {
     totalQuantity: [],
   });
   const itemsPerPage = 5;
- 
+
   const searchTimeoutRef = useRef(null);
- 
+
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
- 
+
   useEffect(() => {
     if (id) {
       setLoading(true); // Set loading true before fetching
@@ -89,7 +89,7 @@ const ProductDetails = () => {
       });
     }
   }, [id, dispatch]);
- 
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -116,12 +116,12 @@ const ProductDetails = () => {
     };
     fetchData();
   }, [id, dispatch, currentPage, searchKey]);
- 
+
   const getCategoryData = (property) => {
     if (!productDetail?.category) return null;
     return productDetail[productDetail.category]?.[property];
   };
- 
+
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
     if (searchTimeoutRef.current) {
@@ -132,7 +132,7 @@ const ProductDetails = () => {
       setCurrentPage(1);
     }, 500);
   };
- 
+
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       if (searchTimeoutRef.current) {
@@ -142,21 +142,21 @@ const ProductDetails = () => {
       setCurrentPage(1);
     }
   };
- 
+
   const quantityOptions = inventoryList.map((ele) => ({
     value: `${ele.quantityFrom}-${ele.quantityTo}`,
     label: `${ele.quantityFrom} - ${ele.quantityTo}`,
     price: ele.price,
     deliveryTime: ele.deliveryTime,
   }));
- 
+
   // Get the first quantity option as the default
   const defaultOption = quantityOptions[0] || {
     value: "",
     price: "",
     deliveryTime: "",
   };
- 
+
   const handleSubmit = (values, { resetForm }) => {
     console.log("values", values);
     setLoading(true); // Set loading true during form submission
@@ -164,14 +164,14 @@ const ProductDetails = () => {
     const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
     const buyerId =
       localStorage?.getItem("_id") || localStorage?.getItem("_id");
- 
+
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
       localStorage?.clear();
       navigate("/buyer/login");
       setLoading(false);
       return;
     }
- 
+
     const obj = {
       buyerId,
       buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
@@ -185,7 +185,7 @@ const ProductDetails = () => {
       unit_tax: productDetail?.general?.unit_tax,
       est_delivery_time: values?.deliveryTime,
     };
- 
+
     postRequestWithToken("buyer/add-to-list", obj, async (response) => {
       if (response?.code === 200) {
         toast(response.message, { type: "success" });
@@ -201,22 +201,27 @@ const ProductDetails = () => {
       }
     });
   };
- 
+
   // Create a ref for the container to scroll
   const containerRef = useRef(null);
- 
+
   // Scroll to the top of the component when the id changes
   useEffect(() => {
     if (containerRef.current) {
       containerRef.current.scrollTop = 0;
     }
   }, [id]);
- 
+
+  // Function to open PDF in a new window
+  const openInvoiceInNewWindow = () => {
+    window.open(pdfUrl, "_blank");
+  };
+
   // Render Loader if loading is true, otherwise render the content
   if (loading) {
     return <Loader />;
   }
- 
+
   return (
     <div className={styles.container} ref={containerRef}>
       <div className={styles.section}>
@@ -225,7 +230,7 @@ const ProductDetails = () => {
             {productDetail?.general?.name}
           </span>
         </div>
-        {/* Start Secondar Market section */}
+        {/* Start Secondary Market section */}
         {(productDetail?.secondaryMarketDetails?.purchasedOn ||
           productDetail?.secondaryMarketDetails?.countryAvailable?.length > 0 ||
           productDetail?.secondaryMarketDetails?.purchaseInvoiceFile?.length >
@@ -293,7 +298,7 @@ const ProductDetails = () => {
                       </span>
                     </div>
                   )}
- 
+
                   {productDetail?.secondaryMarketDetails
                     ?.minimumPurchaseUnit && (
                     <div className={styles.medicinesSection}>
@@ -310,13 +315,13 @@ const ProductDetails = () => {
                   )}
                 </div>
               )}
- 
+
               {productDetail?.secondaryMarketDetails?.purchaseInvoiceFile
                 ?.length > 0 && (
                 <div className={styles.mainPurchaseSection}>
                   <button
                     className={styles.PurcahseButton}
-                    onClick={() => setModalIsOpen(true)}
+                    onClick={openInvoiceInNewWindow} // Updated to open in new window
                   >
                     View Purchase Invoice
                   </button>
@@ -325,9 +330,11 @@ const ProductDetails = () => {
             </div>
           </div>
         )}
- 
-        {/* End Secondar Market section */}
-        {/* Start general information section */}
+        {/* End Secondary Market section */}
+
+
+
+         {/* Start general information section */}
         <div className={styles.mainContainer}>
           <span className={styles.innerHead}>
             General Information
@@ -3654,38 +3661,9 @@ const ProductDetails = () => {
           basePath="/buyer/product-details"
           heading="Similar Products"
         />
-        {/* Modal for PDF Preview */}
-        <Modal
-          isOpen={modalIsOpen}
-          onRequestClose={() => setModalIsOpen(false)}
-          contentLabel="Purchase Invoice"
-          className={styles.modal}
-          overlayClassName={styles.overlay}
-        >
-          <div
-            className={styles.closeButton}
-            onClick={() => setModalIsOpen(false)}
-          >
-            <img className={styles.closeImg} src={CloseIcon} alt="closeIcon" />
-          </div>
- 
-          {/* PDF display with loading and error handling */}
-          {pdfFile ? (
-            <iframe
-              src={pdfUrl}
-              className={styles.pdfIframe}
-              title="Purchase Invoice"
-              onError={() =>
-                alert("Failed to load PDF. Please check the file path.")
-              }
-            />
-          ) : (
-            <p>Loading PDF or file not found...</p>
-          )}
-        </Modal>
       </div>
     </div>
   );
 };
- 
+
 export default ProductDetails;

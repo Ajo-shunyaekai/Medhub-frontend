@@ -488,6 +488,7 @@ cursor: pointer !important;
 @media(max-width:1520px){
 .container {
    margin: unset;
+   max-width: 97%;
 }
 }
 @media(max-width:1400px){

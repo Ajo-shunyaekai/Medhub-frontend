@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import html2pdf from "html2pdf.js";
 import { useNavigate, useParams } from "react-router-dom";
-import { postRequestWithToken } from "../../../../api/Requests";
 import { apiRequests } from "../../../../../api";
 
 function BuyerProformaDetails() {
@@ -37,6 +36,7 @@ function BuyerProformaDetails() {
     };
     getOrderDetails();
   }, []);
+
   const orderItems =
     orderDetails?.items?.map((item) => ({
       ...item,
@@ -68,6 +68,33 @@ function BuyerProformaDetails() {
     html2pdf().from(element).set(options).save();
   };
 
+  // Function to format address in two lines
+  const formatAddress = (address) => {
+    if (!address) return ["", ""];
+    const {
+      company_reg_address,
+      locality,
+      land_mark,
+      city,
+      state,
+      country,
+      pincode,
+    } = address;
+    const line1Parts = [
+      company_reg_address,
+      locality,
+      land_mark,
+    ].filter(Boolean);
+    const line2Parts = [city, state, country, pincode].filter(Boolean);
+    return [
+      line1Parts.join(", "),
+      line2Parts.join(", "),
+    ];
+  };
+
+  const buyerAddress = formatAddress(orderDetails?.buyer_registered_address);
+  const supplierAddress = formatAddress(orderDetails?.supplier_registered_address);
+
   return (
     <div className="invoice-template-design">
       <div className="scroll-wrapper">
@@ -86,7 +113,7 @@ function BuyerProformaDetails() {
               fontSize: "16px",
               lineHeight: "24px",
               color: "#212121",
-              boxShadow:"0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d",
+              boxShadow: "0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d",
               backgroundColor: "#FFFFFF",
             }}
           >
@@ -170,7 +197,6 @@ function BuyerProformaDetails() {
                               style={{
                                 fontSize: "16px",
                                 fontWeight: 500,
-                                  
                               }}
                             >
                               {orderDetails?.supplier_name}
@@ -178,12 +204,20 @@ function BuyerProformaDetails() {
                             <p
                               style={{
                                 fontSize: "13px",
-                                
-                                fontWeight:"500",
-                                  color: "#616161",
+                                fontWeight: "500",
+                                color: "#616161",
                               }}
                             >
-                              {orderDetails?.supplier_address}
+                              {supplierAddress[0]}
+                            </p>
+                            <p
+                              style={{
+                                fontSize: "13px",
+                                fontWeight: "500",
+                                color: "#616161",
+                              }}
+                            >
+                              {supplierAddress[1]}
                             </p>
                             <td
                               style={{
@@ -191,17 +225,14 @@ function BuyerProformaDetails() {
                                 justifyContent: "start",
                               }}
                             >
-                            
                               <p
                                 style={{
                                   fontSize: "13px",
-                                
-                                fontWeight:"500",
-                                    color: "#616161",
-                                     
+                                  fontWeight: "500",
+                                  color: "#616161",
                                 }}
                               >
-                              {orderDetails?.supplier_mobile}
+                                {orderDetails?.supplier_mobile}
                               </p>
                             </td>
                             <td
@@ -210,17 +241,14 @@ function BuyerProformaDetails() {
                                 justifyContent: "start",
                               }}
                             >
-                             
                               <p
                                 style={{
                                   fontSize: "13px",
-                                 
-                                fontWeight:"500",
-                                    color: "#616161",
-                                     
+                                  fontWeight: "500",
+                                  color: "#616161",
                                 }}
                               >
-                               {orderDetails?.supplier_email}
+                                {orderDetails?.supplier_email}
                               </p>
                             </td>
                           </td>
@@ -245,7 +273,6 @@ function BuyerProformaDetails() {
                               style={{
                                 fontSize: "16px",
                                 fontWeight: 500,
-                                  
                                 textAlign: "end",
                               }}
                             >
@@ -254,46 +281,47 @@ function BuyerProformaDetails() {
                             <p
                               style={{
                                 fontSize: "13px",
-                               
-                                fontWeight:"500",
-                                  color: "#616161",
-                               
+                                fontWeight: "500",
+                                color: "#616161",
                                 textAlign: "end",
                               }}
                             >
-                              {orderDetails?.buyer_address}
+                              {buyerAddress[0]}
                             </p>
-                           
+                            <p
+                              style={{
+                                fontSize: "13px",
+                                fontWeight: "500",
+                                color: "#616161",
+                                textAlign: "end",
+                              }}
+                            >
+                              {buyerAddress[1]}
+                            </p>
                             <td
                               style={{ display: "flex", justifyContent: "end" }}
                             >
-                             
                               <p
                                 style={{
                                   fontSize: "13px",
-                                  
-                                fontWeight:"500",
-                                    color: "#616161",
-                                     
+                                  fontWeight: "500",
+                                  color: "#616161",
                                 }}
                               >
-                               {orderDetails?.buyer_mobile}
+                                {orderDetails?.buyer_mobile}
                               </p>
                             </td>
                             <td
                               style={{ display: "flex", justifyContent: "end" }}
                             >
-                              
                               <p
                                 style={{
                                   fontSize: "13px",
-                                  
-                                fontWeight:"500",
-                                    color: "#616161",
-                                     
+                                  fontWeight: "500",
+                                  color: "#616161",
                                 }}
                               >
-                             {orderDetails?.buyer_email}
+                                {orderDetails?.buyer_email}
                               </p>
                             </td>
                           </td>
@@ -307,8 +335,7 @@ function BuyerProformaDetails() {
                                     style={{
                                       padding: "8px 0",
                                       fontWeight: 500,
-                                      borderBottom:
-                                        "1px solid #616161",
+                                      borderBottom: "1px solid #616161",
                                       width: "40px",
                                     }}
                                   >
@@ -318,8 +345,7 @@ function BuyerProformaDetails() {
                                     style={{
                                       padding: "8px 0",
                                       fontWeight: 500,
-                                      borderBottom:
-                                        "1px solid #616161",
+                                      borderBottom: "1px solid #616161",
                                       width: "180px",
                                     }}
                                   >
@@ -329,8 +355,7 @@ function BuyerProformaDetails() {
                                     style={{
                                       padding: "8px 0",
                                       fontWeight: 500,
-                                      borderBottom:
-                                        "1px solid #616161",
+                                      borderBottom: "1px solid #616161",
                                       width: "40px",
                                     }}
                                   >
@@ -340,8 +365,7 @@ function BuyerProformaDetails() {
                                     style={{
                                       padding: "8px 0",
                                       fontWeight: 500,
-                                      borderBottom:
-                                        "1px solid #616161",
+                                      borderBottom: "1px solid #616161",
                                       textAlign: "end",
                                       width: "100px",
                                     }}
@@ -352,8 +376,7 @@ function BuyerProformaDetails() {
                                     style={{
                                       padding: "8px 0",
                                       fontWeight: 500,
-                                      borderBottom:
-                                        "1px solid #616161",
+                                      borderBottom: "1px solid #616161",
                                       textAlign: "end",
                                       width: "100px",
                                     }}
@@ -364,8 +387,7 @@ function BuyerProformaDetails() {
                                     style={{
                                       padding: "8px 0",
                                       fontWeight: 500,
-                                      borderBottom:
-                                        "1px solid #616161",
+                                      borderBottom: "1px solid #616161",
                                       textAlign: "end",
                                       width: "120px",
                                     }}
@@ -382,7 +404,7 @@ function BuyerProformaDetails() {
                                         paddingBlock: "12px",
                                         display: "flex",
                                         alignItems: "baseline",
-                                        verticalAlign:"baseline"
+                                        verticalAlign: "baseline",
                                       }}
                                     >
                                       <p
@@ -394,19 +416,29 @@ function BuyerProformaDetails() {
                                         {index + 1}.
                                       </p>
                                     </td>
-                                    <td style={{ paddingBlock: "12px",verticalAlign:"baseline" }}>
+                                    <td
+                                      style={{
+                                        paddingBlock: "12px",
+                                        verticalAlign: "baseline",
+                                      }}
+                                    >
                                       <p
                                         style={{
                                           fontWeight: 500,
                                           fontSize: "14px",
-                                          lineHeight:"20px"
+                                          lineHeight: "20px",
                                         }}
                                       >
                                         {item.medicine_name} (
                                         {item?.strength || "150mg"})
                                       </p>
                                     </td>
-                                    <td style={{ paddingBlock: "12px",verticalAlign:"baseline" }}>
+                                    <td
+                                      style={{
+                                        paddingBlock: "12px",
+                                        verticalAlign: "baseline",
+                                      }}
+                                    >
                                       <p
                                         style={{
                                           fontWeight: 500,
@@ -420,7 +452,7 @@ function BuyerProformaDetails() {
                                       style={{
                                         paddingBlock: "12px",
                                         textAlign: "end",
-                                        verticalAlign:"baseline"
+                                        verticalAlign: "baseline",
                                       }}
                                     >
                                       <p
@@ -429,8 +461,7 @@ function BuyerProformaDetails() {
                                           fontSize: "13px",
                                         }}
                                       >
-                                        {item?.counter_price ||
-                                          item?.target_price}{" "}
+                                        {item?.counter_price || item?.target_price}{" "}
                                         USD
                                       </p>
                                     </td>
@@ -438,7 +469,7 @@ function BuyerProformaDetails() {
                                       style={{
                                         paddingBlock: "12px",
                                         textAlign: "end",
-                                        verticalAlign:"baseline"
+                                        verticalAlign: "baseline",
                                       }}
                                     >
                                       <p
@@ -454,7 +485,7 @@ function BuyerProformaDetails() {
                                       style={{
                                         paddingBlock: "12px",
                                         textAlign: "end",
-                                        verticalAlign:"baseline"
+                                        verticalAlign: "baseline",
                                       }}
                                     >
                                       <p
@@ -492,7 +523,6 @@ function BuyerProformaDetails() {
                                             justifyContent: "end",
                                             alignItems: "center",
                                             columnGap: "10px",
-                                               
                                           }}
                                         >
                                           <p
@@ -525,8 +555,7 @@ function BuyerProformaDetails() {
                               <table>
                                 <tbody
                                   style={{
-                                    borderBottom:
-                                      "1px solid #616161",
+                                    borderBottom: "1px solid #616161",
                                   }}
                                 >
                                   <tr>
@@ -707,40 +736,36 @@ function BuyerProformaDetails() {
                       >
                         Payment Terms :
                       </h1>
-
                       <div
                         style={{
                           fontSize: "13px",
-                          fontWeight:"500",
+                          fontWeight: "500",
                           lineHeight: "20px",
                           marginTop: "4px",
-                            color: "#616161",
+                          color: "#616161",
                         }}
                       >
-                        {orderDetails?.enquiry?.payment_terms?.map(
-                          (data, i) => {
-                            return (
-                              <p
-                                style={{
-                                  position: "relative",
-                                  paddingLeft: "20px",
-                                }}
-                              >
-                                <span
-                                  style={{
-                                    position: "absolute",
-                                    left: "0",
-                                    top: "0",
-                                    fontSize: "22px",
-                                  }}
-                                >
-                                  •
-                                </span>
-                                {data}
-                              </p>
-                            );
-                          }
-                        )}
+                        {orderDetails?.enquiry?.payment_terms?.map((data, i) => (
+                          <p
+                            style={{
+                              position: "relative",
+                              paddingLeft: "20px",
+                            }}
+                            key={i}
+                          >
+                            <span
+                              style={{
+                                position: "absolute",
+                                left: "0",
+                                top: "0",
+                                fontSize: "22px",
+                              }}
+                            >
+                              •
+                            </span>
+                            {data}
+                          </p>
+                        ))}
                       </div>
                     </td>
                   </tr>
