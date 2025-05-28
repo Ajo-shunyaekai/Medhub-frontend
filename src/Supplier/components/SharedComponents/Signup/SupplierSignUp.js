@@ -343,7 +343,6 @@ const SupplierSignUp = ({ socket }) => {
 
     if (
       [
-        "registrationNo",
         "vatRegistrationNo",
         "companyLicenseNo",
         "companyTaxNo",
@@ -353,6 +352,27 @@ const SupplierSignUp = ({ socket }) => {
         setErrors((prevState) => ({
           ...prevState,
           [name]: `Maximum 16 characters allowed`,
+        }));
+        return;
+      }
+      if (!alphanumericNoSpaceRegex.test(value)) {
+        setErrors((prevState) => ({
+          ...prevState,
+          [name]: `Only alphanumeric characters allowed`,
+        }));
+        return;
+      }
+    }
+
+    if (
+      [
+        "registrationNo",
+      ].includes(name)
+    ) {
+      if (value.length >= 20) {
+        setErrors((prevState) => ({
+          ...prevState,
+          [name]: `Maximum 20 characters allowed`,
         }));
         return;
       }

@@ -23,8 +23,8 @@ export const packagingUnits = [
 
 export const volumeUnits = [
   { value: "Cubic meter (m³)", label: "Cubic meter (m³)" },
-  { value: "Liter (L)", label: "Liter (L)" },
-  { value: "Milliliter (mL)", label: "Milliliter (mL)" },
+  { value: "Litre (L)", label: "Litre (L)" },
+  { value: "MilliLitre (mL)", label: "MilliLitre (mL)" },
   { value: "Microgram (µg)", label: "Microgram (µg)" },
   { value: "Cubic centimeter (cm³)", label: "Cubic centimeter (cm³)" },
   { value: "Cubic decimeter (dm³)", label: "Cubic decimeter (dm³)" },
