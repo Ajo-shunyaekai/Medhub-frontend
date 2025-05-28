@@ -125,29 +125,23 @@ function ProformaDetailsPage() {
   }, [orderId]);
 
   // Helper function to format address in two lines
-  const formatAddress = (logisticsData) => {
-    const addressComponents = [
-      logisticsData?.company_reg_address,
-      logisticsData?.locality,
-      logisticsData?.land_mark,
-      logisticsData?.city,
-      logisticsData?.state,
-      logisticsData?.country,
-      logisticsData?.pincode,
-    ].filter(Boolean); // Remove falsy values
+  const formatAddress = (addressData) => {
+    if (!addressData) return <p>N/A</p>;
 
-    if (addressComponents.length === 0) return "N/A";
+    const {
+      company_reg_address,
+      locality,
+      land_mark,
+      city,
+      state,
+      country,
+      pincode,
+    } = addressData;
 
-    // Split into two lines: first line for address and locality, second for the rest
-    const line1 = [logisticsData?.company_reg_address, logisticsData?.locality,logisticsData?.land_mark,].filter(Boolean).join(", ");
-    const line2 = [
-       logisticsData?.country,
-       logisticsData?.state,
-      logisticsData?.city,
-      logisticsData?.pincode,
-    ]
+    const line1 = [company_reg_address, locality, land_mark]
       .filter(Boolean)
       .join(", ");
+    const line2 = [city, state, country, pincode].filter(Boolean).join(", ");
 
     return (
       <>
@@ -287,12 +281,10 @@ function ProformaDetailsPage() {
                                 fontSize: "13px",
                                 color: "#616161",
                                 fontWeight: 500,
-                               
                               }}
                             >
                               {formatAddress(
-                               
-                                orderDetails?.supplier_logistics_data
+                                orderDetails?.supplier_registered_address
                               )}
                             </div>
                             {orderDetails?.supplier_mobile && (
@@ -367,11 +359,10 @@ function ProformaDetailsPage() {
                                 color: "#616161",
                                 fontWeight: 500,
                                 textAlign: "end",
-                              
                               }}
                             >
                               {formatAddress(
-                                orderDetails?.buyer_logistics_data
+                                orderDetails?.buyer_registered_address
                               )}
                             </div>
                             {orderDetails?.buyer_mobile && (
@@ -904,24 +895,7 @@ function ProformaDetailsPage() {
                             )
                           ))
                         ) : (
-                          <p
-                            style={{
-                              position: "relative",
-                              paddingLeft: "20px",
-                            }}
-                          >
-                            <span
-                              style={{
-                                position: "absolute",
-                                left: "0",
-                                top: "0",
-                                fontSize: "22px",
-                              }}
-                            >
-                              •
-                            </span>
-                            50% advance
-                          </p>
+                          ""
                         )}
                       </div>
                     </td>
