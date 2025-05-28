@@ -98,6 +98,7 @@ background-color: #282f86;
 
 .buttonContainer {
     display: flex;
+    align-items: center;
     gap: 10px;
     cursor: pointer !important;
 }
