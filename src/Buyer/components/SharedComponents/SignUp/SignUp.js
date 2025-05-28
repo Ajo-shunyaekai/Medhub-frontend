@@ -399,13 +399,32 @@ const SignUp = ({ socket }) => {
 
     if (
       [
-        "registrationNo",
         "vatRegistrationNo",
         "companyLicenseNo",
         // "companyTaxNo",
       ].includes(name)
     ) {
       if (value.length > 16) {
+        setErrors((prevState) => ({
+          ...prevState,
+          [name]: "",
+        }));
+        return;
+      }
+      if (!alphanumericNoSpaceRegex.test(value)) {
+        setErrors((prevState) => ({
+          ...prevState,
+          [name]: "",
+        }));
+        return;
+      }
+    }
+    if (
+      [
+        "registrationNo",
+      ].includes(name)
+    ) {
+      if (value.length >= 20) {
         setErrors((prevState) => ({
           ...prevState,
           [name]: "",

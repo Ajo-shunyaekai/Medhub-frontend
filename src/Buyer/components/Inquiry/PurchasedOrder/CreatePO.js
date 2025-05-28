@@ -276,7 +276,7 @@ const CreatePO = ({ socket }) => {
       }
     }
     if (name === "buyerRegNo") {
-      if (!/^[a-zA-Z0-9]{0,16}$/.test(value)) {
+      if (!/^[a-zA-Z0-9]{0,20}$/.test(value)) {
         newErrors.buyerRegNo = "";
         isValid = false;
       } else {
