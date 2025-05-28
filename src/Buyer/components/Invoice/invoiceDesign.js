@@ -260,8 +260,8 @@ function InvoiceTemplate({ invoice }) {
                                                                             <p style={{ fontSize: '14px', fontWeight: '500', width: '100px' }}>Account No :</p>
                                                                             <p style={{ fontSize: '14px', color: "#616161", fontWeight: '500' }}>{invoiceDetails?.account_number}</p>
                                                                         </tr>
-                                                                        <tr style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', paddingTop: '6px' }}>
-                                                                            <p style={{ fontSize: '14px', fontWeight: '500', height: '100px' }}>Sort Code :</p>
+                                                                        <tr style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', paddingTop: '8px' }}>
+                                                                            <p style={{ fontSize: '14px', fontWeight: '500', width: '100px' }}>Sort Code :</p>
                                                                             <p style={{ fontSize: '14px', color: "#616161", fontWeight: '500' }}>{invoiceDetails?.sort_code}</p>
                                                                         </tr>
                                                                     </td>
