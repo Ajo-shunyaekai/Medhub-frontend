@@ -71,11 +71,11 @@ function ProformaInvoiceDetails() {
   // Format supplier and buyer addresses into two lines
   const supplierAddress = orderDetails?.supplier_registered_address || {};
   const supplierAddressLine1 = `${orderDetails?.supplier_address || ''} ${supplierAddress.locality || ''}`.trim();
-  const supplierAddressLine2 = `${supplierAddress.land_mark || ''} ${supplierAddress.city || ''} ${supplierAddress.state || ''} ${supplierAddress.pincode || ''} ${supplierAddress.country || ''}`.trim();
+  const supplierAddressLine2 = `${supplierAddress.land_mark || ''} ${supplierAddress.country || ''} ${supplierAddress.state || ''} ${supplierAddress.city || ''}  ${supplierAddress.pincode || ''} `.trim();
 
   const buyerAddress = orderDetails?.buyer_registered_address || {};
   const buyerAddressLine1 = `${orderDetails?.buyer_address || ''} ${buyerAddress.locality || ''}`.trim();
-  const buyerAddressLine2 = `${buyerAddress.land_mark || ''} ${buyerAddress.city || ''} ${buyerAddress.state || ''} ${buyerAddress.pincode || ''} ${buyerAddress.country || ''}`.trim();
+  const buyerAddressLine2 = `${buyerAddress.land_mark || ''} ${buyerAddress.country || ''} ${buyerAddress.state || ''} ${buyerAddress.city || ''}  ${buyerAddress.pincode || ''} `.trim();
 
   return (
     <div className="invoice-template-design">

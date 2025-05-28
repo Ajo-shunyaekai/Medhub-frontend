@@ -1,26 +1,23 @@
 import styles from "./productdetail.module.css";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useState, useEffect } from "react";
-import Modal from "react-modal";
-import CloseIcon from "../../../assets/Images/Icon.svg";
+import { useEffect } from "react";
+import CloseIcon from "../../../assets/Images/Icon.svg"; // Can be removed if not used elsewhere
 import RenderProductFiles from "./RenderProductFiles";
 import { fetchProductDetail } from "../../../../redux/reducers/productSlice";
 import moment from "moment";
 
-Modal.setAppElement("#root");
 const ProductDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { productDetail } = useSelector((state) => state?.productReducer || {});
-  const [modalIsOpen, setModalIsOpen] = useState(false);
   const pdfFile =
     productDetail?.secondaryMarketDetails?.purchaseInvoiceFile?.[0] ||
     productDetail?.data?.[0]?.secondaryMarketDetails?.purchaseInvoiceFile?.[0];
   const pdfUrl = pdfFile
     ? pdfFile?.startsWith("http")
       ? pdfFile
-      : `${process.env.REACT_APP_SERVER_URL}/uploads/products/${pdfFile}`
+      : `${process.env.REACT_APP_SERVER_URL}/Uploads/products/${pdfFile}`
     : "https://morth.nic.in/sites/default/files/dd12-13_0.pdf";
 
   useEffect(() => {
@@ -45,6 +42,24 @@ const ProductDetails = () => {
     const year = dateObj.getFullYear();
 
     return `${day}-${month}-${year}`;
+  };
+
+  // Function to open PDF in a new window and trigger download
+  const handlePdfAction = () => {
+    if (pdfFile) {
+      // Open PDF in a new tab
+      window.open(pdfUrl, "_blank");
+
+      // Trigger download
+      const link = document.createElement("a");
+      link.href = pdfUrl;
+      link.download = pdfFile?.split("/").pop() || "invoice.pdf"; // Use filename from URL or fallback
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } else {
+      alert("PDF file not found.");
+    }
   };
 
   return (
@@ -150,7 +165,7 @@ const ProductDetails = () => {
                 <div className={styles.mainPurchaseSection}>
                   <button
                     className={styles.PurcahseButton}
-                    onClick={() => setModalIsOpen(true)}
+                    onClick={handlePdfAction} // Updated to call new function
                   >
                     View Purchase Invoice
                   </button>
@@ -160,8 +175,8 @@ const ProductDetails = () => {
           </div>
         )}
 
-        {/* End Secondar Market section */}
-        {/* Start general information section */}
+
+         {/* Start general information section */}
         <div className={styles.mainContainer}>
           <div className={styles.contain}>
           <span className={styles.innerHead}>General Information</span>{" "}
@@ -3363,36 +3378,6 @@ const ProductDetails = () => {
 </div>
 {/* End Manufacturer section */}
 {/* End Manufacturer section */}
-
-        {/* Modal for PDF Preview */}
-        <Modal
-          isOpen={modalIsOpen}
-          onRequestClose={() => setModalIsOpen(false)}
-          contentLabel="Purchase Invoice"
-          className={styles.modal}
-          overlayClassName={styles.overlay}
-        >
-          <div
-            className={styles.closeButton}
-            onClick={() => setModalIsOpen(false)}
-          >
-            <img className={styles.closeImg} src={CloseIcon} alt="closeIcon" />
-          </div>
-
-          {/* PDF display with loading and error handling */}
-          {pdfFile ? (
-            <iframe
-              src={pdfUrl}
-              className={styles.pdfIframe}
-              title="Purchase Invoice"
-              onError={() =>
-                alert("Failed to load PDF. Please check the file path.")
-              }
-            />
-          ) : (
-            <p>Loading PDF or file not found...</p>
-          )}
-        </Modal>
       </div>
     </div>
   );
