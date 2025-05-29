@@ -6,6 +6,7 @@ import { postReqCSVDownload, postRequestWithToken } from '../../../api/Requests'
 import Loader from '../../shared-components/Loader/Loader';
 import PaginationComponent from '../../shared-components/Pagination/Pagination';
 import styles from '../../../assets/style/table.module.css';
+import Button from "../../shared-components/UiElements/Button/Button";
 
 const RejectedBuyer = () => {
     const navigate = useNavigate();
@@ -18,6 +19,7 @@ const RejectedBuyer = () => {
     const adminIdLocalStorage = localStorage?.getItem("admin_id");
 
     const [loading, setLoading] = useState(true);
+    const [downloadLoader, setDownloadLoader] = useState(false);
     const [buyerList, setBuyerList] = useState([]);
     const [totalBuyers, setTotalBuyers] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
@@ -52,10 +54,10 @@ const RejectedBuyer = () => {
     };
 
     const handleDownload = async () => {
-        setLoading(true);
+        setDownloadLoader(true);
         const obj = { filterKey: 'rejected' };
         await postReqCSVDownload('admin/get-buyer-list-csv', obj, 'rejected_buyers_list.csv');
-        setLoading(false);
+        setTimeout(()=>{ setDownloadLoader(false) },2000);
     };
 
     const columns = [
@@ -152,9 +154,12 @@ const RejectedBuyer = () => {
                 <div className={styles.tableMainContainer}>
                     <header className={styles.header}>
                         <span className={styles.title}>Rejected Buyer</span>
-                        <button className={styles.button} onClick={handleDownload}>
+                        {/* <button className={styles.button} onClick={handleDownload}>
                             Download
-                        </button>
+                        </button> */}
+                        <Button onClick={handleDownload} loading={downloadLoader}>
+                            Download
+                        </Button>
                     </header>
 
                     <DataTable

@@ -7,6 +7,7 @@ import Loader from '../../shared-components/Loader/Loader';
 import moment from 'moment/moment';
 import PaginationComponent from '../../shared-components/Pagination/Pagination';
 import styles from '../../../assets/style/table.module.css';
+import Button from "../../shared-components/UiElements/Button/Button";
 
 const SellerRequest = () => {
     const navigate = useNavigate();
@@ -19,6 +20,7 @@ const SellerRequest = () => {
     const adminIdLocalStorage = localStorage?.getItem("admin_id");
 
     const [loading, setLoading] = useState(true);
+    const [downloadLoader, setDownloadLoader] = useState(false);
     const [sellerRequestList, setSellerRequestList] = useState([]);
     const [totalRequests, setTotalRequests] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
@@ -55,12 +57,12 @@ const SellerRequest = () => {
     }, [currentPage, adminIdSessionStorage, adminIdLocalStorage, filterValue, navigate]);
 
     const handleDownload = async () => {
-        setLoading(true);
+        setDownloadLoader(true);
         const result = await postReqCSVDownload('admin/get-supplier-list-csv', {}, 'supplier_requests_list.csv');
         if (!result?.success) {
             console.error('Error downloading CSV');
         }
-        setLoading(false);
+        setTimeout(()=>{ setDownloadLoader(false) },2000);
     };
 
     const columns = [
@@ -149,9 +151,12 @@ const SellerRequest = () => {
                 <div className={styles.tableMainContainer}>
                     <header className={styles.header}>
                         <span className={styles.title}>Supplier Requests</span>
-                        <button className={styles.button} onClick={handleDownload}>
+                        {/* <button className={styles.button} onClick={handleDownload}>
                             Download
-                        </button>
+                        </button> */}
+                        <Button onClick={handleDownload} loading={downloadLoader}>
+                            Download
+                        </Button>
                     </header>
                     <DataTable
                         columns={columns}
