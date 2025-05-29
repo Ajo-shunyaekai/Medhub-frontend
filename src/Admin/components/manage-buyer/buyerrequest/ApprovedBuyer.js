@@ -6,6 +6,7 @@ import { postReqCSVDownload, postRequestWithToken } from '../../../api/Requests'
 import Loader from '../../shared-components/Loader/Loader';
 import PaginationComponent from '../../shared-components/Pagination/Pagination';
 import styles from '../../../assets/style/table.module.css';
+import Button from "../../shared-components/UiElements/Button/Button";
 
 const ApprovedBuyer = () => {
     const navigate = useNavigate();
@@ -18,6 +19,7 @@ const ApprovedBuyer = () => {
     const adminIdLocalStorage = localStorage?.getItem("admin_id");
 
     const [loading, setLoading] = useState(true);
+    const [downloadLoader, setDownloadLoader] = useState(false);
     const [buyerList, setBuyerList] = useState([]);
     const [totalBuyers, setTotalBuyers] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
@@ -48,7 +50,7 @@ const ApprovedBuyer = () => {
     }, [currentPage, filterValue, adminIdSessionStorage, adminIdLocalStorage, navigate]);
 
     const handleDownload = async () => {
-        setLoading(true);
+        setDownloadLoader(true);
         const obj = {
             filterKey: 'accepted'
         };
@@ -57,7 +59,7 @@ const ApprovedBuyer = () => {
         if (!result?.success) {
             // Handle error if needed
         }
-        setLoading(false);
+        setTimeout(()=>{ setDownloadLoader(false) },2000);
     };
 
     const columns = [
@@ -155,9 +157,12 @@ const ApprovedBuyer = () => {
                 <div className={styles.tableMainContainer}>
                     <header className={styles.header}>
                         <span className={styles.title}>Approved Buyer</span>
-                        <button className={styles.button} onClick={handleDownload}>
+                        {/* <button className={styles.button} onClick={handleDownload}>
                             Download
-                        </button>
+                        </button> */}
+                        <Button onClick={handleDownload} loading={downloadLoader}>
+                            Download
+                        </Button>
                     </header>
                     <DataTable
                         columns={columns}
