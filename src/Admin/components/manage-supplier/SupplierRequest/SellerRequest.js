@@ -19,10 +19,11 @@ const SellerRequest = () => {
     const adminIdLocalStorage = localStorage?.getItem("admin_id");
 
     const [loading, setLoading] = useState(true);
+    const [downloadLoading, setDownloadLoading] = useState(false); // Separate state for download button
     const [sellerRequestList, setSellerRequestList] = useState([]);
     const [totalRequests, setTotalRequests] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
-    const listPerPage = 8; 
+    const listPerPage = 8;
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -40,7 +41,7 @@ const SellerRequest = () => {
             filterKey: 'pending',
             filterValue: filterValue,
             pageNo: currentPage,
-            pageSize: listPerPage, 
+            pageSize: listPerPage,
         };
 
         postRequestWithToken('admin/get-supplier-reg-req-list', obj, async (response) => {
@@ -55,12 +56,20 @@ const SellerRequest = () => {
     }, [currentPage, adminIdSessionStorage, adminIdLocalStorage, filterValue, navigate]);
 
     const handleDownload = async () => {
-        setLoading(true);
-        const result = await postReqCSVDownload('admin/get-supplier-list-csv', {}, 'supplier_requests_list.csv');
-        if (!result?.success) {
-            console.error('Error downloading CSV');
+        setDownloadLoading(true);
+        try {
+            const result = await postReqCSVDownload('admin/get-supplier-list-csv', {}, 'supplier_requests_list.csv');
+            if (!result?.success) {
+                console.error('Error downloading CSV:', result?.message || 'Unknown error');
+            }
+        } catch (error) {
+            console.error('Error in handleDownload:', error);
+        } finally {
+            // Optional: Add a minimum delay to ensure loader is visible
+            setTimeout(() => {
+                setDownloadLoading(false);
+            }, 500); // 500ms delay to make loader noticeable
         }
-        setLoading(false);
     };
 
     const columns = [
@@ -120,27 +129,26 @@ const SellerRequest = () => {
                         border-bottom: none !important;
                     }
                     .rdt_TableHeadRow {
-                    background-color: #f9f9fa;
-    font-weight: bold !important;
-    font-size: 14px !important;
-    border-bottom: none !important;
+                        background-color: #f9f9fa;
+                        font-weight: bold !important;
+                        font-size: 14px !important;
+                        border-bottom: none !important;
                     }
                     .rdt_TableBody {
                         gap: 10px !important;
                     }
                     .rdt_TableCol {
-                      color: #212121 !important;
-    font-weight: 600 !important;
+                        color: #212121 !important;
+                        font-weight: 600 !important;
                     }
                     .rdt_TableCell {
-                            
                         color: #616161;
                         font-weight: 500 !important;
                     }
                     .rdt_TableCellStatus {
-                            
                         color: #616161;
                     }
+                  
                 `}
             </style>
             {loading ? (
@@ -149,8 +157,15 @@ const SellerRequest = () => {
                 <div className={styles.tableMainContainer}>
                     <header className={styles.header}>
                         <span className={styles.title}>Supplier Requests</span>
-                        <button className={styles.button} onClick={handleDownload}>
-                            Download
+                        <button className={styles.button} onClick={handleDownload} disabled={downloadLoading}>
+                            {downloadLoading ? (
+                                <>
+                                    <div className={styles['loading-spinner']}></div>
+                                    {/* Downloading... */}
+                                </>
+                            ) : (
+                                'Download'
+                            )}
                         </button>
                     </header>
                     <DataTable
@@ -158,7 +173,7 @@ const SellerRequest = () => {
                         data={sellerRequestList}
                         noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
                         persistTableHead
-                        pagination={false} 
+                        pagination={false}
                         responsive
                     />
                     {sellerRequestList.length > 0 && (

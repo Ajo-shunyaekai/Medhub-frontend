@@ -197,7 +197,7 @@ const Profile = () => {
                   {user?.categories && (
                     <div className={styles.companyDetails}>
                       <div className={styles.companyHead}>
-                        Categories you Trade In
+                        Trading Categories
                       </div>
                       <div className={styles.companyText}>
                         {user.categories.join(', ')}

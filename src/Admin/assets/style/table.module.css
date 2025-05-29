@@ -90,3 +90,12 @@ background-color: #282f86;
     gap: 10px;
     cursor: pointer !important;
 }
+.loading-spinner {
+  border: 2px solid #ffffff;
+  border-left-color: #fff; /* Spinner color */
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}

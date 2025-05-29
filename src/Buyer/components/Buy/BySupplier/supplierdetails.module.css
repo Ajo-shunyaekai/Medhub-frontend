@@ -15,7 +15,14 @@
 .container::-webkit-scrollbar {
     display: none;
 }
-
+.logoSection{
+    width: 60px;
+    height: auto;
+}
+.logoSection img{
+ width: 100%;
+ height: auto;   
+}
 .heading {
     padding-top: 4px;
     font-weight: 500;

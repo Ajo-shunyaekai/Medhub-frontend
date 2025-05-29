@@ -1109,7 +1109,7 @@ const SupplierSignUp = ({ socket }) => {
                     </div>
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
-                        Categories you Trade In
+                        Trading Categories
                         <span className={styles.labelStamp}>*</span>
                       </label>
                       {category.length > 0 && (
