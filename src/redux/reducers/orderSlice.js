@@ -109,7 +109,7 @@ export const remindSupplier = createAsyncThunk(
       const response = await apiRequests?.postRequest(
         `order/remind-supplier/${values}`,
       );
-      if (response?.code != 200) {
+      if (response?.code !== 200) {
         toast(response?.message, { type: "error" });
         return rejectWithValue(response?.message || "Unknown error");
       }

@@ -1,15 +1,14 @@
 import React, { useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Successful from '../../../assets/images/successful.svg';
-import './thankyou.css';
+import styles from './thankyou.module.css';
 
 const ThankYou = () => {
-  const location = useLocation();
+  // const location = useLocation();
   const navigate = useNavigate();
-  const { from } = location.state || {};
+  // const { from } = location.state || {};
 
   useEffect(() => {
-   
     window.history.pushState(null, '', window?.location?.pathname);
 
     const handleBackButton = (e) => {
@@ -24,22 +23,32 @@ const ThankYou = () => {
   }, [navigate]);
 
   return (
-    <div className='thank-you-main-container'>
-      <div className='thank-you-section'>
-        <div className='thank-you-image-section'>
-          <img className='thank-you-image-container' src={Successful} alt='successful' />
+    <div className={styles.mainContainer}>
+      <div className={styles.section}>
+        
+          <img className={styles.imageContainer} src={Successful} alt='successful' />
+        
+        <div className={styles.mainHeading}>
+          Thank You for your Inquiry !!
         </div>
-        <div className='thank-you-main-heading'>
-          Thank You for Sending Us Your Inquiry!!
-        </div>
-        <div className='thank-you-main-content'>
-          We've received your inquiry, and our team will respond to you shortly.
-        </div>
+        <span className={styles.mainContent}>
+          The Supplier has been notified of your enquiry and will respond  in due  course. <br/> Please keep check your emails for any notifications from the suppliers.
+        </span>
+        <span className={styles.mainContent}>
+          A copy of the enquiry has also been emailed to you for your reference.
+        </span>
+        <div className={styles.buttonContainer}>
         <Link to='/buyer/buy/new-products'>
-          <div className='thank-you-buttons-section'>
-            <span className='thank-you-buttons'>Go Back</span>
+          <div className={styles.buttonsSection}>
+            <span className={styles.button}>Search more products</span>
           </div>
         </Link>
+        <Link to='/buyer/send-inquiry'>
+          <div className={styles.buttonsSection}>
+            <span className={styles.button}>Back to your cart</span>
+          </div>
+        </Link>
+        </div>
       </div>
     </div>
   );

@@ -7,7 +7,7 @@ import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
 import { Country, State, City } from "country-state-city";
 import { useDispatch, useSelector } from "react-redux";
-import { parsePhoneNumber, isValidPhoneNumber } from "libphonenumber-js";
+import { parsePhoneNumber,} from "libphonenumber-js";
 import {
   editProfile,
   fetchUserData,
@@ -399,7 +399,7 @@ const EditProfile = () => {
           <div className={styles.editProfileSection}>
             <span className={styles.editProfileSubHead}>
               Billing Address Details{" "}
-              {user?.profile_status == 0 && (
+              {user?.profile_status === 0 && (
                 <label className={styles.onEditInfo}>
                   (You cannot edit address details as your request is pending
                   with the admin.)
@@ -415,7 +415,7 @@ const EditProfile = () => {
                 <input
                   autoComplete="false"
                   className={
-                    user?.profile_status == 0
+                    user?.profile_status === 0
                       ? styles?.editInputDisabed
                       : styles.editInput
                   }
@@ -423,8 +423,8 @@ const EditProfile = () => {
                   name="companyAddress"
                   placeholder="Enter Company Billing Address"
                   value={formik.values.companyAddress}
-                  readOnly={user?.profile_status == 0}
-                  disabled={user?.profile_status == 0}
+                  readOnly={user?.profile_status === 0}
+                  disabled={user?.profile_status === 0}
                   onChange={formik.handleChange}
                 />
                 {formik.errors.companyAddress && (
@@ -441,7 +441,7 @@ const EditProfile = () => {
                 <input
                   autoComplete="false"
                   className={
-                    user?.profile_status == 0
+                    user?.profile_status === 0
                       ? styles?.editInputDisabed
                       : styles.editInput
                   }
@@ -449,8 +449,8 @@ const EditProfile = () => {
                   name="locality"
                   placeholder="Enter Area/Locality/Road Name"
                   value={formik.values.locality}
-                  readOnly={user?.profile_status == 0}
-                  disabled={user?.profile_status == 0}
+                  readOnly={user?.profile_status === 0}
+                  disabled={user?.profile_status === 0}
                   onChange={formik.handleChange}
                 />
                 {formik.errors.locality && (
@@ -464,7 +464,7 @@ const EditProfile = () => {
                 <input
                   autoComplete="false"
                   className={
-                    user?.profile_status == 0
+                    user?.profile_status === 0
                       ? styles?.editInputDisabed
                       : styles.editInput
                   }
@@ -472,8 +472,8 @@ const EditProfile = () => {
                   name="land_mark"
                   placeholder="Enter Landmark"
                   value={formik.values.land_mark}
-                  readOnly={user?.profile_status == 0}
-                  disabled={user?.profile_status == 0}
+                  readOnly={user?.profile_status === 0}
+                  disabled={user?.profile_status === 0}
                   onChange={formik.handleChange}
                 />
               </div>
@@ -493,7 +493,7 @@ const EditProfile = () => {
                   value={selectedCountry}
                   onChange={handleCountryChange}
                   placeholder="Select Country"
-                  isDisabled={user?.profile_status == 0}
+                  isDisabled={user?.profile_status === 0}
                 />
                 {formik.errors.country && (
                   <span className={styles.error_message_formik}>
@@ -522,7 +522,7 @@ const EditProfile = () => {
                   value={selectedState}
                   onChange={handleStateChange}
                   placeholder="Select State"
-                  isDisabled={user?.profile_status == 0 || !selectedCountry}
+                  isDisabled={user?.profile_status === 0 || !selectedCountry}
                 />
                 {formik.errors.state && (
                   <span className={styles.error_message_formik}>
@@ -552,7 +552,7 @@ const EditProfile = () => {
                   value={selectedCity}
                   onChange={handleCityChange}
                   placeholder="Select City"
-                  isDisabled={user?.profile_status == 0 || !selectedState}
+                  isDisabled={user?.profile_status === 0 || !selectedState}
                 />
                 {formik.errors.city && (
                   <span className={styles.error_message_formik}>
@@ -566,7 +566,7 @@ const EditProfile = () => {
                 <input
                   autoComplete="false"
                   className={
-                    user?.profile_status == 0
+                    user?.profile_status === 0
                       ? styles?.editInputDisabed
                       : styles.editInput
                   }
@@ -574,8 +574,8 @@ const EditProfile = () => {
                   name="pincode"
                   placeholder="Enter Pincode"
                   value={formik.values.pincode}
-                  readOnly={user?.profile_status == 0}
-                  disabled={user?.profile_status == 0}
+                  readOnly={user?.profile_status === 0}
+                  disabled={user?.profile_status === 0}
                   onChange={formik.handleChange}
                 />
               </div>

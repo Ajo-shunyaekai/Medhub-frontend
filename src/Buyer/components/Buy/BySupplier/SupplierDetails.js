@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './supplierdetails.module.css';
-import { Tooltip as ReactTooltip } from "react-tooltip";
 import SupplyOrderList from './SupplyOrderList';
 import SupplyProductList from './SupplyProductList';
-import PhoneInTalkOutlinedIcon from '@mui/icons-material/PhoneInTalkOutlined';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../../../../api/Requests';
 import SupplySecondaryList from './SupplySecondaryList';
@@ -92,7 +90,7 @@ const SupplierDetails = () => {
           return;
         }
         setSupplier(response?.result);
-      } catch (error) {}
+      } catch (error) { }
     };
 
     getSupplierDeatils();
@@ -153,37 +151,36 @@ const SupplierDetails = () => {
 
       <div className={styles.section}>
         <div className={styles.leftCard}>
-          {(supplier?.supplier_name || supplier?.supplier_type || supplier?.supplier_mobile) && (
+          {(supplier?.supplier_name || supplier?.supplier_type) && (
             <div className={styles.cardSection}>
               <div className={styles.innerSection}>
                 {supplier?.supplier_name && (
                   <span className={styles.mainHead}>{supplier.supplier_name}</span>
                 )}
-                 {supplier?.websiteAddress && (
-                   <a
-                   href={supplier.websiteAddress}
-                   target="_blank"
-                   rel="noopener noreferrer"
-                   className={styles.typeLink}
-                 >
-                   {supplier.websiteAddress}
-                 </a>
+                {supplier?.websiteAddress && (
+                  <a
+                    href={supplier.websiteAddress}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.typeLink}
+                  >
+                    {supplier.websiteAddress}
+                  </a>
                 )}
-               
+
                 {supplier?.supplier_type && (
                   <span className={styles.typeHead}>{supplier.supplier_type}</span>
                 )}
               </div>
-              {supplier?.supplier_mobile && (
-                <div
-                  className={styles.headIcons}
-                  data-tooltip-id="phoneTooltip"
-                  data-tooltip-content={`${supplier?.supplier_country_code || ''} ${supplier.supplier_mobile}`}
-                >
-                  <PhoneInTalkOutlinedIcon className={styles.Icon} />
-                  <ReactTooltip id="phoneTooltip" place="top" effect="solid" />
-                </div>
-              )}
+             <div className={styles.logoSection}>
+          <img   src={
+                      supplier?.supplier_image[0]?.startsWith("http")
+                        ? supplier?.supplier_image[0]
+                        : `${process.env.REACT_APP_SERVER_URL}uploads/supplier/supplierImage_files/${supplier?.supplier_image[0]}`
+                    }
+                    alt='supplier-logo'
+                    />
+             </div>
             </div>
           )}
 
@@ -196,7 +193,7 @@ const SupplierDetails = () => {
             </div>
           )}
 
-          {(supplier?.supplier_address ||
+          {/* {(supplier?.supplier_address ||
             supplier?.registeredAddress?.locality ||
             supplier?.registeredAddress?.land_mark ||
             supplier?.registeredAddress?.country ||
@@ -204,60 +201,62 @@ const SupplierDetails = () => {
             supplier?.registeredAddress?.city ||
             supplier?.registeredAddress?.pincode ||
             supplier?.bank_details) && (
-            <div className={styles.innerContainer}>
-              {(supplier?.supplier_address ||
-                supplier?.registeredAddress?.locality ||
-                supplier?.registeredAddress?.land_mark ||
-                supplier?.registeredAddress?.country ||
-                supplier?.registeredAddress?.state ||
-                supplier?.registeredAddress?.city ||
-                supplier?.registeredAddress?.pincode) && (
-                <div className={styles.cardContainer}>
-                  <span className={styles.cardHeads}>Address</span>
-                  <span className={styles.cardContents}>
-                    {[
-                      supplier?.supplier_address,
-                      supplier?.registeredAddress?.locality,
-                      supplier?.registeredAddress?.land_mark,
-                    ]
-                      .filter(Boolean)
-                      .join(', ')}
-                    {[
-                      supplier?.registeredAddress?.country,
-                      supplier?.registeredAddress?.state,
-                      supplier?.registeredAddress?.city,
-                      supplier?.registeredAddress?.pincode,
-                    ].filter(Boolean).length > 0 && (
-                      <div>
+              <div className={styles.innerContainer}>
+                {(supplier?.supplier_address ||
+                  supplier?.registeredAddress?.locality ||
+                  supplier?.registeredAddress?.land_mark ||
+                  supplier?.registeredAddress?.country ||
+                  supplier?.registeredAddress?.state ||
+                  supplier?.registeredAddress?.city ||
+                  supplier?.registeredAddress?.pincode) && (
+                    <div className={styles.cardContainer}>
+                      <span className={styles.cardHeads}>Address</span>
+                      <span className={styles.cardContents}>
+                        {[
+                          supplier?.supplier_address,
+                          supplier?.registeredAddress?.locality,
+                          supplier?.registeredAddress?.land_mark,
+                        ]
+                          .filter(Boolean)
+                          .join(', ')}
                         {[
                           supplier?.registeredAddress?.country,
                           supplier?.registeredAddress?.state,
                           supplier?.registeredAddress?.city,
                           supplier?.registeredAddress?.pincode,
-                        ]
-                          .filter(Boolean)
-                          .join(', ')}
-                      </div>
-                    )}
-                  </span>
-                </div>
-              )}
-             {supplier?.bank_details && (
-  <div className={styles.cardContainer}>
-    <span className={styles.cardHeads}>Bank Details</span>
-    <div className={styles.cardContents}>
-      {supplier?.bank_details?.split(', ').map((detail, index) => (
-        <div key={index} className={styles.bankDetail}>
-          {detail.trim()}
-        </div>
-      ))}
-    </div>
-  </div>
-)}
-            </div>
-          )}
+                        ].filter(Boolean).length > 0 && (
+                            <div>
+                              {[
+                                supplier?.registeredAddress?.country,
+                                supplier?.registeredAddress?.state,
+                                supplier?.registeredAddress?.city,
+                                supplier?.registeredAddress?.pincode,
+                              ]
+                                .filter(Boolean)
+                                .join(', ')}
+                            </div>
+                          )}
+                      </span>
+                    </div>
+                  )}
+                {supplier?.bank_details && (
+                  <div className={styles.cardContainer}>
+                    <span className={styles.cardHeads}>Bank Details</span>
+                    <div className={styles.cardContents}>
+                      {supplier?.bank_details?.split(', ').map((detail, index) => (
+                        <div key={index} className={styles.bankDetail}>
+                          {detail.trim()}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )} */}
 
-          {(supplier?.registration_no ||
+          {(
+            supplier?.supplier_mobile ||
+            supplier?.registration_no ||
             supplier?.vat_reg_no ||
             supplier?.activity_code ||
             supplier?.sales_person_name ||
@@ -271,95 +270,104 @@ const SupplierDetails = () => {
             supplier?.contact_person_email ||
             supplier?.contact_person_mobile_no ||
             supplier?.designation) && (
-            <div className={styles.cardInnerSection}>
-              {supplier?.registration_no && (
-                <div className={styles.cardMainContainer}>
-                  <span className={styles.cardHead}>Company Registration No</span>
-                  <span className={styles.cardContent}>{supplier.registration_no}</span>
-                </div>
+              <div className={styles.cardInnerSection}>
+                  {supplier?.supplier_mobile && (
+                    <div className={styles.cardMainContainer}>
+                      <span className={styles.cardHead}>Company Phone No.</span>
+                    <span className={styles.cardContent}>{supplier?.supplier_country_code || ''}{supplier.supplier_mobile}</span>
+                  </div>
+               
+                 
+               
               )}
-              {supplier?.vat_reg_no && (
-                <div className={styles.cardMainContainer}>
-                  <span className={styles.cardHead}>GST/VAT Registration Number</span>
-                  <span className={styles.cardContent}>{supplier.vat_reg_no}</span>
-                </div>
-              )}
-              {supplier?.activity_code && (
-                <div className={styles.cardMainContainer}>
-                  <span className={styles.cardHead}>Business/Trade Activity Code</span>
-                  <span className={styles.cardContent}>{supplier.activity_code}</span>
-                </div>
-              )}
-              {supplier?.sales_person_name && (
-                <div className={styles.cardMainContainer}>
-                  <span className={styles.cardHead}>Medhub Global Sales Representative</span>
-                  <span className={styles.cardContent}>{supplier.sales_person_name}</span>
-                </div>
-              )}
-              {supplier?.country_of_origin && (
-                <div className={styles.cardMainContainer}>
-                  <span className={styles.cardHead}>Country of Origin</span>
-                  <span className={styles.cardContent}>{supplier.country_of_origin}</span>
-                </div>
-              )}
-              {supplier?.country_of_operation && (
-                <div className={styles.cardMainContainer}>
-                  <span className={styles.cardHead}>Country of Operation</span>
-                  <span className={styles.cardContent}>{supplier.country_of_operation.join(', ')}</span>
-                </div>
-              )}
-              {supplier?.categories?.length > 0 && (
-                <div className={styles.cardMainContainer}>
-                  <span className={styles.cardHead}>Categories you Trade In</span>
-                  <span className={styles.cardContent}>{supplier.categories.join(', ')}</span>
-                </div>
-              )}
-              {supplier?.license_no && (
-                <div className={styles.cardMainContainer}>
-                  <span className={styles.cardHead}>License No.</span>
-                  <span className={styles.cardContent}>{supplier.license_no}</span>
-                </div>
-              )}
-              {supplier?.license_expiry_date && (
-                <div className={styles.cardMainContainer}>
-                  <span className={styles.cardHead}>License Expiry/Renewal Date</span>
-                  <span className={styles.cardContent}>{supplier.license_expiry_date}</span>
-                </div>
-              )}
-              {supplier?.tags && (
-                <div className={styles.cardMainContainer}>
-                  <span className={styles.cardHead}>Tags</span>
-                  <span className={styles.cardContent}>{supplier.tags}</span>
-                </div>
-              )}
-              {supplier?.contact_person_name && (
-                <div className={styles.cardMainContainer}>
-                  <span className={styles.cardHead}>Contact Name</span>
-                  <span className={styles.cardContent}>{supplier.contact_person_name}</span>
-                </div>
-              )}
-              {supplier?.contact_person_email && (
-                <div className={styles.cardMainContainer}>
-                  <span className={styles.cardHead}>Email ID</span>
-                  <span className={styles.cardContent}>{supplier.contact_person_email}</span>
-                </div>
-              )}
-              {(supplier?.contact_person_mobile_no || supplier?.contact_person_country_code) && (
-                <div className={styles.cardMainContainer}>
-                  <span className={styles.cardHead}>Mobile No</span>
-                  <span className={styles.cardContent}>
-                    {`${supplier?.contact_person_country_code || ''} ${supplier?.contact_person_mobile_no || ''}`}
-                  </span>
-                </div>
-              )}
-              {supplier?.designation && (
-                <div className={styles.cardMainContainer}>
-                  <span className={styles.cardHead}>Designation</span>
-                  <span className={styles.cardContent}>{supplier.designation}</span>
-                </div>
-              )}
-            </div>
-          )}
+                {supplier?.registration_no && (
+                  <div className={styles.cardMainContainer}>
+                    <span className={styles.cardHead}>Company Registration No</span>
+                    <span className={styles.cardContent}>{supplier.registration_no}</span>
+                  </div>
+                )}
+                {supplier?.vat_reg_no && (
+                  <div className={styles.cardMainContainer}>
+                    <span className={styles.cardHead}>GST/VAT Registration Number</span>
+                    <span className={styles.cardContent}>{supplier.vat_reg_no}</span>
+                  </div>
+                )}
+                {supplier?.activity_code && (
+                  <div className={styles.cardMainContainer}>
+                    <span className={styles.cardHead}>Business/Trade Activity Code</span>
+                    <span className={styles.cardContent}>{supplier.activity_code}</span>
+                  </div>
+                )}
+                {/* {supplier?.sales_person_name && (
+                  <div className={styles.cardMainContainer}>
+                    <span className={styles.cardHead}>Medhub Global Sales Representative</span>
+                    <span className={styles.cardContent}>{supplier.sales_person_name}</span>
+                  </div>
+                )} */}
+                {supplier?.country_of_origin && (
+                  <div className={styles.cardMainContainer}>
+                    <span className={styles.cardHead}>Country of Origin</span>
+                    <span className={styles.cardContent}>{supplier.country_of_origin}</span>
+                  </div>
+                )}
+                {supplier?.country_of_operation && (
+                  <div className={styles.cardMainContainer}>
+                    <span className={styles.cardHead}>Country of Operation</span>
+                    <span className={styles.cardContent}>{supplier.country_of_operation.join(', ')}</span>
+                  </div>
+                )}
+                {supplier?.categories?.length > 0 && (
+                  <div className={styles.cardMainContainer}>
+                    <span className={styles.cardHead}>Trading Categories</span>
+                    <span className={styles.cardContent}>{supplier.categories.join(', ')}</span>
+                  </div>
+                )}
+                {supplier?.license_no && (
+                  <div className={styles.cardMainContainer}>
+                    <span className={styles.cardHead}>License No.</span>
+                    <span className={styles.cardContent}>{supplier.license_no}</span>
+                  </div>
+                )}
+                {supplier?.license_expiry_date && (
+                  <div className={styles.cardMainContainer}>
+                    <span className={styles.cardHead}>License Expiry/Renewal Date</span>
+                    <span className={styles.cardContent}>{supplier.license_expiry_date}</span>
+                  </div>
+                )}
+                {supplier?.tags && (
+                  <div className={styles.cardMainContainer}>
+                    <span className={styles.cardHead}>Tags</span>
+                    <span className={styles.cardContent}>{supplier.tags}</span>
+                  </div>
+                )}
+                {supplier?.contact_person_name && (
+                  <div className={styles.cardMainContainer}>
+                    <span className={styles.cardHead}>Contact Name</span>
+                    <span className={styles.cardContent}>{supplier.contact_person_name}</span>
+                  </div>
+                )}
+                {supplier?.contact_person_email && (
+                  <div className={styles.cardMainContainer}>
+                    <span className={styles.cardHead}>Email ID</span>
+                    <span className={styles.cardContent}>{supplier.contact_person_email}</span>
+                  </div>
+                )}
+                {(supplier?.contact_person_mobile_no || supplier?.contact_person_country_code) && (
+                  <div className={styles.cardMainContainer}>
+                    <span className={styles.cardHead}>Mobile No</span>
+                    <span className={styles.cardContent}>
+                      {`${supplier?.contact_person_country_code || ''} ${supplier?.contact_person_mobile_no || ''}`}
+                    </span>
+                  </div>
+                )}
+                {supplier?.designation && (
+                  <div className={styles.cardMainContainer}>
+                    <span className={styles.cardHead}>Designation</span>
+                    <span className={styles.cardContent}>{supplier.designation}</span>
+                  </div>
+                )}
+              </div>
+            )}
         </div>
 
         <div className={styles.rightCard}>

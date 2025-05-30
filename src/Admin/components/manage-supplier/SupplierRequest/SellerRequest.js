@@ -8,35 +8,35 @@ import moment from 'moment/moment';
 import PaginationComponent from '../../shared-components/Pagination/Pagination';
 import styles from '../../../assets/style/table.module.css';
 import Button from "../../shared-components/UiElements/Button/Button";
-
+ 
 const SellerRequest = () => {
     const navigate = useNavigate();
     const location = useLocation();
-
+ 
     const queryParams = new URLSearchParams(location.search);
     const filterValue = queryParams.get('filterValue');
-
+ 
     const adminIdSessionStorage = localStorage?.getItem("admin_id");
     const adminIdLocalStorage = localStorage?.getItem("admin_id");
-
+ 
     const [loading, setLoading] = useState(true);
     const [downloadLoader, setDownloadLoader] = useState(false);
     const [sellerRequestList, setSellerRequestList] = useState([]);
     const [totalRequests, setTotalRequests] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const listPerPage = 8; 
-
+ 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
-
+ 
     useEffect(() => {
         if (!adminIdSessionStorage && !adminIdLocalStorage) {
             localStorage?.clear();
             navigate('/admin/login');
             return;
         }
-
+ 
         const obj = {
             admin_id: adminIdSessionStorage || adminIdLocalStorage,
             filterKey: 'pending',
@@ -44,7 +44,7 @@ const SellerRequest = () => {
             pageNo: currentPage,
             pageSize: listPerPage, 
         };
-
+ 
         postRequestWithToken('admin/get-supplier-reg-req-list', obj, async (response) => {
             if (response?.code === 200) {
                 setSellerRequestList(response.result.data);
@@ -55,7 +55,7 @@ const SellerRequest = () => {
             setLoading(false);
         });
     }, [currentPage, adminIdSessionStorage, adminIdLocalStorage, filterValue, navigate]);
-
+ 
     const handleDownload = async () => {
         setDownloadLoader(true);
         const result = await postReqCSVDownload('admin/get-supplier-list-csv', {}, 'supplier_requests_list.csv');
@@ -64,7 +64,7 @@ const SellerRequest = () => {
         }
         setTimeout(()=>{ setDownloadLoader(false) },2000);
     };
-
+ 
     const columns = [
         {
             name: 'Date',
@@ -108,7 +108,7 @@ const SellerRequest = () => {
             center: true,
         },
     ];
-
+ 
     return (
         <section className={styles.container}>
             <style>
@@ -180,5 +180,5 @@ const SellerRequest = () => {
         </section>
     );
 };
-
+ 
 export default SellerRequest;

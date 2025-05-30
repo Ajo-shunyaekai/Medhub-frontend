@@ -1,9 +1,8 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback,useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { FiUploadCloud, FiFileText, FiX } from "react-icons/fi";
 import Tooltip from "../../SharedComponents/Tooltip/Tooltip";
 import styles from "./addproduct.module.css";
-import Information from "../../../assets/images/infomation.svg";
 import { extractLast13WithExtension } from "../../../../utils/helper";
 
 // useFileUpload Hook
@@ -13,15 +12,10 @@ const useFileUpload = (
   acceptTypes,
   maxFiles = 4,
   selectedFile,
-  fileIndex,
   initialValues,
-  isEdit
+
 ) => {
-  const [filesMerged, setFilesMerged] = useState(selectedFile || []);
-  const [filesMerged2, setFilesMerged2] = useState([]);
-  const [filesOld, setFilesOld] = useState(selectedFile || []);
-  const [filesNew, setFilesNew] = useState([]);
-  const [filesNewMerged, setFilesNewMerged] = useState([]);
+  const [setFilesNew] = useState([]);
   const onDrop = useCallback(
     (acceptedFiles) => {
       setFieldValue(fieldInputName, acceptedFiles);
@@ -40,22 +34,22 @@ const useFileUpload = (
 
   const removeFile = (index, event, arrayToFilter, file) => {
     event.stopPropagation();
-    if (arrayToFilter == "new") {
+    if (arrayToFilter === "new") {
       // we will remove from new array
       setFilesNew([]);
       const indexToRemove = initialValues?.complianceFile?.findIndex(
-        (ele, index) => JSON.stringify(ele) == file
+        (ele, index) => JSON.stringify(ele) === file
       );
       const filteredValues = initialValues?.complianceFile?.filter(
         // (_, index) => index != indexToRemove
-        (_, index) => JSON.stringify(_) != file
+        (_, index) => JSON.stringify(_) !== file
       )?.length;
       if (filteredValues > 1) {
         setFieldValue(
           "complianceFileNew",
 
           initialValues?.complianceFileNew?.filter(
-            (_, index) => index != indexToRemove
+            (_, index) => index !== indexToRemove
           )
         );
       } else {
@@ -64,7 +58,7 @@ const useFileUpload = (
 
           initialValues?.complianceFileNew?.filter(
             // (_, index) => index != indexToRemove
-            (_, index) => JSON.stringify(_) != file
+            (_, index) => JSON.stringify(_) !== file
           )
         );
       }
@@ -72,18 +66,18 @@ const useFileUpload = (
       // we will remove from old and new array
       setFilesNew([]);
       const indexToRemove = initialValues?.complianceFileNew?.findIndex(
-        (ele, index) => JSON.stringify(ele) == file
+        (ele, index) => JSON.stringify(ele) === file
       );
       const filteredValues = initialValues?.complianceFileNew?.filter(
         // (_, index) => index != indexToRemove
-        (_, index) => JSON.stringify(_) != file
+        (_, index) => JSON.stringify(_) !== file
       )?.length;
       if (filteredValues > 1) {
         setFieldValue(
           "complianceFile",
 
           initialValues?.complianceFile?.filter(
-            (_, index) => index != indexToRemove
+            (_, index) => index !== indexToRemove
             // (_, index) => JSON.stringify(_) != file
           )
         );
@@ -93,7 +87,7 @@ const useFileUpload = (
 
           initialValues?.complianceFile?.filter(
             // (_, index) => index != indexToRemove
-            (_, index) => JSON.stringify(_) != file
+            (_, index) => JSON.stringify(_) !== file
           )
         );
       }
@@ -140,7 +134,7 @@ const EditComplianceNCertification = ({
   fileIndex,
   isEdit,
 }) => {
-  const tooltipId = `tooltip-${label.replace(/\s+/g, "-")?.toLowerCase()}`;
+  // const tooltipId = `tooltip-${label.replace(/\s+/g, "-")?.toLowerCase()}`;
   const tooltipContent = tooltip || "Default tooltip text";
 
   // Call the useFileUpload hook with acceptTypes and maxFiles
@@ -185,12 +179,12 @@ const EditComplianceNCertification = ({
           </>
         )}
       </div>
-      {(typeof fileUpload?.selectedFile == "string"
+      {(typeof fileUpload?.selectedFile === "string"
         ? [fileUpload?.selectedFile]
         : fileUpload?.selectedFile
       )?.length > 0 && (
         <div className={styles.previewContainer}>
-          {(typeof fileUpload?.selectedFile == "string"
+          {(typeof fileUpload?.selectedFile === "string"
             ? [fileUpload?.selectedFile]
             : fileUpload?.selectedFile
           )?.map((file, index) => {

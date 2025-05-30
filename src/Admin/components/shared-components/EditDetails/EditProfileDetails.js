@@ -1217,7 +1217,7 @@ const EditProfileDetails = () => {
               {userType === "supplier" && (
                 <div className={styles?.productContainer}>
                   <label className={styles?.formLabel}>
-                    Categories you Trade In
+                    Trading Categories
                     <span className={styles?.labelStamp}>*</span>
                   </label>
                   {category?.length > 0 && (

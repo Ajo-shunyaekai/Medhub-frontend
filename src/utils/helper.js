@@ -4,9 +4,6 @@ import { FiUploadCloud, FiFileText, FiX } from "react-icons/fi";
 import { useDropzone } from "react-dropzone";
 import Tooltip from "@mui/material/Tooltip";
 import Information from "../Admin/assets/Images/infomation.svg";
-
-const extractFileName = (url) => (url ? url?.split("/")?.pop() : "Unknown");
-
 export function extractLast13WithExtension(filename) {
   // Check if filename is provided and is a string
   if (!filename || typeof filename !== "string") {
@@ -262,7 +259,6 @@ const useFileUpload = (
   maxFiles = 4,
   existingFiles = []
 ) => {
-  const [files, setFiles] = useState(existingFiles || []);
   const [filesOld, setFilesOld] = useState(existingFiles || []);
   const [filesNew, setFilesNew] = useState([]);
   const [filesMerged, setFilesMerged] = useState([]);
@@ -293,13 +289,13 @@ const useFileUpload = (
   }, [filesNew, filesOld, filesMerged]);
   const removeFile = (index, event, arrayToFilter) => {
     if (event) event.stopPropagation();
-    if (arrayToFilter == "new") {
+    if (arrayToFilter === "new") {
       setFilesNew((prev) => {
         const updatedFiles = prev.filter((_, i) => i !== index);
         setFieldValue(fieldInputName, updatedFiles);
         return updatedFiles;
       });
-    } else if (arrayToFilter == "old") {
+    } else if (arrayToFilter === "old") {
       setFilesOld((prev) => {
         const updatedFiles = prev.filter((_, i) => i !== index);
         setFieldValue(oldFieldName, updatedFiles);
@@ -350,7 +346,7 @@ export const AddProductFileUpload = ({
   maxFiles = 4,
   styles,
 }) => {
-  const tooltipId = `tooltip-${label.replace(/\s+/g, "-")?.toLowerCase()}`;
+  // const tooltipId = `tooltip-${label.replace(/\s+/g, "-")?.toLowerCase()}`;
   const tooltipContent = tooltip || "Default tooltip text";
 
   // Call the useFileUpload hook with acceptTypes and maxFiles
@@ -477,16 +473,16 @@ export const AddProductFileUpload = ({
 export const renderImages = (images, pathname) => {
   if (images?.length > 0) {
     return images.map((image, index) => (
-      <img
-        key={index}
-        src={
-          image?.startsWith("http")
-            ? image
-            : `${process.env.REACT_APP_SERVER_URL}uploads/buyer/order/complaint_images/${image}`
-        }
-        alt={`Support Image ${index + 1}`}
-        className="seller-details-document-image"
-      />
+     <img
+  key={index}
+  src={
+    image?.startsWith("http")
+      ? image
+      : `${process.env.REACT_APP_SERVER_URL}uploads/buyer/order/complaint_images/${image}`
+  }
+  alt={`Complaint evidence ${index + 1}`}
+  className="seller-details-document-image"
+/>
     ));
   }
 };

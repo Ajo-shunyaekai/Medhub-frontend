@@ -1179,7 +1179,7 @@ const openPurchaseInvoice = () => {
         {/* End Skin, Hair and Cosmetic Supplies */}
 
         {/* Vital Health and Wellness */}
-        {productDetail?.category == "VitalHealthAndWellness" &&
+        {productDetail?.category === "VitalHealthAndWellness" &&
           [
             "genericName",
             "strength",
@@ -1399,7 +1399,7 @@ const openPurchaseInvoice = () => {
 
         {/* Medical Consumables and Disposables */}
 
-        {productDetail?.category == "MedicalConsumablesAndDisposables" &&
+        {productDetail?.category === "MedicalConsumablesAndDisposables" &&
           [
             "thickness",
             "powdered",
@@ -1607,7 +1607,7 @@ const openPurchaseInvoice = () => {
         {/* End Medical Consumables and Disposables */}
 
         {/* Laboratory Supplies */}
-        {productDetail?.category == "LaboratorySupplies" &&
+        {productDetail?.category === "LaboratorySupplies" &&
           [
             "connectivity",
             "physicalState",
@@ -1796,7 +1796,7 @@ const openPurchaseInvoice = () => {
         {/* End Laboratory Supplies */}
 
         {/* Diagnostic and Monitoring Devices */}
-        {productDetail?.category == "DiagnosticAndMonitoringDevices" &&
+        {productDetail?.category === "DiagnosticAndMonitoringDevices" &&
           [
             "measurementRange",
             "noiseLevel",
@@ -1974,7 +1974,7 @@ const openPurchaseInvoice = () => {
 
         {/* Hospital and Clinic Supplies */}
 
-        {productDetail?.category == "HospitalAndClinicSupplies" &&
+        {productDetail?.category === "HospitalAndClinicSupplies" &&
           [
             "adhesiveness",
             "absorbency",
@@ -2130,7 +2130,7 @@ const openPurchaseInvoice = () => {
 
         {/* Orthopedic Supplies */}
 
-        {productDetail?.category == "OrthopedicSupplies" &&
+        {productDetail?.category === "OrthopedicSupplies" &&
           [
             "elasticity",
             "sterilized",
@@ -2269,7 +2269,7 @@ const openPurchaseInvoice = () => {
         {/* End Orthopedic Supplies */}
 
         {/* Dental Products */}
-        {productDetail?.category == "DentalProducts" &&
+        {productDetail?.category === "DentalProducts" &&
           [
             "productMaterial",
             "usageRate",
@@ -2382,7 +2382,7 @@ const openPurchaseInvoice = () => {
         {/* End Dental Products */}
 
         {/* Eye Care Supplies */}
-        {productDetail?.category == "EyeCareSupplies" &&
+        {productDetail?.category === "EyeCareSupplies" &&
           [
             "diameter",
             "frame",
@@ -2484,7 +2484,7 @@ const openPurchaseInvoice = () => {
         {/* End Eye Care Supplies */}
 
         {/* Home Healthcare Products */}
-        {productDetail?.category == "HomeHealthcareProducts" &&
+        {productDetail?.category === "HomeHealthcareProducts" &&
           [
             "maxWeightCapacity",
             "gripType",
@@ -2680,7 +2680,7 @@ const openPurchaseInvoice = () => {
         {/* End Home Healthcare Products */}
 
         {/* Alternative Medicines */}
-        {productDetail?.category == "AlternativeMedicines" &&
+        {productDetail?.category ==="AlternativeMedicines" &&
           [
             "expiry",
             "purpose",
@@ -2765,7 +2765,7 @@ const openPurchaseInvoice = () => {
 
         {/* Emergency and First Aid Supplies */}
 
-        {productDetail?.category == "EmergencyAndFirstAidSupplies" &&
+        {productDetail?.category === "EmergencyAndFirstAidSupplies" &&
           ["expiry", "composition", "productLongevity", "foldability"].some(
             getCategoryData
           ) && (
@@ -2835,7 +2835,7 @@ const openPurchaseInvoice = () => {
         {/* End Emergency and First Aid Supplies */}
 
         {/* Disinfection and Hygiene Supplies */}
-        {productDetail?.category == "DisinfectionAndHygieneSupplies" &&
+        {productDetail?.category === "DisinfectionAndHygieneSupplies" &&
           [
             "expiry",
             "composition",
@@ -2918,7 +2918,7 @@ const openPurchaseInvoice = () => {
         {/* End Disinfection and Hygiene Supplies */}
 
         {/* Nutrition and Dietary Products */}
-        {productDetail?.category == "NutritionAndDietaryProducts" &&
+        {productDetail?.category === "NutritionAndDietaryProducts" &&
           [
             "flavorOptions",
             "aminoAcidProfile",
@@ -3066,7 +3066,7 @@ const openPurchaseInvoice = () => {
         {/* End Nutrition and Dietary Products */}
 
         {/* Healthcare IT Solutions */}
-        {productDetail?.category == "HealthcareITSolutions" &&
+        {productDetail?.category === "HealthcareITSolutions" &&
           [
             "license",
             "scalabilityInfo",

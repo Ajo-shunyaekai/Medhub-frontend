@@ -42,7 +42,7 @@ export const updateProfileEditReqsDetail = createAsyncThunk(
         `admin/update-profile-edit-request-details/${values?.id}`,
         values
       );
-      if (response?.code != 200) {
+      if (response?.code !== 200) {
         return;
       }
       toast.success(response?.message);
@@ -62,7 +62,7 @@ export const editProfileDetails = createAsyncThunk(
         `admin/edit-profile-details/${userType}/${id}`,
         values
       );
-      if (response?.code != 200) {
+      if (response?.code !== 200) {
         return;
       }
       toast.success(response?.message);

@@ -9,7 +9,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchUserData } from "../../../../redux/reducers/userDataSlice";
 import Loader from "../Loader/Loader";
 import {
-  extractLast13WithExtension,
   renderFiles2,
 } from "../../../../utils/helper";
 
@@ -197,7 +196,7 @@ const Profile = () => {
                   {user?.categories && (
                     <div className={styles.companyDetails}>
                       <div className={styles.companyHead}>
-                        Categories you Trade In
+                        Trading Categories
                       </div>
                       <div className={styles.companyText}>
                         {user.categories.join(', ')}

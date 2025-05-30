@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -62,7 +62,7 @@ const ChangePassword = ({ step, setStep }) => {
           "auth/reset-password",
           payloadData
         );
-        if (response?.code != 200) {
+        if (response?.code !== 200) {
           toast.error(response?.message);
           localStorage?.clear();
           navigate("supplier/login");

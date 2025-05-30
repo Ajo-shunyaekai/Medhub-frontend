@@ -16,7 +16,7 @@ function PreviewFile() {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [hasErrorEntries, setHasErrorEntries] = useState(false);
+  const [setHasErrorEntries] = useState(false);
   const [isErrorFreeDataUploaded, setIsErrorFreeDataUploaded] = useState(false); // New state to track error-free data upload status
   const { previewProducts } = useSelector((state) => state?.productReducer);
  
@@ -76,7 +76,7 @@ function PreviewFile() {
       if (response?.meta.requestStatus === "fulfilled") {
         setHasErrorEntries(false);
         setIsErrorFreeDataUploaded(true); // Mark that the error-free data is uploaded successfully
-        previewProducts?.entriesWithErrors?.length == 0 &&
+        previewProducts?.entriesWithErrors?.length === 0 &&
           navigate("/supplier/product");
       }
     });

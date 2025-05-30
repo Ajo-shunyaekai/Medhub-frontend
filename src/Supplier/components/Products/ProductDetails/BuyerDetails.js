@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Tooltip as ReactTooltip } from 'react-tooltip';
-import MailOutlineIcon from '@mui/icons-material/MailOutline';
-import PhoneInTalkOutlinedIcon from '@mui/icons-material/PhoneInTalkOutlined';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import styles from './buyerdetails.module.css';
 import BuyerOrderList from '../Buyer/BuyerOrderList';
@@ -117,7 +114,7 @@ const BuyerDetails = () => {
                                     <span className={styles.typeHead}>{buyer.buyer_type}</span>
                                 )}
                             </div>
-                            {(buyer?.buyer_mobile || buyer?.buyer_email) && (
+                            {/* {(buyer?.buyer_mobile || buyer?.buyer_email) && (
                                 <div className={styles.headIcons}>
                                     {buyer?.buyer_email && (
                                         <div
@@ -140,7 +137,13 @@ const BuyerDetails = () => {
                                         </div>
                                     )}
                                 </div>
-                            )}
+                            )} */}
+<div className={styles.logoSection}>
+    <img src={ buyer?.buyer_image[0]?.startsWith("http")
+                        ? buyer?.buyer_image[0]
+                        : `${process.env.REACT_APP_SERVER_URL}uploads/buyer/buyer_images/${buyer?.buyer_image[0]}`} alt='img-section'/>
+</div>
+
                         </div>
                     )}
 
@@ -153,7 +156,7 @@ const BuyerDetails = () => {
                         </div>
                     )}
 
-                    {buyer?.registeredAddress && (
+                    {/* {buyer?.registeredAddress && (
                         <div className={styles.innerContainer}>
                             <div className={styles.cardContainer}>
                                 <span className={styles.cardHeads}>Address</span>
@@ -185,9 +188,11 @@ const BuyerDetails = () => {
                                 </span>
                             </div>
                         </div>
-                    )}
+                    )} */}
 
-                    {(buyer?.registration_no ||
+                    {(buyer?.buyer_mobile ||
+                    buyer?.buyer_email ||
+                        buyer?.registration_no ||
                         buyer?.vat_reg_no ||
                         buyer?.activity_code ||
                         buyer?.sales_person_name ||
@@ -202,6 +207,20 @@ const BuyerDetails = () => {
                         buyer?.designation ||
                         buyer?.approx_yearly_purchase_value) && (
                         <div className={styles.cardInnerSection}>
+ {buyer?.buyer_mobile  && (
+                                <div className={styles.cardMainContainer}>
+                                    <span className={styles.cardHead}>Company Mobile No.</span>
+                                    <span className={styles.cardContent}>{buyer.buyer_country_code || ''} {buyer.buyer_mobile}</span>
+                                </div>
+                            )}
+                            {buyer?.buyer_email && (
+                                <div className={styles.cardMainContainer}>
+                                    <span className={styles.cardHead}>Company Email ID</span>
+                                    <span className={styles.cardContent}>{buyer.buyer_email}</span>
+                                </div>
+                            )}
+
+
                             {buyer?.registration_no && (
                                 <div className={styles.cardMainContainer}>
                                     <span className={styles.cardHead}>Company Registration No</span>
@@ -220,12 +239,12 @@ const BuyerDetails = () => {
                                     <span className={styles.cardContent}>{buyer.activity_code}</span>
                                 </div>
                             )}
-                            {buyer?.sales_person_name && (
+                            {/* {buyer?.sales_person_name && (
                                 <div className={styles.cardMainContainer}>
                                     <span className={styles.cardHead}>Medhub Global Sales Representative</span>
                                     <span className={styles.cardContent}>{buyer.sales_person_name}</span>
                                 </div>
-                            )}
+                            )} */}
                             {buyer?.country_of_origin && (
                                 <div className={styles.cardMainContainer}>
                                     <span className={styles.cardHead}>Country of Origin</span>
