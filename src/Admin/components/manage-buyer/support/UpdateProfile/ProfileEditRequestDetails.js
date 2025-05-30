@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styles from "./editprofile.module.css";
 import { MdOutlineAttachEmail } from "react-icons/md";
 import { LuPhoneCall } from "react-icons/lu";
@@ -15,6 +15,8 @@ import {
 } from "../../../../../redux/reducers/adminSlice";
 import { formatDate } from "../../../../../utils/dateFormatter";
 import Loader from "../../../shared-components/Loader/Loader";
+import Button from "../../../shared-components/UiElements/Button/Button";
+
 const getFieldValue = (field) => {
   if (!field) return "";
   return typeof field === "object" && field.value !== undefined
@@ -30,13 +32,16 @@ const EditProfileDetails = ({ socket }) => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [downloadLoader, setDownloadLoader] = useState(false);
   const { profileEditReqDetail, loading } = useSelector(
     (state) => state?.adminReducer
   );
   const { user } = useSelector((state) => state?.userReducer);
 
+
   const handleAdminAction = async (action) => {
     try {
+      setDownloadLoader(true);
       const apiPayload = {
         id,
         status: action,
@@ -64,6 +69,8 @@ const EditProfileDetails = ({ socket }) => {
     } catch (error) {
       console.error("Error in handleAdminAction:", error);
       alert("An unexpected error occurred.");
+    } finally {
+      setDownloadLoader(false);
     }
   };
 
@@ -266,12 +273,15 @@ const EditProfileDetails = ({ socket }) => {
       </div>
       {profileEditReqDetail?.editReqStatus === "Pending" && (
         <div className={styles.editButtonContainer}>
-          <button
+          {/* <button
             className={styles.editButtonSubmit}
             onClick={() => handleAdminAction("Approved")}
           >
             Approve
-          </button>
+          </button> */}
+          <Button onClick={() => handleAdminAction("Approved")} loading={downloadLoader}>
+              Approve
+          </Button>
           <button
             className={styles.editButtonCancel}
             onClick={() => handleAdminAction("Rejected")}
