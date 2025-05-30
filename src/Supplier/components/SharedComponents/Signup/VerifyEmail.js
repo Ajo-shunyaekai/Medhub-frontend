@@ -34,7 +34,7 @@ const VerifyEmail = ({ step, setStep }) => {
           "auth/verify-email",
           payloadData
         );
-        if (response?.code != 200) {
+        if (response?.code !== 200) {
           toast.error(response?.message);
           setLoading(false)
           return;

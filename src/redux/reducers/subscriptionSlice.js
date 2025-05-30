@@ -86,12 +86,12 @@ export const sendSubscriptionPaymentEmail = createAsyncThunk(
   "subscription/sendSubscriptionPaymentEmail",
   async (obj, { rejectWithValue }) => {
     try {
-      const response = await apiRequests?.getRequest2({
-        url: `${process.env.REACT_APP_API_URL}subscription/send-confimation-mail`,
-        userType: obj?.userType,
-        obj: obj?.formData,
-        contentType: "multipart/form-data",
-      });
+      // const response = await apiRequests?.getRequest2({
+      //   url: `${process.env.REACT_APP_API_URL}subscription/send-confimation-mail`,
+      //   userType: obj?.userType,
+      //   obj: obj?.formData,
+      //   contentType: "multipart/form-data",
+      // });
     } catch (error) {
       // Log and pass the error
       return rejectWithValue(error?.response?.data || error.message);

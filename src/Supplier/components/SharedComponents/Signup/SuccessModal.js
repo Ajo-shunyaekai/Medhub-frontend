@@ -21,7 +21,7 @@ function SuccessModal({ show, handleClose }) {
             <Modal.Body>
                 <div className={styles['signup-modal-success-container']}>
                     <div className={styles['signup-modal-image-section']}>
-                        <img src={Success} />
+                        <img src={Success} alt='success' />
                     </div>
                     <div className={styles['signup-modal-cont-heading']}>Thank You for Signing Up!!</div>
                     <div className={styles['signup-modal-cont-text']}>

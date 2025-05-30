@@ -5,7 +5,7 @@ import Cross from '../../../assets/images/Icon.svg';
 import { useNavigate } from "react-router-dom";
 import Select, { components } from "react-select";
 import countryList from "react-select-country-list";
-import { Tooltip, TooltipProvider } from "react-tooltip";
+import { Tooltip} from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 import Information from "../../../assets/images/infomation.svg";
 import { Country, State, City } from "country-state-city";
@@ -17,9 +17,7 @@ import styles from './SupplierSignUp.module.css';
 import logo from "../../../assets/images/logo.svg";
 import SuccessModal from "./SuccessModal";
 import ImageUploader from "./ImageUploader";
-import { parsePhoneNumberFromString, AsYouType } from "libphonenumber-js";
 import { apiRequests } from "../../../../api/index";
-import { InputMask } from "@react-input/mask";
 import { toast } from "react-toastify";
 import { parsePhoneNumber, isValidPhoneNumber } from "libphonenumber-js";
 import TermsAndConditions from "../../../../Policies/Terms&Conditions";
@@ -55,19 +53,14 @@ const SupplierSignUp = ({ socket }) => {
   const [showModal, setShowModal] = useState(false);
   const [countries, setCountries] = useState([]);
   const [companyPhone, setCompanyPhone] = useState("");
-  const [companyCountryCode, setCompanyCountryCode] = useState("");
   const [mobile, setMobile] = useState("");
-  const [countryCode, setCountryCode] = useState("");
   const [resetUploaders, setResetUploaders] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(null);
   const [selectedCompanyType, setSelectedCompanyType] = useState(null);
-  const [addressType, setAddressType] = useState("");
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedState, setSelectedState] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [tradeLicensePreviews, setTradeLicensePreviews] = useState([]);
-  const [file, setfile] = useState([]);
-  const [certificatePreviews, setcertificatePreviews] = useState([]);
+  const [setfile] = useState([]);
   const [medicalPractitionerPreview, setMedicalPractiotionerPreview] = useState([]);
   const [logoPreviews, setlogoPreviews] = useState([]);
   const [category, setCategory] = useState([]);
@@ -194,11 +187,6 @@ const SupplierSignUp = ({ socket }) => {
   };
 
   const [formData, setFormData] = useState(defaultFormData);
-  const [selectedOptions, setSelectedOptions] = React.useState([]);
-
-  const handleMultiSelectChange = (selected) => {
-    setSelectedOptions(selected);
-  };
 
   useEffect(() => {
     const options = countryList().getData();
@@ -450,11 +438,6 @@ const SupplierSignUp = ({ socket }) => {
     }
   };
 
-  const handleCheckboxChange = () => {
-    setIsChecked(!isChecked);
-    if (!isChecked) setErrors((prevState) => ({ ...prevState, terms: "" }));
-  };
-
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -561,27 +544,6 @@ const SupplierSignUp = ({ socket }) => {
   }, [resetUploaders]);
 
   const handleCloseModal = () => setShowModal(false);
-
-  const formatPhoneNumber = (value) => {
-    const phoneNumber = parsePhoneNumberFromString(value);
-    if (phoneNumber) {
-      const countryCallingCode = `+${phoneNumber.countryCallingCode}`;
-      const nationalNumber = phoneNumber.nationalNumber;
-      return `${countryCallingCode} ${nationalNumber}`;
-    }
-    return value;
-  };
-
-  const formatCompanyPhoneNumber = (value) => {
-    const phoneNumber = parsePhoneNumberFromString(value);
-    if (phoneNumber) {
-      const countryCallingCode = `+${phoneNumber.countryCallingCode}`;
-      const nationalNumber = phoneNumber.nationalNumber;
-      return `${countryCallingCode} ${nationalNumber}`;
-    }
-    return value;
-  };
-
   const handleCountryOriginChange = (selectedOption) => {
     setFormData({ ...formData, originCountry: selectedOption.label });
     if (!selectedOption) {

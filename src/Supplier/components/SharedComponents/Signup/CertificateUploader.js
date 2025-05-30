@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import UploadImage from "../../../assets/images/uplaod.svg";
-import { FiUploadCloud, FiFileText, FiX } from "react-icons/fi";
+import { FiFileText, FiX } from "react-icons/fi";
 import styles from "./certificateuploder.module.css";
 import Tooltip from "../Tooltip/Tooltip";
 
@@ -163,7 +163,7 @@ const CertificateUploader = ({
     <div className={styles.compliancesContainer}>
       <div {...fileUpload?.getRootProps({ className: styles.uploadBox })}>
         <input {...fileUpload?.getInputProps()} />
-        <img src={UploadImage} className={styles.uploadIcon} />
+        <img src={UploadImage} className={styles.uploadIcon} alt="img" />
         <p className={styles.uploadText}>
           {fileUpload?.isDragActive
             ? `Drop the ${

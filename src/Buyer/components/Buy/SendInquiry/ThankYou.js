@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Successful from '../../../assets/images/successful.svg';
 import styles from './thankyou.module.css';
-import { style } from '@mui/system';
 
 const ThankYou = () => {
-  const location = useLocation();
+  // const location = useLocation();
   const navigate = useNavigate();
-  const { from } = location.state || {};
+  // const { from } = location.state || {};
 
   useEffect(() => {
     window.history.pushState(null, '', window?.location?.pathname);

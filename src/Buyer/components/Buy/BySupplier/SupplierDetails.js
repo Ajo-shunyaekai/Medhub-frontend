@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import styles from './supplierdetails.module.css';
 import SupplyOrderList from './SupplyOrderList';
 import SupplyProductList from './SupplyProductList';
-import PhoneInTalkOutlinedIcon from '@mui/icons-material/PhoneInTalkOutlined';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../../../../api/Requests';
 import SupplySecondaryList from './SupplySecondaryList';

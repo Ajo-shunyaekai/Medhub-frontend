@@ -32,7 +32,7 @@ const ImageUploader = ({
                 fileInputRef.current.value = '';
             }
         }
-    }, [reset]);
+    }, [reset, setFilePreviews, setUploading, setErrorMessage, fileInputRef]);
 
     const handleImageUpload = (event) => {
         const files = Array.from(event.target.files);

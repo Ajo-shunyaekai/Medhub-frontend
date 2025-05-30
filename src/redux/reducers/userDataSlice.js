@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { toast, ToastContainer } from "react-toastify";
+import { toast} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { apiRequests } from "../../api";
 import { socket, usertype } from "../../constants";
@@ -53,7 +53,7 @@ export const loginUser = createAsyncThunk(
       const { data } = await response;
       for (let x in data) {
         localStorage?.setItem(`${x}`, data[x]);
-        if (x == "registeredAddress") {
+        if (x === "registeredAddress") {
           for (let y in data[x]) {
             localStorage?.setItem(`${y}`, data[x][y]);
           }
@@ -68,11 +68,11 @@ export const loginUser = createAsyncThunk(
             response.data.admin_id ||
             response.data.supplier_id;
           socket.emit(
-            usertype == "Buyer"
+            usertype === "Buyer"
               ? "registerBuyer"
-              : usertype == "Admin"
+              : usertype === "Admin"
               ? "registerAdmin"
-              : usertype == "Supplier" && "register",
+              : usertype === "Supplier" && "register",
             userId
           );
         } else if (Notification.permission !== "denied") {
@@ -84,11 +84,11 @@ export const loginUser = createAsyncThunk(
               response.data.admin_id ||
               response.data.supplier_id;
             socket.emit(
-              usertype == "Buyer"
+              usertype === "Buyer"
                 ? "registerBuyer"
-                : usertype == "Admin"
+                : usertype === "Admin"
                 ? "registerAdmin"
-                : usertype == "Supplier" && "register",
+                : usertype === "Supplier" && "register",
               userId
             );
           }
@@ -168,9 +168,9 @@ export const registerUser = createAsyncThunk(
         );
       }
 
-      (usertype == "Supplier" || usertype == "Buyer") &&
+      (usertype === "Supplier" || usertype === "Buyer") &&
         socket.emit(
-          usertype == "Supplier" ? "supplierRegistration" : "buyerRegistration",
+          usertype === "Supplier" ? "supplierRegistration" : "buyerRegistration",
           {
             adminId: process.env.REACT_APP_ADMIN_ID,
             message: `New ${usertype} Registration Request `,

@@ -81,7 +81,7 @@ export const apiRequests = {
         data: obj,
         headers: {
           "Content-Type": contentType,
-          usertype: userType == "buyer" ? "Buyer" : "Supplier",
+          usertype: userType ==="buyer" ? "Buyer" : "Supplier",
         },
       });
 

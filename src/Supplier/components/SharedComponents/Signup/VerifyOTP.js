@@ -75,7 +75,7 @@ const VerifyOTP = ({ step, setStep }) => {
           "auth/verify-otp",
           payloadData
         );
-        if (response?.code != 200) {
+        if (response?.code !== 200) {
           toast.error(response?.message);
           setLoading(false)
           return;

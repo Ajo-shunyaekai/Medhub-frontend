@@ -1,29 +1,21 @@
 import React from "react";
-import { FaFilePdf, FaFileWord } from "react-icons/fa";
 import styles from './ProductDetails/productdetail.module.css'
 import PDFIcon from '../../assets/images/pdf.png';
 import DocxIcon from '../../assets/images/doc.png'
-const extractFileName = (url) => {
-  return url?.split("/")?.pop();
-};
-const getExtension = (filename) => {
-  const parts = filename?.split('.');
-  return parts.length > 1 ? parts.pop()?.toLowerCase() : '';
-};
 const fallbackImageUrl = "https://medhub.shunyaekai.com/uploads/fallbackImage.jpg";
 // utility to check if URL ends with image extension
 const isImageExtension = (fileName) => {
   return /\.(png|jpe?g|gif|bmp|webp)$/i.test(fileName);
 };
 // utility to check if it's a valid http/https URL
-const isValidHttpUrl = (url) => {
-  try {
-    const parsedUrl = new URL(url);
-    return (parsedUrl.protocol === "http:" || parsedUrl.protocol === "https:") && isImageExtension(parsedUrl.pathname);
-  } catch (_) {
-    return false;
-  }
-};
+// const isValidHttpUrl = (url) => {
+//   try {
+//     const parsedUrl = new URL(url);
+//     return (parsedUrl.protocol === "http:" || parsedUrl.protocol === "https:") && isImageExtension(parsedUrl.pathname);
+//   } catch (_) {
+//     return false;
+//   }
+// };
 const RenderProductFiles = ({ files }) => {
   const baseUrl = process.env.REACT_APP_SERVER_URL?.endsWith("/")
   ? process.env.REACT_APP_SERVER_URL
@@ -43,7 +35,7 @@ return files?.map((file, index) => {
       <img
         key={index}
         src={fileUrl}
-        alt="Image File"
+        alt="ImageFile"
         className={styles.uploadImage}
         onError={(e) => {
           e.target.onerror = null;

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "./subscription.module.css";
 import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";
 const Plan = () => {
-  const [subscription, setSubscription] = useState({
+  const [subscription] = useState({
     plan: "Monthly", 
     price: 129,
     nextBillingDate: "07-March-2025",

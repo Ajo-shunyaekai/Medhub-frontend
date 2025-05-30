@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Tooltip as ReactTooltip } from 'react-tooltip';
-import MailOutlineIcon from '@mui/icons-material/MailOutline';
-import PhoneInTalkOutlinedIcon from '@mui/icons-material/PhoneInTalkOutlined';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import styles from './buyerdetails.module.css';
 import BuyerOrderList from '../Buyer/BuyerOrderList';

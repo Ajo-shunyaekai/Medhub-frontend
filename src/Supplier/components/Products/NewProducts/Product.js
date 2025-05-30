@@ -21,9 +21,9 @@ const Product = () => {
     const itemsPerPage = 10
     const [open, setOpen]                 = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
-    const path            = location.pathname?.split('/').filter(Boolean);;
-    const lastPart        = path[path.length - 1];
-    const showButtonGroup = lastPart === 'newproduct' ||  lastPart === 'product';
+    // const path            = location.pathname?.split('/').filter(Boolean);;
+    // const lastPart        = path[path.length - 1];
+    // const showButtonGroup = lastPart === 'newproduct' ||  lastPart === 'product';
 
     const [medicineType, setMedicineType] = useState(() => {
 
