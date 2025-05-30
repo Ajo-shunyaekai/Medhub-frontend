@@ -22,36 +22,37 @@ import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import { useDispatch } from 'react-redux';
 import { logoutUser } from '../../../../redux/reducers/userDataSlice';
-const SupSidebar = ({ notificationList, count, handleClick
+const SupSidebar = ({ children, dragWindow,
+    invoiceCount, notificationList, count, handleClick
 }) => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    // const supplierIdSessionStorage = localStorage?.getItem("supplier_id");
-    // const supplierIdLocalStorage = localStorage?.getItem("supplier_id");
-    // const [isDropOpen, setIsDropOpen] = useState(false);
-    // const [isIconOpen, setIsIconOpen] = useState(false);
+    const supplierIdSessionStorage = localStorage?.getItem("supplier_id");
+    const supplierIdLocalStorage = localStorage?.getItem("supplier_id");
+    const [isDropOpen, setIsDropOpen] = useState(false);
+    const [isIconOpen, setIsIconOpen] = useState(false);
  
-    // const toggleDropdown = () => {
-    //     setIsDropOpen(!isDropOpen);
-    //     setIsIconOpen(!isIconOpen);
-    // };
+    const toggleDropdown = () => {
+        setIsDropOpen(!isDropOpen);
+        setIsIconOpen(!isIconOpen);
+    };
     const [isSearchVisible, setSearchVisible] = useState(false);
     const toggleSearchBar = () => {
         setSearchVisible(!isSearchVisible);
     };
-    // const [setIsFullScreen] = useState(false);
+    const [isFullScreen, setIsFullScreen] = useState(false);
  
-    // useEffect(() => {
-    //     const handleFullScreenChange = () => {
-    //         const isCurrentlyFullScreen = document.fullscreenElement !== null;
-    //         setIsFullScreen(isCurrentlyFullScreen);
-    //     };
+    useEffect(() => {
+        const handleFullScreenChange = () => {
+            const isCurrentlyFullScreen = document.fullscreenElement !== null;
+            setIsFullScreen(isCurrentlyFullScreen);
+        };
  
-    //     document.addEventListener('fullscreenchange', handleFullScreenChange);
-    //     return () => {
-    //         document.removeEventListener('fullscreenchange', handleFullScreenChange);
-    //     };
-    // }, []);
+        document.addEventListener('fullscreenchange', handleFullScreenChange);
+        return () => {
+            document.removeEventListener('fullscreenchange', handleFullScreenChange);
+        };
+    }, []);
 
     const [isNotificationOpen, setIsNotificationOpen] = useState(false);
     const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -90,13 +91,13 @@ const SupSidebar = ({ notificationList, count, handleClick
         }, 0);
     };
 
-    // const handleSubscriptionClick = (event) => {
-    //     event.stopPropagation();
-    //     setIsProfileOpen(false);
-    //     setTimeout(() => {
-    //         navigate("/supplier/subscription");
-    //     }, 0);
-    // };
+    const handleSubscriptionClick = (event) => {
+        event.stopPropagation();
+        setIsProfileOpen(false);
+        setTimeout(() => {
+            navigate("/supplier/subscription");
+        }, 0);
+    };
     
     const handleSignOutClick = (event) => {
         event.stopPropagation();
@@ -224,7 +225,7 @@ const SupSidebar = ({ notificationList, count, handleClick
     );
  
     // ======================
-    const [setSidebarWidth] = useState(0);
+    const [sidebarWidth, setSidebarWidth] = useState(0);
     useEffect(() => {
       
         const calculateSidebarWidth = () => {

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "../../../assets/style/secondsidebar.module.css";
 import { AiOutlineProduct } from "react-icons/ai";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import ApprovedNewProducts from "./NewProducts";
 import ApprovedSecondaryProducts from "./SecondaryProducts";
 import Loader from "../../shared-components/Loader/Loader";
@@ -55,63 +55,63 @@ const ApprovedProduct = () => {
   };
 
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      if (!adminIdSessionStorage && !adminIdLocalStorage) {
-        localStorage?.clear();
-        navigate("/admin/login");
-        return;
-      }
-
-      const marketType =
-        activeLink === "new"
-          ? "new"
-          : activeLink === "secondary"
-          ? "secondary"
-          : activeLink;
-
-      const response = await dispatch(
-        fetchProductsList(
-          `product?market=${marketType}&page_no=${currentPage}&page_size=${listPerPage}`
-        )
-      );
-      if (response.meta.requestStatus === "fulfilled") {
-        setProductList(response.payload.products);
-        setTotalProducts(response.payload?.totalItems);
-        setLoading(false);
-      }
-    };
-    fetchProducts();
-  }, [currentPage, activeLink]);
-
-  const handleDownload = () => {
+useEffect(() => {
+  const fetchProducts = async () => {
     if (!adminIdSessionStorage && !adminIdLocalStorage) {
       localStorage?.clear();
       navigate("/admin/login");
       return;
     }
-    const medicineType =
+
+    const marketType =
       activeLink === "new"
         ? "new"
         : activeLink === "secondary"
-        ? "secondary market"
+        ? "secondary"
         : activeLink;
-    const obj = {
-      admin_id: adminIdSessionStorage || adminIdLocalStorage,
-      medicineType: medicineType,
-      status: 1,
-      pageNo: currentPage,
-      pageSize: listPerPage,
-    };
 
-    apiRequests?.postReqCSVDownload(
-      "medicine/get-all-medicines-list-csv",
-      obj,
-      `${
-        activeLink === "new" ? "New Products" : "Secondary Market Products"
-      } Approved.csv`
+    const response = await dispatch(
+      fetchProductsList(
+        `product?market=${marketType}&page_no=${currentPage}&page_size=${listPerPage}`
+      )
     );
+    if (response.meta.requestStatus === "fulfilled") {
+      setProductList(response.payload.products);
+      setTotalProducts(response.payload?.totalItems);
+      setLoading(false);
+    }
   };
+  fetchProducts();
+}, [currentPage, activeLink, adminIdLocalStorage, adminIdSessionStorage, dispatch, navigate]);
+
+  // const handleDownload = () => {
+  //   if (!adminIdSessionStorage && !adminIdLocalStorage) {
+  //     localStorage?.clear();
+  //     navigate("/admin/login");
+  //     return;
+  //   }
+  //   const medicineType =
+  //     activeLink === "new"
+  //       ? "new"
+  //       : activeLink === "secondary"
+  //       ? "secondary market"
+  //       : activeLink;
+  //   const obj = {
+  //     admin_id: adminIdSessionStorage || adminIdLocalStorage,
+  //     medicineType: medicineType,
+  //     status: 1,
+  //     pageNo: currentPage,
+  //     pageSize: listPerPage,
+  //   };
+
+  //   apiRequests?.postReqCSVDownload(
+  //     "medicine/get-all-medicines-list-csv",
+  //     obj,
+  //     `${
+  //       activeLink === "new" ? "New Products" : "Secondary Market Products"
+  //     } Approved.csv`
+  //   );
+  // };
 
   return (
     <>
