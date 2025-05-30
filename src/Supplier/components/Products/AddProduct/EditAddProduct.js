@@ -14,7 +14,7 @@ import "./addproduct.css";
 import styles from "./addproduct.module.css";
 import categoryArrays from "../../../../utils/Category";
 import { Field, FieldArray, FormikProvider, useFormik } from "formik";
-import * as Yup from "yup";
+// import * as Yup from "yup";
 // import AddProductFileUpload from "./AddPRoductFileUpload";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -30,12 +30,8 @@ import {
   packagingUnits,
   volumeUnits,
   dimensionUnits,
-  packagingOptions,
-  materialOptions,
   conditionOptions,
   stockOptions,
-  quantityOptions,
-  stockQuantityOptions,
   pharmaOptions,
   skinhairOptions,
   vitalHealthOptions,
@@ -94,7 +90,7 @@ const EditAddProduct = ({ placeholder }) => {
         // Fixing condition to check for 'productPricingDetails' and 'stockedInDetails'
         if (
           (key !== "productPricingDetails" && key !== "stockedInDetails") ||
-          key != "cNCFileNDate"
+          key !== "cNCFileNDate"
         ) {
           if (Array.isArray(value)) {
             // Append array items under the same key
@@ -153,7 +149,7 @@ const EditAddProduct = ({ placeholder }) => {
       formData.append("productPricingDetails", productPricingDetailsUpdated);
       formData.append(
         "cNCFileNDate",
-        cNCFileNDateUpdated?.length == 0
+        cNCFileNDateUpdated?.length === 0
           ? [{ date: "", file: "" }]
           : cNCFileNDateUpdated
       );
@@ -168,18 +164,17 @@ const EditAddProduct = ({ placeholder }) => {
       });
     },
   });
-  const [productType, setProductType] = useState(null);
+  const [setProductType] = useState(null);
   const [value, setValue] = useState([]);
-  const [inventoryStockedCountries, setInventoryStockedCountries] = useState(
+  const [setInventoryStockedCountries] = useState(
     []
   );
   const [checked, setChecked] = useState({});
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [selectedSubCategory, setSelectedSubCategory] = useState(null);
+  const [ setSelectedSubCategory] = useState(null);
   const [selectedLevel3Category, setSelectedLevel3Category] = useState(null);
   const [countries, setCountries] = useState([]);
-  const [inventoryList, setInventoryList] = useState([{}]);
-  const [stockedInDetails, setStockedInDetails] = useState([
+  const [setStockedInDetails] = useState([
     {
       country: "",
       quantity: "",
