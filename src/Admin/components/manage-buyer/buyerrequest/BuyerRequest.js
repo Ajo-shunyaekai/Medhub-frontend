@@ -7,6 +7,7 @@ import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import { postReqCSVDownload, postRequestWithToken } from '../../../api/Requests';
 import Loader from '../../shared-components/Loader/Loader';
 import moment from 'moment/moment';
+import Button from "../../shared-components/UiElements/Button/Button";
 
 const BuyerRequest = () => {
     const navigate = useNavigate();
@@ -19,6 +20,7 @@ const BuyerRequest = () => {
     const adminIdLocalStorage = localStorage?.getItem("admin_id");
 
     const [loading, setLoading] = useState(true);
+    const [downloadLoader, setDownloadLoader] = useState(false);
     const [buyerRequestList, setBuyerRequestList] = useState([]);
     const [totalRequests, setTotalRequests] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
@@ -52,12 +54,12 @@ const BuyerRequest = () => {
     }, [currentPage, adminIdSessionStorage, adminIdLocalStorage, filterValue, navigate]);
 
     const handleDownload = async () => {
-        setLoading(true);
+        setDownloadLoader(true);
         const result = await postReqCSVDownload('admin/get-buyer-list-csv', {}, 'buyer_requests_list.csv');
         if (!result?.success) {
             // Handle error if needed
         }
-        setLoading(false);
+        setTimeout(()=>{ setDownloadLoader(false) },2000);
     };
 
     const columns = [
@@ -146,9 +148,12 @@ const BuyerRequest = () => {
                 <div className={styles.tableMainContainer}>
                     <header className={styles.header}>
                         <span className={styles.title}>Buyer Request</span>
-                        <button className={styles.button} onClick={handleDownload}>
+                        {/* <button className={styles.button} onClick={handleDownload}>
                             Download
-                        </button>
+                        </button> */}
+                        <Button onClick={handleDownload} loading={downloadLoader}>
+                            Download
+                        </Button>
                     </header>
 
                     <DataTable

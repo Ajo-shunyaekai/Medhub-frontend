@@ -7,6 +7,7 @@ import Loader from "../../shared-components/Loader/Loader";
 import { apiRequests } from "../../../../api";
 import PaginationComponent from '../../shared-components/Pagination/Pagination';
 import styles from '../../../assets/style/table.module.css';
+import Button from "../../shared-components/UiElements/Button/Button";
 
 const RejectedSuppliers = () => {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ const RejectedSuppliers = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [downloadLoader, setDownloadLoader] = useState(false);
   const [sellerList, setSellerList] = useState([]);
   const [totalSellers, setTotalSellers] = useState(0);
   const listPerPage = 8;
@@ -29,7 +31,7 @@ const RejectedSuppliers = () => {
   };
 
   const handleDownload = async () => {
-    setLoading(true);
+    setDownloadLoader(true);
     const obj = {
       filterKey: 'rejected'
     };
@@ -37,7 +39,7 @@ const RejectedSuppliers = () => {
     if (!result?.success) {
       console.error('Error downloading CSV');
     }
-    setLoading(false);
+    setTimeout(()=>{ setDownloadLoader(false) },2000);
   };
 
   useEffect(() => {
@@ -175,9 +177,12 @@ const RejectedSuppliers = () => {
         <div className={styles.tableMainContainer}>
           <header className={styles.header}>
             <span className={styles.title}>Rejected Supplier</span>
-            <button className={styles.button} onClick={handleDownload}>
+            {/* <button className={styles.button} onClick={handleDownload}>
               Download
-            </button>
+            </button> */}
+            <Button onClick={handleDownload} loading={downloadLoader}>
+                Download
+            </Button>
           </header>
           <DataTable
             columns={columns}
