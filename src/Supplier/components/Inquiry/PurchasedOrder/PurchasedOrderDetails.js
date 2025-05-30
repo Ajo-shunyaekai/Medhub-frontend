@@ -78,7 +78,7 @@ const PurchasedOrderDetails = () => {
     const line1 = `${company_reg_address}${locality ? `, ${locality}` : ""}${
       land_mark ? `, ${land_mark}` : ""
     }`;
-    const line2 = `${country}, ${state},  ${city},  ${pincode}`;
+    const line2 = `${country}`;
     return { line1, line2 };
   };
 
@@ -211,7 +211,7 @@ const PurchasedOrderDetails = () => {
                               fontWeight: "500",
                             }}
                           >
-                            {buyerAddress.line1}
+                            {/* {buyerAddress.line1} */}
                           </p>
                           <p
                             style={{
