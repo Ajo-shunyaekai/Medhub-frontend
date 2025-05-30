@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import html2pdf from "html2pdf.js";
 import { useNavigate, useParams } from "react-router-dom";
 import { apiRequests } from "../../../../../api";
+import Button from "../../../shared-components/UiElements/Button/Button";
 
 function ProformaInvoiceDetails() {
   const { orderId } = useParams();
   const navigate = useNavigate();
+  const [downloadLoader, setDownloadLoader] = useState(false);
 
   const adminIdSessionStorage = localStorage?.getItem("admin_id");
   const adminIdLocalStorage = localStorage?.getItem("admin_id");
@@ -57,6 +59,7 @@ function ProformaInvoiceDetails() {
   const grandTotal = totalAmount + totalTaxAmount;
 
   const handleDownload = () => {
+    setDownloadLoader(true);
     const element = document.getElementById("invoice-content");
     const options = {
       margin: 0.5,
@@ -66,6 +69,7 @@ function ProformaInvoiceDetails() {
       jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
     };
     html2pdf().from(element).set(options).save();
+    setTimeout(()=>{ setDownloadLoader(false) },2000);
   };
 
   // Format supplier and buyer addresses into two lines
@@ -81,9 +85,12 @@ function ProformaInvoiceDetails() {
     <div className="invoice-template-design">
       <div className="scroll-wrapper">
         <div className="invoice-template-download">
-          <div className="invoice-template-button" onClick={handleDownload}>
+          {/* <div className="invoice-template-button" onClick={handleDownload}>
             Download
-          </div>
+          </div> */}
+          <Button onClick={handleDownload} loading={downloadLoader}>
+              Download
+          </Button>
         </div>
         <div id="invoice-content">
           <div

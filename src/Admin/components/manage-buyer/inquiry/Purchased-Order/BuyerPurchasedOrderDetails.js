@@ -3,10 +3,12 @@ import styles from "../../../../assets/style/sellerorder.module.css";
 import html2pdf from "html2pdf.js";
 import { useNavigate, useParams } from "react-router-dom";
 import { postRequestWithToken } from "../../../../api/Requests";
+import Button from "../../../shared-components/UiElements/Button/Button";
 
 const BuyerPurchasedOrderDetails = () => {
   const { purchaseOrderId } = useParams();
   const navigate = useNavigate();
+   const [downloadLoader, setDownloadLoader] = useState(false);
 
   const adminIdSessionStorage = localStorage?.getItem("admin_id");
   const adminIdLocalStorage = localStorage?.getItem("admin_id");
@@ -56,6 +58,7 @@ const BuyerPurchasedOrderDetails = () => {
   const grandTotal = totalAmount + totalTaxAmount;
 
   const handleDownload = () => {
+    setDownloadLoader(true);
     const element = document.getElementById("po-content");
     const options = {
       margin: 0.5,
@@ -66,6 +69,7 @@ const BuyerPurchasedOrderDetails = () => {
     };
 
     html2pdf().from(element).set(options).save();
+    setTimeout(()=>{ setDownloadLoader(false) },2000);
   };
 
   // Format buyer and supplier addresses
@@ -84,12 +88,15 @@ const BuyerPurchasedOrderDetails = () => {
     <div className={styles["purchased-template-design"]}>
       <div className={styles["purchased-scroll-wrapper"]}>
         <div className={styles["purchased-template-download"]}>
-          <div
+          {/* <div
             className={styles["purchased-template-button"]}
             onClick={handleDownload}
           >
             Download
-          </div>
+          </div> */}
+           <Button onClick={handleDownload} loading={downloadLoader}>
+              Download
+           </Button>
         </div>
         <div
           id="po-content"
