@@ -4,10 +4,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 import moment from 'moment/moment';
 import { postRequestWithToken } from '../../../api/Requests'; // Adjust path as needed
 import { apiRequests } from '../../../../api'; // Adjust path as needed
+import Button from '../../shared-components/UiElements/Button/Button';
 
 function BuyerInvoiceDetails() {
     const { invoiceId } = useParams();
     const navigate = useNavigate();
+    const [downloadLoader, setDownloadLoader] = useState(false);
 
     const adminIdSessionStorage = localStorage?.getItem("admin_id");
     const adminIdLocalStorage = localStorage?.getItem("admin_id");
@@ -30,6 +32,7 @@ function BuyerInvoiceDetails() {
     };
 
     const handleDownload = () => {
+        setDownloadLoader(true);
         const element = document.getElementById('invoice-content');
         const options = {
             margin: 0.5,
@@ -39,6 +42,7 @@ function BuyerInvoiceDetails() {
             jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
         };
         html2pdf().from(element).set(options).save();
+        setTimeout(()=>{ setDownloadLoader(false) },2000);
     };
 
     useEffect(() => {
@@ -80,7 +84,10 @@ function BuyerInvoiceDetails() {
         <div className='invoice-template-design'>
             <div className='scroll-wrapper'>
                 <div className='invoice-template-download'>
-                    <div className='invoice-template-button' onClick={handleDownload}>Download</div>
+                    {/* <div className='invoice-template-button' onClick={handleDownload}>Download</div> */}
+                    <Button onClick={handleDownload} loading={downloadLoader}>
+                        Download
+                    </Button>
                 </div>
                 <div id='invoice-content'>
                     <div style={{
