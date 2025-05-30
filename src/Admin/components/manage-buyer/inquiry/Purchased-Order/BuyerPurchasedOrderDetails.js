@@ -77,7 +77,8 @@ const BuyerPurchasedOrderDetails = () => {
     if (!addressDetails) return "";
     const { company_reg_address, locality, land_mark, city, state, country, pincode } = addressDetails;
     const line1 = `${company_reg_address}, ${locality}`;
-    const line2 = `${land_mark}, ${city}, ${state}, ${country} ${pincode}`;
+    const line2 = ` ${country} `;
+    // ${land_mark}, ${city}, ${state},${pincode}
     return { line1, line2 };
   };
 
@@ -212,7 +213,7 @@ const BuyerPurchasedOrderDetails = () => {
                               color: "#616161",
                             }}
                           >
-                            {buyerAddress.line1}
+                            {/* {buyerAddress.line1} */}
                           </p>
                           <p
                             style={{

@@ -93,16 +93,16 @@ const PurchasedOrderDetails = () => {
     .join(", ");
   const buyerAddressLine2 = [
     poDetails?.buyer_registered_address?.country,
-    poDetails?.buyer_registered_address?.state,
-    poDetails?.buyer_registered_address?.city,
-    poDetails?.buyer_registered_address?.pincode,
+    // poDetails?.buyer_registered_address?.state,
+    // poDetails?.buyer_registered_address?.city,
+    // poDetails?.buyer_registered_address?.pincode,
   ]
     .filter(Boolean)
     .join(", ");
 
   const supplierAddressLine1 = [
     poDetails?.supplier_registered_address?.company_reg_address,
-    poDetails?.supplier_registered_address?.locality,
+    poDetails?.supplier_registered_address?.locality,   
     poDetails?.supplier_registered_address?.land_mark,
   ]
     .filter(Boolean)
@@ -234,7 +234,7 @@ const PurchasedOrderDetails = () => {
                           >
                             {poDetails?.buyer_name}
                           </p>
-                          <p
+                          {/* <p
                             style={{
                               fontSize: "13px",
                               color: "#616161",
@@ -242,7 +242,7 @@ const PurchasedOrderDetails = () => {
                             }}
                           >
                             {buyerAddressLine1}
-                          </p>
+                          </p> */}
                           <p
                             style={{
                               fontSize: "13px",

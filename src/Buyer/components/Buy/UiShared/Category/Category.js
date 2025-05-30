@@ -6,7 +6,6 @@ import categoryArrays from "../../../../../utils/Category";
 
 const AccordionFilter = ({
   isOpen,
-  toggleAccordion,
   setFilterCategory,
   selectedCategory,
   setSelectedCategory,
@@ -58,7 +57,6 @@ const AccordionFilter = ({
       level3Category: selectedLevel3Category?.label || "",
     };
     setFilterCategory(filterData);
-    // Add your apply filter logic here
   };
 
   const handleReset = () => {

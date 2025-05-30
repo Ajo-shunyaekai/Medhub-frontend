@@ -220,7 +220,7 @@ const SellerPurchasedOrderDetails = () => {
                               color: "#616161",
                             }}
                           >
-                            {formatAddress(poDetails?.buyer_registered_address).line1}
+                            {/* {formatAddress(poDetails?.buyer_registered_address).line1} */}
                           </p>
                           <p
                             style={{
@@ -229,7 +229,9 @@ const SellerPurchasedOrderDetails = () => {
                               color: "#616161",
                             }}
                           >
-                            {formatAddress(poDetails?.buyer_registered_address).line2}
+                            
+                            {poDetails?.buyer_registered_address?.country}
+                            {/* {formatAddress(poDetails?.buyer_registered_address).line2} */}
                           </p>
                           <td
                             style={{ display: "flex", justifyContent: "start" }}
