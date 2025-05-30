@@ -22,6 +22,7 @@ const FilterSection = ({ openDropdown, toggleDropdown, countryOrigin, handleCoun
                            <li onClick={() => handleCompanyType('Manufacturer')}>Manufacturer</li>
                             <li onClick={() => handleCompanyType('Distributor')}>Distributor</li>
                             <li onClick={() => handleCompanyType('Medical Practitioner')}>Medical Practitioner</li>
+                            <li onClick={() => handleCompanyType('Service Provider')}>Service Provider</li>
                         </ul>
                     )}
                 </li>

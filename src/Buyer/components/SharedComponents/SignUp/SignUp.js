@@ -238,6 +238,12 @@ const SignUp = ({ socket }) => {
     { value: "distributor", label: "Distributor" },
     { value: "end user", label: "End User" },
     { value: "medical practitioner", label: "Medical Practitioner" },
+    { value: "Care home", label: "Care home" },
+    { value: "Dentist", label: "Dentist" },
+    { value: "Physio Therapist", label: "Physio Therapist" },
+    { value: "Hospital", label: "Hospital" },
+    { value: "Sport Facility", label: "Sport Facility" },
+    { value: "Other", label: "Other" },
   ];
 
   const handleCompanyTypeChange = (selectedOption) => {
