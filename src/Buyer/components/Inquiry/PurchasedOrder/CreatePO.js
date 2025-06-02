@@ -742,7 +742,7 @@ const CreatePO = ({ socket }) => {
                 <p style={{ color: "red" }}>{errors.supplierRegNo}</p>
               )}
             </div>
-            <div className={styles["create-invoice-div-container"]}>
+            {/* <div className={styles["create-invoice-div-container"]}>
               <label className={styles["create-invoice-div-label"]}>
                 Billing Address*
               </label>
@@ -758,10 +758,10 @@ const CreatePO = ({ socket }) => {
               {errors.supplierAddress && (
                 <p style={{ color: "red" }}>{errors.supplierAddress}</p>
               )}
-            </div>
+            </div> */}
             {inquiryDetails?.supplier?.registered_address && (
               <>
-                <div className={styles["create-invoice-div-container"]}>
+                {/* <div className={styles["create-invoice-div-container"]}>
                   <label className={styles["create-invoice-div-label"]}>
                     Area/Locality/Road Name*
                   </label>
@@ -777,8 +777,8 @@ const CreatePO = ({ socket }) => {
                   {errors.supplierLocality && (
                     <p style={{ color: "red" }}>{errors.supplierLocality}</p>
                   )}
-                </div>
-                <div className={styles["create-invoice-div-container"]}>
+                </div> */}
+                {/* <div className={styles["create-invoice-div-container"]}>
                   <label className={styles["create-invoice-div-label"]}>
                     Landmark
                   </label>
@@ -794,7 +794,7 @@ const CreatePO = ({ socket }) => {
                   {errors.supplierLandmark && (
                     <p style={{ color: "red" }}>{errors.supplierLandmark}</p>
                   )}
-                </div>
+                </div> */}
                 <div className={styles["create-invoice-div-container"]}>
                   <label className={styles["create-invoice-div-label"]}>
                     Country*
@@ -812,7 +812,7 @@ const CreatePO = ({ socket }) => {
                     <p style={{ color: "red" }}>{errors.supplierCountry}</p>
                   )}
                 </div>
-                <div className={styles["create-invoice-div-container"]}>
+                {/* <div className={styles["create-invoice-div-container"]}>
                   <label className={styles["create-invoice-div-label"]}>
                     State/Province
                   </label>
@@ -879,7 +879,7 @@ const CreatePO = ({ socket }) => {
                   {errors.supplierPincode && (
                     <p style={{ color: "red" }}>{errors.supplierPincode}</p>
                   )}
-                </div>
+                </div> */}
               </>
             )}
             <div className={styles["create-invoice-div-container"]}>

@@ -968,7 +968,7 @@ const EditCreatePO = ({ socket }) => {
               {errors.supplierMobile && <p>{errors.supplierMobile.message}</p>}
             </div>
            
-            <div className={styles["create-invoice-div-container"]}>
+            {/* <div className={styles["create-invoice-div-container"]}>
               <label className={styles["create-invoice-div-label"]}>
                Billing Address*
               </label>
@@ -1012,7 +1012,7 @@ const EditCreatePO = ({ socket }) => {
                 value={formData.supplierLandmark}
                 readOnly
               />
-            </div>
+            </div> */}
             <div className={styles["create-invoice-div-container"]}>
               <label className={styles["create-invoice-div-label"]}>
                 Country*
@@ -1027,7 +1027,7 @@ const EditCreatePO = ({ socket }) => {
                 isDisabled
               />
             </div>
-            <div className={styles["create-invoice-div-container"]}>
+            {/* <div className={styles["create-invoice-div-container"]}>
               <label className={styles["create-invoice-div-label"]}>
                 State/Province
               </label>
@@ -1087,7 +1087,7 @@ const EditCreatePO = ({ socket }) => {
               {errors.supplierPincode && (
                 <p style={{ color: "red" }}>{errors.supplierPincode}</p>
               )}
-            </div>
+            </div> */}
             
           </div>
         </div>
