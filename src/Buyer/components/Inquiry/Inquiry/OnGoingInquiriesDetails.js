@@ -22,7 +22,7 @@ const OnGoingInquiriesDetails = () => {
   const [rejectedItems, setRejectedItems] = useState([]);
  
   const email = inquiryDetails?.supplier?.contact_person_email;
-  const subject = `Inquiry about Inquiry ${inquiryDetails?.enquiry_id || "unknown"}`;
+  const subject = `Enquiry about Enquiry ${inquiryDetails?.enquiry_id || "unknown"}`;
   const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
  
   const dateToDisplay = 
@@ -70,7 +70,7 @@ const OnGoingInquiriesDetails = () => {
         localStorage?.setItem("acceptedQuotationItems", JSON.stringify(acceptedItems));
         localStorage?.setItem("rejectedQuotationItems", JSON.stringify(rejectedItems));
       } catch (error) {
-        toast("Error fetching inquiry details", { type: "error" });
+        toast("Error fetching enquiry details", { type: "error" });
       } finally {
         setLoading(false);
       }
@@ -128,7 +128,7 @@ const OnGoingInquiriesDetails = () => {
               return updatedItems;
             });
           } catch (error) {
-            toast("Error updating inquiry details", { type: "error" });
+            toast("Error updating enquiry details", { type: "error" });
           } finally {
             setLoading(false);
           }
@@ -187,7 +187,7 @@ const OnGoingInquiriesDetails = () => {
                 return updatedItems;
               });
             } catch (error) {
-              toast("Error updating inquiry details", { type: "error" });
+              toast("Error updating enquiry details", { type: "error" });
             } finally {
               setLoading(false);
             }
@@ -204,7 +204,7 @@ const OnGoingInquiriesDetails = () => {
   const hasPendingItems = inquiryDetails?.items?.some(item => item.status === 'pending');
  
   const handleCancel = () => {
-    navigate(`/buyer/cancel-inquiry-list/${inquiryId}`);
+    navigate(`/buyer/cancel-enquiry-list/${inquiryId}`);
   }
 
   const handleCreatePOClick = () => {
@@ -229,7 +229,7 @@ const OnGoingInquiriesDetails = () => {
   return (
     <div className="ongoing-details-container">
       <div className="ongoing-details-conatiner-heading">
-        Inquiry ID: <span>{inquiryDetails?.enquiry_id}</span>
+        Enquiry ID: <span>{inquiryDetails?.enquiry_id}</span>
       </div>
 
       <div className="ongoing-details-section">

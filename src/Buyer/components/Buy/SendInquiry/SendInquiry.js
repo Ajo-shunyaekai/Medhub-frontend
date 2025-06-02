@@ -174,7 +174,7 @@ const SendInquiry = ({ socket }) => {
           enquiryPayload.items.forEach((item) => {
             socket.emit("sendInquiry", {
               supplierId: item.supplier_id,
-              message: "You have a new inquiry from a buyer!",
+              message: "You have a new enquiry from a buyer!",
               link: process.env.REACT_APP_PUBLIC_URL,
             });
           });
@@ -194,7 +194,7 @@ const SendInquiry = ({ socket }) => {
 
   return (
     <div className="send-enquiry-container">
-      <div className="send-enquiry-heading">Send Inquiry</div>
+      <div className="send-enquiry-heading">Send Enquiry</div>
       <div className="send-enquiry-main-section">
         <div className="send-enquiry-inner-section">
           {loading ? (
@@ -232,7 +232,7 @@ const SendInquiry = ({ socket }) => {
                             Sending...
                           </>
                         ) : (
-                          "Send Inquiry"
+                          "Send Enquiry"
                         )}
                       </span>
                     </div>

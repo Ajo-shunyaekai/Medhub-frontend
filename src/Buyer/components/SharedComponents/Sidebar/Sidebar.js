@@ -288,7 +288,7 @@ const Sidebar = ({ children, dragWindow,
                         </div>
                         <div className={styles.nav_notifi_right}>
                             <Badge badgeContent={inquiriesCartCount || listCount} color="secondary">
-                                <Link to='/buyer/send-inquiry'>
+                                <Link to='/buyer/send-enquiry'>
                                     <ShoppingCartCheckoutIcon className={styles.nav_icon_color} />
                                 </Link>
                             </Badge>
@@ -463,9 +463,9 @@ const Sidebar = ({ children, dragWindow,
                             <div className={styles.icon}><LocalMallOutlinedIcon style={{ color: '#14bae4', fontSize: '20px' }} /></div>
                             <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Buy</div>
                         </Link>
-                        <Link to="/buyer/inquiry" className={`${styles.sidebar_text} ${styles.desktop_order_btn}`} activeclassname={styles.active}>
+                        <Link to="/buyer/enquiry" className={`${styles.sidebar_text} ${styles.desktop_order_btn}`} activeclassname={styles.active}>
                             <div className={styles.icon}><ManageSearchIcon style={{ color: '#20c997', fontSize: '20px' }} /></div>
-                            <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Inquiry</div>
+                            <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Enquiry</div>
                         </Link>
                         <Link to="/buyer/order/active-orders" className={`${styles.sidebar_text} ${styles.desktop_order_btn}`} activeclassname={styles.active}>
                             <div className={styles.icon}><TocOutlinedIcon style={{ color: '#31c971', fontSize: '20px' }} /></div>

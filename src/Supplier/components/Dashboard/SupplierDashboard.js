@@ -75,9 +75,9 @@ const SupplierDashboard = () => {
                     <div className={styles.orderSection}>
                         <div className={styles.section}>
                             <div className={styles.ordersRow}>
-                                <Link className={styles.order} to='/supplier/inquiry-request-list'>
+                                <Link className={styles.order} to='/supplier/enquiry-request-list'>
  
-                                    <div className={styles.orderHeading}>Inquiry Request</div>
+                                    <div className={styles.orderHeading}>Enquiry Request</div>
                                     <div className={styles.totalorders}>{orderSummary?.enquiryCount || 0}</div>
  
                                 </Link>

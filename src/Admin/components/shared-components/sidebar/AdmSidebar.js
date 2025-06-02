@@ -774,14 +774,14 @@ const AdmSidebar = ({
                     </div>
                   </Link>
                   <Link
-                    to="/admin/supplier-inquiry"
+                    to="/admin/supplier-enquiry"
                     className={styles.sidebar_text}
                     activeclassname={styles.active}
                   >
                      <FiberManualRecordIcon className={styles.icons}/>
                      
                    
-                    <div className={styles.sidebar_text}>Inquiry</div>
+                    <div className={styles.sidebar_text}>Enquiry</div>
                   </Link>
                   <Link
                     to="/admin/supplier-order"
@@ -880,14 +880,14 @@ const AdmSidebar = ({
                     <div className={styles.sidebar_text}>Buyer Transaction</div>
                   </Link>
                   <Link
-                    to="/admin/buyer-inquiry"
+                    to="/admin/buyer-enquiry"
                     className={styles.sidebar_text}
                     activeclassname={styles.active}
                   >
                      <FiberManualRecordIcon className={styles.icons}/>
                     
                    
-                    <div className={styles.sidebar_text}>Inquiry</div>
+                    <div className={styles.sidebar_text}>Enquiry</div>
                   </Link>
                   <Link
                     to="/admin/buyer-order"

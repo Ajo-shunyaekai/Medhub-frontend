@@ -322,7 +322,7 @@ const BuyerDetails = () => {
                             <span className={styles.rightContent}>{buyerSupplierOrder?.completedCount || 0}</span>
                         </Link>
                         <Link className={styles.rightSection} to={`/supplier/buyer-pending-list/${buyerId}`}>
-                            <span className={styles.rightHead}>Inquiry Request</span>
+                            <span className={styles.rightHead}>Enquiry Request</span>
                             <span className={styles.rightContent}>{buyerSupplierOrder?.pendingCount || 0}</span>
                         </Link>
                     </div>

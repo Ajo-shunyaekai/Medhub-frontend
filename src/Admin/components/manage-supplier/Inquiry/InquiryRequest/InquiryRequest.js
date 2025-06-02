@@ -9,7 +9,7 @@ import styles from '../../../../assets/style/table.module.css';
 const InquiryRequest = ({ inquiryList, totalInquiries, currentPage, inquiriesPerPage, handlePageChange }) => {
   const columns = [
     {
-      name: 'Inquiry ID',
+      name: 'Enquiry ID',
       selector: row => row?.enquiry_id,
       sortable: true,
     },
@@ -41,7 +41,7 @@ const InquiryRequest = ({ inquiryList, totalInquiries, currentPage, inquiriesPer
     {
       name: 'Action',
       cell: row => (
-        <Link to={`/admin/supplier-inquiry-details/${row?.enquiry_id}`}>
+        <Link to={`/admin/supplier-enquiry-details/${row?.enquiry_id}`}>
           <div className={styles.activeBtn}>
             <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
           </div>

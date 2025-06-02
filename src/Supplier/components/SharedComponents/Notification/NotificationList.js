@@ -49,7 +49,7 @@ const NotificationList = () => {
     const handleNavigation = (notificationId, event, eventId, linkId) => {
         switch (event) {
             case 'enquiry':
-                navigate(`/supplier/inquiry-request-details/${eventId}`);
+                navigate(`/supplier/enquiry-request-details/${eventId}`);
                 break;
             case 'order':
                 navigate(`/supplier/active-orders-details/${eventId}`);

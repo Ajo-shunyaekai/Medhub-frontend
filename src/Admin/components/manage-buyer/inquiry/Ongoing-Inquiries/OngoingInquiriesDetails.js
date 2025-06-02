@@ -47,13 +47,13 @@ const OngoingInquiriesDetails = () => {
     const [quotationItems, setQuotationItems] = useState([])
 
     const email = inquiryDetails?.buyer?.contact_person_email;
-    const subject = `Inquiry about Inquiry ${inquiryDetails?.enquiry_id || 'unknown'}`; 
+    const subject = `Enquiry about Enquiry ${inquiryDetails?.enquiry_id || 'unknown'}`; 
 
     const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
   return (
     <div className="ongoing-details-container">
       <div className="ongoing-details-conatiner-heading">
-        Inquiry ID: <span>{inquiryDetails?.enquiry_id}</span>
+        Enquiry ID: <span>{inquiryDetails?.enquiry_id}</span>
       </div>
 
       <div className="ongoing-details-section">

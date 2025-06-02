@@ -24,9 +24,9 @@ const InquiryPurchaseOrder = () => {
 
   const getActiveLinkFromPath = (path) => {
     switch (path) {
-      case "/buyer/inquiry":
+      case "/buyer/enquiry":
         return "ongoing";
-      case "/buyer/inquiry/purchased-order":
+      case "/buyer/enquiry/purchased-order":
         return "purchased";
       default:
         return "ongoing";
@@ -39,13 +39,13 @@ const InquiryPurchaseOrder = () => {
     setCurrentPage(1);
     switch (link) {
       case "ongoing":
-        navigate("/buyer/inquiry");
+        navigate("/buyer/enquiry");
         break;
       case "purchased":
-        navigate("/buyer/inquiry/purchased-order");
+        navigate("/buyer/enquiry/purchased-order");
         break;
       default:
-        navigate("/buyer/inquiry");
+        navigate("/buyer/enquiry");
     }
   };
 
@@ -112,7 +112,7 @@ const InquiryPurchaseOrder = () => {
         <div className={styles.container}>
         <div className={styles.header}>
           <div className={styles.title}>
-            Inquiry & Purchased Orders
+            Enquiry & Purchased Orders
           </div>
         </div>
         <div className={styles.content}>

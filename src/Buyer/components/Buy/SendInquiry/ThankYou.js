@@ -29,7 +29,7 @@ const ThankYou = () => {
           <img className={styles.imageContainer} src={Successful} alt='successful' />
         
         <div className={styles.mainHeading}>
-          Thank You for your Inquiry !!
+          Thank You for your Enquiry !!
         </div>
         <span className={styles.mainContent}>
           The Supplier has been notified of your enquiry and will respond  in due  course. <br/> Please keep check your emails for any notifications from the suppliers.
@@ -43,7 +43,7 @@ const ThankYou = () => {
             <span className={styles.button}>Search more products</span>
           </div>
         </Link>
-        <Link to='/buyer/send-inquiry'>
+        <Link to='/buyer/send-enquiry'>
           <div className={styles.buttonsSection}>
             <span className={styles.button}>Back to your cart</span>
           </div>

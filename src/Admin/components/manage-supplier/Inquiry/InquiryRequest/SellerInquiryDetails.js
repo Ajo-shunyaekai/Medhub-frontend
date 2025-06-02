@@ -55,13 +55,13 @@ const SellerInquiryDetails = () => {
     const [quotationItems, setQuotationItems] = useState([])
 
     const email = inquiryDetails?.buyer?.contact_person_email; 
-    const subject = `Inquiry about Inquiry ${inquiryDetails?.enquiry_id || 'unknown'}`; 
+    const subject = `Enquiry about Enquiry ${inquiryDetails?.enquiry_id || 'unknown'}`; 
 
     const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
 
     return (
         <div className='inquiry-details-container'>
-            <div className='inquiry-details-conatiner-heading'>Inquiry ID: <span>{inquiryDetails?.enquiry_id}</span></div>
+            <div className='inquiry-details-conatiner-heading'>Enquiry ID: <span>{inquiryDetails?.enquiry_id}</span></div>
             <div className='inquiry-details-section'>
                 <div className='inquiry-details-left-section'>
                     <div className='inquiry-details-top-inner-section'>

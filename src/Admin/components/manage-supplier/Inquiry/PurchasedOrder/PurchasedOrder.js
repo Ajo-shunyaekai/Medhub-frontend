@@ -14,7 +14,7 @@ const PurchasedOrder = ({ poList, totalList, currentPage, listPerPage, handlePag
             sortable: true,
         },
         {
-            name: 'Inquiry ID',
+            name: 'Enquiry ID',
             selector: row => row?.enquiry_id,
             sortable: true,
         },

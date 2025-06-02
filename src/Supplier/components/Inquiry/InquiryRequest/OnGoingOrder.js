@@ -16,7 +16,7 @@ const OnGoingongoing = ({ inquiryList, totalInquiries, currentPage, inquiryPerPa
   };
   const columns = [
     {
-      name: 'Inquiry ID',
+      name: 'Enquiry ID',
       selector: row => row?.enquiry_id,
       sortable: true,
      
@@ -42,7 +42,7 @@ const OnGoingongoing = ({ inquiryList, totalInquiries, currentPage, inquiryPerPa
     {
       name: 'Action',
       cell: row => (
-        <Link to={`/supplier/inquiry-request-details/${row?.enquiry_id}`}>
+        <Link to={`/supplier/enquiry-request-details/${row?.enquiry_id}`}>
           <div className={styles.activeBtn}>
                         <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                     </div>
