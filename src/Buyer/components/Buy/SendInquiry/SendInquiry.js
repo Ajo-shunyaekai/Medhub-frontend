@@ -205,7 +205,7 @@ const SendInquiry = ({ socket }) => {
                 <div className="send-enquiry-upper-section">
                   <div className="send-enquiry-upper-left-sec">
                     <span className="send-enquiry-upper-left-head">
-                      Your Inquiries
+                      Your Enquiries
                     </span>
                   </div>
                   <div className="send-enquiry-upper-right-sec">
@@ -214,7 +214,7 @@ const SendInquiry = ({ socket }) => {
                         Total:
                       </span>
                       <span className="send-enquiry-upper-right-number">
-                        {totalItems} Inquiries
+                        {totalItems} Enquiries
                       </span>
                     </div>
                     <div

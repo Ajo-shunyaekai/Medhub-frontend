@@ -166,10 +166,10 @@ const AdminDashboard = () => {
             <div className='main-bottom-cart-container'>
                 <div className='bottom-section-left-cont'>
                     <Link
-                        to={`/admin/inquiries-section/request`}
+                        to={`/admin/enquiries-section/request`}
                     >
                         <div className='bottom-text-cont'>
-                            <div className='buyer-panel-top-head'>Total Inquiries</div>
+                            <div className='buyer-panel-top-head'>Total Enquiries</div>
                             <div className='buyer-panel-top-text'>{dashboardData?.inquiryCount || 0}</div>
                         </div>
 

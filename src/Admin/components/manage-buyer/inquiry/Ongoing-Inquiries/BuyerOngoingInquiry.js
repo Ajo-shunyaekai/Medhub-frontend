@@ -37,7 +37,7 @@ const BuyerOngoingInquiry = ({ inquiryList, totalInquiries, currentPage, inquiri
         {
             name: 'Action',
             cell: row => (
-                <Link to={`/admin/ongoing-inquiries-details/${row?.enquiry_id}`}>
+                <Link to={`/admin/ongoing-enquiries-details/${row?.enquiry_id}`}>
                     <div className={styles.activeBtn}>
                         <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                     </div>

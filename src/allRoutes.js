@@ -60,7 +60,7 @@ export const buyerNestedRoutes = [
     ),
   },
   {
-    path: "ongoing-inquiries-list",
+    path: "ongoing-enquiries-list",
     component: lazy(() =>
       import("./Buyer/components/Dashboard/DashboardList/OngoingInquiriesList")
     ),
@@ -203,7 +203,7 @@ export const buyerNestedRoutes = [
     ),
   },
   {
-    path: "ongoing-inquiries-details/:inquiryId",
+    path: "ongoing-enquiries-details/:inquiryId",
     component: lazy(() =>
       import("./Buyer/components/Inquiry/Inquiry/OnGoingInquiriesDetails")
     ),
@@ -772,7 +772,7 @@ export const adminNestedRoutes = [
     ),
   },
   {
-    path: "inquiries-section",
+    path: "enquiries-section",
     component: lazy(() =>
       import("./Admin/components/dashboard/DashboardList/InquiriesDashList")
     ),
@@ -998,7 +998,7 @@ export const adminNestedRoutes = [
     ),
   },
   {
-    path: "ongoing-inquiries-details/:inquiryId",
+    path: "ongoing-enquiries-details/:inquiryId",
     component: lazy(() =>
       import(
         "./Admin/components/manage-buyer/inquiry/Ongoing-Inquiries/OngoingInquiriesDetails"

@@ -313,7 +313,7 @@ const OnGoingInquiriesDetails = () => {
       <div className="ongoing-enguiries-details-button-sec">
         {hasPendingItems && (
           <div className="ongoing-enguiries-details-buttons" onClick={handleCancel}>
-            Cancel Inquiries
+            Cancel Enquiries
           </div>
         )}
       </div>

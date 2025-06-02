@@ -61,7 +61,7 @@ const OngoingInquiriesList = () => {
           console.error("Error in enquiry list API:", response);
         }
       } catch (error) {
-        console.error("Error fetching inquiries:", error);
+        console.error("Error fetching enquiries:", error);
       } finally {
         setLoading(false);
       }
@@ -104,7 +104,7 @@ const OngoingInquiriesList = () => {
       name: "Action",
       cell: (row) => (
         <div className={styles.buttonContainer}>
-          <Link to={`/buyer/ongoing-inquiries-details/${row.enquiry_id}`}>
+          <Link to={`/buyer/ongoing-enquiries-details/${row.enquiry_id}`}>
             <div className={styles.activeBtn}>
               <RemoveRedEyeOutlinedIcon className={styles['table-icon']} onClick={() => showModal(row?.order_id)} />
             </div>
@@ -161,7 +161,7 @@ const OngoingInquiriesList = () => {
       </style>
       <div className={styles.tableMainContainer}>
         <header className={styles.header}>
-          <span className={styles.title}>Ongoing Inquiries List</span>
+          <span className={styles.title}>Ongoing Enquiries List</span>
         </header>
         {loading ? (
           <Loader />

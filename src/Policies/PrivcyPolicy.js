@@ -112,7 +112,7 @@ const handleDownload = () => {
                     </ul>
                     <h3 className={styles.sectionContentTitle}>3.2 For Communication:</h3>
                     <ul className={styles.list}>
-                        <li>Send account updates, transaction notifications, and responses to inquiries.</li>
+                        <li>Send account updates, transaction notifications, and responses to enquiries.</li>
                         <li>Deliver promotional offers, newsletters, and marketing materials (with user consent).</li>
                     </ul>
                     <h3 className={styles.sectionContentTitle}>3.3 For Compliance and Legal Obligations:</h3>

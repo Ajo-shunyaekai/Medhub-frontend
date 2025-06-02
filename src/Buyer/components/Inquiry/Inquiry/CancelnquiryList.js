@@ -73,7 +73,7 @@ const CancelInquiryList = () => {
             if (response?.code === 200) {
                 toast(response.message, { type: "success" });
                 setTimeout(() => {
-                    navigate(`/buyer/ongoing-inquiries-details/${inquiryId}`);
+                    navigate(`/buyer/ongoing-enquiries-details/${inquiryId}`);
                     setLoading(false); // Hide loader after navigation
                 }, 1000);
             } else {
@@ -114,15 +114,15 @@ const CancelInquiryList = () => {
     return (
         <div className={styles['cancel-inquiry-main-section']}>
             {loading && <Loader />} {/* Show loader when loading is true */}
-            <div className={styles['cancel-inquiry-heading']}>Cancel Inquiries</div>
+            <div className={styles['cancel-inquiry-heading']}>Cancel Enquiries</div>
             <div className="ongoing-details-assign-driver-section">
                 <CancelProductList items={inquiryDetails?.items} inquiryDetails={inquiryDetails} />
             </div>
             <div className={styles['form-main-section-container']}>
                 <div className={styles['form-main-content-section']}>
-                    <div className={styles['form-cancel-heading']}>Reason for Cancel Inquiries</div>
+                    <div className={styles['form-cancel-heading']}>Reason for Cancel Enquiries</div>
                     <div className={styles['form-cancel-text']}>
-                        Please tell us the correct reason for Inquiries. This information is only used to improve our service
+                        Please tell us the correct reason for Enquiries. This information is only used to improve our service
                     </div>
                 </div>
                 <form onSubmit={handleSubmit} className={styles.formcontainer}>

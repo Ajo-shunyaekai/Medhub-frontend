@@ -76,9 +76,9 @@ const Dashboard = () => {
                     <div className={styles.orderSection}>
                         <div className={styles.section}>
                             <div className={styles.ordersRow}>
-                                <Link  className={styles.order} to='/buyer/ongoing-inquiries-list'>
+                                <Link  className={styles.order} to='/buyer/ongoing-enquiries-list'>
                                    
-                                        <div className={styles.orderHeading}>Ongoing Inquiries</div>
+                                        <div className={styles.orderHeading}>Ongoing Enquiries</div>
                                         <div className={styles.totalorders}>{orderSummary?.enquiryCount || 0}</div>
                                    
                                 </Link>
