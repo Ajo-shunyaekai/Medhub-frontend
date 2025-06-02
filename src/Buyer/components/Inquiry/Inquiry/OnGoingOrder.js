@@ -52,15 +52,16 @@ const OnGoingongoing = ({ inquiryList, totalInquiries, currentPage, inquiryPerPa
       name: 'Action',
       cell: row => (
         <div className={styles.buttonContainer}>
-          <Link to={`/buyer/ongoing-enquiries-details/${row?.enquiry_id}`}>
+          <Link to={`/buyer/ongoing-enquiries-details/${row?.enquiry_id}`} title="View Details">
           <div className={styles.activeBtn}>
             <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
           </div>
           </Link>
           {row?.enquiry_status === 'pending' && (
             <div
-            className={styles.activeBtn}
+              className={styles.activeBtn}
               onClick={() => handleNavigate(row?.enquiry_id)}
+              title="Cancel Enquiry"
             >
               <HighlightOffIcon className={styles['table-icon']}/>
             </div>

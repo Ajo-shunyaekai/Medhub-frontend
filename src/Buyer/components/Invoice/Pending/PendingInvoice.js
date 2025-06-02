@@ -134,7 +134,7 @@ const PendingInvoice = ({
           >
             Pay
           </button>
-          <Link to={`/buyer/invoice-design/${row?.invoice_id}`}>
+          <Link to={`/buyer/invoice-design/${row?.invoice_id}`} title="View Details">
            <div className={styles.activeBtn}>
             <VisibilityOutlinedIcon className={styles['table-icon']} />
             </div>
@@ -142,6 +142,7 @@ const PendingInvoice = ({
           <button
             className={styles.downloadButton}
             onClick={() => handleDownload(row?.invoice_id)}
+            title="Download"
           >
             {downloadingInvoiceId === row?.invoice_id ? (
               <Loader/>

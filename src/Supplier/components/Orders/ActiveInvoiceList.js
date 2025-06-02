@@ -60,7 +60,7 @@ const ActiveInvoiceList = ({ invoiceData }) => {
             name: 'Action',
             cell: (row) => (
 
-                <Link to={`/supplier/invoice-design/${row?.invoice_id}`}>
+                <Link to={`/supplier/invoice-design/${row?.invoice_id}`} title="View Details">
                     <div className={styles.activeBtn}>
                         <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                     </div>

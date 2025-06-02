@@ -27,7 +27,7 @@ const Complaint = ({ supportList, handlePageChange, currentPage, totalItems, lis
         {
             name: 'Action',
             cell: row => (
-                <Link to={`/admin/supplier-complaint-details/${row?.support_id}`}>
+                <Link to={`/admin/supplier-complaint-details/${row?.support_id}`} title="View Details">
                     <div className={styles.activeBtn}>
                         <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                     </div>

@@ -37,7 +37,7 @@ const SupplyOrderList = ({ orderList, totalOrders, currentPage, ordersPerPage, h
     {
       name: 'Action',
       cell: row => (
-        <Link to={`/buyer/order-details/${row?.order_id || `ORD-8723RD213fd`}`}>
+        <Link to={`/buyer/order-details/${row?.order_id || `ORD-8723RD213fd`}`} title="View Details">
            <div className={styles.activeBtn}>
             <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
           </div>

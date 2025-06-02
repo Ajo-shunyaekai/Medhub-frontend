@@ -42,7 +42,7 @@ const CompletedBuyerOrder = ({ orderList, totalOrders, currentPage, ordersPerPag
         {
             name: 'Action',
             cell: row => (
-                <Link to={`/admin/order-details/${row?.order_id}`}>
+                <Link to={`/admin/order-details/${row?.order_id}`} title="View Details">
                     <div className={styles.activeBtn}>
                         <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                     </div>

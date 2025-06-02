@@ -56,10 +56,10 @@ const PurchasedOrder = ({ poList, totalPoList, currentPage, inquiryPerPage, hand
           <Link to={`/supplier/proforma-invoice/${row?.purchaseOrder_id}`}>
           <button className={styles.orderButton}>Make Order</button>
           </Link>
-          <Link to={`/supplier/purchased-order-details/${row?.purchaseOrder_id}`}>
+          <Link to={`/supplier/purchased-order-details/${row?.purchaseOrder_id}`} title="View Details">
           <div className={styles.activeBtn}>
-                        <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
-                    </div>
+              <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
+          </div>
           </Link>
         </div>
       ),

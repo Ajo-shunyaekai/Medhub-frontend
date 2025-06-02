@@ -83,7 +83,7 @@ const SellerTransaction = () => {
         {
             name: 'Action',
             cell: row => (
-                <a href={`/admin/supplier-transaction-details/${row?.invoice_id}`}>
+                <a href={`/admin/supplier-transaction-details/${row?.invoice_id}`} title="View Details">
                     <div className={styles.activeBtn}>
                         <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                     </div>

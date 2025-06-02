@@ -47,7 +47,7 @@ const ApprovedSecondaryProducts = ({
     {
       name: 'Action',
       cell: (row) => (
-        <Link to={`/admin/product-details/${row?._id}`}>
+        <Link to={`/admin/product-details/${row?._id}`} title="View Details">
           <div className={styles.activeBtn}>
             <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
           </div>

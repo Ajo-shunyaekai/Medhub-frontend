@@ -28,7 +28,7 @@ const Feedback = ({ supportList, handlePageChange, currentPage, totalItems, list
             name: 'Action',
             sortable: false,
             cell: row => (
-                <Link to={`/admin/supplier-enquiry-details/${row?.support_id}`}>
+                <Link to={`/admin/supplier-enquiry-details/${row?.support_id}`} title="View Details">
                     <div className={styles.activeBtn}>
                         <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                     </div>

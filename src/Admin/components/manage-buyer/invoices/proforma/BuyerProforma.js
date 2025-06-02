@@ -32,7 +32,7 @@ const BuyerProforma = ({ invoiceList, totalItems, currentPage, listPerPage, hand
         {
             name: 'Action',
             cell: row => (
-                <Link to={`/admin/buyer-proforma-details/${row?.order_id}`}>
+                <Link to={`/admin/buyer-proforma-details/${row?.order_id}`} title="View Details">
                     <div className={styles.activeBtn}>
                         <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                     </div>
