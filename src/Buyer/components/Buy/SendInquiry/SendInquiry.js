@@ -337,7 +337,7 @@ const SendInquiry = ({ socket }) => {
                                 </div>
                               </div>
                             </div>
-                            <div className="send-enquiry-remove-section">
+                            <div className="send-enquiry-remove-section" title="Remove Product">
                               <HighlightOffOutlinedIcon
                                 className="send-enquiry-clear-icon"
                                 onClick={() =>
