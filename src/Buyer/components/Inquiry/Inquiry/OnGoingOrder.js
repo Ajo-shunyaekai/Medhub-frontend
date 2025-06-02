@@ -18,11 +18,11 @@ const OnGoingongoing = ({ inquiryList, totalInquiries, currentPage, inquiryPerPa
   };
 
   const handleNavigate = (id) => {
-    navigate(`/buyer/cancel-inquiry-list/${id}`);
+    navigate(`/buyer/cancel-enquiry-list/${id}`);
   };
   const columns = [
     {
-      name: 'Inquiry ID',
+      name: 'Enquiry ID',
       selector: row => row?.enquiry_id,
       sortable: true,
     },

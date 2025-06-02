@@ -160,17 +160,17 @@ export const buyerNestedRoutes = [
     ],
   },
   {
-    path: "send-inquiry",
+    path: "send-enquiry",
     component: lazy(() =>
       import("./Buyer/components/Buy/SendInquiry/SendInquiry")
     ),
   },
   {
-    path: "inquiry",
+    path: "enquiry",
     component: lazy(() => import("./Buyer/components/Inquiry/index")),
     children: [
       {
-        path: "inquiry",
+        path: "enquiry",
         component: lazy(() =>
           import("./Buyer/components/Inquiry/Inquiry/OnGoingOrder")
         ),
@@ -197,7 +197,7 @@ export const buyerNestedRoutes = [
     ),
   },
   {
-    path: "cancel-inquiry-list/:inquiryId",
+    path: "cancel-enquiry-list/:inquiryId",
     component: lazy(() =>
       import("./Buyer/components/Inquiry/Inquiry/CancelnquiryList")
     ),
@@ -446,7 +446,7 @@ export const supplierNestedRoutes = [
     ],
   },
   {
-    path: "inquiry-request-list",
+    path: "enquiry-request-list",
     component: lazy(() =>
       import("./Supplier/components/Dashboard/DashboardList/InquiryRequestList")
     ),
@@ -488,7 +488,7 @@ export const supplierNestedRoutes = [
     ),
   },
   {
-    path: "inquiry-purchase-orders",
+    path: "enquiry-purchase-orders",
     component: lazy(() =>
       import("./Supplier/components/Inquiry/InquiryPurchaseOrders")
     ),
@@ -578,7 +578,7 @@ export const supplierNestedRoutes = [
     ),
   },
   {
-    path: "inquiry-request-details/:inquiryId",
+    path: "enquiry-request-details/:inquiryId",
     component: lazy(() =>
       import(
         "./Supplier/components/Inquiry/InquiryRequest/InquiryRequestDetails"
@@ -866,13 +866,13 @@ export const adminNestedRoutes = [
     ),
   },
   {
-    path: "buyer-inquiry",
+    path: "buyer-enquiry",
     component: lazy(() =>
       import("./Admin/components/manage-buyer/inquiry/index")
     ),
     children: [
       {
-        path: "ongoing-inquiry",
+        path: "ongoing-enquiry",
         component: lazy(() =>
           import(
             "./Admin/components/manage-buyer/inquiry/Ongoing-Inquiries/BuyerOngoingInquiry"
@@ -1078,13 +1078,13 @@ export const adminNestedRoutes = [
     ),
   },
   {
-    path: "supplier-inquiry",
+    path: "supplier-enquiry",
     component: lazy(() =>
       import("./Admin/components/manage-supplier/Inquiry/index")
     ),
     children: [
       {
-        path: "inquiry-request",
+        path: "enquiry-request",
         component: lazy(() =>
           import(
             "./Admin/components/manage-supplier/Inquiry/InquiryRequest/InquiryRequest"
@@ -1210,7 +1210,7 @@ export const adminNestedRoutes = [
     ),
   },
   {
-    path: "supplier-inquiry-details/:inquiryId",
+    path: "supplier-enquiry-details/:inquiryId",
     component: lazy(() =>
       import(
         "./Admin/components/manage-supplier/Inquiry/InquiryRequest/SellerInquiryDetails"

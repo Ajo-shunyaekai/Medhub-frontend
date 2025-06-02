@@ -24,9 +24,9 @@ const InquiryPurchaseOrder = () => {
 
   const getActiveLinkFromPath = (path) => {
     switch (path) {
-      case "/supplier/inquiry-purchase-orders/ongoing":
+      case "/supplier/enquiry-purchase-orders/ongoing":
         return "ongoing";
-      case "/supplier/inquiry-purchase-orders/purchased":
+      case "/supplier/enquiry-purchase-orders/purchased":
         return "purchased";
       default:
         return "ongoing";
@@ -39,13 +39,13 @@ const InquiryPurchaseOrder = () => {
     setCurrentPage(1);
     switch (link) {
       case "ongoing":
-        navigate("/supplier/inquiry-purchase-orders/ongoing");
+        navigate("/supplier/enquiry-purchase-orders/ongoing");
         break;
       case "purchased":
-        navigate("/supplier/inquiry-purchase-orders/purchased");
+        navigate("/supplier/enquiry-purchase-orders/purchased");
         break;
       default:
-        navigate("/supplier/inquiry-purchase-orders/ongoing");
+        navigate("/supplier/enquiry-purchase-orders/ongoing");
     }
   };
 
@@ -112,7 +112,7 @@ const InquiryPurchaseOrder = () => {
         <div className={styles.container}>
         <div className={styles.header}>
           <div className={styles.title}>
-          Inquiry & Purchased Orders
+          Enquiry & Purchased Orders
           </div>
         </div>
         
@@ -125,7 +125,7 @@ const InquiryPurchaseOrder = () => {
                <BiPurchaseTagAlt
                   className={styles.icon}
                 />
-                <div className={styles.text}>Inquiry Request</div>
+                <div className={styles.text}>Enquiry Request</div>
               </div>
               <div
                  onClick={() => handleLinkClick("purchased")}

@@ -46,7 +46,7 @@ const CancelInquiryList = () => {
         e.preventDefault();
         const selectedReasonKey = Object.keys(selectedReasons).find(key => selectedReasons[key]);
         if (!selectedReasonKey) {
-            toast("Please Select a Reason for Cancelling the Inquiry.", { type: "error" });
+            toast("Please Select a Reason for Cancelling the Enquiry.", { type: "error" });
             return;
         }
         setLoading(true); // Show loader during submission
@@ -56,7 +56,7 @@ const CancelInquiryList = () => {
             DelayedResponse: 'Delayed response',
             BetterOption: 'Found a better option',
             ChangeInRequirement: 'Change in requirement',
-            Other: 'Inquiry by mistake',
+            Other: 'Enquiry by mistake',
         };
 
         const reason = reasonMap[selectedReasonKey];
@@ -100,10 +100,10 @@ const CancelInquiryList = () => {
                 if (response?.code === 200) {
                     setInquiryDetails(response?.result);
                 } else {
-                    toast(response.message || "Failed to fetch inquiry details", { type: "error" });
+                    toast(response.message || "Failed to fetch enquiry details", { type: "error" });
                 }
             } catch (error) {
-                toast("An error occurred while fetching inquiry details", { type: "error" });
+                toast("An error occurred while fetching enquiry details", { type: "error" });
             } finally {
                 setLoading(false); // Hide loader after fetch completes
             }

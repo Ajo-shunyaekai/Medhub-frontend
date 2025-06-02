@@ -9,7 +9,7 @@ import styles from '../../../assets/style/table.module.css';
 const TotalOngoingInquiries = ({ list, totalList, currentPage, ordersPerPage, handlePageChange, activeLink }) => {
     const columns = [
         {
-            name: 'Inquiry ID',
+            name: 'Enquiry ID',
             selector: row => row?.enquiry_id,
             sortable: true,
         },

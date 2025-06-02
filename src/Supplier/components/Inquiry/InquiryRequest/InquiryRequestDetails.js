@@ -55,7 +55,7 @@ const InquiryRequestDetails = ({ socket }) => {
           obj
         );
         if (response?.code !== 200) {
-          toast("Failed to fetch inquiry details", { type: "error" });
+          toast("Failed to fetch enquiry details", { type: "error" });
           setLoading(false);
           return;
         }
@@ -65,7 +65,7 @@ const InquiryRequestDetails = ({ socket }) => {
           quotation_items: response?.result?.quotation_items || [],
         });
       } catch (error) {
-        toast("Error fetching inquiry details", { type: "error" });
+        toast("Error fetching enquiry details", { type: "error" });
       } finally {
         setLoading(false);
       }
@@ -74,7 +74,7 @@ const InquiryRequestDetails = ({ socket }) => {
   }, [inquiryId, navigate, supplierIdSessionStorage, supplierIdLocalStorage]);
 
   const email = inquiryDetails?.buyer?.contact_person_email;
-  const subject = `Inquiry about Inquiry ${
+  const subject = `Enquiry about Enquiry ${
     inquiryDetails?.enquiry_id || "unknown"
   }`;
   const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
@@ -160,7 +160,7 @@ const InquiryRequestDetails = ({ socket }) => {
         });
 
         setTimeout(() => {
-          navigate("/supplier/inquiry-purchase-orders/ongoing");
+          navigate("/supplier/enquiry-purchase-orders/ongoing");
         }, 300);
       } else {
         toast(response.message, { type: "error" });
@@ -172,7 +172,7 @@ const InquiryRequestDetails = ({ socket }) => {
   return (
     <div className="inquiry-details-container">
       <div className="inquiry-details-conatiner-heading">
-        Inquiry ID: <span>{inquiryDetails?.enquiry_id || ""}</span>
+        Enquiry ID: <span>{inquiryDetails?.enquiry_id || ""}</span>
       </div>
       {loading || !inquiryDetails ? (
         <Loader />

@@ -248,7 +248,7 @@ const SupSidebar = ({ children, dragWindow,
  
     const handleNavigation = (notificationId, event, eventId, linkId) => {
         const eventRoutes = {
-            enquiry: `/supplier/inquiry-request-details/${eventId}`,
+            enquiry: `/supplier/enquiry-request-details/${eventId}`,
             order: `/supplier/active-orders-details/${eventId}`,
             purchaseorder: `/supplier/purchased-order-details/${linkId}`,
             invoice: `/supplier/invoice/paid`,
@@ -453,9 +453,9 @@ const SupSidebar = ({ children, dragWindow,
                             <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Add Products</div>
                         </Link>
  
-                        <Link to="/supplier/inquiry-purchase-orders" className={`${styles.sidebar_text} ${styles.desktop_order_btn}`} activeclassname={styles.active}>
+                        <Link to="/supplier/enquiry-purchase-orders" className={`${styles.sidebar_text} ${styles.desktop_order_btn}`} activeclassname={styles.active}>
                             <div className={styles.icon}><ManageSearchIcon style={{ color: '#20c997', fontSize: '22px' }} /></div>
-                            <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Inquiry</div>
+                            <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Enquiry</div>
                         </Link>
                         <Link to="/supplier/order/active" className={`${styles.sidebar_text} ${styles.desktop_order_btn}`} activeclassname={styles.active}>
                             <div className={styles.icon}><TocOutlinedIcon style={{ color: '#31c971' }} /></div>

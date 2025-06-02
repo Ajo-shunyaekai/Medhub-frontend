@@ -9,7 +9,7 @@ import PaginationComponent from '../../../shared-components/Pagination/Paginatio
 const BuyerOngoingInquiry = ({ inquiryList, totalInquiries, currentPage, inquiriesPerPage, handlePageChange }) => {
     const columns = [
         {
-            name: 'Inquiry ID',
+            name: 'Enquiry ID',
             selector: row => row?.enquiry_id,
             sortable: true,
         },

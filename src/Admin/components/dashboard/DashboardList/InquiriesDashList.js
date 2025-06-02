@@ -115,7 +115,7 @@ const InquiriesDashList = () => {
               <DescriptionOutlinedIcon
                 className={styles.icon}
               />
-              <div className={styles.text}>Inquiry Requests</div>
+              <div className={styles.text}>Enquiry Requests</div>
             </div>
             <div
               onClick={() => handleLinkClick("ongoing")}

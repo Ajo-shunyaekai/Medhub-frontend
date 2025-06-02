@@ -135,7 +135,7 @@ const BuyerPendingList = () => {
                 `}
             </style>
             <div className={styles.tableMainContainer}>
-                <span className={styles.title}>Inquiry Request</span>
+                <span className={styles.title}>Enquiry Request</span>
                 {loading ? (
                     <Loader />
                 ) : (

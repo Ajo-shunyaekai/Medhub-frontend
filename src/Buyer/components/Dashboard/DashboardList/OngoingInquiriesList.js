@@ -58,7 +58,7 @@ const OngoingInquiriesList = () => {
           setTotalInquiries(response.result.totalItems || 0);
         } else {
           toast(response.message, { type: "error" });
-          console.error("Error in inquiry list API:", response);
+          console.error("Error in enquiry list API:", response);
         }
       } catch (error) {
         console.error("Error fetching inquiries:", error);
@@ -70,12 +70,12 @@ const OngoingInquiriesList = () => {
   }, [currentPage, navigate, ordersPerPage]);
 
   const handleNavigate = (id) => {
-    navigate(`/buyer/cancel-inquiry-list/${id}`);
+    navigate(`/buyer/cancel-enquiry-list/${id}`);
   };
 
   const columns = [
     {
-      name: "Inquiry ID",
+      name: "Enquiry ID",
       selector: (row) => row?.enquiry_id || "-",
       sortable: true,
     },

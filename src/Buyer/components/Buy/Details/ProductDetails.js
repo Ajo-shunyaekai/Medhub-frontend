@@ -192,7 +192,7 @@ const ProductDetails = () => {
         localStorage?.setItem("list_count", response.result.listCount);
         dispatch(updateInquiryCartCount(response.result.listCount));
         setTimeout(() => {
-          navigate("/buyer/send-inquiry");
+          navigate("/buyer/send-enquiry");
           setLoading(false);
         }, 1000);
       } else {

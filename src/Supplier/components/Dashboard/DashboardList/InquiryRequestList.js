@@ -60,7 +60,7 @@ const InquiryRequestList = () => {
           toast(response.message, { type: "error" });
         }
       } catch (error) {
-        console.error("Error fetching inquiry list:", error);
+        console.error("Error fetching enquiry list:", error);
       } finally {
         setLoading(false); // Stop loading after fetch completes
       }
@@ -70,7 +70,7 @@ const InquiryRequestList = () => {
 
   const columns = [
     {
-      name: "Inquiry ID",
+      name: "Enquiry ID",
       selector: (row) => row?.enquiry_id,
       sortable: true,
     },
@@ -103,7 +103,7 @@ const InquiryRequestList = () => {
     {
       name: "Action",
       cell: (row) => (
-        <Link to={`/supplier/inquiry-request-details/${row?.enquiry_id}`}>
+        <Link to={`/supplier/enquiry-request-details/${row?.enquiry_id}`}>
           <div className={styles.activeBtn}>
             <RemoveRedEyeOutlinedIcon className={styles["table-icon"]} />
           </div>
@@ -151,7 +151,7 @@ const InquiryRequestList = () => {
         `}
       </style>
       <div className={styles.tableMainContainer}>
-        <span className={styles.title}>Inquiry Request</span>
+        <span className={styles.title}>Enquiry Request</span>
         {loading ? (
           <Loader />
         ) : (

@@ -16,12 +16,12 @@ const SellerInquiry = () => {
   const adminIdLocalStorage = localStorage?.getItem("admin_id");
   const getActiveLinkFromPath = (path) => {
     switch (path) {
-      case "/admin/supplier-inquiry/inquiry-request":
-        return "inquiry";
-      case "/admin/supplier-inquiry/purchased-order":
+      case "/admin/supplier-enquiry/enquiry-request":
+        return "enquiry";
+      case "/admin/supplier-enquiry/purchased-order":
         return "purchased";
       default:
-        return "inquiry";
+        return "enquiry";
     }
   };
   const [activeLink, setActiveLink] = useState(
@@ -35,10 +35,10 @@ const SellerInquiry = () => {
   const handleLinkClick = (link) => {
     setCurrentPage(1);
     setActiveLink(link);
-    if (link === "inquiry") {
-      navigate("/admin/supplier-inquiry/inquiry-request");
+    if (link === "enquiry") {
+      navigate("/admin/supplier-enquiry/enquiry-request");
     } else if (link === "purchased") {
-      navigate("/admin/supplier-inquiry/purchased-order");
+      navigate("/admin/supplier-enquiry/purchased-order");
     }
   };
   const fetchData = async () => {
@@ -54,7 +54,7 @@ const SellerInquiry = () => {
       pageSize: listPerPage,
       usertype: "Supplier",
     };
-    if (activeLink === "inquiry") {
+    if (activeLink === "enquiry") {
       try {
         const response = await apiRequests.getRequest(
           `enquiry/get-all-enquiry-list?pageNo=${currentPage}&pageSize=${listPerPage}&filterValue=${activeLink}`
@@ -91,19 +91,19 @@ const SellerInquiry = () => {
         <div className={styles.container}>
           <div className={styles.header}>
             <div className={styles.title}>
-              Inquiry & Purchased Orders
+              Enquiry & Purchased Orders
             </div>
           </div>
           <div className={styles.content}>
             <div className={styles.sidebar}>
               <div
-                onClick={() => handleLinkClick("inquiry")}
-                className={`${activeLink === "inquiry" ? styles.active : ""} ${styles.tab}`}
+                onClick={() => handleLinkClick("enquiry")}
+                className={`${activeLink === "enquiry" ? styles.active : ""} ${styles.tab}`}
               >
                 <BiPurchaseTagAlt
                   className={styles.icon}
                 />
-                <div className={styles.text}>Inquiry Request</div>
+                <div className={styles.text}>Enquiry Request</div>
               </div>
               <div
                 onClick={() => handleLinkClick("purchased")}
@@ -117,7 +117,7 @@ const SellerInquiry = () => {
               </div>
             </div>
             <div className={styles.main}>
-              {activeLink === "inquiry" && (
+              {activeLink === "enquiry" && (
                 <InquiryRequest
                   inquiryList={list}
                   totalInquiries={totalList}
