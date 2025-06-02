@@ -51,7 +51,7 @@ const PurchasedOrder = ({ poList, totalList, currentPage, listPerPage, handlePag
         {
             name: 'Action',
             cell: row => (
-                <Link to={`/admin/supplier-purchased-order-details/${row?.purchaseOrder_id}`}>
+                <Link to={`/admin/supplier-purchased-order-details/${row?.purchaseOrder_id}`} title="View Details">
                     <div className={styles.activeBtn}>
                         <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                     </div>

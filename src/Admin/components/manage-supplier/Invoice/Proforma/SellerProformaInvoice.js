@@ -32,7 +32,7 @@ const SellerProformaInvoice = ({ invoiceList, totalItems, currentPage, listPerPa
         {
             name: 'Action',
             cell: row => (
-                <Link to={`/admin/proforma-invoice-details/${row?.order_id}`}>
+                <Link to={`/admin/proforma-invoice-details/${row?.order_id}`} title="View Details">
                     <div className={styles.activeBtn}>
                         <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                     </div>

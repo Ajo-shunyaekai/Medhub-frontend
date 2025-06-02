@@ -26,7 +26,7 @@ const BuyerComplaint = ({ supportList, handlePageChange, currentPage, totalItems
         {
             name: 'Action',
             cell: row => (
-                <Link to={`/admin/buyer-complaint-details/${row?.support_id}`}>
+                <Link to={`/admin/buyer-complaint-details/${row?.support_id}`} title="View Details">
                     <div className={styles.activeBtn}>
                         <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                     </div>

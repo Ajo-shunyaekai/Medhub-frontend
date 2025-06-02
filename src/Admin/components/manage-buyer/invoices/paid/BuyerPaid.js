@@ -41,7 +41,7 @@ const BuyerPaid = ({ invoiceList, totalItems, currentPage, listPerPage, handlePa
         {
             name: 'Action',
             cell: row => (
-                <Link to={`/admin/buyer-invoice-details/${row?.invoice_id}`}>
+                <Link to={`/admin/buyer-invoice-details/${row?.invoice_id}`} title="View Details">
                     <div className={styles.activeBtn}>
                         <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                     </div>

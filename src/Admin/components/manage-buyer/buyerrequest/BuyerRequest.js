@@ -96,7 +96,7 @@ const BuyerRequest = () => {
         {
             name: 'Action',
             cell: row => (
-                <Link to={`/admin/buyer-details/${row?.buyer_id}`}>
+                <Link to={`/admin/buyer-details/${row?.buyer_id}`} title="View Details">
                     <div className={styles.activeBtn}>
                         <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                     </div>
