@@ -48,7 +48,7 @@ const OrderInvoiceList = ({ invoiceData }) => {
     {
       name: 'Action',
       cell: row => (
-        <Link to={`/buyer/invoice-design/${row?.invoice_id}`}>
+        <Link to={`/buyer/invoice-design/${row?.invoice_id}`} title="View Details">
              <div className={styles.activeBtn}>
             <VisibilityOutlinedIcon className={styles['table-icon']} />
           </div>

@@ -126,7 +126,7 @@ const CompleteInvoice = ({
       name: "Action",
       cell: (row) => (
         <div className={styles.buttonContainer}>
-          <Link to={`/buyer/invoice-design/${row?.invoice_id}`}>
+          <Link to={`/buyer/invoice-design/${row?.invoice_id}`} title="View Details">
            <div className={styles.activeBtn}>
             <VisibilityOutlinedIcon className={styles['table-icon']} />
             </div>
@@ -134,6 +134,7 @@ const CompleteInvoice = ({
           <div
             className={styles.downloadButton}
             onClick={() => handleDownload(row?.invoice_id)}
+            title="Download"
           >
             {downloadingInvoiceId === row.invoice_id ? (
               <Loader/>

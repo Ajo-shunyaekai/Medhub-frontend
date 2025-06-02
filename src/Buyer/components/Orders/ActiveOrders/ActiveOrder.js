@@ -63,7 +63,7 @@ const ActiveOrder = ({
       grow: 1,
       cell: (row) => (
         <>
-          <Link to={`/buyer/order-details/${row?.order_id}`}>
+          <Link to={`/buyer/order-details/${row?.order_id}`} title="View Details">
             <div className={styles.activeBtn}>
               <RemoveRedEyeOutlinedIcon className={styles["table-icon"]} />
             </div>
