@@ -52,7 +52,7 @@ const OnGoingongoing = ({ inquiryList, totalInquiries, currentPage, inquiryPerPa
       name: 'Action',
       cell: row => (
         <div className={styles.buttonContainer}>
-          <Link to={`/buyer/ongoing-inquiries-details/${row?.enquiry_id}`}>
+          <Link to={`/buyer/ongoing-enquiries-details/${row?.enquiry_id}`}>
           <div className={styles.activeBtn}>
             <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
           </div>

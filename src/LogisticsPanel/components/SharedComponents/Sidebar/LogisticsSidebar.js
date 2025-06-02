@@ -137,7 +137,7 @@ const Sidebar = ({  notificationList, count, handleClick }) => {
     }, []); 
     const handleNavigation = (notificationId, event, eventId, linkId) => {
         const eventRoutes = {
-            enquiry: `/buyer/ongoing-inquiries-details/${eventId}`,
+            enquiry: `/buyer/ongoing-enquiries-details/${eventId}`,
             order: `/buyer/order-details/${eventId}`,
             purchaseorder: `/buyer/purchased-order-details/${linkId}`,
             invoice: `/buyer/invoice/pending-invoice`,

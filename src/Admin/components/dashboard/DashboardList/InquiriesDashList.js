@@ -19,9 +19,9 @@ const InquiriesDashList = () => {
 
   const getActiveLinkFromPath = (path) => {
     switch (path) {
-      case "/admin/inquiries-section/request":
+      case "/admin/enquiries-section/request":
         return "request";
-      case "/admin/inquiries-section/ongoing":
+      case "/admin/enquiries-section/ongoing":
         return "ongoing";
       default:
         return "request";
@@ -36,13 +36,13 @@ const InquiriesDashList = () => {
     setActiveLink(link);
     switch (link) {
       case "request":
-        navigate(`/admin/inquiries-section/request`);
+        navigate(`/admin/enquiries-section/request`);
         break;
       case "ongoing":
-        navigate(`/admin/inquiries-section/ongoing`);
+        navigate(`/admin/enquiries-section/ongoing`);
         break;
       default:
-        navigate(`/admin/inquiries-section/request`);
+        navigate(`/admin/enquiries-section/request`);
     }
   };
 
@@ -104,7 +104,7 @@ const InquiriesDashList = () => {
   
       <div className={styles.container}>
         <div className={styles.header}>
-          <div className={styles.title}>Inquiries</div>
+          <div className={styles.title}>Enquiries</div>
         </div>
         <div className={styles.content}>
           <div className={styles.sidebar}>
@@ -124,7 +124,7 @@ const InquiriesDashList = () => {
               <DescriptionOutlinedIcon
                className={styles.icon}
               />
-              <div className={styles.text}>Ongoing Inquiries</div>
+              <div className={styles.text}>Ongoing Enquiries</div>
             </div>
           </div>
           <div className={styles.main}>

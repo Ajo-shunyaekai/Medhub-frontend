@@ -105,7 +105,7 @@ const BuyerInquiry = () => {
                 <BiPurchaseTagAlt
                  className={styles.icon}
                 />
-                <div className={styles.text}>Ongoing Inquiries</div>
+                <div className={styles.text}>Ongoing Enquiries</div>
               </div>
               <div
                 onClick={() => handleLinkClick("purchased")}
