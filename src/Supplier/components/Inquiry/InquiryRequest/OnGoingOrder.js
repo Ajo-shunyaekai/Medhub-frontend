@@ -42,10 +42,10 @@ const OnGoingongoing = ({ inquiryList, totalInquiries, currentPage, inquiryPerPa
     {
       name: 'Action',
       cell: row => (
-        <Link to={`/supplier/enquiry-request-details/${row?.enquiry_id}`}>
+        <Link to={`/supplier/enquiry-request-details/${row?.enquiry_id}`} title="View Details">
           <div className={styles.activeBtn}>
-                        <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
-                    </div>
+              <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
+          </div>
         </Link>
       ),
       ignoreRowClick: true,

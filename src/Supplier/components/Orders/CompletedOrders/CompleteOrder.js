@@ -56,7 +56,7 @@ const CompleteOrder = ({ orderList, totalOrders, currentPage, ordersPerPage, han
             name: 'Action',
             cell: (row) => (
 
-                <Link to={`/supplier/active-orders-details/${row?.order_id}`}>
+                <Link to={`/supplier/active-orders-details/${row?.order_id}`} title="View Details">
                     <div className={styles.activeBtn}>
                         <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                     </div>

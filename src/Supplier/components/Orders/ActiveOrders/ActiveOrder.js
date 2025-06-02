@@ -56,7 +56,7 @@ const ActiveOrder = ({ orderList, totalOrders, currentPage, ordersPerPage, handl
             name: 'Action',
             cell: row => (
                 <div className={styles.actionCell}>
-                    <Link to={`/supplier/active-orders-details/${row?.order_id}`}>
+                    <Link to={`/supplier/active-orders-details/${row?.order_id}`} title="View Details">
                     <div className={styles.activeBtn}>
                                   <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                                 </div>

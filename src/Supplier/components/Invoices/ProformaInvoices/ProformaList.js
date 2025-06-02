@@ -115,7 +115,7 @@ const ProformaList = ({
       name: "Action",
       cell: (row) => (
         <div className={styles.buttonContainer}>
-          <Link to={`/supplier/proforma-invoice-details/${row?.order_id}`}>
+          <Link to={`/supplier/proforma-invoice-details/${row?.order_id}`}title="View Details">
           <div className={styles.activeBtn}>
                                   <VisibilityOutlinedIcon className={styles['table-icon']} />
                                 </div>
@@ -124,6 +124,7 @@ const ProformaList = ({
           <div
             className={styles.downloadButton}
             onClick={() => handleDownload(row?.order_id)}
+            title="Download"
           >
             {downloadingOrderId === row?.order_id ? (
               <Loader/>
