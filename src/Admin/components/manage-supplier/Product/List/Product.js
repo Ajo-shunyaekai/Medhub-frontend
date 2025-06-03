@@ -82,9 +82,9 @@ const Product = () => {
           // Refresh product list after bulk upload
           const marketType = activeButton === "new" ? "new" : "secondary";
           dispatch(
-            fetchProductsList(
-              `product?market=${marketType}&supplier_id=${supplierId}&page_no=1&page_size=${itemsPerPage}`
-            )
+            fetchProductsList({
+              url: `product?market=${marketType}&supplier_id=${supplierId}&page_no=1&page_size=${itemsPerPage}`,
+            })
           );
         }
       });
@@ -103,9 +103,9 @@ const Product = () => {
       setLoading(true);
       const marketType = activeButton === "new" ? "new" : "secondary";
       const response = await dispatch(
-        fetchProductsList(
-          `product?market=${marketType}&supplier_id=${supplierId}&page_no=${currentPage}&page_size=${itemsPerPage}`
-        )
+        fetchProductsList({
+          url: `product?market=${marketType}&supplier_id=${supplierId}&page_no=${currentPage}&page_size=${itemsPerPage}`,
+        })
       );
       if (response.meta.requestStatus === "fulfilled") {
         setTotalItems(response.payload?.totalItems);
