@@ -568,8 +568,8 @@ const EditCreatePO = ({ socket }) => {
       formErrors.buyerLocality = "Area/Locality/Road Name is Required";
     if (!formData.buyerCountry)
       formErrors.buyerCountry = "Country is Required";
-    if (!formData.buyerPincode)
-      formErrors.buyerPincode = "Pincode is Required";
+    // if (!formData.buyerPincode)
+    //   formErrors.buyerPincode = "Pincode is Required";
     setErrors(formErrors);
     return Object.keys(formErrors).length === 0;
   };
