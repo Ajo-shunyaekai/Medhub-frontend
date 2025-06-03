@@ -14,9 +14,9 @@ const initialState = {
 
 export const fetchProductsList = createAsyncThunk(
   "product/fetchProductsList",
-  async (url, { rejectWithValue }) => {
+  async ({ url, obj }, { rejectWithValue }) => {
     try {
-      const response = await apiRequests.postRequest(url);
+      const response = await apiRequests.postRequest(url, obj);
       return response?.data;
     } catch (error) {
       // Log and pass the error

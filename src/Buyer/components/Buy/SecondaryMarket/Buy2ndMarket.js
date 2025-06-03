@@ -60,8 +60,6 @@ const Buy2ndMarket = ({
     setCurrentPage(pageNumber);
   };
 
- 
-
   useEffect(() => {
     const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
     const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
@@ -88,16 +86,16 @@ const Buy2ndMarket = ({
             const { category, subCategory, level3Category } =
               filterCategory || {};
             const response = await dispatch(
-            
-              fetchProductsList(
-                `product?market=${marketType}&page_no=${currentPage}&page_size=${itemsPerPage}&search_key=${
+              fetchProductsList({
+                url: `product?market=${marketType}&page_no=${currentPage}&page_size=${itemsPerPage}&search_key=${
                   searchKey || ""
                 }&category=${encodeURIComponent(
                   category || ""
                 )}&subCategory=${encodeURIComponent(
                   subCategory || ""
-                )}&level3Category=${encodeURIComponent(level3Category || "")}`
-              )
+                )}&level3Category=${encodeURIComponent(level3Category || "")}`,
+                // obj: { countries: ["Åland Islands"] },
+              })
             );
             if (response.meta.requestStatus === "fulfilled") {
               setProductList(response?.payload?.products || []);
