@@ -60,7 +60,7 @@ const SupplierSignUp = ({ socket }) => {
   const [selectedState, setSelectedState] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [tradeLicensePreviews, setTradeLicensePreviews] = useState([]);
-  const [setfile] = useState([]);
+  const [file, setfile] = useState([]);
   const [medicalPractitionerPreview, setMedicalPractiotionerPreview] = useState([]);
   const [logoPreviews, setlogoPreviews] = useState([]);
   const [category, setCategory] = useState([]);
