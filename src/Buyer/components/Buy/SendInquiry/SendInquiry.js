@@ -355,7 +355,7 @@ const SendInquiry = ({ socket }) => {
                   )
                 )}
               </div>
-              {list.length > 0 && (
+              {list?.length > 0 && (
                 <div className="pagi-container">
                   <Pagination
                     activePage={currentPage}

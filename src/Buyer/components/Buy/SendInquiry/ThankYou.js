@@ -32,7 +32,7 @@ const ThankYou = () => {
           Thank You for your Enquiry !!
         </div>
         <span className={styles.mainContent}>
-          The Supplier has been notified of your enquiry and will respond  in due  course. <br/> Please keep check your emails for any notifications from the suppliers.
+          The Supplier has been notified of your enquiry and will respond  in due  course. <br/> Please keep checking your emails for any notifications from the suppliers.
         </span>
         <span className={styles.mainContent}>
           A copy of the enquiry has also been emailed to you for your reference.
