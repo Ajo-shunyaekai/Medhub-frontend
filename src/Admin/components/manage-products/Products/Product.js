@@ -71,9 +71,9 @@ useEffect(() => {
         : activeLink;
 
     const response = await dispatch(
-      fetchProductsList(
-        `product?market=${marketType}&page_no=${currentPage}&page_size=${listPerPage}`
-      )
+      fetchProductsList({
+        url: `product?market=${marketType}&page_no=${currentPage}&page_size=${listPerPage}`
+  })
     );
     if (response.meta.requestStatus === "fulfilled") {
       setProductList(response.payload.products);
