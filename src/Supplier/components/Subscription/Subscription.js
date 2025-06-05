@@ -9,7 +9,7 @@ const Subscription = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const [loading] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [activeIndex, setActiveIndex] = useState(0);
 
     useEffect(() => {

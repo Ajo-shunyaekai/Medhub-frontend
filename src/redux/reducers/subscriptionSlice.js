@@ -1,14 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import "react-toastify/dist/ReactToastify.css";
 import { apiRequests } from "../../api";
- 
+
 const initialState = {
   user: {},
   subscriptionSelected: {},
   subscriptionDetails: {},
   subscribedPlanDetails: {},
 };
- 
+
 export const fetchUserData = createAsyncThunk(
   "subscription/fetchUserData",
   async (obj, { rejectWithValue }) => {
@@ -17,7 +17,7 @@ export const fetchUserData = createAsyncThunk(
         url: `/auth/${obj?.id}`,
         userType: obj?.type,
       });
- 
+
       const { data } = await response;
       return data; // Return the actual user data or fallback
     } catch (error) {
@@ -26,7 +26,7 @@ export const fetchUserData = createAsyncThunk(
     }
   }
 );
- 
+
 export const fetchCurrentSubscription = createAsyncThunk(
   "subscription/fetchCurrentSubscription",
   async (obj, { rejectWithValue }) => {
@@ -35,7 +35,7 @@ export const fetchCurrentSubscription = createAsyncThunk(
         url: `${process.env.REACT_APP_API_URL}subscription/${obj?.id}`,
         userType: obj?.type,
       });
- 
+
       const { data } = await response;
       return data; // Return the actual user data or fallback
     } catch (error) {
@@ -44,7 +44,7 @@ export const fetchCurrentSubscription = createAsyncThunk(
     }
   }
 );
- 
+
 export const createSubscriptionSession = createAsyncThunk(
   "subscription/createSubscriptionSession",
   async (obj, { rejectWithValue }) => {
@@ -54,7 +54,7 @@ export const createSubscriptionSession = createAsyncThunk(
         userType: obj?.userType,
         obj,
       });
- 
+
       if (response?.data) {
         window.location.href = response?.data?.url;
       }
@@ -64,7 +64,7 @@ export const createSubscriptionSession = createAsyncThunk(
     }
   }
 );
- 
+
 export const saveSubscriptionPayment = createAsyncThunk(
   "subscription/saveSubscriptionPayment",
   async (obj, { rejectWithValue }) => {
@@ -81,24 +81,24 @@ export const saveSubscriptionPayment = createAsyncThunk(
     }
   }
 );
- 
+
 export const sendSubscriptionPaymentEmail = createAsyncThunk(
   "subscription/sendSubscriptionPaymentEmail",
   async (obj, { rejectWithValue }) => {
     try {
-      // const response = await apiRequests?.getRequest2({
-      //   url: `${process.env.REACT_APP_API_URL}subscription/send-confimation-mail`,
-      //   userType: obj?.userType,
-      //   obj: obj?.formData,
-      //   contentType: "multipart/form-data",
-      // });
+      const response = await apiRequests?.getRequest2({
+        url: `${process.env.REACT_APP_API_URL}subscription/send-confimation-mail`,
+        userType: obj?.userType,
+        obj: obj?.formData,
+        contentType: "multipart/form-data",
+      });
     } catch (error) {
       // Log and pass the error
       return rejectWithValue(error?.response?.data || error.message);
     }
   }
 );
- 
+
 export const subscriptionSlice = createSlice({
   name: "subscription",
   initialState,
@@ -153,7 +153,7 @@ export const subscriptionSlice = createSlice({
       });
   },
 });
- 
+
 export const { updateSubscriptionSelected } = subscriptionSlice.actions;
- 
+
 export default subscriptionSlice.reducer;
