@@ -72,7 +72,9 @@ useEffect(() => {
 
     const response = await dispatch(
       fetchProductsList({
-        url: `product?market=${marketType}&page_no=${currentPage}&page_size=${listPerPage}`
+        url: `product?market=${marketType}&page_no=${currentPage}&page_size=${listPerPage}`,
+        // obj: { countries: ["India"] },
+        
   })
     );
     if (response.meta.requestStatus === "fulfilled") {
