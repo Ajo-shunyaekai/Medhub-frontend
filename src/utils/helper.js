@@ -152,7 +152,6 @@ export const renderFiles = (files, type, hasDate = false) => {
   });
 };
 
-
 export const renderFiles2 = (files, type, styles, certificateFileNDate) => {
   if (!Array.isArray(files)) {
     if (!files || files === "") {
@@ -192,11 +191,15 @@ export const renderFiles2 = (files, type, styles, certificateFileNDate) => {
           </div>
           {type === "Certificate" && expiryDate && (
             <p className={styles.expiryDate}>
-              Expiry date: {new Date(expiryDate).toLocaleDateString('en-GB', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric'
-              }).split('/').join('-')}
+              Expiry date:{" "}
+              {new Date(expiryDate)
+                .toLocaleDateString("en-GB", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                })
+                .split("/")
+                .join("-")}
             </p>
           )}
         </div>
@@ -259,6 +262,7 @@ const useFileUpload = (
   maxFiles = 4,
   existingFiles = []
 ) => {
+  const [files, setFiles] = useState(existingFiles || []);
   const [filesOld, setFilesOld] = useState(existingFiles || []);
   const [filesNew, setFilesNew] = useState([]);
   const [filesMerged, setFilesMerged] = useState([]);
@@ -473,16 +477,16 @@ export const AddProductFileUpload = ({
 export const renderImages = (images, pathname) => {
   if (images?.length > 0) {
     return images.map((image, index) => (
-     <img
-  key={index}
-  src={
-    image?.startsWith("http")
-      ? image
-      : `${process.env.REACT_APP_SERVER_URL}uploads/buyer/order/complaint_images/${image}`
-  }
-  alt={`Complaint evidence ${index + 1}`}
-  className="seller-details-document-image"
-/>
+      <img
+        key={index}
+        src={
+          image?.startsWith("http")
+            ? image
+            : `${process.env.REACT_APP_SERVER_URL}uploads/buyer/order/complaint_images/${image}`
+        }
+        alt={`Complaint evidence ${index + 1}`}
+        className="seller-details-document-image"
+      />
     ));
   }
 };

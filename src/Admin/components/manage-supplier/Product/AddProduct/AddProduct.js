@@ -12,7 +12,7 @@ import "./addproduct.css";
 import styles from "./addproduct.module.css";
 import categoryArrays from "../../../../../utils/Category";
 import { Field, Form, Formik } from "formik";
-import '../../../../assets/style/react-input-phone.css'
+import "../../../../assets/style/react-input-phone.css";
 import { useDispatch } from "react-redux";
 import Tooltip from "./Tooltip";
 import {
@@ -5611,7 +5611,7 @@ const AddProduct = ({ placeholder }) => {
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Stocked in Countries
-                    <span className={styles.labelStamp}>*</span>
+                    {/* <span className={styles.labelStamp}>*</span> */}
                   </label>
                   <MultiSelectDropdown
                     options={countries}
@@ -5646,115 +5646,115 @@ const AddProduct = ({ placeholder }) => {
               </div>
 
               {/* {inventoryStockedCountries?.length > 0 ? ( */}
-                <div className={styles.formStockContainer}>
-                  <div className={styles.formHeadSection}>
-                    <span className={styles.formHead}>Stocked In Details</span>
-                    {
-                      <span
-                        className={styles.formAddButton}
-                        onClick={() =>
-                          (values?.stockedInDetails?.length || 0) <
-                            (values.countries?.length || 0) &&
-                          setFieldValue("stockedInDetails", [
-                            ...values.stockedInDetails,
-                            {
-                              country: "",
-                              quantity: "",
-                              placeholder: "Enter Quantity",
-                            },
-                          ])
-                        }
-                      >
-                        Add More
-                      </span>
-                    }
-                  </div>
-                  {values?.stockedInDetails?.map((stock, index) => (
-                    <>
-                      <div key={index} className={styles.formSection}>
-                        <div className={styles.productContainer}>
-                          <label className={styles.formLabel}>
-                            Country where Stock Trades
-                            <span className={styles.labelStamp}>*</span>
-                          </label>
-                          <Select
-                            className={styles.formSelect}
-                            options={inventoryStockedCountries}
-                            placeholder="Select Country where Stock Trades"
-                            value={inventoryStockedCountries.find(
-                              (option) => option.value === stock.country
-                            )}
-                            onBlur={handleBlur}
-                            onChange={(option) =>
-                              setFieldValue(
-                                `stockedInDetails.${index}.country`,
-                                option.value
-                              )
-                            }
-                            isDisabled={inventoryStockedCountries?.length == 0}
-                          />
-                        </div>
-
-                        <div className={styles.productContainer}>
-                          <label className={styles.formLabel}>
-                            Stock Quantity
-                            {/* <span className={styles.labelStamp}>*</span> */}
-                          </label>
-                          <div className={styles.productQuantityContainer}>
-                            <div className={styles.quantitySection}>
-                              <Field
-                                name={`stockedInDetails.${index}.quantity`}
-                                className={styles.quantityInput}
-                                // placeholder={stock.placeholder}
-                                placeholder="Enter Quantity"
-                                // autoComplete="off"
-                                // type="number"
-                                onInput={(e) => {
-                                  e.target.value = e.target.value
-                                    .replace(/\D/g, "")
-                                    .slice(0, 6);
-                                }}
-                              />
-                            </div>
-                          </div>
-                        </div>
-
-                        {values?.stockedInDetails?.length > 1 && (
-                          <div
-                            className={styles.formCloseSection}
-                            onClick={() => {
-                              const updatedList =
-                                values.stockedInDetails.filter(
-                                  (_, elindex) => elindex !== index
-                                );
-                              setFieldValue("stockedInDetails", updatedList);
-                            }}
-                          >
-                            <span className={styles.formclose}>
-                              <CloseIcon className={styles.icon} />
-                            </span>
-                          </div>
-                        )}
-                      </div>
-
-                      <div key={index} className={styles.formSection}>
-                        <div className={styles.productContainer}>
-                          <span className={styles.error}>
-                            {touched.stockedInDetails?.[index]?.country &&
-                              errors.stockedInDetails?.[index]?.country}
-                          </span>
-                        </div>
-
-                        <div className={styles.productContainer}>
-                          <span className={styles.error}>
-                            {touched.stockedInDetails?.[index]?.quantity &&
-                              errors.stockedInDetails?.[index]?.quantity}
-                          </span>
-                        </div>
-                      </div>
-                    </>
-                  ))}
+              <div className={styles.formStockContainer}>
+                <div className={styles.formHeadSection}>
+                  <span className={styles.formHead}>Stocked In Details</span>
+                  {
+                    <span
+                      className={styles.formAddButton}
+                      onClick={() =>
+                        (values?.stockedInDetails?.length || 0) <
+                          (values.countries?.length || 0) &&
+                        setFieldValue("stockedInDetails", [
+                          ...values.stockedInDetails,
+                          {
+                            country: "",
+                            quantity: "",
+                            placeholder: "Enter Quantity",
+                          },
+                        ])
+                      }
+                    >
+                      Add More
+                    </span>
+                  }
                 </div>
+                {values?.stockedInDetails?.map((stock, index) => (
+                  <>
+                    <div key={index} className={styles.formSection}>
+                      <div className={styles.productContainer}>
+                        <label className={styles.formLabel}>
+                          Country where Stock Trades
+                          <span className={styles.labelStamp}>*</span>
+                        </label>
+                        <Select
+                          className={styles.formSelect}
+                          // options={inventoryStockedCountries}
+                          options={countries}
+                          placeholder="Select Country where Stock Trades"
+                          value={countries.find(
+                            (option) => option.value === stock.country
+                          )}
+                          onBlur={handleBlur}
+                          onChange={(option) =>
+                            setFieldValue(
+                              `stockedInDetails.${index}.country`,
+                              option.value
+                            )
+                          }
+                          // isDisabled={inventoryStockedCountries?.length == 0}
+                        />
+                      </div>
+
+                      <div className={styles.productContainer}>
+                        <label className={styles.formLabel}>
+                          Stock Quantity
+                          {/* <span className={styles.labelStamp}>*</span> */}
+                        </label>
+                        <div className={styles.productQuantityContainer}>
+                          <div className={styles.quantitySection}>
+                            <Field
+                              name={`stockedInDetails.${index}.quantity`}
+                              className={styles.quantityInput}
+                              // placeholder={stock.placeholder}
+                              placeholder="Enter Quantity"
+                              // autoComplete="off"
+                              // type="number"
+                              onInput={(e) => {
+                                e.target.value = e.target.value
+                                  .replace(/\D/g, "")
+                                  .slice(0, 6);
+                              }}
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      {values?.stockedInDetails?.length > 1 && (
+                        <div
+                          className={styles.formCloseSection}
+                          onClick={() => {
+                            const updatedList = values.stockedInDetails.filter(
+                              (_, elindex) => elindex !== index
+                            );
+                            setFieldValue("stockedInDetails", updatedList);
+                          }}
+                        >
+                          <span className={styles.formclose}>
+                            <CloseIcon className={styles.icon} />
+                          </span>
+                        </div>
+                      )}
+                    </div>
+
+                    <div key={index} className={styles.formSection}>
+                      <div className={styles.productContainer}>
+                        <span className={styles.error}>
+                          {touched.stockedInDetails?.[index]?.country &&
+                            errors.stockedInDetails?.[index]?.country}
+                        </span>
+                      </div>
+
+                      <div className={styles.productContainer}>
+                        <span className={styles.error}>
+                          {touched.stockedInDetails?.[index]?.quantity &&
+                            errors.stockedInDetails?.[index]?.quantity}
+                        </span>
+                      </div>
+                    </div>
+                  </>
+                ))}
+              </div>
               {/* ) : (
                 <div className={styles.formStockContainer}>
                   <div className={styles.formHeadSection}>
@@ -6199,7 +6199,6 @@ const AddProduct = ({ placeholder }) => {
 
             {/* Start button section */}
             <div className={styles.buttonContainer}>
-             
               <button
                 className={styles.buttonSubmit}
                 type="submit"
@@ -6207,7 +6206,7 @@ const AddProduct = ({ placeholder }) => {
               >
                 {loading ? <div className="loading-spinner"></div> : "Submit"}
               </button>
-               <button className={styles.buttonCancel} onClick={handleCancel}>
+              <button className={styles.buttonCancel} onClick={handleCancel}>
                 Cancel
               </button>
             </div>

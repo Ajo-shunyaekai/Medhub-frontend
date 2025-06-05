@@ -361,9 +361,9 @@ export const addProductValidationSchema = Yup.object({
     .oneOf(["In-stock", "Out of Stock", "On-demand"])
     .required("Stock is required."),
 
-  countries: Yup.array()
-    .min(1, "At least one country must be selected.")
-    .of(Yup.string().required("Country Available is required.")),
+  // countries: Yup.array()
+  //   .min(1, "At least one country must be selected.")
+  //   .of(Yup.string().required("Country Available is required.")),
 
   stockedInDetails: Yup.array().of(
     Yup.object({
@@ -1200,23 +1200,22 @@ export const editProductValidationSchema = Yup.object({
     .oneOf(["In-stock", "Out of Stock", "On-demand"])
     .required("Stock is required."),
 
-  countries: Yup.array()
-    .min(1, "At least one country must be selected.")
-    .of(Yup.string().required("Country Available is required.")),
+  // countries: Yup.array()
+  //   .min(1, "At least one country must be selected.")
+  //   .of(Yup.string().required("Country Available is required.")),
 
   stockedInDetails: Yup.array().of(
     Yup.object({
-      country: Yup.string()
-        .required("Country is required.")
-        .test(
-          "country-in-countries",
-          "Country must be one of the selected countries",
-          (value, context) => {
-            const { countries } = context?.from?.[context?.from?.length-1]?.value; // Get the countries array from the form values
-            console.log("context.parent",countries)
-            return countries?.includes(value); // Check if the country exists in the countries array
-          }
-        ),
+      country: Yup.string().required("Country is required."),
+      // .test(
+      //   "country-in-countries",
+      //   "Country must be one of the selected countries",
+      //   (value, context) => {
+      //     const { countries } = context?.from?.[context?.from?.length-1]?.value; // Get the countries array from the form values
+      //     console.log("context.parent",countries)
+      //     return countries?.includes(value); // Check if the country exists in the countries array
+      //   }
+      // ),
       // quantity: Yup.number()
       //   .required("Quantity is required.")
       //   .positive("Quantity must be greater than 0"),

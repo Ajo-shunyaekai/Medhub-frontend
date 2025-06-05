@@ -6942,7 +6942,7 @@ const EditAddProduct = ({ placeholder }) => {
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   Stocked in Countries
-                  <span className={styles?.labelStamp}>*</span>
+                  {/* <span className={styles?.labelStamp}>*</span> */}
                 </label>
                 <MultiSelectDropdown
                   options={countries}
@@ -6990,8 +6990,6 @@ const EditAddProduct = ({ placeholder }) => {
                 <span
                   className={styles.formAddButton}
                   onClick={() =>
-                    (formik?.values?.stockedInDetails?.length || 0) <
-                      (formik?.values?.countries?.length || 0) &&
                     formik.setFieldValue("stockedInDetails", [
                       ...formik?.values?.stockedInDetails,
                       {
@@ -7007,7 +7005,7 @@ const EditAddProduct = ({ placeholder }) => {
                 </span>
               </div>
 
-              {/* {formik?.values?.countries.map((country) => ({
+              {/* {countries.map((country) => ({
                 label: country,
                 value: country,
               }))?.length > 0 ? ( */}
@@ -7020,12 +7018,12 @@ const EditAddProduct = ({ placeholder }) => {
                     </label>
                     <Select
                       className={styles.formSelect}
-                      options={formik?.values?.countries.map((country) => ({
+                      options={countries.map((country) => ({
                         label: country,
                         value: country,
                       }))} // Map countries to the correct format
                       placeholder="Select Country where Stock Trades"
-                      value={formik?.values?.countries
+                      value={countries
                         .map((country) => ({
                           label: country,
                           value: country,
@@ -7039,12 +7037,12 @@ const EditAddProduct = ({ placeholder }) => {
                         )
                       }
                       name={`stockedInDetails.${index}.country`}
-                      isDisabled={
-                        formik?.values?.countries.map((country) => ({
-                          label: country,
-                          value: country,
-                        }))?.length == 0
-                      }
+                      // isDisabled={
+                      //   countries.map((country) => ({
+                      //     label: country,
+                      //     value: country,
+                      //   }))?.length == 0
+                      // }
                     />
                     <span className={styles.error}>
                       {formik.touched.stockedInDetails &&

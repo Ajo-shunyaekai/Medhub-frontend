@@ -13,7 +13,7 @@ const NewProduct = ({
   itemsPerPage,
   handlePageChange,
 }) => {
-  // const serverUrl = process.env.REACT_APP_SERVER_URL;
+  const serverUrl = process.env.REACT_APP_SERVER_URL;
   const isImageExtension = (filename) => {
     return /\.(jpg|jpeg|png|webp|gif|bmp)$/i.test(filename);
   };

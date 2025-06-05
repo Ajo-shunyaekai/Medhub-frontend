@@ -1,4 +1,4 @@
-import React, { useCallback,useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { FiUploadCloud, FiFileText, FiX } from "react-icons/fi";
 import Tooltip from "../../SharedComponents/Tooltip/Tooltip";
@@ -12,10 +12,15 @@ const useFileUpload = (
   acceptTypes,
   maxFiles = 4,
   selectedFile,
+  fileIndex,
   initialValues,
-
+  isEdit
 ) => {
+  const [filesMerged, setFilesMerged] = useState(selectedFile || []);
+  const [filesMerged2, setFilesMerged2] = useState([]);
+  const [filesOld, setFilesOld] = useState(selectedFile || []);
   const [filesNew, setFilesNew] = useState([]);
+  const [filesNewMerged, setFilesNewMerged] = useState([]);
   const onDrop = useCallback(
     (acceptedFiles) => {
       setFieldValue(fieldInputName, acceptedFiles);
