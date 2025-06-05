@@ -164,15 +164,15 @@ const EditAddProduct = ({ placeholder }) => {
       });
     },
   });
-  const [setProductType] = useState(null);
+  const [productType, setProductType] = useState(null);
   const [value, setValue] = useState([]);
-  const [setInventoryStockedCountries] = useState([]);
+  const [inventoryStockedCountries,setInventoryStockedCountries] = useState([]);
   const [checked, setChecked] = useState({});
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [setSelectedSubCategory] = useState(null);
+  const [selectedSubCategory,setSelectedSubCategory] = useState(null);
   const [selectedLevel3Category, setSelectedLevel3Category] = useState(null);
   const [countries, setCountries] = useState([]);
-  const [setStockedInDetails] = useState([
+  const [stockedInDetails, setStockedInDetails] = useState([
     {
       country: "",
       quantity: "",
