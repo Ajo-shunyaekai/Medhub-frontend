@@ -15,7 +15,7 @@ const useFileUpload = (
   initialValues,
 
 ) => {
-  const [setFilesNew] = useState([]);
+  const [filesNew, setFilesNew] = useState([]);
   const onDrop = useCallback(
     (acceptedFiles) => {
       setFieldValue(fieldInputName, acceptedFiles);

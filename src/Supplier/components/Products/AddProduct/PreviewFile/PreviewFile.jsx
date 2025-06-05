@@ -16,7 +16,7 @@ function PreviewFile() {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [setHasErrorEntries] = useState(false);
+  const [hasErrorEntries, setHasErrorEntries] = useState(false);
   const [isErrorFreeDataUploaded, setIsErrorFreeDataUploaded] = useState(false); // New state to track error-free data upload status
   const { previewProducts } = useSelector((state) => state?.productReducer);
  
