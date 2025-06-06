@@ -46,10 +46,13 @@ const SupplierCard = ({
                     </div>
                     <div className={styles.cardContentSection}>
                       <span className={styles.cardHead}>
-                        GST/VAT Registration Number
+                      Country of Operation
                       </span>
                       <span className={styles.cardText}>
-                        {supplier.tax_no || "N/A"}
+                        {/* {supplier.country_of_operation?.join(', ') || "N/A"} */}
+                        {supplier.country_of_operation?.length > 0
+      ? `${supplier.country_of_operation[0]}${supplier.country_of_operation.length > 1 ? ', ...' : ''}`
+      : 'N/A'}
                       </span>
                     </div>
                   </div>
