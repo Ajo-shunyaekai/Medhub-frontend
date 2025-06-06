@@ -599,6 +599,7 @@ export const addProductValidationSchema = Yup.object({
 
     .when("category", {
       is: "MedicalEquipmentAndDevices",
+    // For "MedicalEquipmentAndDevices" category
       then: Yup.string().oneOf(
         [
           "Diagnostic Tools",
@@ -608,6 +609,18 @@ export const addProductValidationSchema = Yup.object({
           "Mobility Aids",
           "Respiratory Care",
           "Care Products",
+          "Blood Pressure Monitor",
+          "Anaesthetic Equipment",
+          "ECG Machines",
+          "Insufflation Devices",
+          "Anaesthetic Equipment",
+          "Neonatal Care",
+          "Infusion Devices",
+          "Operation Theater Lights",
+          "Sterilizers",
+          "OT Tables",
+          "Endoscopy",
+          "Ultrasonic Devices",
         ],
         "Invalid Subcategory"
       ),
@@ -1460,6 +1473,18 @@ export const editProductValidationSchema = Yup.object({
           "Mobility Aids",
           "Respiratory Care",
           "Care Products",
+          "Blood Pressure Monitor",
+          "Anaesthetic Equipment",
+          "ECG Machines",
+          "Insufflation Devices",
+          "Anaesthetic Equipment",
+          "Neonatal Care",
+          "Infusion Devices",
+          "Operation Theater Lights",
+          "Sterilizers",
+          "OT Tables",
+          "Endoscopy",
+          "Ultrasonic Devices",
         ],
         "Invalid Subcategory"
       ),
