@@ -53,7 +53,7 @@ const productValidationSchema = Yup.object({
     .oneOf(["In-stock", "Out of Stock", "On-demand"])
     .required("Stck is required."),
   stockQuantity: Yup.number().nullable().positive().integer(),
-  countries: Yup.array().of(Yup.string().required("Country is required")),
+  // countries: Yup.array().of(Yup.string().required("Country is required")),
   date: Yup.string().nullable(),
   complianceFile: Yup.array()
     .max(4, "You can upload up to 4 Compliance File.")
