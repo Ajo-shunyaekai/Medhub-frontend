@@ -5653,8 +5653,6 @@ const AddProduct = ({ placeholder }) => {
                     <span
                       className={styles.formAddButton}
                       onClick={() =>
-                        (values?.stockedInDetails?.length || 0) <
-                          (values.countries?.length || 0) &&
                         setFieldValue("stockedInDetails", [
                           ...values.stockedInDetails,
                           {

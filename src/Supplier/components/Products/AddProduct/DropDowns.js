@@ -398,9 +398,9 @@ export const addProductValidationSchema = Yup.object({
     .oneOf(["In-stock", "Out of Stock", "On-demand"])
     .required("Stock is required."),
   // stockQuantity: Yup.number().required("Stock Quantity is required."),
-  countries: Yup.array()
-    .min(1, "At least one country must be selected.")
-    .of(Yup.string().required("Country Available is required.")),
+  // countries: Yup.array()
+  //   .min(1, "At least one country must be selected.")
+  //   .of(Yup.string().required("Country Available is required.")),
   // date: Yup.string().required("Date is required."),
   // date: Yup.str  ing()
   // .required("Date is required.")
@@ -1343,9 +1343,9 @@ export const editProductValidationSchema = Yup.object({
     .oneOf(["In-stock", "Out of Stock", "On-demand"])
     .required("Stock is required."),
   // stockQuantity: Yup.number().required("Stock Quantity is required."),
-  countries: Yup.array()
-    .min(1, "At least one country must be selected.")
-    .of(Yup.string().required("Country Available is required.")),
+  // countries: Yup.array()
+  //   .min(1, "At least one country must be selected.")
+  //   .of(Yup.string().required("Country Available is required.")),
   // date: Yup.string().required("Date is required."),
   // date: Yup.string()
   // .required("Date is required.")
