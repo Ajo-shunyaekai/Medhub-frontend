@@ -35,7 +35,7 @@ const SupplierCard = ({
                     <div className={styles.cardContentSection}>
                       <span className={styles.cardHead}>Company Type</span>
                       <span className={styles.cardText}>
-                        {supplier.company_type || "Manufacturer"}
+                        {supplier.supplier_type || "Manufacturer"}
                       </span>
                     </div>
                     <div className={styles.cardContentSection}>
