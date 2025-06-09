@@ -316,12 +316,7 @@ const SupplierDetails = () => {
                     <span className={styles.cardContent}>{supplier.country_of_operation.join(', ')}</span>
                   </div>
                 )}
-                {supplier?.categories?.length > 0 && (
-                  <div className={styles.cardMainContainer}>
-                    <span className={styles.cardHead}>Trading Categories</span>
-                    <span className={styles.cardContent}>{supplier.categories.join(', ')}</span>
-                  </div>
-                )}
+               
                 {supplier?.license_no && (
                   <div className={styles.cardMainContainer}>
                     <span className={styles.cardHead}>License No.</span>
@@ -340,7 +335,13 @@ const SupplierDetails = () => {
                     <span className={styles.cardContent}>{supplier.tags}</span>
                   </div>
                 )}
-                {supplier?.contact_person_name && (
+                 {supplier?.categories?.length > 0 && (
+                  <div className={styles.cardMainContainer}>
+                    <span className={styles.cardHead}>Trading Categories</span>
+                    <span className={styles.cardContent}>{supplier.categories.join(', ')}</span>
+                  </div>
+                )}
+                {/* {supplier?.contact_person_name && (
                   <div className={styles.cardMainContainer}>
                     <span className={styles.cardHead}>Contact Name</span>
                     <span className={styles.cardContent}>{supplier.contact_person_name}</span>
@@ -365,7 +366,7 @@ const SupplierDetails = () => {
                     <span className={styles.cardHead}>Designation</span>
                     <span className={styles.cardContent}>{supplier.designation}</span>
                   </div>
-                )}
+                )} */}
               </div>
             )}
         </div>

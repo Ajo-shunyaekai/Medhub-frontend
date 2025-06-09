@@ -90,11 +90,11 @@ ul {
 }
 
 .cardContentContainer {
-    display: flex
-    ;
-        flex-direction: column;
-        gap: 4px;
-        width: 80%;
+  display: flex
+;
+    flex-direction: column;
+    gap: 10px;
+    width: 80%;
 }
 
 .cardContainer {
@@ -117,11 +117,12 @@ ul {
 }
 
 .headSection {
-    display: flex;
-        align-items: center;
-        justify-content: start;
-        gap: 10px;
-        width: 80%;
+ display: flex
+;
+    align-items: start;
+    justify-content: start;
+    gap: 2rem;
+    width: 80%;
 }
 
 .cardHeading {
@@ -131,15 +132,17 @@ ul {
 }
 
 .cardLogo {
-    width: 80px;
-    height: 80px;
-    display: flex;
+    width: 100px;
+    height: 100px;
+    display: flex
+;
     justify-content: center;
 }
 
 .cardLogo img {
-    width: 100%;
+width: 100%;
     height: auto;
+    object-fit: contain;
 }
 
 .cardContentSection {
@@ -156,9 +159,6 @@ ul {
 }
 
 .cardText {
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    display: -webkit-box;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: normal;
