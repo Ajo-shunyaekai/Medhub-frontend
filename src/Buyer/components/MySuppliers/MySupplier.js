@@ -95,10 +95,14 @@ const MySupplier = () => {
                         </div>
                         <div className={styles.mySupplierInnerCardSection}>
                           <div className={styles.mySupplierCardHeading}>
-                            GST/VAT Registration Number
+                            Country of Operation
                           </div>
                           <div className={styles.mySupplierCardText}>
-                            {supplier?.supplier_details?.tax_no}
+                            {supplier?.supplier_details?.country_of_operation?.[0] 
+                              ? `${supplier.supplier_details.country_of_operation[0]}${
+                                  supplier.supplier_details.country_of_operation.length > 1 ? " ..." : ""
+                                }`
+                              : "N/A"}
                           </div>
                         </div>
                       </div>
@@ -136,27 +140,3 @@ const MySupplier = () => {
 };
 
 export default MySupplier;
-
-{
-  /* {mySuppliers.length > 0 && (
-<div className={styles.mySupplierPaginationSectionMain}>
-    <div className={styles.pagiContainer}>
-        <Pagination
-            activePage={currentPage}
-            itemsCountPerPage={itemsPerPage}
-            totalItemsCount={totalItems}
-            pageRangeDisplayed={5}
-            onChange={handlePageChange}
-            itemClass={styles.pageItem}
-            linkClass={styles.pageLink}
-            prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
-            nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
-            hideFirstLastPages={true}
-        />
-        <div className={styles.pagiTotal}>
-            Total Items: {totalItems}
-        </div>
-    </div>
-</div>
-)} */
-}

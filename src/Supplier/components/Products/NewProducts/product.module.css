@@ -1,7 +1,7 @@
 /* Style product.js section */
 .productContainer {
   width: 100%;
-  max-width: 1400px;
+  max-width: 98%;
   margin: auto;
   height: 100vh;
   overflow: scroll;
@@ -12,69 +12,78 @@
   flex-direction: column;
   row-gap: 20px;
 }
+
 .productContainer::-webkit-scrollbar {
   display: none;
 }
+
 .productHead {
   color: #212121;
   padding-top: 5px;
   font-size: 20px;
   font-weight: 500;
 }
-.productButtonSection{
+
+.productButtonSection {
   display: flex;
   justify-content: space-between;
   /* column-gap: 20px; */
   padding-right: 12px;
 }
+
 .mainButtons {
   display: flex;
   column-gap: 20px;
 }
-.newProductButton{
+
+.newProductButton {
   background-color: #f5f5f6;
-    color: #616161;
-    padding: 8px 20px;
-    border-radius: 4px;
-    font-size: 14px;
-    font-weight: 500;
-     cursor: pointer !important;;
+  color: #616161;
+  padding: 8px 20px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer !important;
+  ;
 }
-.secondaryButton{
+
+.secondaryButton {
   background-color: #ffffff;
-    color: #616161;
-    padding: 8px 20px;
-    border-radius: 4px;
-    font-size: 14px;
-    font-weight: 500;
-     cursor: pointer !important;;
+  color: #616161;
+  padding: 8px 20px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer !important;
+  ;
 }
 
 .active {
-  color: #282f86!important;
-  background-color: #e1e1e4;;
+  color: #282f86 !important;
+  background-color: #e1e1e4;
+  ;
 }
+
 /* End product.js section */
 
 /* Start Product Card section */
-.section{
-  display: flex
-  ;
-      justify-content: start;
-      gap: 10px;
-      flex-wrap: wrap;
-      width: 100%;
-      margin-bottom: 20rem;
+.section {
+  display: flex;
+  justify-content: start;
+  gap: 10px;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-bottom: 20rem;
 }
-.container{
-  display: flex
-  ;
-      justify-content: start;
-      gap: 10px;
-      flex-wrap: wrap;
-      width: 100%;
+
+.container {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(3, 1fr);
+  width: 100%;
 }
-.mainSection{
+
+.mainSection {
   background-color: #fff;
   border-radius: 4px;
   box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
@@ -84,24 +93,25 @@
   align-items: center;
   justify-content: center;
   padding: 20px;
-  width: 455px;
   height: 100%;
   gap: 10px;
 }
-.head{
+
+.head {
   color: #212121;
   font-size: 16px;
   font-weight: 500;
   position: relative;
   top: -10%;
 }
+
 .buttonGroup {
   display: flex;
   column-gap: 15px;
 }
 
 .uploadButton {
- background-color: #282f86;
+  background-color: #282f86;
   border-radius: 4px;
   color: #fff;
   cursor: pointer !important;
@@ -110,93 +120,106 @@
   border: none;
   outline: none;
 }
-.imgContainer{
+
+.imgContainer {
   background-color: #fff;
   border-radius: 50%;
   box-shadow: 0 1px 0 #11111a1a, 0 8px 24px #11111a1a, 0 16px 48px #11111a1a;
-  display: flex; 
+  display: flex;
   justify-content: center;
   transition: transform .3s ease;
   width: 80px;
   height: 80px;
 }
-.productIcon{
-width: 28px;
-cursor: pointer !important;
+
+.productIcon {
+  width: 28px;
+  cursor: pointer !important;
 }
-.mainCard{
+
+.mainCard {
   background-color: #fff;
   border-radius: 4px;
   box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
   display: flex;
   gap: 20px;
   padding: 24px 20px;
-  width: 455px;
 }
-.cardImgSection{
+
+.cardImgSection {
   display: flex;
-      flex-direction: column;
-      gap: 20px;
-      justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
 }
-.cardImg{
+
+.cardImg {
   display: flex;
-      justify-content: center;
-      width: 100px;
-      height: 100px;
-      overflow: hidden;
+  justify-content: center;
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
 }
-.productImg{
+
+.productImg {
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
-.cardButton{
- background-color: #282f86;
+
+.cardButton {
+  background-color: #282f86;
   border-radius: 4px;
   color: #fff;
   column-gap: 8px;
   cursor: pointer !important;
-  display: flex
-;
+  display: flex;
   font-size: 14px;
   padding: 6px 8px;
   border: none;
   outline: none;
   justify-content: center;
 }
-.cardContentSection{
+
+.cardContentSection {
+  width: 100%;
   display: flex;
-      flex-direction: column;
-      gap: 8px;
+  flex-direction: column;
+  gap: 8px;
 }
-.cardInnerContainer{
+
+.cardInnerContainer {
   display: flex;
-      gap: 10px;
-       
+  gap: 10px;
+
 }
-.cardMainHeading{
+
+.cardMainHeading {
   color: #212121;
   font-size: 22px;
   font-weight: 500;
 }
-.cardHead{
+
+.cardHead {
   font-size: 13px;
   font-weight: 500;
-  width: 100px;
-color: #212121;
+  min-width: 100px;
+  color: #212121;
 }
-.cardText{
+
+.cardText {
   color: #616161;
   font-size: 13px;
   line-height: 20px;
   font-weight: 500;
   width: 60%;
 }
-.paginationSection{
-margin-bottom: 20rem;
+
+.paginationSection {
+  margin-bottom: 20rem;
 }
-.noDataSection{
+
+.noDataSection {
   background-color: #fff;
   border-radius: 4px;
   box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
@@ -210,56 +233,53 @@ margin-bottom: 20rem;
   height: 100%;
   gap: 10px;
   font-size: 14px;
-    font-weight: 500;
+  font-weight: 500;
 }
+
 /* End Product Card section */
 /* Start the media query */
-@media screen and (max-width: 1630px) {
-  .productContainer {
-    max-width: 1100px;
-  }
-  .mainCard{
-    width: 535px;
-  }
-  .mainSection{
-    width: 535px;
-  }
-}
-@media screen and (max-width: 1325px) {
-.productContainer {
-  max-width: 914px;
-  /* border: 1px solid red; */
-}
-.productButtonSection {
-  padding-right: 0px;
-}
-.mainCard{
-  width: 450px;
-}
-.mainSection{
-  width: 450px;
-}
-.noDataSection{
-  width: 400px;
-}
-.cardMainHeading{
+@media screen and (max-width: 1600px) {
+ .cardMainHeading{
   font-size: 20px;
+  line-height: 26px;
+ }
+ .productContainer{
+  max-width: 100%;
+ }
 }
-.cardHead{
-  font-size: 13px;
+
+@media screen and (max-width: 1440px) {
+  .container {
+    grid-template-columns: repeat(2, 1fr); /* Two cards per row */
+  }
+  .productButtonSection {
+    padding-right: 0px;
+  }
+  .noDataSection {
+    width: 400px;
+  }
+
+  .cardHead {
+           font-size: 13px;
+        width: 50%;
+  }
+
+  .cardButton {
+    font-size: 13px;
+  }
 }
-.cardButton{
-  font-size: 13px;
+@media screen and (max-width: 1080px) {
+
+   .cardHead {
+        width: 30%;
+  }
 }
+
+@media screen and (max-width: 992px) {
+.container {
+    grid-template-columns: 1fr; /* One card per row */
+  }
+   .cardHead {
+        width: 50%;
+  }
 }
-@media screen and (max-width: 1160px) {
-  .productContainer {
-    max-width: 852px;
-  }
-  .mainCard{
-    width: 420px;
-  }
-  .mainSection{
-    width: 420px;
-  }
-  }

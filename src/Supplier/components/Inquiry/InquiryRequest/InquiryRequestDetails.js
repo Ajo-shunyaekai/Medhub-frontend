@@ -110,7 +110,7 @@ const InquiryRequestDetails = ({ socket }) => {
       return;
     }
 
-    // ✅ Validate est_delivery_days
+    // Validate est_delivery_days
     const invalidDeliveryTime = quotationItems.some(
       (item) =>
         item.est_delivery_days === "TBC- based on quantity" ||
@@ -121,9 +121,7 @@ const InquiryRequestDetails = ({ socket }) => {
     if (invalidDeliveryTime) {
       toast(
         'Estimated Delivery Days must be a valid number greater than 0 and not "TBC- based on quantity".',
-        {
-          type: "error",
-        }
+        { type: "error" }
       );
       return;
     }
@@ -169,6 +167,17 @@ const InquiryRequestDetails = ({ socket }) => {
     });
   };
 
+  // Construct buyer logo URL
+  const buyerLogoUrl = inquiryDetails?.buyer?.buyer_image?.[0]
+    ? inquiryDetails.buyer.buyer_image[0].startsWith("http")
+      ? inquiryDetails.buyer.buyer_image[0]
+      : `${process.env.REACT_APP_API_URL}/uploads/buyer/buyer_images/${inquiryDetails.buyer.buyer_image[0]}`
+    : null;
+
+  // Debugging logs
+  console.log("Buyer Image Data:", inquiryDetails?.buyer?.buyer_image);
+  console.log("Buyer Logo URL:", buyerLogoUrl);
+
   return (
     <div className="inquiry-details-container">
       <div className="inquiry-details-conatiner-heading">
@@ -183,16 +192,28 @@ const InquiryRequestDetails = ({ socket }) => {
               <div className="inquiry-details-top-inner-section">
                 <div className="inquiry-details-left-inner-section-container">
                   <div className="inquiry-details-left-top-containers">
+                     <div className="inquiry-details-top-inquiry-cont">
+                      
+                      <div className="buyer-enquiry-logo-container">
+                        {buyerLogoUrl ? (
+                            <img
+                              src={buyerLogoUrl}
+                              alt="Buyer Logo"
+                              className="buyer-enquiry-logo"
+                            />
+                          ) : null}
+                      </div>
+                    </div>
                     <Link
                       to={`/supplier/buyer-details/${inquiryDetails?.buyer.buyer_id}`}
                     >
                       <div className="inquiry-details-top-inquiry-cont">
                         <div className="inquiry-details-left-top-main-heading">
-                          {" "}
                           Buyer Name
                         </div>
-                        <div className="inquiry-details-left-top-main-contents">
-                          {inquiryDetails?.buyer.buyer_name}
+                        <div className="inquiry-details-left-top-main-contents ">
+                         {inquiryDetails?.buyer.buyer_name}
+                         
                         </div>
                       </div>
                     </Link>
@@ -220,9 +241,7 @@ const InquiryRequestDetails = ({ socket }) => {
           <div className="inquiry-details-assign-driver-section">
             <InquiryProductList
               inquiryDetails={inquiryDetails}
-              items={
-                inquiryDetails?.items || []
-              }
+              items={inquiryDetails?.items || []}
               quotation={inquiryDetails?.quotation_items || []}
               setAcceptChecked={setAcceptChecked}
               setCounterChecked={setCounterChecked}

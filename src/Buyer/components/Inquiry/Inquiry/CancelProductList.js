@@ -1,6 +1,40 @@
 import React, { useState } from 'react';
 import PaginationComponent from '../../SharedComponents/Pagination/pagination';
+import ProductImage from '../../../assets/images/productImage.png'
 import '../ongoingdetails.css';
+
+// Function to check if the filename has a valid image extension
+const isImageExtension = (filename) => {
+  return /\.(jpg|jpeg|png|webp|gif|bmp)$/i.test(filename);
+};
+
+// Function to validate if the URL is a valid HTTP/HTTPS URL
+const isValidHttpUrl = (url) => {
+  try {
+    const parsed = new URL(url);
+    return parsed.protocol === "http:" || parsed.protocol === "https:";
+  } catch (_) {
+    return false;
+  }
+};
+
+// Function to get the correct image source
+const getImageSrc = (imageName) => {
+const serverUrl = process.env.REACT_APP_SERVER_URL;
+  let imageSrc = ProductImage; // Default fallback image
+
+  if (imageName) {
+    const imageUrl = imageName?.startsWith("http")
+      ? imageName
+      : `${serverUrl}uploads/products/${imageName}`;
+    if (isValidHttpUrl(imageName) && isImageExtension(imageName)) {
+      imageSrc = imageName;
+    } else if (isImageExtension(imageName)) {
+      imageSrc = imageUrl;
+    }
+  }
+  return imageSrc;
+};
 
 const CancelProductList = ({ items, inquiryDetails }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -30,11 +64,18 @@ const CancelProductList = ({ items, inquiryDetails }) => {
               </td>
               <td className="tables-td-cont">
                 <div className="table-second-container">
+                   <img
+                        src={getImageSrc(item?.medicine_details?.general?.image[0])}
+                        alt={item?.medicine_details?.general?.name || 'Product'}
+                        style={{ width: '50px', height: '50px', marginRight: '10px', }}
+                        onError={(e) => (e.target.src = ProductImage)}
+                      />
                   <div className="table-g-section-content">
                     <span className="table-g-driver-name">Product Name</span>
-                    <span className="table-g-not-name">
-                      {item?.medicine_details?.medicine_name}
-                    </span>
+                    <div className="table-g-not-name">
+                     
+                      <span>{item?.medicine_details?.general?.name || '-'}</span>
+                    </div>
                   </div>
                 </div>
               </td>
@@ -76,7 +117,7 @@ const CancelProductList = ({ items, inquiryDetails }) => {
                       ? item.est_delivery_days.toLowerCase().includes('days')
                         ? item.est_delivery_days.replace(/days/i, 'Days')
                         : `${item.est_delivery_days} Days`
-                      : 'TBC- based on quantity'}
+                      : 'TBC - based on quantity'}
                   </span>
                 </div>
               </td>
