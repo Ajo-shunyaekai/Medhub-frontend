@@ -56,10 +56,6 @@ const SupplierCard = ({
                       </span>
                     </div>
                   </div>
-                  {/* <div className={styles.cardContentSection}>
-                                    <span className={styles.cardHead}>Description</span>
-                                    <span className={styles.cardText}>{supplier.description || ''}</span>
-                                </div> */}
                 </div>
               </div>
               <div className={styles.ButtonContainer}>

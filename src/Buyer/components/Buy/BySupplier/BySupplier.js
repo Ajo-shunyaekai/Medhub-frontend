@@ -3,11 +3,15 @@ import styles from './bysupplier.module.css';
 import SearchSection from '../UiShared/Search/Search';
 import FilterSection from './Filter';
 import SupplierCard from './SupplierCard';
+import SupplierList from './SupplierList';
 import { useNavigate } from 'react-router-dom';
 import Loader from '../../SharedComponents/Loader/Loader';
 import { toast } from 'react-toastify';
 import { apiRequests } from '../../../../api';
 import { postRequestWithToken } from '../../../../api/Requests';
+import { BsCardList } from "react-icons/bs";
+import { FaRegAddressCard } from "react-icons/fa";
+
 
 const BuySeller = ({ active }) => {
     const navigate = useNavigate();
@@ -21,6 +25,7 @@ const BuySeller = ({ active }) => {
     const [companyType, setCompanyType] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [totalItems, setTotalItems] = useState(0);
+    const [viewMode, setViewMode] = useState('card'); // 'card' or 'list'
     const itemsPerPage = 10;
 
     const dropdownRef = useRef(null);
@@ -73,7 +78,6 @@ const BuySeller = ({ active }) => {
         setOpenDropdown(null);
     };
 
-    // Check if any filters are applied
     const areFiltersApplied = () => {
         return filterCountry !== '' || searchKey !== '';
     };
@@ -162,13 +166,40 @@ const BuySeller = ({ active }) => {
                         areFiltersApplied={areFiltersApplied()}
                         handleCompanyType={handleCompanyType}
                     />
-                    <SupplierCard 
-                        supplierList={supplierList}
-                        currentPage={currentPage}
-                        totalItems={totalItems}
-                        itemsPerPage={itemsPerPage}
-                        onPageChange={handlePageChange}
-                    />
+                    <div className={styles.tabContainer}>
+                        <button
+                            className={`${styles.tabButton} ${viewMode === 'card' ? styles.activeTab : ''}`}
+                            onClick={() => setViewMode('card')}
+                            title="Card View"
+                        >
+                            <BsCardList className={styles.tabIcon} />
+                        </button>
+                        <button
+                            className={`${styles.tabButton} ${viewMode === 'list' ? styles.activeTab : ''}`}
+                            onClick={() => setViewMode('list')}
+                            title="List View"
+                        >
+                            <FaRegAddressCard className={styles.tabIcon} />
+                            
+                        </button>
+                    </div>
+                    {viewMode === 'card' ? (
+                        <SupplierCard 
+                            supplierList={supplierList}
+                            currentPage={currentPage}
+                            totalItems={totalItems}
+                            itemsPerPage={itemsPerPage}
+                            onPageChange={handlePageChange}
+                        />
+                    ) : (
+                        <SupplierList 
+                            supplierList={supplierList}
+                            currentPage={currentPage}
+                            totalItems={totalItems}
+                            itemsPerPage={itemsPerPage}
+                            onPageChange={handlePageChange}
+                        />
+                    )}
                 </div>
             )}
         </>
