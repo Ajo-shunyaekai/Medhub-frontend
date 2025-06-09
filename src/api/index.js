@@ -81,7 +81,7 @@ export const apiRequests = {
         data: obj,
         headers: {
           "Content-Type": contentType,
-          usertype: userType ==="buyer" ? "Buyer" : "Supplier",
+          usertype: userType === "buyer" ? "Buyer" : "Supplier",
         },
       });
 
@@ -226,12 +226,32 @@ export const apiRequests = {
           }, // Include the headers
         })
         .then((response) => {
-          const url = window.URL.createObjectURL(new Blob([response.data]));
-          const link = document.createElement("a");
-          link.href = url;
-          link.setAttribute("download", fileName); // Set the file name for download
-          document.body.appendChild(link);
-          link.click();
+          if (
+            response.data &&
+            response.data instanceof Blob &&
+            response.headers["content-type"]?.includes("text/csv")
+          ) {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement("a");
+            link.href = url;
+            link.setAttribute("download", fileName);
+            document.body.appendChild(link);
+            link.click();
+          } else {
+            // Attempt to read JSON from Blob to extract message
+            const reader = new FileReader();
+            reader.onload = () => {
+              try {
+                const json = JSON.parse(reader.result);
+                toast.warning(
+                  json?.message || "No data available to download."
+                );
+              } catch (e) {
+                toast.warning("No data available to download.");
+              }
+            };
+            reader.readAsText(response.data);
+          }
         })
         .catch((error) => {
           console.error("There was an error downloading the CSV file!", error);

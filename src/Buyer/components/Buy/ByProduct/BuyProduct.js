@@ -96,6 +96,12 @@ const BuyProduct = ({
                 // obj:{countries: ["Åland Islands"]},
               })
             );
+            // const response2 = await dispatch(
+            //   fetchProductsQRListCsvDwnld({
+            //     url: `product/get-all-qr-products?pageNo=${currentPage}&pageSize=${20}`,
+            //     obj: { downloadCsv: true },
+            //   })
+            // );
             if (response.meta.requestStatus === "fulfilled") {
               setProductList(response?.payload?.products || []);
               setTotalitems(response?.payload?.totalItems || 0);

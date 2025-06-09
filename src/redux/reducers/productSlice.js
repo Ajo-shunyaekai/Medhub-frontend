@@ -25,6 +25,32 @@ export const fetchProductsList = createAsyncThunk(
   }
 );
 
+export const fetchProductsQRListCsvDwnld = createAsyncThunk(
+  "product/fetchProductsQRListCsvDwnld",
+  async ({ url, obj }, { rejectWithValue }) => {
+    try {
+      const response = await apiRequests.postReqCSVDownload(url, obj, "Product Quality Report List.csv");
+      return response?.data;
+    } catch (error) {
+      // Log and pass the error
+      return rejectWithValue(error?.response || error.message);
+    }
+  }
+);
+
+export const fetchProductsQRList2 = createAsyncThunk(
+  "product/fetchProductsQRList",
+  async ({ url, obj }, { rejectWithValue }) => {
+    try {
+      const response = await apiRequests.postRequest(url, obj);
+      return response?.data;
+    } catch (error) {
+      // Log and pass the error
+      return rejectWithValue(error?.response || error.message);
+    }
+  }
+);
+
 export const fetchProductDetail = createAsyncThunk(
   "product/fetchProductDetail",
   async (url, { rejectWithValue }) => {
