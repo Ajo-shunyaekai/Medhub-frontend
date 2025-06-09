@@ -18,6 +18,19 @@
     font-size: 20px;
       font-weight: 500;
   }
+  .buyer-enquiry-logo-container{
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+  }
+  .buyer-enquiry-logo{
+    font-size: 12px;
+width: 100%;
+height: auto;
+object-fit: contain;
+  }
   .inquiry-details-section {
     width: 100%;
     display: flex;

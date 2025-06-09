@@ -12,29 +12,29 @@ import Loader from "../../SharedComponents/Loader/Loader";
 const OnGoingInquiriesDetails = () => {
   const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
   const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
- 
+
   const { inquiryId } = useParams();
   const navigate = useNavigate();
- 
+
   const [loading, setLoading] = useState(true);
   const [inquiryDetails, setInquiryDetails] = useState();
   const [acceptedItems, setAcceptedItems] = useState([]);
   const [rejectedItems, setRejectedItems] = useState([]);
- 
+
   const email = inquiryDetails?.supplier?.contact_person_email;
   const subject = `Enquiry about Enquiry ${inquiryDetails?.enquiry_id || "unknown"}`;
   const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
- 
-  const dateToDisplay = 
-    inquiryDetails?.quotation_items_created_at || 
-    inquiryDetails?.quotation_items_updated_at || 
-    inquiryDetails?.created_at || 
+
+  const dateToDisplay =
+    inquiryDetails?.quotation_items_created_at ||
+    inquiryDetails?.quotation_items_updated_at ||
+    inquiryDetails?.created_at ||
     moment().toISOString();
- 
+
   const formattedDate = moment(dateToDisplay)
     .tz("Asia/Kolkata")
     .format("DD/MM/YYYY HH:mm:ss");
- 
+
   useEffect(() => {
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
       localStorage?.clear();
@@ -46,7 +46,7 @@ const OnGoingInquiriesDetails = () => {
       buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
       enquiry_id: inquiryId,
     };
-    const fetchData = async () => {                 
+    const fetchData = async () => {
       try {
         const response = await apiRequests.getRequest(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj);
         if (response?.code !== 200) {
@@ -56,7 +56,7 @@ const OnGoingInquiriesDetails = () => {
         setInquiryDetails(response?.result);
         const acceptedItems = [];
         const rejectedItems = [];
- 
+
         response?.result?.quotation_items?.forEach((item) => {
           if (item.status === "accepted") {
             acceptedItems.push(item);
@@ -66,7 +66,7 @@ const OnGoingInquiriesDetails = () => {
         });
         setAcceptedItems(acceptedItems);
         setRejectedItems(rejectedItems);
- 
+
         localStorage?.setItem("acceptedQuotationItems", JSON.stringify(acceptedItems));
         localStorage?.setItem("rejectedQuotationItems", JSON.stringify(rejectedItems));
       } catch (error) {
@@ -77,20 +77,20 @@ const OnGoingInquiriesDetails = () => {
     }
     fetchData();
   }, [buyerIdSessionStorage, buyerIdLocalStorage, inquiryId, navigate]);
- 
+
   useEffect(() => {
     const handleBeforeUnload = () => {
       localStorage.removeItem("acceptedQuotationItems");
       localStorage.removeItem("rejectedQuotationItems");
     };
- 
+
     window.addEventListener("beforeunload", handleBeforeUnload);
- 
+
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, []);
- 
+
   const handleAccept = (item, status) => {
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
       localStorage?.clear();
@@ -107,7 +107,7 @@ const OnGoingInquiriesDetails = () => {
     postRequestWithToken("enquiry/accept-reject-quotation", obj, async (response) => {
       if (response?.code === 200) {
         toast(response.message, { type: "success" });
-        const fetchData = async () => {                 
+        const fetchData = async () => {
           try {
             const response = await apiRequests.getRequest(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj);
             if (response?.code !== 200) {
@@ -140,7 +140,7 @@ const OnGoingInquiriesDetails = () => {
       }
     });
   };
- 
+
   const handleReject = (item, status) => {
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
       localStorage?.clear();
@@ -150,7 +150,7 @@ const OnGoingInquiriesDetails = () => {
     setLoading(true);
     const obj = {
       buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
-      enquiry_id: inquiryId,
+      能_id: inquiryId,
       item_id: item._id,
       new_status: status,
     };
@@ -200,9 +200,9 @@ const OnGoingInquiriesDetails = () => {
       }
     );
   };
- 
+
   const hasPendingItems = inquiryDetails?.items?.some(item => item.status === 'pending');
- 
+
   const handleCancel = () => {
     navigate(`/buyer/cancel-enquiry-list/${inquiryId}`);
   }
@@ -210,7 +210,7 @@ const OnGoingInquiriesDetails = () => {
   const handleCreatePOClick = () => {
     const totalProcessedItems = acceptedItems.length + rejectedItems.length;
     const totalQuotationItems = inquiryDetails?.quotation_items?.length || 0;
-  
+
     if (totalProcessedItems === totalQuotationItems) {
       if (acceptedItems.length > 0) {
         navigate(`/buyer/create-po/${inquiryId}`);
@@ -237,15 +237,36 @@ const OnGoingInquiriesDetails = () => {
           <div className="ongoing-details-top-inner-section">
             <div className="ongoing-details-left-inner-section-container">
               <div className="ongoing-details-left-top-containers">
+                <div className="ongoing-details-top-order-cont">
+<div className="ongoing-details-supplier-logo-container">
+                  {inquiryDetails?.supplier?.supplier_image?.[0] && (
+                    <img
+                      src={
+                        inquiryDetails.supplier.supplier_image[0]?.startsWith("http")
+                          ? inquiryDetails.supplier.supplier_image[0]
+                          : `${process.env.REACT_APP_SERVER_URL}uploads/supplier/supplierImage_files/${inquiryDetails.supplier.supplier_image[0]}`
+                      }
+                      alt="Supplier"
+                      className="ongoing-details-supplier-image-logo"
+                    />
+                  )}
+                  </div>
+                </div>
+
                 <Link
                   to={`/buyer/supplier-details/${inquiryDetails?.supplier?.supplier_id}`}
                 >
                   <div className="ongoing-details-top-order-cont">
-                    <div className="ongoing-details-left-top-main-heading">
-                      Supplier Name
-                    </div>
-                    <div className="ongoing-details-left-top-main-contents">
-                      {inquiryDetails?.supplier?.supplier_name}
+                    <div className="ongoing-details-supplier-container">
+
+
+                      <div className="ongoing-details-left-top-main-heading">
+                        Supplier Name
+                      </div>
+                      <div className="ongoing-details-left-top-main-contents">
+                        {inquiryDetails?.supplier?.supplier_name}
+                      </div>
+
                     </div>
                   </div>
                 </Link>

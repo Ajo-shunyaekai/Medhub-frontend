@@ -4,10 +4,13 @@ import styles from "./market.module.css";
 import Category from "../UiShared/Category/Category";
 import Search from "../UiShared/Search/Search";
 import ProductCard from "../UiShared/ProductCards/ProductCard";
+import ListView from "../UiShared/ProductList/ProductList";
 import Loader from "../../SharedComponents/Loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductsList } from "../../../../redux/reducers/productSlice";
 import AccordionFilter from "../UiShared/Category/Category";
+import { BsCardList } from "react-icons/bs";
+import { FaRegAddressCard } from "react-icons/fa";
 
 const Buy2ndMarket = ({
   active,
@@ -30,8 +33,9 @@ const Buy2ndMarket = ({
   const [inputValue, setInputValue] = useState("");
   const [searchKey, setSearchKey] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+    const [viewMode, setViewMode] = useState("card"); // State to toggle between card and list view
   const [totalItems, setTotalItems] = useState(0);
-  const itemsPerPage = 5;
+  const itemsPerPage = 10;
 
   const searchTimeoutRef = useRef(null);
 
@@ -142,6 +146,23 @@ const Buy2ndMarket = ({
               setSelectedLevel3Category={setSelectedLevel3Category}
             />
           )}
+          <div className={styles.tabContainer}>
+            <button
+              onClick={() => setViewMode("card")}
+              className={`${styles.tabButton} ${viewMode === "card" ? styles.activeTab : ""}`}
+              title="Card View"
+            >
+              <BsCardList className={styles.tabIcon} />
+            </button>
+            <button
+              onClick={() => setViewMode("list")}
+              className={`${styles.tabButton} ${viewMode === "list" ? styles.activeTab : ""}`}
+              title="List View"
+            >
+             <FaRegAddressCard className={styles.tabIcon} />
+            </button>
+          </div>
+          {viewMode === "card" ? (
           <ProductCard
             productList={productList}
             currentPage={currentPage}
@@ -150,6 +171,16 @@ const Buy2ndMarket = ({
             onPageChange={handlePageChange}
             isSecondaryMarket={true}
           />
+          ) : (
+             <ListView
+            productList={productList}
+            currentPage={currentPage}
+            totalItems={totalItems}
+            itemsPerPage={itemsPerPage}
+            onPageChange={handlePageChange}
+            isSecondaryMarket={true}
+          />
+            )}
         </div>
       )}
     </>

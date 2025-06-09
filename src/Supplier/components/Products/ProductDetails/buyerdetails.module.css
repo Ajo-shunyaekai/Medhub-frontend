@@ -149,9 +149,6 @@ height: auto;
 
 .cardContent {
   color: #616161;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  display: -webkit-box;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: normal;
@@ -322,9 +319,6 @@ height: auto;
 }
 
 .value {
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  display: -webkit-box;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: normal;

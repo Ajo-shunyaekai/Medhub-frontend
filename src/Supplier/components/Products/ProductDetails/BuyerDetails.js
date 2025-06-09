@@ -257,12 +257,7 @@ const BuyerDetails = () => {
                                     <span className={styles.cardContent}>{buyer.country_of_operation.join(', ')}</span>
                                 </div>
                             )}
-                            {buyer?.interested_in?.length > 0 && (
-                                <div className={styles.cardMainContainer}>
-                                    <span className={styles.cardHead}>Interested In</span>
-                                    <span className={styles.cardContent}>{buyer.interested_in.join(', ')}</span>
-                                </div>
-                            )}
+                           
                             {buyer?.approx_yearly_purchase_value && (
                                 <div className={styles.cardMainContainer}>
                                     <span className={styles.cardHead}>Approx. Yearly Purchase Value</span>
@@ -281,7 +276,13 @@ const BuyerDetails = () => {
                                     <span className={styles.cardContent}>{buyer.license_expiry_date}</span>
                                 </div>
                             )}
-                            {buyer?.contact_person_name && (
+                             {buyer?.interested_in?.length > 0 && (
+                                <div className={styles.cardMainContainer}>
+                                    <span className={styles.cardHead}>Interested In</span>
+                                    <span className={styles.cardContent}>{buyer.interested_in.join(', ')}</span>
+                                </div>
+                            )}
+                            {/* {buyer?.contact_person_name && (
                                 <div className={styles.cardMainContainer}>
                                     <span className={styles.cardHead}>Contact Name</span>
                                     <span className={styles.cardContent}>{buyer.contact_person_name}</span>
@@ -306,7 +307,7 @@ const BuyerDetails = () => {
                                     <span className={styles.cardHead}>Designation</span>
                                     <span className={styles.cardContent}>{buyer.designation}</span>
                                 </div>
-                            )}
+                            )} */}
                         </div>
                     )}
                 </div>

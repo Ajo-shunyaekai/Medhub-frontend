@@ -3,10 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import styles from "./byproduct.module.css";
 import SearchSection from "../UiShared/Search/Search";
 import ProductCard from "../UiShared/ProductCards/ProductCard";
+import ListView from "../UiShared/ProductList/ProductList";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../SharedComponents/Loader/Loader";
 import { fetchProductsList } from "../../../../redux/reducers/productSlice";
 import AccordionFilter from "../UiShared/Category/Category";
+import { BsCardList } from "react-icons/bs";
+import { FaRegAddressCard } from "react-icons/fa";
 
 const BuyProduct = ({
   active,
@@ -28,8 +31,9 @@ const BuyProduct = ({
   const [inputValue, setInputValue] = useState("");
   const [searchKey, setSearchKey] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalItems, setTotalitems] = useState(0); // Initialize with 0
-  const itemsPerPage = 5;
+  const [totalItems, setTotalitems] = useState(0);
+  const [viewMode, setViewMode] = useState("card"); // State to toggle between card and list view
+  const itemsPerPage = 10;
 
   const searchTimeoutRef = useRef(null);
 
@@ -147,13 +151,39 @@ const BuyProduct = ({
               setSelectedLevel3Category={setSelectedLevel3Category}
             />
           )}
-          <ProductCard
-            productList={productList}
-            currentPage={currentPage}
-            totalItems={totalItems}
-            itemsPerPage={itemsPerPage}
-            onPageChange={handlePageChange}
-          />
+          <div className={styles.tabContainer}>
+            <button
+              onClick={() => setViewMode("card")}
+              className={`${styles.tabButton} ${viewMode === "card" ? styles.activeTab : ""}`}
+              title="Card View"
+            >
+              <BsCardList className={styles.tabIcon} />
+            </button>
+            <button
+              onClick={() => setViewMode("list")}
+              className={`${styles.tabButton} ${viewMode === "list" ? styles.activeTab : ""}`}
+              title="List View"
+            >
+             <FaRegAddressCard className={styles.tabIcon} />
+            </button>
+          </div>
+          {viewMode === "card" ? (
+            <ProductCard
+              productList={productList}
+              currentPage={currentPage}
+              totalItems={totalItems}
+              itemsPerPage={itemsPerPage}
+              onPageChange={handlePageChange}
+            />
+          ) : (
+            <ListView
+              productList={productList}
+              currentPage={currentPage}
+              totalItems={totalItems}
+              itemsPerPage={itemsPerPage}
+              onPageChange={handlePageChange}
+            />
+          )}
         </div>
       )}
     </>

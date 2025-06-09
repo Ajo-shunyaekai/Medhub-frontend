@@ -78,8 +78,47 @@ ul {
 }
 
 /* End the filter section */
+/* Button container */
+.tabContainer{
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    cursor: pointer !important;
+}
+.tabButton{
+        border-radius: 4px !important;
+       border: none !important;
+      background-color: #ffffff !important;
+    color: #616161;
+    padding: 6px 12px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    cursor: pointer !important;
+}
+.activeTab {
+ background-color: #e1e1e4 !important;
+    border-color: #dadade;
+    color: #282f86;
+}
 
+/* Style for the icon inside the button */
+.tabIcon {
+  font-size: 24px;
+   color: #616161;
+  cursor: pointer !important; /* Default icon color for inactive tab */
+}
 
+/* Ensure the icon in the active tab is black */
+.activeTab .tabIcon {
+ color: #282f86;
+ cursor: pointer !important;
+}
+
+/* Hover effect for inactive tabs */
+.tabButton:hover:not(.activeTab) {
+  background-color: #e0e0e0; /* Slightly darker gray on hover */
+}
 
 /* Style Card Container */
 .cardMainContainer {
@@ -90,11 +129,11 @@ ul {
 }
 
 .cardContentContainer {
-    display: flex
-    ;
-        flex-direction: column;
-        gap: 4px;
-        width: 80%;
+  display: flex
+;
+    flex-direction: column;
+    gap: 10px;
+    width: 80%;
 }
 
 .cardContainer {
@@ -117,11 +156,12 @@ ul {
 }
 
 .headSection {
-    display: flex;
-        align-items: center;
-        justify-content: start;
-        gap: 10px;
-        width: 80%;
+ display: flex
+;
+    align-items: start;
+    justify-content: start;
+    gap: 2rem;
+    width: 80%;
 }
 
 .cardHeading {
@@ -131,15 +171,17 @@ ul {
 }
 
 .cardLogo {
-    width: 80px;
-    height: 80px;
-    display: flex;
+    width: 100px;
+    height: 100px;
+    display: flex
+;
     justify-content: center;
 }
 
 .cardLogo img {
-    width: 100%;
+width: 100%;
     height: auto;
+    object-fit: contain;
 }
 
 .cardContentSection {
@@ -156,9 +198,6 @@ ul {
 }
 
 .cardText {
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    display: -webkit-box;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: normal;
