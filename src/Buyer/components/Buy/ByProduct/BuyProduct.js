@@ -83,30 +83,40 @@ const BuyProduct = ({
         }
 
         if (active === "product") {
-          setLoading(true);
-          const marketType = active === "product" ? "new" : "secondary";
-          const { category, subCategory, level3Category } =
-            filterCategory || {};
-          const response = await dispatch(
-            fetchProductsList({
-              url: `product?market=${marketType}&page_no=${currentPage}&page_size=${itemsPerPage}&search_key=${
-                searchKey || ""
-              }&category=${encodeURIComponent(
-                category || ""
-              )}&subCategory=${encodeURIComponent(
-                subCategory || ""
-              )}&level3Category=${encodeURIComponent(level3Category || "")}`,
-            })
-          );
-          if (response.meta.requestStatus === "fulfilled") {
-            setProductList(response?.payload?.products || []);
-            setTotalitems(response?.payload?.totalItems || 0);
-            setLoading(false);
-          } else {
-            setProductList([]);
-            setTotalitems(0);
-            setLoading(false);
-          }
+          const fetchData = async () => {
+            setLoading(true);
+            const marketType = active === "product" ? "new" : "secondary";
+            const { category, subCategory, level3Category } =
+              filterCategory || {};
+            const response = await dispatch(
+              fetchProductsList({
+                url: `product?market=${marketType}&page_no=${currentPage}&page_size=${itemsPerPage}&search_key=${
+                  searchKey || ""
+                }&category=${encodeURIComponent(
+                  category || ""
+                )}&subCategory=${encodeURIComponent(
+                  subCategory || ""
+                )}&level3Category=${encodeURIComponent(level3Category || "")}`,
+                // obj:{countries: ["Åland Islands"]},
+              })
+            );
+            // const response2 = await dispatch(
+            //   fetchProductsQRListCsvDwnld({
+            //     url: `product/get-all-qr-products?pageNo=${currentPage}&pageSize=${20}`,
+            //     obj: { downloadCsv: true },
+            //   })
+            // );
+            if (response.meta.requestStatus === "fulfilled") {
+              setProductList(response?.payload?.products || []);
+              setTotalitems(response?.payload?.totalItems || 0);
+              setLoading(false);
+            } else {
+              setProductList([]);
+              setTotalitems(0);
+              setLoading(false);
+            }
+          };
+          fetchData();
         }
       } catch (error) {
       } finally {
