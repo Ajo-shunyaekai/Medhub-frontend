@@ -1,8 +1,31 @@
-import React, { useState } from "react";
-import Select from "react-select";
+import React, { useState, useMemo } from "react";
+import Select, { components } from "react-select";
 import styles from "./category.module.css";
 import '../../../SharedComponents/SignUp/signup.css'
 import categoryArrays from "../../../../../utils/Category";
+import countryList from "react-select-country-list";
+
+const MultiSelectOption = ({ children, ...props }) => (
+  <components.Option {...props}>
+    <input type="checkbox" checked={props.isSelected} onChange={() => null} />{" "}
+    <label>{children}</label>
+  </components.Option>
+);
+
+const MultiSelectDropdown = ({ options, value, onChange }) => {
+  return (
+    <Select
+      className={styles.signupFormsSectionsSelect}
+      options={options}
+      isMulti
+      closeMenuOnSelect={false}
+      hideSelectedOptions={false}
+      components={{ Option: MultiSelectOption }}
+      onChange={onChange}
+      value={value}
+    />
+  );
+};
 
 const AccordionFilter = ({
   isOpen,
@@ -14,6 +37,14 @@ const AccordionFilter = ({
   selectedLevel3Category,
   setSelectedLevel3Category,
 }) => {
+  const [selectedCountries, setSelectedCountries] = useState([]);
+
+  const countryOptions = useMemo(() =>
+    countryList().getData().map(country => ({
+      value: country.value,
+      label: country.label
+    })),
+    []);
 
   const categoryOptions = categoryArrays.map((cat) => ({
     value: cat.name,
@@ -55,6 +86,7 @@ const AccordionFilter = ({
       category: getCategorySchema(selectedCategory?.label) || "",
       subCategory: selectedSubCategory?.label || "",
       level3Category: selectedLevel3Category?.label || "",
+      countries: selectedCountries.map(country => country.label) || []
     };
     setFilterCategory(filterData);
   };
@@ -63,11 +95,12 @@ const AccordionFilter = ({
     setSelectedCategory(null);
     setSelectedSubCategory(null);
     setSelectedLevel3Category(null);
+    setSelectedCountries([]);
     setFilterCategory(null);
   };
 
   const isFilterSelected =
-    selectedCategory || selectedSubCategory || selectedLevel3Category;
+    selectedCategory || selectedSubCategory || selectedLevel3Category || selectedCountries.length > 0;
 
   return (
     <div className={styles.filterWrapper}>
@@ -75,6 +108,16 @@ const AccordionFilter = ({
         className={`${styles.accordionContent} ${isOpen ? styles.open : ""}`}
       >
         <div className={styles.filterContainer}>
+          {/* <div className={styles.filterSection}>
+            <label>Stocked in Country</label>
+            <MultiSelectDropdown
+              options={countryOptions}
+              value={selectedCountries}
+              onChange={(selectedOptions) => {
+                setSelectedCountries(selectedOptions || []);
+              }}
+            />
+          </div> */}
           <div className={styles.filterSection}>
             <label>Product Category</label>
             <Select
@@ -124,6 +167,8 @@ const AccordionFilter = ({
               isDisabled={!selectedSubCategory}
             />
           </div>
+
+
         </div>
         {isFilterSelected && (
           <div className={styles.buttonSection}>
