@@ -86,8 +86,7 @@ const BuyProduct = ({
           const fetchData = async () => {
             setLoading(true);
             const marketType = active === "product" ? "new" : "secondary";
-            const { category, subCategory, level3Category } =
-              filterCategory || {};
+            const { category, subCategory, level3Category, countries = [] } = filterCategory || {};
             const response = await dispatch(
               fetchProductsList({
                 url: `product?market=${marketType}&page_no=${currentPage}&page_size=${itemsPerPage}&search_key=${
@@ -97,7 +96,7 @@ const BuyProduct = ({
                 )}&subCategory=${encodeURIComponent(
                   subCategory || ""
                 )}&level3Category=${encodeURIComponent(level3Category || "")}`,
-                // obj:{countries: ["Åland Islands"]},
+                obj: { countries },
               })
             );
             // const response2 = await dispatch(
@@ -155,14 +154,14 @@ const BuyProduct = ({
             <button
               onClick={() => setViewMode("card")}
               className={`${styles.tabButton} ${viewMode === "card" ? styles.activeTab : ""}`}
-              title="Card View"
+              title="List View"
             >
               <BsCardList className={styles.tabIcon} />
             </button>
             <button
               onClick={() => setViewMode("list")}
               className={`${styles.tabButton} ${viewMode === "list" ? styles.activeTab : ""}`}
-              title="List View"
+              title="Card View "
             >
              <FaRegAddressCard className={styles.tabIcon} />
             </button>
