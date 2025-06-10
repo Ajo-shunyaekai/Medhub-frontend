@@ -167,8 +167,6 @@ const AccordionFilter = ({
               isDisabled={!selectedSubCategory}
             />
           </div>
-
-
         </div>
         {isFilterSelected && (
           <div className={styles.buttonSection}>
