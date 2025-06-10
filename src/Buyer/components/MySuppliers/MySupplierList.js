@@ -1,56 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styles from "./mysupplier.module.css";
-import { Link, useNavigate } from "react-router-dom";
-import { postRequestWithToken } from "../../../api/Requests";
+import { Link } from "react-router-dom";
 import Loader from "../SharedComponents/Loader/Loader";
-import { toast } from "react-toastify";
 import PaginationComponent from "../SharedComponents/Pagination/pagination";
 
-const MySupplier = () => {
-  const navigate = useNavigate();
-
-  const [loading, setLoading] = useState(true);
-  const [mySuppliers, setMySuppliers] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalItems, setTotalItems] = useState();
-  const itemsPerPage = 4;
-
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
-  useEffect(() => {
-    const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
-    const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
-
-    if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-      localStorage?.clear();
-      navigate("/buyer/login");
-      return;
-    }
-    const obj = {
-      buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
-      pageNo: currentPage,
-      pageSize: itemsPerPage,
-    };
-    postRequestWithToken("buyer/my-supplier-list", obj, async (response) => {
-      if (response?.code === 200) {
-        setMySuppliers(response.result.data);
-        setTotalItems(response.result.totalItems);
-      } else {
-        toast(response.message, { type: "error" });
-      }
-      setLoading(false);
-    });
-  }, [currentPage]);
-
+const MySupplierList = ({
+  mySuppliers,
+  loading,
+  currentPage,
+  itemsPerPage,
+  totalItems,
+  handlePageChange,
+}) => {
   return (
     <>
       {loading ? (
         <Loader />
       ) : (
         <div className={styles.mySupplierMainContainer}>
-          <div className={styles.mySupplierMainHead}>My Supplier</div>
           <div className={styles.mySupplierMainSection}>
             {mySuppliers.length > 0 ? (
               mySuppliers.map((supplier, i) => {
@@ -98,7 +65,7 @@ const MySupplier = () => {
                             Country of Operation
                           </div>
                           <div className={styles.mySupplierCardText}>
-                            {supplier?.supplier_details?.country_of_operation?.[0] 
+                            {supplier?.supplier_details?.country_of_operation?.[0]
                               ? `${supplier.supplier_details.country_of_operation[0]}${
                                   supplier.supplier_details.country_of_operation.length > 1 ? " ..." : ""
                                 }`
@@ -139,4 +106,4 @@ const MySupplier = () => {
   );
 };
 
-export default MySupplier;
+export default MySupplierList;

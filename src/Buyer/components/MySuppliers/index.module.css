@@ -1,0 +1,65 @@
+.container{
+width:100%;
+max-width: 98%;
+height: 100vh;
+margin: auto;
+display: flex;
+flex-direction: column;
+gap: 20px;
+ overflow: scroll;
+  background-attachment: fixed;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  margin: auto;
+}
+.container::-webkit-scrollbar{
+    display: none;
+}
+.section{
+    width: 100%;
+display: flex;
+justify-content: space-between;
+align-items: center;
+gap: 20px;
+padding-top: 10px;
+}
+.mainHead{
+    font-size: 20px;
+    font-weight: 500;
+    color: #212121;
+}
+
+/* Button container */
+.tabContainer{
+    display: flex;
+    justify-content: end;
+    cursor: pointer !important;
+}
+.tabButton{
+        border-radius: 4px !important;
+       border: none !important;
+      background-color: #ffffff !important;
+    color: #616161;
+    padding: 6px 12px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    cursor: pointer !important;
+}
+.activeTab {
+ background-color: #e1e1e4 !important;
+    border-color: #dadade;
+    color: #282f86;
+}
+.tabIcon {
+  font-size: 24px;
+   color: #616161;
+  cursor: pointer !important;
+}
+.activeTab .tabIcon {
+ color: #282f86;
+ cursor: pointer !important;
+}
+.tabButton:hover:not(.activeTab) {
+  background-color: #e0e0e0;
+}

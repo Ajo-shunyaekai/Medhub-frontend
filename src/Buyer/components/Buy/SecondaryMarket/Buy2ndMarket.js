@@ -150,14 +150,14 @@ const Buy2ndMarket = ({
             <button
               onClick={() => setViewMode("card")}
               className={`${styles.tabButton} ${viewMode === "card" ? styles.activeTab : ""}`}
-              title="Card View"
+              title="List View"
             >
               <BsCardList className={styles.tabIcon} />
             </button>
             <button
               onClick={() => setViewMode("list")}
               className={`${styles.tabButton} ${viewMode === "list" ? styles.activeTab : ""}`}
-              title="List View"
+              title="Card View"
             >
              <FaRegAddressCard className={styles.tabIcon} />
             </button>

@@ -182,15 +182,21 @@
   font-weight: 500 !important;
 }
 .css-tr4s17-option {
+    display: flex !important;
+    gap: 10px !important;
   font-size: 13px !important;
   font-weight: 500 !important;
 }
 .css-10wo9uf-option {
+  display: flex !important;
+    gap: 10px !important;
   font-size: 13px !important;
   font-weight: 500 !important;
 }
 
 .css-d7l1ni-option {
+    display: flex !important;
+    gap: 10px !important;
   font-size: 13px !important;
   font-weight: 500 !important;
 }

@@ -170,14 +170,14 @@ const BuySeller = ({ active }) => {
                         <button
                             className={`${styles.tabButton} ${viewMode === 'card' ? styles.activeTab : ''}`}
                             onClick={() => setViewMode('card')}
-                            title="Card View"
+                            title=" List View"
                         >
                             <BsCardList className={styles.tabIcon} />
                         </button>
                         <button
                             className={`${styles.tabButton} ${viewMode === 'list' ? styles.activeTab : ''}`}
                             onClick={() => setViewMode('list')}
-                            title="List View"
+                            title="Card View"
                         >
                             <FaRegAddressCard className={styles.tabIcon} />
                             
