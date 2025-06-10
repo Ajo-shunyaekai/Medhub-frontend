@@ -32,7 +32,7 @@ const BuyProduct = ({
   const [searchKey, setSearchKey] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalitems] = useState(0);
-  const [viewMode, setViewMode] = useState("card"); // State to toggle between card and list view
+  const [viewMode, setViewMode] = useState("card");
   const itemsPerPage = 10;
 
   const searchTimeoutRef = useRef(null);
@@ -83,7 +83,7 @@ const BuyProduct = ({
         }
 
         if (active === "product") {
-          const fetchData = async () => {
+          const fetchProducts = async () => {
             setLoading(true);
             const marketType = active === "product" ? "new" : "secondary";
             const { category, subCategory, level3Category, countries = [] } = filterCategory || {};
@@ -95,29 +95,27 @@ const BuyProduct = ({
                   category || ""
                 )}&subCategory=${encodeURIComponent(
                   subCategory || ""
-                )}&level3Category=${encodeURIComponent(level3Category || "")}`,
-                // obj: { countries },
+                )}&level3Category=${encodeURIComponent(
+                  level3Category || ""
+                )}`,
+                obj: { countries }, // Send countries in request body
               })
             );
-            // const response2 = await dispatch(
-            //   fetchProductsQRListCsvDwnld({
-            //     url: `product/get-all-qr-products?pageNo=${currentPage}&pageSize=${20}`,
-            //     obj: { downloadCsv: true },
-            //   })
-            // );
             if (response.meta.requestStatus === "fulfilled") {
               setProductList(response?.payload?.products || []);
               setTotalitems(response?.payload?.totalItems || 0);
               setLoading(false);
             } else {
+              console.error("Failed to fetch products:", response?.payload);
               setProductList([]);
               setTotalitems(0);
               setLoading(false);
             }
           };
-          fetchData();
+          fetchProducts();
         }
       } catch (error) {
+        console.error("Error fetching products:", error.message);
       } finally {
         setLoading(false);
       }
@@ -161,9 +159,9 @@ const BuyProduct = ({
             <button
               onClick={() => setViewMode("list")}
               className={`${styles.tabButton} ${viewMode === "list" ? styles.activeTab : ""}`}
-              title="Card View "
+              title="Card View"
             >
-             <FaRegAddressCard className={styles.tabIcon} />
+              <FaRegAddressCard className={styles.tabIcon} />
             </button>
           </div>
           {viewMode === "card" ? (
