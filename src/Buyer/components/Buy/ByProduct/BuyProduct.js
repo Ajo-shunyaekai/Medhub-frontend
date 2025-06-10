@@ -96,7 +96,7 @@ const BuyProduct = ({
                 )}&subCategory=${encodeURIComponent(
                   subCategory || ""
                 )}&level3Category=${encodeURIComponent(level3Category || "")}`,
-                obj: { countries },
+                // obj: { countries },
               })
             );
             // const response2 = await dispatch(
