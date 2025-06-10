@@ -150,7 +150,7 @@ const OnGoingInquiriesDetails = () => {
     setLoading(true);
     const obj = {
       buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
-      能_id: inquiryId,
+      enquiry_id: inquiryId,
       item_id: item._id,
       new_status: status,
     };
@@ -342,8 +342,18 @@ const OnGoingInquiriesDetails = () => {
         <div className="pending-order-button-section">
           <div
             className="pending-order-create-order"
-            onClick={handleCreatePOClick}
-            style={{ cursor: 'pointer' }}
+            // onClick={handleCreatePOClick}
+            // style={{ cursor: 'pointer' }}
+
+            onClick={
+              inquiryDetails?.quotation_items?.some(item => item.status === 'rejected')
+                ? null
+                : handleCreatePOClick
+            }
+            style={{
+              cursor: inquiryDetails?.quotation_items?.some(item => item.status === 'rejected') ? 'not-allowed' : 'pointer',
+              opacity: inquiryDetails?.quotation_items?.some(item => item.status === 'rejected') ? 0.5 : 1,
+            }}
           >
             Create Purchase Order
           </div>
