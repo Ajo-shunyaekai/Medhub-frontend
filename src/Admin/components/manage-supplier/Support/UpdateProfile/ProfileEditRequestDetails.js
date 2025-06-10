@@ -21,7 +21,7 @@ const ProfileEditRequestDetails = ({ socket }) => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-   const [downloadLoader, setDownloadLoader] = useState(false);
+  const [downloadLoader, setDownloadLoader] = useState(false);
   const { profileEditReqDetail, loading } = useSelector(
     (state) => state?.adminReducer || {}
   );
@@ -78,7 +78,7 @@ const ProfileEditRequestDetails = ({ socket }) => {
 
   // Render loading state
   if (loading) {
-    return <Loader/>
+    return <Loader />;
   }
 
   // Render error state if no data is available
@@ -262,25 +262,29 @@ const ProfileEditRequestDetails = ({ socket }) => {
           </div>
         </div>
       </div>
-      {profileEditReqDetail?.editReqStatus === "Pending" && (
-        <div className={styles.editButtonContainer}>
-          {/* <button
+      {user?.accessControl?.supplier?.support?.edit &&
+        profileEditReqDetail?.editReqStatus === "Pending" && (
+          <div className={styles.editButtonContainer}>
+            {/* <button
             className={styles.editButtonSubmit}
             onClick={() => handleAdminAction("Approved")}
           >
             Approve
           </button> */}
-          <Button onClick={() => handleAdminAction("Approved")} loading={downloadLoader}>
+            <Button
+              onClick={() => handleAdminAction("Approved")}
+              loading={downloadLoader}
+            >
               Approve
-          </Button>
-          <button
-            className={styles.editButtonCancel}
-            onClick={() => handleAdminAction("Rejected")}
-          >
-            Reject
-          </button>
-        </div>
-      )}
+            </Button>
+            <button
+              className={styles.editButtonCancel}
+              onClick={() => handleAdminAction("Rejected")}
+            >
+              Reject
+            </button>
+          </div>
+        )}
     </div>
   );
 };

@@ -17,6 +17,7 @@ import {
   extractLast13WithExtension,
   renderFiles,
 } from "../../../../utils/helper";
+import { useSelector } from "react-redux";
 
 const BuyerDetailsNew = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,6 +29,7 @@ const BuyerDetailsNew = () => {
   const [pdfUrl, setPdfUrl] = useState(null);
   const [salesPersonName, setSalesPersonName] = useState("");
   const [isEditable, setIsEditable] = useState(false);
+  const { user } = useSelector((state) => state.userReducer);
 
   const handleEditClick = () => {
     setIsEditable(true);
@@ -125,13 +127,14 @@ const BuyerDetailsNew = () => {
           <div className="buyer-details-container-heading">
             Buyer ID: {buyerDetails?.buyer_id}
           </div>
-          {buyerDetails?.account_status == 1 && (
-            <>
-              <Link to={`/admin/edit-details/buyer/${buyerDetails?._id}`}>
-                <span className="buyer-details-edit-button">Edit</span>
-              </Link>
-            </>
-          )}
+          {user?.accessControl?.buyer?.requests?.edit &&
+            buyerDetails?.account_status == 1 && (
+              <>
+                <Link to={`/admin/edit-details/buyer/${buyerDetails?._id}`}>
+                  <span className="buyer-details-edit-button">Edit</span>
+                </Link>
+              </>
+            )}
         </div>
         <div className="buyer-details-left-inner-container">
           <div className="buyer-details-left-uppar-section">
@@ -281,12 +284,15 @@ const BuyerDetailsNew = () => {
               <div className="buyer-details-inner-section">
                 <div className="buyer-details-inner-head">
                   Medhub Global Sales Representative :
-                  {buyerDetails?.account_status == 0 && (
-                    <FaEdit className="edit-icon" onClick={handleEditClick} />
-                  )}
+                  {user?.accessControl?.buyer?.requests?.edit &&
+                    buyerDetails?.account_status == 0 && (
+                      <FaEdit className="edit-icon" onClick={handleEditClick} />
+                    )}
                 </div>
                 <div className="buyer-details-inner-text">
-                  {buyerDetails?.account_status == 0 && isEditable ? (
+                  {user?.accessControl?.buyer?.requests?.edit &&
+                  buyerDetails?.account_status == 0 &&
+                  isEditable ? (
                     <input
                       type="text"
                       defaultValue={buyerDetails?.sales_person_name}
@@ -467,30 +473,31 @@ const BuyerDetailsNew = () => {
         </div>
 
         <div className="buyer-details-container">
-          {buyerDetails?.account_status == 0 && (
-            <div className="buyer-details-button-containers">
-              <div
-                className="buyer-details-button-accept"
-                onClick={() => handleAcceptReject("accept")}
-                disabled={loading}
-              >
-                {loading ? <div className="loading-spinner"></div> : "Accept"}
+          {user?.accessControl?.buyer?.requests?.edit &&
+            buyerDetails?.account_status == 0 && (
+              <div className="buyer-details-button-containers">
+                <div
+                  className="buyer-details-button-accept"
+                  onClick={() => handleAcceptReject("accept")}
+                  disabled={loading}
+                >
+                  {loading ? <div className="loading-spinner"></div> : "Accept"}
+                </div>
+                <div
+                  className="buyer-details-button-reject"
+                  onClick={() => handleAcceptReject("reject")}
+                  disabled={rejectLoading}
+                >
+                  {rejectLoading ? (
+                    <div className="loading-spinner"></div>
+                  ) : (
+                    "Reject"
+                  )}
+                </div>
               </div>
-              <div
-                className="buyer-details-button-reject"
-                onClick={() => handleAcceptReject("reject")}
-                disabled={rejectLoading}
-              >
-                {rejectLoading ? (
-                  <div className="loading-spinner"></div>
-                ) : (
-                  "Reject"
-                )}
-              </div>
-            </div>
-          )}
+            )}
           {/* 
-          {buyerDetails?.account_status == 0 && isModalOpen && (
+          {user?.accessControl?.buyer?.requests?.edit && buyerDetails?.account_status == 0 && isModalOpen && (
             <BuyerCustomModal onClose={closeModal} />
           )} */}
         </div>

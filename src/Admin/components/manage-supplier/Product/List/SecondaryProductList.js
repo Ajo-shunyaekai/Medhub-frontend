@@ -1,70 +1,82 @@
-import React from 'react';
-import DataTable from 'react-data-table-component';
-import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
-import styles from '../../../../assets/style/table.module.css';
+import React from "react";
+import DataTable from "react-data-table-component";
+import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
+import styles from "../../../../assets/style/table.module.css";
 import { TbEdit } from "react-icons/tb";
 import { Link, useParams } from "react-router-dom";
-import PaginationComponent from '../../../shared-components/Pagination/Pagination';
+import PaginationComponent from "../../../shared-components/Pagination/Pagination";
+import { useSelector } from "react-redux";
 
-const SecondaryProductList = ({ products, totalItems, currentPage, itemsPerPage, handlePageChange }) => {
+const SecondaryProductList = ({
+  products,
+  totalItems,
+  currentPage,
+  itemsPerPage,
+  handlePageChange,
+}) => {
   const serverUrl = process.env.REACT_APP_SERVER_URL;
   const { supplierId } = useParams();
+  const { user } = useSelector((state) => state.userReducer);
 
   // Define columns for the DataTable
   const columns = [
     {
-      name: 'Product ID',
-      selector: row => row?.product_id,
+      name: "Product ID",
+      selector: (row) => row?.product_id,
       sortable: true,
       wrap: true,
     },
     {
-      name: 'Name',
+      name: "Name",
       selector: (row) => row?.general.name,
       sortable: true,
-      cell: (row) => row?.general.name || 'Unnamed Product',
+      cell: (row) => row?.general.name || "Unnamed Product",
     },
     {
-      name: 'Category',
+      name: "Category",
       selector: (row) => row?.category,
       sortable: true,
       cell: (row) =>
         row?.category
-          ?.replace(/([a-z])([A-Z])/g, '$1 $2')
-          ?.replace(/\b\w/g, (char) => char.toUpperCase()) || 'N/A',
+          ?.replace(/([a-z])([A-Z])/g, "$1 $2")
+          ?.replace(/\b\w/g, (char) => char.toUpperCase()) || "N/A",
     },
     {
-      name: 'Sub Category',
+      name: "Sub Category",
       selector: (row) => row[row?.category]?.subCategory,
-      cell: (row) => row?.[row?.category]?.subCategory || 'N/A',
+      cell: (row) => row?.[row?.category]?.subCategory || "N/A",
     },
     {
-      name: 'Total Quantity',
+      name: "Total Quantity",
       selector: (row) => row?.general.quantity,
-      cell: (row) => row?.general.quantity || '0',
+      cell: (row) => row?.general.quantity || "0",
     },
     {
-      name: 'Stock Status',
-      selector: row => {
-        const stockValues = row?.inventoryDetails?.[0]?.stock ? [row?.inventoryDetails[0].stock] : ['N/A'];
+      name: "Stock Status",
+      selector: (row) => {
+        const stockValues = row?.inventoryDetails?.[0]?.stock
+          ? [row?.inventoryDetails[0].stock]
+          : ["N/A"];
         return stockValues[0];
       },
       sortable: true,
     },
     {
-      name: 'Actions',
+      name: "Actions",
       cell: (row) => (
         <div className={styles.buttonContainer}>
           <Link to={`/admin/product-details/${row?._id}`}>
             <div className={styles.activeBtn}>
-              <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
+              <RemoveRedEyeOutlinedIcon className={styles["table-icon"]} />
             </div>
           </Link>
-          <Link to={`/admin/supplier/${supplierId}/edit-product/${row?._id}`}>
-            <div className={styles.activeBtn}>
-              <TbEdit className={styles['table-icon']} />
-            </div>
-          </Link>
+          {user?.accessControl?.supplier?.requests?.edit && (
+            <Link to={`/admin/supplier/${supplierId}/edit-product/${row?._id}`}>
+              <div className={styles.activeBtn}>
+                <TbEdit className={styles["table-icon"]} />
+              </div>
+            </Link>
+          )}
         </div>
       ),
       ignoreRowClick: true,
@@ -114,7 +126,9 @@ const SecondaryProductList = ({ products, totalItems, currentPage, itemsPerPage,
         columns={columns}
         data={products}
         persistTableHead
-        noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
+        noDataComponent={
+          <div className={styles["no-data"]}>No Data Available</div>
+        }
         pagination={false}
         responsive
       />

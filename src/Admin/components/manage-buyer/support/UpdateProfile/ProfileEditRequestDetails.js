@@ -26,7 +26,7 @@ const getFieldValue = (field) => {
 
 const isFieldChanged = (field) => {
   return typeof field === "object" && field.isChanged === true;
-}
+};
 
 const EditProfileDetails = ({ socket }) => {
   const { id } = useParams();
@@ -37,7 +37,6 @@ const EditProfileDetails = ({ socket }) => {
     (state) => state?.adminReducer
   );
   const { user } = useSelector((state) => state?.userReducer);
-
 
   const handleAdminAction = async (action) => {
     try {
@@ -86,7 +85,7 @@ const EditProfileDetails = ({ socket }) => {
 
   // Handle loading and no-data states
   if (loading) {
-    return <Loader/>
+    return <Loader />;
   }
 
   if (!profileEditReqDetail) {
@@ -271,25 +270,29 @@ const EditProfileDetails = ({ socket }) => {
           </div>
         </div>
       </div>
-      {profileEditReqDetail?.editReqStatus === "Pending" && (
-        <div className={styles.editButtonContainer}>
-          {/* <button
+      {user?.accessControl?.buyer?.support?.edit &&
+        profileEditReqDetail?.editReqStatus === "Pending" && (
+          <div className={styles.editButtonContainer}>
+            {/* <button
             className={styles.editButtonSubmit}
             onClick={() => handleAdminAction("Approved")}
           >
             Approve
           </button> */}
-          <Button onClick={() => handleAdminAction("Approved")} loading={downloadLoader}>
+            <Button
+              onClick={() => handleAdminAction("Approved")}
+              loading={downloadLoader}
+            >
               Approve
-          </Button>
-          <button
-            className={styles.editButtonCancel}
-            onClick={() => handleAdminAction("Rejected")}
-          >
-            Reject
-          </button>
-        </div>
-      )}
+            </Button>
+            <button
+              className={styles.editButtonCancel}
+              onClick={() => handleAdminAction("Rejected")}
+            >
+              Reject
+            </button>
+          </div>
+        )}
     </div>
   );
 };
