@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react";
 import Select, { components } from "react-select";
 import styles from "./category.module.css";
-import '../../../SharedComponents/SignUp/signup.css'
+import '../../../SharedComponents/SignUp/signup.css';
 import categoryArrays from "../../../../../utils/Category";
 import countryList from "react-select-country-list";
 
@@ -41,8 +41,8 @@ const AccordionFilter = ({
 
   const countryOptions = useMemo(() =>
     countryList().getData().map(country => ({
-      value: country.value,
-      label: country.label
+      value: country.value, // e.g., "US"
+      label: country.label // e.g., "United States"
     })),
     []);
 
@@ -86,7 +86,7 @@ const AccordionFilter = ({
       category: getCategorySchema(selectedCategory?.label) || "",
       subCategory: selectedSubCategory?.label || "",
       level3Category: selectedLevel3Category?.label || "",
-      countries: selectedCountries.map(country => country.label) || []
+      countries: selectedCountries.map(country => country.label) || [] // Use country.label for full names
     };
     setFilterCategory(filterData);
   };
@@ -108,7 +108,7 @@ const AccordionFilter = ({
         className={`${styles.accordionContent} ${isOpen ? styles.open : ""}`}
       >
         <div className={styles.filterContainer}>
-          {/* <div className={styles.filterSection}>
+          <div className={styles.filterSection}>
             <label>Stocked in Country</label>
             <MultiSelectDropdown
               options={countryOptions}
@@ -117,7 +117,7 @@ const AccordionFilter = ({
                 setSelectedCountries(selectedOptions || []);
               }}
             />
-          </div> */}
+          </div>
           <div className={styles.filterSection}>
             <label>Product Category</label>
             <Select
@@ -132,7 +132,6 @@ const AccordionFilter = ({
               placeholder="Select Category"
             />
           </div>
-
           <div className={styles.filterSection}>
             <label>Product Sub Category</label>
             <Select
@@ -149,7 +148,6 @@ const AccordionFilter = ({
               isDisabled={!selectedCategory}
             />
           </div>
-
           <div className={styles.filterSection}>
             <label>Product Sub Category (Level 3)</label>
             <Select

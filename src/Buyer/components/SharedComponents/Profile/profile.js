@@ -321,15 +321,7 @@ const Profile = () => {
                     </div>
                   </div>
                 )}
-                {user?.interested_in && (
-                  <div className={styles.companyDetails}>
-                    <div className={styles.companyHead}>Interested In</div>
-                    <div className={styles.companyText}>
-                      {user?.interested_in}
-                    </div>
-                  </div>
-                )}
-                {user?.license_expiry_date && (
+                  {user?.license_expiry_date && (
                   <div className={styles.companyDetails}>
                     <div className={styles.companyHead}>
                       License Expiry/ Renewal Date
@@ -339,6 +331,15 @@ const Profile = () => {
                     </div>
                   </div>
                 )}
+               {user?.interested_in && Array.isArray(user.interested_in) && (
+  <div className={styles.companyDetails}>
+    <div className={styles.companyHead}>Interested In</div>
+    <div className={styles.companyText}>
+      {user.interested_in.join(" , ")}
+    </div>
+  </div>
+)}
+              
               </div>
             </div>
           </div>

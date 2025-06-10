@@ -87,7 +87,7 @@ const Buy2ndMarket = ({
         if (active === "market") {
           const fetchData = async () => {
             const marketType = "secondary";
-            const { category, subCategory, level3Category } =
+            const { category, subCategory, level3Category,countries = [] } =
               filterCategory || {};
             const response = await dispatch(
               fetchProductsList({
@@ -98,7 +98,7 @@ const Buy2ndMarket = ({
                 )}&subCategory=${encodeURIComponent(
                   subCategory || ""
                 )}&level3Category=${encodeURIComponent(level3Category || "")}`,
-                // obj: { countries: ["Åland Islands"] },
+               obj: { countries },
               })
             );
             if (response.meta.requestStatus === "fulfilled") {

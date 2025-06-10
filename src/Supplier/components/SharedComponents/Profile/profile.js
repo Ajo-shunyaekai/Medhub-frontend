@@ -193,16 +193,7 @@ const Profile = () => {
                       <div className={styles.companyText}>{user?.vat_reg_no}</div>
                     </div>
                   )}
-                  {user?.categories && (
-                    <div className={styles.companyDetails}>
-                      <div className={styles.companyHead}>
-                        Trading Categories
-                      </div>
-                      <div className={styles.companyText}>
-                        {user.categories.join(', ')}
-                      </div>
-                    </div>
-                  )}
+                 
                   {user?.sales_person_name && (
                     <div className={styles.companyDetails}>
                       <div className={styles.companyHead}>
@@ -231,6 +222,14 @@ const Profile = () => {
                       <div className={styles.companyText}>{user?.license_no}</div>
                     </div>
                   )}
+                  {user?.categories && user.categories.length > 0 && (
+  <div className={styles.companyDetails}>
+    <div className={styles.companyHead}>Trading Categories</div>
+    <div className={styles.companyText}>
+      {user.categories.join(' , ')}
+    </div>
+  </div>
+)}
                 </div>
                 <div className={styles.companyInnerContainer}>
                   {user?.country_of_operation && (
