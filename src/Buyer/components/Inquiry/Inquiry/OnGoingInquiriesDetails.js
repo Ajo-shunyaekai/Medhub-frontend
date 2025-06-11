@@ -257,7 +257,7 @@ const OnGoingInquiriesDetails = () => {
                   to={`/buyer/supplier-details/${inquiryDetails?.supplier?.supplier_id}`}
                 >
                   <div className="ongoing-details-top-order-cont">
-                    <div className="ongoing-details-supplier-container">
+                  
 
 
                       <div className="ongoing-details-left-top-main-heading">
@@ -267,7 +267,7 @@ const OnGoingInquiriesDetails = () => {
                         {inquiryDetails?.supplier?.supplier_name}
                       </div>
 
-                    </div>
+                    
                   </div>
                 </Link>
                 <div className="ongoing-details-top-order-cont">
