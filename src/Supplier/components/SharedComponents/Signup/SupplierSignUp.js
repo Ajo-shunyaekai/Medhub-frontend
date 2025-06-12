@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import Cross from '../../../assets/images/Icon.svg';
+import Cross from "../../../assets/images/Icon.svg";
 import { useNavigate } from "react-router-dom";
 import Select, { components } from "react-select";
 import countryList from "react-select-country-list";
-import { Tooltip} from "react-tooltip";
+import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 import Information from "../../../assets/images/infomation.svg";
 import { Country, State, City } from "country-state-city";
@@ -13,7 +13,7 @@ import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
 import CertificateUploader from "./CertificateUploader";
 import "./signup.css";
-import styles from './SupplierSignUp.module.css';
+import styles from "./SupplierSignUp.module.css";
 import logo from "../../../assets/images/logo.svg";
 import SuccessModal from "./SuccessModal";
 import ImageUploader from "./ImageUploader";
@@ -66,7 +66,9 @@ const SupplierSignUp = ({ socket }) => {
   const [tradeLicensePreviews, setTradeLicensePreviews] = useState([]);
   const [file, setfile] = useState([]);
   const [certificatePreviews, setcertificatePreviews] = useState([]);
-  const [medicalPractitionerPreview, setMedicalPractiotionerPreview] = useState([]);
+  const [medicalPractitionerPreview, setMedicalPractiotionerPreview] = useState(
+    []
+  );
   const [logoPreviews, setlogoPreviews] = useState([]);
   const [category, setCategory] = useState([]);
   const [cNCFileArray, setCNCFileArray] = useState([]);
@@ -74,6 +76,12 @@ const SupplierSignUp = ({ socket }) => {
   const [certificateFileNDate, setCertificateFileNDate] = useState([
     { file: null, date: null },
   ]);
+  const [selectedYear, setSelectedYear] = useState(null);
+
+  const handleYearChange = (date) => {
+    formData.yrFounded = date.getFullYear();
+    setSelectedYear(date);
+  };
 
   const handleDateChange = (date, index) => {
     const updatedSections = [...certificateFileNDate];
@@ -84,15 +92,14 @@ const SupplierSignUp = ({ socket }) => {
   const addNewSection = (e) => {
     e.preventDefault();
     certificateFileNDate?.length < 4 &&
-      setCertificateFileNDate((prev) => [
-        ...prev,
-        { file: null, date: null },
-      ]);
+      setCertificateFileNDate((prev) => [...prev, { file: null, date: null }]);
   };
 
   const removeSection = (index) => {
     if (certificateFileNDate.length > 1) {
-      const updatedSections = certificateFileNDate.filter((_, i) => i !== index);
+      const updatedSections = certificateFileNDate.filter(
+        (_, i) => i !== index
+      );
       setCertificateFileNDate(updatedSections);
       setErrors((prev) => {
         const newErrors = { ...prev };
@@ -122,6 +129,8 @@ const SupplierSignUp = ({ socket }) => {
     originCountry: "",
     operationCountries: [],
     companyLicenseNo: "",
+    yrFounded: "",
+    annualTurnover: "",
     companyLicenseExpiry: "",
     companyTaxNo: "",
     description: "",
@@ -239,7 +248,8 @@ const SupplierSignUp = ({ socket }) => {
     }, 0);
     setErrors((prevState) => ({
       ...prevState,
-      [`${imageType}Image`]: !hasImage && !file ? `${imageType} image is Required` : "",
+      [`${imageType}Image`]:
+        !hasImage && !file ? `${imageType} image is Required` : "",
     }));
   };
 
@@ -335,11 +345,7 @@ const SupplierSignUp = ({ socket }) => {
     }
 
     if (
-      [
-        "vatRegistrationNo",
-        "companyLicenseNo",
-        "companyTaxNo",
-      ].includes(name)
+      ["vatRegistrationNo", "companyLicenseNo", "companyTaxNo"].includes(name)
     ) {
       if (value.length > 16) {
         setErrors((prevState) => ({
@@ -357,11 +363,7 @@ const SupplierSignUp = ({ socket }) => {
       }
     }
 
-    if (
-      [
-        "registrationNo",
-      ].includes(name)
-    ) {
+    if (["registrationNo"].includes(name)) {
       if (value.length >= 20) {
         setErrors((prevState) => ({
           ...prevState,
@@ -506,7 +508,8 @@ const SupplierSignUp = ({ socket }) => {
       selectedCompanyType?.value === "medical practitioner" &&
       !formData.medicalCertificateImage
     ) {
-      formErrors.medicalCertificateImage = "Medical Certificate Image is Required";
+      formErrors.medicalCertificateImage =
+        "Medical Certificate Image is Required";
     }
     if (!formData.registrationNo)
       formErrors.registrationNo = "Registration No. is Required";
@@ -516,10 +519,11 @@ const SupplierSignUp = ({ socket }) => {
       formErrors.activityCode = "Business/Trade Activity is Required";
     if (!formData.locality) formErrors.locality = "Locality is Required";
     if (!formData.country) formErrors.country = "Country is Required";
-    if (
-      selectedCompanyType?.value !== "service provider"
-    ) {
-      if (Array.isArray(certificateFileNDate) && certificateFileNDate.length > 0) {
+    if (selectedCompanyType?.value !== "service provider") {
+      if (
+        Array.isArray(certificateFileNDate) &&
+        certificateFileNDate.length > 0
+      ) {
         const fileErrors = [];
         certificateFileNDate.forEach((item, index) => {
           if (!item.file) {
@@ -569,7 +573,8 @@ const SupplierSignUp = ({ socket }) => {
     });
     setErrors((prevState) => ({
       ...prevState,
-      operationCountries: selectedLabels.length === 0 ? "Country of Operation is Required" : "",
+      operationCountries:
+        selectedLabels.length === 0 ? "Country of Operation is Required" : "",
     }));
   };
 
@@ -581,7 +586,8 @@ const SupplierSignUp = ({ socket }) => {
     });
     setErrors((prevState) => ({
       ...prevState,
-      categories: selectedLabels.length === 0 ? "Trade In Category is Required" : "",
+      categories:
+        selectedLabels.length === 0 ? "Trade In Category is Required" : "",
     }));
   };
 
@@ -620,9 +626,13 @@ const SupplierSignUp = ({ socket }) => {
       setLoading(true);
       const formDataToSend = new FormData();
       const countryLabels =
-        formData.operationCountries.map((country) => country ? country.label : "") || [];
+        formData.operationCountries.map((country) =>
+          country ? country.label : ""
+        ) || [];
       const categoryLabels =
-        formData.categories?.map((category) => category ? category.label : "") || [];
+        formData.categories?.map((category) =>
+          category ? category.label : ""
+        ) || [];
 
       formDataToSend.append("supplier_type", formData.companyType?.label);
       formDataToSend.append("supplier_name", formData.companyName);
@@ -631,7 +641,10 @@ const SupplierSignUp = ({ socket }) => {
       formDataToSend.append("website_address", formData.websiteAddress);
       formDataToSend.append("supplier_mobile_no", formData.companyPhone);
       formDataToSend.append("license_no", formData.companyLicenseNo);
-      formDataToSend.append("license_expiry_date", formData.companyLicenseExpiry);
+      formDataToSend.append(
+        "license_expiry_date",
+        formData.companyLicenseExpiry
+      );
       formDataToSend.append("country_of_origin", formData.originCountry);
       formDataToSend.append("sales_person_name", formData.salesPersonName);
       formDataToSend.append("contact_person_name", formData.contactPersonName);
@@ -643,8 +656,12 @@ const SupplierSignUp = ({ socket }) => {
       formDataToSend.append("contact_person_email", formData.email);
       formDataToSend.append("registration_no", formData.registrationNo);
       formDataToSend.append("vat_reg_no", formData.vatRegistrationNo);
-      countryLabels.forEach((item) => formDataToSend.append("country_of_operation", item));
-      categoryLabels.forEach((item) => formDataToSend.append("categories", item));
+      countryLabels.forEach((item) =>
+        formDataToSend.append("country_of_operation", item)
+      );
+      categoryLabels.forEach((item) =>
+        formDataToSend.append("categories", item)
+      );
       formDataToSend.append("tax_no", formData.companyTaxNo);
       formDataToSend.append("activity_code", formData.activityCode);
       formDataToSend.append("locality", formData.locality);
@@ -655,20 +672,24 @@ const SupplierSignUp = ({ socket }) => {
       formDataToSend.append("pincode", formData.pincode);
       formDataToSend.append("usertype", formData.usertype);
 
-      (Array.isArray(formData.logoImage) ? formData.logoImage : []).forEach((file) =>
-        formDataToSend.append("supplier_image", file)
+      (Array.isArray(formData.logoImage) ? formData.logoImage : []).forEach(
+        (file) => formDataToSend.append("supplier_image", file)
       );
-      (Array.isArray(formData.licenseImage) ? formData.licenseImage : []).forEach((file) =>
-        formDataToSend.append("license_image", file)
-      );
-      (Array.isArray(formData.taxImage) ? formData.taxImage : []).forEach((file) =>
-        formDataToSend.append("tax_image", file)
+      (Array.isArray(formData.licenseImage)
+        ? formData.licenseImage
+        : []
+      ).forEach((file) => formDataToSend.append("license_image", file));
+      (Array.isArray(formData.taxImage) ? formData.taxImage : []).forEach(
+        (file) => formDataToSend.append("tax_image", file)
       );
       (Array.isArray(cNCFileArray) ? cNCFileArray : []).forEach((file) =>
         formDataToSend.append("certificate_image", file)
       );
       if (selectedCompanyType?.value === "medical practitioner") {
-        (Array.isArray(formData.medicalCertificateImage) ? formData.medicalCertificateImage : []).forEach((file) =>
+        (Array.isArray(formData.medicalCertificateImage)
+          ? formData.medicalCertificateImage
+          : []
+        ).forEach((file) =>
           formDataToSend.append("medical_practitioner_image", file)
         );
       }
@@ -676,10 +697,15 @@ const SupplierSignUp = ({ socket }) => {
       const certificateFileNDateUpdated = JSON.stringify(
         certificateFileNDate?.map((section) => ({
           date: section?.date || "",
-          file: Array.isArray(section?.file) ? section?.file?.[0] : section?.file || "",
+          file: Array.isArray(section?.file)
+            ? section?.file?.[0]
+            : section?.file || "",
         })) || [{ date: "", file: "" }]
       );
-      formDataToSend.append("certificateFileNDate", certificateFileNDateUpdated);
+      formDataToSend.append(
+        "certificateFileNDate",
+        certificateFileNDateUpdated
+      );
 
       try {
         const response = await apiRequests?.postRequestWithFile(
@@ -745,7 +771,9 @@ const SupplierSignUp = ({ socket }) => {
                 onSubmit={handleFormSubmit}
               >
                 <div className={styles.signupFormSectionContainer}>
-                  <div className={styles.signupInnerHeading}>Company Details</div>
+                  <div className={styles.signupInnerHeading}>
+                    Company Details
+                  </div>
                   <div className={styles.signupFormInnerDivSection}>
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
@@ -861,7 +889,8 @@ const SupplierSignUp = ({ socket }) => {
                     </div>
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
-                        Company Phone No.<span className={styles.labelStamp}>*</span>
+                        Company Phone No.
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <PhoneInput
                         className={styles.signupFormSectionPhoneInput}
@@ -912,7 +941,9 @@ const SupplierSignUp = ({ socket }) => {
                         onChange={handleChange}
                       />
                       {errors.locality && (
-                        <div className={styles.signupErrors}>{errors.locality}</div>
+                        <div className={styles.signupErrors}>
+                          {errors.locality}
+                        </div>
                       )}
                     </div>
                     <div className={styles.signupFormSectionDiv}>
@@ -941,7 +972,9 @@ const SupplierSignUp = ({ socket }) => {
                         placeholder="Select Country"
                       />
                       {errors.country && (
-                        <div className={styles.signupErrors}>{errors.country}</div>
+                        <div className={styles.signupErrors}>
+                          {errors.country}
+                        </div>
                       )}
                     </div>
                     <div className={styles.signupFormSectionDiv}>
@@ -952,7 +985,9 @@ const SupplierSignUp = ({ socket }) => {
                         options={
                           selectedCountry
                             ? [
-                                ...State.getStatesOfCountry(selectedCountry.isoCode),
+                                ...State.getStatesOfCountry(
+                                  selectedCountry.isoCode
+                                ),
                                 { name: "Other", isoCode: "OTHER" },
                               ]
                             : []
@@ -1000,7 +1035,9 @@ const SupplierSignUp = ({ socket }) => {
                         onChange={handleChange}
                       />
                       {errors.pincode && (
-                        <div className={styles.signupErrors}>{errors.pincode}</div>
+                        <div className={styles.signupErrors}>
+                          {errors.pincode}
+                        </div>
                       )}
                     </div>
                     <div className={styles.signupFormSectionDiv}>
@@ -1037,7 +1074,8 @@ const SupplierSignUp = ({ socket }) => {
                     </div>
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
-                        Country of Origin<span className={styles.labelStamp}>*</span>
+                        Country of Origin
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <Select
                         className={styles.signupFormsSectionsSelect}
@@ -1130,10 +1168,21 @@ const SupplierSignUp = ({ socket }) => {
                       </label>
                       <DatePicker
                         className={styles.signupFormSectionInput}
-                        selected={formData.companyLicenseExpiry ? parseDateString(formData.companyLicenseExpiry) : null}
+                        selected={
+                          formData.companyLicenseExpiry
+                            ? parseDateString(formData.companyLicenseExpiry)
+                            : null
+                        }
                         onChange={(date) => {
-                          const formattedDate = date ? date.toLocaleDateString("en-GB") : "";
-                          handleChange({ target: { name: "companyLicenseExpiry", value: formattedDate } });
+                          const formattedDate = date
+                            ? date.toLocaleDateString("en-GB")
+                            : "";
+                          handleChange({
+                            target: {
+                              name: "companyLicenseExpiry",
+                              value: formattedDate,
+                            },
+                          });
                         }}
                         dateFormat="dd/MM/yyyy"
                         placeholderText="dd/MM/yyyy"
@@ -1145,7 +1194,8 @@ const SupplierSignUp = ({ socket }) => {
                     </div>
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
-                        About Company<span className={styles.labelStamp}>*</span>
+                        About Company
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <div className={styles.signupTooltipClass}>
                         <textarea
@@ -1175,6 +1225,34 @@ const SupplierSignUp = ({ socket }) => {
                           {errors.description}
                         </div>
                       )}
+                    </div>
+                    <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
+                        Annual Turnover
+                      </label>
+                      <input
+                        className={styles.signupFormSectionInput}
+                        type="number"
+                        name="annualTurnover"
+                        placeholder="Enter Annual Turnover in USD"
+                        value={formData.annualTurnover}
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
+                        Year Company Founded
+                      </label>
+                      <DatePicker
+                        className={styles.signupFormSectionInput}
+                        selected={selectedYear}
+                        name="yrFounded"
+                        onChange={handleYearChange}
+                        placeholderText="Select Year Company Founded"
+                        showYearPicker
+                        dateFormat="yyyy"
+                        maxDate={new Date()}
+                      />
                     </div>
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
@@ -1234,7 +1312,9 @@ const SupplierSignUp = ({ socket }) => {
                 </div>
 
                 <div className={styles.signupFormSectionContainer}>
-                  <div className={styles.signupInnerHeading}>Contact Details</div>
+                  <div className={styles.signupInnerHeading}>
+                    Contact Details
+                  </div>
                   <div className={styles.signupFormInnerDivSection}>
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
@@ -1281,7 +1361,9 @@ const SupplierSignUp = ({ socket }) => {
                         <Tooltip id="email-tooltip" />
                       </div>
                       {errors.email && (
-                        <div className={styles.signupErrors}>{errors.email}</div>
+                        <div className={styles.signupErrors}>
+                          {errors.email}
+                        </div>
                       )}
                     </div>
                     <div className={styles.signupFormSectionDiv}>
@@ -1313,7 +1395,9 @@ const SupplierSignUp = ({ socket }) => {
                         <Tooltip id="mobile-tooltip" />
                       </div>
                       {errors.mobile && (
-                        <div className={styles.signupErrors}>{errors.mobile}</div>
+                        <div className={styles.signupErrors}>
+                          {errors.mobile}
+                        </div>
                       )}
                     </div>
                     <div className={styles.signupFormSectionDiv}>
@@ -1356,7 +1440,8 @@ const SupplierSignUp = ({ socket }) => {
                   <div className={styles.signupFormInnerDivSection}>
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
-                        Upload Company Logo<span className={styles.labelStamp}>*</span>
+                        Upload Company Logo
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <ImageUploader
                         onUploadStatusChange={handleImageUpload}
@@ -1369,7 +1454,9 @@ const SupplierSignUp = ({ socket }) => {
                         tooltipMessage="Only JPEG and PNG image formats are allowed."
                       />
                       {errors.logoImage && (
-                        <div className={styles.signupErrors}>{errors.logoImage}</div>
+                        <div className={styles.signupErrors}>
+                          {errors.logoImage}
+                        </div>
                       )}
                     </div>
                     <div className={styles.signupFormSectionDiv}>
@@ -1404,7 +1491,10 @@ const SupplierSignUp = ({ socket }) => {
                           </button>
                         </div>
                         {certificateFileNDate.map((section, index) => (
-                          <div key={index} className={styles.documentInnerSection}>
+                          <div
+                            key={index}
+                            className={styles.documentInnerSection}
+                          >
                             <div className={styles.signupFormSectionDiv}>
                               <label className={styles.signupFormSectionLabel}>
                                 Upload Certificate
@@ -1415,13 +1505,17 @@ const SupplierSignUp = ({ socket }) => {
                                   handleImageUpload(status, index)
                                 }
                                 filePreviews={section.file}
-                                setFilePreviews={(files) => setfile(files, index)}
+                                setFilePreviews={(files) =>
+                                  setfile(files, index)
+                                }
                                 reset={resetUploaders}
                                 allowMultiple={false}
                                 showTooltip={true}
                                 tooltipMessage="Certificate could be any company based compliance certificates: ISO, Heath and Safety, WDA."
                                 certificateFileNDate={certificateFileNDate}
-                                setCertificateFileNDate={setCertificateFileNDate}
+                                setCertificateFileNDate={
+                                  setCertificateFileNDate
+                                }
                                 cNCFileArray={cNCFileArray}
                                 setCNCFileArray={setCNCFileArray}
                                 cNCFileError={cNCFileError}
@@ -1441,7 +1535,9 @@ const SupplierSignUp = ({ socket }) => {
                               <DatePicker
                                 className={styles.signupFormSectionInput}
                                 selected={section.date}
-                                onChange={(date) => handleDateChange(date, index)}
+                                onChange={(date) =>
+                                  handleDateChange(date, index)
+                                }
                                 dateFormat="dd/MM/yyyy"
                                 placeholderText="dd/MM/yyyy"
                                 minDate={new Date()}
@@ -1455,7 +1551,11 @@ const SupplierSignUp = ({ socket }) => {
                                 onClick={() => removeSection(index)}
                                 className={styles.signupCrossButton}
                               >
-                                <img src={Cross} alt="cross" className={styles.crossIcon} />
+                                <img
+                                  src={Cross}
+                                  alt="cross"
+                                  className={styles.crossIcon}
+                                />
                               </div>
                             )}
                           </div>
@@ -1489,12 +1589,13 @@ const SupplierSignUp = ({ socket }) => {
                       className={styles.termsCondition}
                       onClick={() => setShowTnC(true)}
                     >
-                      Terms & Conditions<span className={styles.labelStamp}>*</span>
+                      Terms & Conditions
+                      <span className={styles.labelStamp}>*</span>
                     </div>
                   </div>
                 </div>
                 <div className={styles.signupFormContButton}>
-                   <button
+                  <button
                     type="submit"
                     className={styles.signupFormButtonSubmit}
                     disabled={loading}
@@ -1511,7 +1612,6 @@ const SupplierSignUp = ({ socket }) => {
                   >
                     Cancel
                   </div>
-                 
                 </div>
               </form>
             </div>

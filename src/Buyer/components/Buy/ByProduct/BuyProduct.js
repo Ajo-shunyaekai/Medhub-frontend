@@ -6,7 +6,7 @@ import ProductCard from "../UiShared/ProductCards/ProductCard";
 import ListView from "../UiShared/ProductList/ProductList";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../SharedComponents/Loader/Loader";
-import { fetchProductsList } from "../../../../redux/reducers/productSlice";
+import { fetchProductsList, fetchProductsQRList } from "../../../../redux/reducers/productSlice";
 import AccordionFilter from "../UiShared/Category/Category";
 import { BsCardList } from "react-icons/bs";
 import { FaRegAddressCard } from "react-icons/fa";
@@ -101,6 +101,12 @@ const BuyProduct = ({
                 obj: { countries }, // Send countries in request body
               })
             );
+            // const response2 = await dispatch(
+            //   fetchProductsQRList({
+            //     url: `product/get-all-qr-products?pageNo=${currentPage}&pageSize=${20}`,
+            //     obj: { downloadCsv: true },
+            //   })
+            // );
             if (response.meta.requestStatus === "fulfilled") {
               setProductList(response?.payload?.products || []);
               setTotalitems(response?.payload?.totalItems || 0);

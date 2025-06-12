@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import DataTable from 'react-data-table-component';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import { postRequestWithToken } from '../../../api/Requests';
@@ -83,11 +83,11 @@ const SellerTransaction = () => {
         {
             name: 'Action',
             cell: row => (
-                <a href={`/admin/supplier-transaction-details/${row?.invoice_id}`} title="View Details">
+                <Link to={`/admin/supplier-transaction-details/${row?.invoice_id}`} title="View Details">
                     <div className={styles.activeBtn}>
                         <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                     </div>
-                </a>
+                </Link>
             ),
             ignoreRowClick: true,
             allowOverflow: true,

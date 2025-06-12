@@ -16,6 +16,8 @@ import {
   extractLast13WithExtension,
   renderFiles,
 } from "../../../../utils/helper";
+import { useSelector } from "react-redux";
+
 const SupplierDetailsNew = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [supplierDetails, setSupplierDetails] = useState();
@@ -29,6 +31,9 @@ const SupplierDetailsNew = () => {
   const [pdfUrl, setPdfUrl] = useState(null);
   const [salesPersonName, setSalesPersonName] = useState("");
   const [isEditable, setIsEditable] = useState(false);
+  const { user } = useSelector((state) => state.userReducer);
+
+  console.log("first", user?.accessControl)
 
   const handleEditClick = () => {
     setIsEditable(true);
@@ -133,11 +138,13 @@ const SupplierDetailsNew = () => {
                     Product List
                   </span>
                 </Link>
-                <Link
-                  to={`/admin/edit-details/supplier/${supplierDetails?._id}`}
-                >
-                  <span className="buyer-details-edit-button">Edit</span>
-                </Link>
+                {user?.accessControl?.supplier?.requests?.edit && (
+                  <Link
+                    to={`/admin/edit-details/supplier/${supplierDetails?._id}`}
+                  >
+                    <span className="buyer-details-edit-button">Edit</span>
+                  </Link>
+                )}
               </div>
             </>
           )}
@@ -280,12 +287,15 @@ const SupplierDetailsNew = () => {
               <div className="buyer-details-inner-section">
                 <div className="buyer-details-inner-head">
                   Medhub Global Sales Representative :
-                  {supplierDetails?.account_status == 0 && (
-                    <FaEdit className="edit-icon" onClick={handleEditClick} />
-                  )}
+                  {user?.accessControl?.supplier?.requests?.edit &&
+                    supplierDetails?.account_status == 0 && (
+                      <FaEdit className="edit-icon" onClick={handleEditClick} />
+                    )}
                 </div>
                 <div className="buyer-details-inner-text">
-                  {supplierDetails?.account_status == 0 && isEditable ? (
+                  {user?.accessControl?.supplier?.requests?.edit &&
+                  supplierDetails?.account_status == 0 &&
+                  isEditable ? (
                     <input
                       type="text"
                       defaultValue={supplierDetails?.sales_person_name}
@@ -474,33 +484,34 @@ const SupplierDetailsNew = () => {
 
         <div className="buyer-details-container">
           {/* Rest of your JSX content */}
-          {supplierDetails?.account_status == 0 && (
-            <div className="buyer-details-button-containers">
-              <div
-                className="buyer-details-button-accept"
-                onClick={() => handleAcceptReject("accept")}
-                disabled={loading}
-              >
-                {loading ? <div className="loading-spinner"></div> : "Accept"}
+          {user?.accessControl?.supplier?.requests?.edit &&
+            supplierDetails?.account_status == 0 && (
+              <div className="buyer-details-button-containers">
+                <div
+                  className="buyer-details-button-accept"
+                  onClick={() => handleAcceptReject("accept")}
+                  disabled={loading}
+                >
+                  {loading ? <div className="loading-spinner"></div> : "Accept"}
+                </div>
+                <div
+                  className="buyer-details-button-reject"
+                  // onClick={handleRejectClick}
+                  onClick={() => handleAcceptReject("reject")}
+                  disabled={rejectLoading}
+                >
+                  {rejectLoading ? (
+                    <div className="loading-spinner"></div>
+                  ) : (
+                    "Reject"
+                  )}
+                </div>
               </div>
-              <div
-                className="buyer-details-button-reject"
-                // onClick={handleRejectClick}
-                onClick={() => handleAcceptReject("reject")}
-                disabled={rejectLoading}
-              >
-                {rejectLoading ? (
-                  <div className="loading-spinner"></div>
-                ) : (
-                  "Reject"
-                )}
-              </div>
-            </div>
-          )}
+            )}
 
-          {supplierDetails?.account_status == 0 && isModalOpen && (
-            <SupplierCustomModal onClose={closeModal} />
-          )}
+          {user?.accessControl?.supplier?.requests?.edit &&
+            supplierDetails?.account_status == 0 &&
+            isModalOpen && <SupplierCustomModal onClose={closeModal} />}
         </div>
       </div>
     </div>

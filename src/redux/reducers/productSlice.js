@@ -38,7 +38,7 @@ export const fetchProductsQRListCsvDwnld = createAsyncThunk(
   }
 );
 
-export const fetchProductsQRList2 = createAsyncThunk(
+export const fetchProductsQRList = createAsyncThunk(
   "product/fetchProductsQRList",
   async ({ url, obj }, { rejectWithValue }) => {
     try {

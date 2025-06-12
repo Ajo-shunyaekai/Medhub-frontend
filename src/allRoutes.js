@@ -428,7 +428,7 @@ export const supplierNestedRoutes = [
   {
     path: "product",
     component: lazy(() =>
-      import("./Supplier//components/Products/NewProducts/Product")
+      import("./Supplier/components/Products/NewProducts/Product")
     ),
     children: [
       {

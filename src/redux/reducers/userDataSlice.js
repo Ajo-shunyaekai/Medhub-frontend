@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { toast} from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { apiRequests } from "../../api";
 import { socket, usertype } from "../../constants";
@@ -32,7 +32,9 @@ export const fetchOtherUserData = createAsyncThunk(
   "user/fetchOtherUserData",
   async ({ id, userType }, { rejectWithValue }) => {
     try {
-      const response = await apiRequests?.getRequest(`/auth/other-user/${userType}/${id}`);
+      const response = await apiRequests?.getRequest(
+        `/auth/other-user/${userType}/${id}`
+      );
       return response?.user || response?.data; // Return the actual user data or fallback
     } catch (error) {
       // Log and pass the error
@@ -170,7 +172,9 @@ export const registerUser = createAsyncThunk(
 
       (usertype === "Supplier" || usertype === "Buyer") &&
         socket.emit(
-          usertype === "Supplier" ? "supplierRegistration" : "buyerRegistration",
+          usertype === "Supplier"
+            ? "supplierRegistration"
+            : "buyerRegistration",
           {
             adminId: process.env.REACT_APP_ADMIN_ID,
             message: `New ${usertype} Registration Request `,
@@ -197,6 +201,9 @@ export const userDataSlice = createSlice({
     },
     setEmailToResetPassword: (state, action) => {
       state.emailToResetPassword = action.payload;
+    },
+    addLoginUser: (state, action) => {
+      state.user = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -278,6 +285,6 @@ export const userDataSlice = createSlice({
   },
 });
 
-export const { resetUserData, setEmailToResetPassword } = userDataSlice.actions;
+export const { addLoginUser, resetUserData, setEmailToResetPassword } = userDataSlice.actions;
 
 export default userDataSlice.reducer;

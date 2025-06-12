@@ -23,6 +23,7 @@ const Product = () => {
   const itemsPerPage = 8;
   const [open, setOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
+  const { user } = useSelector((state) => state.userReducer);
 
   const [medicineType, setMedicineType] = useState(() => {
     switch (location.pathname) {
@@ -127,9 +128,11 @@ const Product = () => {
         <div className={styles.container}>
           <div className={styles.header}>
             <div className={styles.title}>Products</div>
-            <Link to={`/admin/supplier/${supplierId}/add-product`}>
-              <button className={styles.button}>Add Product</button>
-            </Link>
+            {user?.accessControl?.supplier?.requests?.edit && (
+              <Link to={`/admin/supplier/${supplierId}/add-product`}>
+                <button className={styles.button}>Add Product</button>
+              </Link>
+            )}
           </div>
           <div className={styles.content}>
             <div className={styles.sidebar}>
