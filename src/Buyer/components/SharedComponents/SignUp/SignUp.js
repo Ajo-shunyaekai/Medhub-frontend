@@ -733,6 +733,8 @@ const SignUp = ({ socket }) => {
 
       formDataToSend.append("activity_code", formData.activityCode);
       formDataToSend.append("usertype", formData.usertype || "Buyer");
+      formDataToSend.append("annualTurnover", formData.annualTurnover);
+      formDataToSend.append("yrFounded", formData.yrFounded);
       // New data fields
       formDataToSend.append("locality", formData.locality);
       formDataToSend.append("land_mark", formData.landMark);
