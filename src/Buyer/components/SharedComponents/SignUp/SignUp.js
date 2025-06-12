@@ -12,7 +12,7 @@ import { Country, State, City } from "country-state-city";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
 import "./signup.css";
-import styles from './signup.module.css';
+import styles from "./signup.module.css";
 import logo from "../../../assets/images/navibluelogo.svg";
 import SuccessModal from "./SuccessModal";
 import ImageUploaders from "./ImageUploader";
@@ -81,6 +81,13 @@ const SignUp = ({ socket }) => {
       date: null,
     },
   ]);
+  const [selectedYear, setSelectedYear] = useState(null);
+
+  const handleYearChange = (date) => {
+    formData.yrFounded = date.getFullYear();
+    setSelectedYear(date);
+  };
+
   const handleDateChange = (date, index) => {
     // Update the specific section's expiry date
     const updatedSections = [...certificateFileNDate];
@@ -123,7 +130,7 @@ const SignUp = ({ socket }) => {
     companyAddress: "",
     companyEmail: "",
     companyPhone: "",
-    websiteAddress:"",
+    websiteAddress: "",
     salesPersonName: "",
     contactPersonName: "",
     designation: "",
@@ -134,6 +141,8 @@ const SignUp = ({ socket }) => {
     operationCountries: [],
     interestedIn: "",
     companyLicenseNo: "",
+    yrFounded: "",
+    annualTurnover: "",
     // companyTaxNo: "",
     yearlyPurchaseValue: "",
     companyLicenseExpiry: "",
@@ -285,8 +294,6 @@ const SignUp = ({ socket }) => {
     }));
   };
 
-  
-
   const handleChange = (event) => {
     const { name, value } = event.target;
 
@@ -381,7 +388,7 @@ const SignUp = ({ socket }) => {
     if (
       (name === "companyName" ||
         name === "companyEmail" ||
-        (name === "email") || 
+        name === "email" ||
         // (name === "companyAddress") ||
         name === "locality" ||
         name === "landMark") &&
@@ -394,8 +401,7 @@ const SignUp = ({ socket }) => {
       return;
     }
 
-    if((name === "companyAddress") &&
-    value.length > 150 ) {
+    if (name === "companyAddress" && value.length > 150) {
       setErrors((prevState) => ({
         ...prevState,
         [name]: ``,
@@ -425,11 +431,7 @@ const SignUp = ({ socket }) => {
         return;
       }
     }
-    if (
-      [
-        "registrationNo",
-      ].includes(name)
-    ) {
+    if (["registrationNo"].includes(name)) {
       if (value.length >= 20) {
         setErrors((prevState) => ({
           ...prevState,
@@ -511,9 +513,9 @@ const SignUp = ({ socket }) => {
 
         const countryCode = phoneNumber.countryCallingCode;
         const nationalNumber = phoneNumber.nationalNumber;
-      
+
         const formattedNumber = `+${countryCode} ${nationalNumber}`;
-      
+
         setFormData((prevState) => ({ ...prevState, [name]: formattedNumber }));
       } else {
         // Set error if phone number is invalid
@@ -554,7 +556,6 @@ const SignUp = ({ socket }) => {
       formErrors.companyEmail = "Company Email ID is Required";
     if (formData.companyEmail && !validateEmail(formData.companyEmail))
       formErrors.companyEmail = "Invalid Company Email ID";
-   
 
     try {
       // Validate Company Phone
@@ -589,32 +590,32 @@ const SignUp = ({ socket }) => {
     if (!formData.email) formErrors.email = "Email ID is Required";
     if (formData.email && !validateEmail(formData.email))
       formErrors.email = "Invalid Email ID";
-   
+
     if (!formData.originCountry)
       formErrors.originCountry = "Country of Origin is Required";
     if (!formData.operationCountries.length)
       formErrors.operationCountries = "Country of Operation is Required";
-    
+
     if (!formData.yearlyPurchaseValue)
       formErrors.yearlyPurchaseValue = "Yearly Purchase Value is Required";
-   
+
     if (!formData.interestedIn)
       formErrors.interestedIn = "Interested In  is Required";
-    
+
     if (!formData.description)
       formErrors.description = "Description is Required";
     if (formData.description.length > 1000)
       formErrors.description = "Description cannot exceed 1000 characters";
-   
+
     if (!formData.logoImage) formErrors.logoImage = "Company Logo is Required";
     if (!formData.licenseImage)
       formErrors.licenseImage = "License Image is Required";
-   
+
     if (!formData.registrationNo)
       formErrors.registrationNo = "Registration No. is Required";
     if (!formData.vatRegistrationNo)
       formErrors.vatRegistrationNo = "GST/VAT Registration No. is Required";
-   
+
     if (
       selectedCompanyType?.value === "medical practitioner" &&
       !formData.medicalCertificateImage
@@ -701,7 +702,7 @@ const SignUp = ({ socket }) => {
       formDataToSend.append("description", formData.description);
       formDataToSend.append("buyer_address", formData.companyAddress);
       formDataToSend.append("buyer_email", formData.companyEmail);
-     
+
       formDataToSend.append("buyer_mobile", formData.companyPhone);
       formDataToSend.append("website_address", formData.websiteAddress);
       formDataToSend.append("license_no", formData.companyLicenseNo);
@@ -720,16 +721,16 @@ const SignUp = ({ socket }) => {
         formData.companyLicenseExpiry
       );
       formDataToSend.append("designation", formData.designation);
-      
+
       formDataToSend.append("contact_person_mobile", formData.mobile);
       formDataToSend.append("contact_person_email", formData.email);
       formDataToSend.append("registration_no", formData.registrationNo);
       formDataToSend.append("vat_reg_no", formData.vatRegistrationNo);
-     
+
       countryLabels.forEach((item) =>
         formDataToSend.append("country_of_operation", item)
       );
-     
+
       formDataToSend.append("activity_code", formData.activityCode);
       formDataToSend.append("usertype", formData.usertype || "Buyer");
       // New data fields
@@ -746,7 +747,7 @@ const SignUp = ({ socket }) => {
       Array.from(formData.licenseImage).forEach((file) =>
         formDataToSend.append("license_image", file)
       );
-     
+
       (Array.isArray(cNCFileArray) ? cNCFileArray : []).forEach((file) =>
         formDataToSend.append("certificate_image", file)
       );
@@ -773,7 +774,6 @@ const SignUp = ({ socket }) => {
         "certificateFileNDate",
         certificateFileNDateUpdated
       );
-      
 
       try {
         const response = await apiRequests?.postRequestWithFile(
@@ -782,15 +782,14 @@ const SignUp = ({ socket }) => {
           "Buyer"
         );
         if (response?.code !== 200) {
-          
           setLoading(false);
           toast(response.message, { type: "error" });
           return;
         }
-       
+
         handleResetForm();
         setShowModal(true);
-      
+
         setLoading(false);
         setMedicalPractiotionerPreview([]);
 
@@ -798,10 +797,8 @@ const SignUp = ({ socket }) => {
           adminId: process.env.REACT_APP_ADMIN_ID,
           message: `New Buyer Registration Request `,
           link: process.env.REACT_APP_PUBLIC_URL,
-         
         });
       } catch (error) {
-       
         setLoading(false);
         toast(error.message, { type: "error" });
       } finally {
@@ -901,7 +898,9 @@ const SignUp = ({ socket }) => {
                 onSubmit={handleFormSubmit}
               >
                 <div className={styles.signupFormSectionContainer}>
-                  <div className={styles.signupInnerHeading}>Company Details</div>
+                  <div className={styles.signupInnerHeading}>
+                    Company Details
+                  </div>
                   <div className={styles.signupFormInnerDivSection}>
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
@@ -1015,11 +1014,11 @@ const SignUp = ({ socket }) => {
                         value={formData.websiteAddress}
                         onChange={handleChange}
                       />
-                     
                     </div>
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
-                        Company Email ID<span className={styles.labelStamp}>*</span>
+                        Company Email ID
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <input
                         className={styles.signupFormSectionInput}
@@ -1038,7 +1037,8 @@ const SignUp = ({ socket }) => {
 
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
-                        Company Phone No.<span className={styles.labelStamp}>*</span>
+                        Company Phone No.
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <PhoneInput
                         className={styles.signupFormSectionPhoneInput}
@@ -1089,7 +1089,9 @@ const SignUp = ({ socket }) => {
                         onChange={handleChange}
                       />
                       {errors.locality && (
-                        <div className={styles.signupErrors}>{errors.locality}</div>
+                        <div className={styles.signupErrors}>
+                          {errors.locality}
+                        </div>
                       )}
                     </div>
                     <div className={styles.signupFormSectionDiv}>
@@ -1104,7 +1106,6 @@ const SignUp = ({ socket }) => {
                         value={formData.landMark}
                         onChange={handleChange}
                       />
-                    
                     </div>
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
@@ -1119,7 +1120,9 @@ const SignUp = ({ socket }) => {
                         placeholder="Select Country"
                       />
                       {errors.country && (
-                        <div className={styles.signupErrors}>{errors.country}</div>
+                        <div className={styles.signupErrors}>
+                          {errors.country}
+                        </div>
                       )}
                     </div>
                     <div className={styles.signupFormSectionDiv}>
@@ -1182,34 +1185,35 @@ const SignUp = ({ socket }) => {
                     </div>
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
-                      Medhub Global Sales Representative
+                        Medhub Global Sales Representative
                       </label>
                       <div className={styles.signupTooltipClass}>
-                      <input
-                        className={styles.signupFormSectionInput}
-                        type="text"
-                        name="salesPersonName"
-                        placeholder="Enter Medhub Global Sales Representative Name"
-                        value={formData.salesPersonName}
-                        onChange={handleChange}
-                      />
-                      <span
-                        className={styles.emailInfoIcon}
-                        data-tooltip-id="company-name-tooltip"
-                        data-tooltip-content="Provide Medhub Global Sales Representative Name"
-                      >
-                        <img
-                          src={Information}
-                          className={styles.tooltipIcons}
-                          alt="information"
+                        <input
+                          className={styles.signupFormSectionInput}
+                          type="text"
+                          name="salesPersonName"
+                          placeholder="Enter Medhub Global Sales Representative Name"
+                          value={formData.salesPersonName}
+                          onChange={handleChange}
                         />
-                      </span>
-                      <Tooltip id="company-name-tooltip" />
-                    </div>
+                        <span
+                          className={styles.emailInfoIcon}
+                          data-tooltip-id="company-name-tooltip"
+                          data-tooltip-content="Provide Medhub Global Sales Representative Name"
+                        >
+                          <img
+                            src={Information}
+                            className={styles.tooltipIcons}
+                            alt="information"
+                          />
+                        </span>
+                        <Tooltip id="company-name-tooltip" />
+                      </div>
                     </div>
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
-                        Country of Origin<span className={styles.labelStamp}>*</span>
+                        Country of Origin
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <Select
                         className={styles.signupFormsSectionsSelect}
@@ -1218,7 +1222,6 @@ const SignUp = ({ socket }) => {
                           (option) => option.value === formData.originCountry
                         )}
                         onChange={handleCountryOriginChange}
-                       
                       />
                       {errors.originCountry && (
                         <div className={styles.signupErrors}>
@@ -1238,7 +1241,6 @@ const SignUp = ({ socket }) => {
                           value={formData.operationCountries}
                           onChange={handleOperationCountriesChange}
                           getDropdownButtonLabel={getDropdownButtonLabel}
-                         
                         />
                       )}
                       {errors.operationCountries && (
@@ -1278,19 +1280,29 @@ const SignUp = ({ socket }) => {
                         value={formData.companyLicenseNo}
                         onChange={handleChange}
                       />
-                     
                     </div>
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
                         License Expiry/Renewal Date
                       </label>
-                    
+
                       <DatePicker
                         className={styles.signupFormSectionInput}
-                        selected={formData.companyLicenseExpiry ? parseDateString(formData.companyLicenseExpiry) : null }
+                        selected={
+                          formData.companyLicenseExpiry
+                            ? parseDateString(formData.companyLicenseExpiry)
+                            : null
+                        }
                         onChange={(date) => {
-                          const formattedDate = date ? date.toLocaleDateString("en-GB") : "";
-                          handleChange({ target: { name: "companyLicenseExpiry", value: formattedDate } });
+                          const formattedDate = date
+                            ? date.toLocaleDateString("en-GB")
+                            : "";
+                          handleChange({
+                            target: {
+                              name: "companyLicenseExpiry",
+                              value: formattedDate,
+                            },
+                          });
                         }}
                         dateFormat="dd/MM/yyyy"
                         placeholderText="dd/MM/yyyy"
@@ -1298,14 +1310,13 @@ const SignUp = ({ socket }) => {
                         showYearDropdown
                         scrollableYearDropdown
                         disabledKeyboardNavigation={false}
-                      />   
-                    
+                      />
                     </div>
-                  
-                  
+
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
-                        Interested In<span className={styles.labelStamp}>*</span>
+                        Interested In
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <MultiSelectDropdown
                         options={category}
@@ -1321,7 +1332,8 @@ const SignUp = ({ socket }) => {
 
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
-                        About Company<span className={styles.labelStamp}>*</span>
+                        About Company
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <div className={styles.signupTooltipClass}>
                         <textarea
@@ -1354,6 +1366,34 @@ const SignUp = ({ socket }) => {
                     </div>
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
+                        Annual Turnover
+                      </label>
+                      <input
+                        className={styles.signupFormSectionInput}
+                        type="number"
+                        name="annualTurnover"
+                        placeholder="Enter Annual Turnover in USD"
+                        value={formData.annualTurnover}
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
+                        Year Company Founded
+                      </label>
+                      <DatePicker
+                        className={styles.signupFormSectionInput}
+                        selected={selectedYear}
+                        name="yrFounded"
+                        onChange={handleYearChange}
+                        placeholderText="Select Year Company Founded"
+                        showYearPicker
+                        dateFormat="yyyy"
+                        maxDate={new Date()}
+                      />
+                    </div>
+                    <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
                         {" "}
                         Business/Trade Activity Code
                         <span className={styles.labelStamp}>*</span>
@@ -1376,7 +1416,9 @@ const SignUp = ({ socket }) => {
                   </div>
                 </div>
                 <div className={styles.signupFormSectionContainer}>
-                  <div className={styles.signupInnerHeading}>Contact Details</div>
+                  <div className={styles.signupInnerHeading}>
+                    Contact Details
+                  </div>
                   <div className={styles.signupFormInnerDivSection}>
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
@@ -1425,7 +1467,9 @@ const SignUp = ({ socket }) => {
                         <Tooltip id="email-tooltip" />
                       </div>
                       {errors.email && (
-                        <div className={styles.signupErrors}>{errors.email}</div>
+                        <div className={styles.signupErrors}>
+                          {errors.email}
+                        </div>
                       )}
                     </div>
                     <div className={styles.signupFormSectionDiv}>
@@ -1457,7 +1501,9 @@ const SignUp = ({ socket }) => {
                         <Tooltip id="mobile-tooltip" />
                       </div>
                       {errors.mobile && (
-                        <div className={styles.signupErrors}>{errors.mobile}</div>
+                        <div className={styles.signupErrors}>
+                          {errors.mobile}
+                        </div>
                       )}
                     </div>
                     <div className={styles.signupFormSectionDiv}>
@@ -1497,11 +1543,12 @@ const SignUp = ({ socket }) => {
                 <div className={styles.signupFormSectionContainer}>
                   <div className={styles.signupInnerHeading}>Documents</div>
                   <div className={styles.signupFormInnerDivSection}>
-                     <div className={styles.signupFormSectionDiv}>
+                    <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
-                        Upload Company Logo<span className={styles.labelStamp}>*</span>
+                        Upload Company Logo
+                        <span className={styles.labelStamp}>*</span>
                       </label>
-                    
+
                       <ImageUploaders
                         onUploadStatusChange={handleImageUpload}
                         filePreviews={logoPreviews}
@@ -1513,7 +1560,9 @@ const SignUp = ({ socket }) => {
                         tooltipMessage="Only JPEG and PNG image formats are allowed."
                       />
                       {errors.logoImage && (
-                        <div className={styles.signupErrors}>{errors.logoImage}</div>
+                        <div className={styles.signupErrors}>
+                          {errors.logoImage}
+                        </div>
                       )}
                     </div>
                     <div className={styles.signupFormSectionDiv}>
@@ -1521,7 +1570,7 @@ const SignUp = ({ socket }) => {
                         Upload Trade License
                         <span className={styles.labelStamp}>*</span>
                       </label>
-                    
+
                       <ImageUploaders
                         onUploadStatusChange={handleImageUpload}
                         filePreviews={tradeLicensePreviews}
@@ -1538,7 +1587,6 @@ const SignUp = ({ socket }) => {
                         </div>
                       )}
                     </div>
-                   
 
                     <div className={styles.signupDocumentSection}>
                       <div className={styles.signupAddButtonSection}>
@@ -1550,7 +1598,10 @@ const SignUp = ({ socket }) => {
                         </button>
                       </div>
                       {certificateFileNDate.map((section, index) => (
-                        <div key={index} className={styles.documentInnerSection}>
+                        <div
+                          key={index}
+                          className={styles.documentInnerSection}
+                        >
                           <div className={styles.signupFormSectionDiv}>
                             <label className={styles.signupFormSectionLabel}>
                               Upload Certificate
@@ -1611,7 +1662,7 @@ const SignUp = ({ socket }) => {
                               <img
                                 src={Cross}
                                 alt="cross"
-                               className={styles.crossIcon}
+                                className={styles.crossIcon}
                               />
                             </div>
                           )}
@@ -1641,19 +1692,18 @@ const SignUp = ({ socket }) => {
                     )}
 
                     <div className={styles.signupFormSectionCheckbox}>
-                    
                       <div
                         className={styles.termsCondition}
                         onClick={() => setShowTnC(true)}
                       >
-                        Terms & Conditions<span className={styles.labelStamp}>*</span>
+                        Terms & Conditions
+                        <span className={styles.labelStamp}>*</span>
                       </div>
-                     
                     </div>
                   </div>
                 </div>
                 <div className={styles.signupFormContButton}>
-                   <button
+                  <button
                     type="submit"
                     className={styles.signupFormButtonSubmit}
                     disabled={loading}
@@ -1671,7 +1721,6 @@ const SignUp = ({ socket }) => {
                   >
                     Cancel
                   </div>
-                 
                 </div>
               </form>
             </div>
