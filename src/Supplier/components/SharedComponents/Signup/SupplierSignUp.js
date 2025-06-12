@@ -671,6 +671,8 @@ const SupplierSignUp = ({ socket }) => {
       formDataToSend.append("city", formData.city?.name || "");
       formDataToSend.append("pincode", formData.pincode);
       formDataToSend.append("usertype", formData.usertype);
+      formDataToSend.append("annualTurnover", formData.annualTurnover);
+      formDataToSend.append("yrFounded", formData.yrFounded);
 
       (Array.isArray(formData.logoImage) ? formData.logoImage : []).forEach(
         (file) => formDataToSend.append("supplier_image", file)
