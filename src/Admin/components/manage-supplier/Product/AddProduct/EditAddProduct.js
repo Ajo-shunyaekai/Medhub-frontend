@@ -6899,23 +6899,23 @@ const EditAddProduct = ({ placeholder }) => {
                     const selectedValues = selectedOptions
                       ? selectedOptions.map((option) => option?.label)
                       : [];
-                    setInventoryStockedCountries(
-                      selectedValues?.map((option) => ({
-                        label: option,
-                        value: option,
-                      })) || []
-                    );
+                    // setInventoryStockedCountries(
+                    //   selectedValues?.map((option) => ({
+                    //     label: option,
+                    //     value: option,
+                    //   })) || []
+                    // );
                     formik.setFieldValue("countries", selectedValues); // Update Formik value with the selected country values
-                    if (selectedValues?.length == 0) {
-                      setStockedInDetails([
-                        {
-                          country: "",
-                          quantity: "",
-                          type: "Box",
-                          placeholder: "Enter Box Quantity",
-                        },
-                      ]);
-                    }
+                    // if (selectedValues?.length == 0) {
+                    //   setStockedInDetails([
+                    //     {
+                    //       country: "",
+                    //       quantity: "",
+                    //       type: "Box",
+                    //       placeholder: "Enter Box Quantity",
+                    //     },
+                    //   ]);
+                    // }
                   }}
                 />
                 {formik.touched.countries && formik.errors.countries && (
