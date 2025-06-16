@@ -5627,22 +5627,22 @@ const AddProduct = ({ placeholder }) => {
                       const selectedValues = selectedOptions
                         ? selectedOptions.map((option) => option.label)
                         : [];
-                      setInventoryStockedCountries(
-                        selectedValues?.map((option) => ({
-                          label: option,
-                          value: option,
-                        })) || []
-                      );
+                      // setInventoryStockedCountries(
+                      //   selectedValues?.map((option) => ({
+                      //     label: option,
+                      //     value: option,
+                      //   })) || []
+                      // );
                       setFieldValue("countries", selectedValues);
-                      if (selectedValues?.length == 0) {
-                        setStockedInDetails([
-                          {
-                            country: "",
-                            quantity: "",
-                            placeholder: "Enter Quantity",
-                          },
-                        ]);
-                      }
+                    //   if (selectedValues?.length == 0) {
+                    //     setStockedInDetails([
+                    //       {
+                    //         country: "",
+                    //         quantity: "",
+                    //         placeholder: "Enter Quantity",
+                    //       },
+                    //     ]);
+                    //   }
                     }}
                   />
                   {touched.countries && errors.countries && (

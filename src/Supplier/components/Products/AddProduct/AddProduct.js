@@ -5805,22 +5805,22 @@ const AddProduct = ({ placeholder }) => {
                       const selectedValues = selectedOptions
                         ? selectedOptions.map((option) => option.label)
                         : [];
-                      setInventoryStockedCountries(
-                        selectedValues?.map((option) => ({
-                          label: option,
-                          value: option,
-                        })) || []
-                      );
+                      // setInventoryStockedCountries(
+                      //   selectedValues?.map((option) => ({
+                      //     label: option,
+                      //     value: option,
+                      //   })) || []
+                      // );
                       setFieldValue("countries", selectedValues); // Update Formik value with the selected country values
-                      if (selectedValues?.length == 0) {
-                        setStockedInDetails([
-                          {
-                            country: "",
-                            quantity: "",
-                            placeholder: "Enter Quantity",
-                          },
-                        ]);
-                      }
+                      // if (selectedValues?.length == 0) {
+                      //   setStockedInDetails([
+                      //     {
+                      //       country: "",
+                      //       quantity: "",
+                      //       placeholder: "Enter Quantity",
+                      //     },
+                      //   ]);
+                      // }
                     }}
                   />
                   {touched.countries && errors.countries && (
@@ -5870,7 +5870,7 @@ const AddProduct = ({ placeholder }) => {
                           onChange={(option) =>
                             setFieldValue(
                               `stockedInDetails.${index}.country`,
-                              option.value
+                              option.label
                             )
                           }
                           // isDisabled={inventoryStockedCountries?.length == 0}
