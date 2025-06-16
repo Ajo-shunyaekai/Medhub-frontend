@@ -1240,6 +1240,9 @@ const SupplierLogistics = ({socket}) => {
                 }
                 onBlur={formik.handleBlur}
                 value={formik.values.pickupSlot.date}
+                onKeyDown={(e) => {
+                  e.preventDefault();
+                }}
               />
               {formik.touched.pickupSlot?.date &&
                 formik.errors.pickupSlot?.date && (

@@ -628,6 +628,9 @@ const ProformaInvoice = ({ socket }) => {
                 clearIcon={null}
                 format="dd/MM/yyyy"
                 placeholder="dd/MM/yyyy"
+                onKeyDown={(e) => {
+                  e.preventDefault();
+                }}
               />
               {errors.dueDate && (
                 <p style={{ color: "red", fontSize: "12px" }}>
@@ -647,6 +650,9 @@ const ProformaInvoice = ({ socket }) => {
                 clearIcon={null}
                 format="dd/MM/yyyy"
                 placeholder="dd/MM/yyyy"
+                onKeyDown={(e) => {
+                  e.preventDefault();
+                }}
               />
               {errors.depositDueDate && (
                 <p style={{ color: "red", fontSize: "12px" }}>

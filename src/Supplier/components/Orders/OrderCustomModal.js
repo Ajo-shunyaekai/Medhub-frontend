@@ -767,6 +767,9 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                                 minDate={new Date()}
                                 clearIcon={null}
                                 format="dd/MM/yyyy"
+                                onKeyDown={(e) => {
+                                    e.preventDefault();
+                                }}
                             />
                              
                         </div>

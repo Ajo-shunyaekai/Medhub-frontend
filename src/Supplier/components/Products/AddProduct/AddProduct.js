@@ -510,6 +510,9 @@ const AddProduct = ({ placeholder }) => {
                           setFieldValue("purchasedOn", date); // This updates Formik's value
                         }}
                         onBlur={handleBlur} // Adds the blur event to track when the field is blurred
+                        onKeyDown={(e) => {
+                          e.preventDefault();
+                        }}
                       />
                       {touched.purchasedOn && errors.purchasedOn && (
                         <span className={styles.error}>
@@ -5728,6 +5731,9 @@ const AddProduct = ({ placeholder }) => {
                         setFieldValue("date", date); // This updates Formik's value
                       }}
                       onBlur={handleBlur} // Adds the blur event to track when the field is blurred
+                      onKeyDown={(e) => {
+                        e.preventDefault();
+                      }}
                     />
                     <Tooltip content="The date when the item was assembled or manufactured. if applicable for in stock"></Tooltip>
                   </div>
@@ -6224,6 +6230,9 @@ const AddProduct = ({ placeholder }) => {
                         disabledDate={(current) =>
                           current && current < moment().endOf("day")
                         }
+                        onKeyDown={(e) => {
+                          e.preventDefault();
+                        }}
                       />
                     </div>
                     <span className={styles.error}>
