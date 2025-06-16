@@ -478,6 +478,9 @@ const AddProduct = ({ placeholder }) => {
                           setFieldValue("purchasedOn", date);
                         }}
                         onBlur={handleBlur}
+                        onKeyDown={(e) => {
+                          e.preventDefault();
+                        }}
                       />
                       {touched.purchasedOn && errors.purchasedOn && (
                         <span className={styles.error}>
@@ -5551,6 +5554,9 @@ const AddProduct = ({ placeholder }) => {
                         setFieldValue("date", date);
                       }}
                       onBlur={handleBlur}
+                      onKeyDown={(e) => {
+                        e.preventDefault();
+                      }}
                     />
                     <Tooltip content="The date when the item was assembled or manufactured. if applicable for in stock"></Tooltip>
                   </div>
@@ -6040,6 +6046,9 @@ const AddProduct = ({ placeholder }) => {
                         disabledDate={(current) =>
                           current && current < moment().endOf("day")
                         }
+                        onKeyDown={(e) => {
+                          e.preventDefault();
+                        }}
                       />
                     </div>
                     <span className={styles.error}>

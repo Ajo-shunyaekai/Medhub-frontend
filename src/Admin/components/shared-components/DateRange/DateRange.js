@@ -34,6 +34,9 @@ const RangeDatePicker = () => {
                     startDate={startDate}
                     endDate={endDate}
                     placeholderText="Select start date"
+                    onKeyDown={(e) => {
+                        e.preventDefault();
+                    }}
                 />
             </div>
             --  
@@ -47,6 +50,9 @@ const RangeDatePicker = () => {
                     endDate={endDate}
                     placeholderText="Select end date"
                     minDate={startDate}
+                    onKeyDown={(e) => {
+                        e.preventDefault();
+                    }}
                 />
             </div>
         </div>
