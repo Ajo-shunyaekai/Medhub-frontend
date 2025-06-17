@@ -5864,7 +5864,7 @@ const AddProduct = ({ placeholder }) => {
                           options={countries}
                           placeholder="Select Country where Stock Trades"
                           value={countries.find(
-                            (option) => option.value === stock.country
+                            (option) => option.label === stock.country
                           )}
                           onBlur={handleBlur}
                           onChange={(option) =>
