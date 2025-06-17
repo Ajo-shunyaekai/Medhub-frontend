@@ -7024,17 +7024,11 @@ const EditAddProduct = ({ placeholder }) => {
                     </label>
                     <Select
                       className={styles.formSelect}
-                      options={countries.map((country) => ({
-                        label: country,
-                        value: country,
-                      }))} // Map countries to the correct format
+                      options={countries} // Map countries to the correct format
                       placeholder="Select Country where Stock Trades"
-                      value={countries
-                        .map((country) => ({
-                          label: country,
-                          value: country,
-                        }))
-                        .find((option) => option.value === stock?.country)} // Find the selected country
+                      value={countries.find(
+                        (option) => option.label == stock?.country
+                      )} // Find the selected country
                       onBlur={formik?.handleBlur}
                       onChange={(option) =>
                         formik.setFieldValue(
