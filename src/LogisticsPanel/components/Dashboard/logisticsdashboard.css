@@ -102,7 +102,7 @@ body::first-letter {
   font-size: 0.825rem;
 }
 .logistics-top-text {
-  color: #212121;
+  color:#4f4f4f;
   font-size: 0.825rem;
   font-weight: 500;
 }
@@ -168,7 +168,7 @@ body::first-letter {
   justify-content: space-between;
 }
 .logistics-left-bottom-pert {
-  color: #212121;
+  color:#4f4f4f;
   font-size: 14px;
   font-weight: 500;
 }
@@ -207,7 +207,7 @@ body::first-letter {
   text-align: center;
 }
 .logistics-country-names {
-  color: #282f86 !important;
+  color:#3b71ca;;
   font-size: 0.825rem;
 }
 .logistics-country-sect {
@@ -300,7 +300,7 @@ body::first-letter {
 }
 .graph-toggle-button .btn.active {
   color: #ffffff !important;
-  background-color: #282f86;
+  background: linear-gradient(to left, #00dcff, #0075ce);
   font-size: 12px;
   outline: none !important;
   border: none !important;

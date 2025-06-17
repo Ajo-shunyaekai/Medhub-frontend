@@ -29,7 +29,7 @@
 .modal-handle-save-invoice-cont {
   border: none !important;
   outline: none !important;
-  background-color: #282f86 !important;
+  background-color:#3b71ca;;
   color: white !important;
   padding: 6px 22px !important;
   border-radius: 4px !important;
@@ -42,12 +42,12 @@
 }
 .modal-handle-save-invoice-cont:hover {
   border-color: unset !important;
-  background-color: #282f86 !important;
+  background-color:#3b71ca;;
   color: #ffffff !important;
 }
 .btn:focus-visible {
   color: #ffffff !important;
-  background-color: #282f86 !important;
+  background-color:#3b71ca;;
   border-color: unset !important;
   outline: 0;
   box-shadow: unset !important;
@@ -75,7 +75,7 @@
   row-gap: 20px;
 }
 .modal-class-head-invoice-cont {
-  color: #212121;
+  color:#4f4f4f;
   font-size: 14px;
   font-weight: 500;
 }

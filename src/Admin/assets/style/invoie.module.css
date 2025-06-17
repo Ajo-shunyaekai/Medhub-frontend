@@ -68,7 +68,7 @@
   }
   
   .invoice-table-text-color {
-    color: #212121;
+    color:#4f4f4f;
     font-size: 14px;
   }
   
@@ -127,7 +127,7 @@
   .page-item.active .page-link {
     z-index: 3;
     color: #fff;
-    background-color: #282f86;
+    background: linear-gradient(to left, #00dcff, #0075ce);
   }
   
   .page-item.disabled .page-link {

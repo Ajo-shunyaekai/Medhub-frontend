@@ -74,7 +74,7 @@
     color: #282f86;
 }
 .filterButton{
-   background-color: #282f86;
+   background: linear-gradient(to left, #00dcff, #0075ce);
     border: none;
     border-radius: 4px;
     color: #fff;

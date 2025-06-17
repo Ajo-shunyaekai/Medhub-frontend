@@ -1,7 +1,7 @@
 .support-heading {
   padding-top: 5px;
   font-size: 18px;
-  color: #212121;
+  color:#4f4f4f;
   font-weight: 500;
 }
 .faq-heading {
@@ -33,7 +33,7 @@
 
 .accordion-button {
   padding: 1rem;
-  color: #212121;
+  color:#4f4f4f;
   font-size: 14px;
   font-weight: 500 !important;
 }

@@ -265,6 +265,10 @@ const SupplierDetails = () => {
             supplier?.categories ||
             supplier?.license_no ||
             supplier?.license_expiry_date ||
+
+  supplier?.yrFounded ||
+            supplier?.annualTurnover ||
+
             supplier?.tags ||
             supplier?.contact_person_name ||
             supplier?.contact_person_email ||
@@ -304,18 +308,7 @@ const SupplierDetails = () => {
                     <span className={styles.cardContent}>{supplier.sales_person_name}</span>
                   </div>
                 )} */}
-                {supplier?.country_of_origin && (
-                  <div className={styles.cardMainContainer}>
-                    <span className={styles.cardHead}>Country of Origin</span>
-                    <span className={styles.cardContent}>{supplier.country_of_origin}</span>
-                  </div>
-                )}
-                {supplier?.country_of_operation && (
-                  <div className={styles.cardMainContainer}>
-                    <span className={styles.cardHead}>Country of Operation</span>
-                    <span className={styles.cardContent}>{supplier.country_of_operation.join(', ')}</span>
-                  </div>
-                )}
+              
                
                 {supplier?.license_no && (
                   <div className={styles.cardMainContainer}>
@@ -329,10 +322,35 @@ const SupplierDetails = () => {
                     <span className={styles.cardContent}>{supplier.license_expiry_date}</span>
                   </div>
                 )}
+
+                  {supplier?.yrFounded && (
+                  <div className={styles.cardMainContainer}>
+                    <span className={styles.cardHead}>Year Company Founded</span>
+                    <span className={styles.cardContent}>{supplier.yrFounded}</span>
+                  </div>
+                )}
+               {supplier?.annualTurnover&& (
+                  <div className={styles.cardMainContainer}>
+                    <span className={styles.cardHead}>Annual Turnover</span>
+                    <span className={styles.cardContent}>{supplier.annualTurnover}</span>
+                  </div>
+                )}
                 {supplier?.tags && (
                   <div className={styles.cardMainContainer}>
                     <span className={styles.cardHead}>Tags</span>
                     <span className={styles.cardContent}>{supplier.tags}</span>
+                  </div>
+                )}
+                  {supplier?.country_of_origin && (
+                  <div className={styles.cardMainContainer}>
+                    <span className={styles.cardHead}>Country of Origin</span>
+                    <span className={styles.cardContent}>{supplier.country_of_origin}</span>
+                  </div>
+                )}
+                {supplier?.country_of_operation && (
+                  <div className={styles.cardMainContainer}>
+                    <span className={styles.cardHead}>Country of Operation</span>
+                    <span className={styles.cardContent}>{supplier.country_of_operation.join(', ')}</span>
                   </div>
                 )}
                  {supplier?.categories?.length > 0 && (

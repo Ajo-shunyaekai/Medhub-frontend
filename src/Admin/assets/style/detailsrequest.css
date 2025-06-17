@@ -37,7 +37,7 @@
     cursor: pointer !important;
 }
 .buyer-details-edit-button {
-    background-color: #282f86;
+    background: linear-gradient(to left, #00dcff, #0075ce);
     border-radius: 4px;
     color: #fff;
     column-gap: 8px;
@@ -110,7 +110,7 @@
 }
 
 .buyer-details-container-heading {
-    color: #212121;
+    color:#4f4f4f;
     font-size: 20px;
     font-weight: 500;
 }
@@ -206,7 +206,7 @@
 .buyer-details-company-type-sec-head {
     font-size: 14px;
      font-weight: 500;
-color: #212121;
+color:#4f4f4f;
 }
 
 .buyer-details-company-type-sec-text {
@@ -271,12 +271,12 @@ color: #212121;
 .buyer-details-left-link-head {
     font-size: 15px;
     font-weight: 500;
-    color: #282f86 !important;
+    color:#3b71ca;;
     cursor: pointer !important;
 }
 
 .buyer-details-description-head {
-    color: #212121;
+    color:#4f4f4f;
     font-size: 14px;
     font-weight: 500;
 }
@@ -290,7 +290,7 @@ color: #212121;
 .buyer-details-left-uppar-head {
     font-size: 20px;
     font-weight: 500;
-    color: #212121;
+    color:#4f4f4f;
 }
 
 .buyer-details-left-inner-sec-text {
@@ -330,7 +330,7 @@ color: #212121;
 
 .buyer-details-left-company-type-text {
     align-items: center;
-    background-color: #282f86;
+    background: linear-gradient(to left, #00dcff, #0075ce);
     border: none !important;
     border-radius: 4px;
     color: #fff;
@@ -442,7 +442,7 @@ color: #212121;
 
 .buyer-details-company-logo-heading {
     font-size: 14px;
-    color: #212121;
+    color:#4f4f4f;
     font-weight: 500;
 }
 
@@ -450,7 +450,7 @@ color: #212121;
     font-size: 14px;
     font-weight: 500;
     min-width: 240px;
-    color: #212121;
+    color:#4f4f4f;
 }
 
 .buyer-details-company-img-container {
@@ -474,11 +474,6 @@ color: #212121;
      font-weight: 500;
     text-align: end;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: normal;
 }
 
 .buyer-details-card-container-contents {
@@ -665,7 +660,7 @@ color: #212121;
     border: 1px solid #212121;
     border-radius: 4px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, .05) !important;
-    color: #212121;
+    color:#4f4f4f;
     align-items: center;
     cursor: pointer !important;
     ;
@@ -678,7 +673,7 @@ color: #212121;
 }
 
 .buyer-details-button-accept {
-    background-color: #282f86;
+    background: linear-gradient(to left, #00dcff, #0075ce);
     border: none !important;
     border-radius: 4px;
     color: #fff;

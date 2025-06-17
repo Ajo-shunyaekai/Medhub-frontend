@@ -132,7 +132,7 @@ body{
       width: 100%;
       font-size: 14px;
       font-weight: 500;
-      color: #212121;
+      color:#4f4f4f;
       padding: 10px 14px;
       border-bottom: 1px solid #a0afb926;
 }
@@ -157,7 +157,7 @@ body{
   font-size: 13px;
   font-weight: 500;
   line-height: 20px;
-  color: #212121;
+  color:#4f4f4f;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -198,7 +198,7 @@ body{
 }
 
 .noti_see_all_num {
-  color: #212121;
+  color:#4f4f4f;
   font-weight: 500;
   font-size: 14px;
 }
@@ -229,7 +229,7 @@ body{
 .profile_wrapper a {
   list-style: none;
   text-decoration: none;
-  color: #212121;
+  color:#4f4f4f;
   width: 100%;
   max-width: 90%;
 }
@@ -270,7 +270,7 @@ body{
 }
 
 .profile_sign_out {
-  color: #212121;
+  color:#4f4f4f;
   font-weight: 500;
   padding: 8px 14px;
  font-size: 14px;
@@ -328,7 +328,7 @@ body{
   font-weight: 500;
   font-size: 14px;
   display: flex;
-  color: #212121;
+  color:#4f4f4f;
   text-decoration: none;
   justify-content: start;
   align-items: center;

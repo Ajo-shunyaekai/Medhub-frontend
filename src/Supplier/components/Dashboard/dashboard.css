@@ -108,7 +108,7 @@ body::first-letter {
 }
 
 .buyer-panel-top-head {
-  color: #212121;
+  color:#4f4f4f;
   font-size: 0.825rem;
   line-height: 18px;
   font-weight: 500
@@ -120,7 +120,7 @@ body::first-letter {
 }
 
 .buyer-panel-top-text {
-  color: #212121;
+  color:#4f4f4f;
   font-size: 0.825rem;
   font-weight: 500;
 }
@@ -170,7 +170,7 @@ body::first-letter {
 }
 
 .buyer-panel-left-head {
-  color: #212121;
+  color:#4f4f4f;
   font-size: 0.825rem;
   font-weight: 500;
 }
@@ -201,7 +201,7 @@ body::first-letter {
 }
 
 .buyer-panel-left-bottom-pert {
-  color: #212121;
+  color:#4f4f4f;
   font-size: 14px;
   font-weight: 500;
 }
@@ -231,7 +231,7 @@ body::first-letter {
 }
 
 .buyer-panel-right-head {
-  color: #212121;
+  color:#4f4f4f;
   font-size: 0.825rem;
   font-weight: 500;
 }
@@ -247,7 +247,7 @@ body::first-letter {
 }
 
 .buyer-panel-country-names {
-  color: #282f86 !important;
+  color:#3b71ca;;
   font-size: 0.825rem;
 }
 

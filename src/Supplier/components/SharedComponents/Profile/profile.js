@@ -21,7 +21,7 @@ const Profile = () => {
     { headings: "Certificate", keyword: "certificate_image" },
     { headings: "Trade License", keyword: "license_image" },
 
-    
+
     {
       headings: "Medical Practitioner",
       keyword: "medical_certificate",
@@ -169,6 +169,8 @@ const Profile = () => {
         user?.country_of_operation ||
         user?.country_of_origin ||
         user?.tags ||
+        user?.yrFounded ||
+        user?.annualTurnover ||
         user?.license_expiry_date) && (
           <div className={styles.companySection}>
             <div className={styles.companyContainerSection}>
@@ -188,12 +190,12 @@ const Profile = () => {
                   {user?.vat_reg_no && (
                     <div className={styles.companyDetails}>
                       <div className={styles.companyHead}>
-                       GST/VAT Registration No.
+                        GST/VAT Registration No.
                       </div>
                       <div className={styles.companyText}>{user?.vat_reg_no}</div>
                     </div>
                   )}
-                 
+
                   {user?.sales_person_name && (
                     <div className={styles.companyDetails}>
                       <div className={styles.companyHead}>
@@ -222,17 +224,26 @@ const Profile = () => {
                       <div className={styles.companyText}>{user?.license_no}</div>
                     </div>
                   )}
+
+                    {user?.yrFounded && (
+                    <div className={styles.companyDetails}>
+                      <div className={styles.companyHead}>
+                        Year Company Founded
+                      </div>
+                      <div className={styles.companyText}>{user?.yrFounded}</div>
+                    </div>
+                  )}
                   {user?.categories && user.categories.length > 0 && (
-  <div className={styles.companyDetails}>
-    <div className={styles.companyHead}>Trading Categories</div>
-    <div className={styles.companyText}>
-      {user.categories.join(' , ')}
-    </div>
-  </div>
-)}
+                    <div className={styles.companyDetails}>
+                      <div className={styles.companyHead}>Trading Categories</div>
+                      <div className={styles.companyText}>
+                        {user.categories.join(' , ')}
+                      </div>
+                    </div>
+                  )}
                 </div>
                 <div className={styles.companyInnerContainer}>
-                  {user?.country_of_operation && (
+                  {user?.country_of_operation && (  
                     <div className={styles.companyDetails}>
                       <div className={styles.companyHead}>
                         Country of Operation
@@ -271,6 +282,16 @@ const Profile = () => {
                       </div>
                       <div className={styles.companyText}>
                         {user?.license_expiry_date}
+                      </div>
+                    </div>
+                  )}
+                  {user?.annualTurnover && (
+                    <div className={styles.companyDetails}>
+                      <div className={styles.companyHead}>
+                        Annual Turnover
+                      </div>
+                      <div className={styles.companyText}>
+                        {user?.annualTurnover}
                       </div>
                     </div>
                   )}
@@ -325,18 +346,18 @@ const Profile = () => {
                 </div>
               )}
             </div>
-           {user?.bank_details && (
-  <div className={styles.companyContainerContactSection}>
-    <div className={styles.textareaHead}>Bank Details</div>
-    <div className={styles.textareaContent}>
-      {user.bank_details.split(',').slice(0, 2).map((line, index) => (
-        <div key={index} style={{ display: 'block' }}>
-          {line.trim()}
-        </div>
-      ))}
-    </div>
-  </div>
-)}
+            {user?.bank_details && (
+              <div className={styles.companyContainerContactSection}>
+                <div className={styles.textareaHead}>Bank Details</div>
+                <div className={styles.textareaContent}>
+                  {user.bank_details.split(',').slice(0, 2).map((line, index) => (
+                    <div key={index} style={{ display: 'block' }}>
+                      {line.trim()}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         )}
       {/* style the documents section */}

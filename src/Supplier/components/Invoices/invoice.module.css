@@ -14,7 +14,7 @@
   font-weight: 500;
   padding: 5px 16px;
   border-radius: 4px;
-background-color: #282f86;
+background: linear-gradient(to left, #00dcff, #0075ce);
   color: white;
   font-size: 14px;
 }
@@ -22,7 +22,7 @@ background-color: #282f86;
   padding-top: 5px;
   font-size: 20px;
   font-weight: 500;
-  color: #212121;
+  color:#4f4f4f;
 }
 .complete-conatiner-head {
   font-size: 20px;
@@ -66,7 +66,7 @@ background-color: #282f86;
   display: flex !important;
   column-gap: 10px;
   font-size: 14px;
-  color: #212121;
+  color:#4f4f4f;
 }
 
 .invoice-wrapper-left-text.active {

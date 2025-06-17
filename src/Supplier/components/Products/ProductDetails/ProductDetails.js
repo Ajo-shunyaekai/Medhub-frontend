@@ -3399,3 +3399,11 @@ const openPurchaseInvoice = () => {
 };
 
 export default ProductDetails;
+
+
+
+
+
+
+
+

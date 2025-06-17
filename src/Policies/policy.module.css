@@ -16,7 +16,7 @@
 }
 
 .title {
-  color: #212121;
+  color:#4f4f4f;
   text-align: center;
   margin-bottom: 10px !important;
 }
@@ -43,19 +43,19 @@ color: #616161;
 .sectionTitle {
   font-size: 24px;
   margin-top: 10px;
-  color: #212121;
+  color:#4f4f4f;
 }
 
 .sectionContentTitle {
   font-size: 20px;
   margin-top: 10px;
   margin-bottom: 10px;
-  color: #212121;
+  color:#4f4f4f;
   font-weight: 500;
 }
 
 .termscondition {
-      color: #282f86 !important;
+      color:#3b71ca;;
     font-weight: 600 !important;
     font-size: 24px !important;
     cursor: pointer !important;
@@ -73,7 +73,7 @@ color: #616161;
 .signupFormButtonSubmit {
   border: none !important;
   outline: none !important;
-background-color: #282f86;
+background: linear-gradient(to left, #00dcff, #0075ce);
   color: white;
   padding: 6px 22px;
   border-radius: 4px;
@@ -129,7 +129,7 @@ background-color: #282f86;
 
 .conditionDownload {
   display: flex;
-background-color: #282f86;
+background: linear-gradient(to left, #00dcff, #0075ce);
   color: white;
   padding: 5px 18px;
   border-radius: 4px;
@@ -151,7 +151,7 @@ background-color: #282f86;
     gap: 14px;
 }
 .link{
-  color: #282f86 !important;
+  color:#3b71ca;;
 }
 .loading-spinner {
   border: 2px solid #ffffff;

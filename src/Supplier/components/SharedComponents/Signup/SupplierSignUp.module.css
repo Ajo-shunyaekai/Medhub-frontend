@@ -20,7 +20,7 @@
 .signupDocumentHead {
   border: none !important;
   outline: none !important;
-background-color: #282f86;
+background: linear-gradient(to left, #00dcff, #0075ce);
   color: white;
   padding: 6px 22px;
   border-radius: 4px;
@@ -89,7 +89,7 @@ background-color: #282f86;
   row-gap: 20px;
 }
 .termsCondition {
-  color: #282f86 !important;
+  color:#3b71ca;;
   font-weight: 500 !important;
   cursor: pointer !important;
 }
@@ -118,7 +118,7 @@ background-color: #282f86;
 }
 
 .labelStamp {
-  color: #212121;
+  color:#4f4f4f;
 } 
 
 /* Style the signup form */
@@ -129,7 +129,7 @@ background-color: #282f86;
 }
 .signupFormSectionHeading {
   width: 100%;
-  color: #212121;
+  color:#4f4f4f;
   font-size: 22px;
   line-height: normal;
   font-weight: 500;
@@ -138,12 +138,12 @@ background-color: #282f86;
 }
 .signupInnerHeading {
   font-size: 18px;
-  color: #212121;
+  color:#4f4f4f;
   font-weight: 500;
 }
 .signupFormSectionLabel {
   font-size: 14px;
-    color: #212121;
+    color:#4f4f4f;
   font-weight: 500;
 }
 
@@ -204,7 +204,7 @@ background-color: #282f86;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
   background-color: #ffffff;
   border: 1px solid #212121;
-  color: #212121;
+  color:#4f4f4f;
   padding: 6px 22px;
   border-radius: 4px;
   display: flex;
@@ -217,7 +217,7 @@ background-color: #282f86;
 .signupFormButtonSubmit {
   border: none !important;
   outline: none !important;
-background-color: #282f86;
+background: linear-gradient(to left, #00dcff, #0075ce);
   color: white;
   padding: 6px 22px;
   border-radius: 4px;

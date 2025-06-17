@@ -96,7 +96,7 @@
 
 .applyButton {
     border: none;
-background-color: #282f86;
+background: linear-gradient(to left, #00dcff, #0075ce);
     color: white;
     padding: 6px 22px;
     border-radius: 4px;
@@ -111,7 +111,7 @@ background-color: #282f86;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
     background-color: #ffffff;
     border: 1px solid #212121;
-    color: #212121;
+    color:#4f4f4f;
     padding: 6px 22px;
     border-radius: 4px;
     display: flex;

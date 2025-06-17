@@ -26,7 +26,7 @@
     font-size: 20px;
       font-weight: 500;
     margin-top: 10px;
-    color: #212121;
+    color:#4f4f4f;
 }
 
 .send-enquiry-main-section {
@@ -62,7 +62,7 @@
 
 .send-enquiry-upper-left-head {
     font-size: 16px;
-    color: #212121;
+    color:#4f4f4f;
     font-weight: 500;
 }
 
@@ -95,7 +95,7 @@
 }
 
 .send-enquiry-upper-right-button-sec {
-   background-color: #282f86;
+   background: linear-gradient(to left, #00dcff, #0075ce);
     border-radius: 4px;
     color: #fff;
     column-gap: 8px;
@@ -234,7 +234,7 @@
     font-size: 22px;
     line-height: 26px;
       font-weight: 500;
-    color: #212121;
+    color:#4f4f4f;
 }
 
 .send-enquiry-inner-top-strength {
@@ -278,7 +278,7 @@
 
 .send-enquiry-inner-bootom-head {
     font-size: 14px;
-    color: #212121;
+    color:#4f4f4f;
     line-height: 16px;
     font-weight: 500 !important;
 }
@@ -312,14 +312,14 @@
 
 .send-enquiry-supplier-list-heading {
     font-size: 20px;
-    color: #212121;
+    color:#4f4f4f;
     font-weight: 500;
 }
 
 .send-enquiry-supplier-list-text {
     font-size: 20px;
     font-weight: 500;
-    color: #212121;
+    color:#4f4f4f;
 }
 
 .send-enquiry-clear-icon {
@@ -355,7 +355,7 @@
   .page-item.active .page-link {
     z-index: 3;
     color: #fff;
-    background-color: #282f86;
+    background: linear-gradient(to left, #00dcff, #0075ce);
   }
   
   .page-item.disabled .page-link {
@@ -404,7 +404,7 @@
 .modal-ok-button {
     border: none !important;
     outline: none !important;
-background-color: #282f86;
+background: linear-gradient(to left, #00dcff, #0075ce);
     color: white;
     padding: 6px 22px;
     border-radius: 4px;

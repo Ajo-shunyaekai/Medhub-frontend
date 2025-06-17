@@ -27,7 +27,7 @@
 }
 
 .EditButtonSection {
- background-color: #282f86;
+ background: linear-gradient(to left, #00dcff, #0075ce);
   border-radius: 4px;
   color: #fff;
   column-gap: 8px;
@@ -93,7 +93,7 @@
 }
 
 .mainHead {
-  color: #212121;
+  color:#4f4f4f;
   font-size: 26px;
   font-weight: 500;
   display: -webkit-box;
@@ -178,7 +178,7 @@ font-size: 22px;
 }
 
 .companyMainHeading {
-  color: #212121;
+  color:#4f4f4f;
   font-size: 20px;
   font-weight: 500;
 }
@@ -325,7 +325,7 @@ font-size: 22px;
   display: none;
 }
 .labelStamp {
-  color: #212121;
+  color:#4f4f4f;
 }
 .editForm {
   display: flex;
@@ -333,7 +333,7 @@ font-size: 22px;
   gap: 20px;
 }
 .editProfileHead {
-  color: #212121;
+  color:#4f4f4f;
   font-size: 20px;
   font-weight: 500;
   width: 100%;
@@ -348,7 +348,7 @@ font-size: 22px;
   gap: 16px;
 }
 .editProfileSubHead {
-  color: #212121;
+  color:#4f4f4f;
   font-size: 18px;
   font-weight: 500;
 }
@@ -368,7 +368,7 @@ font-size: 22px;
 .editLabel {
   font-size: 14px;
   font-weight: 500;
-  color: #212121;
+  color:#4f4f4f;
 }
 .onEditInfo {
   font-size: 14px;
@@ -411,7 +411,7 @@ font-size: 22px;
 .editSubmit {
   border: none !important;
   outline: none !important;
-background-color: #282f86;
+background: linear-gradient(to left, #00dcff, #0075ce);
   color: white;
   padding: 6px 22px;
   border-radius: 4px;
@@ -425,7 +425,7 @@ background-color: #282f86;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
   background-color: #ffffff;
   border: 1px solid #212121;
-  color: #212121;
+  color:#4f4f4f;
   padding: 6px 22px;
   border-radius: 4px;
   display: flex;

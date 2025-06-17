@@ -74,7 +74,7 @@ const SupplierDetailsNew = () => {
         }
         setSupplierDetails(response?.result);
         setSalesPersonName(response?.result?.sales_person_name);
-      } catch (error) {}
+      } catch (error) { }
     };
     getSupplierdetails();
   }, [adminIdSessionStorage, adminIdLocalStorage, supplierId, navigate]);
@@ -180,7 +180,7 @@ const SupplierDetailsNew = () => {
                         <PhoneInTalkOutlinedIcon
                           data-tooltip-id={
                             supplierDetails?.supplier_country_code &&
-                            supplierDetails?.supplier_mobile
+                              supplierDetails?.supplier_mobile
                               ? "my-tooltip-1"
                               : null
                           }
@@ -212,15 +212,15 @@ const SupplierDetailsNew = () => {
                             supplierDetails?.account_status === 0
                               ? "orange"
                               : supplierDetails?.account_status === 1
-                              ? "green"
-                              : "red",
+                                ? "green"
+                                : "red",
                         }}
                       >
                         {supplierDetails?.account_status === 0
                           ? "Pending"
                           : supplierDetails?.account_status === 1
-                          ? "Active"
-                          : "Inactive"}
+                            ? "Active"
+                            : "Inactive"}
                       </div>
                     </div>
                     <div className="buyer-details-inner-section">
@@ -294,8 +294,8 @@ const SupplierDetailsNew = () => {
                 </div>
                 <div className="buyer-details-inner-text">
                   {user?.accessControl?.supplier?.requests?.edit &&
-                  supplierDetails?.account_status == 0 &&
-                  isEditable ? (
+                    supplierDetails?.account_status == 0 &&
+                    isEditable ? (
                     <input
                       type="text"
                       defaultValue={supplierDetails?.sales_person_name}
@@ -308,7 +308,7 @@ const SupplierDetailsNew = () => {
                   )}
                 </div>
               </div>
-              <div className="buyer-details-inner-section">
+<div className="buyer-details-inner-section">
                 <div className="buyer-details-inner-head">
                   Company Registration No. :
                 </div>
@@ -324,6 +324,28 @@ const SupplierDetailsNew = () => {
                   {supplierDetails?.vat_reg_no}
                 </div>
               </div>
+               {supplierDetails?.yrFounded && (
+                <div className="buyer-details-inner-section">
+                  <div className="buyer-details-inner-head">Year Company Founded :</div>
+                  <div className="buyer-details-inner-text">
+                    {supplierDetails?.yrFounded}
+                  </div>
+                </div>
+              )}
+               {supplierDetails?.license_no && (
+                <div className="buyer-details-inner-section">
+                  <div className="buyer-details-inner-head">License No. :</div>
+                  <div className="buyer-details-inner-text">
+                    {supplierDetails?.license_no}
+                  </div>
+                </div>
+              )}
+               <div className="buyer-details-inner-section">
+                <div className="buyer-details-inner-head">Tags :</div>
+                <div className="buyer-details-inner-text">
+                  {supplierDetails?.tags}
+                </div>
+              </div>
               <div className="buyer-details-inner-section">
                 <div className="buyer-details-inner-head">
                   Country of Origin :
@@ -332,31 +354,23 @@ const SupplierDetailsNew = () => {
                   {supplierDetails?.country_of_origin}
                 </div>
               </div>
-              <div className="buyer-details-inner-section">
-                <div className="buyer-details-inner-head">
-                  Country of Operation :
-                </div>
-                <div className="buyer-details-inner-text">
-                  {supplierDetails?.country_of_operation?.join(", ")}
-                </div>
-              </div>
+              
               <div className="buyer-details-inner-section">
                 <div className="buyer-details-inner-head">
                   Category you Trade in :
                 </div>
                 <div className="buyer-details-inner-text">
-                  {supplierDetails?.license_expiry_date}
+                  {supplierDetails?.categories?.join(", ")}
                 </div>
               </div>
 
-              <div className="buyer-details-inner-section">
-                <div className="buyer-details-inner-head">Tags :</div>
-                <div className="buyer-details-inner-text">
-                  {supplierDetails?.tags}
-                </div>
-              </div>
+
             </div>
             <div className="buyer-details-inner-left-section">
+              
+
+
+
               <div className="buyer-details-inner-section">
                 <div className="buyer-details-inner-head">
                   Business/Trade Activity Code :
@@ -365,17 +379,17 @@ const SupplierDetailsNew = () => {
                   {supplierDetails?.activity_code || "-"}
                 </div>
               </div>
-
+             
               {/* Conditionally render License No. */}
-              {supplierDetails?.license_no && (
+             
+ {supplierDetails?.annualTurnover && (
                 <div className="buyer-details-inner-section">
-                  <div className="buyer-details-inner-head">License No. :</div>
+                  <div className="buyer-details-inner-head">Annual Turnover :</div>
                   <div className="buyer-details-inner-text">
-                    {supplierDetails?.license_no}
+                    {supplierDetails?.annualTurnover}
                   </div>
                 </div>
               )}
-
               {/* Conditionally render License Expiry Date */}
               {supplierDetails?.license_expiry_date && (
                 <div className="buyer-details-inner-section">
@@ -415,6 +429,15 @@ const SupplierDetailsNew = () => {
                   {supplierDetails?.contact_person_mobile_no}
                 </div>
               </div>
+
+              <div className="buyer-details-inner-section">
+                <div className="buyer-details-inner-head">
+                  Country of Operation :
+                </div>
+                <div className="buyer-details-inner-text">
+                  {supplierDetails?.country_of_operation?.join(", ")}
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -452,13 +475,13 @@ const SupplierDetailsNew = () => {
                   {renderFiles(
                     supplierDetails?.certificateFileNDate?.length > 0
                       ? supplierDetails?.certificateFileNDate?.map(
-                          (ele, index) => ({
-                            ...ele,
-                            file: ele?.file
-                              ? ele?.file
-                              : supplierDetails?.certificate_image?.[index],
-                          })
-                        )
+                        (ele, index) => ({
+                          ...ele,
+                          file: ele?.file
+                            ? ele?.file
+                            : supplierDetails?.certificate_image?.[index],
+                        })
+                      )
                       : supplierDetails?.certificate_image,
                     "certificate_image",
                     supplierDetails?.certificateFileNDate?.length > 0

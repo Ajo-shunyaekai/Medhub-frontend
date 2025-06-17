@@ -87,11 +87,11 @@
     margin-top: 16px;
     font-size: 14px;
     font-weight: 500;
-    color: #212121;
+    color:#4f4f4f;
 }
 
 .resend-link {
-    color: #282f86 !important;
+    color:#3b71ca;;
     font-weight: 500;
     cursor: pointer !important;
 }

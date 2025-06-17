@@ -12,7 +12,7 @@
   row-gap: 20px;
 }
 .ongoing-order-button-span{
-background-color: #282f86;
+background: linear-gradient(to left, #00dcff, #0075ce);
     color: white;
     padding: 6px 16px;
     border-radius: 4px;
@@ -131,7 +131,7 @@ background-color: #282f86;
   font-weight: 500 !important;
 }
 .ongoing-section-orders-button{
-background-color: #282f86;
+background: linear-gradient(to left, #00dcff, #0075ce);
   color: white;
   padding: 6px 8px;
   border-radius: 4px;

@@ -18,7 +18,7 @@
 }
 
 .productHead {
-  color: #212121;
+  color:#4f4f4f;
   padding-top: 5px;
   font-size: 20px;
   font-weight: 500;
@@ -59,7 +59,7 @@
 }
 
 .active {
-  color: #282f86 !important;
+  color:#3b71ca;;
   background-color: #e1e1e4;
   ;
 }
@@ -101,7 +101,7 @@
 }
 
 .head {
-  color: #212121;
+  color:#4f4f4f;
   font-size: 16px;
   font-weight: 500;
   position: relative;
@@ -114,7 +114,7 @@
 }
 
 .uploadButton {
-  background-color: #282f86;
+  background: linear-gradient(to left, #00dcff, #0075ce);
   border-radius: 4px;
   color: #fff;
   cursor: pointer !important;
@@ -171,7 +171,7 @@
 }
 
 .cardButton {
-  background-color: #282f86;
+  background: linear-gradient(to left, #00dcff, #0075ce);
   border-radius: 4px;
   color: #fff;
   column-gap: 8px;
@@ -198,7 +198,7 @@
 }
 
 .cardMainHeading {
-  color: #212121;
+  color:#4f4f4f;
   font-size: 22px;
   font-weight: 500;
 }
@@ -207,7 +207,7 @@
   font-size: 13px;
   font-weight: 500;
   min-width: 150px;
-  color: #212121;
+  color:#4f4f4f;
 }
 
 .cardText {

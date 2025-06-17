@@ -43,13 +43,13 @@ margin-right: auto;
 .title {
     font-size: 20px;
       font-weight: 500;
-color: #212121;
+color:#4f4f4f;
 }
 
 .button {
     border: none !important;
     outline: none !important;
-background-color: #282f86;
+background: linear-gradient(to left, #00dcff, #0075ce);
     color: white;
     padding: 6px 22px;
     border-radius: 4px;
@@ -94,7 +94,7 @@ background-color: #282f86;
     border: none !important;
     outline: none !important;
     align-items: center;
-   background-color: #282f86;
+   background: linear-gradient(to left, #00dcff, #0075ce);
     border-radius: 4px;
     color: #fff;
     column-gap: 8px;

@@ -25,7 +25,7 @@ body::first-letter {
 }
 
 .pageTitle {
-  color: #212121;
+  color:#4f4f4f;
   font-size: 20px;
   font-weight: 500;
   margin-top: 10px;
@@ -106,7 +106,7 @@ body::first-letter {
 }
 
 .orderHeading {
-  color: #212121;
+  color:#4f4f4f;
   font-weight: 500;
   font-size: 0.825rem;
   line-height: 18px;
@@ -139,7 +139,7 @@ body::first-letter {
 }
 
 .cardHeading {
-  color: #212121;
+  color:#4f4f4f;
   font-weight: 500;
   font-size: 0.825rem;
 }
@@ -162,7 +162,7 @@ body::first-letter {
 }
 
 .asideHeading {
-  color: #212121;
+  color:#4f4f4f;
   font-weight: 500;
   font-size: 0.825rem;
 }
@@ -200,7 +200,7 @@ body::first-letter {
 
 .performaCardHeading {
   font-size: 0.825rem;
-  color: #212121;
+  color:#4f4f4f;
   font-weight: 500;
 }
 
@@ -218,7 +218,7 @@ body::first-letter {
 }
 
 .mapHeading {
-  color: #212121;
+  color:#4f4f4f;
   font-weight: 500;
   font-size: 0.825rem;
 }
@@ -234,7 +234,7 @@ body::first-letter {
 }
 
 .countryTitle {
-  color: #282f86 !important;
+  color:#3b71ca;;
   font-size: 0.825rem;
   font-weight: 550;
 }

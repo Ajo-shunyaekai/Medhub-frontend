@@ -151,7 +151,7 @@ ul {
 }
 
 .noti_profile {
-  color: #212121;
+  color:#4f4f4f;
   font-weight: 500;
   font-size: 11px;
   display: flex;
@@ -166,7 +166,7 @@ ul {
   font-size: 13px;
   font-weight: 500;
   line-height: 20px;
-  color: #212121;
+  color:#4f4f4f;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -207,7 +207,7 @@ ul {
 }
 
 .noti_see_all_num {
-  color: #212121;
+  color:#4f4f4f;
   font-weight: 500;
   font-size: 14px;
 }
@@ -252,7 +252,7 @@ ul {
 }
 
 .profile_text:hover {
-  color: #212121;
+  color:#4f4f4f;
 }
 
 .profile_sign_out {
@@ -264,7 +264,7 @@ ul {
 }
 
 .profile_sign_out:hover {
-  color: #212121;
+  color:#4f4f4f;
 }
 
 .drawerMenus {
@@ -272,7 +272,7 @@ ul {
   flex-direction: column;
   row-gap: 20px;
   list-style-type: none;
-  background-color: #282f86;
+  background: linear-gradient(to left, #00dcff, #0075ce);
   height: 100vh;
   padding: 20px;
 }

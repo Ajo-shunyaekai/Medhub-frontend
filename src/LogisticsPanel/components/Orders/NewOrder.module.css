@@ -11,7 +11,7 @@
 
 .button {
   padding: 10px;
-  background-color: #282f86;
+  background: linear-gradient(to left, #00dcff, #0075ce);
   color: #fff;
   border-radius: 15px;
   border: 2px solid #282f86;

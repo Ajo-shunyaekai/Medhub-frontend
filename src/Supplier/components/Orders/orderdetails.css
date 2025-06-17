@@ -31,7 +31,7 @@
 .active-details-purchsed-by {
   font-size: 12px;
   font-weight: 500;
-  color: #212121;
+  color:#4f4f4f;
 }
 
 .active-order-details-link-tag {
@@ -45,7 +45,7 @@
 }
 
 .active-order-main-create-invoice {
-background-color: #282f86;
+background: linear-gradient(to left, #00dcff, #0075ce);
   color: white;
   padding: 6px 16px;
   border-radius: 4px;
@@ -66,7 +66,7 @@ background-color: #282f86;
   flex-direction: column;
 }
 .active-order-details-conatiner-heading span{
-  color: #212121;
+  color:#4f4f4f;
 }
 .active-order-details-section {
   width: 100%;
@@ -209,7 +209,7 @@ background-color: #282f86;
 }
 
 .active-order-details-left-top-main-heading-button {
-background-color: #282f86;
+background: linear-gradient(to left, #00dcff, #0075ce);
   color: white;
   padding: 6px 16px;
   border-radius: 4px;
@@ -223,7 +223,7 @@ background-color: #282f86;
 
 
 .ongoing-enguiries-details-buttons {
-background-color: #282f86;
+background: linear-gradient(to left, #00dcff, #0075ce);
   color: white;
   padding: 6px 16px;
   border-radius: 4px;
@@ -334,7 +334,7 @@ background-color: #282f86;
 }
 
 .table-assign-driver-heading {
-  color: #212121;
+  color:#4f4f4f;
   font-size: 18px;
   font-weight: 500;
   padding: 0px 10px;
@@ -395,7 +395,7 @@ background-color: #282f86;
 
 /* Start the Address Container Section */
 .active-order-transportation-heading {
-  color: #212121;
+  color:#4f4f4f;
   font-size: 18px;
   font-weight: 500;
 }
@@ -432,12 +432,12 @@ background-color: #282f86;
 }
 
 .table-container-text {
-  color: #212121;
+  color:#4f4f4f;
   font-size: 13px;
 }
 
 .table-g-driver-name {
-  color: #212121;
+  color:#4f4f4f;
   font-size: 14px;
   font-weight: 500;
 }
@@ -454,7 +454,7 @@ background-color: #282f86;
 }
 
 .active-order-details-payment-first-terms-heading {
-  color: #212121;
+  color:#4f4f4f;
   font-size: 14px;
 }
 
@@ -464,7 +464,7 @@ background-color: #282f86;
 }
 
 .active-order-details-payment-detention-head {
-  color: #212121;
+  color:#4f4f4f;
   font-size: 14px;
 }
 
@@ -507,7 +507,7 @@ background-color: #282f86;
 
 .table-g-not-name-buttons {
   background-color: #f7f7d6;
-  color: #212121;
+  color:#4f4f4f;
   width: 100px;
   text-align: center;
   padding: 8px 0px;
@@ -528,7 +528,7 @@ background-color: #282f86;
 }
 
 .active-order-details-submit-button {
-background-color: #282f86;
+background: linear-gradient(to left, #00dcff, #0075ce);
   color: white;
   padding: 6px 22px;
   border-radius: 4px;
@@ -544,7 +544,7 @@ background-color: #282f86;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
   background-color: #ffffff;
   border: 1px solid #212121;
-  color: #212121;
+  color:#4f4f4f;
   padding: 6px 22px;
   border-radius: 4px;
   display: flex;
@@ -602,7 +602,7 @@ background-color: #282f86;
 }
 
 .active-invoice-list {
-background-color: #282f86;
+background: linear-gradient(to left, #00dcff, #0075ce);
   color: white !important;
   padding: 6px 16px;
   border-radius: 4px;
@@ -636,7 +636,7 @@ background-color: #282f86;
 }
 
 .details-payment-heading {
-  color: #212121;
+  color:#4f4f4f;
   font-size: 18px;
   font-weight: 500;
 }
@@ -667,7 +667,7 @@ background-color: #282f86;
 }
 
 .details-payment-inner-text {
-  color: #212121;
+  color:#4f4f4f;
   font-size: 14px;
   font-weight: 500;
 }
@@ -741,7 +741,7 @@ background-color: #282f86;
 .page-item.active .page-link {
   z-index: 3;
   color: #fff;
-  background-color: #282f86;
+  background: linear-gradient(to left, #00dcff, #0075ce);
 }
 
 .page-item.disabled .page-link {

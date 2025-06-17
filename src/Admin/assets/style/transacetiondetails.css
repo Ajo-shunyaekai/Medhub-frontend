@@ -24,7 +24,7 @@
 }
 .transaction-details-container-heading{
     font-size: 20px;
-    color: #212121;
+    color:#4f4f4f;
     font-weight: 500;
     margin: 0 auto;
     width: 100%;
@@ -209,7 +209,7 @@
 
 .transaction-details-left-company-type-text {
     align-items: center;
-   background-color: #282f86;
+   background: linear-gradient(to left, #00dcff, #0075ce);
     border: none !important;
     border-radius: 4px;
     color: #fff;
@@ -495,7 +495,7 @@
     border: 1px solid #212121;
     border-radius: 4px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, .05) !important;
-    color: #212121;
+    color:#4f4f4f;
     align-items: center;
      cursor: pointer !important;;
     display: flex;
@@ -506,7 +506,7 @@
 
 }
 .transaction-details-button-accept{
-   background-color: #282f86;
+   background: linear-gradient(to left, #00dcff, #0075ce);
     border: none !important;
     border-radius: 4px;
     color: #fff;
