@@ -345,7 +345,7 @@ const SupplierDetailsNew = () => {
                   Category you Trade in :
                 </div>
                 <div className="buyer-details-inner-text">
-                  {supplierDetails?.license_expiry_date}
+                  {supplierDetails?.categories?.join(", ")}
                 </div>
               </div>
 
@@ -355,8 +355,22 @@ const SupplierDetailsNew = () => {
                   {supplierDetails?.tags}
                 </div>
               </div>
+              
             </div>
             <div className="buyer-details-inner-left-section">
+            <div className="buyer-details-inner-section">
+                <div className="buyer-details-inner-head">Year Company Founded :</div>
+                <div className="buyer-details-inner-text">
+                  {supplierDetails?.yrFounded ? supplierDetails?.yrFounded : '-'}
+                </div>
+              </div>
+            <div className="buyer-details-inner-section">
+                <div className="buyer-details-inner-head">Annual Turnover :</div>
+                <div className="buyer-details-inner-text">
+                  {supplierDetails?.annualTurnover ? `${supplierDetails?.annualTurnover} USD` : '-'}
+                </div>
+              </div>
+              
               <div className="buyer-details-inner-section">
                 <div className="buyer-details-inner-head">
                   Business/Trade Activity Code :

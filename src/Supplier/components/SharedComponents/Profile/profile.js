@@ -232,6 +232,26 @@ const Profile = () => {
 )}
                 </div>
                 <div className={styles.companyInnerContainer}>
+                {user?.yrFounded && (
+                    <div className={styles.companyDetails}>
+                      <div className={styles.companyHead}>
+                      Year Company Founded
+                      </div>
+                      <div className={styles.companyText}>
+                        {user?.yrFounded}
+                      </div>
+                    </div>
+                  )}
+                  {user?.annualTurnover && (
+                    <div className={styles.companyDetails}>
+                      <div className={styles.companyHead}>
+                        Annual Turnover
+                      </div>
+                      <div className={styles.companyText}>
+                        {user?.annualTurnover} USD
+                      </div>
+                    </div>
+                  )}
                   {user?.country_of_operation && (
                     <div className={styles.companyDetails}>
                       <div className={styles.companyHead}>

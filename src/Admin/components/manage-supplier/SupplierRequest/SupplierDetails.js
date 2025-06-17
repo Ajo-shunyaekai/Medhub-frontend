@@ -351,6 +351,18 @@ const SupplierDetails = () => {
                   {supplierDetails?.tags}
                 </div>
               </div>
+              <div className="buyer-details-inner-section">
+                <div className="buyer-details-inner-head">Annual Turnover :</div>
+                <div className="buyer-details-inner-text">
+                  {supplierDetails?.tags}
+                </div>
+              </div>
+              <div className="buyer-details-inner-section">
+                <div className="buyer-details-inner-head">Year Company Founded :</div>
+                <div className="buyer-details-inner-text">
+                  {supplierDetails?.tags}
+                </div>
+              </div>
             </div>
             <div className="buyer-details-inner-left-section">
               <div className="buyer-details-inner-section">
