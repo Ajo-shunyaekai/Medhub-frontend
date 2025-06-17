@@ -6969,7 +6969,7 @@ const EditAddProduct = ({ placeholder }) => {
                       onChange={(option) =>
                         formik.setFieldValue(
                           `stockedInDetails.${index}.country`,
-                          option?.value
+                          option?.label
                         )
                       }
                       name={`stockedInDetails.${index}.country`}
