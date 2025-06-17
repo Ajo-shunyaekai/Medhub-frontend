@@ -109,7 +109,7 @@ const AccordionFilter = ({
       >
         <div className={styles.filterContainer}>
           <div className={styles.filterSection}>
-            <label>Stocked in Country</label>
+            <label>Countries Where Stock Traded</label>
             <MultiSelectDropdown
               options={countryOptions}
               value={selectedCountries}
