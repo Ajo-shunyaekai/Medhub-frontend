@@ -134,7 +134,7 @@
 }
 
 .formclose {
-  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+   
   padding: 4px 8px;
   font-size: 13px;
   border-radius: 4px;
@@ -212,7 +212,7 @@
   background-color: #fff !important;
   border: none !important;
   border-radius: 4px !important;
-  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+   
   font-size: 14px !important;
   outline: none !important;
   padding: 10px !important;
@@ -224,7 +224,7 @@
   background-color: #fff !important;
   border: none !important;
   border-radius: 4px !important;
-  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+   
   font-size: 14px !important;
   outline: none !important;
   padding: 9px !important;
@@ -273,7 +273,7 @@
   background-color: #fff !important;
   border: none !important;
   border-radius: 4px !important;
-  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+   
   font-size: 14px !important;
   outline: none !important;
   padding: 12px !important;
@@ -290,7 +290,7 @@
   background-color: #fff !important;
   border: none !important;
   border-radius: 4px !important;
-  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+   
   font-size: 14px !important;
   outline: none !important;
   padding: 10px !important;
@@ -474,7 +474,7 @@
       background-color: #f9f9f9;
       text-align: center;
       border: none !important;
-      box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+   
 }
 
 .previewImage {
@@ -599,7 +599,7 @@
   align-items: center !important;
   border: none !important;
   border-radius: 4px !important;
-  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+   
   font-size: 14px !important;
   outline: none !important;
   padding: 12px !important;
@@ -645,7 +645,7 @@ gap: 10px;
   align-items: center !important;
   border: none !important;
   border-radius: 4px !important;
-  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+   
   font-weight: 500;
   display: flex;
   justify-content: center;

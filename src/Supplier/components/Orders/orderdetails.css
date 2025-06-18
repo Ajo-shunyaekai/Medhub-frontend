@@ -39,7 +39,7 @@
 }
 
 .active-details-Buyer-name {
-  color: #616161;
+     color: #99a0ac;
   font-size: 12px;
   font-weight: 500;
 }
@@ -415,13 +415,13 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 
 
 .active-order-details-right-inner-section-heading {
-  color: #616161;
+     color: #99a0ac;
   font-size: 13px;
 }
 
 
 .active-order-details-top-bottom-order-heading {
-  color: #616161;
+     color: #99a0ac;
   font-size: 12px;
 }
 
@@ -444,13 +444,13 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 .table-g-not-names {
   font-weight: 500;
   font-size: 14px;
-  color: #616161;
+     color: #99a0ac;
 }
 
 .table-g-not-name {
   font-weight: 500;
   font-size: 14px;
-  color: #616161;
+     color: #99a0ac;
 }
 
 .active-order-details-payment-first-terms-heading {
@@ -491,7 +491,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 }
 
 .active-order-details-payment-remark-text {
-  color: #616161;
+     color: #99a0ac;
   font-size: 14px;
 }
 
@@ -657,7 +657,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 .details-payment-content {
   font-weight: 500;
   font-size: 14px;
-  color: #616161;
+     color: #99a0ac;
 }
 
 .details-payment-ul {
@@ -698,7 +698,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 .details-address-text {
   font-weight: 500;
   font-size: 14px;
-  color: #616161;
+     color: #99a0ac;
   display: flex;
   gap: 12px;
 }
@@ -707,7 +707,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   background-color: #f5f5f6;
   font-size: 10px;
   border-color: transparent;
-  color: #616161;
+     color: #99a0ac;
   font-weight: 500;
   text-align: center;
   padding: 4px 8px;
@@ -752,7 +752,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   border-color: rgba(160, 175, 185, 0.15) !important;
 }
 .pagination-total-items{
-  color: #616161;
+     color: #99a0ac;
   font-size: 14px;
 }
 /* End the pagination container */

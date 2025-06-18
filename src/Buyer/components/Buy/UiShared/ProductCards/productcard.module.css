@@ -10,7 +10,7 @@ h4{
 .card {
     background-color: #fff;
     border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     display: flex;
     align-items: center;
     gap: 2rem;
@@ -42,7 +42,7 @@ h4{
     justify-content: center;
     overflow: hidden;
    
-    /* box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important; */
+    /*   */
 }
 
 .imageContainer img {
@@ -100,7 +100,7 @@ h4{
 }
 
 .text {
-    color: #616161;
+       color: #99a0ac;
     font-size: 13px;
     font-weight: 500;
     line-height: 20px;
@@ -109,7 +109,7 @@ h4{
 .noData {
     background-color: #fff;
     border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     display: flex;
     align-items: center;
     gap: 30px;

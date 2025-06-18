@@ -35,7 +35,7 @@ body::first-letter {
   background-color: #f5f5f6;
   font-size: 0.825rem;
   border-color: transparent;
-  color: #616161;
+     color: #99a0ac;
   text-align: center;
   padding: 10px 20px;
   border-radius: 4px;
@@ -92,7 +92,7 @@ body::first-letter {
   cursor: pointer !important;
 }
 .logistics-top-head {
-  color: #616161;
+     color: #99a0ac;
   font-size: 1rem;
   line-height: 22px;
   font-weight: 500;
@@ -143,7 +143,7 @@ body::first-letter {
   row-gap: 30px;
 }
 .logistics-left-head {
-  color: #616161;
+     color: #99a0ac;
   font-size: 1rem;
   line-height: 22px;
   font-weight: 500;
@@ -173,7 +173,7 @@ body::first-letter {
   font-weight: 500;
 }
 .logistics-left-bottom-plus {
-  color: #616161;
+     color: #99a0ac;
   font-size: 12px;
 }
 .logistics-left-bottom-head {
@@ -193,7 +193,7 @@ body::first-letter {
   padding: 6px 12px;
 }
 .logistics-right-head {
-  color: #616161;
+     color: #99a0ac;
   font-size: 1rem;
   font-weight: 500;
 }
@@ -216,7 +216,7 @@ body::first-letter {
   row-gap: 4px;
 }
 .logistics-country-price {
-  color: #616161;
+     color: #99a0ac;
   font-size: 12px;
 }
 .logistics-country-name {
@@ -290,7 +290,7 @@ body::first-letter {
 }
 .graph-toogle-content {
   font-size: 12px;
-  color: #616161;
+     color: #99a0ac;
 }
 .graph-toggle-button .btn {
   font-size: 0.75rem;
@@ -346,7 +346,7 @@ body::first-letter {
 }
 .checkbox-heading-graph-light {
   font-size: 12px;
-  color: #616161;
+     color: #99a0ac;
   position: relative;
   left: 34px;
 }

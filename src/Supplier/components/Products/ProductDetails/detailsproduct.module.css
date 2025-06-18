@@ -28,7 +28,7 @@
 
 .mainText {
     font-size: 16px;
-    color: #616161;
+       color: #99a0ac;
     font-weight: 500;
 }
 
@@ -54,13 +54,13 @@
 .head {
     font-weight: 500;
     font-size: 16px;
-    color: #616161;
+       color: #99a0ac;
 }
 
 .text {
      font-weight: 500;
     font-size: 16px;
-    color: #616161;
+       color: #99a0ac;
 }
 
 .imageContainer {
@@ -132,7 +132,7 @@
 .mainTexting {
     font-size: 13px;
     font-weight: 500;
-    color: #616161;
+       color: #99a0ac;
 }
 .mainContainers{
         display: flex;
@@ -172,7 +172,7 @@
 
 .textSec {
       font-size: 13px;
-    color: #616161;
+       color: #99a0ac;
     font-weight: 500;
     text-align: end;
 }
@@ -220,7 +220,7 @@
 .textCountry {
     font-size: 13px;
     font-weight: 500;
-    color: #616161;
+       color: #99a0ac;
 }
 
 .categoryContainer {
@@ -262,7 +262,7 @@ flex-wrap: wrap;
 
 .categoryText {
   font-size: 13px;
-    color: #616161;
+       color: #99a0ac;
     font-weight: 500;
     text-align: end;
 }
@@ -281,7 +281,7 @@ flex-wrap: wrap;
 .descriptionContent {
        font-size: 13px;
     font-weight: 500;
-    color: #616161;
+       color: #99a0ac;
 }
 
 .complianceContainer {
@@ -320,7 +320,7 @@ flex-wrap: wrap;
 
 .expiryName {
     font-size:13px;
-    color: #616161;
+       color: #99a0ac;
 }
 .fileHeading{
 font-size: 18px;
@@ -362,7 +362,7 @@ color:#4f4f4f;
        background-color: #fff !important;
     border: none !important;
     border-radius: 4px !important;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     color: #212121 !important;
     font-size: 14px !important;
     font-weight: 500 !important;

@@ -17,7 +17,7 @@
     padding: 14px 10px;
     background-color: #fff;
     border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     font-size: 14px;
     font-weight: 500;
 }
@@ -51,7 +51,7 @@
     align-items: center;
     border-radius: 4px;
     background-color: #ffffff;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     padding: 10px 20px;
 }
 
@@ -68,7 +68,7 @@
 
 .send-enquiry-upper-left-text {
     font-size: 14px;
-    color: #616161;
+       color: #99a0ac;
 }
 
 .send-enquiry-upper-right-sec {
@@ -91,7 +91,7 @@
 .send-enquiry-upper-right-number {
     font-size: 14px;
     font-weight: 500;
-    color: #616161;
+       color: #99a0ac;
 }
 
 .send-enquiry-upper-right-button-sec {
@@ -115,7 +115,7 @@
 
 .send-enquiry-supplier-list-container {
     border-radius: 4px !important;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     background: linear-gradient(to left, #f5f5f7, #e1f2ff);
     padding: 20px 30px;
     display: flex;
@@ -130,7 +130,7 @@
     padding: 20px 24px;
     border-radius: 4px;
     background-color: #ffffff;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
 }
 
 /* Custome checkbox section */
@@ -252,13 +252,13 @@
 .send-enquiry-inner-top-supplier {
     font-size: 12px;
     line-height: 18px;
-    color: #616161;
+       color: #99a0ac;
     width: 650px;
 }
 
 .send-enquiry-inner-top-name {
     font-size: 12px;
-    color: #616161;
+       color: #99a0ac;
 }
 
 .send-enquiry-inner-bottom-section {
@@ -286,7 +286,7 @@
 .send-enquiry-inner-bootom-text {
     font-size: 13px;
     font-weight: 500;
-    color: #616161;
+       color: #99a0ac;
 }
 
 .send-enquiry-remove-section {

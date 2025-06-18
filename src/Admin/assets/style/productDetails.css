@@ -225,13 +225,13 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 
 .buyer-product-details-two-right-text {
   font-size: 14px;
-  color: #616161;
+     color: #99a0ac;
   font-weight: 500;
 }
 
 .buyer-product-details-four-right-text {
   font-size: 14px;
-  color: #616161;
+     color: #99a0ac;
   font-weight: 500;
   width: 720px;
   /* border: 1px solid red; */
@@ -266,7 +266,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 }
 
 .buyer-product-range-text {
-  color: #616161;
+     color: #99a0ac;
   display: flex;
   flex-direction: column;
   justify-content: start;
@@ -276,7 +276,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 }
 
 .buyer-product-range-select {
-  color: #616161;
+     color: #99a0ac;
   border-radius: 4px;
   display: flex;
   flex-direction: column;
@@ -318,7 +318,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 
 .buyer-product-details-mfg-details {
   font-size: 14px;
-  color: #616161;
+     color: #99a0ac;
   font-weight: 500;
 }
 
@@ -374,7 +374,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 
 .buyer-product-details-inner-copmany-text {
   font-size: 14px;
-  color: #616161;
+     color: #99a0ac;
   font-weight: 500;
   display: flex;
   flex-direction: column;
@@ -644,7 +644,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 
 .buyer-product-details-card-medicine-text {
   font-size: 12px;
-  color: #616161;
+     color: #99a0ac;
 }
 
 .buyer-product-details-card-text-section {
@@ -662,7 +662,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 
 .buyer-product-details-card-test-text {
   font-size: 13px;
-  color: #616161;
+     color: #99a0ac;
   width: 104px;
     display: -webkit-box;
     -webkit-line-clamp: 1;

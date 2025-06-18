@@ -203,7 +203,7 @@ font-size: 22px;
   word-wrap: break-word;
   word-break: break-word;
   overflow-wrap: break-word;
-  color: #616161;
+     color: #99a0ac;
   font-weight: 500;
   font-size: 13px;
   text-align: end;
@@ -234,7 +234,7 @@ font-size: 22px;
 
 .textareaContent {
   font-weight: 500;
-  color: #616161;
+     color: #99a0ac;
   font-size: 14px;
   line-height: 20px;
 }

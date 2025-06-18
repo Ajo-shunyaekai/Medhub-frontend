@@ -43,7 +43,7 @@
 .mainContainer {
     background-color: #fff;
     border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     padding: 26px 30px;
     display: flex;
     flex-direction: column;
@@ -59,7 +59,7 @@
 .mainManufacturerContainer{
     background-color: #fff;
     border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     padding: 26px 30px;
     display: flex;
     flex-direction: column;
@@ -79,7 +79,7 @@
     align-items: start;
     /* background-color: #fff;
     border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     padding: 26px 30px; */
 }
 
@@ -138,7 +138,7 @@
 
 .medicineText {
     width: 50%;
-    color: #616161;
+       color: #99a0ac;
     font-size: 14px;
     font-weight: 500;
     word-wrap: break-word; 
@@ -147,7 +147,7 @@
 }
 .medicineTexts{
     width: 75%;
-    color: #616161;
+       color: #99a0ac;
     font-size: 14px;
     font-weight: 500;
     word-wrap: break-word; 
@@ -155,7 +155,7 @@
     overflow-wrap: break-word;
 }
 .medicineContent{
-    color: #616161;
+       color: #99a0ac;
     font-size: 14px;
     font-weight: 500;
     word-wrap: break-word; 
@@ -164,7 +164,7 @@
     width: 100%; 
 }
 .medicineDescriptionContent{
-    color: #616161;
+       color: #99a0ac;
     font-size: 14px;
     font-weight: 500;
     word-wrap: break-word; 
@@ -217,8 +217,8 @@
     background-color: #fff !important;
     border: none !important;
     border-radius: 4px !important;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
-    color: #616161;
+ 
+       color: #99a0ac;
     font-size: 14px;
     font-weight: 500;
     outline: none !important;
@@ -277,7 +277,7 @@
 .addtionalContainer {
     background-color: #fff;
     border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     padding: 26px 30px;
     display: flex;
     flex-direction: column;
@@ -450,7 +450,7 @@
   .closeButton {
     background-color: #fff;
     border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     padding:8px;
     border: none !important;
     cursor: pointer !important;

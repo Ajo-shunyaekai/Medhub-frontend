@@ -52,7 +52,7 @@ ul {
 .filterInnerSection {
     background-color: #fff;
     border-radius: 2px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     color:#4f4f4f;
     display: flex;
     flex-direction: column;
@@ -89,7 +89,7 @@ ul {
         border-radius: 4px !important;
        border: none !important;
       background-color: #ffffff !important;
-    color: #616161;
+       color: #99a0ac;
     padding: 6px 12px !important;
     display: flex !important;
     justify-content: center !important;
@@ -105,7 +105,7 @@ ul {
 /* Style for the icon inside the button */
 .tabIcon {
   font-size: 24px;
-   color: #616161;
+      color: #99a0ac;
   cursor: pointer !important; /* Default icon color for inactive tab */
 }
 
@@ -146,7 +146,7 @@ ul {
 .cardSection {
     background-color: #fff;
     border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -202,7 +202,7 @@ width: 100%;
     text-overflow: ellipsis;
     white-space: normal;
     font-size: 14px;
-    color: #616161;
+       color: #99a0ac;
     font-weight: 500;
 
 }
@@ -229,7 +229,7 @@ width: 100%;
 .noData {
     background-color: #fff;
     border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     display: flex;
     align-items: center;
     gap: 30px;

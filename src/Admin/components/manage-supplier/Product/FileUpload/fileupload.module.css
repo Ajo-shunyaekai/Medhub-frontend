@@ -35,7 +35,7 @@
     align-items: center !important;
     border: none !important;
     border-radius: 4px !important;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     font-size: 14px !important;
     outline: none !important;
     padding: 12px !important;
@@ -80,7 +80,7 @@
     align-items: center !important;
     border: none !important;
     border-radius: 4px !important;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     font-weight: 500;
     display: flex;
     justify-content: center;

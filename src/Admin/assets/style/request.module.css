@@ -89,7 +89,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 }
 
 .rejected-header-text-color {
-  color: #616161;
+     color: #99a0ac;
   white-space: normal;
   word-wrap: break-word;
   word-break: break-word;
@@ -109,7 +109,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 }
 
 .rejected-table-text-color-2 {
-  color: #616161;
+     color: #99a0ac;
   font-size: 14px;
 }
 
@@ -135,7 +135,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 }
 
 .rejected-pagi-total {
-  color: #616161;
+     color: #99a0ac;
   font-size: 14px;
 }
 

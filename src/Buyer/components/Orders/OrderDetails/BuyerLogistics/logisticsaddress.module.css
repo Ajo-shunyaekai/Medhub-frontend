@@ -81,7 +81,7 @@
 
 .pickupText {
     font-size: 14px;
-    color: #616161;
+       color: #99a0ac;
     cursor: pointer !important;
     display: flex;
     gap: 16px;
@@ -197,7 +197,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 }
 
 .deleteIcon {
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     padding: 3px 8px;
     font-size: 24px;
     width: 40px;

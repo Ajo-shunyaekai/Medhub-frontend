@@ -32,7 +32,7 @@ color:#4f4f4f;
 .detailsContainer{
     background-color: #fff;
     border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     padding: 26px 30px;
     display: flex
 ;
@@ -54,7 +54,7 @@ color:#4f4f4f;
 .content{
     font-size: 14px;
     font-weight: 500;
-    color: #616161;
+       color: #99a0ac;
     display: flex
 ;
     gap: 10px;
@@ -62,7 +62,7 @@ color:#4f4f4f;
 .driverSection{
     background-color: #fff;
     border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     padding: 26px 20px;
     width: 100%;
 }
@@ -74,7 +74,7 @@ color:#4f4f4f;
 .volumeContainers{
     background-color: #fff;
     border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     padding: 26px 30px;
     display: flex
 ;
@@ -92,7 +92,7 @@ flex-direction: column;
     width: 33%;
     background-color: #fff;
     border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     padding: 26px 30px;
 }
 .mainHeading{
@@ -109,7 +109,7 @@ color:#4f4f4f;
     width: 33%;
     background-color: #fff;
     border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     padding: 26px 30px;
 }
 .details{
@@ -136,7 +136,7 @@ color:#4f4f4f;
     width: 50%;
     background-color: #fff;
     border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     padding: 26px 30px;
 }
 .transportInnerSection{
@@ -157,7 +157,7 @@ color:#4f4f4f;
 .billSection{
     background-color: #fff;
     border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     padding: 26px 30px;
     display: flex;
     flex-direction: column;
@@ -171,7 +171,7 @@ color:#4f4f4f;
 .coordinatorSection{
     background-color: #fff;
     border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     padding: 26px 20px;
     width: 100%;
     display: none;

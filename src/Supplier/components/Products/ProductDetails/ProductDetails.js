@@ -3393,7 +3393,7 @@ const openPurchaseInvoice = () => {
             <p>Loading PDF or file not found...</p>
           )}
         </Modal>
-      </div>
+      </div>   
     </div>
   );
 };

@@ -27,7 +27,7 @@
       padding-top: 5px;
       font-size: 20px;
         font-weight: 500;
-      color:#4f4f4f;
+      color:#5e676f;
     }
     
     .content {
@@ -53,12 +53,12 @@
           cursor: pointer !important;
     }
   .icon {
-      color: #616161;
+         color: #99a0ac;
       cursor: pointer !important;
     }
     .text{
-      font-size: 14px;
-      font-weight: 500;
+         font-size: 14px;
+         font-weight: 450;
       cursor: pointer !important;
     }
     .main {
@@ -74,7 +74,7 @@
     }
     
     .active {
-      color: #282f86;
+      color: #448bff;
     }
   
     

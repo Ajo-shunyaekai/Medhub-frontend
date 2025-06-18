@@ -61,7 +61,7 @@
   }
   
   .invoice-header-text-color {
-    color: #616161;
+       color: #99a0ac;
     font-size: 12px;
       font-weight: 500;
     background-color: transparent !important;
@@ -73,7 +73,7 @@
   }
   
   .invoice-table-text-color-2 {
-    color: #616161;
+       color: #99a0ac;
     font-size: 14px;
   }
   
@@ -99,7 +99,7 @@
   }
   
   .invoice-pagi-total {
-    color: #616161;
+       color: #99a0ac;
     font-size: 14px;
   }
   

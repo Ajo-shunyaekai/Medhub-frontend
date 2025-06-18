@@ -27,7 +27,7 @@
   .table-g-not-names {
     font-size: 13px;
     font-weight: 500;
-    color: #616161;
+       color: #99a0ac;
   }
   .inquiry-details-left-section {
     display: flex;
@@ -389,15 +389,15 @@
      cursor: pointer !important;;
   }
   .inquiry-details-left-bottom-vehicle-head {
-    color: #616161;
+       color: #99a0ac;
     font-size: 12px;
   }
   .inquiry-details-left-bottom-vehichle-no-head {
-    color: #616161;
+       color: #99a0ac;
     font-size: 12px;
   }
   .inquiry-details-right-inner-section-heading {
-    color: #616161;
+       color: #99a0ac;
     font-size: 13px;
   }
   .inquiry-details-left-bottom-vehicle-text {
@@ -411,7 +411,7 @@
     line-height: 15px;
   }
   .inquiry-details-top-bottom-inquiry-heading {
-    color: #616161;
+       color: #99a0ac;
     font-size: 12px;
   }
   .inquiry-details-top-bottom-inquiry-content {
@@ -430,7 +430,7 @@
 
   }
   .table-g-not-name {
-    color: #616161;
+       color: #99a0ac;
     font-size: 13px;
     font-weight: 500;
   }
@@ -471,7 +471,7 @@
     font-weight: 500;
   }
   .inquiry-details-payment-remark-text {
-    color: #616161;
+       color: #99a0ac;
     font-size: 14px;
   }
   .inquiry-details-payment-right-section-heading {

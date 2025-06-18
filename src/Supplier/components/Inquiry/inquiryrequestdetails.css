@@ -15,6 +15,7 @@
     display: none;
   }
   .inquiry-details-conatiner-heading {
+    color: #5e676f;
     font-size: 20px;
       font-weight: 500;
   }
@@ -40,7 +41,7 @@ object-fit: contain;
   .table-g-not-names {
     font-size: 13px;
     font-weight: 500;
-    color: #616161;
+       color: #5e676f;
   }
   .inquiry-details-left-section {
     display: flex;
@@ -78,7 +79,7 @@ object-fit: contain;
   .inquiry-details-top-inquiry-cont {
     display: flex;
     flex-direction: column;
-    row-gap: 8px;
+    row-gap: 2px;
   }  
   .inquiry-details-left-bottom-containers {
     width: 100%;
@@ -366,26 +367,25 @@ object-fit: contain;
     row-gap: 6px;
   }
   .inquiry-details-left-top-main-heading {
-    color:#4f4f4f;
+    color:#5e676f;
     font-size: 14px;
-    font-weight: 500;
   }
   .inquiry-details-left-top-main-contents {
     font-weight: 500;
     font-size: 14px;
-    color: #616161;
+       color: #5e676f;
      cursor: pointer !important;;
   }
   .inquiry-details-left-bottom-vehicle-head {
-    color: #616161;
+       color: #99a0ac;
     font-size: 12px;
   }
   .inquiry-details-left-bottom-vehichle-no-head {
-    color: #616161;
+       color: #99a0ac;
     font-size: 12px;
   }
   .inquiry-details-right-inner-section-heading {
-    color: #616161;
+       color: #99a0ac;
     font-size: 13px;
   }
   .inquiry-details-left-bottom-vehicle-text {
@@ -399,7 +399,7 @@ object-fit: contain;
     line-height: 15px;
   }
   .inquiry-details-top-bottom-inquiry-heading {
-    color: #616161;
+       color: #99a0ac;
     font-size: 12px;
   }
   .inquiry-details-top-bottom-inquiry-content {
@@ -412,12 +412,11 @@ object-fit: contain;
     font-size: 13px;
   }
   .table-g-driver-name {
-    color:#4f4f4f;
+    color:#5e676f;
     font-size: 13px;
-    font-weight: 500;
   }
   .table-g-not-name {
-    color: #616161;
+       color: #5e676f;
     font-size: 13px;
     font-weight: 500;
   }
@@ -459,7 +458,7 @@ object-fit: contain;
     font-weight: 500;
   }
   .inquiry-details-payment-remark-text {
-    color: #616161;
+       color: #99a0ac;
     font-size: 14px;
   }
   .inquiry-details-payment-right-section-heading {
@@ -567,7 +566,7 @@ object-fit: contain;
   }
   .inquiry-details-payment-sec-input{
     width: 100%;
-    color: #616161;
+       color: #99a0ac;
     font-weight: 500;
     padding: 6px;
     border: none;

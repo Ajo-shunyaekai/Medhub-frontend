@@ -38,7 +38,7 @@
 
 .checkboxLabel {
     font-size: 14px;
-    color: #616161;
+       color: #99a0ac;
     cursor: pointer !important;;
 }
 
@@ -82,7 +82,7 @@
     background-color: #fff !important;
     border: none !important;
     border-radius: 4px !important;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     font-size: 14px !important;
     outline: none !important;
     padding: 10px !important;
@@ -114,7 +114,7 @@
     background-color: #fff !important;
     border: none !important;
     border-radius: 4px !important;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     font-size: 14px !important;
     outline: none !important;
     padding: 10px !important;
@@ -168,7 +168,7 @@
     align-items: center;
     gap: 8px;
     border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     padding: 10px 14px;
 }
 
@@ -201,7 +201,7 @@
 }
 
 .crossButton {
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     padding: 2px 8px;
     font-size: 13px;
     border-radius: 4px;
@@ -282,7 +282,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 
 .addressText {
     font-size: 14px;
-    color: #616161;
+       color: #99a0ac;
     cursor: pointer !important;;
 }
 
@@ -312,7 +312,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 
 .transportText {
     font-size: 14px;
-    color: #616161;
+       color: #99a0ac;
 }
 
 /* End the drop details card */
@@ -408,7 +408,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 }
 .pickupText{
     font-size: 14px;
-    color: #616161;
+       color: #99a0ac;
     cursor: pointer !important;
     display: flex
 ;
@@ -480,7 +480,7 @@ margin-top: 2px;
     padding: 3px 14px;
 }
 .deleteIcon {
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     padding: 3px 8px;
     font-size: 24px;
     width: 40px;

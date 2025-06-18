@@ -116,7 +116,7 @@
     overflow-wrap: break-word;
     white-space: normal;
     word-break: break-word;
-    color: #616161;
+       color: #99a0ac;
 }
 .seller-details-company-type-section{
     background-color: #ffffff;
@@ -169,7 +169,7 @@
     overflow-wrap: break-word;
     white-space: normal;
     word-break: break-word;
-    color: #616161;
+       color: #99a0ac;
 }
 
 .seller-details-left-uppar-head {
@@ -180,7 +180,7 @@
 
 .seller-details-left-inner-sec-text {
     font-size: 14px;
-    color: #616161;
+       color: #99a0ac;
 }
 
 .seller-details-left-inner-mobile-button {
@@ -321,7 +321,7 @@
 
 .seller-details-inner-text {
     font-size: 13px;
-    color: #616161;
+       color: #99a0ac;
     text-align: end;
     display: -webkit-box;
     -webkit-line-clamp: 3;
@@ -347,7 +347,7 @@
 
 .seller-details-card-conteianer-text {
     font-size: 14px;
-    color: #616161;
+       color: #99a0ac;
     text-align: start;
 }
 
@@ -439,7 +439,7 @@
 
 .table-g-supply-text {
     font-size: 13px;
-    color: #616161;
+       color: #99a0ac;
 }
 
 .supply-details-thead-section {

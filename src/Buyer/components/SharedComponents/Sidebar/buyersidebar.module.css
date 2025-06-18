@@ -40,26 +40,26 @@ body{
 }
 
 .nav_icon_color {
-  color: #616161;
+     color: #99a0ac;
   font-size: 22px !important;
    cursor: pointer !important;;
 }
 
 .nav_icon_color_two {
-  color: #616161;
+     color: #99a0ac;
   font-size: 22px !important;
    cursor: pointer !important;;
 }
 
 .nav_notifi_right .nav_icon_color_two {
   display: none !important;
-  color: #616161;
+     color: #99a0ac;
   font-size: 22px !important;
    cursor: pointer !important;;
 }
 
 .nav_icon_color_two_3 {
-  color: #616161;
+     color: #99a0ac;
   font-size: 22px !important;
    cursor: pointer !important;;
   display: none !important;
@@ -91,7 +91,7 @@ body{
 }
 
 .product_search_input::placeholder {
-  color: #616161;
+     color: #99a0ac;
 }
 
 .nav_notifi_right {
@@ -180,7 +180,7 @@ body{
 }
 .noti_time{
   font-size: 11px !important;
-  color: #616161;
+     color: #99a0ac;
 }
 .noti_profile_text span {
   cursor: pointer !important;

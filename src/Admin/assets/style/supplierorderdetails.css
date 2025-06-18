@@ -347,7 +347,7 @@
   }
   
   .buyer-order-details-left-top-main-heading {
-    color: #616161;
+       color: #99a0ac;
     font-size: 12px;
   }
   
@@ -360,17 +360,17 @@
   }
   
   .buyer-order-details-left-bottom-vehicle-head {
-    color: #616161;
+       color: #99a0ac;
     font-size: 12px;
   }
   
   .buyer-order-details-left-bottom-vehichle-no-head {
-    color: #616161;
+       color: #99a0ac;
     font-size: 12px;
   }
   
   .buyer-order-details-right-inner-section-heading {
-    color: #616161;
+       color: #99a0ac;
     font-size: 13px;
   }
   
@@ -387,7 +387,7 @@
   }
   
   .buyer-order-details-top-bottom-order-heading {
-    color: #616161;
+       color: #99a0ac;
     font-size: 12px;
   }
   
@@ -457,7 +457,7 @@
   }
   
   .buyer-order-details-payment-remark-text {
-    color: #616161;
+       color: #99a0ac;
     font-size: 14px;
   }
   
@@ -635,7 +635,7 @@
       width: 46%;
   }
   .active-order-details-middle-bottom-vehicle-head {
-    color: #616161;
+       color: #99a0ac;
     font-size: 12px;
   }
   .active-order-details-middle-bottom-vehicle-text {

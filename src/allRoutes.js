@@ -566,8 +566,8 @@ export const supplierNestedRoutes = [
     ),
   },
   {
-    path: "product-details",
-    // path: "product-details/:id",
+    // path: "product-details",
+    path: "product-details/:id",
     component: lazy(() =>
       import("./Supplier/components/Products/ProductDetails/ProductDetails")
     ),
