@@ -83,17 +83,17 @@ const ApprovedSecondaryProducts = ({
           }
           .rdt_TableCol {
                 
-             color: #212121 !important;
-    font-weight: 600 !important;
+            color: #5e676f !important;
+    font-weight: 500 !important;
           }
           .rdt_TableCell {
                 
-            color: #616161;
-            font-weight: 500 !important;
+               color: #99a0ac;
+           
           }
           .rdt_TableCellStatus {
                 
-            color: #616161;
+               color: #99a0ac;
           }
         `}
       </style>

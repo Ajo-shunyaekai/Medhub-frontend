@@ -19,7 +19,7 @@ form {
 
 .formAddButton {
   padding: 7px 10px;
-  background-color: #282f86;
+  background: linear-gradient(to left, #00dcff, #0075ce);
   color: #fff;
   border-radius: 7px;
   border: 2px solid #282f86;
@@ -46,7 +46,7 @@ form {
 
 .formclose {
   padding: 7px 10px;
-  background-color: #282f86;
+  background: linear-gradient(to left, #00dcff, #0075ce);
   color: #fff;
   border-radius: 7px;
   border: 2px solid #282f86;
@@ -85,7 +85,7 @@ form {
   background-color: #fff !important;
   border: none !important;
   border-radius: 4px !important;
-  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+   
   font-size: 14px !important;
   outline: none !important;
   padding: 12px !important;
@@ -126,7 +126,7 @@ form {
 
 .labelStamp {
   font-size: 16px;
-  color: #212121;
+  color:#4f4f4f;
 }
 
 .logisticsButtonContainer {
@@ -138,7 +138,7 @@ form {
 }
 .logisticsAccept {
   padding: 7px 10px;
-  background-color: #282f86;
+  background: linear-gradient(to left, #00dcff, #0075ce);
   color: #fff;
   border-radius: 7px;
   border: 2px solid #282f86;

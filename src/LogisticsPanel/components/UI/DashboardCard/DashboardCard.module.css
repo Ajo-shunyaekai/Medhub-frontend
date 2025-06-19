@@ -52,7 +52,7 @@
 .cardNumber {
   font-size: 20px;
   font-weight: bold;
-  color: #616161;
+     color: #99a0ac;
 }
 
 @media (max-width: 768px) {

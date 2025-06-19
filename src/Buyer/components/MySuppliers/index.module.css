@@ -18,15 +18,14 @@ gap: 20px;
 .section{
     width: 100%;
 display: flex;
-justify-content: space-between;
-align-items: center;
+flex-direction: column  ;
 gap: 20px;
 padding-top: 10px;
 }
 .mainHead{
     font-size: 20px;
     font-weight: 500;
-    color: #212121;
+    color:#5e676f;
 }
 
 /* Button container */
@@ -39,7 +38,7 @@ padding-top: 10px;
         border-radius: 4px !important;
        border: none !important;
       background-color: #ffffff !important;
-    color: #616161;
+       color: #99a0ac;
     padding: 6px 12px !important;
     display: flex !important;
     justify-content: center !important;
@@ -53,7 +52,7 @@ padding-top: 10px;
 }
 .tabIcon {
   font-size: 24px;
-   color: #616161;
+      color: #99a0ac;
   cursor: pointer !important;
 }
 .activeTab .tabIcon {

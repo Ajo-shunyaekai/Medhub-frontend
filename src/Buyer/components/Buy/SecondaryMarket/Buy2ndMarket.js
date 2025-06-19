@@ -127,12 +127,7 @@ const Buy2ndMarket = ({
         <Loader />
       ) : (
         <div className={styles.marketContainer}>
-          <Search
-            inputValue={inputValue}
-            handleInputChange={handleInputChange}
-            handleKeyDown={handleKeyDown}
-            placeholder="Search Products"
-          />
+         
           {(active === "product" || active === "market") && (
             <AccordionFilter
               isOpen={isOpen}
@@ -146,7 +141,21 @@ const Buy2ndMarket = ({
               setSelectedLevel3Category={setSelectedLevel3Category}
             />
           )}
-          <div className={styles.tabContainer}>
+ <Search
+            inputValue={inputValue}
+            handleInputChange={handleInputChange}
+            handleKeyDown={handleKeyDown}
+            placeholder="Search Products"
+          />
+            <ListView
+            productList={productList}
+            currentPage={currentPage}
+            totalItems={totalItems}
+            itemsPerPage={itemsPerPage}
+            onPageChange={handlePageChange}
+            isSecondaryMarket={true}
+          />
+          {/* <div className={styles.tabContainer}>
             <button
               onClick={() => setViewMode("card")}
               className={`${styles.tabButton} ${viewMode === "card" ? styles.activeTab : ""}`}
@@ -161,8 +170,8 @@ const Buy2ndMarket = ({
             >
              <FaRegAddressCard className={styles.tabIcon} />
             </button>
-          </div>
-          {viewMode === "card" ? (
+          </div> */}
+          {/* {viewMode === "card" ? (
           <ProductCard
             productList={productList}
             currentPage={currentPage}
@@ -172,15 +181,8 @@ const Buy2ndMarket = ({
             isSecondaryMarket={true}
           />
           ) : (
-             <ListView
-            productList={productList}
-            currentPage={currentPage}
-            totalItems={totalItems}
-            itemsPerPage={itemsPerPage}
-            onPageChange={handlePageChange}
-            isSecondaryMarket={true}
-          />
-            )}
+           
+            )} */}
         </div>
       )}
     </>

@@ -34,7 +34,7 @@
 }
 
 .homeButton {
-  background-color: #282f86;
+  background: linear-gradient(to left, #00dcff, #0075ce);
   color: white;
   font-size: 18px;
   padding: 12px 24px;
@@ -45,5 +45,5 @@
 }
 
 .homeButton:hover {
-  background-color: #282f86;
+  background: linear-gradient(to left, #00dcff, #0075ce);
 }

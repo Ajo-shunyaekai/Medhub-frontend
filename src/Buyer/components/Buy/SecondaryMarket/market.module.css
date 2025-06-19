@@ -1,7 +1,7 @@
 .marketContainer{
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 30px;
 }
 
 /* Button container */
@@ -15,7 +15,7 @@
         border-radius: 4px !important;
        border: none !important;
       background-color: #ffffff !important;
-    color: #616161;
+       color: #99a0ac;
     padding: 6px 12px !important;
     display: flex !important;
     justify-content: center !important;
@@ -31,7 +31,7 @@
 /* Style for the icon inside the button */
 .tabIcon {
   font-size: 24px;
-   color: #616161;
+      color: #99a0ac;
   cursor: pointer !important; /* Default icon color for inactive tab */
 }
 

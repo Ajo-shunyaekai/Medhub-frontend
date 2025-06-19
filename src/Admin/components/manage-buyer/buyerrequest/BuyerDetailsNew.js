@@ -10,8 +10,6 @@ import PhoneInTalkOutlinedIcon from "@mui/icons-material/PhoneInTalkOutlined";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { postRequestWithToken } from "../../../api/Requests";
 import { toast } from "react-toastify";
-// import BuyerCustomModal from "./BuyerCustomModal";
-import { FaFilePdf, FaFileWord } from "react-icons/fa";
 import { apiRequests } from "../../../../api/index";
 import {
   extractLast13WithExtension,
@@ -74,7 +72,7 @@ const BuyerDetailsNew = () => {
         }
         setBuyerDetails(response?.result);
         setSalesPersonName(response?.result?.sales_person_name);
-      } catch (error) {}
+      } catch (error) { }
     };
     getBuyerDetails();
   }, []);
@@ -167,7 +165,7 @@ const BuyerDetailsNew = () => {
                         <PhoneInTalkOutlinedIcon
                           data-tooltip-id={
                             buyerDetails?.buyer_country_code &&
-                            buyerDetails?.buyer_mobile
+                              buyerDetails?.buyer_mobile
                               ? "my-tooltip-1"
                               : null
                           }
@@ -223,15 +221,15 @@ const BuyerDetailsNew = () => {
                             buyerDetails?.account_status === 0
                               ? "orange"
                               : buyerDetails?.account_status === 1
-                              ? "green"
-                              : "red",
+                                ? "green"
+                                : "red",
                         }}
                       >
                         {buyerDetails?.account_status === 0
                           ? "Pending"
                           : buyerDetails?.account_status === 1
-                          ? "Active"
-                          : "Inactive"}
+                            ? "Active"
+                            : "Inactive"}
                       </div>
                     </div>
                     <div className="buyer-details-inner-section">
@@ -291,8 +289,8 @@ const BuyerDetailsNew = () => {
                 </div>
                 <div className="buyer-details-inner-text">
                   {user?.accessControl?.buyer?.requests?.edit &&
-                  buyerDetails?.account_status == 0 &&
-                  isEditable ? (
+                    buyerDetails?.account_status == 0 &&
+                    isEditable ? (
                     <input
                       type="text"
                       defaultValue={buyerDetails?.sales_person_name}
@@ -321,9 +319,34 @@ const BuyerDetailsNew = () => {
                   {buyerDetails?.vat_reg_no}
                 </div>
               </div>
+               {buyerDetails?.license_no && (
+                <div className="buyer-details-inner-section">
+                  <div className="buyer-details-inner-head">
+                    License No. :
+                  </div>
+                  <div className="buyer-details-inner-text">
+                    {buyerDetails.license_no}
+                  </div>
+                </div>
+
+
+              )}
+
+               {buyerDetails?.yrFounded && (
+                <div className="buyer-details-inner-section">
+                  <div className="buyer-details-inner-head">
+                    Year Company Founded :
+                  </div>
+                  <div className="buyer-details-inner-text">
+                    {buyerDetails.yrFounded}
+                  </div>
+                </div>
+
+
+              )}
               <div className="buyer-details-inner-section">
                 <div className="buyer-details-inner-head">
-                  Approx. Yearly Purchase :<br /> Value
+                  Approx. Yearly Purchase Value:
                 </div>
                 <div className="buyer-details-inner-text">
                   {buyerDetails?.approx_yearly_purchase_value}
@@ -337,14 +360,7 @@ const BuyerDetailsNew = () => {
                   {buyerDetails?.country_of_origin}
                 </div>
               </div>
-              <div className="buyer-details-inner-section">
-                <div className="buyer-details-inner-head">
-                  Country of Operation :
-                </div>
-                <div className="buyer-details-inner-text">
-                  {buyerDetails?.country_of_operation?.join(", ")}
-                </div>
-              </div>
+
 
               <div className="buyer-details-inner-section">
                 <div className="buyer-details-inner-head">Interested In :</div>
@@ -378,27 +394,29 @@ const BuyerDetailsNew = () => {
                   {buyerDetails?.activity_code || "-"}
                 </div>
               </div>
-              {buyerDetails?.license_no &&
-                buyerDetails?.license_expiry_date && (
-                  <>
-                    <div className="buyer-details-inner-section">
-                      <div className="buyer-details-inner-head">
-                        License No. :
-                      </div>
-                      <div className="buyer-details-inner-text">
-                        {buyerDetails.license_no}
-                      </div>
-                    </div>
-                    <div className="buyer-details-inner-section">
-                      <div className="buyer-details-inner-head">
-                        License Expiry Date :
-                      </div>
-                      <div className="buyer-details-inner-text">
-                        {buyerDetails.license_expiry_date}
-                      </div>
-                    </div>
-                  </>
-                )}
+
+
+              {buyerDetails?.annualTurnover && (
+                <div className="buyer-details-inner-section">
+                  <div className="buyer-details-inner-head">
+                    Annual Turnover :
+                  </div>
+                  <div className="buyer-details-inner-text">
+                    {buyerDetails.annualTurnover}
+                  </div>
+                </div>
+              )}
+
+              {buyerDetails?.license_expiry_date && (
+                <div className="buyer-details-inner-section">
+                  <div className="buyer-details-inner-head">
+                    License Expiry Date :
+                  </div>
+                  <div className="buyer-details-inner-text">
+                    {buyerDetails.license_expiry_date}
+                  </div>
+                </div>
+              )}
               <div className="buyer-details-inner-section">
                 <div className="buyer-details-inner-head">Contact Name :</div>
                 <div className="buyer-details-inner-text">
@@ -422,6 +440,15 @@ const BuyerDetailsNew = () => {
                 <div className="buyer-details-inner-text">
                   {buyerDetails?.contact_person_country_code}{" "}
                   {buyerDetails?.contact_person_mobile}
+                </div>
+              </div>
+
+              <div className="buyer-details-inner-section">
+                <div className="buyer-details-inner-head">
+                  Country of Operation :
+                </div>
+                <div className="buyer-details-inner-text">
+                  {buyerDetails?.country_of_operation?.join(", ")}
                 </div>
               </div>
             </div>
@@ -459,13 +486,13 @@ const BuyerDetailsNew = () => {
                   {renderFiles(
                     buyerDetails?.certificateFileNDate?.length > 0
                       ? buyerDetails?.certificateFileNDate?.map(
-                          (ele, index) => ({
-                            ...ele,
-                            file: ele?.file
-                              ? ele?.file
-                              : buyerDetails?.certificate_image?.[index],
-                          })
-                        )
+                        (ele, index) => ({
+                          ...ele,
+                          file: ele?.file
+                            ? ele?.file
+                            : buyerDetails?.certificate_image?.[index],
+                        })
+                      )
                       : buyerDetails?.certificate_image,
                     "certificate_images",
                     buyerDetails?.certificateFileNDate?.length > 0

@@ -257,7 +257,6 @@ const OnGoingInquiriesDetails = () => {
                   to={`/buyer/supplier-details/${inquiryDetails?.supplier?.supplier_id}`}
                 >
                   <div className="ongoing-details-top-order-cont">
-                  
 
 
                       <div className="ongoing-details-left-top-main-heading">
@@ -267,8 +266,7 @@ const OnGoingInquiriesDetails = () => {
                         {inquiryDetails?.supplier?.supplier_name}
                       </div>
 
-                    
-                  </div>
+                    </div>
                 </Link>
                 <div className="ongoing-details-top-order-cont">
                   <div className="ongoing-details-left-top-main-heading">
@@ -352,7 +350,7 @@ const OnGoingInquiriesDetails = () => {
             }
             style={{
               cursor: inquiryDetails?.quotation_items?.some(item => item.status === 'rejected') ? 'not-allowed' : 'pointer',
-              opacity: inquiryDetails?.quotation_items?.some(item => item.status === 'rejected') ? 0.5 : 1,
+              opacity: inquiryDetails?.quotation_items?.some(item => item.status === 'rejected') ? 0.6 : 1,
             }}
           >
             Create Purchase Order

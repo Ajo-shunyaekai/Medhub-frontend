@@ -35,6 +35,7 @@ const SupplyProductList = ({
 
             return (
               <div key={product.id} className={styles.productCont}>
+                <div className={styles.infoMainContainer}>
                 <div className={styles.imgCont}>
                   <img
                     src={
@@ -45,10 +46,16 @@ const SupplyProductList = ({
                     alt="Product"
                   />
                 </div>
+                 <Link to={linkTo}>
+                        <div className={styles.btnCont}>
+                          <span className={styles.btnText}>View Details</span>
+                        </div>
+                      </Link>
+                       </div>
                 <div className={styles.rightCont}>
                   <div className={styles.title}>{product?.general?.name}</div>
                   <div className={styles.infoCont}>
-                    <div className={styles.infoMainContainer}>
+                    
                       <div className={styles.infoChild}>
                         <div className={styles.infoSection}>
                           <div className={styles.label}>Category</div>
@@ -75,13 +82,9 @@ const SupplyProductList = ({
                           </div>
                         </div>
                       </div>
-                      <Link to={linkTo}>
-                        <div className={styles.btnCont}>
-                          <span className={styles.btnText}>View Details</span>
-                        </div>
-                      </Link>
+                     
                     </div>
-                  </div>
+                 
                 </div>
               </div>
             );

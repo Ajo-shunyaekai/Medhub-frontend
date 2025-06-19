@@ -56,8 +56,15 @@ const MySuppliers = () => {
         <div className={styles.container}>
           <div className={styles.section}>
             <span className={styles.mainHead}>My Supplier</span>
-
-            <div className={styles.tabContainer}>
+ <SupplierCard
+              mySuppliers={mySuppliers}
+              loading={loading}
+              currentPage={currentPage}
+              itemsPerPage={itemsPerPage}
+              totalItems={totalItems}
+              handlePageChange={handlePageChange}
+            />
+            {/* <div className={styles.tabContainer}>
               <button
                 className={`${styles.tabButton} ${viewMode === 'list' ? styles.activeTab : ''}`}
                 onClick={() => setViewMode('list')}
@@ -72,9 +79,9 @@ const MySuppliers = () => {
               >
                 <FaRegAddressCard className={styles.tabIcon} />
               </button>
-            </div>
+            </div> */}
           </div>
-          {viewMode === 'list' ? (
+          {/* {viewMode === 'list' ? (
             <SupplierList
               mySuppliers={mySuppliers}
               loading={loading}
@@ -84,15 +91,8 @@ const MySuppliers = () => {
               handlePageChange={handlePageChange}
             />
           ) : (
-            <SupplierCard
-              mySuppliers={mySuppliers}
-              loading={loading}
-              currentPage={currentPage}
-              itemsPerPage={itemsPerPage}
-              totalItems={totalItems}
-              handlePageChange={handlePageChange}
-            />
-          )}
+           
+          )} */}
         </div>
       )}
     </>

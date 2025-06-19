@@ -31,7 +31,7 @@
     padding-top: 4px;
     font-weight: 500;
     font-size: 20px;
-    color: #212121;
+    color:#5e676f;
 }
 
 .section {
@@ -52,7 +52,7 @@
 .cardSection {
     background-color: #fff;
     border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -67,12 +67,12 @@
 }
 
 .mainHead {
-    color: #212121;
+    color:#5e676f;
     font-size: 24px;
     font-weight: 500;
 }
 .typeLink{
-    color: #282f86 !important;
+    color:#3b71ca;;
     font-size: 14px !important;
     font-weight: 500 !important;
 }
@@ -107,7 +107,7 @@
 .cardInnerSection {
     background-color: #fff;
     border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -119,7 +119,7 @@
 .cardContainer {
     background-color: #fff;
     border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     display: flex;
     flex-direction: column;
     gap: 6px;
@@ -128,32 +128,32 @@
 }
 
 .cardHeads {
-     color: #212121;
+     color:#4f4f4f;
     font-size: 15px;
     font-weight: 500;
 }
 
 .cardHead {
-     color: #212121;
-    font-size: 15px;
+     color:#5e676f;
+    font-size: 14px;
     font-weight: 500;
     width: 34%;
     min-width: 200px;
 }
 
 .cardContents {
-    color: #616161;
+       color: #99a0ac;
     font-size: 14px;
     font-weight: 500;
 }
 
 .cardContent {
+    color: #5e676f;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: normal;
     text-align: end;
     font-size: 14px;
-    font-weight: 500;
 }
 
 .cardMainContainer {
@@ -179,7 +179,7 @@
 .rightSection {
     background-color: #fff;
     border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -190,13 +190,13 @@
 }
 
 .rightHead {
-       color: #212121;
+       color:#4f4f4f;
     font-size: 14px;
     font-weight: 500;
 }
 
 .rightContent {
-       color: #616161;
+          color: #99a0ac;
     font-size: 14px;
     font-weight: 400;
 }
@@ -210,7 +210,7 @@
 .buttonProduct {
     background-color: #f5f5f6;
     border-radius: 4px;
-    color: #616161;
+       color: #99a0ac;
     cursor: pointer !important;
     padding: 8px 16px;
     border-radius: 4px;
@@ -234,7 +234,7 @@
 
 .active {
     background-color: #f5f5f6;
-    color: #282f86 !important;
+    color:#3b71ca;;
 }
 
 
@@ -246,16 +246,17 @@
 }
 
 .mainCardsContainer {
-    display: flex;
-    flex-direction: column;
+    display: grid
+;
+    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
-}
+}   
 
 .productCont {
-    background-color: #fff;
+  background-color: #fff;
     border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
-    display: flex;
+    display: flex
+;
     align-items: center;
     gap: 20px;
     padding: 14px 18px;
@@ -263,9 +264,10 @@
 }
 
 .imgCont {
-    width: 80px;
-    height: 80px;
-    display: flex;
+       width: 100px;
+    height: 100px;
+    display: flex
+;
     justify-content: center;
 }
 
@@ -282,7 +284,7 @@
 }
 
 .title {
-    color: #212121;
+    color:#4f4f4f;
     font-size: 24px;
     font-weight: 500;
 }
@@ -293,30 +295,31 @@
 }
 
 .infoMainContainer {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
+   display: flex    ;
+    flex-direction: column;
     gap: 10px;
 }
 
 .infoChild {
-    display: flex;
-    gap: 20px;
+  display: flex
+;
+    flex-direction: column;
+    gap: 10px;
     justify-content: start;
     width: 100%;
 
 }
 
 .infoSection {
-    width: 25%;
-    display: flex;
-    flex-direction: column;
+   display: flex;
+    gap: 20px;
 }
 
 .label {
-    color: #212121;
+      color: #5e676f;
     font-size: 14px;
     font-weight: 500;
+    min-width: 100px;
 }
 
 .value {
@@ -324,12 +327,11 @@
     text-overflow: ellipsis;
     white-space: normal;
     font-size: 14px;
-    color: #616161;
-    font-weight: 500;
+       color: #5e676f;
 }
 
 .btnCont {
-   background-color: #282f86;
+   background: linear-gradient(to left, #00dcff, #0075ce);
     border-radius: 4px;
     color: #fff;
     min-width: 100px;
@@ -353,7 +355,7 @@
 .noDataCont {
     background-color: #fff;
     border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     padding: 14px;
     width: 100%;
 }

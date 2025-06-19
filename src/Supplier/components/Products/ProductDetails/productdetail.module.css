@@ -24,11 +24,11 @@
     font-size: 20px;
       font-weight: 500;
     padding-top: 5px;
-    color: #212121;
+    color:#5e676f;
 }
 
 .innerHead {
-    color: #212121;
+    color:#4f4f4f;
     font-size: 18px;
       font-weight: 500;
     margin-bottom: 8px;
@@ -43,7 +43,7 @@
 .mainContainer {
     background-color: #fff;
     border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     padding: 26px 30px;
     display: flex;
     flex-direction: column;
@@ -59,7 +59,7 @@
 .mainManufacturerContainer{
     background-color: #fff;
     border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     padding: 26px 30px;
     display: flex;
     flex-direction: column;
@@ -79,18 +79,18 @@
     align-items: start;
     /* background-color: #fff;
     border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     padding: 26px 30px; */
 }
 
 .medicineName {
-    color: #212121;
+    color:#5e676f;
     font-size: 28px;
     font-weight: 500;
 }
 
 .editButton {
-   background-color: #282f86;
+   background: linear-gradient(to left, #00dcff, #0075ce);
     border: none !important;
     outline: none !important;
     border-radius: 4px;
@@ -122,7 +122,7 @@
     font-size: 14px;
     font-weight: 500;
     width: 250px;
-    color: #212121;
+    color:#5e676f;
 }
 
 .medicineHead2 {
@@ -138,35 +138,33 @@
 
 .medicineText {
     width: 50%;
-    color: #616161;
+       color: #5e676f;
     font-size: 14px;
-    font-weight: 500;
+    /* font-weight: 500; */
     word-wrap: break-word; 
     white-space: normal;     
     overflow-wrap: break-word;
 }
 .medicineTexts{
     width: 75%;
-    color: #616161;
+       color: #5e676f;
     font-size: 14px;
-    font-weight: 500;
     word-wrap: break-word; 
     white-space: normal;     
     overflow-wrap: break-word;
 }
 .medicineContent{
-    color: #616161;
+       color: #5e676f;
     font-size: 14px;
-    font-weight: 500;
     word-wrap: break-word; 
     white-space: normal;     
     overflow-wrap: break-word;
     width: 100%; 
 }
 .medicineDescriptionContent{
-    color: #616161;
+       color: #5e676f;
     font-size: 14px;
-    font-weight: 500;
+    /* font-weight: 500; */
     word-wrap: break-word; 
     white-space: normal;     
     overflow-wrap: break-word;
@@ -208,17 +206,18 @@
 }
 
 .inventoryHead {
-    color: #212121;
+    color:#4f4f4f;
     font-size: 14px;
     font-weight: 500;
 }
 
 .inventoryInput {
+        box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
     background-color: #fff !important;
     border: none !important;
     border-radius: 4px !important;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
-    color: #616161;
+ 
+       color: #99a0ac;
     font-size: 14px;
     font-weight: 500;
     outline: none !important;
@@ -277,7 +276,7 @@
 .addtionalContainer {
     background-color: #fff;
     border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     padding: 26px 30px;
     display: flex;
     flex-direction: column;
@@ -408,7 +407,7 @@
 }
 .PurcahseButton{
     align-items: center;
-   background-color: #282f86;
+   background: linear-gradient(to left, #00dcff, #0075ce);
     border: none !important;
     border-radius: 4px;
     color: #fff;
@@ -450,7 +449,7 @@
   .closeButton {
     background-color: #fff;
     border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     padding:8px;
     border: none !important;
     cursor: pointer !important;

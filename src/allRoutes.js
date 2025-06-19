@@ -128,7 +128,8 @@ export const buyerNestedRoutes = [
     ],
   },
   {
-    path: "search-product-details/:id",
+    // path: "search-product-details/:id",
+    path: "search-product-details",
     component: lazy(() =>
       import("./Buyer/components/Buy/Details/SearchProductDetails")
     ),
@@ -566,6 +567,7 @@ export const supplierNestedRoutes = [
     ),
   },
   {
+    // path: "product-details",
     path: "product-details/:id",
     component: lazy(() =>
       import("./Supplier/components/Products/ProductDetails/ProductDetails")

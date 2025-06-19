@@ -19,7 +19,7 @@ input[type="number"] {
 
 button {
     padding: 10px 20px;
-    background-color: #282f86;
+    background: linear-gradient(to left, #00dcff, #0075ce);
     color: #fff;
     border: none;
      cursor: pointer !important;;

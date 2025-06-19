@@ -22,7 +22,7 @@ form {
 
 .labelStamp {
   font-size: 16px;
-  color: #212121;
+  color:#4f4f4f;
 }
 
 .formLabel {
@@ -36,7 +36,7 @@ form {
   background-color: #fff !important;
   border: none !important;
   border-radius: 4px !important;
-  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+   
   font-size: 14px !important;
   outline: none !important;
   padding: 25px !important;
@@ -58,7 +58,7 @@ form {
 }
 .logisticsAccept {
   padding: 7px 10px;
-  background-color: #282f86;
+  background: linear-gradient(to left, #00dcff, #0075ce);
   color: #fff;
   border-radius: 7px;
   border: 2px solid #282f86;
@@ -123,7 +123,7 @@ form {
   padding-top: 5px;
   font-size: 20px;
   font-weight: 500;
-  color: #212121;
+  color:#4f4f4f;
   text-transform: capitalize;
 }
 
@@ -131,7 +131,7 @@ form {
   border: none !important;
   outline: none !important;
   align-items: center;
- background-color: #282f86;
+ background: linear-gradient(to left, #00dcff, #0075ce);
   border-radius: 4px;
   color: #fff;
   column-gap: 8px;
@@ -201,7 +201,7 @@ form {
 
 /* .formAddButton {
   align-items: center;
- background-color: #282f86;
+ background: linear-gradient(to left, #00dcff, #0075ce);
   border-radius: 4px;
   color: #fff;
   column-gap: 8px;
@@ -225,7 +225,7 @@ form {
 } 
 
 .formclose {
-  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+   
   padding: 4px 8px;
   font-size: 13px;
   border-radius: 4px;
@@ -288,7 +288,7 @@ form {
   background-color: #fff !important;
   border: none !important;
   border-radius: 4px !important;
-  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+   
   font-size: 14px !important;
   outline: none !important;
   padding: 9px !important;
@@ -339,7 +339,7 @@ form {
   background-color: #fff !important;
   border: none !important;
   border-radius: 4px !important;
-  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+   
   font-size: 14px !important;
   outline: none !important;
   padding: 12px !important;
@@ -350,7 +350,7 @@ form {
   background-color: #fff !important;
   border: none !important;
   border-radius: 4px !important;
-  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+   
   font-size: 14px !important;
   outline: none !important;
   padding: 12px !important;
@@ -390,7 +390,7 @@ form {
   background-color: #fff !important;
   border: none !important;
   border-radius: 4px !important;
-  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+   
 }
 
 .fileIcon {
@@ -398,7 +398,7 @@ form {
 }
 
 .removeIcon {
-  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+   
   margin-top: 6px;
   cursor: pointer !important;
   padding: 1px;
@@ -418,7 +418,7 @@ form {
   border: none;
   background: transparent;
   cursor: pointer;
-  color: #212121;
+  color:#4f4f4f;
   cursor: pointer !important;
 } */
 
@@ -450,7 +450,7 @@ form {
 }
 
 .quantityButton.selected {
- background-color: #282f86;
+ background: linear-gradient(to left, #00dcff, #0075ce);
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
   color: #fff;
@@ -581,7 +581,7 @@ form {
   border: 1px solid #212121;
   border-radius: 4px;
   box-shadow: 0 1px 2px #0000000d !important;
-  color: #212121;
+  color:#4f4f4f;
   align-items: center;
   cursor: pointer !important;
   display: flex;
@@ -591,7 +591,7 @@ form {
 }
 
 .buttonSubmit {
- background-color: #282f86;
+ background: linear-gradient(to left, #00dcff, #0075ce);
   border: none !important;
   border-radius: 4px;
   color: #fff;
@@ -644,7 +644,7 @@ form {
   align-items: center !important;
   border: none !important;
   border-radius: 4px !important;
-  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+   
   font-size: 14px !important;
   outline: none !important;
   padding: 12px !important;
@@ -689,7 +689,7 @@ form {
   align-items: center !important;
   border: none !important;
   border-radius: 4px !important;
-  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+   
   font-weight: 500;
   display: flex;
   justify-content: center;

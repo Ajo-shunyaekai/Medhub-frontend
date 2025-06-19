@@ -37,7 +37,7 @@
   font-weight: 500;
   max-width: 100%;
   margin: 0px auto;
-  color: #212121;
+  color:#4f4f4f;
 }
 .loginMainFormSection {
   display: flex;
@@ -52,7 +52,7 @@
   row-gap: 10px;
 }
 .loginFormMainLabel {
-  color: #212121;
+  color:#4f4f4f;
   font-size: 14px;
   font-weight: 500;
 }
@@ -86,7 +86,7 @@
   position: absolute;
   left: 92%;
   right: 100%;
-  color: #616161;
+     color: #99a0ac;
    cursor: pointer !important;;
 }
 .login-form-main-cancel {
@@ -94,7 +94,7 @@
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
   background-color: #ffffff;
   border: 1px solid #212121;
-  color: #212121;
+  color:#4f4f4f;
   padding: 6px 22px;
   border-radius: 4px;
   display: flex;
@@ -106,7 +106,7 @@
 .loginFormMainLogin {
   outline: none !important;
   border: none !important;
-background-color: #282f86;
+background: linear-gradient(to left, #00dcff, #0075ce);
   color: white;
   padding: 6px 22px;
   border-radius: 4px;
@@ -147,7 +147,7 @@ background-color: #282f86;
   margin-top: -6px;
 }
 .loginFormMainPassword {
-  color: #282f86 !important;
+  color:#3b71ca;;
   font-size: 14px;
   font-weight: 500;
    cursor: pointer !important;;
@@ -165,7 +165,7 @@ background-color: #282f86;
   content: "";
   display: block;
   height: 1px;
-background-color: #282f86;
+background: linear-gradient(to left, #00dcff, #0075ce);
 }
 .loginFormMainSignup {
   display: flex;
@@ -174,13 +174,13 @@ background-color: #282f86;
   align-items: baseline;
 }
 .loginSignupContent {
-  color: #212121;
+  color:#4f4f4f;
   font-size: 14px;
   font-weight: 500;
 }
 .loginSignupHere {
   font-size: 14px;
-   color: #282f86 !important;
+   color:#3b71ca;;
   font-weight: 500;
    cursor: pointer !important;;
 }

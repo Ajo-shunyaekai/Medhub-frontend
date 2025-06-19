@@ -23,7 +23,7 @@ margin-right: auto;
 .mainInvoicecontainer {
     background-color: #fff;
     border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     padding: 26px 20px;
     width: 100%;
 }
@@ -43,13 +43,13 @@ margin-right: auto;
 .title {
     font-size: 20px;
       font-weight: 500;
-color: #212121;
+color:#4f4f4f;
 }
 
 .button {
     border: none !important;
     outline: none !important;
-background-color: #282f86;
+background: linear-gradient(to left, #00dcff, #0075ce);
     color: white;
     padding: 6px 22px;
     border-radius: 4px;
@@ -94,7 +94,7 @@ background-color: #282f86;
     border: none !important;
     outline: none !important;
     align-items: center;
-   background-color: #282f86;
+   background: linear-gradient(to left, #00dcff, #0075ce);
     border-radius: 4px;
     color: #fff;
     column-gap: 8px;

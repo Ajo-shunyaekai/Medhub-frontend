@@ -28,7 +28,7 @@
 }
 
 .invoice-card-conts-head {
-  color: #212121;
+  color:#4f4f4f;
   font-size: 14px;
   width: 150px;
   font-weight: 500;
@@ -36,7 +36,7 @@
 
 .invoice-card-conts-text {
   font-size: 14px;
-  color: #616161;
+     color: #99a0ac;
   font-weight: 500;
 }
 

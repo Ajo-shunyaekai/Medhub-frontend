@@ -31,7 +31,7 @@ color:#99a0ac ;
   .page-item.active .page-link {
     z-index: 3;
     color: #fff;
-    background-color: #282f86;
+    background: linear-gradient(to left, #00dcff, #0075ce);
   }
   
   .page-item.disabled .page-link {

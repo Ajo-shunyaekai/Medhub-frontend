@@ -28,7 +28,7 @@
 .pageItem.active .pageLink {
   z-index: 3;
   color: #fff;
-  background-color: #282f86;
+  background: linear-gradient(to left, #00dcff, #0075ce);
 }
 
 .pageItem.disabled .pageLink {
@@ -40,6 +40,6 @@
 }
 
 .pagiTotal {
-  color: #616161;
+     color: #99a0ac;
   font-size: 14px;
 }

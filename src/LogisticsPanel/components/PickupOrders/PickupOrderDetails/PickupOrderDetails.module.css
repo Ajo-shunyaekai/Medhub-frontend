@@ -31,7 +31,7 @@
     width: 100%;
     background-color: #fff;
     border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     padding: 10px 20px;
     display: flex;
     flex-direction: column;
@@ -57,7 +57,7 @@
 }
 
 .logisticsInnerText {
-    color: #616161;
+       color: #99a0ac;
     font-size: 14px;
     overflow-wrap: break-word;
     text-align: end;
@@ -79,7 +79,7 @@ justify-content: start;
 .logisticsAddContainer{
     background-color: #fff;
     border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     padding: 10px 20px;
     width: 50%;
     gap: 4px;
@@ -91,7 +91,7 @@ justify-content: start;
     font-weight: 500;
 }
 .logisticsAddText{
-    color: #616161;
+       color: #99a0ac;
     font-size: 14px;
 }
 .packageMainContainer{
@@ -114,7 +114,7 @@ justify-content: start;
 .packageWeight{
     background-color: #fff;
     border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     padding: 10px 20px;
     width: 50%;
     gap: 4px;
@@ -132,7 +132,7 @@ justify-content: start;
 .packageDimensionSEction{
     background-color: #fff;
     border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     padding: 10px 20px;
     width: 100%;
 }
@@ -147,7 +147,7 @@ justify-content: start;
 .logisticsAccept{
     border: none !important;
     outline: none !important;
-background-color: #282f86;
+background: linear-gradient(to left, #00dcff, #0075ce);
     color: white;
     padding: 6px 22px;
     border-radius: 4px;
@@ -162,7 +162,7 @@ background-color: #282f86;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
     background-color: #ffffff;
     border: 1px solid #212121;
-    color: #212121;
+    color:#4f4f4f;
     padding: 6px 22px;
     border-radius: 4px;
     display: flex
@@ -177,7 +177,7 @@ background-color: #282f86;
 .cardBody {
     background-color: #fff;
     border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     padding: 20px;
 }
 
@@ -239,7 +239,7 @@ background-color: #282f86;
 }
 
 .tableContent span {
-    color: #616161;
+       color: #99a0ac;
     font-size: 14px;
 }
 
@@ -260,7 +260,7 @@ background-color: #282f86;
     padding: 5px 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
-    color: #616161;
+       color: #99a0ac;
     text-decoration: none;
 }
 

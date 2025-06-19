@@ -24,7 +24,7 @@
 }
 .transaction-details-container-heading{
     font-size: 20px;
-    color: #212121;
+    color:#4f4f4f;
     font-weight: 500;
     margin: 0 auto;
     width: 100%;
@@ -113,7 +113,7 @@
     font-weight: 500;
 }
 .transaction-details-company-type-sec-text{
-    color: #616161;
+       color: #99a0ac;
     font-size: 14px;
     font-weight: 500;
     overflow-wrap: break-word;
@@ -165,7 +165,7 @@
 
 .transaction-details-description-content {
     font-size: 13px;
-    color: #616161;
+       color: #99a0ac;
 }
 
 .transaction-details-left-uppar-head {
@@ -176,7 +176,7 @@
 
 .transaction-details-left-inner-sec-text {
     font-size: 14px;
-    color: #616161;
+       color: #99a0ac;
 }
 
 .transaction-details-left-inner-mobile-button {
@@ -209,7 +209,7 @@
 
 .transaction-details-left-company-type-text {
     align-items: center;
-   background-color: #282f86;
+   background: linear-gradient(to left, #00dcff, #0075ce);
     border: none !important;
     border-radius: 4px;
     color: #fff;
@@ -318,7 +318,7 @@
 
 .transaction-details-inner-text {
     font-size: 13px;
-    color: #616161;
+       color: #99a0ac;
     text-align: end;
     display: -webkit-box;
     -webkit-line-clamp: 3;
@@ -344,7 +344,7 @@
 
 .transaction-details-card-conteianer-text {
     font-size: 14px;
-    color: #616161;
+       color: #99a0ac;
     text-align: start;
 }
 
@@ -436,7 +436,7 @@
 
 .table-g-supply-text {
     font-size: 13px;
-    color: #616161;
+       color: #99a0ac;
 }
 
 .supply-details-thead-section {
@@ -495,7 +495,7 @@
     border: 1px solid #212121;
     border-radius: 4px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, .05) !important;
-    color: #212121;
+    color:#4f4f4f;
     align-items: center;
      cursor: pointer !important;;
     display: flex;
@@ -506,7 +506,7 @@
 
 }
 .transaction-details-button-accept{
-   background-color: #282f86;
+   background: linear-gradient(to left, #00dcff, #0075ce);
     border: none !important;
     border-radius: 4px;
     color: #fff;

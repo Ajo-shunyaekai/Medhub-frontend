@@ -71,7 +71,7 @@ const ActiveOrdersDetails = ({ socket }) => {
             <div className='active-order-main-section-container'>
                 <div className='active-order-details-conatiner-heading'>
                     <span>Order ID: {orderDetails?.order_id || 'N/A'}</span>
-                    {orderDetails?.items?.length > 0 && (
+                    {/* {orderDetails?.items?.length > 0 && (
                         <span className='active-details-medicine-details'>
                             {orderDetails.items.map((item, index) => (
                                 <React.Fragment key={item._id || index}>
@@ -80,13 +80,13 @@ const ActiveOrdersDetails = ({ socket }) => {
                                 </React.Fragment>
                             ))}
                         </span>
-                    )}
-                    {orderDetails?.buyer_id && orderDetails?.buyer?.buyer_name && (
+                    )} */}
+                    {/* {orderDetails?.buyer_id && orderDetails?.buyer?.buyer_name && (
                         <Link className='active-order-details-link-tag' to={`/supplier/buyer-details/${orderDetails.buyer_id}`}>
                             <span className='active-details-purchsed-by'>Purchased By: </span>
                             <span className='active-details-Buyer-name'>{orderDetails.buyer.buyer_name}</span>
                         </Link>
-                    )}
+                    )} */}
                 </div>
                 {orderDetails?.status === "Shipment Details Submitted" && orderDetails?.invoice_status === "Invoice Created" && (
                     <Link to={`/supplier/create-invoice/${orderDetails.order_id}`}>
@@ -99,18 +99,25 @@ const ActiveOrdersDetails = ({ socket }) => {
                     <div className='active-order-details-top-inner-section'>
                         <div className='active-order-details-left-inner-section-container'>
                             <div className='active-order-details-left-top-containers'>
+
+                                 {orderDetails?.buyer_id && orderDetails?.buyer?.buyer_name && (
+                        <Link className='active-order-details-top-order-cont' to={`/supplier/buyer-details/${orderDetails.buyer_id}`}>
+                            <span className='details-payment-inner-text'>Purchased By </span>
+                            <span className='details-payment-content'>{orderDetails.buyer.buyer_name}</span>
+                        </Link>
+                    )}
                                 {orderDetails?.buyer?.country_of_origin && (
                                     <div className='active-order-details-top-order-cont'>
                                         <div className='details-payment-inner-text'>Country of Origin</div>
                                         <div className='details-payment-content'>{orderDetails.buyer.country_of_origin}</div>
                                     </div>
                                 )}
-                                {orderDetails?.buyer?.buyer_type && (
+                                {/* {orderDetails?.buyer?.buyer_type && (
                                     <div className='active-order-details-top-order-cont'>
                                         <div className='details-payment-inner-text'>Company Type</div>
                                         <div className='details-payment-content'>{orderDetails.buyer.buyer_type}</div>
                                     </div>
-                                )}
+                                )} */}
                                 {orderDetails?.status && (
                                     <div className='active-order-details-top-order-cont'>
                                         <div className='details-payment-inner-text'>Order Status</div>

@@ -20,14 +20,14 @@ function CircularBar({ totalPurchase }) {
                             stroke: `url(#gradient)`,
                         },
                         text: {
-                            fill: '#212121',
+                            fill: '#5e676f',
                             fontSize: '15px',
                             fontWeight: '550'
                         },
                     }}
                 />
                 <div style={{ position: 'absolute', top: '56%', left: '50%', transform: 'translateX(-50%)' }}>
-                    <p style={{ textAlign: 'center', fontSize: '13px', margin: '0', color: '#616161' }}>USD</p>
+                    <p style={{ textAlign: 'center', fontSize: '13px', margin: '0', color: '#99a0ac' }}>USD</p>
                 </div>
                 <svg style={{ height: 0 }}>
                     <defs>

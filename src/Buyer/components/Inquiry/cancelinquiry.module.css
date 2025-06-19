@@ -39,8 +39,8 @@
     width: 800px;
     outline: none !important;
     border: none !important;
-    color: #616161 !important;
-    font-weight: 500 !important;
+    color: #5e676f !important;
+    /* font-weight: 500 !important; */
     background-color: #ffffff !important;
     padding: 12px !important;
     font-size: 14px !important;
@@ -51,6 +51,7 @@
     color: #f60000;
 }
 .cancel-inquiry-heading{
+    color: #5e676f;
     font-size: 20px;
       font-weight: 500;
     margin-top: 10px;
@@ -64,7 +65,7 @@
     border-radius: 4px;
 }
 .form-select-reason-head{
-    color: #212121;
+    color:#4f4f4f;
     font-size: 16px;
       font-weight: 500;
 }
@@ -77,13 +78,13 @@ display: flex;
 flex-direction: column;
 }
 .form-cancel-heading{
-    color: #212121;
+    color:#4f4f4f;
     font-size: 18px;
       font-weight: 500;
 }
 .form-cancel-text{
     font-size: 14px;
-    color: #616161;
+       color: #5e676f;
 }
 .label {
     display: flex;
@@ -93,8 +94,8 @@ flex-direction: column;
 }
 .cancel-inquiry-text{
     font-size: 14px;
-    color: #616161;
-    font-weight: 500;
+       color: #5e676f;
+    /* font-weight: 500; */
 }
 .buttonContainer {
     margin-top: 20px;
@@ -107,7 +108,7 @@ flex-direction: column;
 .submitButton {
     outline: none !important;
     border: none !important;
- background-color: #282f86;
+ background: linear-gradient(to left, #00dcff, #0075ce);
     color: white;
     padding: 6px 22px;
     border-radius: 4px;
@@ -145,7 +146,7 @@ flex-direction: column;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
     background-color: #ffffff;
     border: 1px solid #212121;
-    color: #212121;
+    color:#4f4f4f;
     padding: 6px 22px;
     border-radius: 4px;
     display: flex;

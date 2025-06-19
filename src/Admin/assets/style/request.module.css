@@ -20,7 +20,7 @@
 .button {
   border: none !important;
   outline: none !important;
-background-color: #282f86;
+background: linear-gradient(to left, #00dcff, #0075ce);
   color: white;
   padding: 6px 22px;
   border-radius: 4px;
@@ -89,7 +89,7 @@ background-color: #282f86;
 }
 
 .rejected-header-text-color {
-  color: #616161;
+     color: #99a0ac;
   white-space: normal;
   word-wrap: break-word;
   word-break: break-word;
@@ -104,12 +104,12 @@ background-color: #282f86;
   word-wrap: break-word;
   word-break: break-word;
   overflow-wrap: break-word;
-  color: #212121;
+  color:#4f4f4f;
   font-size: 14px;
 }
 
 .rejected-table-text-color-2 {
-  color: #616161;
+     color: #99a0ac;
   font-size: 14px;
 }
 
@@ -135,7 +135,7 @@ background-color: #282f86;
 }
 
 .rejected-pagi-total {
-  color: #616161;
+     color: #99a0ac;
   font-size: 14px;
 }
 
@@ -148,7 +148,7 @@ background-color: #282f86;
 
 .page-link {
   display: inline-block !important;
-  color: #282f86 !important;
+  color:#3b71ca;;
   background-color: #fff !important;
   border: 1px solid #dee2e6 !important;
   transition: color 0.15s !important;
@@ -163,7 +163,7 @@ background-color: #282f86;
 .page-item.active .page-link {
   z-index: 3 !important;
   color: #fff !important;
-  background-color: #282f86 !important;
+  background-color:#3b71ca;;
 }
 
 .page-item.disabled .page-link {

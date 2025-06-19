@@ -29,7 +29,7 @@
     row-gap: 24px;
   }
   .table-assign-date-time{
-    color: #212121;
+    color:#4f4f4f;
     font-weight: 500;
     font-size: 13px;
   }
@@ -44,7 +44,7 @@
   }
   
   .ongoing-details-conatiner-heading{
-    color: #212121;
+    color:#4f4f4f;
     font-size: 20px;
       font-weight: 500;
   }
@@ -193,7 +193,7 @@
   }
   
   .ongoing-details-left-top-main-heading-button {
- background-color: #282f86;
+ background: linear-gradient(to left, #00dcff, #0075ce);
     color: white;
     padding: 6px 16px;
     border-radius: 4px;
@@ -220,7 +220,7 @@
   }
   
   .table-assign-driver-heading {
-    color: #212121;
+    color:#4f4f4f;
     font-size: 18px;
       font-weight: 500;
   }
@@ -367,7 +367,7 @@
   }
   
   .ongoing-details-left-top-main-heading {
-    color: #212121;
+    color:#4f4f4f;
     font-weight: 500;
     font-size: 13px;
   }
@@ -380,17 +380,17 @@
   }
   
   .ongoing-details-left-bottom-vehicle-head {
-    color: #616161;
+       color: #99a0ac;
     font-size: 12px;
   }
   
   .ongoing-details-left-bottom-vehichle-no-head {
-    color: #616161;
+       color: #99a0ac;
     font-size: 12px;
   }
   
   .ongoing-details-right-inner-section-heading {
-    color: #616161;
+       color: #99a0ac;
     font-size: 13px;
   }
   
@@ -407,7 +407,7 @@
   }
   
   .ongoing-details-top-bottom-order-heading {
-    color: #616161;
+       color: #99a0ac;
     font-size: 12px;
   }
   
@@ -418,30 +418,30 @@
   }
   
   .table-container-text {
-    color: #212121;
+    color:#4f4f4f;
     font-size: 13px;
   }
   
   .table-g-not-names {
     font-size: 14px;
     font-weight: 500;
-    color: #616161;
+       color: #99a0ac;
   }
   
   .table-g-driver-name {
-    color: #212121;
+    color:#4f4f4f;
     font-weight: 500;
     font-size: 13px;
   }
   
   .table-g-not-name {
-    color: #616161;
+       color: #99a0ac;
     font-size: 13px;
     font-weight: 500;
   }
   
   .ongoing-details-payment-first-terms-heading {
-    color: #212121;
+    color:#4f4f4f;
     font-size: 16px;
       font-weight: 500;
   }
@@ -453,7 +453,7 @@
 }
   
   .ongoing-details-payment-detention-head {
-    color: #212121;
+    color:#4f4f4f;
     font-size: 14px;
   }
   
@@ -480,7 +480,7 @@
   }
   
   .ongoing-details-payment-remark-text {
-    color: #616161;
+       color: #99a0ac;
     font-size: 14px;
   }
   
@@ -491,12 +491,12 @@
   }
   
   .ongoing-details-right-pickdata-head {
-    color: #212121;
+    color:#4f4f4f;
     font-size: 13px;
   }
   
   .ongoing-details-right-pickdata-text {
-    color: #212121;
+    color:#4f4f4f;
     font-size: 13px;
     font-weight: 500;
   }
@@ -512,7 +512,7 @@
   
   .table-g-not-name-buttons {
     background-color: #f7f7d6;
-    color: #212121;
+    color:#4f4f4f;
     width: 100px;
     text-align: center;
     padding: 8px 0px;
@@ -597,7 +597,7 @@
   .pending-order-create-order {
     border: none !important;
     outline: none !important;
- background-color: #282f86;
+ background: linear-gradient(to left, #00dcff, #0075ce);
     color: white;
     padding: 6px 22px;
     border-radius: 4px;
@@ -612,7 +612,7 @@
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
     background-color: #ffffff;
     border: 1px solid #212121;
-    color: #212121;
+    color:#4f4f4f;
     padding: 6px 22px;
     border-radius: 4px;
     display: flex;
@@ -630,7 +630,7 @@
   }
   
   .ongoing-enguiries-details-buttons {
- background-color: #282f86;
+ background: linear-gradient(to left, #00dcff, #0075ce);
     color: white;
     padding: 6px 16px;
     border-radius: 4px;

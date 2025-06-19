@@ -39,12 +39,12 @@ body::first-letter {
   background-color: #f5f5f6;
   font-size: 0.825rem;
   border-color: transparent;
-  color: #616161;
+     color: #99a0ac;
   text-align: center;
   padding: 10px 20px;
   border-radius: 4px;
   width: 120px;
-  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+   
   font-weight: 500;
   cursor: pointer !important;
   ;
@@ -92,7 +92,7 @@ body::first-letter {
   background-color: white;
   padding: 24px 12px;
   border-color: transparent;
-  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+   
   display: flex;
   justify-content: space-between;
   gap: 10px;
@@ -108,7 +108,7 @@ body::first-letter {
 }
 
 .buyer-panel-top-head {
-  color: #212121;
+  color:#4f4f4f;
   font-size: 0.825rem;
   line-height: 18px;
   font-weight: 500
@@ -120,7 +120,7 @@ body::first-letter {
 }
 
 .buyer-panel-top-text {
-  color: #212121;
+  color:#4f4f4f;
   font-size: 0.825rem;
   font-weight: 500;
 }
@@ -137,7 +137,7 @@ body::first-letter {
   width: 50% !important;
   padding: 28px 20px;
   border-color: transparent;
-  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+   
   display: flex;
   flex-direction: column;
   border-radius: 4px;
@@ -161,7 +161,7 @@ body::first-letter {
 .buyer-panel-cart-top-left-section {
   width: 30%;
   background-color: white;
-  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+   
   text-align: center;
   padding: 12px 10px;
   display: flex;
@@ -170,7 +170,7 @@ body::first-letter {
 }
 
 .buyer-panel-left-head {
-  color: #212121;
+  color:#4f4f4f;
   font-size: 0.825rem;
   font-weight: 500;
 }
@@ -186,7 +186,7 @@ body::first-letter {
 .buyer-panel-cart-left-bottom-container {
   width: 50%;
   background-color: white;
-  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+   
   border-radius: 4px;
   padding: 25px 16px 6px 16px;
   display: flex;
@@ -201,13 +201,13 @@ body::first-letter {
 }
 
 .buyer-panel-left-bottom-pert {
-  color: #212121;
+  color:#4f4f4f;
   font-size: 14px;
   font-weight: 500;
 }
 
 .buyer-panel-left-bottom-plus {
-  color: #616161;
+     color: #99a0ac;
   font-size: 12px;
 }
 
@@ -219,7 +219,7 @@ body::first-letter {
 
 .buyer-panel-cart-right-main-container {
   background-color: white;
-  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+   
   border-radius: 4px;
   width: 30%;
   display: flex;
@@ -231,7 +231,7 @@ body::first-letter {
 }
 
 .buyer-panel-right-head {
-  color: #212121;
+  color:#4f4f4f;
   font-size: 0.825rem;
   font-weight: 500;
 }
@@ -247,7 +247,7 @@ body::first-letter {
 }
 
 .buyer-panel-country-names {
-  color: #282f86 !important;
+  color:#3b71ca;;
   font-size: 0.825rem;
 }
 
@@ -258,7 +258,7 @@ body::first-letter {
 }
 
 .buyer-panel-country-price {
-  color: #616161;
+     color: #99a0ac;
   font-size: 12px;
 }
 

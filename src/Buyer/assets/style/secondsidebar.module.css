@@ -1,80 +1,80 @@
 .container {
-  display: flex
-  ;
-      flex-direction: column;
-      gap: 20px;
-  }
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .button{
-    border: none !important;
-    outline: none !important;
-background-color: #282f86;
-    color: white;
-    padding: 6px 22px;
-    border-radius: 4px;
     display: flex
-;
-    align-items: center;
-    font-weight: 500;
-    font-size: 14px;
-    cursor: pointer !important;
-  }
-  .title {
-    padding-top: 5px;
-    font-size: 20px;
+    ;
+        flex-direction: column;
+        gap: 20px;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .button{
+      border: none !important;
+      outline: none !important;
+  background: linear-gradient(to left, #00dcff, #0075ce);
+      color: white;
+      padding: 6px 22px;
+      border-radius: 4px;
+      display: flex
+  ;
+      align-items: center;
       font-weight: 500;
-    color: #212121;
-  }
+      font-size: 14px;
+      cursor: pointer !important;
+    }
+    .title {
+      padding-top: 5px;
+      font-size: 20px;
+        font-weight: 500;
+      color:#5e676f;
+    }
+    
+    .content {
+      display: flex;
+      justify-content: start;
+      align-items: start;
+      gap: 20px;
+    }
+    
+    .sidebar {
+      width: 180px;
+      display: flex;
+      flex-direction: column;
+      justify-content: start;
+      align-items: start;
+      gap: 1rem;
+      cursor: pointer !important;
+    }
+    .tab{
+      display: flex;
+          gap: 10px;
+          align-items: center;
+          cursor: pointer !important;
+    }
+  .icon {
+         color: #99a0ac;
+      cursor: pointer !important;
+    }
+    .text{
+         font-size: 14px;
+         font-weight: 450;
+      cursor: pointer !important;
+    }
+    .main {
+      width: 100%;
+      height: 100vh;
+      overflow-x: scroll;
+      background-attachment: fixed;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .main::-webkit-scrollbar{
+      display: none;
+    }
+    
+    .active {
+      color: #448bff;
+    }
   
-  .content {
-    display: flex;
-    justify-content: start;
-    align-items: start;
-    gap: 20px;
-  }
-  
-  .sidebar {
-    width: 180px;
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    align-items: start;
-    gap: 1rem;
-    cursor: pointer !important;
-  }
-  .tab{
-    display: flex;
-        gap: 10px;
-        align-items: center;
-        cursor: pointer !important;
-  }
-.icon {
-    color: #616161;
-    cursor: pointer !important;
-  }
-  .text{
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer !important;
-  }
-  .main {
-    width: 100%;
-    height: 100vh;
-    overflow-x: scroll;
-    background-attachment: fixed;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-  .main::-webkit-scrollbar{
-    display: none;
-  }
-  
-  .active {
-    color: #282f86;
-  }
-
-  
+    

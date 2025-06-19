@@ -28,7 +28,7 @@
 }
 .item-title {
   font-size: 13px;
-  color: #616161;
+     color: #99a0ac;
 }
 
 .invoice-details-button-row {
@@ -221,7 +221,7 @@
 .page-item.active .page-link {
   z-index: 3;
   color: #fff;
-  background-color: #282f86;
+  background: linear-gradient(to left, #00dcff, #0075ce);
 }
 
 .page-item.disabled .page-link {
@@ -232,7 +232,7 @@
   border-color: rgba(160, 175, 185, 0.15) !important;
 }
 .completed-pagi-total {
-  color: #616161;
+     color: #99a0ac;
   font-size: 14px;
 }
 /* End the pagination section */

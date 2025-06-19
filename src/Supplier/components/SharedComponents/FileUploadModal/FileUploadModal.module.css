@@ -20,6 +20,7 @@
 }
 
 .modalTitle {
+  color: #5e676f;
   font-size: 20px;
   font-weight: 500;
   margin-bottom: 14px;
@@ -35,7 +36,7 @@
   align-items: center !important;
   border: none !important;
   border-radius: 4px !important;
-  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;   
   font-size: 14px !important;
   outline: none !important;
   padding: 12px !important;
@@ -80,7 +81,7 @@
   align-items: center !important;
   border: none !important;
   border-radius: 4px !important;
-  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+   
   font-weight: 500;
   display: flex;
   justify-content: center;
@@ -94,7 +95,7 @@
 }
 .labelStamp {
   font-size: 16px;
-  color: #212121;
+  color:#4f4f4f;
 }
 
 .buttonCancel {
@@ -102,7 +103,7 @@
   border: 1px solid #212121;
   border-radius: 4px;
   box-shadow: 0 1px 2px #0000000d !important;
-  color: #212121;
+  color:#4f4f4f;
   align-items: center;
   cursor: pointer !important;
   display: flex;
@@ -112,7 +113,7 @@
 }
 
 .buttonSubmit {
- background-color: #282f86;
+ background: linear-gradient(to left, #00dcff, #0075ce);
   border: none !important;
   border-radius: 4px;
   color: #fff;

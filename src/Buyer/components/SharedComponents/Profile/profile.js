@@ -86,6 +86,8 @@ const Profile = () => {
     user?.approx_yearly_purchase_value,
     user?.interested_in,
     user?.license_expiry_date,
+    user?.yrFounded,
+    user?.annualTurnover,
   ].some(isValid);
 
   const hasContactDetails = [
@@ -152,79 +154,79 @@ const Profile = () => {
             user?.websiteAddress ||
             user?.buyer_email ||
             user?.buyer_mobile) && (
-            <div className={styles.contentIconSection}>
-              <div className={styles.addressSection}>
-                {user?.websiteAddress && (
-                  <div className={styles.iconSection}>
-                    <RiHonourLine className={styles.icon} />
-                    <span className={styles.textSection}>
-                      <a
-                        href={user?.websiteAddress}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={styles.textSection}
-                      >
-                        {user?.websiteAddress}
-                      </a>
-                    </span>
-                  </div>
-                )}
-                {user?.buyer_email && (
-                  <div className={styles.iconSection}>
-                    <MdOutlineAttachEmail className={styles.icon} />
-                    <span className={styles.textSection}>
-                      {user?.buyer_email}
-                    </span>
-                  </div>
-                )}
-                {user?.buyer_mobile && (
-                  <div className={styles.iconSection}>
-                    <LuPhoneCall className={styles.icon} />
-                    <span className={styles.textSection}>
-                      {user?.buyer_country_code} {user?.buyer_mobile}
-                    </span>
+              <div className={styles.contentIconSection}>
+                <div className={styles.addressSection}>
+                  {user?.websiteAddress && (
+                    <div className={styles.iconSection}>
+                      <RiHonourLine className={styles.icon} />
+                      <span className={styles.textSection}>
+                        <a
+                          href={user?.websiteAddress}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={styles.textSection}
+                        >
+                          {user?.websiteAddress}
+                        </a>
+                      </span>
+                    </div>
+                  )}
+                  {user?.buyer_email && (
+                    <div className={styles.iconSection}>
+                      <MdOutlineAttachEmail className={styles.icon} />
+                      <span className={styles.textSection}>
+                        {user?.buyer_email}
+                      </span>
+                    </div>
+                  )}
+                  {user?.buyer_mobile && (
+                    <div className={styles.iconSection}>
+                      <LuPhoneCall className={styles.icon} />
+                      <span className={styles.textSection}>
+                        {user?.buyer_country_code} {user?.buyer_mobile}
+                      </span>
+                    </div>
+                  )}
+                </div>
+                {hasAddressDetails && (
+                  <div className={styles.addressSection}>
+                    <div className={styles.iconSection}>
+                      <FaRegAddressCard className={styles.icon} />
+                      <div className={styles.addressContainers}>
+                        {(user?.registeredAddress?.company_reg_address ||
+                          user?.buyer_address) && (
+                            <span className={styles.textSection}>
+                              {user?.registeredAddress?.company_reg_address ||
+                                user?.buyer_address}
+                            </span>
+                          )}
+                        {(user?.registeredAddress?.locality ||
+                          user?.registeredAddress?.land_mark) && (
+                            <span className={styles.textSection}>
+                              {user?.registeredAddress?.locality}{" "}
+                              {user?.registeredAddress?.land_mark}
+                            </span>
+                          )}
+                        {(user?.registeredAddress?.state ||
+                          user?.registeredAddress?.city ||
+                          user?.registeredAddress?.country) && (
+                            <span className={styles.textSection}>
+                              {user?.registeredAddress?.city}{" "}
+                              {user?.registeredAddress?.state}{" "}
+                              {user?.registeredAddress?.country}
+                            </span>
+                          )}
+                        {user?.registeredAddress?.pincode && (
+                          <span className={styles.textSection}>
+                            {user?.registeredAddress?.pincode}
+                          </span>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>
-              {hasAddressDetails && (
-                <div className={styles.addressSection}>
-                  <div className={styles.iconSection}>
-                    <FaRegAddressCard className={styles.icon} />
-                    <div className={styles.addressContainers}>
-                      {(user?.registeredAddress?.company_reg_address ||
-                        user?.buyer_address) && (
-                        <span className={styles.textSection}>
-                          {user?.registeredAddress?.company_reg_address ||
-                            user?.buyer_address}
-                        </span>
-                      )}
-                      {(user?.registeredAddress?.locality ||
-                        user?.registeredAddress?.land_mark) && (
-                        <span className={styles.textSection}>
-                          {user?.registeredAddress?.locality}{" "}
-                          {user?.registeredAddress?.land_mark}
-                        </span>
-                      )}
-                      {(user?.registeredAddress?.state ||
-                        user?.registeredAddress?.city ||
-                        user?.registeredAddress?.country) && (
-                        <span className={styles.textSection}>
-                          {user?.registeredAddress?.city}{" "}
-                          {user?.registeredAddress?.state}{" "}
-                          {user?.registeredAddress?.country}
-                        </span>
-                      )}
-                      {user?.registeredAddress?.pincode && (
-                        <span className={styles.textSection}>
-                          {user?.registeredAddress?.pincode}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
+            )}
         </div>
       </div>
 
@@ -262,14 +264,25 @@ const Profile = () => {
                     </div>
                   </div>
                 )}
+
+
+                {user?.yrFounded && (
+                  <div className={styles.companyDetails}>
+                    <div className={styles.companyHead}>
+                      Year Company Founded
+                    </div>
+                    <div className={styles.companyText}>{user?.yrFounded}</div>
+                  </div>
+                )}
                 {user?.country_of_origin && (
                   <div className={styles.companyDetails}>
-                    <div className={styles.companyHead}>Country of Origin</div>
+                    <div className={styles.companyHead}>Country of Origin </div>
                     <div className={styles.companyText}>
                       {user?.country_of_origin}
                     </div>
                   </div>
                 )}
+
                 {user?.country_of_operation && (
                   <div className={styles.companyDetails}>
                     <div className={styles.companyHead}>
@@ -337,7 +350,26 @@ const Profile = () => {
                     </div>
                   </div>
                 )}
-                  {user?.license_expiry_date && (
+
+                {user?.annualTurnover && (
+                  <div className={styles.companyDetails}>
+                    <div className={styles.companyHead}>
+                      Annual Turnover
+                    </div>
+                    <div className={styles.companyText}>
+                      {user?.annualTurnover}
+                    </div>
+                  </div>
+                )}
+                {user?.license_no && (
+                  <div className={styles.companyDetails}>
+                    <div className={styles.companyHead}>
+                      Company License No.
+                    </div>
+                    <div className={styles.companyText}>{user?.license_no}</div>
+                  </div>
+                )}
+                {user?.license_expiry_date && (
                   <div className={styles.companyDetails}>
                     <div className={styles.companyHead}>
                       License Expiry/ Renewal Date
@@ -347,15 +379,15 @@ const Profile = () => {
                     </div>
                   </div>
                 )}
-               {user?.interested_in && Array.isArray(user.interested_in) && (
-  <div className={styles.companyDetails}>
-    <div className={styles.companyHead}>Interested In</div>
-    <div className={styles.companyText}>
-      {user.interested_in.join(" , ")}
-    </div>
-  </div>
-)}
-              
+                {user?.interested_in && Array.isArray(user.interested_in) && (
+                  <div className={styles.companyDetails}>
+                    <div className={styles.companyHead}>Interested In</div>
+                    <div className={styles.companyText}>
+                      {user.interested_in.join(" , ")}
+                    </div>
+                  </div>
+                )}
+
               </div>
             </div>
           </div>

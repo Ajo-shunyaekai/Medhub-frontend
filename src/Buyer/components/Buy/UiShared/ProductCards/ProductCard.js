@@ -87,6 +87,11 @@ const ProductCard = ({
                       }}
                     />
                   </div>
+                   <div className={styles.buttonContainer}>
+                  <Link to={`/buyer/product-details/${medicine._id}`}>
+                    <button className={styles.button}>View Details</button>
+                  </Link>
+                </div>
                 </div>
                 <div className={styles.contentSection}>
                   <Link to={`/buyer/product-details/${medicine._id}`}>
@@ -143,11 +148,7 @@ const ProductCard = ({
                     </div>
                   </div>
                 </div>
-                <div className={styles.buttonContainer}>
-                  <Link to={`/buyer/product-details/${medicine._id}`}>
-                    <button className={styles.button}>View Details</button>
-                  </Link>
-                </div>
+               
               </div>
             );
           })}

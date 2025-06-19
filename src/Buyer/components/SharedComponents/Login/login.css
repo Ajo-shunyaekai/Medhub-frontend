@@ -32,7 +32,7 @@
 }
 .login-container-form-section-heading {
   width: 100%;
-  color: #212121;
+  color:#4f4f4f;
   font-size: 20px;
   line-height: normal;
   font-weight: 500;
@@ -53,7 +53,7 @@
 }
 .login-form-main-label {
   font-size: 14px;
-  color: #212121;
+  color:#4f4f4f;
   font-weight: 500;
 }
 .login-form-main-input {
@@ -86,7 +86,7 @@
   position: absolute;
   left: 92%;
   right: 100%;
-  color: #616161;
+     color: #99a0ac;
    cursor: pointer !important;;
 }
 .login-form-main-cancel {
@@ -94,7 +94,7 @@
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
   background-color: #ffffff;
   border: 1px solid #212121;
-  color: #212121;
+  color:#4f4f4f;
   padding: 6px 22px;
   border-radius: 4px;
   display: flex;
@@ -106,7 +106,7 @@
 .login-form-main-login {
   outline: none !important;
   border: none !important;
-background-color: #282f86;
+background: linear-gradient(to left, #00dcff, #0075ce);
   color: white;
   padding: 6px 22px;
   border-radius: 4px;
@@ -163,7 +163,7 @@ background-color: #282f86;
   content: "";
   display: block;
   height: 1px;
-background-color: #282f86;
+background: linear-gradient(to left, #00dcff, #0075ce);
 }
 .login-form-main-signup {
   display: flex;

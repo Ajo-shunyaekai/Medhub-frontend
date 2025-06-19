@@ -46,12 +46,12 @@
     row-gap: 16px;
   }
   .create-invoice-form-heading {
-    color: #212121;
+    color:#4f4f4f;
     font-size: 18px;
     font-weight: 500;
   }
   .create-invoice-heading {
-    color: #212121;
+    color:#5e676f;
     font-size: 20px;
     font-weight: 500;
     width: 100%;
@@ -85,17 +85,16 @@
     row-gap: 6px;
   }
   .create-invoice-div-label {
-    color: #212121;
+    color:#4f4f4f;
     font-size: 14px;
     font-weight: 500;
   }
   .create-invoice-div-input {
-    color: #616161 !important;
-    font-weight: 500 !important;
+    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+    color: #5e676f !important;
     background-color: #fff !important;
     border: none !important;
     border-radius: 4px !important;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
     font-size: 14px !important;
     outline: none !important;
     padding: 12px !important;
@@ -118,7 +117,7 @@
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
     background-color: #ffffff;
     border: 1px solid #212121;
-    color: #212121;
+    color:#4f4f4f;
     padding: 6px 22px;
     border-radius: 4px;
     display: flex;
@@ -129,7 +128,7 @@
   }
   .create-invoices-submit {
     border: none;
- background-color: #282f86;
+ background: linear-gradient(to left, #00dcff, #0075ce);
     color: white;
     padding: 6px 22px;
     border-radius: 4px;
@@ -172,7 +171,7 @@
     /* padding-right: 45px; */
   }
   .create-invoice-add-tem-button {
-   background-color: #282f86;
+   background: linear-gradient(to left, #00dcff, #0075ce);
     border-radius: 4px;
     color: #fff;
     column-gap: 8px;

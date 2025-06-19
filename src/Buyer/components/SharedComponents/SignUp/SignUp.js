@@ -1354,7 +1354,34 @@ const SignUp = ({ socket }) => {
                         </div>
                       )}
                     </div>
-
+ <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
+                        Annual Turnover
+                      </label>
+                      <input
+                        className={styles.signupFormSectionInput}
+                        type="number"
+                        name="annualTurnover"
+                        placeholder="Enter Annual Turnover in USD"
+                        value={formData.annualTurnover}
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
+                        Year Company Founded
+                      </label>
+                      <DatePicker
+                        className={styles.signupFormSectionInput}
+                        selected={selectedYear}
+                        name="yrFounded"
+                        onChange={handleYearChange}
+                        placeholderText="Select Year Company Founded"
+                        showYearPicker
+                        dateFormat="yyyy"
+                        maxDate={new Date()}
+                      />
+                    </div>
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
                         About Company

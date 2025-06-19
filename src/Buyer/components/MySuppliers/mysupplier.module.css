@@ -16,7 +16,7 @@
   align-items: center;
 }
 .mySupplierMainHead {
-   color: #212121;
+   color:#4f4f4f;
   font-size: 20px;
   font-weight: 500;
   margin-top: 10px;
@@ -74,7 +74,7 @@
 }
 
 .mySupplierNameHead {
-  color: #212121;
+  color:#4f4f4f;
   font-size: 22px;
   font-weight: 500;
 }
@@ -96,12 +96,12 @@
 .mySupplierCardHeading {
   font-size: 14px;
   font-weight: 500;
-  color: #212121;
+  color:#4f4f4f;
 }
 
 .mySupplierCardText {
   width: 100%;
-  color: #616161;
+     color: #99a0ac;
   font-size: 13px;
   font-weight: 500;
 }
@@ -113,7 +113,7 @@
 }
 
 .mySupplierCardButtonDetails {
-background-color: #282f86;
+background: linear-gradient(to left, #00dcff, #0075ce);
   color: white;
   padding: 6px 16px;
   border-radius: 4px;

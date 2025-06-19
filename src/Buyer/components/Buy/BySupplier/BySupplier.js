@@ -166,7 +166,7 @@ const BuySeller = ({ active }) => {
                         areFiltersApplied={areFiltersApplied()}
                         handleCompanyType={handleCompanyType}
                     />
-                    <div className={styles.tabContainer}>
+                    {/* <div className={styles.tabContainer}>
                         <button
                             className={`${styles.tabButton} ${viewMode === 'card' ? styles.activeTab : ''}`}
                             onClick={() => setViewMode('card')}
@@ -182,8 +182,15 @@ const BuySeller = ({ active }) => {
                             <FaRegAddressCard className={styles.tabIcon} />
                             
                         </button>
-                    </div>
-                    {viewMode === 'card' ? (
+                    </div> */}
+                     <SupplierList 
+                            supplierList={supplierList}
+                            currentPage={currentPage}
+                            totalItems={totalItems}
+                            itemsPerPage={itemsPerPage}
+                            onPageChange={handlePageChange}
+                        />
+                    {/* {viewMode === 'card' ? (
                         <SupplierCard 
                             supplierList={supplierList}
                             currentPage={currentPage}
@@ -192,14 +199,8 @@ const BuySeller = ({ active }) => {
                             onPageChange={handlePageChange}
                         />
                     ) : (
-                        <SupplierList 
-                            supplierList={supplierList}
-                            currentPage={currentPage}
-                            totalItems={totalItems}
-                            itemsPerPage={itemsPerPage}
-                            onPageChange={handlePageChange}
-                        />
-                    )}
+                       
+                    )} */}
                 </div>
             )}
         </>

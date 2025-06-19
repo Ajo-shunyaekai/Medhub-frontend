@@ -17,7 +17,7 @@
     padding: 14px 10px;
     background-color: #fff;
     border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     font-size: 14px;
     font-weight: 500;
 }
@@ -26,7 +26,7 @@
     font-size: 20px;
       font-weight: 500;
     margin-top: 10px;
-    color: #212121;
+    color:#5e676f;
 }
 
 .send-enquiry-main-section {
@@ -51,7 +51,7 @@
     align-items: center;
     border-radius: 4px;
     background-color: #ffffff;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     padding: 10px 20px;
 }
 
@@ -62,13 +62,13 @@
 
 .send-enquiry-upper-left-head {
     font-size: 16px;
-    color: #212121;
+    color:#5e676f;
     font-weight: 500;
 }
 
 .send-enquiry-upper-left-text {
     font-size: 14px;
-    color: #616161;
+       color: #99a0ac;
 }
 
 .send-enquiry-upper-right-sec {
@@ -90,12 +90,11 @@
 
 .send-enquiry-upper-right-number {
     font-size: 14px;
-    font-weight: 500;
-    color: #616161;
+       color: #5e676f;
 }
 
 .send-enquiry-upper-right-button-sec {
-   background-color: #282f86;
+   background: linear-gradient(to left, #00dcff, #0075ce);
     border-radius: 4px;
     color: #fff;
     column-gap: 8px;
@@ -115,7 +114,7 @@
 
 .send-enquiry-supplier-list-container {
     border-radius: 4px !important;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
     background: linear-gradient(to left, #f5f5f7, #e1f2ff);
     padding: 20px 30px;
     display: flex;
@@ -130,7 +129,7 @@
     padding: 20px 24px;
     border-radius: 4px;
     background-color: #ffffff;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+ 
 }
 
 /* Custome checkbox section */
@@ -234,7 +233,7 @@
     font-size: 22px;
     line-height: 26px;
       font-weight: 500;
-    color: #212121;
+    color:#5e676f;
 }
 
 .send-enquiry-inner-top-strength {
@@ -252,13 +251,13 @@
 .send-enquiry-inner-top-supplier {
     font-size: 12px;
     line-height: 18px;
-    color: #616161;
+       color: #99a0ac;
     width: 650px;
 }
 
 .send-enquiry-inner-top-name {
     font-size: 12px;
-    color: #616161;
+       color: #99a0ac;
 }
 
 .send-enquiry-inner-bottom-section {
@@ -278,15 +277,14 @@
 
 .send-enquiry-inner-bootom-head {
     font-size: 14px;
-    color: #212121;
+    color:#5e676f;
     line-height: 16px;
     font-weight: 500 !important;
 }
 
 .send-enquiry-inner-bootom-text {
     font-size: 13px;
-    font-weight: 500;
-    color: #616161;
+       color: #5e676f;
 }
 
 .send-enquiry-remove-section {
@@ -312,14 +310,14 @@
 
 .send-enquiry-supplier-list-heading {
     font-size: 20px;
-    color: #212121;
+    color:#5e676f;
     font-weight: 500;
 }
 
 .send-enquiry-supplier-list-text {
     font-size: 20px;
     font-weight: 500;
-    color: #212121;
+ color:#5e676f;
 }
 
 .send-enquiry-clear-icon {
@@ -355,7 +353,7 @@
   .page-item.active .page-link {
     z-index: 3;
     color: #fff;
-    background-color: #282f86;
+    background: linear-gradient(to left, #00dcff, #0075ce);
   }
   
   .page-item.disabled .page-link {
@@ -404,7 +402,7 @@
 .modal-ok-button {
     border: none !important;
     outline: none !important;
-background-color: #282f86;
+background: linear-gradient(to left, #00dcff, #0075ce);
     color: white;
     padding: 6px 22px;
     border-radius: 4px;

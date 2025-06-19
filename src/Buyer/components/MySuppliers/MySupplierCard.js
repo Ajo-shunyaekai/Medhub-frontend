@@ -20,6 +20,9 @@ const MySupplierCard = ({
                 return (
                   <div className={styles.mainCard} key={i}>
                     <div className={styles.cardImgSection}>
+                       <div className={styles.cardMainHeading}>
+                        {supplier?.supplier_details?.supplier_name}
+                      </div>
                       <div className={styles.cardImg}>
                         <img
                           className={styles.productImg}
@@ -33,16 +36,10 @@ const MySupplierCard = ({
                           alt="Supplier"
                         />
                       </div>
-                      <Link
-                        to={`/buyer/supplier-details/${supplier?.supplier_details?.supplier_id}`}
-                      >
-                        <div className={styles.cardButton}>View Details</div>
-                      </Link>
+                    
                     </div>
                     <div className={styles.cardContentSection}>
-                      <div className={styles.cardMainHeading}>
-                        {supplier?.supplier_details?.supplier_name}
-                      </div>
+                     
 
                       <div className={styles.cardInnerContainer}>
                         <span className={styles.cardHead}>Company Type</span>
@@ -69,6 +66,14 @@ const MySupplierCard = ({
                       </div>
 
                     </div>
+
+                      <Link
+                        to={`/buyer/supplier-details/${supplier?.supplier_details?.supplier_id}`}
+                      >
+                        <div className={styles.buttonContainer}>
+                  <div className={styles.cardButton}>View Details</div>
+                  </div>
+                      </Link>
                   </div>
                 );
               })

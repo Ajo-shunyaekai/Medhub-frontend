@@ -138,11 +138,11 @@ const BuyerDetails = () => {
                                     )}
                                 </div>
                             )} */}
-<div className={styles.logoSection}>
-    <img src={ buyer?.buyer_image[0]?.startsWith("http")
-                        ? buyer?.buyer_image[0]
-                        : `${process.env.REACT_APP_SERVER_URL}uploads/buyer/buyer_images/${buyer?.buyer_image[0]}`} alt='img-section'/>
-</div>
+                            <div className={styles.logoSection}>
+                                <img src={buyer?.buyer_image[0]?.startsWith("http")
+                                    ? buyer?.buyer_image[0]
+                                    : `${process.env.REACT_APP_SERVER_URL}uploads/buyer/buyer_images/${buyer?.buyer_image[0]}`} alt='img-section' />
+                            </div>
 
                         </div>
                     )}
@@ -191,7 +191,7 @@ const BuyerDetails = () => {
                     )} */}
 
                     {(buyer?.buyer_mobile ||
-                    buyer?.buyer_email ||
+                        buyer?.buyer_email ||
                         buyer?.registration_no ||
                         buyer?.vat_reg_no ||
                         buyer?.activity_code ||
@@ -205,84 +205,102 @@ const BuyerDetails = () => {
                         buyer?.contact_person_email ||
                         buyer?.contact_person_mobile ||
                         buyer?.designation ||
+                        buyer?.yrFounded ||
+                        buyer?.annualTurnover ||
                         buyer?.approx_yearly_purchase_value) && (
-                        <div className={styles.cardInnerSection}>
- {buyer?.buyer_mobile  && (
-                                <div className={styles.cardMainContainer}>
-                                    <span className={styles.cardHead}>Company Mobile No.</span>
-                                    <span className={styles.cardContent}>{buyer.buyer_country_code || ''} {buyer.buyer_mobile}</span>
-                                </div>
-                            )}
-                            {buyer?.buyer_email && (
-                                <div className={styles.cardMainContainer}>
-                                    <span className={styles.cardHead}>Company Email ID</span>
-                                    <span className={styles.cardContent}>{buyer.buyer_email}</span>
-                                </div>
-                            )}
+                            <div className={styles.cardInnerSection}>
+                                {buyer?.buyer_mobile && (
+                                    <div className={styles.cardMainContainer}>
+                                        <span className={styles.cardHead}>Company Mobile No.</span>
+                                        <span className={styles.cardContent}>{buyer.buyer_country_code || ''} {buyer.buyer_mobile}</span>
+                                    </div>
+                                )}
+                                {buyer?.buyer_email && (
+                                    <div className={styles.cardMainContainer}>
+                                        <span className={styles.cardHead}>Company Email ID</span>
+                                        <span className={styles.cardContent}>{buyer.buyer_email}</span>
+                                    </div>
+                                )}
 
 
-                            {buyer?.registration_no && (
-                                <div className={styles.cardMainContainer}>
-                                    <span className={styles.cardHead}>Company Registration No</span>
-                                    <span className={styles.cardContent}>{buyer.registration_no}</span>
-                                </div>
-                            )}
-                            {buyer?.vat_reg_no && (
-                                <div className={styles.cardMainContainer}>
-                                    <span className={styles.cardHead}>GST/VAT Registration Number</span>
-                                    <span className={styles.cardContent}>{buyer.vat_reg_no}</span>
-                                </div>
-                            )}
-                            {buyer?.activity_code && (
-                                <div className={styles.cardMainContainer}>
-                                    <span className={styles.cardHead}>Business Activity Code</span>
-                                    <span className={styles.cardContent}>{buyer.activity_code}</span>
-                                </div>
-                            )}
-                            {/* {buyer?.sales_person_name && (
+                                {buyer?.registration_no && (
+                                    <div className={styles.cardMainContainer}>
+                                        <span className={styles.cardHead}>Company Registration No</span>
+                                        <span className={styles.cardContent}>{buyer.registration_no}</span>
+                                    </div>
+                                )}
+                                {buyer?.vat_reg_no && (
+                                    <div className={styles.cardMainContainer}>
+                                        <span className={styles.cardHead}>GST/VAT Registration Number</span>
+                                        <span className={styles.cardContent}>{buyer.vat_reg_no}</span>
+                                    </div>
+                                )}
+                                {buyer?.activity_code && (
+                                    <div className={styles.cardMainContainer}>
+                                        <span className={styles.cardHead}>Business Activity Code</span>
+                                        <span className={styles.cardContent}>{buyer.activity_code}</span>
+                                    </div>
+                                )}
+                                {/* {buyer?.sales_person_name && (
                                 <div className={styles.cardMainContainer}>
                                     <span className={styles.cardHead}>Medhub Global Sales Representative</span>
                                     <span className={styles.cardContent}>{buyer.sales_person_name}</span>
                                 </div>
                             )} */}
-                            {buyer?.country_of_origin && (
-                                <div className={styles.cardMainContainer}>
-                                    <span className={styles.cardHead}>Country of Origin</span>
-                                    <span className={styles.cardContent}>{buyer.country_of_origin}</span>
-                                </div>
-                            )}
-                            {buyer?.country_of_operation?.length > 0 && (
-                                <div className={styles.cardMainContainer}>
-                                    <span className={styles.cardHead}>Countries of Operation</span>
-                                    <span className={styles.cardContent}>{buyer.country_of_operation.join(', ')}</span>
-                                </div>
-                            )}
-                           
-                            {buyer?.approx_yearly_purchase_value && (
-                                <div className={styles.cardMainContainer}>
-                                    <span className={styles.cardHead}>Approx. Yearly Purchase Value</span>
-                                    <span className={styles.cardContent}>{buyer.approx_yearly_purchase_value}</span>
-                                </div>
-                            )}
-                            {buyer?.license_no && (
-                                <div className={styles.cardMainContainer}>
-                                    <span className={styles.cardHead}>License No.</span>
-                                    <span className={styles.cardContent}>{buyer.license_no}</span>
-                                </div>
-                            )}
-                            {buyer?.license_expiry_date && (
-                                <div className={styles.cardMainContainer}>
-                                    <span className={styles.cardHead}>License Expiry/Renewal Date</span>
-                                    <span className={styles.cardContent}>{buyer.license_expiry_date}</span>
-                                </div>
-                            )}
-                             {buyer?.interested_in?.length > 0 && (
-                                <div className={styles.cardMainContainer}>
-                                    <span className={styles.cardHead}>Interested In</span>
-                                    <span className={styles.cardContent}>{buyer.interested_in.join(', ')}</span>
-                                </div>
-                            )}
-                            {/* {buyer?.contact_person_name && (
+
+
+                                {buyer?.approx_yearly_purchase_value && (
+                                    <div className={styles.cardMainContainer}>
+                                        <span className={styles.cardHead}>Approx. Yearly Purchase Value</span>
+                                        <span className={styles.cardContent}>{buyer.approx_yearly_purchase_value}</span>
+                                    </div>
+                                )}
+
+                                {buyer?.yrFounded && (
+                                    <div className={styles.cardMainContainer}>
+                                        <span className={styles.cardHead}>Year Company Founded</span>
+                                        <span className={styles.cardContent}>{buyer.yrFounded}</span>
+                                    </div>
+                                )}
+                                {buyer?.annualTurnover && (
+                                    <div className={styles.cardMainContainer}>
+                                        <span className={styles.cardHead}>Annual Turnover</span>
+                                        <span className={styles.cardContent}>{buyer.annualTurnover}</span>
+                                    </div>
+                                )}
+
+
+                                {buyer?.license_no && (
+                                    <div className={styles.cardMainContainer}>
+                                        <span className={styles.cardHead}>License No.</span>
+                                        <span className={styles.cardContent}>{buyer.license_no}</span>
+                                    </div>
+                                )}
+                                {buyer?.license_expiry_date && (
+                                    <div className={styles.cardMainContainer}>
+                                        <span className={styles.cardHead}>License Expiry/Renewal Date</span>
+                                        <span className={styles.cardContent}>{buyer.license_expiry_date}</span>
+                                    </div>
+                                )}
+                                {buyer?.country_of_origin && (
+                                    <div className={styles.cardMainContainer}>
+                                        <span className={styles.cardHead}>Country of Origin</span>
+                                        <span className={styles.cardContent}>{buyer.country_of_origin}</span>
+                                    </div>
+                                )}
+                                {buyer?.country_of_operation?.length > 0 && (
+                                    <div className={styles.cardMainContainer}>
+                                        <span className={styles.cardHead}>Countries of Operation</span>
+                                        <span className={styles.cardContent}>{buyer.country_of_operation.join(', ')}</span>
+                                    </div>
+                                )}
+                                {buyer?.interested_in?.length > 0 && (
+                                    <div className={styles.cardMainContainer}>
+                                        <span className={styles.cardHead}>Interested In</span>
+                                        <span className={styles.cardContent}>{buyer.interested_in.join(', ')}</span>
+                                    </div>
+                                )}
+                                {/* {buyer?.contact_person_name && (
                                 <div className={styles.cardMainContainer}>
                                     <span className={styles.cardHead}>Contact Name</span>
                                     <span className={styles.cardContent}>{buyer.contact_person_name}</span>
@@ -308,8 +326,8 @@ const BuyerDetails = () => {
                                     <span className={styles.cardContent}>{buyer.designation}</span>
                                 </div>
                             )} */}
-                        </div>
-                    )}
+                            </div>
+                        )}
                 </div>
 
                 <div className={styles.rightCard}>
