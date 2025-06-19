@@ -59,7 +59,7 @@ const SupplierMedicineCard = ({
                   <div className={styles.section}>
                     <span className={styles.head}>Cost Per Product</span>
                     <span className={styles.text}>
-                      {costPerProduct !== "N/A" ? `$${costPerProduct}` : "N/A"}
+                      {costPerProduct !== "N/A" ? `${costPerProduct} USD` : "N/A"}
                     </span>
                   </div>
                   <div className={styles.section}>
@@ -70,7 +70,7 @@ const SupplierMedicineCard = ({
                     <span className={styles.head}>Est. Delivery Time</span>
                     <span className={styles.text}>
                       {estimatedDeliveryTime !== "N/A"
-                        ? `${estimatedDeliveryTime} Days`
+                        ? `${estimatedDeliveryTime} `
                         : "TBC- based on quantity"}
                     </span>
                   </div>

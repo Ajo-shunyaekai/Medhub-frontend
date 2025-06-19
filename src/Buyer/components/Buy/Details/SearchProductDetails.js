@@ -31,6 +31,13 @@ const SearchProductDetails = () => {
   const [totalItems, setTotalitems] = useState(0);
   const itemsPerPage = 2;
 
+  const [filters, setFilters] = useState({
+    price: [],
+    deliveryTime: [],
+    totalQuantity: [],
+    stockedIn: [],
+  });
+
   const pdfFile =
     productDetail?.secondaryMarketDetails?.purchaseInvoiceFile?.[0] ||
     productDetail?.data?.[0]?.secondaryMarketDetails?.purchaseInvoiceFile?.[0];
@@ -47,14 +54,56 @@ const SearchProductDetails = () => {
     }
   }, [id, dispatch]);
 
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const response = await dispatch(
+  //       fetchSupplierProductsList(
+  //         `product/get-suppliers/${id}?search_key=${searchKey}&page_no=${currentPage}&page_size=${itemsPerPage}`
+  //       )
+  //     );
+
+  //     if (response.meta.requestStatus === "fulfilled") {
+  //       setProductList(response?.payload?.products || []);
+  //       setTotalitems(response?.payload?.totalItems || 0);
+  //     } else {
+  //       setProductList([]);
+  //       setTotalitems(0);
+  //     }
+  //   };
+  //   fetchData();
+  // }, [id, dispatch, currentPage, searchKey]);
+
+  // Update filtered data when productDetail changes
+  
   useEffect(() => {
     const fetchData = async () => {
-      const response = await dispatch(
-        fetchSupplierProductsList(
-          `product/get-suppliers/${id}?search_key=${searchKey}&page_no=${currentPage}&page_size=${itemsPerPage}`
-        )
-      );
-
+      const query = [];
+    
+      if (searchKey) query.push(`search_key=${encodeURIComponent(searchKey)}`);
+      query.push(`page_no=${currentPage}`);
+      query.push(`page_size=${itemsPerPage}`);
+    
+      if (filters.price.length > 0) {
+        query.push(`price=${filters.price.map(val => val.replace(/ /g, '%20')).join(',')}`);
+      }
+    
+      if (filters.deliveryTime.length > 0) {
+        query.push(`delivery_time=${filters.deliveryTime.map(val => val.replace(/ /g, '%20')).join(',')}`);
+      }
+    
+      if (filters.totalQuantity.length > 0) {
+        query.push(`quantity=${filters.totalQuantity.map(val => val.replace(/ /g, '%20')).join(',')}`);
+      }
+    
+      if (filters.stockedIn.length > 0) {
+        query.push(`stocked_in=${filters.stockedIn.map(val => val.replace(/ /g, '%20')).join(',')}`);
+      }
+    
+      const queryString = query.join("&");
+      const url = `product/get-suppliers/${id}?${queryString}`;
+    
+      const response = await dispatch(fetchSupplierProductsList(url));
+    
       if (response.meta.requestStatus === "fulfilled") {
         setProductList(response?.payload?.products || []);
         setTotalitems(response?.payload?.totalItems || 0);
@@ -63,10 +112,12 @@ const SearchProductDetails = () => {
         setTotalitems(0);
       }
     };
+    
+  
     fetchData();
-  }, [id, dispatch, currentPage, searchKey]);
-
-  // Update filtered data when productDetail changes
+  }, [id, dispatch, currentPage, searchKey, filters]);
+  
+  
   useEffect(() => {
     const dataToFilter = productDetail?.data || [productDetail] || [];
     setFilteredData(dataToFilter);
@@ -104,16 +155,20 @@ const SearchProductDetails = () => {
   };
 
   // Filter handlers (minimal implementation, adjust as per your needs)
-  const handlePriceRange = (selectedValues) => {};
-
-  const handleDeliveryTime = (selectedValues) => {};
-
-  const handleStockedIn = (selectedValues) => {
-    // Add filtering logic here if needed
+  const handlePriceRange = (selectedValues) => {
+    setFilters((prev) => ({ ...prev, price: selectedValues }));
   };
-
+  
+  const handleDeliveryTime = (selectedValues) => {
+    setFilters((prev) => ({ ...prev, deliveryTime: selectedValues }));
+  };
+  
+  const handleStockedIn = (selectedValues) => {
+    setFilters((prev) => ({ ...prev, stockedIn: selectedValues }));
+  };
+  
   const handleQuantity = (selectedValues) => {
-    // Add filtering logic here if needed
+    setFilters((prev) => ({ ...prev, totalQuantity: selectedValues }));
   };
 
   const handleReset = () => {
@@ -354,7 +409,7 @@ const SearchProductDetails = () => {
         )}
 
         {/* Manufacturer Section */}
-        {(productDetail?.general?.manufacturer ||
+        {/* {(productDetail?.general?.manufacturer ||
           productDetail?.general?.aboutManufacturer ||
           productDetail?.general?.countryOfOrigin) && (
           <div className={styles.mainManufacturerContainer}>
@@ -387,7 +442,7 @@ const SearchProductDetails = () => {
               )}
             </div>
           </div>
-        )}
+        )} */}
 
         {/* Modal for PDF Preview */}
         <Modal

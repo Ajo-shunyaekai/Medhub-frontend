@@ -1,6 +1,30 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
+import Select, { components } from "react-select";
 import styles from './productdetails.module.css';
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa';
+import countryList from "react-select-country-list";
+
+const MultiSelectOption = ({ children, ...props }) => (
+  <components.Option {...props}>
+    <input type="checkbox" checked={props.isSelected} onChange={() => null} />{" "}
+    <label>{children}</label>
+  </components.Option>
+);
+
+const MultiSelectDropdown = ({ options, value, onChange }) => {
+  return (
+    <Select
+      className={styles.signupFormsSectionsSelect}
+      options={options}
+      isMulti
+      closeMenuOnSelect={false}
+      hideSelectedOptions={false}
+      components={{ Option: MultiSelectOption }}
+      onChange={onChange}
+      value={value}
+    />
+  );
+};
 
 const FilterSection = ({
   countryAvailable = [],
@@ -18,35 +42,48 @@ const FilterSection = ({
     totalQuantity: [],
   });
 
+  const [selectedCountries, setSelectedCountries] = useState([]);
+
+  useEffect(() => {
+    handleStockedIn(selectedCountries.map(c => c.label)); // send selected country codes to parent
+  }, [selectedCountries]);
+
+  const countryOptions = useMemo(() =>
+    countryList().getData().map(country => ({
+      value: country.value, // e.g., "US"
+      label: country.label // e.g., "United States"
+    })),
+    []);
+
   const dropdownRef = useRef(null);
 
   // Define filter data
   const filters = [
-    {
-      key: 'price',
-      label: 'Unit Price',
-      options: [
-        { value: '1 - 10', label: '1-10 USD' },
-        { value: '10 - 20', label: '10-20 USD' },
-        { value: '20 - 30', label: '20-30 USD' },
-        { value: '30 - 40', label: '30-40 USD' },
-        { value: 'greater than 40', label: 'More than 40 USD' },
-      ],
-      handler: handlePriceRange,
-    },
-    {
-      key: 'deliveryTime',
-      label: 'Delivery Time',
-      options: [
-        { value: '1 - 5', label: '1-5 Days' },
-        { value: '5 - 10', label: '5-10 Days' },
-        { value: '10 - 15', label: '10-15 Days' },
-        { value: '15 - 20', label: '15-20 Days' },
-        { value: '20 - 25', label: '20-25 Days' },
-        { value: 'greater than 25', label: 'More than 25 Days' },
-      ],
-      handler: handleDeliveryTime,
-    },
+    // {
+    //   key: 'price',
+    //   label: 'Unit Price',
+    //   options: [
+    //     { value: '1 - 10', label: '1-10 USD' },
+    //     { value: '10 - 20', label: '10-20 USD' },
+    //     { value: '20 - 30', label: '20-30 USD' },
+    //     { value: '30 - 40', label: '30-40 USD' },
+    //     { value: 'greater than 40', label: 'More than 40 USD' },
+    //   ],
+    //   handler: handlePriceRange,
+    // },
+    // {
+    //   key: 'deliveryTime',
+    //   label: 'Delivery Time',
+    //   options: [
+    //     { value: '1 - 5', label: '1-5 Days' },
+    //     { value: '5 - 10', label: '5-10 Days' },
+    //     { value: '10 - 15', label: '10-15 Days' },
+    //     { value: '15 - 20', label: '15-20 Days' },
+    //     { value: '20 - 25', label: '20-25 Days' },
+    //     { value: 'greater than 25', label: 'More than 25 Days' },
+    //   ],
+    //   handler: handleDeliveryTime,
+    // },
    
     {
       key: 'totalQuantity',
@@ -129,6 +166,14 @@ const FilterSection = ({
       <div className={styles.innerSectionFilter}>
         {/* Filter Dropdowns */}
         <div className={styles.mainSectionFilter}>
+        <label>Countries Where Stock Traded</label>
+  <MultiSelectDropdown
+    options={countryOptions}
+    value={selectedCountries}
+    onChange={(selectedOptions) => {
+      setSelectedCountries(selectedOptions || []);
+    }}
+  />
           {filters.map((filter) => (
             <div key={filter.key} className={styles.medicinesSectionFilter}>
               <div
