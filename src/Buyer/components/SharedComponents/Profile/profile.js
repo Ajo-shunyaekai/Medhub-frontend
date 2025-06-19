@@ -276,7 +276,7 @@ const Profile = () => {
                 )}
                 {user?.country_of_origin && (
                   <div className={styles.companyDetails}>
-                    <div className={styles.companyHead}>Country of Origin</div>
+                    <div className={styles.companyHead}>Country of Origin </div>
                     <div className={styles.companyText}>
                       {user?.country_of_origin}
                     </div>
