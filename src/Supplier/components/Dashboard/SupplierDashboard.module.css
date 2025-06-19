@@ -91,7 +91,7 @@ body::first-letter {
   background-color: white;
   padding: 24px 12px;
   border-color: transparent;
-   
+   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
   display: flex;
   justify-content: space-between;
   gap: 10px;
@@ -129,7 +129,7 @@ body::first-letter {
   width: 50% !important;
   padding: 28px 20px;
   border-color: transparent;
-   
+   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
   display: flex;
   flex-direction: column;
   border-radius: 4px;
@@ -151,7 +151,7 @@ body::first-letter {
 .rightAside {
   width: 30%;
   background-color: white;
-   
+   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
   text-align: center;
   padding: 12px 10px;
   display: flex;
@@ -175,7 +175,7 @@ body::first-letter {
 .performaCard {
   width: 50%;
   background-color: white;
-   
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important; 
   border-radius: 4px;
   padding: 25px 16px 6px 16px;
   display: flex;
@@ -202,7 +202,7 @@ body::first-letter {
 
 .mapSection {
   background-color: white;
-   
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important; 
   border-radius: 4px;
   width: 30%;
   display: flex;

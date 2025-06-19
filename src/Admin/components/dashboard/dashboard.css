@@ -45,7 +45,7 @@ body::first-letter {
   padding: 10px 20px;
   border-radius: 4px;
   width: 120px;
-   
+   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
   font-weight: 500;
   cursor: pointer !important;
   ;
@@ -93,7 +93,7 @@ body::first-letter {
   background-color: white;
   padding: 24px 12px;
   border-color: transparent;
-   
+   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
   display: flex;
   justify-content: space-between;
   gap: 10px;
@@ -137,7 +137,7 @@ body::first-letter {
   width: 50% !important;
   padding: 28px 20px;
   border-color: transparent;
-   
+   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
   display: flex;
   flex-direction: column;
   border-radius: 4px;
@@ -165,7 +165,7 @@ color: #5e676f !important;
   display: flex;
   flex-direction: column;
   row-gap: 10px;
-   
+   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
 }
 
 .buyer-panel-left-head {
@@ -189,7 +189,7 @@ color: #5e676f !important;
   display: flex;
   flex-direction: column;
   row-gap: 3px;
-   
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important; 
 }
 
 .admin-panel-left-bottom-cart-top {
@@ -216,7 +216,7 @@ font-size: 0.825rem;
 
 .buyer-panel-cart-right-main-container {
   background-color: white;
-   
+   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
   border-radius: 4px;
   width: 30%;
   display: flex;
@@ -276,7 +276,7 @@ font-size: 0.825rem;
   border-radius: 4px;
   padding: 28px 20px;
   width: 25%;
-   
+ box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;  
 }
 .bottom-text-cont{
   display: flex;

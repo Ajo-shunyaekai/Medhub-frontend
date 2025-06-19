@@ -32,7 +32,7 @@ color:#5e676f;
 .detailsContainer{
     background-color: #fff;
     border-radius: 4px;
- 
+ box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
     padding: 26px 30px;
     display: flex
 ;
@@ -61,7 +61,7 @@ color:#5e676f;
 .driverSection{
     background-color: #fff;
     border-radius: 4px;
- 
+ box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
     padding: 26px 20px;
     width: 100%;
 }
@@ -73,7 +73,7 @@ color:#5e676f;
 .volumeContainers{
     background-color: #fff;
     border-radius: 4px;
- 
+ box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
     padding: 26px 30px;
     display: flex
 ;
@@ -91,7 +91,7 @@ flex-direction: column;
     width: 33%;
     background-color: #fff;
     border-radius: 4px;
- 
+ box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
     padding: 26px 30px;
 }
 .mainHeading{
@@ -108,7 +108,7 @@ color:#5e676f;
     width: 33%;
     background-color: #fff;
     border-radius: 4px;
- 
+ box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
     padding: 26px 30px;
 }
 .details{
@@ -119,7 +119,7 @@ color:#5e676f;
     text-align: center;
     padding: 2px 8px;
     border-radius: 2px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
       font-weight: 500;
     cursor: pointer !important;
 }
@@ -135,7 +135,7 @@ color:#5e676f;
     width: 50%;
     background-color: #fff;
     border-radius: 4px;
- 
+ box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
     padding: 26px 30px;
 }
 .transportInnerSection{
@@ -156,7 +156,7 @@ color:#5e676f;
 .billSection{
     background-color: #fff;
     border-radius: 4px;
- 
+ box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
     padding: 26px 30px;
     display: flex;
     flex-direction: column;
@@ -170,7 +170,7 @@ color:#5e676f;
 .coordinatorSection{
     background-color: #fff;
     border-radius: 4px;
- 
+ box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
     padding: 26px 20px;
     width: 100%;
     display: none;
