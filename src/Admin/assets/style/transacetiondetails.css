@@ -24,7 +24,7 @@
 }
 .transaction-details-container-heading{
     font-size: 20px;
-    color:#4f4f4f;
+    color:#5e676f;
     font-weight: 500;
     margin: 0 auto;
     width: 100%;
@@ -87,7 +87,7 @@
     padding: 28px 34px;
     border-color: transparent;
     position: relative;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
 }
 .transaction-details-company-logo-container{
     width: 20vw;
@@ -96,7 +96,7 @@
     background-color: white;
     padding: 30px 28px;
     border-color: transparent;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
     justify-content: center;
     border-radius: 4px;
     align-items: center;
@@ -108,14 +108,13 @@
     gap: 1rem;
 }
 .transaction-details-company-type-sec-head{
-    color: #212121 !important;
-    font-size: 16px;
-    font-weight: 500;
+    color:#99a0ac !important;
+    font-size: 14px;
 }
 .transaction-details-company-type-sec-text{
-       color: #99a0ac;
+       color: #5e676f;
+       font-weight: 500;
     font-size: 14px;
-    font-weight: 500;
     overflow-wrap: break-word;
     white-space: normal;
     word-break: break-word;
@@ -125,6 +124,7 @@
     width: 47%;
     padding: 28px 34px;
     border-radius: 4px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
 }
 .transaction-details-company-logo-section{
     width: 140px;
@@ -146,7 +146,7 @@
     background-color: white;
     padding: 28px 34px;
     border-color: transparent;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
     flex-direction: column;
     row-gap: 4px;
 }
@@ -239,7 +239,7 @@
     background-color: white;
     padding: 28px 34px;
     border-color: transparent;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
     gap: 2rem;
 }
 .transaction-details-inner-left-section{
@@ -282,7 +282,7 @@
     background-color: white;
     padding: 28px 34px;
     border-color: transparent;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
     width: 100%;
     margin-bottom: 20rem;
 }
@@ -296,7 +296,7 @@
     
 }
 .transaction-details-company-logo-heading{
-    color: #212121 !important;
+    color: #5e676f !important;
     font-size: 16px;
     font-weight: 500;
 }
@@ -421,7 +421,7 @@
     background-color: white;
     border-radius: 4px;
     border-color: transparent;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
 }
 
 .table-supply-section-content {
@@ -495,7 +495,7 @@
     border: 1px solid #212121;
     border-radius: 4px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, .05) !important;
-    color:#4f4f4f;
+    color:#5e676f;
     align-items: center;
      cursor: pointer !important;;
     display: flex;

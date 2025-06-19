@@ -52,7 +52,7 @@
 .cardSection {
     background-color: #fff;
     border-radius: 4px;
- 
+ box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -107,7 +107,7 @@
 .cardInnerSection {
     background-color: #fff;
     border-radius: 4px;
- 
+ box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -119,7 +119,7 @@
 .cardContainer {
     background-color: #fff;
     border-radius: 4px;
- 
+ box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
     display: flex;
     flex-direction: column;
     gap: 6px;
@@ -179,7 +179,7 @@
 .rightSection {
     background-color: #fff;
     border-radius: 4px;
- 
+ box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;   
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -257,6 +257,7 @@
     border-radius: 4px;
     display: flex
 ;
+box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
     align-items: center;
     gap: 20px;
     padding: 14px 18px;

@@ -104,7 +104,7 @@
 .ProductMainContainer {
   background-color: #fff;
   border-radius: 4px;
-   
+   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
   padding: 26px 30px;
   width: 100%;
   display: flex;
@@ -167,7 +167,7 @@
 .mainContainer {
   background-color: #fff;
   border-radius: 4px;
-   
+ box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;  
   padding: 26px 30px;
   display: flex;
   flex-direction: column;
@@ -186,7 +186,7 @@
 .mainManufacturerContainer {
   background-color: #fff;
   border-radius: 4px;
-   
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important; 
   padding: 26px 30px;
   display: flex;
   flex-direction: column;
@@ -437,7 +437,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 .addtionalContainer {
   background-color: #fff;
   border-radius: 4px;
-   
+   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
   padding: 26px 30px;
   display: flex;
   flex-direction: column;

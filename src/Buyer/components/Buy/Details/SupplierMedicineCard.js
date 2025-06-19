@@ -14,7 +14,9 @@ const SupplierMedicineCard = ({
 }) => {
   return (
     <div className={styles.container}>
+        <span className={styles.heading}>Supplier List</span>
       <div className={styles.gridContainer}>
+        
         {productList &&
           productList.length > 0 &&
           productList.map((medicine, index) => {
@@ -39,6 +41,7 @@ const SupplierMedicineCard = ({
 
             return (
               <div className={styles.card} key={index}>
+              
                 <div className={styles.innerContainer}>
                   <div className={styles.imageContainer}>
                     <img src={firstImage} alt="Product" />

@@ -56,7 +56,7 @@ const OrderDetails = () => {
     <div className={styles.Container}>
       <div className={styles.mainContainer}>
         <span className={styles.mainHead}>Order ID: {orderDetails?.order_id}</span>
-        {orderDetails?.items?.length > 0 && (
+        {/* {orderDetails?.items?.length > 0 && (
           <span className={styles.medicineText}>
             {orderDetails.items.map((item, index) => (
               <React.Fragment key={item._id || index}>
@@ -72,10 +72,26 @@ const OrderDetails = () => {
               Purchased By: {orderDetails?.buyer?.buyer_name}
             </span>
           </Link>
-        )}
+        )} */}
       </div>
 
       <div className={styles.detailsContainer}>
+         {orderDetails?.buyer_id && orderDetails?.buyer?.buyer_name && (
+          <Link to={`/admin/buyer-details/${orderDetails?.buyer_id}`}>
+ <div className={styles.detailSection}>
+            <div className={styles.heading}>Purchased By</div>
+            <div className={styles.content}>
+             {orderDetails?.buyer?.buyer_name}
+            </div>
+          </div>
+          </Link>
+        )}
+          {orderDetails?.buyer?.buyer_type && (
+          <div className={styles.detailSection}>
+            <div className={styles.heading}>Company Type</div>
+            <div className={styles.content}>{orderDetails?.buyer?.buyer_type}</div>
+          </div>
+        )}
         {orderDetails?.buyer?.country_of_origin && (
           <div className={styles.detailSection}>
             <div className={styles.heading}>Country of Origin</div>
@@ -84,12 +100,7 @@ const OrderDetails = () => {
             </div>
           </div>
         )}
-        {orderDetails?.buyer?.buyer_type && (
-          <div className={styles.detailSection}>
-            <div className={styles.heading}>Company Type</div>
-            <div className={styles.content}>{orderDetails?.buyer?.buyer_type}</div>
-          </div>
-        )}
+      
         {orderDetails?.status && (
           <div className={styles.detailSection}>
             <div className={styles.heading}>Order Status</div>

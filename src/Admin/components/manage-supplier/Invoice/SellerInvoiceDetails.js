@@ -78,7 +78,7 @@ function SellerInvoiceDetails() {
                         style={{
                             maxWidth: '800px', margin: 'auto auto 10rem', padding: '30px',
                             border: '1px solid #eee', fontSize: '16px', lineHeight: '24px',
-                            color: '#212121', backgroundColor: '#FFFFFF',
+                            color: "#5e676f", backgroundColor: '#FFFFFF',
                             boxShadow: "0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d"
                         }}>
                         <div style={{ textAlign: 'center', fontWeight: '500', fontSize: '30px', margin: '0px 0px 20px 0px' }}>Invoice</div>
@@ -105,22 +105,22 @@ function SellerInvoiceDetails() {
                                                         <h1 style={{ fontSize: '14px', fontWeight: 500, paddingBottom: '3px' }}>From:</h1>
                                                         <p style={{ fontSize: '16px', fontWeight: 500 }}>{invoiceDetails?.supplier_name}</p>
                                                         {formatAddress(invoiceDetails?.supplier_registered_address, invoiceDetails?.supplier_address).map((line, index) => (
-                                                            <p key={index} style={{ fontSize: '13px', fontWeight: "500", color: '#616161' }}>{line}</p>
+                                                            <p key={index} style={{ fontSize: '13px', color: "#5e676f", }}>{line}</p>
                                                         ))}
                                                         <div style={{ display: 'flex', justifyContent: 'start' }}>
-                                                            <p style={{ fontSize: '13px', fontWeight: "500", color: '#616161' }}>VAT Reg No:</p>
-                                                            <p style={{ fontSize: '13px', fontWeight: "500", color: '#616161' }}> {invoiceDetails?.supplier_vat_reg_no}</p>
+                                                            <p style={{ fontSize: '13px', fontWeight: "500", color: "#5e676f", }}>VAT Reg No:</p>
+                                                            <p style={{ fontSize: '13px', color: "#5e676f", }}> {invoiceDetails?.supplier_vat_reg_no}</p>
                                                         </div>
                                                     </td>
                                                     <td style={{ verticalAlign: 'top', width: '50%', paddingBottom: '20px', paddingLeft: "10px" }}>
                                                         <h1 style={{ fontSize: '14px', fontWeight: 500, paddingBottom: '3px', textAlign: 'end' }}>To:</h1>
                                                         <p style={{ fontSize: '16px', fontWeight: 500, textAlign: 'end' }}>{invoiceDetails?.buyer_name}</p>
                                                         {formatAddress(invoiceDetails?.buyer_registered_address, invoiceDetails?.buyer_address).map((line, index) => (
-                                                            <p key={index} style={{ fontSize: '13px', fontWeight: "500", color: '#616161', textAlign: 'end' }}>{line}</p>
+                                                            <p key={index} style={{ fontSize: '13px', color: "#5e676f", textAlign: 'end' }}>{line}</p>
                                                         ))}
                                                         <div style={{ display: 'flex', justifyContent: 'end' }}>
-                                                            <p style={{ fontSize: '13px', fontWeight: "500", color: '#616161' }}>VAT Reg No:</p>
-                                                            <p style={{ fontSize: '13px', fontWeight: "500", color: '#616161' }}> {invoiceDetails?.buyer_vat_reg_no}</p>
+                                                            <p style={{ fontSize: '13px', fontWeight: "500", color: "#5e676f", }}>VAT Reg No:</p>
+                                                            <p style={{ fontSize: '13px', color: "#5e676f", }}> {invoiceDetails?.buyer_vat_reg_no}</p>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -169,11 +169,11 @@ function SellerInvoiceDetails() {
                                                                         <h1 style={{ fontSize: '16px', fontWeight: '500', marginTop: '16px', textAlign: 'start' }}>Bank Details:</h1>
                                                                         <div style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', paddingTop: '8px' }}>
                                                                             <p style={{ fontSize: '14px', fontWeight: '500', width: '100px' }}>Account No:</p>
-                                                                            <p style={{ fontSize: '14px', fontWeight: '500' }}>{invoiceDetails?.account_number}</p>
+                                                                            <p style={{ fontSize: '14px', color: "#5e676f", }}>{invoiceDetails?.account_number}</p>
                                                                         </div>
                                                                         <div style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', paddingTop: '6px' }}>
                                                                             <p style={{ fontSize: '14px', fontWeight: '500', width: '100px' }}>Sort Code:</p>
-                                                                            <p style={{ fontSize: '14px', fontWeight: '500' }}>{invoiceDetails?.sort_code}</p>
+                                                                            <p style={{ fontSize: '14px', color: "#5e676f", }}>{invoiceDetails?.sort_code}</p>
                                                                         </div>
                                                                     </td>
                                                                     <td style={{ width: '500px' }}>
