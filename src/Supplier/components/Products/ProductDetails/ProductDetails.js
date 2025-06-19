@@ -377,6 +377,42 @@ const openPurchaseInvoice = () => {
         )}
         {/* End the product description */}
 
+         {productDetail?.general?.image?.length > 0 && (
+          <div className={styles.mainContainer}>
+            <span className={styles.innerHead}>Product Images</span>
+            <div className={styles.productImageSection}>
+              {productDetail?.general?.image?.map((img, index) => {
+                const baseUrl = process.env.REACT_APP_SERVER_URL?.endsWith("/")
+                  ? process.env.REACT_APP_SERVER_URL
+                  : `${process.env.REACT_APP_SERVER_URL}/`;
+
+                // If not a full URL, prepend base path
+                const imgUrl = img?.startsWith("http")
+                  ? img
+                  : `${baseUrl}uploads/products/${img}`;
+
+                // Check if it ends with image extension
+                const isImageFile = isImageExtension(imgUrl);
+
+                return (
+                  <div className={styles.imageContainer} key={index}>
+                    <img
+                      className={styles.imageSection}
+                      src={isImageFile ? imgUrl : fallbackImageUrl}
+                      alt="Product Image"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = fallbackImageUrl;
+                      }}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+        {/* End product image section */}
+
         {/* Start Inventory & Packaging section */}
         {(productDetail?.inventoryDetails?.stockedInDetails?.length > 0 ||
           productDetail?.inventoryDetails?.sku ||
@@ -3184,41 +3220,7 @@ const openPurchaseInvoice = () => {
 
         {/* End the category details section */}
 
-        {productDetail?.general?.image?.length > 0 && (
-          <div className={styles.mainContainer}>
-            <span className={styles.innerHead}>Product Images</span>
-            <div className={styles.productImageSection}>
-              {productDetail?.general?.image?.map((img, index) => {
-                const baseUrl = process.env.REACT_APP_SERVER_URL?.endsWith("/")
-                  ? process.env.REACT_APP_SERVER_URL
-                  : `${process.env.REACT_APP_SERVER_URL}/`;
-
-                // If not a full URL, prepend base path
-                const imgUrl = img?.startsWith("http")
-                  ? img
-                  : `${baseUrl}uploads/products/${img}`;
-
-                // Check if it ends with image extension
-                const isImageFile = isImageExtension(imgUrl);
-
-                return (
-                  <div className={styles.imageContainer} key={index}>
-                    <img
-                      className={styles.imageSection}
-                      src={isImageFile ? imgUrl : fallbackImageUrl}
-                      alt="Product Image"
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = fallbackImageUrl;
-                      }}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
-        {/* End product image section */}
+       
         {/* Start Compliance & Certification Health & Safety */}
         {(productDetail?.cNCFileNDate?.length > 0 ||
           productDetail?.healthNSafety?.safetyDatasheet?.length > 0 ||

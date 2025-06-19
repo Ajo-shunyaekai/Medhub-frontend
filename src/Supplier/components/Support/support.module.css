@@ -119,23 +119,21 @@
   width: 100%;
   font-size: 14px;
   border: none;
-  font-weight: 500;
   padding: 12px 15px;
   border-radius: 4px;
   outline: none;
-  color:#4f4f4f;
+  color:#5e676f;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
 .form-textarea {
   width: 100%;
   font-size: 14px;
-  font-weight: 500;
   border: none;
   padding: 12px 15px;
   border-radius: 4px;
   outline: none;
-  color:#4f4f4f;
+  color:#5e676f;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }

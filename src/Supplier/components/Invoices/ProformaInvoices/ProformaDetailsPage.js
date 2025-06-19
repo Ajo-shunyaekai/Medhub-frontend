@@ -166,7 +166,7 @@ function ProformaDetailsPage() {
               border: "1px solid #eee",
               fontSize: "16px",
               lineHeight: "24px",
-              color: "#212121",
+              color: "#5e676f",
               backgroundColor: "#FFFFFF",
               boxShadow: "0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d",
             }}
@@ -183,7 +183,7 @@ function ProformaDetailsPage() {
             </div>
             <table style={{ fontSize: "12px" }}>
               <thead>
-                <tr style={{ borderBottom: "1px solid #616161" }}>
+                <tr style={{ borderBottom: "1px solid #99a0ac" }}>
                   {orderDetails?.invoice_no && (
                     <td style={{ display: "flex", justifyContent: "end" }}>
                       <p style={{ fontSize: "15px", fontWeight: "500" }}>
@@ -245,7 +245,7 @@ function ProformaDetailsPage() {
                       }}
                     >
                       <tbody>
-                        <tr style={{ borderBottom: "1px solid #616161" }}>
+                        <tr style={{ borderBottom: "1px solid #99a0ac" }}>
                           <td
                             style={{
                               verticalAlign: "top",
@@ -278,7 +278,7 @@ function ProformaDetailsPage() {
                               <div
                                 style={{
                                   fontSize: "13px",
-                                  color: "#616161",
+                                  color: "#99a0ac",
                                   fontWeight: "500",
                                 }}
                               >
@@ -296,7 +296,7 @@ function ProformaDetailsPage() {
                                 <p
                                   style={{
                                     fontSize: "13px",
-                                    color: "#616161",
+                                    color: "#99a0ac",
                                     fontWeight: "500",
                                   }}
                                 >
@@ -314,7 +314,7 @@ function ProformaDetailsPage() {
                                 <p
                                   style={{
                                     fontSize: "13px",
-                                    color: "#616161",
+                                    color: "#99a0ac",
                                     fontWeight: "500",
                                   }}
                                 >
@@ -357,7 +357,7 @@ function ProformaDetailsPage() {
                               <div
                                 style={{
                                   fontSize: "13px",
-                                  color: "#616161",
+                                  color: "#99a0ac",
                                   fontWeight: "500",
                                   textAlign: "end",
                                 }}
@@ -373,7 +373,7 @@ function ProformaDetailsPage() {
                                 <p
                                   style={{
                                     fontSize: "13px",
-                                    color: "#616161",
+                                    color: "#99a0ac",
                                     fontWeight: "500",
                                   }}
                                 >
@@ -388,7 +388,7 @@ function ProformaDetailsPage() {
                                 <p
                                   style={{
                                     fontSize: "13px",
-                                    color: "#616161",
+                                    color: "#99a0ac",
                                     fontWeight: "500",
                                   }}
                                 >
@@ -407,7 +407,7 @@ function ProformaDetailsPage() {
                                     style={{
                                       padding: "8px 0",
                                       fontWeight: 500,
-                                      borderBottom: "1px solid #616161",
+                                      borderBottom: "1px solid #99a0ac",
                                       width: "40px",
                                     }}
                                   >
@@ -417,7 +417,7 @@ function ProformaDetailsPage() {
                                     style={{
                                       padding: "8px 0",
                                       fontWeight: 500,
-                                      borderBottom: "1px solid #616161",
+                                      borderBottom: "1px solid #99a0ac",
                                       width: "150px",
                                     }}
                                   >
@@ -427,7 +427,7 @@ function ProformaDetailsPage() {
                                     style={{
                                       padding: "8px 0",
                                       fontWeight: 500,
-                                      borderBottom: "1px solid #616161",
+                                      borderBottom: "1px solid #99a0ac",
                                       width: "40px",
                                     }}
                                   >
@@ -437,7 +437,7 @@ function ProformaDetailsPage() {
                                     style={{
                                       padding: "8px 0",
                                       fontWeight: 500,
-                                      borderBottom: "1px solid #616161",
+                                      borderBottom: "1px solid #99a0ac",
                                       textAlign: "end",
                                       width: "100px",
                                     }}
@@ -448,7 +448,7 @@ function ProformaDetailsPage() {
                                     style={{
                                       padding: "8px 0",
                                       fontWeight: 500,
-                                      borderBottom: "1px solid #616161",
+                                      borderBottom: "1px solid #99a0ac",
                                       textAlign: "end",
                                       width: "100px",
                                     }}
@@ -459,7 +459,7 @@ function ProformaDetailsPage() {
                                     style={{
                                       padding: "8px 0",
                                       fontWeight: 500,
-                                      borderBottom: "1px solid #616161",
+                                      borderBottom: "1px solid #99a0ac",
                                       textAlign: "end",
                                       width: "120px",
                                     }}
@@ -585,8 +585,8 @@ function ProformaDetailsPage() {
                             <table>
                               <tbody
                                 style={{
-                                  borderTop: "1px solid #616161",
-                                  borderBottom: "1px solid #616161",
+                                  borderTop: "1px solid #99a0ac",
+                                  borderBottom: "1px solid #99a0ac",
                                 }}
                               >
                                 <tr>
@@ -639,7 +639,7 @@ function ProformaDetailsPage() {
                               <table>
                                 <tbody
                                   style={{
-                                    borderBottom: "1px solid #616161",
+                                    borderBottom: "1px solid #99a0ac",
                                   }}
                                 >
                                   <tr>
@@ -837,7 +837,7 @@ function ProformaDetailsPage() {
                 <tbody
                   style={{
                     width: "100%",
-                    borderBottom: "1px solid #616161",
+                    borderBottom: "1px solid #99a0ac",
                   }}
                 >
                   {orderDetails?.enquiry?.payment_terms?.length > 0 && (
@@ -861,7 +861,7 @@ function ProformaDetailsPage() {
                         <div
                           style={{
                             fontSize: "13px",
-                            color: "#616161",
+                            color: "#99a0ac",
                             fontWeight: "500",
                             lineHeight: "20px",
                             marginTop: "4px",

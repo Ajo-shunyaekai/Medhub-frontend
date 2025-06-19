@@ -21,9 +21,9 @@
   margin-bottom: 10px !important;
 }
 .psection{
-   color: #99a0ac;
+   color: #5e676f;
     font-size: 16px;
-    font-weight: 500;
+    /* font-weight: 500; */
 }
 .list{
     padding-left: 36px;
@@ -33,8 +33,7 @@
 }
 .list li{
   font-size: 16px;
-     color: #99a0ac;
-  font-weight: 500;
+    color: #5e676f;
 }
 .strong{
   font-weight: 600 !important;

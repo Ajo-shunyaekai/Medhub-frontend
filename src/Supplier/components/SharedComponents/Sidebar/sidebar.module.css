@@ -34,7 +34,7 @@ body{
 }
 
 .nav_icon_color {
-  color: #5e676f;
+  color: #99a0ac;
   font-size: 22px !important;
    cursor: pointer !important;;
 }
@@ -214,7 +214,7 @@ font-size: 14px;
 }
 
 .noti_see_all_btn {
-  color: #282f86;
+  color: #005ef7;
   font-size: 14px;
   cursor: pointer !important;
   font-weight: 500;
@@ -348,7 +348,7 @@ main {
 }
 
 .sidebar_text:hover {
-  color: #282f86;
+  color: #005ef7;
   /* background-color: #e1e1e4;
   padding: 0px 0px 0px 6px !important; */
 }
