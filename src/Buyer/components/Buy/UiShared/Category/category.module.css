@@ -70,6 +70,7 @@
 }
 
 .filterSection label {
+    color: #5e676f;
     display: block;
     font-size: 14px;
     font-weight: 500;

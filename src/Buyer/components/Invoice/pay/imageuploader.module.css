@@ -66,8 +66,8 @@
 }
 .upload-text {
   font-size: 13px;
-  font-weight: 500;
-     color: #99a0ac;
+  /* font-weight: 500; */
+     color: #5e6765;
 }
 .uploaded-image {
   max-width: 100%;

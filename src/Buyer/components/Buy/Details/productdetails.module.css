@@ -207,7 +207,7 @@
 }
 
 .medicineName {
-  color:#4f4f4f;
+ color:#5e676f;
   font-size: 28px;
   font-weight: 500;
 }
@@ -247,7 +247,7 @@
   font-size: 14px;
   font-weight: 500;
   min-width: 250px;
-  color:#4f4f4f;
+ color:#5e676f;
 }
 
 .medicineHeadings {
@@ -257,27 +257,24 @@
 
 .medicineText {
   width: 50%;
-     color: #99a0ac;
+ color:#5e676f;
   font-size: 14px;
-  font-weight: 500;
   word-wrap: break-word;
   white-space: normal;
   overflow-wrap: break-word;
 }
 
 .medicineTexts {
-     color: #99a0ac;
+    color:#5e676f;
   font-size: 14px;
-  font-weight: 500;
   word-wrap: break-word;
   white-space: normal;
   overflow-wrap: break-word;
 }
 
 .medicineContent {
-     color: #99a0ac;
+     color:#5e676f;
   font-size: 14px;
-  font-weight: 500;
   word-wrap: break-word;
   white-space: normal;
   overflow-wrap: break-word;
@@ -285,9 +282,8 @@
 }
 
 .medicineDescriptionContent {
-     color: #99a0ac;
+   color:#5e676f;
   font-size: 14px;
-  font-weight: 500;
   word-wrap: break-word;
   white-space: normal;
   overflow-wrap: break-word;
@@ -337,13 +333,12 @@
 }
 
 .inventoryInput {
+      box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
   background-color: #fff !important;
   border: none !important;
   border-radius: 4px !important;
-   
-     color: #99a0ac;
+  color: #5e676f;
   font-size: 14px;
-  font-weight: 500;
   outline: none !important;
     padding: 10.4px !important;
   position: relative !important;

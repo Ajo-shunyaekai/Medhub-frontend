@@ -103,7 +103,7 @@
 }
 .active {
   background-color: #e1e1e4;
-  color: #282f86!important;
+  color: #448bff!important;
 }
 
 .form-heading {
@@ -119,11 +119,10 @@
   width: 100%;
   font-size: 14px;
   border: none;
-  font-weight: 500;
   padding: 12px 15px;
   border-radius: 4px;
   outline: none;
-  color:#4f4f4f;
+  color:#5e676f;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
@@ -131,11 +130,10 @@
   width: 100%;
   font-size: 14px;
   border: none;
-  font-weight: 500;
   padding: 12px 15px;
   border-radius: 4px;
   outline: none;
-  color:#4f4f4f;
+  color:#5e676f;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
@@ -177,7 +175,7 @@
   border: none !important;
   padding: 6px 24px !important;
   border-radius: 4px !important;
-  background-color:#3b71ca;;
+    background: linear-gradient(to left, #00dcff, #0075ce);
   color: #ffffff !important;
 }
 .error-message {

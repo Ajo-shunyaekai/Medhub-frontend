@@ -148,7 +148,7 @@ const OrdersDetails = ({ socket }) => {
       <div className='active-order-main-section-container'>
         <div className='active-order-details-conatiner-heading'>
           <span>Order ID: {orderDetails?.order_id || "987456321"}</span>
-          {orderDetails?.items?.length > 0 && (
+          {/* {orderDetails?.items?.length > 0 && (
             <span className='active-details-medicine-details'>
               {orderDetails?.items?.map((item, index) => (
                 <React.Fragment key={item._id || index}>
@@ -157,13 +157,13 @@ const OrdersDetails = ({ socket }) => {
                 </React.Fragment>
               ))}
             </span>
-          )}
-          {orderDetails?.buyer_id && orderDetails?.buyer?.buyer_name && (
+          )} */}
+          {/* {orderDetails?.buyer_id && orderDetails?.buyer?.buyer_name && (
             <Link className='active-order-details-link-tag' to={`/buyer/supplier-details/${orderDetails?.supplier_id}`}>
               <span className='active-details-purchsed-by'>Sold By: </span>
               <span className='active-details-Buyer-name'>{orderDetails?.supplier?.supplier_name || "Pharmaceuticals Pvt Ltd"}</span>
             </Link>
-          )}
+          )} */}
         </div>
       </div>
       <div className='active-order-details-section'>
@@ -181,6 +181,12 @@ const OrdersDetails = ({ socket }) => {
                     </div>
                   </div>
                 )}
+                 {orderDetails?.buyer_id && orderDetails?.buyer?.buyer_name && (
+            <Link className='active-order-details-top-order-cont' to={`/buyer/supplier-details/${orderDetails?.supplier_id}`}>
+              <span className='details-payment-inner-text'>Sold By: </span>
+              <span className='details-payment-content'>{orderDetails?.supplier?.supplier_name || "Pharmaceuticals Pvt Ltd"}</span>
+            </Link>
+          )}
                 {orderDetails?.buyer?.buyer_type && (
                   <div className='active-order-details-top-order-cont'>
                     <div className='details-payment-inner-text'>Company Type</div>

@@ -26,7 +26,7 @@
     font-size: 20px;
       font-weight: 500;
     margin-top: 10px;
-    color:#4f4f4f;
+    color:#5e676f;
 }
 
 .send-enquiry-main-section {
@@ -62,7 +62,7 @@
 
 .send-enquiry-upper-left-head {
     font-size: 16px;
-    color:#4f4f4f;
+    color:#5e676f;
     font-weight: 500;
 }
 
@@ -90,8 +90,7 @@
 
 .send-enquiry-upper-right-number {
     font-size: 14px;
-    font-weight: 500;
-       color: #99a0ac;
+       color: #5e676f;
 }
 
 .send-enquiry-upper-right-button-sec {
@@ -234,7 +233,7 @@
     font-size: 22px;
     line-height: 26px;
       font-weight: 500;
-    color:#4f4f4f;
+    color:#5e676f;
 }
 
 .send-enquiry-inner-top-strength {
@@ -278,15 +277,14 @@
 
 .send-enquiry-inner-bootom-head {
     font-size: 14px;
-    color:#4f4f4f;
+    color:#5e676f;
     line-height: 16px;
     font-weight: 500 !important;
 }
 
 .send-enquiry-inner-bootom-text {
     font-size: 13px;
-    font-weight: 500;
-       color: #99a0ac;
+       color: #5e676f;
 }
 
 .send-enquiry-remove-section {
@@ -312,14 +310,14 @@
 
 .send-enquiry-supplier-list-heading {
     font-size: 20px;
-    color:#4f4f4f;
+    color:#5e676f;
     font-weight: 500;
 }
 
 .send-enquiry-supplier-list-text {
     font-size: 20px;
     font-weight: 500;
-    color:#4f4f4f;
+ color:#5e676f;
 }
 
 .send-enquiry-clear-icon {

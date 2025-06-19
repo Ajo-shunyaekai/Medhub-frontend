@@ -4,7 +4,7 @@
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
   background-color: #ffffff !important;
   border: 1px solid #212121 !important; 
-  color: #212121 !important;
+  color: #5E676F !important;
   padding: 6px 22px !important; 
   border-radius: 4px !important;
   display: flex !important;
@@ -29,7 +29,7 @@
 .modal-handle-save-invoice-cont {
   border: none !important;
   outline: none !important;
-  background-color:#3b71ca;;
+    background: linear-gradient(to left, #00dcff, #0075ce);
   color: white !important;
   padding: 6px 22px !important;
   border-radius: 4px !important;
@@ -58,7 +58,7 @@
   justify-content: center !important;
 }
 .modal-title {
-  color: #212121 !important;
+  color: #5E676F !important;
   font-size: 16px !important;
 }
 .modal-header {
@@ -98,8 +98,8 @@
   background-color: #fff !important;
 }
 .modal-class-input-invoice-cont {
-  color: #616161 !important;
-  font-weight: 500 !important;
+  color: #5E676F !important;
+  /* font-weight: 500 !important; */
   width: 100% !important;
   outline: none !important;
   border: none !important;

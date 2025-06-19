@@ -1,7 +1,7 @@
 .marketContainer{
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 30px;
 }
 
 /* Button container */

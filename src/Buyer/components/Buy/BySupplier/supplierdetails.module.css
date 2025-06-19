@@ -31,7 +31,7 @@
     padding-top: 4px;
     font-weight: 500;
     font-size: 20px;
-    color:#4f4f4f;
+    color:#5e676f;
 }
 
 .section {
@@ -67,7 +67,7 @@
 }
 
 .mainHead {
-    color:#4f4f4f;
+    color:#5e676f;
     font-size: 24px;
     font-weight: 500;
 }
@@ -134,8 +134,8 @@
 }
 
 .cardHead {
-     color:#4f4f4f;
-    font-size: 15px;
+     color:#5e676f;
+    font-size: 14px;
     font-weight: 500;
     width: 34%;
     min-width: 200px;
@@ -148,12 +148,12 @@
 }
 
 .cardContent {
+    color: #5e676f;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: normal;
     text-align: end;
     font-size: 14px;
-    font-weight: 500;
 }
 
 .cardMainContainer {
@@ -246,16 +246,17 @@
 }
 
 .mainCardsContainer {
-    display: flex;
-    flex-direction: column;
+    display: grid
+;
+    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
-}
+}   
 
 .productCont {
-    background-color: #fff;
+  background-color: #fff;
     border-radius: 4px;
- 
-    display: flex;
+    display: flex
+;
     align-items: center;
     gap: 20px;
     padding: 14px 18px;
@@ -263,9 +264,10 @@
 }
 
 .imgCont {
-    width: 80px;
-    height: 80px;
-    display: flex;
+       width: 100px;
+    height: 100px;
+    display: flex
+;
     justify-content: center;
 }
 
@@ -293,30 +295,31 @@
 }
 
 .infoMainContainer {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
+   display: flex    ;
+    flex-direction: column;
     gap: 10px;
 }
 
 .infoChild {
-    display: flex;
-    gap: 20px;
+  display: flex
+;
+    flex-direction: column;
+    gap: 10px;
     justify-content: start;
     width: 100%;
 
 }
 
 .infoSection {
-    width: 25%;
-    display: flex;
-    flex-direction: column;
+   display: flex;
+    gap: 20px;
 }
 
 .label {
-    color:#4f4f4f;
+      color: #5e676f;
     font-size: 14px;
     font-weight: 500;
+    min-width: 100px;
 }
 
 .value {
@@ -324,8 +327,7 @@
     text-overflow: ellipsis;
     white-space: normal;
     font-size: 14px;
-       color: #99a0ac;
-    font-weight: 500;
+       color: #5e676f;
 }
 
 .btnCont {

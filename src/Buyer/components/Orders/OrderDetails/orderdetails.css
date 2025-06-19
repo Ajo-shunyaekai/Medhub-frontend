@@ -63,7 +63,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   font-size: 20px;
   line-height: 26px;
   font-weight: 500;
-  color: #212121 !important;
+  color: #5e676f !important;
   display: flex;
   flex-direction: column;
 }
@@ -437,20 +437,20 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 }
 
 .table-g-driver-name {
-  color:#4f4f4f;
+  color:#5e676f;
   font-size: 14px;
-  font-weight: 500;
+  /* font-weight: 500; */
 }
 .table-g-not-names {
   font-weight: 500;
   font-size: 14px;
-     color: #99a0ac;
+     color: #5e676f;
 }
 
 .table-g-not-name {
   font-weight: 500;
   font-size: 14px;
-     color: #99a0ac;
+     color: #5e676f;
 }
 
 .active-order-details-payment-first-terms-heading {
@@ -657,7 +657,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 .details-payment-content {
   font-weight: 500;
   font-size: 14px;
-     color: #99a0ac;
+     color: #5e676f;
 }
 
 .details-payment-ul {
@@ -667,9 +667,9 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 }
 
 .details-payment-inner-text {
-  color:#4f4f4f;
+  color:#99a0ac;
   font-size: 14px;
-  font-weight: 500;
+  /* font-weight: 500; */
 }
 
 .icon {
@@ -698,7 +698,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 .details-address-text {
   font-weight: 500;
   font-size: 14px;
-     color: #99a0ac;
+     color: #5e676f;
   display: flex;
   gap: 12px;
 }

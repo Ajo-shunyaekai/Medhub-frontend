@@ -39,8 +39,8 @@
     width: 800px;
     outline: none !important;
     border: none !important;
-    color: #616161 !important;
-    font-weight: 500 !important;
+    color: #5e676f !important;
+    /* font-weight: 500 !important; */
     background-color: #ffffff !important;
     padding: 12px !important;
     font-size: 14px !important;
@@ -51,6 +51,7 @@
     color: #f60000;
 }
 .cancel-inquiry-heading{
+    color: #5e676f;
     font-size: 20px;
       font-weight: 500;
     margin-top: 10px;
@@ -83,7 +84,7 @@ flex-direction: column;
 }
 .form-cancel-text{
     font-size: 14px;
-       color: #99a0ac;
+       color: #5e676f;
 }
 .label {
     display: flex;
@@ -93,8 +94,8 @@ flex-direction: column;
 }
 .cancel-inquiry-text{
     font-size: 14px;
-       color: #99a0ac;
-    font-weight: 500;
+       color: #5e676f;
+    /* font-weight: 500; */
 }
 .buttonContainer {
     margin-top: 20px;

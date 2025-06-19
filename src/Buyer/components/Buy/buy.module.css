@@ -9,7 +9,7 @@
     margin: auto;
     display: flex;
     flex-direction: column;
-    gap:20px;
+    gap:30px;
 }
 
 .main::-webkit-scrollbar {
@@ -71,7 +71,7 @@
 .productBtn.active {
     background-color: #e1e1e4;
     border-color: #dadade;
-    color: #282f86;
+     color: #448bff;
 }
 .filterButton{
    background: linear-gradient(to left, #00dcff, #0075ce);

@@ -135,12 +135,7 @@ const BuyProduct = ({
         <Loader />
       ) : (
         <div className={styles.productContainer}>
-          <SearchSection
-            inputValue={inputValue}
-            handleInputChange={handleInputChange}
-            handleKeyDown={handleKeyDown}
-            placeholder="Search Products"
-          />
+         
           {(active === "product" || active === "market") && (
             <AccordionFilter
               isOpen={isOpen}
@@ -154,7 +149,13 @@ const BuyProduct = ({
               setSelectedLevel3Category={setSelectedLevel3Category}
             />
           )}
-          <div className={styles.tabContainer}>
+           <SearchSection
+            inputValue={inputValue}
+            handleInputChange={handleInputChange}
+            handleKeyDown={handleKeyDown}
+            placeholder="Search Products"
+          />
+          {/* <div className={styles.tabContainer}>
             <button
               onClick={() => setViewMode("card")}
               className={`${styles.tabButton} ${viewMode === "card" ? styles.activeTab : ""}`}
@@ -169,8 +170,15 @@ const BuyProduct = ({
             >
               <FaRegAddressCard className={styles.tabIcon} />
             </button>
-          </div>
-          {viewMode === "card" ? (
+          </div> */}
+          <ListView
+              productList={productList}
+              currentPage={currentPage}
+              totalItems={totalItems}
+              itemsPerPage={itemsPerPage}
+              onPageChange={handlePageChange}
+            />
+          {/* {viewMode === "card" ? (
             <ProductCard
               productList={productList}
               currentPage={currentPage}
@@ -179,14 +187,8 @@ const BuyProduct = ({
               onPageChange={handlePageChange}
             />
           ) : (
-            <ListView
-              productList={productList}
-              currentPage={currentPage}
-              totalItems={totalItems}
-              itemsPerPage={itemsPerPage}
-              onPageChange={handlePageChange}
-            />
-          )}
+            
+          )} */}
         </div>
       )}
     </>

@@ -34,6 +34,9 @@ const SupplierList = ({
           supplierList?.map((supplier) => (
             <div key={supplier.supplier_id} className={styles.mainCard}>
               <div className={styles.cardImgSection}>
+                <div className={styles.cardMainHeading}>
+                  {supplier.supplier_name}
+                </div>
                 <div className={styles.cardImg}>
                   <img
                     className={styles.productImg}
@@ -56,14 +59,10 @@ const SupplierList = ({
                     }}
                   />
                 </div>
-                <Link to={`/buyer/supplier-details/${supplier.supplier_id}`}>
-                  <div className={styles.cardButton}>View Details</div>
-                </Link>
+               
               </div>
               <div className={styles.cardContentSection}>
-                <div className={styles.cardMainHeading}>
-                  {supplier.supplier_name}
-                </div>
+                
                 <div className={styles.cardInnerContainer}>
                   <span className={styles.cardHead}>Company Type</span>
                   <span className={styles.cardText}>
@@ -81,12 +80,18 @@ const SupplierList = ({
                   <span className={styles.cardText}>
                     {supplier.country_of_operation?.length > 0
                       ? `${supplier.country_of_operation[0]}${
-                          supplier.country_of_operation.length > 1 ? ", ..." : ""
+                          supplier.country_of_operation.length > 6 ? ", ..." : ""
                         }`
                       : "N/A"}
-                  </span>
+                  </span> 
                 </div>
               </div>
+
+               <Link to={`/buyer/supplier-details/${supplier.supplier_id}`}>
+               <div className={styles.buttonContainer}>
+                  <div className={styles.cardButton}>View Details</div>
+                  </div>
+                </Link>
             </div>
           ))
         ) : (
