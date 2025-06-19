@@ -645,6 +645,9 @@ const Edit = () => {
                   format="dd/MM/yyyy"
                   placeholder="dd/MM/yyyy"
                   clearIcon={null}
+                  onKeyDown={(e) => {
+                    e.preventDefault();
+                  }}
                 />
               </div>
 
@@ -968,6 +971,9 @@ const Edit = () => {
                       disabledDate={(current) =>
                         current && current < moment()?.endOf("day")
                       }
+                      onKeyDown={(e) => {
+                        e.preventDefault();
+                      }}
                     />
                   </div>
                   <span className={styles?.error}>

@@ -301,6 +301,7 @@ const SignUp = ({ socket }) => {
     const alphanumericNoSpaceRegex = /^[a-zA-Z0-9]*$/;
     const yearlyPurchaseValueRegex = /^\d{0,8}$/;
     const pincodeValueRegex = /^\d{0,6}$/; //only numbers
+    const numericRegex = /^[0-9]*$/; // Only digits
 
     // Handle license expiry date validation
     if (name === "companyLicenseExpiry") {
@@ -458,6 +459,16 @@ const SignUp = ({ socket }) => {
       }
     }
 
+    if (name === "annualTurnover") {
+      if (!numericRegex.test(value)) {
+        setErrors((prevState) => ({
+          ...prevState,
+          annualTurnover: "",
+        }));
+        return;
+      }
+    }
+
     if (name === "pincode") {
       if (!/^[A-Za-z0-9-]{0,8}$/.test(value)) {
         setErrors((prevState) => ({
@@ -488,6 +499,15 @@ const SignUp = ({ socket }) => {
         ...prevState,
         delivertime: "Invalid delivery time",
       }));
+    // } else if (name === "annualTurnover") {
+    //   if (!numericRegex.test(value)) {
+    //     // Prevent non-numeric input and reset the value
+    //     setFormData((prevState) => ({
+    //       ...prevState,
+    //       [name]: value.replace(/[^0-9]/g, ""), // Strip non-numeric characters
+    //     }));
+    //     return;
+    //   }
     } else {
       setFormData((prevState) => ({
         ...prevState,
@@ -1312,6 +1332,9 @@ const SignUp = ({ socket }) => {
                         showYearDropdown
                         scrollableYearDropdown
                         disabledKeyboardNavigation={false}
+                        onKeyDown={(e) => {
+                          e.preventDefault();
+                        }}
                       />
                     </div>
 
@@ -1393,7 +1416,37 @@ const SignUp = ({ socket }) => {
                         </div>
                       )}
                     </div>
-                   
+                    <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
+                        Annual Turnover
+                      </label>
+                      <input
+                        className={styles.signupFormSectionInput}
+                        type="text"
+                        name="annualTurnover"
+                        placeholder="Enter Annual Turnover in USD"
+                        value={formData.annualTurnover}
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
+                        Year Company Founded
+                      </label>
+                      <DatePicker
+                        className={styles.signupFormSectionInput}
+                        selected={selectedYear}
+                        name="yrFounded"
+                        onChange={handleYearChange}
+                        placeholderText="Select Year Company Founded"
+                        showYearPicker
+                        dateFormat="yyyy"
+                        maxDate={new Date()}
+                        onKeyDown={(e) => {
+                          e.preventDefault();
+                        }}
+                      />
+                    </div>
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
                         {" "}
@@ -1653,6 +1706,9 @@ const SignUp = ({ socket }) => {
                               showYearDropdown
                               scrollableYearDropdown
                               disabledKeyboardNavigation={false}
+                              onKeyDown={(e) => {
+                                e.preventDefault();
+                              }}
                             />
                           </div>
 

@@ -293,9 +293,42 @@ const Profile = () => {
                     </div>
                   </div>
                 )}
-
+                {user?.license_no && (
+                  <div className={styles.companyDetails}>
+                    <div className={styles.companyHead}>
+                      Company License No.
+                    </div>
+                    <div className={styles.companyText}>{user?.license_no}</div>
+                  </div>
+                )}
+                {user?.yrFounded && (
+                  <div className={styles.companyDetails}>
+                    <div className={styles.companyHead}>
+                    Year Company Founded
+                    </div>
+                    <div className={styles.companyText}>{user?.yrFounded}</div>
+                  </div>
+                )}
+                {user?.annualTurnover && (
+                  <div className={styles.companyDetails}>
+                    <div className={styles.companyHead}>
+                    Annual Turnover
+                    </div>
+                    <div className={styles.companyText}>{user?.annualTurnover} USD</div>
+                  </div>
+                )}
               </div>
               <div className={styles.companyInnerContainer}>
+                {user?.sales_person_name && (
+                  <div className={styles.companyDetails}>
+                    <div className={styles.companyHead}>
+                      Country of Operation
+                    </div>
+                    <div className={styles.companyText}>
+                      {user?.country_of_operation}
+                    </div>
+                  </div>
+                )}
 
                 {user?.activity_code && (
                   <div className={styles.companyDetails}>

@@ -352,6 +352,9 @@ const EditProformaInvoice = () => {
                 minDate={new Date()}
                 clearIcon={null}
                 format="dd/MM/yyyy"
+                onKeyDown={(e) => {
+                  e.preventDefault();
+                }}
               />
             </div>
             <div className={styles["create-invoice-div-container"]}>

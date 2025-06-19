@@ -510,6 +510,9 @@ const AddProduct = ({ placeholder }) => {
                           setFieldValue("purchasedOn", date); // This updates Formik's value
                         }}
                         onBlur={handleBlur} // Adds the blur event to track when the field is blurred
+                        onKeyDown={(e) => {
+                          e.preventDefault();
+                        }}
                       />
                       {touched.purchasedOn && errors.purchasedOn && (
                         <span className={styles.error}>
@@ -5728,6 +5731,9 @@ const AddProduct = ({ placeholder }) => {
                         setFieldValue("date", date); // This updates Formik's value
                       }}
                       onBlur={handleBlur} // Adds the blur event to track when the field is blurred
+                      onKeyDown={(e) => {
+                        e.preventDefault();
+                      }}
                     />
                     <Tooltip content="The date when the item was assembled or manufactured. if applicable for in stock"></Tooltip>
                   </div>
@@ -5799,22 +5805,22 @@ const AddProduct = ({ placeholder }) => {
                       const selectedValues = selectedOptions
                         ? selectedOptions.map((option) => option.label)
                         : [];
-                      setInventoryStockedCountries(
-                        selectedValues?.map((option) => ({
-                          label: option,
-                          value: option,
-                        })) || []
-                      );
+                      // setInventoryStockedCountries(
+                      //   selectedValues?.map((option) => ({
+                      //     label: option,
+                      //     value: option,
+                      //   })) || []
+                      // );
                       setFieldValue("countries", selectedValues); // Update Formik value with the selected country values
-                      if (selectedValues?.length == 0) {
-                        setStockedInDetails([
-                          {
-                            country: "",
-                            quantity: "",
-                            placeholder: "Enter Quantity",
-                          },
-                        ]);
-                      }
+                      // if (selectedValues?.length == 0) {
+                      //   setStockedInDetails([
+                      //     {
+                      //       country: "",
+                      //       quantity: "",
+                      //       placeholder: "Enter Quantity",
+                      //     },
+                      //   ]);
+                      // }
                     }}
                   />
                   {touched.countries && errors.countries && (
@@ -5858,13 +5864,13 @@ const AddProduct = ({ placeholder }) => {
                           options={countries}
                           placeholder="Select Country where Stock Trades"
                           value={countries.find(
-                            (option) => option.value === stock.country
+                            (option) => option.label === stock.country
                           )}
                           onBlur={handleBlur}
                           onChange={(option) =>
                             setFieldValue(
                               `stockedInDetails.${index}.country`,
-                              option.value
+                              option.label
                             )
                           }
                           // isDisabled={inventoryStockedCountries?.length == 0}
@@ -6224,6 +6230,9 @@ const AddProduct = ({ placeholder }) => {
                         disabledDate={(current) =>
                           current && current < moment().endOf("day")
                         }
+                        onKeyDown={(e) => {
+                          e.preventDefault();
+                        }}
                       />
                     </div>
                     <span className={styles.error}>

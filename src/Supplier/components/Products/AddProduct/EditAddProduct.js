@@ -850,6 +850,9 @@ const EditAddProduct = ({ placeholder }) => {
                         formik.setFieldValue("purchasedOn", date); // This updates Formik's value
                       }}
                       onBlur={formik?.handleBlur} // Adds the blur event to track when the field is blurred
+                      onKeyDown={(e) => {
+                        e.preventDefault();
+                      }}
                     />
                     {formik.touched.purchasedOn &&
                       formik.errors.purchasedOn && (
@@ -6907,6 +6910,9 @@ const EditAddProduct = ({ placeholder }) => {
                       formik.setFieldValue("date", date); // This updates Formik's value
                     }}
                     onBlur={formik?.handleBlur} // Adds the blur event to track when the field is blurred
+                    onKeyDown={(e) => {
+                      e.preventDefault();
+                    }}
                   />
                   <Tooltip content="The date when the item was assembled or manufactured. if applicable for in stock"></Tooltip>
                 </div>
@@ -6957,23 +6963,23 @@ const EditAddProduct = ({ placeholder }) => {
                     const selectedValues = selectedOptions
                       ? selectedOptions.map((option) => option?.label)
                       : [];
-                    setInventoryStockedCountries(
-                      selectedValues?.map((option) => ({
-                        label: option,
-                        value: option,
-                      })) || []
-                    );
+                    // setInventoryStockedCountries(
+                    //   selectedValues?.map((option) => ({
+                    //     label: option,
+                    //     value: option,
+                    //   })) || []
+                    // );
                     formik.setFieldValue("countries", selectedValues); // Update Formik value with the selected country values
-                    if (selectedValues?.length == 0) {
-                      setStockedInDetails([
-                        {
-                          country: "",
-                          quantity: "",
-                          type: "Box",
-                          placeholder: "Enter Box Quantity",
-                        },
-                      ]);
-                    }
+                    // if (selectedValues?.length == 0) {
+                    //   setStockedInDetails([
+                    //     {
+                    //       country: "",
+                    //       quantity: "",
+                    //       type: "Box",
+                    //       placeholder: "Enter Box Quantity",
+                    //     },
+                    //   ]);
+                    // }
                   }}
                 />
                 {formik.touched.countries && formik.errors.countries && (
@@ -7018,22 +7024,16 @@ const EditAddProduct = ({ placeholder }) => {
                     </label>
                     <Select
                       className={styles.formSelect}
-                      options={countries.map((country) => ({
-                        label: country,
-                        value: country,
-                      }))} // Map countries to the correct format
+                      options={countries} // Map countries to the correct format
                       placeholder="Select Country where Stock Trades"
-                      value={countries
-                        .map((country) => ({
-                          label: country,
-                          value: country,
-                        }))
-                        .find((option) => option.value === stock?.country)} // Find the selected country
+                      value={countries.find(
+                        (option) => option.label == stock?.country
+                      )} // Find the selected country
                       onBlur={formik?.handleBlur}
                       onChange={(option) =>
                         formik.setFieldValue(
                           `stockedInDetails.${index}.country`,
-                          option?.value
+                          option?.label
                         )
                       }
                       name={`stockedInDetails.${index}.country`}
@@ -7363,6 +7363,9 @@ const EditAddProduct = ({ placeholder }) => {
                           );
                         }}
                         onBlur={formik?.handleBlur}
+                        onKeyDown={(e) => {
+                          e.preventDefault();
+                        }}
                       />
                       <span
                         className={styles.infoTooltip}

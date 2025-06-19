@@ -256,6 +256,7 @@ const SupplierSignUp = ({ socket }) => {
   const handleChange = (event) => {
     const { name, value } = event.target;
     const alphanumericNoSpaceRegex = /^[a-zA-Z0-9]*$/;
+    const numericRegex = /^[0-9]*$/; // Only digits
 
     // Handle license expiry date validation
     if (name === "companyLicenseExpiry") {
@@ -416,6 +417,16 @@ const SupplierSignUp = ({ socket }) => {
         pincode: `Only alphanumeric characters and hyphens allowed (max 8)`,
       }));
       return;
+    }
+
+    if (name === "annualTurnover") {
+      if (!numericRegex.test(value)) {
+        setErrors((prevState) => ({
+          ...prevState,
+          annualTurnover: "",
+        }));
+        return;
+      }
     }
 
     setFormData((prevState) => ({ ...prevState, [name]: value }));
@@ -1192,6 +1203,9 @@ const SupplierSignUp = ({ socket }) => {
                         showYearDropdown
                         scrollableYearDropdown
                         disabledKeyboardNavigation={false}
+                        onKeyDown={(e) => {
+                          e.preventDefault();
+                        }}
                       />
                     </div>
 
@@ -1257,7 +1271,37 @@ const SupplierSignUp = ({ socket }) => {
                         </div>
                       )}
                     </div>
-                  
+                    <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
+                        Annual Turnover
+                      </label>
+                      <input
+                        className={styles.signupFormSectionInput}
+                        type="text"
+                        name="annualTurnover"
+                        placeholder="Enter Annual Turnover in USD"
+                        value={formData.annualTurnover}
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
+                        Year Company Founded
+                      </label>
+                      <DatePicker
+                        className={styles.signupFormSectionInput}
+                        selected={selectedYear}
+                        name="yrFounded"
+                        onChange={handleYearChange}
+                        placeholderText="Select Year Company Founded"
+                        showYearPicker
+                        dateFormat="yyyy"
+                        maxDate={new Date()}
+                        onKeyDown={(e) => {
+                          e.preventDefault();
+                        }}
+                      />
+                    </div>
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
                         Bank Details<span className={styles.labelStamp}>*</span>
@@ -1548,6 +1592,9 @@ const SupplierSignUp = ({ socket }) => {
                                 showYearDropdown
                                 scrollableYearDropdown
                                 disabledKeyboardNavigation={false}
+                                onKeyDown={(e) => {
+                                  e.preventDefault();
+                                }}
                               />
                             </div>
                             {certificateFileNDate.length > 1 && (

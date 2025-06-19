@@ -1157,6 +1157,9 @@ const EditProfileDetails = () => {
                   disabledDate={(current) =>
                     current && current < moment()?.endOf("day")
                   }
+                  onKeyDown={(e) => {
+                    e.preventDefault();
+                  }}
                 />
               </div>
 
@@ -1523,6 +1526,9 @@ const EditProfileDetails = () => {
                       disabledDate={(current) =>
                         current && current < moment()?.endOf("day")
                       }
+                      onKeyDown={(e) => {
+                        e.preventDefault();
+                      }}
                     />
                   </div>
                   <span className={styles?.error}>
