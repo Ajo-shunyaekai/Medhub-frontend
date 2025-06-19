@@ -167,7 +167,7 @@
   display: none;
 }
 .editProfileHead {
-  color:#4f4f4f;
+  color:#5e676f;
   font-size: 20px;
   font-weight: 500;
   padding-top: 10px;
@@ -191,16 +191,15 @@
 }
 
 .editProfileInnerHead {
-  font-size: 16px;
-  color: #212121 !important;
-  font-weight: 500;
+  font-size: 14px;
+  color:#99a0ac;
 }
 .editProfileInnerText {
   white-space: normal;
   word-wrap: break-word;
   word-break: break-word;
   overflow-wrap: break-word;
-     color: #99a0ac;
+  color:#5e676f;
   font-size: 14px;
   font-weight: 500;
 }
@@ -209,8 +208,8 @@
   word-wrap: break-word;
   word-break: break-word;
   overflow-wrap: break-word;
-     color: #99a0ac;
-  font-size: 15px;
+   color:#5e676f;
+  font-size: 14px;
   font-weight: 500;
 }
 .editProfileAddressContainer {

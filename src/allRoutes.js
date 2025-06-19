@@ -128,8 +128,8 @@ export const buyerNestedRoutes = [
     ],
   },
   {
-    // path: "search-product-details/:id",
-    path: "search-product-details",
+    path: "search-product-details/:id",
+    // path: "search-product-details",
     component: lazy(() =>
       import("./Buyer/components/Buy/Details/SearchProductDetails")
     ),

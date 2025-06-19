@@ -31,9 +31,9 @@
     gap: 10px;
 }
 .buyer-details-left-link-container{
-    color: #282f86;
+        color: #3b71ca;
+ 
     font-size: 13px;
-    font-weight: 500;
     cursor: pointer !important;
 }
 .buyer-details-edit-button {
@@ -110,7 +110,7 @@
 }
 
 .buyer-details-container-heading {
-    color:#4f4f4f;
+    color:#5e676f;
     font-size: 20px;
     font-weight: 500;
 }
@@ -206,13 +206,12 @@
 .buyer-details-company-type-sec-head {
     font-size: 14px;
      font-weight: 500;
-color:#4f4f4f;
+color:#5e676f;
 }
 
 .buyer-details-company-type-sec-text {
     font-size: 14px;
-       color: #99a0ac;
-     font-weight: 500;
+     color:#5e676f;
 }
 
 .buyer-details-company-type-section {
@@ -276,21 +275,20 @@ color:#4f4f4f;
 }
 
 .buyer-details-description-head {
-    color:#4f4f4f;
+    color:#5e676f;
     font-size: 14px;
     font-weight: 500;
 }
 
 .buyer-details-description-content {
     font-size: 13px;
-       color: #99a0ac;
-    font-weight: 500;
+      color:#5e676f;
 }
 
 .buyer-details-left-uppar-head {
     font-size: 20px;
     font-weight: 500;
-    color:#4f4f4f;
+       color: #5e676f;
 }
 
 .buyer-details-left-inner-sec-text {
@@ -416,8 +414,7 @@ color:#4f4f4f;
 .docx-url {
     cursor: pointer !important;
     text-decoration: none !important;
-    color: #616161 !important;
-    font-weight: 500 !important;
+    color:#5e676f !important;
     font-size: 12px !important;
     white-space: normal !important;
     word-wrap: break-word !important;
@@ -428,7 +425,7 @@ color:#4f4f4f;
 .expiry-date {
     font-size: 12px;
        color: #99a0ac;
-    font-weight: 500;
+  
 }
 
 .buyer-details-card-container {
@@ -442,7 +439,7 @@ color:#4f4f4f;
 
 .buyer-details-company-logo-heading {
     font-size: 14px;
-    color:#4f4f4f;
+    color:#5e676f;
     font-weight: 500;
 }
 
@@ -450,7 +447,7 @@ color:#4f4f4f;
     font-size: 14px;
     font-weight: 500;
     min-width: 240px;
-    color:#4f4f4f;
+    color:#5e676f;
 }
 
 .buyer-details-company-img-container {
@@ -470,8 +467,7 @@ color:#4f4f4f;
 
 .buyer-details-inner-text {
     font-size: 13px;
-       color: #99a0ac;
-     font-weight: 500;
+     color:#5e676f;
     text-align: end;
     display: -webkit-box;
 }
@@ -660,7 +656,7 @@ color:#4f4f4f;
     border: 1px solid #212121;
     border-radius: 4px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, .05) !important;
-    color:#4f4f4f;
+    color:#5e676f;
     align-items: center;
     cursor: pointer !important;
     ;

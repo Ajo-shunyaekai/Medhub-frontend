@@ -14,11 +14,6 @@
 .container::-webkit-scrollbar {
     display: none;
 }
-.contain{
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-}
 .headingSecContainer{
     width: 100%;
     display: flex;
@@ -29,7 +24,7 @@
     font-size: 20px;
       font-weight: 500;
     padding-top: 5px;
-    color:#4f4f4f;
+    color:#5e676f;
 }
 
 .innerHead {
@@ -89,7 +84,7 @@
 }
 
 .medicineName {
-    color:#4f4f4f;
+    color:#5e676f;
     font-size: 28px;
     font-weight: 500;
 }
@@ -127,7 +122,7 @@
     font-size: 14px;
     font-weight: 500;
     width: 250px;
-    color:#4f4f4f;
+    color:#5e676f;
 }
 
 .medicineHead2 {
@@ -143,35 +138,33 @@
 
 .medicineText {
     width: 50%;
-       color: #99a0ac;
+       color: #5e676f;
     font-size: 14px;
-    font-weight: 500;
+    /* font-weight: 500; */
     word-wrap: break-word; 
     white-space: normal;     
     overflow-wrap: break-word;
 }
 .medicineTexts{
     width: 75%;
-       color: #99a0ac;
+       color: #5e676f;
     font-size: 14px;
-    font-weight: 500;
     word-wrap: break-word; 
     white-space: normal;     
     overflow-wrap: break-word;
 }
 .medicineContent{
-       color: #99a0ac;
+       color: #5e676f;
     font-size: 14px;
-    font-weight: 500;
     word-wrap: break-word; 
     white-space: normal;     
     overflow-wrap: break-word;
     width: 100%; 
 }
 .medicineDescriptionContent{
-       color: #99a0ac;
+       color: #5e676f;
     font-size: 14px;
-    font-weight: 500;
+    /* font-weight: 500; */
     word-wrap: break-word; 
     white-space: normal;     
     overflow-wrap: break-word;
@@ -219,6 +212,7 @@
 }
 
 .inventoryInput {
+        box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
     background-color: #fff !important;
     border: none !important;
     border-radius: 4px !important;
@@ -485,15 +479,9 @@ cursor: pointer !important;
     flex-direction: column;
     gap: 10px;
 }
-@media(max-width:1520px){
-.container {
-   margin: unset;
-   max-width: 97%;
-}
-}
 @media(max-width:1400px){
     .container {
-       max-width: 98%;
+       max-width: 100%;
     }
     .PurcahseButton  {
         padding: 6px 0px;

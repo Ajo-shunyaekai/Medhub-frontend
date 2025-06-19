@@ -115,7 +115,7 @@ const SellerPurchasedOrderDetails = () => {
             padding: "30px",
             fontSize: "16px",
             lineHeight: "24px",
-            color: "#212121",
+            color: "#5e676f",
             backgroundColor: "#FFFFFF",
             boxShadow: "0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d",
           }}
@@ -216,8 +216,7 @@ const SellerPurchasedOrderDetails = () => {
                           <p
                             style={{
                               fontSize: "13px",
-                              fontWeight: "500",
-                              color: "#616161",
+                            color: "#5e676f",
                             }}
                           >
                             {/* {formatAddress(poDetails?.buyer_registered_address).line1} */}
@@ -225,8 +224,7 @@ const SellerPurchasedOrderDetails = () => {
                           <p
                             style={{
                               fontSize: "13px",
-                              fontWeight: "500",
-                              color: "#616161",
+                            color: "#5e676f",
                             }}
                           >
                             
@@ -239,8 +237,7 @@ const SellerPurchasedOrderDetails = () => {
                             <p
                               style={{
                                 fontSize: "13px",
-                                fontWeight: "500",
-                                color: "#616161",
+                             color: "#5e676f",
                               }}
                             >
                               {poDetails?.buyer_country_code}{" "}
@@ -253,8 +250,7 @@ const SellerPurchasedOrderDetails = () => {
                             <p
                               style={{
                                 fontSize: "13px",
-                                fontWeight: "500",
-                                color: "#616161",
+                              color: "#5e676f",
                               }}
                             >
                               {poDetails?.buyer_email}
@@ -267,7 +263,7 @@ const SellerPurchasedOrderDetails = () => {
                               style={{
                                 fontSize: "13px",
                                 fontWeight: "500",
-                                color: "#616161",
+                              color: "#5e676f",
                               }}
                             >
                               Company Registration No. :
@@ -275,8 +271,7 @@ const SellerPurchasedOrderDetails = () => {
                             <p
                               style={{
                                 fontSize: "13px",
-                                fontWeight: "500",
-                                color: "#616161",
+                              color: "#5e676f",
                               }}
                             >
                               &nbsp;{poDetails?.buyer_regNo}
@@ -313,8 +308,7 @@ const SellerPurchasedOrderDetails = () => {
                           <p
                             style={{
                               fontSize: "13px",
-                              fontWeight: "500",
-                              color: "#616161",
+                           color: "#5e676f",
                               textAlign: "end",
                             }}
                           >
@@ -323,8 +317,7 @@ const SellerPurchasedOrderDetails = () => {
                           <p
                             style={{
                               fontSize: "13px",
-                              fontWeight: "500",
-                              color: "#616161",
+                            color: "#5e676f",
                               textAlign: "end",
                             }}
                           >
@@ -336,8 +329,7 @@ const SellerPurchasedOrderDetails = () => {
                             <p
                               style={{
                                 fontSize: "13px",
-                                fontWeight: "500",
-                                color: "#616161",
+                               color: "#5e676f",
                               }}
                             >
                               {poDetails?.supplier_country_code}{" "}
@@ -350,8 +342,7 @@ const SellerPurchasedOrderDetails = () => {
                             <p
                               style={{
                                 fontSize: "13px",
-                                fontWeight: "500",
-                                color: "#616161",
+                              color: "#5e676f",
                               }}
                             >
                               {poDetails?.supplier_email}
@@ -360,11 +351,20 @@ const SellerPurchasedOrderDetails = () => {
                           <td
                             style={{ display: "flex", justifyContent: "end" }}
                           >
+                             <p
+                              style={{
+                                fontSize: "13px",
+                                fontWeight: "500",
+                              color: "#5e676f",
+                              }}
+                            >
+                              Company Registration No. :
+                            </p>
                             <p
                               style={{
                                 fontSize: "13px",
                                 fontWeight: "500",
-                                color: "#616161",
+                               color: "#5e676f",
                               }}
                             >
                               {poDetails?.supplier_regNo}
@@ -634,7 +634,7 @@ const SellerPurchasedOrderDetails = () => {
                           fontWeight: "500",
                           lineHeight: "20px",
                           marginTop: "4px",
-                          color: "#616161",
+                         color: "#5e676f",
                         }}
                       >
                         <p

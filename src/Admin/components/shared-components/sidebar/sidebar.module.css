@@ -171,8 +171,7 @@
 }
 .dropdownText{
   font-size: 14.4px !important;
-  font-weight: 500 !important;
-  color: #212121 !important;
+    color: #5e676f !important;
   cursor: pointer !important;
   display: flex !important;
   justify-content: space-between !important;
@@ -296,9 +295,8 @@
 
 .sidebar_text {
   font-size: 14.4px;
-    font-weight: 500;
     display: flex;
-    color: #212121 !important;
+        color: #5e676f !important;
     gap: 10px;
     text-decoration: none;
     justify-content: start;

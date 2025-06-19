@@ -63,14 +63,14 @@ body::first-letter {
   width: 100%;
   display: flex;
   justify-content: start;
-  gap: 20px;
+  gap: 10px;
 }
 
 .buyer-panel-cart-left-main-container {
   display: flex;
   justify-content: start;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
   width: 70%;
 }
 
@@ -78,13 +78,13 @@ body::first-letter {
   width: 100%;
   display: flex;
   justify-content: start;
-  gap: 20px;
+  gap: 10px;
 }
 
 .buyer-panel-cart-top-right-section {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
   width: 70%;
 }
 
@@ -109,10 +109,9 @@ body::first-letter {
 }
 
 .buyer-panel-top-head {
-  color:#4f4f4f;
-  font-weight: 500;
-  font-size: 0.825rem;
-  line-height: 18px;
+     color: #99a0ac;
+    font-size: 14px;
+    line-height: 18px;
 }
 
 .buyer-panel-pro-text {
@@ -121,16 +120,16 @@ body::first-letter {
 }
 
 .buyer-panel-top-text {
-     color: #99a0ac;
-  font-size: 0.825rem;
-  font-weight: 500;
+        color: #5e676f;
+    font-size: 0.825rem;
+    font-weight: 500;
 }
 
 .buyer-panel-bottom-container {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  gap: 20px;
+  gap: 10px;
 }
 
 .buyer-panel-bottom-cart-cont {
@@ -148,15 +147,14 @@ body::first-letter {
 }
 
 .buyer-panel-bottom-head {
-  font-weight: 500;
-  color: #212121 !important;
-  font-size: 0.825rem;
+color: #5e676f !important;
+    font-size: 14px;
 }
 
 .buyer-panel-bottom-text {
   font-size: 0.825rem;
-     color: #99a0ac;
-  font-weight: 500;
+    color: #448bff;
+    font-weight: 500;
 }
 
 .buyer-panel-cart-top-left-section {
@@ -166,21 +164,20 @@ body::first-letter {
   padding: 12px 10px;
   display: flex;
   flex-direction: column;
-  row-gap: 20px;
+  row-gap: 10px;
    
 }
 
 .buyer-panel-left-head {
-  color:#4f4f4f;
-  font-size: 0.825rem;
-  font-weight: 500;
+  color: #99a0ac;
+    font-size: 0.825rem;
 }
 
 .admin-panel-cart-left-bottom-section {
   display: flex;
   justify-content: space-between;
   align-items: start;
-  gap: 20px;
+  gap: 10px;
   width: 100%;
 }
 
@@ -202,9 +199,9 @@ body::first-letter {
 }
 
 .admin-panel-left-bottom-pert {
-     color: #99a0ac;
-  font-size: 14px;
-  font-weight: 500;
+   color: #5e676f;
+    font-size: 14px;
+    font-weight: 500;
 }
 
 .admin-panel-left-bottom-plus {
@@ -213,9 +210,8 @@ body::first-letter {
 }
 
 .admin-panel-left-bottom-head {
-  font-weight: 500;
-  font-size: 0.825rem;
-  color: #212121 !important;
+font-size: 0.825rem;
+    color: #5e676f !important;
 }
 
 .buyer-panel-cart-right-main-container {
@@ -232,9 +228,8 @@ body::first-letter {
 }
 
 .buyer-panel-right-head {
-  font-weight: 500;
-  color:#4f4f4f;
-  font-size: 0.825rem;
+  color: #99a0ac;
+    font-size: 0.825rem;
 }
 
 .buyer-panel-right-country-section {
@@ -262,7 +257,6 @@ body::first-letter {
 .buyer-panel-country-price {
      color: #99a0ac;
   font-size: 13px;
-  font-weight: 550;
 }
 
 .buyer-panel-country-name {
@@ -273,7 +267,7 @@ body::first-letter {
   width: 100%;
   display: flex
 ;
-  gap: 20px;
+  gap: 10px;
   margin-bottom: 20rem;
 }
 
