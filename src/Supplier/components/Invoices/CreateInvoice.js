@@ -355,7 +355,7 @@ const CreateInvoice = ({ socket }) => {
     if (!formData.supplierEmail) formErrors.supplierEmail = "Supplier Email is Required";
     if (!formData.supplierAddress) formErrors.supplierAddress = "Supplier Address is Required";
     if (!formData.supplierArea) formErrors.supplierArea = "Supplier Area/Locality is Required";
-    if (!formData.supplierLandmark) formErrors.supplierLandmark = "Supplier Landmark is Required";
+    // if (!formData.supplierLandmark) formErrors.supplierLandmark = "Supplier Landmark is Required";
     if (!formData.supplierCountry) formErrors.supplierCountry = "Supplier Country is Required";
     if (!formData.supplierState) formErrors.supplierState = "Supplier State is Required";
     if (!formData.supplierCity) formErrors.supplierCity = "Supplier City is Required";
@@ -367,11 +367,11 @@ const CreateInvoice = ({ socket }) => {
     if (!formData.buyerEmail) formErrors.buyerEmail = "Buyer Email is Required";
     if (!formData.buyerAddress) formErrors.buyerAddress = "Buyer Address is Required";
     if (!formData.buyerArea) formErrors.buyerArea = "Buyer Area/Locality is Required";
-    if (!formData.buyerLandmark) formErrors.buyerLandmark = "Buyer Landmark is Required";
+    // if (!formData.buyerLandmark) formErrors.buyerLandmark = "Buyer Landmark is Required";
     if (!formData.buyerCountry) formErrors.buyerCountry = "Buyer Country is Required";
     if (!formData.buyerState) formErrors.buyerState = "Buyer State is Required";
     if (!formData.buyerCity) formErrors.buyerCity = "Buyer City is Required";
-    if (!formData.buyerPincode) formErrors.buyerPincode = "Buyer Pincode is Required";
+    // if (!formData.buyerPincode) formErrors.buyerPincode = "Buyer Pincode is Required";
     if (!formData.buyerMobile) formErrors.buyerMobile = "Buyer Mobile is Required";
     if (!formData.buyerVatRegNo) formErrors.buyerVatRegNo = "Buyer VAT Reg No. is Required";
 
@@ -743,7 +743,7 @@ const CreateInvoice = ({ socket }) => {
               {errors.buyerArea && <p style={{ color: "red" }}>{errors.buyerArea}</p>}
             </div>
             <div className={styles["create-invoice-div-container"]}>
-              <label className={styles["create-invoice-div-label"]}>Landmark*</label>
+              <label className={styles["create-invoice-div-label"]}>Landmark</label>
               <input
                 className={styles["create-invoice-div-input"]}
                 type="text"
@@ -802,7 +802,7 @@ const CreateInvoice = ({ socket }) => {
               {errors.buyerCity && <p style={{ color: "red" }}>{errors.buyerCity}</p>}
             </div>
             <div className={styles["create-invoice-div-container"]}>
-              <label className={styles["create-invoice-div-label"]}>Pincode*</label>
+              <label className={styles["create-invoice-div-label"]}>Pincode</label>
               <input
                 className={styles["create-invoice-div-input"]}
                 type="text"
