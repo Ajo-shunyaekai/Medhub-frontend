@@ -293,7 +293,7 @@ const Profile = () => {
                     </div>
                   </div>
                 )}
-                {user?.license_no && (
+                {/* {user?.license_no && (
                   <div className={styles.companyDetails}>
                     <div className={styles.companyHead}>
                       Company License No.
@@ -316,10 +316,10 @@ const Profile = () => {
                     </div>
                     <div className={styles.companyText}>{user?.annualTurnover} USD</div>
                   </div>
-                )}
+                )} */}
               </div>
               <div className={styles.companyInnerContainer}>
-                {user?.sales_person_name && (
+                {/* {user?.sales_person_name && (
                   <div className={styles.companyDetails}>
                     <div className={styles.companyHead}>
                       Country of Operation
@@ -328,7 +328,7 @@ const Profile = () => {
                       {user?.country_of_operation}
                     </div>
                   </div>
-                )}
+                )} */}
 
                 {user?.activity_code && (
                   <div className={styles.companyDetails}>
@@ -357,7 +357,7 @@ const Profile = () => {
                       Annual Turnover
                     </div>
                     <div className={styles.companyText}>
-                      {user?.annualTurnover}
+                      {user?.annualTurnover} USD
                     </div>
                   </div>
                 )}

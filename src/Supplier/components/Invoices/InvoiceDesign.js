@@ -138,21 +138,21 @@ function InvoiceDesign() {
                                                     <td style={{ verticalAlign: 'top', width: '60%', paddingRight: '20px', paddingBottom: '20px' }}>
                                                         <h1 style={{ fontSize: '14px', fontWeight: 500, paddingBottom: '3px' }}>From:</h1>
                                                         <p style={{ fontSize: '16px', fontWeight: 500 }}>{invoiceDetails?.supplier_name}</p>
-                                                        <p style={{ fontSize: '13px', color: "#99a0ac", fontWeight: '500' }}>{supplierAddressLines[0]}</p>
-                                                        <p style={{ fontSize: '13px', color: "#99a0ac", fontWeight: '500' }}>{supplierAddressLines[1]}</p>
+                                                        <p style={{ fontSize: '13px',  color: "#5e676f", }}>{supplierAddressLines[0]}</p>
+                                                        <p style={{ fontSize: '13px',  color: "#5e676f", }}>{supplierAddressLines[1]}</p>
                                                         <td style={{ display: 'flex', justifyContent: 'start' }}>
-                                                            <p style={{ fontSize: '13px', color: "#99a0ac", fontWeight: '500' }}>VAT Reg No:</p>
-                                                            <p style={{ fontSize: '13px', color: "#99a0ac", fontWeight: '500' }}>&nbsp;{invoiceDetails?.supplier_vat_reg_no}</p>
+                                                            <p style={{ fontSize: '13px',  color: "#5e676f", fontWeight: '500' }}>VAT Reg No:</p>
+                                                            <p style={{ fontSize: '13px',  color: "#5e676f",}}>&nbsp;{invoiceDetails?.supplier_vat_reg_no}</p>
                                                         </td>
                                                     </td>
                                                     <td style={{ verticalAlign: 'top', width: '40%', paddingBottom: '20px' }}>
                                                         <h1 style={{ fontSize: '14px', fontWeight: 500, paddingBottom: '3px', textAlign: 'end' }}>To:</h1>
                                                         <p style={{ fontSize: '16px', fontWeight: 500, textAlign: 'end' }}>{invoiceDetails?.buyer_name}</p>
-                                                        <p style={{ fontSize: '13px', color: "#99a0ac", fontWeight: '500', textAlign: 'end' }}>{buyerAddressLines[0]}</p>
-                                                        <p style={{ fontSize: '13px', color: "#99a0ac", fontWeight: '500', textAlign: 'end' }}>{buyerAddressLines[1]}</p>
+                                                        <p style={{ fontSize: '13px',  color: "#5e676f", textAlign: 'end' }}>{buyerAddressLines[0]}</p>
+                                                        <p style={{ fontSize: '13px', color: "#5e676f", textAlign: 'end' }}>{buyerAddressLines[1]}</p>
                                                         <td style={{ display: 'flex', justifyContent: 'end' }}>
-                                                            <p style={{ fontSize: '13px', fontWeight: '500', color: "#99a0ac" }}>VAT Reg No:</p>
-                                                            <p style={{ fontSize: '13px', fontWeight: '500', color: "#99a0ac" }}>&nbsp;{invoiceDetails?.buyer_vat_reg_no}</p>
+                                                            <p style={{ fontSize: '13px', fontWeight: '500',  color: "#5e676f", }}>VAT Reg No:</p>
+                                                            <p style={{ fontSize: '13px',  color: "#5e676f",}}>&nbsp;{invoiceDetails?.buyer_vat_reg_no}</p>
                                                         </td>
                                                     </td>
                                                 </tr>
@@ -201,15 +201,15 @@ function InvoiceDesign() {
                                                                         <h1 style={{ fontSize: '16px', fontWeight: '500', marginTop: '16px', textAlign: 'start' }}>Bank Details :</h1>
                                                                         <tr style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', paddingTop: '8px' }}>
                                                                             <p style={{ fontSize: '14px', fontWeight: '500', width: '100px' }}>Bank Name :</p>
-                                                                            <p style={{ fontSize: '14px', fontWeight: '500', color: "#99a0ac" }}>{invoiceDetails?.bank_name}</p>
+                                                                            <p style={{ fontSize: '14px',  color: "#5e676f", }}>{invoiceDetails?.bank_name}</p>
                                                                         </tr>
                                                                         <tr style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', paddingTop: '8px' }}>
                                                                             <p style={{ fontSize: '14px', fontWeight: '500', width: '100px' }}>Account No :</p>
-                                                                            <p style={{ fontSize: '14px', fontWeight: '500', color: "#99a0ac" }}>{invoiceDetails?.account_number}</p>
+                                                                            <p style={{ fontSize: '14px',  color: "#5e676f", }}>{invoiceDetails?.account_number}</p>
                                                                         </tr>
                                                                         <tr style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', paddingTop: '6px' }}>
                                                                             <p style={{ fontSize: '14px', fontWeight: '500', width: '100px' }}>Sort Code :</p>
-                                                                            <p style={{ fontSize: '14px', fontWeight: '500', color: "#99a0ac" }}>{invoiceDetails?.sort_code}</p>
+                                                                            <p style={{ fontSize: '14px',  color: "#5e676f", }}>{invoiceDetails?.sort_code}</p>
                                                                         </tr>
                                                                     </td>
                                                                     <td style={{ width: '550px' }}>

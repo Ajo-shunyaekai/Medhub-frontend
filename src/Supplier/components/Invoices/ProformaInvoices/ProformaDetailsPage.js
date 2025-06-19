@@ -278,8 +278,7 @@ function ProformaDetailsPage() {
                               <div
                                 style={{
                                   fontSize: "13px",
-                                  color: "#99a0ac",
-                                  fontWeight: "500",
+                                   color: "#5e676f",
                                 }}
                               >
                                 <p>{supplierAddressLine1}</p>
@@ -296,8 +295,7 @@ function ProformaDetailsPage() {
                                 <p
                                   style={{
                                     fontSize: "13px",
-                                    color: "#99a0ac",
-                                    fontWeight: "500",
+                                   color: "#5e676f",
                                   }}
                                 >
                                   {orderDetails.supplier_mobile}
@@ -314,8 +312,7 @@ function ProformaDetailsPage() {
                                 <p
                                   style={{
                                     fontSize: "13px",
-                                    color: "#99a0ac",
-                                    fontWeight: "500",
+                                    color: "#5e676f",
                                   }}
                                 >
                                   {orderDetails.supplier_email}
@@ -357,8 +354,7 @@ function ProformaDetailsPage() {
                               <div
                                 style={{
                                   fontSize: "13px",
-                                  color: "#99a0ac",
-                                  fontWeight: "500",
+                                  color: "#5e676f",
                                   textAlign: "end",
                                 }}
                               >
@@ -373,8 +369,7 @@ function ProformaDetailsPage() {
                                 <p
                                   style={{
                                     fontSize: "13px",
-                                    color: "#99a0ac",
-                                    fontWeight: "500",
+                                   color: "#5e676f",
                                   }}
                                 >
                                   {orderDetails.buyer_mobile}
@@ -388,8 +383,7 @@ function ProformaDetailsPage() {
                                 <p
                                   style={{
                                     fontSize: "13px",
-                                    color: "#99a0ac",
-                                    fontWeight: "500",
+                                    color: "#5e676f",
                                   }}
                                 >
                                   {orderDetails.buyer_email}
@@ -712,7 +706,7 @@ function ProformaDetailsPage() {
                                           <p
                                             style={{
                                               fontSize: "14px",
-                                              fontWeight: "500",
+                                              color: "#5e676f",
                                             }}
                                           >
                                             {bankDetails.accountNo}
@@ -740,7 +734,7 @@ function ProformaDetailsPage() {
                                           <p
                                             style={{
                                               fontSize: "14px",
-                                              fontWeight: "500",
+                                              color: "#5e676f",
                                             }}
                                           >
                                             {bankDetails.sortCode}
@@ -861,8 +855,7 @@ function ProformaDetailsPage() {
                         <div
                           style={{
                             fontSize: "13px",
-                            color: "#99a0ac",
-                            fontWeight: "500",
+                           color: "#5e676f",
                             lineHeight: "20px",
                             marginTop: "4px",
                           }}

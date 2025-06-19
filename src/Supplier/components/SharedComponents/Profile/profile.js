@@ -206,16 +206,7 @@ const Profile = () => {
                       </div>
                     </div>
                   )}
-                  {user?.activity_code && (
-                    <div className={styles.companyDetails}>
-                      <div className={styles.companyHead}>
-                        Business/Trade Activity Code
-                      </div>
-                      <div className={styles.companyText}>
-                        {user?.activity_code}
-                      </div>
-                    </div>
-                  )}
+                 
                   {user?.categories && (
                     <div className={styles.companyDetails}>
                       <div className={styles.companyHead}>
@@ -243,7 +234,7 @@ const Profile = () => {
                   )}
                 </div>
                 <div className={styles.companyInnerContainer}>
-                {user?.yrFounded && (
+                {/* {user?.yrFounded && (
                     <div className={styles.companyDetails}>
                       <div className={styles.companyHead}>
                       Year Company Founded
@@ -262,15 +253,21 @@ const Profile = () => {
                         {user?.annualTurnover} USD
                       </div>
                     </div>
-                  )}
-                  {user?.country_of_operation && (
+                  )} */}
+                 {user?.activity_code && (
                     <div className={styles.companyDetails}>
                       <div className={styles.companyHead}>
-                        Country of Operation
+                        Business/Trade Activity Code
                       </div>
                       <div className={styles.companyText}>
-                        {user?.country_of_operation}
+                        {user?.activity_code}
                       </div>
+                    </div>
+                  )}
+                   {user?.tags && (
+                    <div className={styles.companyDetails}>
+                      <div className={styles.companyHead}>Tags</div>
+                      <div className={styles.companyText}>{user?.tags}</div>
                     </div>
                   )}
                   {user?.country_of_origin && (
@@ -281,20 +278,8 @@ const Profile = () => {
                       </div>
                     </div>
                   )}
-                  {user?.tags && (
-                    <div className={styles.companyDetails}>
-                      <div className={styles.companyHead}>Tags</div>
-                      <div className={styles.companyText}>{user?.tags}</div>
-                    </div>
-                  )}
-                  {user?.license_no && (
-                    <div className={styles.companyDetails}>
-                      <div className={styles.companyHead}>
-                        Company License No.
-                      </div>
-                      <div className={styles.companyText}>{user?.license_no}</div>
-                    </div>
-                  )}
+                 
+               
                   {user?.license_expiry_date && (
                     <div className={styles.companyDetails}>
                       <div className={styles.companyHead}>
@@ -311,7 +296,17 @@ const Profile = () => {
                         Annual Turnover
                       </div>
                       <div className={styles.companyText}>
-                        {user?.annualTurnover}
+                        {user?.annualTurnover} USD
+                      </div>
+                    </div>
+                  )}
+                    {user?.country_of_operation && (
+                    <div className={styles.companyDetails}>
+                      <div className={styles.companyHead}>
+                        Country of Operation
+                      </div>
+                      <div className={styles.companyText}>
+                        {user?.country_of_operation}
                       </div>
                     </div>
                   )}

@@ -1271,7 +1271,7 @@ const SupplierSignUp = ({ socket }) => {
                         </div>
                       )}
                     </div>
-                    <div className={styles.signupFormSectionDiv}>
+                    {/* <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
                         Annual Turnover
                       </label>
@@ -1301,7 +1301,7 @@ const SupplierSignUp = ({ socket }) => {
                           e.preventDefault();
                         }}
                       />
-                    </div>
+                    </div> */}
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
                         Bank Details<span className={styles.labelStamp}>*</span>

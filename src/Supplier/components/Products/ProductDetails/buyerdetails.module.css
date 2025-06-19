@@ -1,364 +1,368 @@
 .container {
-  width: 100%;
-  max-width: 98%;
-  height: 100vh;
-  overflow: scroll;
-  background-attachment: fixed;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+    width: 100%;
+    max-width: 98%;
+    height: 100vh;
+    overflow: scroll;
+    background-attachment: fixed;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .container::-webkit-scrollbar {
-  display: none;
+    display: none;
 }
 .logoSection{
-width: 60px;
-height: auto;
+      width: 80px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .logoSection img{
-width: 100%;
-height: auto;
+   object-fit: scale-down;
+    width: 100%;
+    height: 80px; 
 }
 .heading {
-  padding-top: 4px;
-  font-weight: 500;
-  font-size: 20px;
-  color:#4f4f4f;
+    padding-top: 4px;
+    font-weight: 500;
+    font-size: 20px;
+    color:#5e676f;
 }
 
 .section {
-  width: 100%;
-  display: flex;
-  gap: 20px;
-  margin-bottom: 20rem;
-  justify-content: start;
+    width: 100%;
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20rem;
+    justify-content: start;
 }
-.reactContainer{
-  color: #fff;
-  background-color: #31c971;
-  padding: 4px 8px;
-  display: flex
-;
-  border-radius: 4px;
-  cursor: pointer !important;
-}
+
 .leftCard {
-  width: 50%;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .cardSection {
-  background-color: #fff;
-  border-radius: 4px;
-   
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20px;
-  padding: 20px 24px;
-  width: 100%;
+    background-color: #fff;
+    border-radius: 4px;
+ 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 24px;
+    width: 100%;
 }
 
 .innerSection {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 .mainHead {
-  color:#4f4f4f;
-  font-size: 24px;
-  font-weight: 500;
+    color:#5e676f;
+    font-size: 24px;
+    font-weight: 500;
 }
-
+.typeLink{
+    color:#3b71ca;;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+}
 .typeHead {
-  font-size: 14px;
-  font-weight: 500;
+    font-size: 14px;
+    font-weight: 500;
+    color: #616161 !important;
 }
 
 .headIcons {
-     align-items: center;
-    border-radius: 4px;
-   
     align-items: center;
+    border-radius: 4px;
+    color: #fff;
     cursor: pointer !important;
-    display: flex
-;
-    gap: 10px;
+    display: flex;
     justify-content: center;
+    background-color: #31c971;
+    padding: 4px;
 }
 
 .Icon {
-  font-size: 20px !important;
-  cursor: pointer !important;
+    font-size: 20px !important;
+    cursor: pointer !important;
 }
 
 .innerContainer {
-  display: flex;
-  gap: 20px;
-  width: 100%;
+    display: flex;
+    gap: 20px;
+    width: 100%;
 }
 
 .cardInnerSection {
-  background-color: #fff;
-  border-radius: 4px;
-   
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 20px;
-  padding: 20px 24px;
-  width: 100%;
+    background-color: #fff;
+    border-radius: 4px;
+ 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px 24px;
+    width: 100%;
 }
 
 .cardContainer {
-  background-color: #fff;
-  border-radius: 4px;
-   
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding: 20px 24px;
-  width: 100%;
+    background-color: #fff;
+    border-radius: 4px;
+ 
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 20px 24px;
+    width: 100%;
 }
 
 .cardHeads {
-  color:#4f4f4f;
-  font-size: 15px;
-  font-weight: 500;
+     color:#4f4f4f;
+    font-size: 15px;
+    font-weight: 500;
 }
 
 .cardHead {
-  color:#212121;
-  font-size: 15px;
-  font-weight: 500;
-  width: 34%;
-  min-width: 200px;
+     color:#5e676f;
+    font-size: 14px;
+    font-weight: 500;
+    width: 34%;
+    min-width: 200px;
 }
 
 .cardContents {
-  font-size: 14px;
-  font-weight: 500;
-     color: #99a0ac;
+       color: #99a0ac;
+    font-size: 14px;
+    font-weight: 500;
 }
 
 .cardContent {
-     color: #99a0ac;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: normal;
-  text-align: end;
-  font-size: 14px;
-  font-weight: 500;
+    color: #5e676f;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    text-align: end;
+    font-size: 14px;
 }
 
 .cardMainContainer {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
 }
 
 .rightCard {
-  width: 60%;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .rightContainer {
-  display: flex;
-  justify-content: start;
-  gap: 20px;
-  width: 100%;
+    display: flex;
+    justify-content: start;
+    gap: 20px;
+    width: 100%;
 }
 
 .rightSection {
-  background-color: #fff;
-  border-radius: 4px;
-   
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 6px;
-  padding: 20px 24px;
-  width: 100%;
-  color: #4f4f4f !important;
+    background-color: #fff;
+    border-radius: 4px;
+ 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 6px;
+    padding: 20px 24px;
+    width: 100%;
+    color: #4f4f4f !important;
 }
 
 .rightHead {
-  color:#4f4f4f;
-  font-size: 14px;
-  font-weight: 500;
+       color:#4f4f4f;
+    font-size: 14px;
+    font-weight: 500;
 }
 
 .rightContent {
-  font-size: 14px;
-     color: #99a0ac;
-  font-weight: 500;
+          color: #99a0ac;
+    font-size: 14px;
+    font-weight: 400;
 }
 
 .buttonContainer {
-  display: flex;
-  gap: 20px;
-  justify-content: start;
+    display: flex;
+    gap: 20px;
+    justify-content: start;
 }
 
 .buttonProduct {
-  background-color: #f5f5f6;
-  border-radius: 4px;
-     color: #99a0ac;
-  cursor: pointer !important;
-  padding: 8px 16px;
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 500;
-  outline: none !important;
-  border: none !important;
+    background-color: #f5f5f6;
+    border-radius: 4px;
+       color: #99a0ac;
+    cursor: pointer !important;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    outline: none !important;
+    border: none !important;
 }
 
 .button {
-  background-color: #ffffff !important;
-      color: #333 !important;
-  border: none !important;
-  padding: 8px 16px;
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer !important;
-  outline: none !important;
+    background-color: #ffffff !important;
+    color: #333 !important;
+    border: none !important;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer !important;
+    outline: none !important;
 }
 
 .active {
-  background-color: #f5f5f6;
-  color:#3b71ca;;
+    background-color: #f5f5f6;
+    color:#3b71ca;;
 }
 
 
 /* Style the Supplier Product List */
 .main {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .mainCardsContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
+    display: grid
+;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}   
 
 .productCont {
   background-color: #fff;
-  border-radius: 4px;
-   
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 14px 18px;
-  width: 100%;
+    border-radius: 4px;
+    display: flex
+;
+    align-items: center;
+    gap: 20px;
+    padding: 14px 18px;
+    width: 100%;
 }
 
 .imgCont {
-  width: 80px;
-  height: 80px;
-  display: flex;
-  justify-content: center;
+       width: 100px;
+    height: 100px;
+    display: flex
+;
+    justify-content: center;
 }
 
 .imgCont img {
-  width: 100%;
-  height: auto;
+    width: 100%;
+    height: auto;
 }
 
 .rightCont {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
 }
 
 .title {
-  font-size: 24px;
-  font-weight: 500;
+    color:#4f4f4f;
+    font-size: 24px;
+    font-weight: 500;
 }
 
 .infoCont {
-  display: flex;
-  gap: 20px;
+    display: flex;
+    gap: 20px;
 }
 
 .infoMainContainer {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  gap: 10px;
+   display: flex    ;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .infoChild {
-  display: flex;
-  gap: 20px;
-  justify-content: start;
-  width: 100%;
+  display: flex
+;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: start;
+    width: 100%;
 
 }
 
 .infoSection {
-  width: 25%;
-  display: flex;
-  flex-direction: column;
+   display: flex;
+    gap: 20px;
 }
 
 .label {
-  font-size: 14px;
-  font-weight: 500;
+      color: #5e676f;
+    font-size: 14px;
+    font-weight: 500;
+    min-width: 100px;
 }
 
 .value {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: normal;
-  font-size: 14px;
-  font-weight: 400;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    font-size: 14px;
+       color: #5e676f;
 }
 
 .btnCont {
- background: linear-gradient(to left, #00dcff, #0075ce);
-  border-radius: 4px;
-  color: #fff;
-  min-width: 100px;
-  column-gap: 8px;
-  cursor: pointer !important;
-  font-size: 13px;
-  font-size: 14px;
-  padding: 5px 0px;
-  display: flex;
-  outline: none !important;
-  border: none !important;
-  cursor: pointer !important;
-  justify-content: center;
-  align-items: center;
+   background: linear-gradient(to left, #00dcff, #0075ce);
+    border-radius: 4px;
+    color: #fff;
+    min-width: 100px;
+    column-gap: 8px;
+    cursor: pointer !important;
+    font-size: 13px;
+    font-size: 14px;
+    padding: 5px 0px;
+    display: flex;
+    outline: none !important;
+    border: none !important;
+    cursor: pointer !important;
+    justify-content: center;
+    align-items: center;
 }
 
 .btnText {
-  color: #fff;
+    color: #fff;
 }
 
 .noDataCont {
-  background-color: #fff;
-  border-radius: 4px;
-   
-  padding: 14px;
-  width: 100%;
+    background-color: #fff;
+    border-radius: 4px;
+ 
+    padding: 14px;
+    width: 100%;
 }
 
 .noDataMsg {
-  font-size: 14px;
-  font-weight: 500;
+    font-size: 14px;
+    font-weight: 500;
 }
 
 
@@ -366,125 +370,125 @@ height: auto;
 
 /* Style the supplier order list */
 .orderListWrapper {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .orderViewAction {
-  background-color: #31c971;
-  border-radius: 4px;
-  color: #fff;
-  display: flex;
-  padding: 2px 6px;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer !important;
+    background-color: #31c971;
+    border-radius: 4px;
+    color: #fff;
+    display: flex;
+    padding: 2px 6px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer !important;
 }
 
 .viewIcon {
-  cursor: pointer !important;
-  font-size: 19px !important;
+    cursor: pointer !important;
+    font-size: 19px !important;
 }
 
 .noDataMessage {
-  font-size: 14px;
-  font-weight: 500;
-  color: #4f4f4f !important;
+    font-size: 14px;
+    font-weight: 500;
+    color: #4f4f4f !important;
 }
 
 /* End the supplier order list */
 
 /* Start the media query */
 @media screen and (max-width: 1400px) {
-  .infoChild {
-      flex-wrap: wrap;
-      gap: 10px;
-  }
+    .infoChild {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
 
-  .infoSection {
-      width: 46%;
-  }
+    .infoSection {
+        width: 46%;
+    }
 
-  .title {
-      font-size: 20px;
-  }
+    .title {
+        font-size: 20px;
+    }
 
-  .infoMainContainer {
-      align-items: center;
-  }
+    .infoMainContainer {
+        align-items: center;
+    }
 }
 
 @media screen and (max-width: 1160px) {
-  .infoMainContainer {
-      flex-direction: column;
-  }
+    .infoMainContainer {
+        flex-direction: column;
+    }
 }
 
 @media screen and (max-width: 992px) {
-  .section {
-      flex-direction: column;
-  }
+    .section {
+        flex-direction: column;
+    }
 
-  .leftCard {
-      width: 100%;
-  }
+    .leftCard {
+        width: 100%;
+    }
 
-  .rightCard {
-      width: 100%;
-  }
+    .rightCard {
+        width: 100%;
+    }
 
-  .infoMainContainer {
-      flex-direction: row;
-      align-items: baseline;
-  }
+    .infoMainContainer {
+        flex-direction: row;
+        align-items: baseline;
+    }
 
-  .infoChild {
-      flex-wrap: nowrap;
-  }
+    .infoChild {
+        flex-wrap: nowrap;
+    }
 }
 
 @media screen and (max-width: 767px) {
-  .infoMainContainer {
-      flex-direction: row;
-      align-items: center;
-  }
+    .infoMainContainer {
+        flex-direction: row;
+        align-items: center;
+    }
 
-  .infoChild {
-      flex-wrap: wrap;
-  }
+    .infoChild {
+        flex-wrap: wrap;
+    }
 }
 
 
 @media screen and (max-width: 540px) {
-  .innerContainer{
-      flex-direction: column;
-  }
-  .rightContainer {
-      flex-direction: column;
-  }
+    .innerContainer{
+        flex-direction: column;
+    }
+    .rightContainer {
+        flex-direction: column;
+    }
 
-  .infoMainContainer {
-      flex-direction: column;
-  }
+    .infoMainContainer {
+        flex-direction: column;
+    }
 
-  .infoChild {
-      flex-wrap: wrap;
-  }
+    .infoChild {
+        flex-wrap: wrap;
+    }
 
-  .infoSection {
-      width: 100%;
-      gap: 10px;
-      flex-direction: row;
-      justify-content: space-between;
-  }
-  .label{
-       min-width:100px;
-  }
-  .value{
-      text-align: end;
-  }
+    .infoSection {
+        width: 100%;
+        gap: 10px;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .label{
+         min-width:100px;
+    }
+    .value{
+        text-align: end;
+    }
 }
 
 /* End media query */
