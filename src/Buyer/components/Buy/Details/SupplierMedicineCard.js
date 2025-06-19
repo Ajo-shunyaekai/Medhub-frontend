@@ -37,6 +37,8 @@ const SupplierMedicineCard = ({
             const estimatedDeliveryTime =
               medicine?.inventoryDetails?.[0]?.inventoryList?.deliveryTime ||
               "N/A";
+              const stockedIn = medicine?.inventoryDetails?.[0]?.stockedInDetails[0]?.country ||
+              "N/A";
             const stockStatus = medicine?.inventoryDetails?.[0]?.stock || "N/A";
 
             return (
@@ -69,13 +71,17 @@ const SupplierMedicineCard = ({
                     <span className={styles.head}>Total Quantity</span>
                     <span className={styles.text}>{totalQuantity}</span>
                   </div>
-                  <div className={styles.section}>
+                  {/* <div className={styles.section}>
                     <span className={styles.head}>Est. Delivery Time</span>
                     <span className={styles.text}>
                       {estimatedDeliveryTime !== "N/A"
                         ? `${estimatedDeliveryTime} `
                         : "TBC- based on quantity"}
                     </span>
+                  </div> */}
+                  <div className={styles.section}>
+                    <span className={styles.head}>Countries Where Stock Traded</span>
+                    <span className={styles.text}>{stockedIn}</span>
                   </div>
                   <div className={styles.section}>
                     <span className={styles.head}>Stock Status</span>
