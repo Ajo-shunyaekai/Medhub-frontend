@@ -33,9 +33,9 @@ const SearchProductDetails = () => {
 
   const [filters, setFilters] = useState({
     price: [],
-    deliveryTime: [],
+    // deliveryTime: [],
     totalQuantity: [],
-    stockedIn: [],
+    stockStatus: [],
   });
 
   const pdfFile =
@@ -87,16 +87,16 @@ const SearchProductDetails = () => {
         query.push(`price=${filters.price.map(val => val.replace(/ /g, '%20')).join(',')}`);
       }
     
-      if (filters.deliveryTime.length > 0) {
-        query.push(`delivery_time=${filters.deliveryTime.map(val => val.replace(/ /g, '%20')).join(',')}`);
-      }
+      // if (filters.deliveryTime.length > 0) {
+      //   query.push(`delivery_time=${filters.deliveryTime.map(val => val.replace(/ /g, '%20')).join(',')}`);
+      // }
     
       if (filters.totalQuantity.length > 0) {
         query.push(`quantity=${filters.totalQuantity.map(val => val.replace(/ /g, '%20')).join(',')}`);
       }
     
-      if (filters.stockedIn.length > 0) {
-        query.push(`stocked_in=${filters.stockedIn.map(val => val.replace(/ /g, '%20')).join(',')}`);
+      if (filters.stockStatus.length > 0) {
+        query.push(`stock_status=${filters.stockStatus.map(val => val.replace(/ /g, '%20')).join(',')}`);
       }
     
       const queryString = query.join("&");
@@ -159,12 +159,12 @@ const SearchProductDetails = () => {
     setFilters((prev) => ({ ...prev, price: selectedValues }));
   };
   
-  const handleDeliveryTime = (selectedValues) => {
-    setFilters((prev) => ({ ...prev, deliveryTime: selectedValues }));
-  };
+  // const handleDeliveryTime = (selectedValues) => {
+  //   setFilters((prev) => ({ ...prev, deliveryTime: selectedValues }));
+  // };
   
   const handleStockedIn = (selectedValues) => {
-    setFilters((prev) => ({ ...prev, stockedIn: selectedValues }));
+    setFilters((prev) => ({ ...prev, stockStatus: selectedValues }));
   };
   
   const handleQuantity = (selectedValues) => {
@@ -175,6 +175,13 @@ const SearchProductDetails = () => {
     const dataToFilter = productDetail?.data || [productDetail] || [];
     setFilteredData(dataToFilter);
     setInputValue("");
+    const resetState = {
+      price: [],
+      // deliveryTime: [],
+      stockStatus: [],
+      totalQuantity: [],
+    };
+    setFilters(resetState)
   };
 
   // Configuration for ProductCards
@@ -486,7 +493,7 @@ const SearchProductDetails = () => {
           productDetail?.secondaryMarketDetails?.countryAvailable || []
         }
         handlePriceRange={handlePriceRange}
-        handleDeliveryTime={handleDeliveryTime}
+        // handleDeliveryTime={handleDeliveryTime}
         handleStockedIn={handleStockedIn}
         handleQuantity={handleQuantity}
         handleReset={handleReset}

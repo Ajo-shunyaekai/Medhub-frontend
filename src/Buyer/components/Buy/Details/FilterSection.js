@@ -13,8 +13,8 @@ const FilterSection = ({
   const [openDropdown, setOpenDropdown] = useState(null);
   const [selectedFilters, setSelectedFilters] = useState({
     price: [],
-    deliveryTime: [],
-    stockedIn: [],
+    // deliveryTime: [],
+    stockStatus: [],
     totalQuantity: [],
   });
 
@@ -48,11 +48,9 @@ const FilterSection = ({
     //   handler: handleDeliveryTime,
     // },
     {
-      key: 'stockedIn',
-      label: 'Stocked In',
-      options: countryAvailable.length > 0
-        ? countryAvailable.map((country) => ({ value: country, label: country }))
-        : [
+      key: 'stockStatus',
+      label: 'Stock Status',
+      options: [
             { value: 'In-stock', label: 'In-stock' },
             { value: 'Out of Stock', label: 'Out of Stock' },
             { value: 'On-demand', label: 'On-demand' },
@@ -113,8 +111,8 @@ const FilterSection = ({
   const resetAllFilters = () => {
     const resetState = {
       price: [],
-      deliveryTime: [],
-      stockedIn: [],
+      // deliveryTime: [],
+      stockStatus: [],
       totalQuantity: [],
     };
     setSelectedFilters(resetState);
