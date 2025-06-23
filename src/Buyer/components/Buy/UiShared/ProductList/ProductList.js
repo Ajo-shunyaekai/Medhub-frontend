@@ -33,6 +33,7 @@ const ProductList = ({
   totalItems,
   itemsPerPage,
   onPageChange,
+  searchValue,
   isSecondaryMarket = false,
   heading,
 }) => {
@@ -84,13 +85,25 @@ const ProductList = ({
                     />
                   </div>
                   {/* <Link to={`/buyer/product-details/${medicine._id}`}> */}
-                  <Link to={`/buyer/search-product-details/${medicine._id}`}>
+                  {/* <Link to={`/buyer/search-product-details/${medicine._id}`}> */}
+                  <Link
+                    to={{
+                      pathname: `/buyer/search-product-details/${medicine._id}`,
+                    }}
+                    state={{ searchValue }}
+                  >
                     <div className={styles.cardButton}>View Details</div>
                   </Link>
                 </div>
                 <div className={styles.cardContentSection}>
                   {/* <Link to={`/buyer/product-details/${medicine._id}`}> */}
-                  <Link to={`/buyer/search-product-details/${medicine._id}`}>
+                  {/* <Link to={`/buyer/search-product-details/${medicine._id}`}> */}
+                  <Link
+                    to={{
+                      pathname: `/buyer/search-product-details/${medicine._id}`,
+                    }}
+                    state={{ searchValue }}
+                  >
                     <div className={styles.cardMainHeading}>
                       {medicine?.general?.name || "N/A"}
                     </div>

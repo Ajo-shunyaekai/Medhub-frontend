@@ -177,6 +177,7 @@ const BuyProduct = ({
               totalItems={totalItems}
               itemsPerPage={itemsPerPage}
               onPageChange={handlePageChange}
+              searchValue = {searchKey}
             />
           {/* {viewMode === "card" ? (
             <ProductCard

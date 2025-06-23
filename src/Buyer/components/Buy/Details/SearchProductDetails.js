@@ -1,5 +1,5 @@
 import styles from "./productdetails.module.css";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchProductDetail,
@@ -16,6 +16,8 @@ Modal.setAppElement("#root");
 
 const SearchProductDetails = () => {
   const { id } = useParams();
+  const location = useLocation();
+  const searchValue = location.state?.searchValue;
   const dispatch = useDispatch();
   const { productDetail, supplierProductList } = useSelector(
     (state) => state?.productReducer || {}
@@ -29,7 +31,7 @@ const SearchProductDetails = () => {
   const [productList, setProductList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalitems] = useState(0);
-  const itemsPerPage = 2;
+  const itemsPerPage = 10;
 
   const [filters, setFilters] = useState({
     price: [],
@@ -79,6 +81,7 @@ const SearchProductDetails = () => {
     const fetchData = async () => {
       const query = [];
     
+      if (searchValue) query.push(`search_value=${encodeURIComponent(searchValue)}`);
       if (searchKey) query.push(`search_key=${encodeURIComponent(searchKey)}`);
       query.push(`page_no=${currentPage}`);
       query.push(`page_size=${itemsPerPage}`);
