@@ -231,7 +231,7 @@ const SearchProductDetails = () => {
         </div>
 
         {/* Secondary Market Section */}
-        {(productDetail?.secondaryMarketDetails?.purchasedOn ||
+        {/* {(productDetail?.secondaryMarketDetails?.purchasedOn ||
           productDetail?.secondaryMarketDetails?.countryAvailable?.length > 0 ||
           productDetail?.secondaryMarketDetails?.purchaseInvoiceFile?.length >
             0 ||
@@ -327,7 +327,7 @@ const SearchProductDetails = () => {
               )}
             </div>
           </div>
-        )}
+        )} */}
 
         {/* General Information Section */}
         <div className={styles.mainContainer}>
@@ -354,22 +354,15 @@ const SearchProductDetails = () => {
                   </span>
                 </div>
               )}
-              {productDetail?.general?.form && (
-                <div className={styles.medicinesSection}>
-                  <span className={styles.medicineHead}>Type/Form</span>
-                  <span className={styles.medicineText}>
-                    {productDetail?.general?.form}
-                  </span>
-                </div>
-              )}
-              {productDetail?.general?.quantity && (
+              
+              {/* {productDetail?.general?.quantity && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Product Quantity</span>
                   <span className={styles.medicineText}>
                     {productDetail?.general?.quantity}
                   </span>
                 </div>
-              )}
+              )} */}
             </div>
             <div className={styles.mainSection}>
               {productDetail?.[productDetail?.category]?.subCategory && (
@@ -382,15 +375,23 @@ const SearchProductDetails = () => {
                   </span>
                 </div>
               )}
-              {productDetail?.general?.model && (
+              {productDetail?.general?.form && (
+                <div className={styles.medicinesSection}>
+                  <span className={styles.medicineHead}>Type/Form</span>
+                  <span className={styles.medicineText}>
+                    {productDetail?.general?.form}
+                  </span>
+                </div>
+              )}
+              {/* {productDetail?.general?.model && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Part/Model Number</span>
                   <span className={styles.medicineText}>
                     {productDetail?.general?.model}
                   </span>
                 </div>
-              )}
-              {productDetail?.general?.weight && (
+              )} */}
+              {/* {productDetail?.general?.weight && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Product Weight</span>
                   <span className={styles.medicineText}>
@@ -398,13 +399,13 @@ const SearchProductDetails = () => {
                     {productDetail?.general?.unit}
                   </span>
                 </div>
-              )}
+              )} */}
             </div>
           </div>
         </div>
 
         {/* Product Description */}
-        {productDetail?.general?.description && (
+        {/* {productDetail?.general?.description && (
           <div className={styles.mainContainer}>
             <div className={styles.manufacturerDescriptionSection}>
               <span className={styles.medicineHead}>Product Description</span>
@@ -416,7 +417,7 @@ const SearchProductDetails = () => {
               ></span>
             </div>
           </div>
-        )}
+        )} */}
 
         {/* Manufacturer Section */}
         {/* {(productDetail?.general?.manufacturer ||

@@ -120,7 +120,7 @@ const ProductList = ({
                       {getSubCategory(medicine)}
                     </span>
                   </div>
-                  {isSecondaryMarket ? (
+                  {/* {isSecondaryMarket ? (
                     <>
                       <div className={styles.cardInnerContainer}>
                         <span className={styles.cardHead}>Purchased On</span>
@@ -137,18 +137,24 @@ const ProductList = ({
                     </>
                   ) : (
                     <div className={styles.cardInnerContainer}>
-                      <span className={styles.cardHead}>Total Quantity</span>
+                      <span className={styles.cardHead}>Strength</span>
                       <span className={styles.cardText}>
-                        {medicine?.general?.quantity || "N/A"}
+                        {medicine?.general?.strength || "N/A"} {medicine?.general?.strengthUnit}
                       </span>
                     </div>
-                  )}
-                  <div className={styles.cardInnerContainer}>
+                  )} */}
+                   <div className={styles.cardInnerContainer}>
+                      <span className={styles.cardHead}>Strength</span>
+                      <span className={styles.cardText}>
+                        {medicine?.general?.strength || "N/A"} {medicine?.general?.strengthUnit}
+                      </span>
+                    </div>
+                  {/* <div className={styles.cardInnerContainer}>
                     <span className={styles.cardHead}>Stock Status</span>
                     <span className={styles.cardText}>
                       {medicine?.inventoryDetails?.[0]?.stock || "N/A"}
                     </span>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             );
