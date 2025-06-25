@@ -334,9 +334,10 @@ function CustomTooltip({ content, styles }) {
     </Tooltip>
   );
 }
+
+
 // AddProductFileUpload Component
 export const AddProductFileUpload = ({
-  productDetails,
   setFieldValue,
   initialValues,
   fieldInputName,
@@ -350,19 +351,7 @@ export const AddProductFileUpload = ({
   maxFiles = 4,
   styles,
 }) => {
-  // const tooltipId = `tooltip-${label.replace(/\s+/g, "-")?.toLowerCase()}`;
   const tooltipContent = tooltip || "Default tooltip text";
-
-  // Call the useFileUpload hook with acceptTypes and maxFiles
-  const fileUpload = useFileUpload(
-    fieldInputName,
-    oldFieldName,
-    setFieldValue,
-    initialValues,
-    acceptTypes,
-    maxFiles,
-    existingFiles
-  );
 
   const isImageOnly =
     acceptTypes &&
@@ -370,6 +359,168 @@ export const AddProductFileUpload = ({
   const isPdfOnly =
     acceptTypes &&
     Object.keys(acceptTypes).every((type) => type === "application/pdf");
+
+  // Define the four sides for image uploads
+  const sides = [
+    { name: "Front Image", field: `${fieldInputName}.front`, oldField: `${oldFieldName}.front` },
+    { name: "Back Image", field: `${fieldInputName}.back`, oldField: `${oldFieldName}.back` },
+    { name: "Side Image", field: `${fieldInputName}.left`, oldField: `${oldFieldName}.left` },
+    { name: "Closure Image", field: `${fieldInputName}.right`, oldField: `${oldFieldName}.right` },
+  ];
+
+  // Sanitize existingFiles to ensure iterability
+  const safeExistingFiles = existingFiles || (isImageOnly ? {} : []);
+  const getSafeFiles = (field) =>
+    isImageOnly
+      ? Array.isArray(safeExistingFiles[field]) ? safeExistingFiles[field] : []
+      : Array.isArray(safeExistingFiles) ? safeExistingFiles : [];
+
+  // Unconditional hook calls
+  const singleUpload = useFileUpload(
+    fieldInputName,
+    oldFieldName,
+    setFieldValue,
+    initialValues,
+    acceptTypes,
+    maxFiles,
+    getSafeFiles(fieldInputName)
+  );
+
+  const frontUpload = useFileUpload(
+    sides[0].field,
+    sides[0].oldField,
+    setFieldValue,
+    initialValues,
+    acceptTypes,
+    maxFiles,
+    getSafeFiles(sides[0].field)
+  );
+  const backUpload = useFileUpload(
+    sides[1].field,
+    sides[1].oldField,
+    setFieldValue,
+    initialValues,
+    acceptTypes,
+    maxFiles,
+    getSafeFiles(sides[1].field)
+  );
+  const leftUpload = useFileUpload(
+    sides[2].field,
+    sides[2].oldField,
+    setFieldValue,
+    initialValues,
+    acceptTypes,
+    maxFiles,
+    getSafeFiles(sides[2].field)
+  );
+  const rightUpload = useFileUpload(
+    sides[3].field,
+    sides[3].oldField,
+    setFieldValue,
+    initialValues,
+    acceptTypes,
+    maxFiles,
+    getSafeFiles(sides[3].field)
+  );
+
+  // Map file uploads for image sides
+  const fileUploads = [frontUpload, backUpload, leftUpload, rightUpload];
+
+  const renderUploadField = (fileUpload, side = null, errorMessage = error) => {
+    const fieldName = side ? side.name : "";
+    const fieldError = side ? error?.[side.field] : errorMessage;
+
+    return (
+      <div
+        className={side ? styles.sideUploadContainer : styles.uploadContainer}
+        style={side ? { flex: "1 1 45%", maxWidth: "45%" } : {}}
+      >
+        {side && <h3 className={styles.sideLabel}>{fieldName}</h3>}
+        <div className={styles.tooltipContainer}>
+          <div {...fileUpload?.getRootProps({ className: styles.uploadBox })}>
+            <input {...fileUpload?.getInputProps()} />
+            <FiUploadCloud size={30} className={styles.uploadIcon} />
+            <p className={styles.uploadText}>
+              {fileUpload?.isDragActive
+                ? `Drop the ${isImageOnly ? "image" : isPdfOnly ? "PDF" : "files"} here...`
+                : `Click here to Upload ${isImageOnly ? "Image" : isPdfOnly ? "PDF" : ""}`}
+            </p>
+          </div>
+          {tooltip && (
+            <CustomTooltip
+              styles={styles}
+              content={side ? `${tooltipContent} for ${fieldName}` : tooltipContent}
+              className={styles.tooltipSec}
+            />
+          )}
+        </div>
+        {fieldError && <span className={styles.error}>{fieldError}</span>}
+        <div className={styles.filePreviewContainer}>
+          {fileUpload?.filesMerged?.map((file, fileIndex) => {
+            const isString = typeof file === "string";
+            const fileName = isString
+              ? extractLast13WithExtension(file)
+              : file?.name;
+            const fileExtension = fileName?.split(".")?.pop()?.toLowerCase();
+            const isImage = ["jpeg", "jpg", "png", "gif", "bmp", "webp"].includes(fileExtension);
+            const isPdf = fileExtension === "pdf";
+            const fallbackImage = "https://medhub.shunyaekai.com/uploads/fallbackImage.jpg";
+
+            const isValidUrl = (url) => {
+              try {
+                new URL(url);
+                return true;
+              } catch {
+                return false;
+              }
+            };
+
+            let imageSrc = "";
+            if (isImage) {
+              imageSrc = isString
+                ? isValidUrl(file)
+                  ? file
+                  : file?.startsWith("http")
+                  ? file
+                  : `${process.env.REACT_APP_SERVER_URL}uploads/products/${file}`
+                : URL.createObjectURL(file);
+            } else {
+              imageSrc = fallbackImage;
+            }
+
+            return (
+              <div key={fileIndex} className={styles.filePreview}>
+                {isPdf ? (
+                  <FiFileText size={25} className={styles.fileIcon} />
+                ) : (
+                  <img
+                    src={imageSrc}
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = fallbackImage;
+                    }}
+                    alt={fileName}
+                    className={styles.previewImage}
+                  />
+                )}
+                <p className={styles.fileName}>{fileName}</p>
+                <button
+                  type="button"
+                  className={styles.removeButton}
+                  onClick={(event) =>
+                    fileUpload?.removeFile(fileIndex, event, isString ? "old" : "new")
+                  }
+                  title={`Remove ${isImage ? "image" : isPdf ? "PDF" : "file"}`}
+                >
+                  <FiX size={15} className={styles.removeIcon} />
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div className={styles.compliancesContainer}>
@@ -381,95 +532,13 @@ export const AddProductFileUpload = ({
           )}
         </label>
       )}
-      <div className={styles.tooltipContainer}>
-        <div {...fileUpload?.getRootProps({ className: styles.uploadBox })}>
-          <input {...fileUpload?.getInputProps()} />
-          <FiUploadCloud size={20} className={styles.uploadIcon} />
-          <p className={styles.uploadText}>
-            {fileUpload?.isDragActive
-              ? `Drop the ${
-                  isImageOnly ? "image" : isPdfOnly ? "PDF" : "files"
-                } here...`
-              : `Click here to Upload ${
-                  isImageOnly ? "Image" : isPdfOnly ? "PDF" : ""
-                }`}
-          </p>
+      {isImageOnly ? (
+        <div className={styles.sidesContainer} style={{ display: "flex", gap: "10px" }}>
+          {sides.map((side, index) => renderUploadField(fileUploads[index], side))}
         </div>
-        {tooltip && (
-          <CustomTooltip
-            styles={styles}
-            content={tooltipContent}
-            className={styles.tooltipSec}
-          />
-        )}
-      </div>
-      {error && <span className={styles.error}>{error}</span>}
-      <div className={styles.filePreviewContainer}>
-        {fileUpload?.filesMerged?.map((file, index) => {
-          const isString = typeof file === "string";
-          const fileName = isString
-            ? extractLast13WithExtension(file)
-            : file?.name;
-          const fileExtension = fileName?.split(".")?.pop()?.toLowerCase();
-          const isImage = ["jpeg", "jpg", "png", "gif", "bmp", "webp"].includes(
-            fileExtension
-          );
-          const isPdf = fileExtension === "pdf";
-          const fallbackImage =
-            "https://medhub.shunyaekai.com/uploads/fallbackImage.jpg";
-
-          const isValidUrl = (url) => {
-            try {
-              new URL(url);
-              return true;
-            } catch {
-              return false;
-            }
-          };
-
-          let imageSrc = "";
-          if (isImage) {
-            imageSrc = isString
-              ? isValidUrl(file)
-                ? file
-                : file?.startsWith("http")
-                ? file
-                : `${process.env.REACT_APP_SERVER_URL}uploads/products/${file}`
-              : URL.createObjectURL(file);
-          } else {
-            imageSrc = fallbackImage;
-          }
-
-          return (
-            <div key={index} className={styles.filePreview}>
-              {isPdf ? (
-                <FiFileText size={25} className={styles.fileIcon} />
-              ) : (
-                <img
-                  src={imageSrc}
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = fallbackImage;
-                  }}
-                  alt={fileName}
-                  className={styles.previewImage}
-                />
-              )}
-              <p className={styles.fileName}>{fileName}</p>
-              <button
-                type="button"
-                className={styles.removeButton}
-                onClick={(event) =>
-                  fileUpload?.removeFile(index, event, isString ? "old" : "new")
-                }
-                title={`Remove ${isImage ? "image" : isPdf ? "PDF" : "file"}`}
-              >
-                <FiX size={15} className={styles.removeIcon} />
-              </button>
-            </div>
-          );
-        })}
-      </div>
+      ) : (
+        renderUploadField(singleUpload)
+      )}
     </div>
   );
 };

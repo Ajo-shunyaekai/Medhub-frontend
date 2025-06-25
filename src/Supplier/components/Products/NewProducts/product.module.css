@@ -98,9 +98,10 @@
 }
 
 .head {
-  color:#4f4f4f;
-  font-size: 16px;
-  font-weight: 500;
+    font-size: 16px;
+    color: #5e676f;
+    text-align: center;
+    font-weight: 500;
   position: relative;
   top: -10%;
 }
@@ -195,23 +196,22 @@
 }
 
 .cardMainHeading {
-  color:#5e676f;
-  font-size: 22px;
-  font-weight: 500;
+     font-size: 22px;
+     line-height: 28px;
+    font-weight: 600;
+    color: #5e676f;
 }
 
 .cardHead {
-  font-size: 13px;
-  font-weight: 500;
+ font-size: 14px;
+    font-weight: 500 !important;
   min-width: 100px;
-  color:#4f4f4f;
+  color:#5e676f;
 }
 
 .cardText {
- color: #5e676f;
-    font-size: 13px;
-    line-height: 20px;
-    /* font-weight: 500; */
+ font-size: 13px;
+    color: #99a0ac;
     width: 60%;
 }
 

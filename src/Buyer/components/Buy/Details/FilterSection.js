@@ -34,19 +34,6 @@ const FilterSection = ({
       ],
       handler: handlePriceRange,
     },
-    // {
-    //   key: 'deliveryTime',
-    //   label: 'Delivery Time',
-    //   options: [
-    //     { value: '1 - 5', label: '1-5 Days' },
-    //     { value: '5 - 10', label: '5-10 Days' },
-    //     { value: '10 - 15', label: '10-15 Days' },
-    //     { value: '15 - 20', label: '15-20 Days' },
-    //     { value: '20 - 25', label: '20-25 Days' },
-    //     { value: 'greater than 25', label: 'More than 25 Days' },
-    //   ],
-    //   handler: handleDeliveryTime,
-    // },
     {
       key: 'stockStatus',
       label: 'Stock Status',

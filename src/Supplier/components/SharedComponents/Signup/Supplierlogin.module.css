@@ -57,18 +57,17 @@
   font-weight: 500;
 }
 .loginFormMainInput {
-  width: 100% !important;
-  color: #616161 !important;
-  border-radius: 4px !important;
-  outline: none !important;
-  border: none !important;
-  margin-bottom: 0px !important;
-  font-weight: 500 !important;
-  padding: 12px !important;
-  font-size: 14px !important;
-  border-color: transparent !important;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
-  appearance: none !important;
+     width: 100% !important;
+    color: #5e676f !important;
+    border-radius: 4px !important;
+    outline: none !important;
+    border: none !important;
+    margin-bottom: 0px !important;
+    padding: 12px !important;
+    font-size: 13px !important;
+    border-color: transparent !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+    appearance: none !important;
 }
 .loginFormMainButtons {
   width: 100%;
@@ -147,10 +146,10 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   margin-top: -6px;
 }
 .loginFormMainPassword {
-  color:#3b71ca;;
-  font-size: 14px;
-  font-weight: 500;
-   cursor: pointer !important;;
+     font-size: 14px;
+    font-weight: 500;
+    color: #5e676f;
+    cursor: pointer !important;
 }
 .headerCenter {
   font-size: 16px;
@@ -174,7 +173,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   align-items: baseline;
 }
 .loginSignupContent {
-  color:#4f4f4f;
+  color:#5e676f ;
   font-size: 14px;
   font-weight: 500;
 }
