@@ -688,15 +688,15 @@ gap: 10px;
 
 
 @media (max-width:1580px){
-  .compliancesContainer {
+  /* .compliancesContainer {
     width: 19vw;
-  }
+  } */
 }
 
 @media (max-width:1400px){
-  .compliancesContainer {
+  /* .compliancesContainer {
     width: 25vw;
-  }
+  } */
   .productContainer{
     width: 32%;
   }
@@ -707,9 +707,9 @@ gap: 10px;
 } 
 
 @media (max-width:1160px){
-  .compliancesContainer {
+  /* .compliancesContainer {
     width: 23.8vw;
-  }
+  } */
 } 
 
 

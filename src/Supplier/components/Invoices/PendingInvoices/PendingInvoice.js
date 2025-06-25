@@ -140,7 +140,7 @@ const PendingInvoice = ({
             {downloadingInvoiceId === row?.invoice_id ? (
               <Loader/>
             ) : (
-               <div className={styles.activeBtn}>
+               <div className={styles.activeDownloadBtn}>
                             <CloudDownloadOutlinedIcon className={styles['table-icon']} />
                           </div>
              
