@@ -334,9 +334,9 @@ box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 
 }
 
 .table-assign-driver-heading {
-  color:#192039;
-  font-size: 18px;
-  font-weight: 500;
+color: #192039;
+    font-size: 18px;
+    font-weight: 600;
   padding: 0px 10px;
 }
 
@@ -395,9 +395,9 @@ box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 
 
 /* Start the Address Container Section */
 .active-order-transportation-heading {
-  color:#4f4f4f;
-  font-size: 18px;
-  font-weight: 500;
+color: #192039;
+    font-size: 18px;
+    font-weight: 600;
 }
 
 .transport-container {
@@ -437,19 +437,19 @@ box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 
 }
 
 .table-g-driver-name {
-  color:#99A0AC;
-  font-size: 14px;
+    color: #5e676f;
+    font-size: 13px;
 }
 .table-g-not-names {
-  font-weight: 500;
-  font-size: 14px;
-     color: #5e676f;
+    font-size: 13px;
+    font-weight: 500;
+    color: #5e676f;
 }
 
 .table-g-not-name {
-  font-weight: 500;
-  font-size: 14px;
-     color: #5e676f;
+     font-size: 13px;
+    font-weight: 500;
+    color: #5e676f;
 }
 
 .active-order-details-payment-first-terms-heading {
@@ -654,9 +654,9 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 }
 
 .details-payment-content {
-  font-weight: 500;
-  font-size: 14px;
-     color: #5e676f;
+     color: #5e676f !important;
+    font-weight: 500;
+    font-size: 13px;
 }
 
 .details-payment-ul {
@@ -666,8 +666,8 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 }
 
 .details-payment-inner-text {
-  color:#99a0ac;
-  font-size: 14px;
+     color: #99a0ac;
+    font-size: 12px;
   /* font-weight: 500; */
 }
 
@@ -695,9 +695,9 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 }
 
 .details-address-text {
-  font-weight: 500;
-  font-size: 14px;
-     color: #5e676f;
+      color: #5e676f;
+    font-size: 13px;
+    font-weight: 500;
   display: flex;
   gap: 12px;
 }
