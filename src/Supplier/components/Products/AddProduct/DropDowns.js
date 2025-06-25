@@ -1,8 +1,8 @@
 import * as Yup from "yup";
 
 export const Options = [
-  { value: "new product", label: "New Product" },
-  { value: "secondary product", label: "Secondary Product" },
+  { value: "new market", label: "New Market" },
+  { value: "secondary market", label: "Secondary Market" },
 ]?.sort((a, b) => a?.label?.localeCompare(b?.label));
 
 export const packagingUnits = [

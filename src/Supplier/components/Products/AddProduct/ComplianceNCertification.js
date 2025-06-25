@@ -122,7 +122,7 @@ const ComplianceNCertification = ({
       <div className={styles.tooltipContainer}>
         <div {...fileUpload?.getRootProps({ className: styles.uploadBox })}>
           <input {...fileUpload?.getInputProps()} />
-          <FiUploadCloud size={20} className={styles.uploadIcon} />
+          <FiUploadCloud size={30} className={styles.uploadIcon} />
           <p className={styles.uploadText}>
             {fileUpload?.isDragActive
               ? `Drop the ${

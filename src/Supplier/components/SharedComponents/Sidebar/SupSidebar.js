@@ -450,7 +450,7 @@ const SupSidebar = ({ children, dragWindow,
                         </Link>
                         <Link to="/supplier/product" className={`${styles.sidebar_text} ${styles.desktop_order_btn}`} activeclassname={styles.active}>
                             <div className={styles.icon}><LocalMallOutlinedIcon style={{ color: '#14bae4', fontSize: '22px' }} /></div>
-                            <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Add Products</div>
+                            <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Products</div>
                         </Link>
  
                         <Link to="/supplier/enquiry-purchase-orders" className={`${styles.sidebar_text} ${styles.desktop_order_btn}`} activeclassname={styles.active}>
