@@ -522,7 +522,7 @@ const AddProduct = ({ placeholder }) => {
                     isDisabled={!selectedSubCategory}
                   />
                 </div>
-                {productType === "secondary product" && (
+                {productType === "secondary" && (
                   <>
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
@@ -1148,7 +1148,7 @@ const AddProduct = ({ placeholder }) => {
                             onChange={(selectedOption) => {
                               setFieldValue(
                                 `productPricingDetails.${index}.quantity`,
-                                selectedOption?.value.replace(/\D/g, "") // Allow only numbers
+                                selectedOption?.value
                               );
                             }}
                           />
@@ -1742,7 +1742,7 @@ const AddProduct = ({ placeholder }) => {
                     }
                   />
                 </div>
-                {productType === "secondary product" && (
+                {productType === "secondary" && (
                   <div className={styles.productContainer}>
                     <AddProductFileUpload
                       styles={styles}

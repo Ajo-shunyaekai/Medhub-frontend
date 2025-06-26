@@ -44,6 +44,7 @@ import {
   dairyfeeOptions,
   initialValues,
   editProductValidationSchema,
+  quantityOptions,
 } from "./DropDowns";
 import { AddProductFileUpload } from "../../../../utils/helper";
 
@@ -350,6 +351,7 @@ const EditAddProduct = ({ placeholder }) => {
   useEffect(() => {
     if (formik && productDetail) {
       // Destructure the general part of productDetail to simplify access
+      console.log("\n\n\nproductDetail", productDetail);
       const general = productDetail?.general || {};
       const additional = productDetail?.additional || {};
       const inventoryDetails = productDetail?.inventoryDetails || {};
@@ -412,7 +414,8 @@ const EditAddProduct = ({ placeholder }) => {
         purchaseInvoiceFileNew: [],
         condition: secondaryMarketDetails?.condition || "",
         minimumPurchaseUnit: secondaryMarketDetails?.minimumPurchaseUnit || "",
-        subCategory: categoryDetails?.subCategory || "",
+        // subCategory: categoryDetails?.subCategory || "",
+        subCategory: productDetail?.subCategory || "",
         anotherCategory: categoryDetails?.anotherCategory || "",
         stockedInDetails: inventoryDetails?.stockedInDetails || [
           {
@@ -692,7 +695,6 @@ const EditAddProduct = ({ placeholder }) => {
                   <span className={styles.error}>{formik.errors.category}</span>
                 )}
               </div>
-
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   Product Sub Category
@@ -705,11 +707,11 @@ const EditAddProduct = ({ placeholder }) => {
                       (option) => option?.value === formik?.values?.category
                     )
                       ? getSubCategories(
-                        categoryOptions.find(
-                          (option) =>
-                            option?.value === formik?.values?.category
-                        )?.label
-                      )
+                          categoryOptions.find(
+                            (option) =>
+                              option?.value === formik?.values?.category
+                          )?.label
+                        )
                       : []
                   }
                   value={
@@ -753,16 +755,16 @@ const EditAddProduct = ({ placeholder }) => {
                       (option) => option?.label === formik?.values?.subCategory
                     )
                       ? getLevel3Categories(
-                        getSubCategories(
-                          categoryOptions.find(
+                          getSubCategories(
+                            categoryOptions.find(
+                              (option) =>
+                                option?.value === formik?.values?.category
+                            )?.label
+                          )?.find(
                             (option) =>
-                              option?.value === formik?.values?.category
-                          )?.label
-                        )?.find(
-                          (option) =>
-                            option?.label === formik?.values?.subCategory
-                        ).value
-                      )
+                              option?.label === formik?.values?.subCategory
+                          ).value
+                        )
                       : []
                   }
                   value={
@@ -931,10 +933,10 @@ const EditAddProduct = ({ placeholder }) => {
                       className={styles.formSelect}
                       options={volumeUnits}
                       placeholder="Select Units"
-                    // onBlur={handleBlur}
-                    // onChange={(selectedOption) => {
-                    //   setFieldValue("volumeUnit", selectedOption?.value);
-                    // }}
+                      // onBlur={handleBlur}
+                      // onChange={(selectedOption) => {
+                      //   setFieldValue("volumeUnit", selectedOption?.value);
+                      // }}
                     />
                   </div>
                 </div>
@@ -1313,8 +1315,9 @@ const EditAddProduct = ({ placeholder }) => {
                               )
                             }
                             value={section.quantity}
-                            placeholder={`Enter ${section.unitType || "Box"
-                              } Quantity`}
+                            placeholder={`Enter ${
+                              section.unitType || "Box"
+                            } Quantity`}
                             className={styles.inputStocked}
                             onBlur={() =>
                               formik.setFieldTouched(
@@ -1324,8 +1327,9 @@ const EditAddProduct = ({ placeholder }) => {
                             }
                           />
                           <button
-                            className={`${styles.optionButton} ${section.unitType === "Box" ? styles.selected : ""
-                              }`}
+                            className={`${styles.optionButton} ${
+                              section.unitType === "Box" ? styles.selected : ""
+                            }`}
                           >
                             {section.unitType || "Box"}
                           </button>
@@ -1420,16 +1424,12 @@ const EditAddProduct = ({ placeholder }) => {
                               <div className={styles.tooltipContainer}>
                                 <Select
                                   className={styles.formSelect}
-                                  options={Options}
+                                  options={quantityOptions}
                                   placeholder="Select Quantity"
                                   onChange={(selectedOption) => {
-                                    setProductType(selectedOption?.value);
-                                    formik.setFieldValue(
-                                      "market",
-                                      selectedOption?.value?.replaceAll(
-                                        " product",
-                                        ""
-                                      )
+                                    formik?.setFieldValue(
+                                      `productPricingDetails.${index}.quantity`,
+                                      selectedOption?.value
                                     );
                                   }}
                                 />
@@ -1452,20 +1452,20 @@ const EditAddProduct = ({ placeholder }) => {
                                                       onBlur={handleBlur}
                                                     /> */}
                               </div>
-                              <span className={styles.error}>
+                              {/* <span className={styles.error}>
                                 {formik.touched.productPricingDetails?.[index]
                                   ?.quantityFrom &&
                                   formik.errors.productPricingDetails?.[index]
                                     ?.quantityFrom}
-                              </span>
+                              </span> */}
                             </div>
                           </div>
 
                           <span className={styles.error}>
                             {formik.touched.productPricingDetails?.[index]
-                              ?.quantityFrom &&
+                              ?.quantity &&
                               formik.errors.productPricingDetails?.[index]
-                                ?.quantityFrom}
+                                ?.quantity}
                           </span>
                           <span className={styles.error}>
                             {formik.touched.productPricingDetails?.[index]
@@ -1486,6 +1486,7 @@ const EditAddProduct = ({ placeholder }) => {
                               type="text"
                               placeholder="Enter Unit Price in USD"
                               className={styles.formInput}
+                              onChange={formik?.handleChange}
                             />
                             <Tooltip content="The cost of the medication per unit (MRP) in Dollar"></Tooltip>
                           </div>
@@ -1503,40 +1504,19 @@ const EditAddProduct = ({ placeholder }) => {
                           </label>
                           <div className={styles.tooltipContainer}>
                             <Field
-                              name={`productPricingDetails.${index}.price`}
+                              name={`productPricingDetails.${index}.totalPrice`}
                               type="text"
-                              placeholder="Enter  Total Price in USD"
+                              placeholder="Enter Total Price in USD"
                               className={styles.formInput}
-                              onInput={(e) => {
-                                let value = e.target.value;
-
-                                // Allow only numbers and one decimal point
-                                value = value.replace(/[^0-9.]/g, "");
-
-                                // Ensure only one decimal point exists
-                                if (value?.split(".").length > 2) {
-                                  value = value.slice(0, -1);
-                                }
-
-                                // Limit numbers before decimal to 9 digits and after decimal to 3 digits
-                                let parts = value?.split(".");
-                                if (parts[0].length > 9) {
-                                  parts[0] = parts[0].slice(0, 9);
-                                }
-                                if (parts[1]?.length > 3) {
-                                  parts[1] = parts[1].slice(0, 3);
-                                }
-
-                                e.target.value = parts.join(".");
-                              }}
+                              onChange={formik?.handleChange}
                             />
                             <Tooltip content="The cost of the medication per unit (MRP) in Dollar"></Tooltip>
                           </div>
                           <span className={styles.error}>
                             {formik.touched.productPricingDetails?.[index]
-                              ?.price &&
+                              ?.totalPrice &&
                               formik.errors.productPricingDetails?.[index]
-                                ?.price}
+                                ?.totalPrice}
                           </span>
                         </div>
                         <div className={styles.productContainer}>
@@ -1834,7 +1814,6 @@ const EditAddProduct = ({ placeholder }) => {
 
           {/* End the compliances and certificate 222222222 */}
 
-
           {/* Start Product document*/}
           <div className={styles.section}>
             <span className={styles.formHead}>Product Documents</span>
@@ -1921,7 +1900,6 @@ const EditAddProduct = ({ placeholder }) => {
                   existingFiles={formik?.values?.image}
                   setFieldValue={formik.setFieldValue}
                   initialValues={formik?.values}
-               
                   tooltip={false}
                   acceptTypes={{
                     "image/png": [],
@@ -1971,94 +1949,94 @@ const EditAddProduct = ({ placeholder }) => {
                   />
                 )}
               </div>
-              </div>
-              </div>
+            </div>
+          </div>
 
-              {/* End image upload container */}
-              {/* Start the Additional Information */}
-              <div className={styles.additionalSection}>
-                <span className={styles.formHead}>Additional Information</span>
-                <div className={styles.formSection}>
-                  <div className={styles.productContainer}>
-                    <AddProductFileUpload
-                      styles={styles}
-                      productDetails={productDetail}
-                      maxFiles={4 - (formik?.values?.guidelinesFile?.length || 0)}
-                      fieldInputName={"guidelinesFileNew"}
-                      oldFieldName={"guidelinesFile"}
-                      existingFiles={formik?.values?.guidelinesFile}
-                      setFieldValue={formik.setFieldValue}
-                      initialValues={formik?.values}
-                      label="User Guidelines"
-                      tooltip="Specific information, instructions related to product."
-                      acceptTypes={{
-                        "image/png": [],
-                        "image/jpeg": [],
-                        "image/jpg": [],
-                        "application/pdf": [],
-                      }}
-                      error={
-                        (formik.touched.guidelinesFile ||
-                          formik.touched.guidelinesFileNew ||
-                          formik.errors.guidelinesFile ||
-                          formik.errors.guidelinesFileNew) && (
-                          <div>
-                            {formik.errors.guidelinesFile ||
-                              formik.errors.guidelinesFileNew}
-                          </div>
-                        )
-                      }
-                    />
-                  </div>
-                  {/* )} */}
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Other Information</label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                      className={styles.formTextarea}
-                        type="text"
-                        placeholder="Enter Other Information"
-                        // autoComplete="off"
-                        name="other"
-                        value={formik?.values?.other}
-                        onChange={(e) =>
-                          handleInputChange(e, formik.setFieldValue, 100, "all")
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip
-                        content=" Any relevant, additional or other information regarding the
+          {/* End image upload container */}
+          {/* Start the Additional Information */}
+          <div className={styles.additionalSection}>
+            <span className={styles.formHead}>Additional Information</span>
+            <div className={styles.formSection}>
+              <div className={styles.productContainer}>
+                <AddProductFileUpload
+                  styles={styles}
+                  productDetails={productDetail}
+                  maxFiles={4 - (formik?.values?.guidelinesFile?.length || 0)}
+                  fieldInputName={"guidelinesFileNew"}
+                  oldFieldName={"guidelinesFile"}
+                  existingFiles={formik?.values?.guidelinesFile}
+                  setFieldValue={formik.setFieldValue}
+                  initialValues={formik?.values}
+                  label="User Guidelines"
+                  tooltip="Specific information, instructions related to product."
+                  acceptTypes={{
+                    "image/png": [],
+                    "image/jpeg": [],
+                    "image/jpg": [],
+                    "application/pdf": [],
+                  }}
+                  error={
+                    (formik.touched.guidelinesFile ||
+                      formik.touched.guidelinesFileNew ||
+                      formik.errors.guidelinesFile ||
+                      formik.errors.guidelinesFileNew) && (
+                      <div>
+                        {formik.errors.guidelinesFile ||
+                          formik.errors.guidelinesFileNew}
+                      </div>
+                    )
+                  }
+                />
+              </div>
+              {/* )} */}
+              <div className={styles.productContainer}>
+                <label className={styles.formLabel}>Other Information</label>
+                <div className={styles.tooltipContainer}>
+                  <textarea
+                    className={styles.formTextarea}
+                    type="text"
+                    placeholder="Enter Other Information"
+                    // autoComplete="off"
+                    name="other"
+                    value={formik?.values?.other}
+                    onChange={(e) =>
+                      handleInputChange(e, formik.setFieldValue, 100, "all")
+                    }
+                    onBlur={formik?.handleBlur}
+                  />
+                  <Tooltip
+                    content=" Any relevant, additional or other information regarding the
                     product (eg. Prescribing Info for Medication or
                     Dosage Info or regarding the shipping of large devices etc)"
-                      ></Tooltip>
-                    </div>
-                  </div>
+                  ></Tooltip>
                 </div>
               </div>
+            </div>
+          </div>
 
-              {/* End the Additional Information */}
+          {/* End the Additional Information */}
 
-              {/* Start button section */}
-              <div className={styles.buttonContainer}>
-                <button
-                  className={styles.buttonSubmit}
-                  type="submit"
-                  disabled={loading}
-                >
-                  {loading ? <div className="loading-spinner"></div> : "Submit"}
-                </button>
+          {/* Start button section */}
+          <div className={styles.buttonContainer}>
+            <button
+              className={styles.buttonSubmit}
+              type="submit"
+              disabled={loading}
+            >
+              {loading ? <div className="loading-spinner"></div> : "Submit"}
+            </button>
 
-                <button className={styles.buttonCancel} onClick={handleCancel}>
-                  Cancel
-                </button>
-              </div>
+            <button className={styles.buttonCancel} onClick={handleCancel}>
+              Cancel
+            </button>
+          </div>
 
-              {/* End button section */}
-            </form>
-            {/* //   </Row> */}
-          </FormikProvider>
-        </div>
-        );
+          {/* End button section */}
+        </form>
+        {/* //   </Row> */}
+      </FormikProvider>
+    </div>
+  );
 };
 
-        export default EditAddProduct;
+export default EditAddProduct;
