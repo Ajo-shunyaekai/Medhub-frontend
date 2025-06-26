@@ -1,8 +1,8 @@
 import * as Yup from "yup";
 
 export const Options = [
-  { value: "new market", label: "New Market" },
-  { value: "secondary market", label: "Secondary Market" },
+  { value: "new", label: "New Market" },
+  { value: "secondary", label: "Secondary Market" },
 ]?.sort((a, b) => a?.label?.localeCompare(b?.label));
 
 export const packagingUnits = [
@@ -88,6 +88,33 @@ export const quantityOptions = [
   { value: "5000-8000", label: "5000-8000" },
   { value: "8000-12000", label: "8000-12000" },
 ];
+
+export const strengthOptions = [
+  { value: "mg (milligrams)", label: "mg (milligrams)" },
+  { value: "g (grams)", label: "g (grams)" },
+  { value: "mcg / µg (micrograms)", label: "mcg / µg (micrograms)" },
+  { value: "kg (kilograms)", label: "kg (kilograms)" },
+  { value: "mL (milliliters)", label: "mL (milliliters)" },
+  { value: "L (liters)", label: "L (liters)" },
+  { value: "mg/mL", label: "mg/mL" },
+  { value: "mg/L", label: "mg/L" },
+  { value: "% w/v (weight/volume)", label: "% w/v (weight/volume)" },
+  { value: "% v/v (volume/volume)", label: "% v/v (volume/volume)" },
+  { value: "IU (International Units)", label: "IU (International Units)" },
+  { value: "U (Units)", label: "U (Units)" },
+  { value: "mEq (milliequivalents)", label: "mEq (milliequivalents)" },
+  { value: "mmol (millimoles)", label: "mmol (millimoles)" },
+  { value: "mg/kg", label: "mg/kg" },
+  { value: "per tablet", label: "per tablet" },
+  { value: "per capsule", label: "per capsule" },
+  { value: "per 5 mL", label: "per 5 mL" },
+  { value: "per mL", label: "per mL" },
+  { value: "per vial", label: "per vial" },
+  { value: "per ampoule", label: "per ampoule" },
+  { value: "per mL", label: "per mL" },
+  { value: "% concentration", label: "% concentration" },
+  { value: "mg/g", label: "mg/g" },
+]?.sort((a, b) => a?.label?.localeCompare(b?.label));
 
 export const stockQuantityOptions = [
   { value: "America", label: "America" },
@@ -180,8 +207,9 @@ export const initialValues = {
   sku: "",
   stock: "",
   stockQuantity: "",
-  quantityFrom: "",
-  quantityTo: "",
+  quantity: "",
+  // quantityTo: "",
+  totalPrice: "",
   countries: [],
   date: "",
   complianceFile: [],
@@ -211,10 +239,12 @@ export const initialValues = {
   ],
   productPricingDetails: [
     {
-      quantityFrom: "",
-      quantityTo: "",
+      quantity: "",
+      // quantityTo: "",
       price: "",
-      deliveryTime: "TBC - Depends on quantity",
+      totalPrice: "",
+      // deliveryTime: "TBC - Depends on quantity",
+      deliveryTime: "",
     },
   ],
   cNCFileNDate: [
@@ -340,11 +370,11 @@ export const initialValues = {
 export const addProductValidationSchema = Yup.object({
   name: Yup.string().required("Product Name is required."),
   description: Yup.string().required("Product Description is required."),
-  // manufacturer: Yup.string().required("Manufacturer Name is required."),
-  aboutManufacturer: Yup.string().required("Short Description is required."),
-  // countryOfOrigin: Yup.string().required(
-  //   "Manufacturer Country of Origin is required."
-  // ),
+  manufacturer: Yup.string().required("Manufacturer Name is required."),
+  aboutManufacturer: Yup.string().required("About Manufacturer is required."),
+  countryOfOrigin: Yup.string().required(
+    "Manufacturer Country of Origin is required."
+  ),
   model: Yup.string()
     .required("Part/Model Number is required.")
     .matches(
@@ -368,7 +398,7 @@ export const addProductValidationSchema = Yup.object({
       /^[a-zA-Z0-9\s]+$/,
       "Product Type/Form must be alphanumeric (letters, numbers, and spaces only)."
     ),
-  quantity: Yup.number().required("Product Quantity is required."),
+  // quantity: Yup.number().required("Product Quantity is required."),
 
   // volumn: Yup.string().required("Product Size/Volumn is required."),
   // volumeUnit: Yup.string().required("Product Volume Unit is required."),
@@ -394,9 +424,9 @@ export const addProductValidationSchema = Yup.object({
   // }),
   // costPerProduct: Yup.string().required("Cost Per Unit is required."),
   // sku: Yup.string().required("SKU is required."),
-  stock: Yup.string()
-    .oneOf(["In-stock", "Out of Stock", "On-demand"])
-    .required("Stock is required."),
+  // stock: Yup.string()
+  //   .oneOf(["In-stock", "Out of Stock", "On-demand"])
+  //   .required("Stock is required."),
   // stockQuantity: Yup.number().required("Stock Quantity is required."),
   // countries: Yup.array()
   //   .min(1, "At least one country must be selected.")
@@ -451,9 +481,9 @@ export const addProductValidationSchema = Yup.object({
   stockedInDetails: Yup.array().of(
     Yup.object({
       country: Yup.string().required("Country is required."),
-      // quantity: Yup.number()
-      //   .required("Quantity is required.")
-      //   .positive("Quantity must be greater than 0"),
+      quantity: Yup.number()
+        .required("Quantity is required.")
+        .positive("Quantity must be greater than 0"),
       // type: Yup.string().required("Type is required."),
     })
   ),
@@ -461,9 +491,9 @@ export const addProductValidationSchema = Yup.object({
   productPricingDetails: Yup.array()
     .of(
       Yup.object({
-        // quantity: Yup.string().required("Quantity is required."),
-        quantityFrom: Yup.string().required("Quantity From is required."),
-        quantityTo: Yup.string().required("Quantity To is required."),
+        quantity: Yup.string().required("Quantity is required."),
+        // quantityFrom: Yup.string().required("Quantity From is required."),
+        // quantityTo: Yup.string().required("Quantity To is required."),
         price: Yup.number()
           .typeError("Cost Per Price must be a number.")
           .required("Cost Per Price is required.")
@@ -476,12 +506,24 @@ export const addProductValidationSchema = Yup.object({
               return /^\d+(\.\d{1,3})?$/.test(value.toString()); // Allows up to 3 decimals
             }
           ),
-        // deliveryTime: Yup.string()
-        //   .matches(
-        //     /^\d{1,3}$/,
-        //     "Delivery Time must be a number with up to 3 digits."
-        //   )
-        //   .required("Est. Delivery Time is required."),
+        totalPrice: Yup.number()
+          .typeError("Total Price must be a number.")
+          .required("Total Price is required.")
+          .positive("Total Price must be greater than 0")
+          .test(
+            "decimal-places",
+            "Price can have up to 3 decimal places only.",
+            (value) => {
+              if (value === undefined || value === null) return true; // Skip validation if empty
+              return /^\d+(\.\d{1,3})?$/.test(value.toString()); // Allows up to 3 decimals
+            }
+          ),
+        deliveryTime: Yup.string()
+          .matches(
+            /^\d{1,3}$/,
+            "Delivery Time must be a number with up to 3 digits."
+          )
+          .required("Est. Delivery Time is required."),
       })
     )
     .min(1, "At least one product is required."), // Optional: You can enforce at least one item in the array
@@ -1279,11 +1321,11 @@ export const addProductValidationSchema = Yup.object({
 export const editProductValidationSchema = Yup.object({
   name: Yup.string().required("Product Name is required."),
   description: Yup.string().required("Product Description is required."),
-  // manufacturer: Yup.string().required("Manufacturer Name is required."),
-  aboutManufacturer: Yup.string().required("Short Description is required."),
-  // countryOfOrigin: Yup.string().required(
-  //   "Manufacturer Country of Origin is required."
-  // ),
+  manufacturer: Yup.string().required("Manufacturer Name is required."),
+  aboutManufacturer: Yup.string().required("About Manufacturer is required."),
+  countryOfOrigin: Yup.string().required(
+    "Manufacturer Country of Origin is required."
+  ),
   model: Yup.string()
     .required("Part/Model Number is required.")
     .matches(
@@ -1311,7 +1353,7 @@ export const editProductValidationSchema = Yup.object({
       /^[a-zA-Z0-9\s]+$/,
       "Product Type/Form must be alphanumeric (letters, numbers, and spaces only)."
     ),
-  quantity: Yup.number().required("Product Quantity is required."),
+  // quantity: Yup.number().required("Product Quantity is required."),
   weight: Yup.number()
     .typeError("Product Weight must be a number.")
     .positive("Product Weight must be greater than 0"),
@@ -1339,9 +1381,9 @@ export const editProductValidationSchema = Yup.object({
   // }),
   // costPerProduct: Yup.string().required("Cost Per Unit is required."),
   // sku: Yup.string().required("SKU is required."),
-  stock: Yup.string()
-    .oneOf(["In-stock", "Out of Stock", "On-demand"])
-    .required("Stock is required."),
+  // stock: Yup.string()
+  //   .oneOf(["In-stock", "Out of Stock", "On-demand"])
+  //   .required("Stock is required."),
   // stockQuantity: Yup.number().required("Stock Quantity is required."),
   // countries: Yup.array()
   //   .min(1, "At least one country must be selected.")
@@ -1394,20 +1436,19 @@ export const editProductValidationSchema = Yup.object({
   // .nullable(),
   stockedInDetails: Yup.array().of(
     Yup.object({
-      country: Yup.string()
-        .required("Country is required.")
-        // .test(
-        //   "country-in-countries",
-        //   "Country must be one of the selected countries",
-        //   (value, context) => {
-        //     const { countries } = context?.from?.[context?.from?.length-1]?.value; // Get the countries array from the form values
-        //     console.log("context.parent",countries)
-        //     return countries?.includes(value); // Check if the country exists in the countries array
-        //   }
-        // ),
-      // quantity: Yup.number()
-      //   .required("Quantity is required.")
-      //   .positive("Quantity must be greater than 0"),
+      country: Yup.string().required("Country is required.")
+      .test(
+        "country-in-countries",
+        "Country must be one of the selected countries",
+        (value, context) => {
+          const { countries } = context?.from?.[context?.from?.length-1]?.value; // Get the countries array from the form values
+          console.log("context.parent",countries)
+          return countries?.includes(value); // Check if the country exists in the countries array
+        }
+      ),
+      quantity: Yup.number()
+        .required("Quantity is required.")
+        .positive("Quantity must be greater than 0"),
       // type: Yup.string().required("Type is required."),
     })
   ),
@@ -1415,15 +1456,15 @@ export const editProductValidationSchema = Yup.object({
   productPricingDetails: Yup.array()
     .of(
       Yup.object({
-        // quantity: Yup.string().required("Quantity is required."),
-        quantityFrom: Yup.number()
-          .typeError("Quantity From must be a number.")
-          .required("Quantity From is required.")
-          .positive("Quantity From must be greater than 0"),
-        quantityTo: Yup.number()
-          .typeError("Quantity To must be a number.")
-          .required("Quantity To is required.")
-          .positive("Quantity To must be greater than 0"),
+        quantity: Yup.string().required("Quantity is required."),
+        // quantity: Yup.number()
+        //   .typeError("Quantity From must be a number.")
+        //   .required("Quantity is required.")
+        //   .positive("Quantity From must be greater than 0"),
+        // quantityTo: Yup.number()
+        //   .typeError("Quantity To must be a number.")
+        //   .required("Quantity To is required.")
+        //   .positive("Quantity To must be greater than 0"),
         price: Yup.number()
           .typeError("Cost Per Price must be a number.")
           .required("Cost Per Price is required.")
@@ -1436,12 +1477,24 @@ export const editProductValidationSchema = Yup.object({
               return /^\d+(\.\d{1,3})?$/.test(value.toString()); // Allows up to 3 decimals
             }
           ),
-        // deliveryTime: Yup.string()
-        //   .matches(
-        //     /^\d{1,3}$/,
-        //     "Delivery Time must be a number with up to 3 digits."
-        //   )
-        //   .required("Est. Delivery Time is required."),
+        totalPrice: Yup.number()
+          .typeError("Total Price must be a number.")
+          .required("Total Price is required.")
+          .positive("Total Price must be greater than 0")
+          .test(
+            "decimal-places",
+            "Price can have up to 3 decimal places only.",
+            (value) => {
+              if (value === undefined || value === null) return true; // Skip validation if empty
+              return /^\d+(\.\d{1,3})?$/.test(value.toString()); // Allows up to 3 decimals
+            }
+          ),
+        deliveryTime: Yup.string()
+          .matches(
+            /^\d{1,3}$/,
+            "Delivery Time must be a number with up to 3 digits."
+          )
+          .required("Est. Delivery Time is required."),
       })
     )
     .min(1, "At least one product is required."), // Optional: You can enforce at least one item in the array

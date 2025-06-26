@@ -1,8 +1,8 @@
 import * as Yup from "yup";
 
 export const Options = [
-  { value: "new product", label: "New Product" },
-  { value: "secondary product", label: "Secondary Product" },
+  { value: "new", label: "New Market" },
+  { value: "secondary", label: "Secondary Market" },
 ]?.sort((a, b) => a?.label?.localeCompare(b?.label));
 
 export const packagingUnits = [
@@ -18,7 +18,7 @@ export const packagingUnits = [
   { value: "Short ton", label: "Short ton" },
   { value: "Carat (ct)", label: "Carat (ct)" },
   { value: "Grain (gr)", label: "Grain (gr)" },
-  { value: "Milliton (mt)", label: "Milliton (mt)" },
+  { value: "Milliton (mt)", label: "Milliton (mt)" }, // Additional unit
 ].sort((a, b) => a?.label?.localeCompare(b?.label));
 
 export const volumeUnits = [
@@ -31,19 +31,19 @@ export const volumeUnits = [
   { value: "Cubic inch (in³)", label: "Cubic inch (in³)" },
   { value: "Cubic foot (ft³)", label: "Cubic foot (ft³)" },
   { value: "Cubic yard (yd³)", label: "Cubic yard (yd³)" },
-  { value: "Gallon (gal)", label: "Gallon (gal)" },
-  { value: "Quart (qt)", label: "Quart (qt)" },
-  { value: "Pint (pt)", label: "Pint (pt)" },
+  { value: "Gallon (gal)", label: "Gallon (gal)" }, // Additional unit
+  { value: "Quart (qt)", label: "Quart (qt)" }, // Additional unit
+  { value: "Pint (pt)", label: "Pint (pt)" }, // Additional unit
 ].sort((a, b) => a?.label?.localeCompare(b?.label));
 
 export const dimensionUnits = [
   { value: "Millimeter (mm)", label: "Millimeter (mm)" },
   { value: "Centimeter (cm)", label: "Centimeter (cm)" },
-  { value: "Meter (m)", label: "Meter (m)" },
+  { value: "Meter (m)", label: "Meter (m)" }, // Fixed label
   { value: "Inch (in)", label: "Inch (in)" },
   { value: "Feet (ft)", label: "Feet (ft)" },
-  { value: "Yard (yd)", label: "Yard (yd)" },
-  { value: "Mile (mi)", label: "Mile (mi)" },
+  { value: "Yard (yd)", label: "Yard (yd)" }, // Additional unit
+  { value: "Mile (mi)", label: "Mile (mi)" }, // Additional unit
 ].sort((a, b) => a?.label?.localeCompare(b?.label));
 
 export const packagingOptions = [
@@ -88,6 +88,33 @@ export const quantityOptions = [
   { value: "5000-8000", label: "5000-8000" },
   { value: "8000-12000", label: "8000-12000" },
 ];
+
+export const strengthOptions = [
+  { value: "mg (milligrams)", label: "mg (milligrams)" },
+  { value: "g (grams)", label: "g (grams)" },
+  { value: "mcg / µg (micrograms)", label: "mcg / µg (micrograms)" },
+  { value: "kg (kilograms)", label: "kg (kilograms)" },
+  { value: "mL (milliliters)", label: "mL (milliliters)" },
+  { value: "L (liters)", label: "L (liters)" },
+  { value: "mg/mL", label: "mg/mL" },
+  { value: "mg/L", label: "mg/L" },
+  { value: "% w/v (weight/volume)", label: "% w/v (weight/volume)" },
+  { value: "% v/v (volume/volume)", label: "% v/v (volume/volume)" },
+  { value: "IU (International Units)", label: "IU (International Units)" },
+  { value: "U (Units)", label: "U (Units)" },
+  { value: "mEq (milliequivalents)", label: "mEq (milliequivalents)" },
+  { value: "mmol (millimoles)", label: "mmol (millimoles)" },
+  { value: "mg/kg", label: "mg/kg" },
+  { value: "per tablet", label: "per tablet" },
+  { value: "per capsule", label: "per capsule" },
+  { value: "per 5 mL", label: "per 5 mL" },
+  { value: "per mL", label: "per mL" },
+  { value: "per vial", label: "per vial" },
+  { value: "per ampoule", label: "per ampoule" },
+  { value: "per mL", label: "per mL" },
+  { value: "% concentration", label: "% concentration" },
+  { value: "mg/g", label: "mg/g" },
+]?.sort((a, b) => a?.label?.localeCompare(b?.label));
 
 export const stockQuantityOptions = [
   { value: "America", label: "America" },
@@ -180,8 +207,9 @@ export const initialValues = {
   sku: "",
   stock: "",
   stockQuantity: "",
-  quantityFrom: "",
-  quantityTo: "",
+  quantity: "",
+  // quantityTo: "",
+  totalPrice: "",
   countries: [],
   date: "",
   complianceFile: [],
@@ -193,6 +221,8 @@ export const initialValues = {
   healthHazardRating: [],
   environmentalImpact: [],
   category: "",
+  // supplier_id: "",
+  // market related fields (new/secondary)
   market: "",
   purchasedOn: "",
   countryAvailable: [],
@@ -209,10 +239,12 @@ export const initialValues = {
   ],
   productPricingDetails: [
     {
-      quantityFrom: "",
-      quantityTo: "",
+      quantity: "",
+      // quantityTo: "",
       price: "",
-      deliveryTime: "TBC - Depends on quantity",
+      totalPrice: "",
+      // deliveryTime: "TBC - Depends on quantity",
+      deliveryTime: "",
     },
   ],
   cNCFileNDate: [
@@ -221,6 +253,7 @@ export const initialValues = {
       date: "",
     },
   ],
+  // Common fields of multiple categories
   drugClass: defaultValues || "",
   controlledSubstance: false,
   otcClassification: "",
@@ -266,11 +299,12 @@ export const initialValues = {
   foldability: defaultValues || "",
   fragrance: "",
   healthBenefit: defaultValues || "",
-
+  // Add the other fields under MedicalEquipmentAndDevices
   laserType: "",
   coolingSystem: "",
   spotSize: "",
-
+  // Add the other fields under Pharmaceuticals
+  // Add the other fields under SkinHairCosmeticSupplies
   spf: "",
   dermatologistTested: "",
   dermatologistTestedFile: [],
@@ -278,11 +312,12 @@ export const initialValues = {
   pediatricianRecommendedFile: [],
   moisturizers: defaultValues || "",
   fillerType: defaultValues || "",
-
+  // Add the other fields under VitalHealthAndWellness
+  // Add the other fields under MedicalConsumablesAndDisposables
   filtrationEfficiency: "",
   layerCount: "",
   filtrationType: [],
-
+  // Add the other fields under LaboratorySupplies
   magnificationRange: "",
   objectiveLenses: "",
   powerSource: "",
@@ -292,36 +327,38 @@ export const initialValues = {
   grade: "",
   physicalState: [],
   hazardClassification: [],
-
+  // Add the other fields under DiagnosticAndMonitoringDevices
   flowRate: "",
   noiseLevel: "",
-
+  // Add the other fields under HospitalAndClinicSupplies
+  // Add the other fields under OrthopedicSupplies
   colorOptions: "",
   moistureResistance: "",
-
+  // Add the other fields under DentalProducts
+  // Add the other fields under EyeCareSupplies
   lensPower: "",
   baseCurve: "",
   diameter: "",
   frame: "",
   lens: "",
   lensMaterial: "",
-
+  // Add the other fields under HomeHealthcareProducts
   maxWeightCapacity: "",
   gripType: "",
   lockingMechanism: "",
   typeOfSupport: "",
   batteryType: "",
   batterySize: "",
-
+  // Add the other fields under AlternativeMedicines
   healthClaims: "",
   healthClaimsFile: [],
-
+  // Add the other fields under EmergencyAndFirstAidSupplies
   productLongevity: defaultValues || "",
   flavorOptions: defaultValues || "",
   aminoAcidProfile: defaultValues || "",
   fatContent: defaultValues || "",
   dairyFree: "",
-
+  // Add the other fields under HealthcareITSolutions
   license: defaultValues || "",
   scalabilityInfo: defaultValues || "",
   addOns: defaultValues || "",
@@ -333,12 +370,17 @@ export const initialValues = {
 export const addProductValidationSchema = Yup.object({
   name: Yup.string().required("Product Name is required."),
   description: Yup.string().required("Product Description is required."),
-  // manufacturer: Yup.string().required("Manufacturer Name is required."),
-  aboutManufacturer: Yup.string().required("Short Description is required."),
-  // countryOfOrigin: Yup.string().required(
-  //   "Manufacturer Country of Origin is required."
-  // ),
-  model: Yup.string().required("Part/Model Number is required."),
+  manufacturer: Yup.string().required("Manufacturer Name is required."),
+  aboutManufacturer: Yup.string().required("About Manufacturer is required."),
+  countryOfOrigin: Yup.string().required(
+    "Manufacturer Country of Origin is required."
+  ),
+  model: Yup.string()
+    .required("Part/Model Number is required.")
+    .matches(
+      /^[a-zA-Z0-9\s\-\/]+$/,
+      "Part/Model Number can only contain letters, numbers, spaces, hyphens (-), and slashes (/)."
+    ),
   image: Yup.array()
     .max(4, "You can upload up to 4 images.")
     .of(
@@ -348,39 +390,110 @@ export const addProductValidationSchema = Yup.object({
           "fileSize",
           "File too large",
           (value) => value && value.size <= 1024 * 1024 * 5
-        )
+        ) // Max 5MB
     ),
-  // form: Yup.string().required("Product Type/Form is required."),
-  quantity: Yup.number().required("Product Quantity is required."),
+  form: Yup.string()
+    // .required("Product Type/Form is required.")
+    .matches(
+      /^[a-zA-Z0-9\s]+$/,
+      "Product Type/Form must be alphanumeric (letters, numbers, and spaces only)."
+    ),
+  // quantity: Yup.number().required("Product Quantity is required."),
 
+  // volumn: Yup.string().required("Product Size/Volumn is required."),
+  // volumeUnit: Yup.string().required("Product Volume Unit is required."),
+  // dimension: Yup.string().required("Product Dimension is required."),
   // weight: Yup.number().required("Product Weight is required."),
   // unit: Yup.string().required("Product Weight Unit is required."),
   unit_tax: Yup.string().required("Tax Percentage is required."),
-
-  stock: Yup.string()
-    .oneOf(["In-stock", "Out of Stock", "On-demand"])
-    .required("Stock is required."),
-
+  // packageType: Yup.string().required("Product Packaging Type is required."),
+  // packageMaterial: Yup.string().required(
+  //   "Product Packaging Material is required."
+  // ),
+  // packageMaterialIfOther: Yup.string()
+  //   .when("packageMaterial", {
+  //     is: "Other",
+  //     then: Yup.string().required("Package Material Name is required."),
+  //   })
+  //   .nullable(),
+  // packageMaterialIfOther: Yup.string().when("packageMaterial", {
+  //   is: "Other",
+  //   then: Yup.string().required(
+  //     "Product Packaging Material Other Name is required."
+  //   ),
+  // }),
+  // costPerProduct: Yup.string().required("Cost Per Unit is required."),
+  // sku: Yup.string().required("SKU is required."),
+  // stock: Yup.string()
+  //   .oneOf(["In-stock", "Out of Stock", "On-demand"])
+  //   .required("Stock is required."),
+  // stockQuantity: Yup.number().required("Stock Quantity is required."),
   // countries: Yup.array()
   //   .min(1, "At least one country must be selected.")
   //   .of(Yup.string().required("Country Available is required.")),
+  // date: Yup.string().required("Date is required."),
+  // date: Yup.str  ing()
+  // .required("Date is required.")
+  // .test(
+  //   'is-valid-date',
+  //   'Please enter a valid date',
+  //   function (value) {
+  //     if (!value) return false;
+
+  //     // Split the date and convert to numbers
+  //     const parts = ?.split('-');
+  //     if (parts.length !== 3) return false;
+
+  //     const day = parseInt(parts[0], 10);
+  //     const month = parseInt(parts[1], 10);
+  //     const year = parseInt(parts[2], 10);
+
+  //     // Check if date is valid (using Date object)
+  //     const date = new Date(year, month - 1, day);
+  //     return (
+  //       date.getFullYear() === year &&
+  //       date.getMonth() === month - 1 &&
+  //       date.getDate() === day
+  //     );
+  //   }
+  // )
+  // .test(
+  //   "not-future-date",
+  //   "Future dates are not allowed",
+  //   function (value) {
+  //     if (!value) return true;
+
+  //     const parts = ?.split("-");
+  //     if (parts.length !== 3) return true;
+
+  //     const day = parseInt(parts[0], 10);
+  //     const month = parseInt(parts[1], 10);
+  //     const year = parseInt(parts[2], 10);
+
+  //     const enteredDate = new Date(year, month - 1, day);
+  //     const today = new Date();
+
+  //     return enteredDate <= today;
+  //   }
+  // )
+  // .nullable(),
 
   stockedInDetails: Yup.array().of(
     Yup.object({
       country: Yup.string().required("Country is required."),
-      // quantity: Yup.number()
-      //   .required("Quantity is required.")
-      //   .positive("Quantity must be greater than 0"),
+      quantity: Yup.number()
+        .required("Quantity is required.")
+        .positive("Quantity must be greater than 0"),
       // type: Yup.string().required("Type is required."),
     })
   ),
   // .min(1, "At least one product is required."), // Optional: You can enforce at least one item in the array
-
   productPricingDetails: Yup.array()
     .of(
       Yup.object({
-        quantityFrom: Yup.string().required("Quantity From is required."),
-        quantityTo: Yup.string().required("Quantity To is required."),
+        quantity: Yup.string().required("Quantity is required."),
+        // quantityFrom: Yup.string().required("Quantity From is required."),
+        // quantityTo: Yup.string().required("Quantity To is required."),
         price: Yup.number()
           .typeError("Cost Per Price must be a number.")
           .required("Cost Per Price is required.")
@@ -389,19 +502,31 @@ export const addProductValidationSchema = Yup.object({
             "decimal-places",
             "Price can have up to 3 decimal places only.",
             (value) => {
-              if (value === undefined || value === null) return true;
-              return /^\d+(\.\d{1,3})?$/.test(value.toString());
+              if (value === undefined || value === null) return true; // Skip validation if empty
+              return /^\d+(\.\d{1,3})?$/.test(value.toString()); // Allows up to 3 decimals
             }
           ),
-        // deliveryTime: Yup.string()
-        //   .matches(
-        //     /^\d{1,3}$/,
-        //     "Delivery Time must be a number with up to 3 digits."
-        //   )
-        //   .required("Est. Delivery Time is required."),
+        totalPrice: Yup.number()
+          .typeError("Total Price must be a number.")
+          .required("Total Price is required.")
+          .positive("Total Price must be greater than 0")
+          .test(
+            "decimal-places",
+            "Price can have up to 3 decimal places only.",
+            (value) => {
+              if (value === undefined || value === null) return true; // Skip validation if empty
+              return /^\d+(\.\d{1,3})?$/.test(value.toString()); // Allows up to 3 decimals
+            }
+          ),
+        deliveryTime: Yup.string()
+          .matches(
+            /^\d{1,3}$/,
+            "Delivery Time must be a number with up to 3 digits."
+          )
+          .required("Est. Delivery Time is required."),
       })
     )
-    .min(1, "At least one product is required."),
+    .min(1, "At least one product is required."), // Optional: You can enforce at least one item in the array
   cNCFileNDate: Yup.array().of(
     Yup.object({
       file: Yup.array()
@@ -596,10 +721,9 @@ export const addProductValidationSchema = Yup.object({
   // New Fields Validation
   subCategory: Yup.string()
     .required("Sub Category is required.")
-
+    // For "MedicalEquipmentAndDevices" category
     .when("category", {
       is: "MedicalEquipmentAndDevices",
-    // For "MedicalEquipmentAndDevices" category
       then: Yup.string().oneOf(
         [
           "Diagnostic Tools",
@@ -625,7 +749,7 @@ export const addProductValidationSchema = Yup.object({
         "Invalid Subcategory"
       ),
     })
-
+    // For "Pharmaceuticals" category
     .when("category", {
       is: "Pharmaceuticals",
       then: Yup.string().oneOf(
@@ -907,7 +1031,7 @@ export const addProductValidationSchema = Yup.object({
   //         "VitalHealthAndWellness",
   //         "MedicalConsumablesAndDisposables",
   //         "HospitalAndClinicSupplies",
-
+  //         // "OrthopedicSupplies",
   //         "DentalProducts",
   //         "HomeHealthcareProducts",
   //         "AlternativeMedicines",
@@ -931,7 +1055,11 @@ export const addProductValidationSchema = Yup.object({
   //       .min(1, "At least one file is required for the Interoperability file.")
   //       .max(4, "You can upload up to 4 Interoperability files.")
   //       .required("Interoperability files is required."),
-
+  //     // .test(
+  //     //   "fileSize",
+  //     //   "File too large",
+  //     //   (value) => value && value.size <= 1024 * 1024 * 5
+  //     // ), // Max 5MB
   //   })
   //   .nullable(),
   specification: Yup.string()
@@ -1022,7 +1150,9 @@ export const addProductValidationSchema = Yup.object({
       then: Yup.string().required("Health Benfits is required."),
     })
     .nullable(),
-
+  // Add the other fields under MedicalEquipmentAndDevices
+  // Add the other fields under Pharmaceuticals
+  // Add the other fields under SkinHairCosmeticSupplies
   dermatologistTested: Yup.string()
     .when("category", {
       is: "SkinHairCosmeticSupplies",
@@ -1035,7 +1165,7 @@ export const addProductValidationSchema = Yup.object({
     is: "SkinHairCosmeticSupplies", // Check category first
     then: Yup.array()
       .when("dermatologistTested", {
-        is: (val) => val && val == "Yes",
+        is: (val) => val && val == "Yes", // If dermatologistTestedFile has a value
         then: Yup.array()
           .min(1, "At least one file is required for the Dermatologist Tested.")
           .max(4, "You can upload up to 4 dermatologist tested files.")
@@ -1049,10 +1179,10 @@ export const addProductValidationSchema = Yup.object({
                 (value) => value && value.size <= 1024 * 1024 * 5
               ) // Max 5MB
           ),
-        otherwise: Yup.array().nullable(),
+        otherwise: Yup.array().nullable(), // If no dermatologistTestedFile, file is optional
       })
       .nullable(),
-    otherwise: Yup.array().nullable(),
+    otherwise: Yup.array().nullable(), // If category is not dermatologistTestedFile, it's not required
   }),
   pediatricianRecommended: Yup.string()
     .when("category", {
@@ -1063,10 +1193,10 @@ export const addProductValidationSchema = Yup.object({
     })
     .nullable(),
   pediatricianRecommendedFile: Yup.array().when("category", {
-    is: "SkinHairCosmeticSupplies",
+    is: "SkinHairCosmeticSupplies", // Check category first
     then: Yup.array()
       .when("pediatricianRecommended", {
-        is: (val) => val && val == "Yes",
+        is: (val) => val && val == "Yes", // If pediatricianRecommendedFile has a value
         then: Yup.array()
           .min(
             1,
@@ -1083,12 +1213,21 @@ export const addProductValidationSchema = Yup.object({
                 (value) => value && value.size <= 1024 * 1024 * 5
               ) // Max 5MB
           ),
-        otherwise: Yup.array().nullable(),
+        otherwise: Yup.array().nullable(), // If no pediatricianRecommendedFile, file is optional
       })
       .nullable(),
-    otherwise: Yup.array().nullable(),
+    otherwise: Yup.array().nullable(), // If category is not pediatricianRecommendedFile, it's not required
   }),
-
+  // Add the other fields under VitalHealthAndWellness
+  // Add the other fields under MedicalConsumablesAndDisposables
+  // Add the other fields under LaboratorySupplies
+  // Add the other fields under DiagnosticAndMonitoringDevices
+  // Add the other fields under HospitalAndClinicSupplies
+  // Add the other fields under OrthopedicSupplies
+  // Add the other fields under DentalProducts
+  // Add the other fields under EyeCareSupplies
+  // Add the other fields under HomeHealthcareProducts
+  // // Add the other fields under
   healthClaimsFile: Yup.array()
     .when("category", {
       is: "AlternativeMedicines",
@@ -1182,12 +1321,17 @@ export const addProductValidationSchema = Yup.object({
 export const editProductValidationSchema = Yup.object({
   name: Yup.string().required("Product Name is required."),
   description: Yup.string().required("Product Description is required."),
-  // manufacturer: Yup.string().required("Manufacturer Name is required."),
-  aboutManufacturer: Yup.string().required("Short Description is required."),
-  // countryOfOrigin: Yup.string().required(
-  //   "Manufacturer Country of Origin is required."
-  // ),
-  model: Yup.string().required("Part/Model Number is required."),
+  manufacturer: Yup.string().required("Manufacturer Name is required."),
+  aboutManufacturer: Yup.string().required("About Manufacturer is required."),
+  countryOfOrigin: Yup.string().required(
+    "Manufacturer Country of Origin is required."
+  ),
+  model: Yup.string()
+    .required("Part/Model Number is required.")
+    .matches(
+      /^[a-zA-Z0-9\s\-\/]+$/,
+      "Part/Model Number can only contain letters, numbers, spaces, hyphens (-), and slashes (/)."
+    ),
   image: Yup.array().max(4, "You can upload up to 4 images."),
   // .of(
   // Yup.string().required("A file path is required.") // Since it's now a string
@@ -1203,52 +1347,124 @@ export const editProductValidationSchema = Yup.object({
           (value) => value && value.size <= 1024 * 1024 * 5 // Max 5MB
         )
     ),
-  // form: Yup.string().required("Product Type/Form is required."),
-  quantity: Yup.number().required("Product Quantity is required."),
-  // weight: Yup.number().required("Product Weight is required."),
+  form: Yup.string()
+    // .required("Product Type/Form is required.")
+    .matches(
+      /^[a-zA-Z0-9\s]+$/,
+      "Product Type/Form must be alphanumeric (letters, numbers, and spaces only)."
+    ),
+  // quantity: Yup.number().required("Product Quantity is required."),
+  weight: Yup.number()
+    .typeError("Product Weight must be a number.")
+    .positive("Product Weight must be greater than 0"),
+  // .required("Product Weight is required."),
   // unit: Yup.string().required("Product Weight Unit is required."),
-  unit_tax: Yup.string().required("Tax Percentage is required."),
-
-  stock: Yup.string()
-    .oneOf(["In-stock", "Out of Stock", "On-demand"])
-    .required("Stock is required."),
-
+  unit_tax: Yup.number()
+    .typeError("Tax must be a number.")
+    .positive("Tax must be greater than 0")
+    .required("Tax Percentage is required."),
+  // packageType: Yup.string().required("Product Packaging Type is required."),
+  // packageMaterial: Yup.string().required(
+  //   "Product Packaging Material is required."
+  // ),
+  // packageMaterialIfOther: Yup.string()
+  //   .when("packageMaterial", {
+  //     is: "Other",
+  //     then: Yup.string().required("Package Material Name is required."),
+  //   })
+  //   .nullable(),
+  // packageMaterialIfOther: Yup.string().when("packageMaterial", {
+  //   is: "Other",
+  //   then: Yup.string().required(
+  //     "Product Packaging Material Other Name is required."
+  //   ),
+  // }),
+  // costPerProduct: Yup.string().required("Cost Per Unit is required."),
+  // sku: Yup.string().required("SKU is required."),
+  // stock: Yup.string()
+  //   .oneOf(["In-stock", "Out of Stock", "On-demand"])
+  //   .required("Stock is required."),
+  // stockQuantity: Yup.number().required("Stock Quantity is required."),
   // countries: Yup.array()
   //   .min(1, "At least one country must be selected.")
   //   .of(Yup.string().required("Country Available is required.")),
+  // date: Yup.string().required("Date is required."),
+  // date: Yup.string()
+  // .required("Date is required.")
+  // .test(
+  //   'is-valid-date',
+  //   'Please enter a valid date',
+  //   function (value) {
+  //     if (!value) return false;
 
+  //     // Split the date and convert to numbers
+  //     const parts = ?.split('-');
+  //     if (parts.length !== 3) return false;
+
+  //     const day = parseInt(parts[0], 10);
+  //     const month = parseInt(parts[1], 10);
+  //     const year = parseInt(parts[2], 10);
+
+  //     // Check if date is valid (using Date object)
+  //     const date = new Date(year, month - 1, day);
+  //     return (
+  //       date.getFullYear() === year &&
+  //       date.getMonth() === month - 1 &&
+  //       date.getDate() === day
+  //     );
+  //   }
+  // )
+  // .test(
+  //   "not-future-date",
+  //   "Future dates are not allowed",
+  //   function (value) {
+  //     if (!value) return true;
+
+  //     const parts = ?.split("-");
+  //     if (parts.length !== 3) return true;
+
+  //     const day = parseInt(parts[0], 10);
+  //     const month = parseInt(parts[1], 10);
+  //     const year = parseInt(parts[2], 10);
+
+  //     const enteredDate = new Date(year, month - 1, day);
+  //     const today = new Date();
+
+  //     return enteredDate <= today;
+  //   }
+  // )
+  // .nullable(),
   stockedInDetails: Yup.array().of(
     Yup.object({
-      country: Yup.string().required("Country is required."),
-      // .test(
-      //   "country-in-countries",
-      //   "Country must be one of the selected countries",
-      //   (value, context) => {
-      //     const { countries } = context?.from?.[context?.from?.length-1]?.value; // Get the countries array from the form values
-      //     console.log("context.parent",countries)
-      //     return countries?.includes(value); // Check if the country exists in the countries array
-      //   }
-      // ),
-      // quantity: Yup.number()
-      //   .required("Quantity is required.")
-      //   .positive("Quantity must be greater than 0"),
+      country: Yup.string().required("Country is required.")
+      .test(
+        "country-in-countries",
+        "Country must be one of the selected countries",
+        (value, context) => {
+          const { countries } = context?.from?.[context?.from?.length-1]?.value; // Get the countries array from the form values
+          console.log("context.parent",countries)
+          return countries?.includes(value); // Check if the country exists in the countries array
+        }
+      ),
+      quantity: Yup.number()
+        .required("Quantity is required.")
+        .positive("Quantity must be greater than 0"),
       // type: Yup.string().required("Type is required."),
     })
   ),
-  // .min(1, "At least one product is required."), // Optional: You can enforce at least one item in the array
-
+  //   .min(1, "At least one product is required."), // Optional: You can enforce at least one item in the array
   productPricingDetails: Yup.array()
     .of(
       Yup.object({
-        // quantity: Yup.string().required("Quantity is required."),
-        quantityFrom: Yup.number()
-          .typeError("Quantity From must be a number.")
-          .required("Quantity From is required.")
-          .positive("Quantity From must be greater than 0"),
-        quantityTo: Yup.number()
-          .typeError("Quantity To must be a number.")
-          .required("Quantity To is required.")
-          .positive("Quantity To must be greater than 0"),
+        quantity: Yup.string().required("Quantity is required."),
+        // quantity: Yup.number()
+        //   .typeError("Quantity From must be a number.")
+        //   .required("Quantity is required.")
+        //   .positive("Quantity From must be greater than 0"),
+        // quantityTo: Yup.number()
+        //   .typeError("Quantity To must be a number.")
+        //   .required("Quantity To is required.")
+        //   .positive("Quantity To must be greater than 0"),
         price: Yup.number()
           .typeError("Cost Per Price must be a number.")
           .required("Cost Per Price is required.")
@@ -1261,17 +1477,31 @@ export const editProductValidationSchema = Yup.object({
               return /^\d+(\.\d{1,3})?$/.test(value.toString()); // Allows up to 3 decimals
             }
           ),
-        // deliveryTime: Yup.string()
-        //   .matches(
-        //     /^\d{1,3}$/,
-        //     "Delivery Time must be a number with up to 3 digits."
-        //   )
-        //   .required("Est. Delivery Time is required."),
+        totalPrice: Yup.number()
+          .typeError("Total Price must be a number.")
+          .required("Total Price is required.")
+          .positive("Total Price must be greater than 0")
+          .test(
+            "decimal-places",
+            "Price can have up to 3 decimal places only.",
+            (value) => {
+              if (value === undefined || value === null) return true; // Skip validation if empty
+              return /^\d+(\.\d{1,3})?$/.test(value.toString()); // Allows up to 3 decimals
+            }
+          ),
+        deliveryTime: Yup.string()
+          .matches(
+            /^\d{1,3}$/,
+            "Delivery Time must be a number with up to 3 digits."
+          )
+          .required("Est. Delivery Time is required."),
       })
     )
     .min(1, "At least one product is required."), // Optional: You can enforce at least one item in the array
   complianceFile: Yup.array().max(4, "You can upload up to 4 Compliance File."),
-
+  // .of(
+  // Yup.string().required("A file path is required.") // Since it's now a string
+  // ),
   complianceFileNew: Yup.array()
     .max(4, "You can upload up to 4 Compliance File.")
     .of(
@@ -1294,7 +1524,9 @@ export const editProductValidationSchema = Yup.object({
         })
     ),
   guidelinesFile: Yup.array().max(4, "You can upload up to 4 guideline files."),
-
+  // .of(
+  // Yup.string().required("A file path is required.") // Since it's now a string
+  // ),
   guidelinesFileNew: Yup.array()
     .max(4, "You can upload up to 4 guideline files.")
     .of(
@@ -1345,7 +1577,9 @@ export const editProductValidationSchema = Yup.object({
     4,
     "You can upload up to 4 safety datasheets."
   ),
-
+  // .of(
+  // Yup.string().required("A file path is required.") // Since it's now a string
+  // ),
   healthHazardRatingNew: Yup.array()
     .max(4, "You can upload up to 4 safety datasheets.")
     .of(
@@ -1366,7 +1600,9 @@ export const editProductValidationSchema = Yup.object({
     4,
     "You can upload up to 4 safety datasheets."
   ),
-
+  // .of(
+  // Yup.string().required("A file path is required.") // Since it's now a string
+  // ),
   environmentalImpactNew: Yup.array()
     .max(4, "You can upload up to 4 safety datasheets.")
     .of(
@@ -1795,6 +2031,9 @@ export const editProductValidationSchema = Yup.object({
     .when("category", {
       is: (category) => ["HealthcareITSolutions"].includes(category),
       then: Yup.array().max(4, "You can upload up to 4 Interoperability file."),
+      // .of(
+      // Yup.string().required("A file path is required.") // Since it's now a string
+      // ),
     })
     .nullable(),
   interoperabilityFileNew: Yup.array()
@@ -1823,8 +2062,21 @@ export const editProductValidationSchema = Yup.object({
           "DiagnosticAndMonitoringDevices",
         ].includes(category),
       then: Yup.array().max(4, "You can upload up to 4 specification files."),
+      // .of(
+      // Yup.string().required("A file path is required.") // Since it's now a string
+      // ),
     })
-
+    // .when("category", {
+    //   is: (category) =>
+    //     ["MedicalEquipmentAndDevices","DiagnosticAndMonitoringDevices"].includes(category),
+    //   then: Yup.array()
+    //     .min(1, "At least one file is required for the specification file.")
+    //     .max(4, "You can upload up to 4 specification files.")
+    //     .required("specification files is required."),
+    //   // .of(
+    //   // Yup.string().required("A file path is required.") // Since it's now a string
+    //   // ),
+    // })
     .nullable(),
   specificationFileNew: Yup.array()
     .when("category", {
@@ -1877,6 +2129,9 @@ export const editProductValidationSchema = Yup.object({
         4,
         "You can upload up to 4 performance testing files."
       ),
+      // .of(
+      // Yup.string().required("A file path is required.") // Since it's now a string
+      // ),
     })
     .nullable(),
   performanceTestingReportFileNew: Yup.array()
@@ -1941,23 +2196,26 @@ export const editProductValidationSchema = Yup.object({
     is: "SkinHairCosmeticSupplies", // Check category first
     then: Yup.array()
       .when("dermatologistTested", {
-        is: (val) => val && val == "Yes",
+        is: (val) => val && val == "Yes", // If dermatologistTestedFile has a value
         then: Yup.array().max(
           4,
           "You can upload up to 4 dermatologist tested files."
         ),
-        otherwise: Yup.array().nullable(),
+        otherwise: Yup.array().nullable(), // If no dermatologistTestedFile, file is optional
       })
       .nullable(),
-    otherwise: Yup.array().nullable(),
+    otherwise: Yup.array().nullable(), // If category is not dermatologistTestedFile, it's not required
   }),
   dermatologistTestedFileNew: Yup.array().when("category", {
     is: "SkinHairCosmeticSupplies", // Check category first
     then: Yup.array()
       .when("dermatologistTested", {
-        is: (val) => val && val == "Yes",
+        is: (val) => val && val == "Yes", // If dermatologistTestedFile has a value
         then: Yup.array()
-
+          // .min(
+          //   1,
+          //   "At least one file is required for the Dermatologist Tested."
+          // )
           .max(4, "You can upload up to 4 dermatologist tested files.")
           .required("Dermatologist Tested file is required.")
           .of(
@@ -2002,7 +2260,10 @@ export const editProductValidationSchema = Yup.object({
       .when("pediatricianRecommended", {
         is: (val) => val && val == "Yes", // If pediatricianRecommendedFile has a value
         then: Yup.array()
-
+          // .min(
+          //   1,
+          //   "At least one file is required for the Pediatrician Recommended."
+          // )
           .max(4, "You can upload up to 4 Pediatrician Recommended files.")
           .required("Pediatrician Recommended file is required.")
           .of(
