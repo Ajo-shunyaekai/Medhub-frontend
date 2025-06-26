@@ -70,7 +70,16 @@ background: linear-gradient(to left, #00dcff, #0075ce);
     justify-content: center;
     cursor: pointer !important;
 }
-
+.activeDownloadBtn{
+     background-color: #f4c414;
+    border-radius: 4px;
+    color: #fff;
+    display: flex;
+    padding: 2px 6px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer !important;
+}
 .table-icon {
     cursor: pointer !important;
     font-size: 19px !important;

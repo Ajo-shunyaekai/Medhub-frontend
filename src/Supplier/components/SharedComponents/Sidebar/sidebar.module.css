@@ -73,7 +73,7 @@ flex-direction: column;
   width: 180px;
     font-size: 14px;
     display: flex;
-    color:#4f4f4f;
+    color:#5e676f;
     text-decoration: none;
     justify-content: start;
     align-items: center;
@@ -156,7 +156,7 @@ flex-direction: column;
   font-size: 13px;
   font-weight: 500;
   line-height: 20px;
-  color:#4f4f4f;
+  color:#5e676f;
   display: flex
 ;
   flex-direction: column;
@@ -178,7 +178,6 @@ flex-direction: column;
 .noti_profile_text {
   width: 100%;
   font-size: 14px;
-  font-weight: 500;
   color:#5e676f;
   padding: 10px 14px;
   border-bottom: 1px solid #a0afb926;
@@ -208,16 +207,14 @@ font-size: 14px;
 }
 
 .noti_see_all_num {
-  color:#4f4f4f;
+  color:#5e676f;
   font-size: 14px;
-  font-weight: 500;
 }
 
 .noti_see_all_btn {
   color: #005ef7;
   font-size: 14px;
   cursor: pointer !important;
-  font-weight: 500;
 }
 
 .noti_see_all_btn:hover {
@@ -239,7 +236,7 @@ font-size: 14px;
 .profile_wrapper a {
   list-style: none;
   text-decoration: none;
-  color:#4f4f4f;
+color: #5e676f;
   width: 100%;
   max-width: 90%;
 }
@@ -247,10 +244,9 @@ font-size: 14px;
 .profile_text {
   text-transform: capitalize;
   font-size: 14px;
-  font-weight: 500;
   border-bottom: 1px solid rgba(160, 175, 185, 0.15);
   padding: 8px 14px;
-  color:#4f4f4f;
+color: #5e676f;
 }
 
 .profile_text:hover {
@@ -281,10 +277,9 @@ font-size: 14px;
 }
 
 .profile_sign_out {
-  color:#4f4f4f;
+  color:#5e676f;
   padding: 8px 14px;
  font-size: 14px;
- font-weight: 500;
    cursor: pointer !important;;
 }
 

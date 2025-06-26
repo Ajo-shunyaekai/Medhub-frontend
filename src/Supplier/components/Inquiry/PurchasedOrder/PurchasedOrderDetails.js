@@ -245,7 +245,6 @@ const PurchasedOrderDetails = () => {
                             <p
                               style={{
                                 fontSize: "13px",
-                                fontWeight: "500",
                                 color: "#5e676f",
                               }}
                             >
@@ -282,7 +281,7 @@ const PurchasedOrderDetails = () => {
                           <p
                             style={{
                               fontSize: "16px",
-                              fontWeight: 450,
+                              fontWeight: 500,
                               color: "#5e676f",
                               textAlign: "end",
                             }}
@@ -332,7 +331,6 @@ const PurchasedOrderDetails = () => {
                             <p
                               style={{
                                 fontSize: "13px",
-                                fontWeight: "500",
                                 color: "#5e676f",
                               }}
                             >
@@ -358,7 +356,7 @@ const PurchasedOrderDetails = () => {
                                   style={{
                                     padding: "8px 0",
                                     fontWeight: 500,
-                                    borderBottom: "1px solid #616161",
+                                    borderBottom: "1px solid #555555",
                                     width: "40px",
                                   }}
                                 >
@@ -368,7 +366,7 @@ const PurchasedOrderDetails = () => {
                                   style={{
                                     padding: "8px 0",
                                     fontWeight: 500,
-                                    borderBottom: "1px solid #616161",
+                                    borderBottom: "1px solid #555555",
                                     width: "180px",
                                   }}
                                 >
@@ -378,7 +376,7 @@ const PurchasedOrderDetails = () => {
                                   style={{
                                     padding: "8px 0",
                                     fontWeight: 500,
-                                    borderBottom: "1px solid #616161",
+                                    borderBottom: "1px solid #555555",
                                     width: "40px",
                                   }}
                                 >
@@ -388,7 +386,7 @@ const PurchasedOrderDetails = () => {
                                   style={{
                                     padding: "8px 0",
                                     fontWeight: 500,
-                                    borderBottom: "1px solid #616161",
+                                    borderBottom: "1px solid #555555",
                                     textAlign: "end",
                                     width: "100px",
                                   }}
@@ -399,7 +397,7 @@ const PurchasedOrderDetails = () => {
                                   style={{
                                     padding: "8px 0",
                                     fontWeight: 500,
-                                    borderBottom: "1px solid #616161",
+                                    borderBottom: "1px solid #555555",
                                     textAlign: "end",
                                     width: "100px",
                                   }}
@@ -410,7 +408,7 @@ const PurchasedOrderDetails = () => {
                                   style={{
                                     padding: "8px 0",
                                     fontWeight: 500,
-                                    borderBottom: "1px solid #616161",
+                                    borderBottom: "1px solid #555555",
                                     textAlign: "end",
                                     width: "120px",
                                   }}
@@ -528,8 +526,8 @@ const PurchasedOrderDetails = () => {
                           <table>
                             <tbody
                               style={{
-                                borderTop: "1px solid #616161",
-                                borderBottom: "1px solid #616161",
+                                borderTop: "1px solid #555555",
+                                borderBottom: "1px solid #555555",
                               }}
                             >
                               <tr>
@@ -597,7 +595,7 @@ const PurchasedOrderDetails = () => {
                 <tbody
                   style={{
                     width: "100%",
-                    borderBottom: "1px solid #616161",
+                    borderBottom: "1px solid #555555",
                   }}
                 >
                   <tr>

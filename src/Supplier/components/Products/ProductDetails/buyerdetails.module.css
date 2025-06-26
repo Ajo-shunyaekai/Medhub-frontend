@@ -68,7 +68,7 @@
 
 .mainHead {
     color:#5e676f;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 500;
 }
 .typeLink{
@@ -79,7 +79,7 @@
 .typeHead {
     font-size: 14px;
     font-weight: 500;
-    color: #616161 !important;
+    color: #5e676f !important;
 }
 
 .headIcons {
@@ -128,7 +128,7 @@
 }
 
 .cardHeads {
-     color:#4f4f4f;
+     color:#5e676f;
     font-size: 15px;
     font-weight: 500;
 }
@@ -142,18 +142,17 @@
 }
 
 .cardContents {
-       color: #99a0ac;
-    font-size: 14px;
-    font-weight: 500;
+          font-size: 13px;
+    color: #99a0ac;
 }
 
 .cardContent {
-    color: #5e676f;
+        font-size: 13px;
+    color: #99a0ac;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: normal;
     text-align: end;
-    font-size: 14px;
 }
 
 .cardMainContainer {
@@ -190,7 +189,7 @@
 }
 
 .rightHead {
-       color:#4f4f4f;
+       color:#5e676f;
     font-size: 14px;
     font-weight: 500;
 }
@@ -284,7 +283,7 @@
 }
 
 .title {
-    color:#4f4f4f;
+    color:#5e676f;
     font-size: 24px;
     font-weight: 500;
 }

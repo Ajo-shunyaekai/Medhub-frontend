@@ -2,6 +2,7 @@
   padding-top: 5px;
   font-size: 18px;
     font-weight: 500;
+    color: #5e676f;
 }
 .faq-heading {
   font-size: 16px !important;
@@ -31,7 +32,7 @@
 
 .accordion-button {
   padding: 1rem;
-  color:#4f4f4f;
+  color:#5e676f;
   font-size: 14px;
 
 }
@@ -42,7 +43,7 @@
 .accordion-body {
   padding: 1rem;
   font-size: 14px;
-     color: #5e676f;
+     color: #99a0ac;
 }
 
 @media (max-width: 1280px) {

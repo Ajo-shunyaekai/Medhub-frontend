@@ -166,7 +166,7 @@ function ProformaDetailsPage() {
               border: "1px solid #eee",
               fontSize: "16px",
               lineHeight: "24px",
-              color: "#5e676f",
+              color: "#555555",
               backgroundColor: "#FFFFFF",
               boxShadow: "0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d",
             }}
@@ -278,7 +278,7 @@ function ProformaDetailsPage() {
                               <div
                                 style={{
                                   fontSize: "13px",
-                                   color: "#5e676f",
+                                   color: "#555555",
                                 }}
                               >
                                 <p>{supplierAddressLine1}</p>
@@ -295,7 +295,7 @@ function ProformaDetailsPage() {
                                 <p
                                   style={{
                                     fontSize: "13px",
-                                   color: "#5e676f",
+                                   color: "#555555",
                                   }}
                                 >
                                   {orderDetails.supplier_mobile}
@@ -312,7 +312,7 @@ function ProformaDetailsPage() {
                                 <p
                                   style={{
                                     fontSize: "13px",
-                                    color: "#5e676f",
+                                    color: "#555555",
                                   }}
                                 >
                                   {orderDetails.supplier_email}
@@ -354,7 +354,7 @@ function ProformaDetailsPage() {
                               <div
                                 style={{
                                   fontSize: "13px",
-                                  color: "#5e676f",
+                                  color: "#555555",
                                   textAlign: "end",
                                 }}
                               >
@@ -369,7 +369,7 @@ function ProformaDetailsPage() {
                                 <p
                                   style={{
                                     fontSize: "13px",
-                                   color: "#5e676f",
+                                   color: "#555555",
                                   }}
                                 >
                                   {orderDetails.buyer_mobile}
@@ -383,7 +383,7 @@ function ProformaDetailsPage() {
                                 <p
                                   style={{
                                     fontSize: "13px",
-                                    color: "#5e676f",
+                                    color: "#555555",
                                   }}
                                 >
                                   {orderDetails.buyer_email}
@@ -678,7 +678,6 @@ function ProformaDetailsPage() {
                                           <p
                                             style={{
                                               fontSize: "14px",
-                                              fontWeight: "500",
                                             }}
                                           >
                                             {bankDetails.bankName}
@@ -706,7 +705,7 @@ function ProformaDetailsPage() {
                                           <p
                                             style={{
                                               fontSize: "14px",
-                                              color: "#5e676f",
+                                              color: "#555555",
                                             }}
                                           >
                                             {bankDetails.accountNo}
@@ -734,7 +733,7 @@ function ProformaDetailsPage() {
                                           <p
                                             style={{
                                               fontSize: "14px",
-                                              color: "#5e676f",
+                                              color: "#555555",
                                             }}
                                           >
                                             {bankDetails.sortCode}
@@ -855,7 +854,7 @@ function ProformaDetailsPage() {
                         <div
                           style={{
                             fontSize: "13px",
-                           color: "#5e676f",
+                           color: "#555555",
                             lineHeight: "20px",
                             marginTop: "4px",
                           }}

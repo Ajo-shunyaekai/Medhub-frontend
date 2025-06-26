@@ -445,7 +445,7 @@ const SupSidebar = ({ children, dragWindow,
                     }
                         className={styles.sidebar} >
                         <Link to="/supplier/" className={styles.sidebar_text} activeclassname={styles.active}>
-                            <div className={styles.icon}><HomeOutlinedIcon style={{ color: '#282f86' }} /></div>
+                            <div className={styles.icon}><HomeOutlinedIcon style={{ color: '#448BFF' }} /></div>
                             <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Dashboard</div>
                         </Link>
                         <Link to="/supplier/product" className={`${styles.sidebar_text} ${styles.desktop_order_btn}`} activeclassname={styles.active}>

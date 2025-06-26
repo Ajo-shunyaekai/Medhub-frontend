@@ -38,6 +38,7 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+    position: relative;
 }
 
 .mainContainer {
@@ -49,6 +50,18 @@
     flex-direction: column;
     gap: 10px;
   
+}
+.mainUpparContainer{
+    background-color: #fff;
+    border-radius: 4px;
+ box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+    padding: 26px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: sticky;
+    top: 0%;  
+    z-index: 999999;
 }
 .mainFixedContainer{
     position: fixed;
@@ -84,9 +97,9 @@
 }
 
 .medicineName {
-    color:#5e676f;
-    font-size: 28px;
+font-size: 28px;
     font-weight: 500;
+    color: #5e676f;
 }
 
 .editButton {
@@ -108,7 +121,7 @@
 .mainSection {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 16px;
     width: 100%;
 }
 
@@ -138,24 +151,27 @@
 
 .medicineText {
     width: 50%;
-       color: #5e676f;
-    font-size: 14px;
-    /* font-weight: 500; */
+      font-size: 14px;
+    color: #99a0ac;
+    font-weight: 500;
     word-wrap: break-word; 
     white-space: normal;     
     overflow-wrap: break-word;
 }
 .medicineTexts{
     width: 75%;
-       color: #5e676f;
-    font-size: 14px;
+      font-size: 14px;
+    color: #99a0ac;
+    font-weight: 500;
     word-wrap: break-word; 
     white-space: normal;     
     overflow-wrap: break-word;
 }
 .medicineContent{
        color: #5e676f;
-    font-size: 14px;
+  font-size: 14px;
+    color: #99a0ac;
+    font-weight: 500;
     word-wrap: break-word; 
     white-space: normal;     
     overflow-wrap: break-word;
@@ -163,8 +179,9 @@
 }
 .medicineDescriptionContent{
        color: #5e676f;
-    font-size: 14px;
-    /* font-weight: 500; */
+   font-size: 14px;
+    color: #99a0ac;
+    font-weight: 500;
     word-wrap: break-word; 
     white-space: normal;     
     overflow-wrap: break-word;
