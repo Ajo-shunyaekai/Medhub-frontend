@@ -7243,7 +7243,7 @@ const EditAddProduct = ({ placeholder }) => {
                               );
                               formik?.setFieldValue(
                                 `productPricingDetails.${index}.deliveryTime`,
-                                value || "TBC- based on quantity"
+                                value
                               );
                             }}
                           />

@@ -542,7 +542,7 @@ const openPurchaseInvoice = () => {
                   </div>
                   <div className={styles.inventoryContainer}>
                     <span className={styles.inventoryInput}>
-                      {ele?.deliveryTime || "TBC- based on quantity"}
+                      {ele?.deliveryTime}
                     </span>
                   </div>
                 </div>
