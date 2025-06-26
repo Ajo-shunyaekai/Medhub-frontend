@@ -11,7 +11,7 @@
   display: none;
 }
 .login-container-logo-section {
-  width: 50%; 
+  width: 50%;
   display: flex;
   justify-content: center;
 }
@@ -58,12 +58,12 @@
 }
 .login-form-main-input {
   width: 100% !important;
-  font-weight: 500 !important;
   color: #616161 !important;
   border-radius: 4px !important;
   outline: none !important;
   border: none !important;
   margin-bottom: 0px !important;
+  font-weight: 500 !important;
   padding: 12px !important;
   font-size: 13px !important;
   border-color: transparent !important;
@@ -117,28 +117,29 @@ background: linear-gradient(to left, #00dcff, #0075ce);
    cursor: pointer !important;;
 }
 
- /* for button loader */
- .login-form-main-login[disabled] {
-  cursor: not-allowed;
-  background-color: #ccc; /* Change to your desired disabled color */
-}
 
-.loading-spinner {
-  border: 4px solid rgba(0, 0, 0, 0.1);
-  border-left-color: #000; /* Spinner color */
-  border-radius: 50%;
-  width: 16px;
-  height: 16px;
-  animation: spin 1s linear infinite;
-  margin: 0 auto;
-}
-
-@keyframes spin {
-  to {
-      transform: rotate(360deg);
+   /* for button loader */
+   .login-form-main-login[disabled] {
+    cursor: not-allowed;
+    background-color: #ccc; /* Change to your desired disabled color */
   }
-}
-/* for button loader */
+  
+  .loading-spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #000; /* Spinner color */
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+  }
+  
+  @keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+  }
+  /* for button loader */
 
 .login-error {
   font-size: 12px;
@@ -262,7 +263,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 }
 
 .error-message {
-  color: red; /* Set error message text color to red */
-  font-size: 12px; /* Optional: Set font size */
-  margin-top: 5px; /* Optional: Adjust margin */
+  color: red; 
+  font-size: 12px; 
+  margin-top: 5px; 
 }

@@ -36,10 +36,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   gap: 1rem;
   position: relative;
 }
-.filePreviewContainer {
-  position: relative;
-  display: inline-block;
-}
+
 .crossIcon {
   position: absolute;
   top: 50%;
@@ -92,7 +89,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   row-gap: 20px;
 }
 .termsCondition {
- color:#3b71ca;;
+  color:#3b71ca;;
   font-weight: 500 !important;
   cursor: pointer !important;
 }
@@ -122,51 +119,47 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 
 .labelStamp {
   color:#4f4f4f;
-}
+} 
+
 /* Style the signup form */
 .signupFormSectionContainer {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 1rem;
 }
 .signupFormSectionHeading {
-  width: 100%;
-  color:#4f4f4f;
-  font-size: 22px;
-  line-height: normal;
-  font-weight: 500;
-  max-width: 100%;
-  margin: 0px auto;
+      width: 100%;
+    font-size: 20px;
+    line-height: normal;
+    font-weight: 500;
+    max-width: 100%;
+    margin: 0px auto;
+    color: #5e676f;
 }
 .signupInnerHeading {
   font-size: 18px;
-  font-weight: 500;
   color:#4f4f4f;
+  font-weight: 500;
 }
 .signupFormSectionLabel {
-  font-size: 14px;
-  font-weight: 500;
-  color:#4f4f4f;
+    font-size: 14px;
+    font-weight: 500;
+    color: #5e676f;
 }
 
 .signupFormSectionInput {
-  position: relative !important;
-  width: 100% !important;
-  font-weight: 500 !important;
-  color: #616161!important;
-  border-radius: 4px !important;
-  outline: none !important;
-  border: none !important;
-  margin-bottom: 0px !important;
-  padding: 10px !important;
-  font-size: 13px !important;
-  border-color: transparent !important;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
-  -webkit-appearance: none !important;
-  -moz-appearance: none !important;
-  appearance: none !important;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
-    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+     width: 100% !important;
+    color: #5e676f !important;
+    border-radius: 4px !important;
+    outline: none !important;
+    border: none !important;
+    margin-bottom: 0px !important;
+    padding: 11px !important;
+    font-size: 13px !important;
+    border-color: transparent !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+    appearance: none !important;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
 }
 .signupTooltipClass {
   display: flex;
@@ -233,12 +226,12 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 /* for button loader */
 .signupFormButtonSubmit[disabled] {
   cursor: not-allowed;
-  background-color: #ccc; /* Change to your desired disabled color */
+  background-color: #ccc;
 }
 
 .loadingSpinner {
   border: 4px solid rgba(0, 0, 0, 0.1);
-  border-left-color: #000; /* Spinner color */
+  border-left-color: #000;
   border-radius: 50%;
   width: 16px;
   height: 16px;
@@ -250,13 +243,6 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   to {
     transform: rotate(360deg);
   }
-}
-
-.signupFormSectionCheckbox {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  margin: auto;
 }
 
 .signupErrors {
@@ -298,9 +284,5 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   .signupFormSectionHeading {
     font-size: 22px;
     max-width: 100%;
-  }
-
-  .signup-form-checkbox-label {
-    font-size: 14px;
   }
 }

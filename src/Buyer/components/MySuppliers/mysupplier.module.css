@@ -16,7 +16,7 @@
   align-items: center;
 }
 .mySupplierMainHead {
-   color:#4f4f4f;
+   color:#5e676f;
   font-size: 20px;
   font-weight: 500;
   margin-top: 10px;
@@ -74,7 +74,7 @@
 }
 
 .mySupplierNameHead {
-  color:#4f4f4f;
+  color:#5e676f;
   font-size: 22px;
   font-weight: 500;
 }
@@ -96,7 +96,7 @@
 .mySupplierCardHeading {
   font-size: 14px;
   font-weight: 500;
-  color:#4f4f4f;
+  color:#5e676f;
 }
 
 .mySupplierCardText {

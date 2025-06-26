@@ -55,7 +55,7 @@ const PurchasedOrder = ({ poList, totalPoList, currentPage, inquiryPerPage, hand
           </div>
           </Link>
           <Link to={`/buyer/edit-po/${row?.purchaseOrder_id}`} title="Edit">
-          <div className={styles.activeBtn}>
+          <div className={styles.activeDownloadBtn}>
             <EditIcon className={styles['table-icon']} onClick={() => showModal(row)} />
               </div>
           </Link>

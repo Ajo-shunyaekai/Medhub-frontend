@@ -44,7 +44,7 @@
 .create-invoice-form-heading {
   font-size: 18px;
   font-weight: 500;
-  color:#4f4f4f;
+  color:#5e676f;
 }
 .create-invoice-heading {
   font-size: 20px;
@@ -78,7 +78,7 @@ color:#5e676f;
 .create-invoice-div-label {
   font-size: 14px;
   font-weight: 500;
-  color:#4f4f4f;
+  color:#5e676f;
 }
 .create-invoice-div-input {
   /* font-weight: 500; */
@@ -103,7 +103,7 @@ color:#5e676f;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
   background-color: #ffffff;
   border: 1px solid #212121;
-  color:#4f4f4f;
+  color:#5e676f;
   padding: 6px 22px;
   border-radius: 4px;
   display: flex;
