@@ -1082,7 +1082,7 @@ const AddProduct = ({ placeholder }) => {
                           // touched.stockedInDetails?.[index]?.quantity &&
                           //   errors.stockedInDetails?.[index]?.quantity && (
                           <span span className={styles.error}>
-                            {errors?.stockedInDetails?.[index]?.quantity}
+                            {touched.stockedInDetails && errors?.stockedInDetails?.[index]?.quantity}
                           </span>
                           // )
                         }

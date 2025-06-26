@@ -416,7 +416,7 @@ const EditAddProduct = ({ placeholder }) => {
         minimumPurchaseUnit: secondaryMarketDetails?.minimumPurchaseUnit || "",
         // subCategory: categoryDetails?.subCategory || "",
         subCategory: productDetail?.subCategory || "",
-        anotherCategory: categoryDetails?.anotherCategory || "",
+        anotherCategory: productDetail?.anotherCategory || "",
         stockedInDetails: inventoryDetails?.stockedInDetails || [
           {
             country: "",
