@@ -143,9 +143,11 @@ const ProductDetails = () => {
     }
   };
 
-  const quantityOptions = inventoryList.map((ele) => ({
-    value: `${ele.quantityFrom}-${ele.quantityTo}`,
-    label: `${ele.quantityFrom} - ${ele.quantityTo}`,
+  const quantityOptions = inventoryList?.map((ele) => ({
+    // value: `${ele.quantityFrom}-${ele.quantityTo}`,
+    // label: `${ele.quantityFrom} - ${ele.quantityTo}`,
+    value: ele.quantity, 
+    label: ele.quantity,
     price: ele.price,
     deliveryTime: ele.deliveryTime,
   }));
@@ -351,13 +353,15 @@ const ProductDetails = () => {
                   </span>
                 </div>
               )}
-              {productDetail?.[productDetail?.category]?.anotherCategory && (
+              {/* {productDetail?.[productDetail?.category]?.anotherCategory && ( */}
+              {productDetail?.anotherCategory && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>
                     Product Sub Category(Level3)
                   </span>
                   <span className={styles.medicineText}>
-                    {productDetail?.[productDetail?.category]?.anotherCategory}{" "}
+                    {/* {productDetail?.[productDetail?.category]?.anotherCategory}{" "} */}
+                    {productDetail?.anotherCategory}
                   </span>
                 </div>
               )}
@@ -377,15 +381,23 @@ const ProductDetails = () => {
                   </span>
                 </div>
               )}
-              {productDetail?.general?.quantity && (
+              {productDetail?.general?.unit_tax && (
+                <div className={styles.medicinesSection}>
+                  <span className={styles.medicineHead}>Tags</span>
+                  <span className={styles.medicineText}>
+                    {productDetail?.general?.tags?.join(', ')}
+                  </span>
+                </div>
+              )}
+              {/* {productDetail?.general?.quantity && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Product Quantity</span>
                   <span className={styles.medicineText}>
                     {productDetail?.general?.quantity}
                   </span>
                 </div>
-              )}
-              {productDetail?.general?.volumn && (
+              )} */}
+              {/* {productDetail?.general?.volumn && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>
                     Product Size/Volumn
@@ -394,9 +406,9 @@ const ProductDetails = () => {
                     {productDetail?.general?.volumn}
                   </span>
                 </div>
-              )}
+              )} */}
  
-              {productDetail?.general?.packageType && (
+              {/* {productDetail?.general?.packageType && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>
                     Product Packaging Type
@@ -405,8 +417,8 @@ const ProductDetails = () => {
                     {productDetail?.general?.packageType}
                   </span>
                 </div>
-              )}
-              {(productDetail?.general?.packageMaterial ||
+              )} */}
+              {/* {(productDetail?.general?.packageMaterial ||
                 productDetail?.general?.packageMaterialIfOther) && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>
@@ -417,16 +429,18 @@ const ProductDetails = () => {
                       productDetail?.general?.packageMaterialIfOther}
                   </span>
                 </div>
-              )}
+              )} */}
             </div>
             <div className={styles.mainSection}>
-              {productDetail?.[productDetail?.category]?.subCategory && (
+              {/* {productDetail?.[productDetail?.category]?.subCategory && ( */}
+              {productDetail?.subCategory && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>
                     Product Sub Category
                   </span>
                   <span className={styles.medicineText}>
-                    {productDetail?.[productDetail?.category]?.subCategory}{" "}
+                    {/* {productDetail?.[productDetail?.category]?.subCategory}{" "} */}
+                    {productDetail?.subCategory}
                   </span>
                 </div>
               )}
@@ -438,7 +452,7 @@ const ProductDetails = () => {
                   </span>
                 </div>
               )}
-              {productDetail?.general?.weight && (
+              {/* {productDetail?.general?.weight && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Product Weight</span>
                   <span className={styles.medicineText}>
@@ -446,7 +460,7 @@ const ProductDetails = () => {
                     {productDetail?.general?.unit}
                   </span>
                 </div>
-              )}
+              )} */}
  
               {productDetail?.general?.upc && (
                 <div className={styles.medicinesSection}>
@@ -456,14 +470,14 @@ const ProductDetails = () => {
                   </span>
                 </div>
               )}
-              {productDetail?.general?.dimension && (
+              {/* {productDetail?.general?.dimension && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Product Dimension</span>
                   <span className={styles.medicineText}>
                     {productDetail?.general?.dimension} {""} {productDetail?.general?.dimensionUnit}
                   </span>
                 </div>
-              )}
+              )} */}
               {productDetail?.general?.brand && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Brand Name</span>
@@ -473,7 +487,7 @@ const ProductDetails = () => {
                 </div>
               )}
  
-              {productDetail?.storage && (
+              {/* {productDetail?.storage && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>
                     Storage Conditions
@@ -482,14 +496,14 @@ const ProductDetails = () => {
                     {productDetail?.storage}
                   </span>
                 </div>
-              )}
+              )} */}
             </div>
           </div>
         </div>
  
         {/* End general information section */}
  
-        {productDetail?.general?.aboutManufacturer && (
+        {/* {productDetail?.general?.aboutManufacturer && (
           <div className={styles.mainContainer}>
             <div className={styles.manufacturerDescriptionSection}>
               <span className={styles.medicineHead}>Short Description</span>
@@ -501,7 +515,7 @@ const ProductDetails = () => {
               ></span>
             </div>
           </div>
-        )}
+        )} */}
  
         {/* Start product description */}
         {productDetail?.general?.description && (
@@ -521,7 +535,7 @@ const ProductDetails = () => {
  
         {/* Start product image section */}
  
-        <div className={styles.mainContainer}>
+        {/* <div className={styles.mainContainer}>
           <span className={styles.innerHead}>Product Images</span>
           <div className={styles.productImageSection}>
             {productDetail?.general?.image?.map((img, index) => {
@@ -550,7 +564,37 @@ const ProductDetails = () => {
               );
             })}
           </div>
-        </div>
+        </div> */}
+
+{productDetail?.general?.image &&
+          Object.keys(productDetail.general.image).length > 0 && (
+            <div className={styles.mainContainer}>
+              <span className={styles.innerHead}>Product Images</span>
+              <div className={styles.productImageSection}>
+                {Object.entries(productDetail.general.image).map(
+                  ([viewLabel, images]) =>
+                    images.map((imgUrl, index) => {
+                      const isImageFile = isImageExtension(imgUrl);
+                      return (
+                        <div className={styles.imageContainer} key={`${viewLabel}-${index}`}>
+                          <span>{viewLabel.charAt(0).toUpperCase() + viewLabel.slice(1)} Image</span>
+                          <img
+                            className={styles.imageSection}
+                            src={isImageFile ? imgUrl : fallbackImageUrl}
+                            alt={`${viewLabel} view`}
+                            onError={(e) => {
+                              e.target.onerror = null;
+                              e.target.src = fallbackImageUrl;
+                            }}
+                          />
+                          <div className={styles.imageLabel}>{viewLabel.toUpperCase()}</div>
+                        </div>
+                      );
+                    })
+                )}
+              </div>
+            </div>
+          )}
  
         {/* End product image section */}
         {/* Start Inventory & Packaging section */}
@@ -3392,7 +3436,7 @@ const ProductDetails = () => {
           productDetail?.healthNSafety?.environmentalImpact?.length > 0) && (
           <div className={styles.mainContainer}>
             <span className={styles.innerHead}>
-              Compliance & Certification And Health & Safety
+              Compliance & Certification 
             </span>
             <div className={styles.innerComplianceSection}>
               {productDetail?.cNCFileNDate?.length > 0 && (
@@ -3406,7 +3450,7 @@ const ProductDetails = () => {
                         className={styles.complianceSection}
                         key={item._id || index}
                       >
-                        <RenderProductFiles files={[item.file]} />
+                        <RenderProductFiles files={item.file} />
                         <span className={styles.medicineContent}>
                           {item.date}
                         </span>
@@ -3415,7 +3459,7 @@ const ProductDetails = () => {
                   </div>
                 </div>
               )}
-              {productDetail?.healthNSafety?.safetyDatasheet?.length > 0 && (
+              {/* {productDetail?.healthNSafety?.safetyDatasheet?.length > 0 && (
                 <div className={styles.additionalUploadSection}>
                   <span className={styles.medicineHead}>Safety Datasheet</span>
                   <div className={styles.additionalImageSection}>
@@ -3424,13 +3468,13 @@ const ProductDetails = () => {
                     />
                   </div>
                 </div>
-              )}
+              )} */}
             </div>
             <div
               className={styles.innerComplianceSection}
               style={{ marginTop: "20px" }}
             >
-              {productDetail?.healthNSafety?.healthHazardRating?.length > 0 && (
+              {/* {productDetail?.healthNSafety?.healthHazardRating?.length > 0 && (
                 <div className={styles.additionalUploadSection}>
                   <span className={styles.medicineHead}>
                     Health Hazard Rating
@@ -3441,8 +3485,8 @@ const ProductDetails = () => {
                     />
                   </div>
                 </div>
-              )}
-              {productDetail?.healthNSafety?.environmentalImpact?.length >
+              )} */}
+              {/* {productDetail?.healthNSafety?.environmentalImpact?.length >
                 0 && (
                 <div className={styles.additionalUploadSection}>
                   <span className={styles.medicineHead}>
@@ -3454,7 +3498,7 @@ const ProductDetails = () => {
                     />
                   </div>
                 </div>
-              )}
+              )} */}
             </div>
           </div>
         )}
@@ -3507,10 +3551,74 @@ const ProductDetails = () => {
         )}
  
         {/* End Additional information */}
+
+        {/* start of Product documents */}
+        {(productDetail?.documents?.catalogue?.length > 0 ||
+          productDetail?.documents?.specification?.length > 0 ) && (
+          <div className={styles.mainContainer}>
+            <span className={styles.innerHead}>
+              Product Documents
+            </span>
+            <div className={styles.innerComplianceSection}>
+            {productDetail?.documents?.catalogue?.length > 0 && (
+                <div className={styles.additionalUploadSection}>
+                  <span className={styles.medicineHead}>Product Catalogue</span>
+                  <div className={styles.additionalImageSection}>
+                    <RenderProductFiles
+                      files={productDetail?.documents?.catalogue}
+                    />
+                  </div>
+                </div>
+              )}
+              {productDetail?.documents?.specification?.length > 0 && (
+                <div className={styles.additionalUploadSection}>
+                  <span className={styles.medicineHead}>Specification</span>
+                  <div className={styles.additionalImageSection}>
+                    <RenderProductFiles
+                      files={productDetail?.documents?.specification}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+            <div
+              className={styles.innerComplianceSection}
+              style={{ marginTop: "20px" }}
+            >
+              {productDetail?.healthNSafety?.healthHazardRating?.length > 0 && (
+                <div className={styles.additionalUploadSection}>
+                  <span className={styles.medicineHead}>
+                    Health Hazard Rating
+                  </span>
+                  <div className={styles.additionalImageSection}>
+                    {/* <RenderProductFiles
+                      files={productDetail?.healthNSafety?.healthHazardRating}
+                    /> */}
+                  </div>
+                </div>
+              )}
+              {productDetail?.healthNSafety?.environmentalImpact?.length >
+                0 && (
+                <div className={styles.additionalUploadSection}>
+                  <span className={styles.medicineHead}>
+                    Environmental Impact
+                  </span>
+                  <div className={styles.additionalImageSection}>
+                    {/* <RenderProductFiles
+                      files={productDetail?.healthNSafety?.environmentalImpact}
+                    /> */}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+        {/* end of product document */}
+
         {/* Start the product inventory section */}
         {productDetail?.inventoryDetails?.inventoryList?.length > 0 && (
           <div className={styles.mainContainer}>
-            <span className={styles.innerHead}>Product Inventory</span>
+            {/* <span className={styles.innerHead}>Product Inventory</span> */}
             <div className={styles.innerInventorySection}>
               <div className={styles.inventorySection}>
                 <div className={styles.inventoryContainer}>
@@ -3584,7 +3692,7 @@ const ProductDetails = () => {
                         </div>
                         <div className={styles.inventoryContainer}>
                           <span className={styles.inventoryInput} readOnly>
-                            {selectedOption.price || "N/A"}
+                          {selectedOption.price ? `${selectedOption.price} USD` : "N/A"}
                           </span>
                         </div>
                         <div className={styles.inventoryContainer}>
