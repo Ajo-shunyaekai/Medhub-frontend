@@ -210,13 +210,15 @@ const openPurchaseInvoice = () => {
                   </span>
                 </div>
               )}
-              {productDetail?.[productDetail?.category]?.anotherCategory && (
+              {/* {productDetail?.[productDetail?.category]?.anotherCategory && ( */}
+              {productDetail?.anotherCategory && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>
                     Product Sub Category(Level3)
                   </span>
                   <span className={styles.medicineText}>
-                    {productDetail?.[productDetail?.category]?.anotherCategory}{" "}
+                    {/* {productDetail?.[productDetail?.category]?.anotherCategory}{" "} */}
+                    {productDetail?.anotherCategory}
                   </span>
                 </div>
               )}
@@ -228,6 +230,14 @@ const openPurchaseInvoice = () => {
                   </span>
                 </div>
               )}
+              {productDetail?.general?.strength && (
+                <div className={styles.medicinesSection}>
+                  <span className={styles.medicineHead}>Strength</span>
+                  <span className={styles.medicineText}>
+                    {productDetail?.general?.strength}{productDetail?.general?.strengthUnit}
+                  </span>
+                </div>
+              )}
               {productDetail?.general?.unit_tax && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Tax%</span>
@@ -236,15 +246,23 @@ const openPurchaseInvoice = () => {
                   </span>
                 </div>
               )}
-              {productDetail?.general?.quantity && (
+              {productDetail?.general?.tags && (
+                <div className={styles.medicinesSection}>
+                  <span className={styles.medicineHead}>Tags</span>
+                  <span className={styles.medicineText}>
+                    {productDetail?.general?.tags?.join(', ')}
+                  </span>
+                </div>
+              )}
+              {/* {productDetail?.general?.quantity && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Product Quantity</span>
                   <span className={styles.medicineText}>
                     {productDetail?.general?.quantity}
                   </span>
                 </div>
-              )}
-              {productDetail?.general?.volumn && (
+              )} */}
+              {/* {productDetail?.general?.volumn && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>
                     Product Size/Volumn
@@ -254,9 +272,9 @@ const openPurchaseInvoice = () => {
                     {productDetail?.general?.volumeUnit}
                   </span>
                 </div>
-              )}
+              )} */}
 
-              {productDetail?.general?.packageType && (
+              {/* {productDetail?.general?.packageType && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>
                     Product Packaging Type
@@ -265,8 +283,8 @@ const openPurchaseInvoice = () => {
                     {productDetail?.general?.packageType}
                   </span>
                 </div>
-              )}
-              {(productDetail?.general?.packageMaterial ||
+              )} */}
+              {/* {(productDetail?.general?.packageMaterial ||
                 productDetail?.general?.packageMaterialIfOther) && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>
@@ -277,16 +295,18 @@ const openPurchaseInvoice = () => {
                       productDetail?.general?.packageMaterialIfOther}
                   </span>
                 </div>
-              )}
+              )} */}
             </div>
             <div className={styles.mainSection}>
-              {productDetail?.[productDetail?.category]?.subCategory && (
+              {/* {productDetail?.[productDetail?.category]?.subCategory && ( */}
+              {productDetail?.subCategory && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>
                     Product Sub Category
                   </span>
                   <span className={styles.medicineText}>
-                    {productDetail?.[productDetail?.category]?.subCategory}{" "}
+                    {/* {productDetail?.[productDetail?.category]?.subCategory}{" "} */}
+                    {productDetail?.subCategory}
                   </span>
                 </div>
               )}
@@ -298,7 +318,7 @@ const openPurchaseInvoice = () => {
                   </span>
                 </div>
               )}
-               {productDetail?.general?.weight && (
+               {/* {productDetail?.general?.weight && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Product Weight</span>
                   <span className={styles.medicineText}>
@@ -306,7 +326,7 @@ const openPurchaseInvoice = () => {
                     {productDetail?.general?.unit}
                   </span>
                 </div>
-              )}
+              )} */}
               {productDetail?.general?.upc && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>UPC</span>
@@ -315,7 +335,7 @@ const openPurchaseInvoice = () => {
                   </span>
                 </div>
               )}
-             {productDetail?.general?.dimension && (
+             {/* {productDetail?.general?.dimension && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Product Dimension</span>
                   <span className={styles.medicineText}>
@@ -323,7 +343,7 @@ const openPurchaseInvoice = () => {
                     {productDetail?.general?.dimensionUnit}
                   </span>
                 </div>
-              )}
+              )} */}
               {productDetail?.general?.brand && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Brand Name</span>
@@ -333,7 +353,7 @@ const openPurchaseInvoice = () => {
                 </div>
               )}
 
-              {productDetail?.storage && (
+              {/* {productDetail?.storage && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>
                     Storage Conditions
@@ -342,14 +362,14 @@ const openPurchaseInvoice = () => {
                     {productDetail?.storage}
                   </span>
                 </div>
-              )}
+              )} */}
             </div>
           </div>
         </div>
 
         {/* End general information section */}
         {/* Start Short description */}
-        {productDetail?.general?.aboutManufacturer && (
+        {/* {productDetail?.general?.aboutManufacturer && (
           <div className={styles.mainContainer}>
             <div className={styles.manufacturerDescriptionSection}>
               <span className={styles.medicineHead}>Short Description</span>
@@ -358,7 +378,7 @@ const openPurchaseInvoice = () => {
               </span>
             </div>
           </div>
-        )}
+        )} */}
         {/* End the Short description */}
 
         {/* Start product description */}
@@ -377,7 +397,7 @@ const openPurchaseInvoice = () => {
         )}
         {/* End the product description */}
 
-         {productDetail?.general?.image?.length > 0 && (
+         {/* {productDetail?.general?.image?.length > 0 && (
           <div className={styles.mainContainer}>
             <span className={styles.innerHead}>Product Images</span>
             <div className={styles.productImageSection}>
@@ -410,7 +430,38 @@ const openPurchaseInvoice = () => {
               })}
             </div>
           </div>
-        )}
+        )} */}
+
+        {productDetail?.general?.image &&
+          Object.keys(productDetail.general.image).length > 0 && (
+            <div className={styles.mainContainer}>
+              <span className={styles.innerHead}>Product Images</span>
+              <div className={styles.productImageSection}>
+                {Object.entries(productDetail.general.image).map(
+                  ([viewLabel, images]) =>
+                    images.map((imgUrl, index) => {
+                      const isImageFile = isImageExtension(imgUrl);
+                      return (
+                        <div className={styles.imageContainer} key={`${viewLabel}-${index}`}>
+                          <span>{viewLabel.charAt(0).toUpperCase() + viewLabel.slice(1)} Image</span>
+                          <img
+                            className={styles.imageSection}
+                            src={isImageFile ? imgUrl : fallbackImageUrl}
+                            alt={`${viewLabel} view`}
+                            onError={(e) => {
+                              e.target.onerror = null;
+                              e.target.src = fallbackImageUrl;
+                            }}
+                          />
+                          <div className={styles.imageLabel}>{viewLabel.toUpperCase()}</div>
+                        </div>
+                      );
+                    })
+                )}
+              </div>
+            </div>
+          )}
+
         {/* End product image section */}
 
         {/* Start Inventory & Packaging section */}
@@ -519,14 +570,17 @@ const openPurchaseInvoice = () => {
             <div className={styles.innerInventorySection}>
               <div className={styles.inventorySection}>
                 <div className={styles.inventoryContainer}>
-                  <span className={styles.inventoryHead}>Quantity*</span>
+                  <span className={styles.inventoryHead}>Quantity</span>
                 </div>
                 <div className={styles.inventoryContainer}>
-                  <span className={styles.inventoryHead}>Cost Per Product*</span>
+                  <span className={styles.inventoryHead}>Cost Per Product</span>
+                </div>
+                <div className={styles.inventoryContainer}>
+                  <span className={styles.inventoryHead}>Total Price</span>
                 </div>
                 <div className={styles.inventoryContainer}>
                   <span className={styles.inventoryHead}>
-                    Est. Delivery Time*
+                    Est. Delivery Time
                   </span>
                 </div>
               </div>
@@ -534,11 +588,15 @@ const openPurchaseInvoice = () => {
                 <div className={styles.inventorySection}>
                   <div className={styles.inventoryContainer}>
                     <span className={styles.inventoryInput}>
-                      {ele?.quantityFrom} - {ele?.quantityTo}
+                      {/* {ele?.quantityFrom} - {ele?.quantityTo} */}
+                      {ele?.quantity}
                     </span>
                   </div>
                   <div className={styles.inventoryContainer}>
-                    <span className={styles.inventoryInput}>{ele?.price}</span>
+                    <span className={styles.inventoryInput}>{ele?.price} USD</span>
+                  </div>
+                  <div className={styles.inventoryContainer}>
+                    <span className={styles.inventoryInput}>{ele?.totalPrice} USD</span>
                   </div>
                   <div className={styles.inventoryContainer}>
                     <span className={styles.inventoryInput}>
@@ -558,7 +616,7 @@ const openPurchaseInvoice = () => {
           productDetail?.healthNSafety?.environmentalImpact?.length > 0) && (
           <div className={styles.mainContainer}>
             <span className={styles.innerHead}>
-              Compliance & Certification And Health & Safety
+            Compliances & Certification
             </span>
             <div className={styles.innerComplianceSection}>
               {productDetail?.cNCFileNDate?.length > 0 && (
@@ -567,12 +625,12 @@ const openPurchaseInvoice = () => {
                     Regulatory Compliance
                   </span>
                   <div className={styles.additionalImageSection}>
-                    {productDetail.cNCFileNDate.map((item, index) => (
+                    {productDetail?.cNCFileNDate?.map((item, index) => (
                       <div
                         className={styles.complianceSection}
                         key={item._id || index}
                       >
-                        <RenderProductFiles files={[item.file]} />
+                        <RenderProductFiles files={item.file} />
                         <span className={styles.medicineContent}>
                           {formatDate(item.date)}
                         </span>
@@ -581,7 +639,7 @@ const openPurchaseInvoice = () => {
                   </div>
                 </div>
               )}
-              {productDetail?.healthNSafety?.safetyDatasheet?.length > 0 && (
+              {/* {productDetail?.healthNSafety?.safetyDatasheet?.length > 0 && (
                 <div className={styles.additionalUploadSection}>
                   <span className={styles.medicineHead}>Safety Datasheet</span>
                   <div className={styles.additionalImageSection}>
@@ -590,13 +648,13 @@ const openPurchaseInvoice = () => {
                     />
                   </div>
                 </div>
-              )}
+              )} */}
             </div>
             <div
               className={styles.innerComplianceSection}
               style={{ marginTop: "20px" }}
             >
-              {productDetail?.healthNSafety?.healthHazardRating?.length > 0 && (
+              {/* {productDetail?.healthNSafety?.healthHazardRating?.length > 0 && (
                 <div className={styles.additionalUploadSection}>
                   <span className={styles.medicineHead}>
                     Health Hazard Rating
@@ -607,8 +665,8 @@ const openPurchaseInvoice = () => {
                     />
                   </div>
                 </div>
-              )}
-              {productDetail?.healthNSafety?.environmentalImpact?.length >
+              )} */}
+              {/* {productDetail?.healthNSafety?.environmentalImpact?.length >
                 0 && (
                 <div className={styles.additionalUploadSection}>
                   <span className={styles.medicineHead}>
@@ -620,7 +678,7 @@ const openPurchaseInvoice = () => {
                     />
                   </div>
                 </div>
-              )}
+              )} */}
             </div>
           </div>
         )}
@@ -656,7 +714,7 @@ const openPurchaseInvoice = () => {
                 </div>
               )}
 
-              {productDetail?.additional?.guidelinesFile?.length > 0 && (
+               {productDetail?.additional?.guidelinesFile?.length > 0 && (
                 <div className={styles.additionalUploadSection}>
                   <div className={styles.additionalUploadSection}>
                     <span className={styles.medicineHead}>User Guidelines</span>
@@ -667,33 +725,106 @@ const openPurchaseInvoice = () => {
                     </div>
                   </div>
                 </div>
-              )}
+              )} 
+
             </div>
           </div>
         )}
 
         {/* End Additional information */}
+
+        {/* start of Product documents */}
+        {(productDetail?.documents?.catalogue?.length > 0 ||
+          productDetail?.documents?.specification?.length > 0 ) && (
+          <div className={styles.mainContainer}>
+            <span className={styles.innerHead}>
+              Product Documents
+            </span>
+            <div className={styles.innerComplianceSection}>
+            {productDetail?.documents?.catalogue?.length > 0 && (
+                <div className={styles.additionalUploadSection}>
+                  <span className={styles.medicineHead}>Product Catalogue</span>
+                  <div className={styles.additionalImageSection}>
+                    <RenderProductFiles
+                      files={productDetail?.documents?.catalogue}
+                    />
+                  </div>
+                </div>
+              )}
+              {productDetail?.documents?.specification?.length > 0 && (
+                <div className={styles.additionalUploadSection}>
+                  <span className={styles.medicineHead}>Specification</span>
+                  <div className={styles.additionalImageSection}>
+                    <RenderProductFiles
+                      files={productDetail?.documents?.specification}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+            <div
+              className={styles.innerComplianceSection}
+              style={{ marginTop: "20px" }}
+            >
+              {productDetail?.healthNSafety?.healthHazardRating?.length > 0 && (
+                <div className={styles.additionalUploadSection}>
+                  <span className={styles.medicineHead}>
+                    Health Hazard Rating
+                  </span>
+                  <div className={styles.additionalImageSection}>
+                    {/* <RenderProductFiles
+                      files={productDetail?.healthNSafety?.healthHazardRating}
+                    /> */}
+                  </div>
+                </div>
+              )}
+              {productDetail?.healthNSafety?.environmentalImpact?.length >
+                0 && (
+                <div className={styles.additionalUploadSection}>
+                  <span className={styles.medicineHead}>
+                    Environmental Impact
+                  </span>
+                  <div className={styles.additionalImageSection}>
+                    {/* <RenderProductFiles
+                      files={productDetail?.healthNSafety?.environmentalImpact}
+                    /> */}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+        {/* end of product document */}
+
         {/* Start Manufacturer section */}
       
-<div className={styles.mainManufacturerContainer}>
-  <span className={styles.innerHead}>Manufacturer Details</span>
-  <div className={styles.manufacturerMainContainer}>
-    <div className={styles.manufacturerContainer}>
-      <div className={styles.manufacturersection}>
-        <span className={styles.medicineHead}>Manufacturer Name</span>
-        <span className={styles.medicineText}>
-          {productDetail?.general?.manufacturer || "N/A"}
-        </span>
-      </div>
-      <div className={styles.manufacturersection}>
-        <span className={styles.medicineHead}>Country of Origin</span>
-        <span className={styles.medicineText}>
-          {productDetail?.general?.countryOfOrigin || "N/A"}
-        </span>
-      </div>
-    </div>
-  </div>
-</div>
+        <div className={styles.mainManufacturerContainer}>
+          <span className={styles.innerHead}>Manufacturer Details</span>
+          <div className={styles.manufacturerMainContainer}>
+            <div className={styles.manufacturerContainer}>
+              <div className={styles.manufacturersection}>
+                <span className={styles.medicineHead}>Manufacturer Name</span>
+                <span className={styles.medicineText}>
+                  {productDetail?.general?.manufacturer || "N/A"}
+                </span>
+              </div>
+              <div className={styles.manufacturersection}>
+                <span className={styles.medicineHead}>Country of Origin</span>
+                <span className={styles.medicineText}>
+                  {productDetail?.general?.countryOfOrigin || "N/A"}
+                </span>
+              </div>
+              <div className={styles.manufacturersection}>
+                <span className={styles.medicineHead}>About Manufacturer</span>
+                <span className={styles.medicineText}>
+                  {productDetail?.general?.aboutManufacturer || "N/A"}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
         {/* End Manufacturer section */}
 
         {/* Modal for PDF Preview */}
