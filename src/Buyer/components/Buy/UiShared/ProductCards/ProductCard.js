@@ -109,7 +109,8 @@ const ProductCard = ({
                     <div className={styles.section}>
                       <span className={styles.head}>Sub Category</span>
                       <span className={styles.text}>
-                        {getSubCategory(medicine)}
+                        {/* {getSubCategory(medicine)} */}
+                        {medicine?.subCategory || "N/A"}
                       </span>
                     </div>
                     {isSecondaryMarket ? (
