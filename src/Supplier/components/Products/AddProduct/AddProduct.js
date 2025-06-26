@@ -10,7 +10,7 @@ import "react-date-picker/dist/DatePicker.css";
 import "react-calendar/dist/Calendar.css";
 import { Chips } from "primereact/chips";
 import "./addproduct.css";
-import '../../SharedComponents/Signup/signup.css'
+import "../../SharedComponents/Signup/signup.css";
 import styles from "./addproduct.module.css";
 import categoryArrays from "../../../../utils/Category";
 import { Field, Form, Formik } from "formik";
@@ -45,6 +45,7 @@ import {
   dairyfeeOptions,
   initialValues,
   addProductValidationSchema,
+  strengthOptions,
 } from "./DropDowns";
 import { FiUploadCloud } from "react-icons/fi";
 import FileUploadModal from "../../SharedComponents/FileUploadModal/FileUploadModal";
@@ -181,13 +182,13 @@ const AddProduct = ({ placeholder }) => {
   const editor = useRef(null);
   const [content, setContent] = useState("");
 
-  const config = useMemo(
-    () => ({
-      readonly: false,
-      placeholder: placeholder || "Enter Product Description",
-    }),
-    [placeholder]
-  );
+  // const config = useMemo(
+  //   () => ({
+  //     readonly: false,
+  //     placeholder: placeholder || "Enter Product Description",
+  //   }),
+  //   [placeholder]
+  // );
 
   useEffect(() => {
     const countryOptions = countryList().getData();
@@ -254,7 +255,7 @@ const AddProduct = ({ placeholder }) => {
   const addStockedInSection = (setFieldValue, values) => {
     setFieldValue("stockedInDetails", [
       ...values.stockedInDetails,
-      { country: "", quantity: "", unitType: "Box" },
+      { country: "", quantity: "", type: "Box" },
     ]);
   };
 
@@ -267,8 +268,8 @@ const AddProduct = ({ placeholder }) => {
     setFieldValue(`stockedInDetails[${index}].quantity`, value);
   };
 
-  const handlePackageSelection = (index, unitType, setFieldValue) => {
-    setFieldValue(`stockedInDetails[${index}].unitType`, unitType);
+  const handlePackageSelection = (index, type, setFieldValue) => {
+    setFieldValue(`stockedInDetails[${index}].type`, type);
   };
 
   const removeStockedInFormSection = (index, setFieldValue, values) => {
@@ -283,11 +284,13 @@ const AddProduct = ({ placeholder }) => {
           Bulk Upload
         </button>
       </div>
+
       <Formik
         initialValues={initialValues}
         validationSchema={productValidationSchema}
         validateOnBlur={true}
         onSubmit={(values) => {
+          console.log("valuesonsubmit", values);
           setLoading(true);
           // Create a new FormData object
           const formData = new FormData();
@@ -321,15 +324,16 @@ const AddProduct = ({ placeholder }) => {
             values?.stockedInDetails?.map((section) => ({
               country: section?.country || "",
               quantity: section?.quantity || "",
+              type: section?.type || "",
             }))
           );
 
           const productPricingDetailsUpdated = JSON.stringify(
             values?.productPricingDetails?.map((section) => ({
               price: section?.price || "",
-
-              quantityFrom: section?.quantityFrom || "",
-              quantityTo: section?.quantityTo || "",
+              totalPrice: section?.totalPrice || "",
+              quantity: section?.quantity || "",
+              // quantityTo: section?.quantityTo || "",
               deliveryTime: section?.deliveryTime || "",
             }))
           );
@@ -349,11 +353,11 @@ const AddProduct = ({ placeholder }) => {
             date: section?.date || "",
             file: section?.file?.[0] || "",
           })) || [
-              {
-                date: "",
-                file: "",
-              },
-            ];
+            {
+              date: "",
+              file: "",
+            },
+          ];
 
           formData.append("stockedInDetails", stockedInDetailsUpdated);
           formData.append(
@@ -370,6 +374,7 @@ const AddProduct = ({ placeholder }) => {
             );
           }
           formData.append("cNCFileNDate", cNCFileNDateUpdated);
+          formData.append("tags", values?.tags?.split(","));
 
           dispatch(addProduct(formData)).then((response) => {
             if (response?.meta.requestStatus === "fulfilled") {
@@ -378,6 +383,7 @@ const AddProduct = ({ placeholder }) => {
             }
             setLoading(false);
           });
+          setLoading(false);
         }}
       >
         {({
@@ -628,17 +634,8 @@ const AddProduct = ({ placeholder }) => {
                           placeholder="Enter Strength"
                           // autoComplete="off"
                           name="strength"
-                          value={values.volumn}
-                          onChange={(e) =>
-                            handleInputChange(
-                              e,
-                              setFieldValue,
-                              9,
-                              "decimal",
-                              ["volumn"],
-                              "."
-                            )
-                          }
+                          value={values.strength}
+                          onChange={handleChange}
                           onBlur={handleBlur}
                         />
                       </div>
@@ -646,7 +643,7 @@ const AddProduct = ({ placeholder }) => {
                     <div className={styles.unitSection}>
                       <Select
                         className={styles.formSelect}
-                        options={volumeUnits}
+                        options={strengthOptions}
                         placeholder="Select Units"
                         onBlur={handleBlur}
                         onChange={(selectedOption) => {
@@ -750,9 +747,6 @@ const AddProduct = ({ placeholder }) => {
                   )} */}
                 </div>
 
-
-
-
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Product Tax%
@@ -840,18 +834,16 @@ const AddProduct = ({ placeholder }) => {
                   <input
                     className={styles.formInput}
                     type="text"
-                    placeholder="Enter Storage Conditions"
+                    placeholder="Enter Tags"
                     // autoComplete="off"
-                    name="storage"
+                    name="tags"
                     onChange={(e) =>
                       handleInputChange(e, setFieldValue, 75, "all")
                     }
                     onBlur={handleBlur}
                   />
                   {touched.tags && errors.tags && (
-                    <span className={styles.error}>
-                      {errors.tags}
-                    </span>
+                    <span className={styles.error}>{errors.tags}</span>
                   )}
                 </div>
                 <div className={styles.productTextContainer}>
@@ -862,20 +854,20 @@ const AddProduct = ({ placeholder }) => {
                   <textarea
                     className={styles.formInput}
                     type="text"
+                    name="description"
                     rows={5}
                     placeholder="Enter Description"
                     value={values.description}
-                    onChange={(content) => setFieldValue("description", content)}
-                    onBlur={() => handleBlur({ target: { name: "description" } })}
+                    onChange={handleChange}
+                    onBlur={() =>
+                      handleBlur({ target: { name: "description" } })
+                    }
                     error={errors.description}
                   />
-                  {touched.tags && errors.tags && (
-                    <span className={styles.error}>
-                      {errors.tags}
-                    </span>
+                  {touched.description && errors.description && (
+                    <span className={styles.error}>{errors.description}</span>
                   )}
                 </div>
-
 
                 {/* <RichTextEditor
                   label="Product Description"
@@ -889,8 +881,6 @@ const AddProduct = ({ placeholder }) => {
                 /> */}
               </div>
             </div>
-
-
 
             {/* Start the Inventory */}
             <div className={styles.section}>
@@ -992,12 +982,11 @@ const AddProduct = ({ placeholder }) => {
                     key={`stocked_${index}`}
                     className={styles.stockedContainer}
                   >
-                    <div
-                      className={styles.stockedSection}
-                    >
+                    <div className={styles.stockedSection}>
                       <div className={styles.StockedDiv}>
                         <label className={styles.formLabel}>
-                          Stocked in Country<span className={styles.labelStamp}>*</span>
+                          Stocked in Country
+                          <span className={styles.labelStamp}>*</span>
                         </label>
                         <Select
                           className={styles.formSelect}
@@ -1023,17 +1012,15 @@ const AddProduct = ({ placeholder }) => {
                         />
                         {touched.stockedInDetails?.[index]?.country &&
                           errors.stockedInDetails?.[index]?.country && (
-                            <div
-                              className={styles.addProductErrors}
-                              style={{ color: "red" }}
-                            >
+                            <span span className={styles.error}>
                               {errors.stockedInDetails[index].country}
-                            </div>
+                            </span>
                           )}
                       </div>
                       <div className={styles.StockedDivQuantity}>
                         <label className={styles.formLabel}>
-                          Stocked in Quantity<span className={styles.labelStamp}>*</span>
+                          Stocked in Quantity
+                          <span className={styles.labelStamp}>*</span>
                         </label>
                         <div className={styles.quantitySelector}>
                           <div className={styles.inputGroup}>
@@ -1041,43 +1028,64 @@ const AddProduct = ({ placeholder }) => {
                               type="text"
                               name={`stockedInDetails.${index}.quantity`}
                               onChange={(e) =>
-                                handleStockedInputChange(index, e, setFieldValue)
+                                handleStockedInputChange(
+                                  index,
+                                  e,
+                                  setFieldValue
+                                )
                               }
                               value={section.quantity}
-                              placeholder={`Enter ${section.unitType || "Box"} Quantity`}
+                              placeholder={`Enter ${
+                                section.type || "Box"
+                              } Quantity`}
                               className={styles.inputStocked}
                               onBlur={() =>
-                                setFieldTouched(`stockedInDetails.${index}.quantity`, true)
+                                setFieldTouched(
+                                  `stockedInDetails.${index}.quantity`,
+                                  true
+                                )
                               }
                             />
                             <button
-                              className={`${styles.optionButton} ${section.unitType === "Box" ? styles.selected : ""
-                                }`}
+                              className={`${styles.optionButton} ${
+                                section.type === "Box" ? styles.selected : ""
+                              }`}
                             >
-                              {section.unitType || "Box"}
+                              {section.type || "Box"}
                             </button>
                           </div>
                           <div className={styles.radioGroup}>
-                            {["Box", "Strip", "Pack"].map((type) => (
-                              <label key={type}>
+                            {["Box", "Strip", "Pack"].map((option) => (
+                              <label key={option}>
                                 <input
                                   type="radio"
-                                  name={`stockedInDetails[${index}].unitType`}
-                                  value={type}
-                                  checked={section.unitType === type || (!section.unitType && type === "Box")}
-                                  onChange={() => handlePackageSelection(index, type, setFieldValue)}
+                                  name={`stockedInDetails[${index}].type`}
+                                  value={option}
+                                  checked={
+                                    section.type === option ||
+                                    (!section.type && option === "Box")
+                                  }
+                                  onChange={() =>
+                                    handlePackageSelection(
+                                      index,
+                                      option,
+                                      setFieldValue
+                                    )
+                                  }
                                 />
-                                <span>{type}</span>
+                                <span>{option}</span>
                               </label>
                             ))}
                           </div>
                         </div>
-                        {touched.stockedInDetails?.[index]?.quantity &&
-                          errors.stockedInDetails?.[index]?.quantity && (
-                            <div className={styles.addProductErrors} style={{ color: "red" }}>
-                              {errors.stockedInDetails[index].quantity}
-                            </div>
-                          )}
+                        {
+                          // touched.stockedInDetails?.[index]?.quantity &&
+                          //   errors.stockedInDetails?.[index]?.quantity && (
+                          <span span className={styles.error}>
+                            {errors?.stockedInDetails?.[index]?.quantity}
+                          </span>
+                          // )
+                        }
                       </div>
                     </div>
                     {values.stockedInDetails.length > 1 && (
@@ -1101,7 +1109,6 @@ const AddProduct = ({ placeholder }) => {
 
             {/* End the Inventory */}
 
-
             {/* Start the Product Pricing */}
             <div className={styles.section}>
               <div className={styles.formHeadSection}>
@@ -1112,9 +1119,10 @@ const AddProduct = ({ placeholder }) => {
                     setFieldValue("productPricingDetails", [
                       ...values.productPricingDetails,
                       {
-                        quantityFrom: "",
-                        quantityTo: "",
+                        quantity: "",
+                        // quantityTo: "",
                         price: "",
+                        totalPrice: "",
                         deliveryTime: "",
                       },
                     ]);
@@ -1135,30 +1143,28 @@ const AddProduct = ({ placeholder }) => {
                         <div className={styles.tooltipContainer}>
                           <Select
                             className={styles.formSelect}
-                            options={Options}
+                            options={quantityOptions}
                             placeholder="Select Quantity"
                             onChange={(selectedOption) => {
-                              setProductType(selectedOption?.value);
                               setFieldValue(
-                                "market",
-                                selectedOption?.value?.replaceAll(" product", "")
+                                `productPricingDetails.${index}.quantity`,
+                                selectedOption?.value.replace(/\D/g, "") // Allow only numbers
                               );
                             }}
                           />
-
 
                           {/* <input
                             className={styles.formInput}
                             type="text"
                             placeholder="Quantity From"
                             autoComplete="off"
-                            name={`productPricingDetails.${index}.quantityFrom`}
+                            name={`productPricingDetails.${index}.quantity`}
                             value={
-                              values.productPricingDetails[index]?.quantityFrom
+                              values.productPricingDetails[index]?.quantity
                             }
                             onChange={(e) =>
                               setFieldValue(
-                                `productPricingDetails.${index}.quantityFrom`,
+                                `productPricingDetails.${index}.quantity`,
                                 e.target.value.replace(/\D/g, "") // Allow only numbers
                               )
                             }
@@ -1166,9 +1172,8 @@ const AddProduct = ({ placeholder }) => {
                           /> */}
                         </div>
                         <span className={styles.error}>
-                          {touched.productPricingDetails?.[index]
-                            ?.quantityFrom &&
-                            errors.productPricingDetails?.[index]?.quantityFrom}
+                          {touched.productPricingDetails?.[index]?.quantity &&
+                            errors.productPricingDetails?.[index]?.quantity}
                         </span>
                       </div>
                       {/* <div className={styles.weightSection}>
@@ -1210,28 +1215,33 @@ const AddProduct = ({ placeholder }) => {
                         type="text"
                         placeholder="Enter Unit Price in USD"
                         className={styles.formInput}
-                        onInput={(e) => {
-                          let value = e.target.value;
+                        onChange={handleChange}
+                        // onInput={(e) => {
+                        //   let value = e.target.value;
 
-                          // Allow only numbers and one decimal point
-                          value = value.replace(/[^0-9.]/g, "");
+                        //   // Allow only numbers and one decimal point
+                        //   value = value.replace(/[^0-9.]/g, "");
 
-                          // Ensure only one decimal point exists
-                          if (value?.split(".").length > 2) {
-                            value = value.slice(0, -1);
-                          }
+                        //   // Ensure only one decimal point exists
+                        //   if (value?.split(".").length > 2) {
+                        //     value = value.slice(0, -1);
+                        //   }
 
-                          // Limit numbers before decimal to 9 digits and after decimal to 3 digits
-                          let parts = value?.split(".");
-                          if (parts[0].length > 9) {
-                            parts[0] = parts[0].slice(0, 9);
-                          }
-                          if (parts[1]?.length > 3) {
-                            parts[1] = parts[1].slice(0, 3);
-                          }
+                        //   // Limit numbers before decimal to 9 digits and after decimal to 3 digits
+                        //   let parts = value?.split(".");
+                        //   if (parts[0].length > 9) {
+                        //     parts[0] = parts[0].slice(0, 9);
+                        //   }
+                        //   if (parts[1]?.length > 3) {
+                        //     parts[1] = parts[1].slice(0, 3);
+                        //   }
 
-                          e.target.value = parts.join(".");
-                        }}
+                        //   e.target.value = parts.join(".");
+                        //   setFieldValue(
+                        //   `productPricingDetails.${index}.totalPrice`,
+                        //   e.target.value
+                        // )
+                        // }}
                       />
                       <Tooltip content="The cost of the medication per unit (MRP) in Dollar"></Tooltip>
                     </div>
@@ -1248,67 +1258,67 @@ const AddProduct = ({ placeholder }) => {
                     </label>
                     <div className={styles.tooltipContainer}>
                       <Field
-                        name={`productPricingDetails.${index}.price`}
+                        name={`productPricingDetails.${index}.totalPrice`}
                         type="text"
-                        placeholder="Enter  Total Price in USD"
+                        placeholder="Enter Total Price in USD"
                         className={styles.formInput}
-                        onInput={(e) => {
-                          let value = e.target.value;
+                        onChange={handleChange}
+                        // onInput={(e) => {
+                        //   let value = e.target.value;
 
-                          // Allow only numbers and one decimal point
-                          value = value.replace(/[^0-9.]/g, "");
+                        //   // Allow only numbers and one decimal point
+                        //   value = value.replace(/[^0-9.]/g, "");
 
-                          // Ensure only one decimal point exists
-                          if (value?.split(".").length > 2) {
-                            value = value.slice(0, -1);
-                          }
+                        //   // Ensure only one decimal point exists
+                        //   if (value?.split(".").length > 2) {
+                        //     value = value.slice(0, -1);
+                        //   }
 
-                          // Limit numbers before decimal to 9 digits and after decimal to 3 digits
-                          let parts = value?.split(".");
-                          if (parts[0].length > 9) {
-                            parts[0] = parts[0].slice(0, 9);
-                          }
-                          if (parts[1]?.length > 3) {
-                            parts[1] = parts[1].slice(0, 3);
-                          }
+                        //   // Limit numbers before decimal to 9 digits and after decimal to 3 digits
+                        //   let parts = value?.split(".");
+                        //   if (parts[0].length > 9) {
+                        //     parts[0] = parts[0].slice(0, 9);
+                        //   }
+                        //   if (parts[1]?.length > 3) {
+                        //     parts[1] = parts[1].slice(0, 3);
+                        //   }
 
-                          e.target.value = parts.join(".");
-                        }}
+                        //   e.target.value = parts.join(".");
+                        //   console.log("e.target.value", e.target.value, values);
+                        //   setFieldValue(
+                        //     `productPricingDetails.${index}.totalPrice`,
+                        //     e.target.value
+                        //   );
+                        // }}
                       />
-                      <Tooltip content="The cost of the medication per unit (MRP) in Dollar"></Tooltip>
+                      <Tooltip content="The cost of the medication total (MRP) in Dollar"></Tooltip>
                     </div>
                     <span className={styles.error}>
-                      {touched.productPricingDetails?.[index]?.price &&
-                        errors.productPricingDetails?.[index]?.price}
+                      {touched.productPricingDetails?.[index]?.totalPrice &&
+                        errors.productPricingDetails?.[index]?.totalPrice}
                     </span>
                   </div>
 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Est. Delivery Time
-                      {/* <span className={styles.labelStamp}>*</span> */}
+                      <span className={styles.labelStamp}>*</span>
                     </label>
                     <Field
                       name={`productPricingDetails.${index}.deliveryTime`}
                       type="text"
                       placeholder="Enter Est. Delivery Time in days"
                       className={styles.formInput}
-                      // onInput={(e) => {
-                      //   e.target.value = e.target.value
-                      //     .replace(/\D/g, "")
-                      //     .slice(0, 3); // Allow only numbers & limit to 3 digits
-                      // }}
-
-                      onChange={(e) => {
+                      onInput={(e) => {
                         // Allow only alphanumeric characters, spaces, hyphens
                         const value = e.target.value.replace(
                           /[^a-zA-Z0-9 \-]/g,
                           ""
                         );
-                        // setFieldValue(
-                        //   `productPricingDetails.${index}.deliveryTime`,
-                        //   value || "TBC- based on quantity"
-                        // );
+                        setFieldValue(
+                          `productPricingDetails.${index}.deliveryTime`,
+                          value
+                        );
                       }}
                     />
                     <span className={styles.error}>
@@ -1322,15 +1332,23 @@ const AddProduct = ({ placeholder }) => {
                       className={styles.formCloseSection}
                       onClick={() => {
                         setFieldValue(
-                          `productPricingDetails.${index}.quantityFrom`,
+                          `productPricingDetails.${index}.quantity`,
                           ""
                         );
-                        setFieldValue(
-                          `productPricingDetails.${index}.quantityTo`,
-                          ""
-                        );
+                        // setFieldValue(
+                        //   `productPricingDetails.${index}.quantityFrom`,
+                        //   ""
+                        // );
+                        // setFieldValue(
+                        //   `productPricingDetails.${index}.quantityTo`,
+                        //   ""
+                        // );
                         setFieldValue(
                           `productPricingDetails.${index}.price`,
+                          ""
+                        );
+                        setFieldValue(
+                          `productPricingDetails.${index}.totalPrice`,
                           ""
                         );
                         setFieldValue(
@@ -1357,11 +1375,6 @@ const AddProduct = ({ placeholder }) => {
             {/* End the Product Pricing */}
 
             {/* Start the Compliances and certificate */}
-
-
-
-
-
 
             {/* Start the manufacturer */}
 
@@ -1427,7 +1440,6 @@ const AddProduct = ({ placeholder }) => {
                     value={values.aboutManufacturer}
                     name="aboutManufacturer"
                     onBlur={handleBlur}
-
                     onChange={(e) =>
                       handleInputChange(e, setFieldValue, 500, "all")
                     }
@@ -1441,10 +1453,7 @@ const AddProduct = ({ placeholder }) => {
               </div>
             </div>
 
-
-
             {/* End the manufacturer */}
-
 
             {/* Start the Compliances and certificate 222222222 */}
             <div className={styles.section}>
@@ -1497,7 +1506,7 @@ const AddProduct = ({ placeholder }) => {
                       )}
                     </Field>
                     <span className={styles.error}>
-                      {touched.cNCFileNDate?.[index]?.file &&
+                      {touched.cNCFileNDate &&
                         errors.cNCFileNDate?.[index]?.file}
                     </span>
                   </div>
@@ -1571,8 +1580,6 @@ const AddProduct = ({ placeholder }) => {
 
             {/* End the compliances and certificate 222222222 */}
 
-
-
             {/* Start the Additional Information */}
             <div className={styles.additionalSection}>
               <span className={styles.formHead}>Product Documents</span>
@@ -1580,39 +1587,45 @@ const AddProduct = ({ placeholder }) => {
                 <div className={styles.productContainer}>
                   <AddProductFileUpload
                     styles={styles}
-                    fieldInputName={"guidelinesFile"}
+                    fieldInputName={"catalogue"}
                     setFieldValue={setFieldValue}
                     initialValues={values}
                     label="Product Catalogue"
-                  // tooltip="Specific information, instructions related to product."
+                    tooltip={false}
+                    acceptTypes={{
+                      "application/pdf": [],
+                    }}
+                    maxFiles={1}
+                    error={
+                      touched.catalogue && errors.catalogue
+                        ? errors.catalogue
+                        : null
+                    }
                   />
-                  {touched.guidelinesFile && errors.guidelinesFile && (
-                    <span className={styles.error}>
-                      {errors.guidelinesFile}
-                    </span>
-                  )}
                 </div>
                 <div className={styles.productContainer}>
                   <AddProductFileUpload
                     styles={styles}
-                    fieldInputName={"guidelinesFile"}
+                    fieldInputName={"specificationSheet"}
                     setFieldValue={setFieldValue}
                     initialValues={values}
                     label="Specification Sheet"
-                  // tooltip="Specific information, instructions related to product."
+                    tooltip={false}
+                    acceptTypes={{
+                      "application/pdf": [],
+                    }}
+                    maxFiles={1}
+                    error={
+                      touched.specificationSheet && errors.specificationSheet
+                        ? errors.specificationSheet
+                        : null
+                    }
                   />
-                  {touched.guidelinesFile && errors.guidelinesFile && (
-                    <span className={styles.error}>
-                      {errors.guidelinesFile}
-                    </span>
-                  )}
                 </div>
               </div>
             </div>
 
             {/* End the Additional Information */}
-
-
 
             {/* Start the Additional Information */}
             <div className={styles.additionalSection}>
@@ -1625,13 +1638,17 @@ const AddProduct = ({ placeholder }) => {
                     setFieldValue={setFieldValue}
                     initialValues={values}
                     label="User Guidelines"
-                    tooltip="Specific information, instructions related to product."
+                    tooltip={false}
+                    acceptTypes={{
+                      "application/pdf": [],
+                    }}
+                    maxFiles={4}
+                    error={
+                      touched.guidelinesFile && errors.guidelinesFile
+                        ? errors.guidelinesFile
+                        : null
+                    }
                   />
-                  {touched.guidelinesFile && errors.guidelinesFile && (
-                    <span className={styles.error}>
-                      {errors.guidelinesFile}
-                    </span>
-                  )}
                 </div>
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>Other Information</label>
@@ -1665,22 +1682,65 @@ const AddProduct = ({ placeholder }) => {
               <div className={styles.formSection}>
                 <div className={styles.ImageproductContainer}>
                   <AddProductFileUpload
-                    setFieldValue={setFieldValue}
-                    initialValues={{ images: { front: [], back: [], left: [], right: [] } }}
-                    fieldInputName="images"
-                    oldFieldName="oldImages"
-                    existingFiles={{ front: [], back: [], left: [], right: [] }}
-                    error={errors.images} // e.g., { front: "Error", back: "" }
-                    tooltip="Upload images for different sides"
-                    showLabel={true}
-                    acceptTypes={{ "image/jpeg": [], "image/png": [] }}
-                    maxFiles={1} // 1 file per side
                     styles={styles}
+                    fieldInputName={"imageFront"}
+                    setFieldValue={setFieldValue}
+                    initialValues={values}
+                    label="Front Image"
+                    tooltip={false}
+                    acceptTypes={{ "image/jpeg": [], "image/png": [] }}
+                    maxFiles={1}
+                    error={
+                      touched.imageFront && errors.imageFront
+                        ? errors.imageFront
+                        : null
+                    }
                   />
-
-                  {touched.image && errors.image && (
-                    <span className={styles.error}>{errors.image}</span>
-                  )}
+                  <AddProductFileUpload
+                    styles={styles}
+                    fieldInputName={"imageBack"}
+                    setFieldValue={setFieldValue}
+                    initialValues={values}
+                    label="Back Image"
+                    tooltip={false}
+                    acceptTypes={{ "image/jpeg": [], "image/png": [] }}
+                    maxFiles={1}
+                    error={
+                      touched.imageBack && errors.imageBack
+                        ? errors.imageBack
+                        : null
+                    }
+                  />
+                  <AddProductFileUpload
+                    styles={styles}
+                    fieldInputName={"imageSide"}
+                    setFieldValue={setFieldValue}
+                    initialValues={values}
+                    label="Side Image"
+                    tooltip={false}
+                    acceptTypes={{ "image/jpeg": [], "image/png": [] }}
+                    maxFiles={1}
+                    error={
+                      touched.imageSide && errors.imageSide
+                        ? errors.imageSide
+                        : null
+                    }
+                  />
+                  <AddProductFileUpload
+                    styles={styles}
+                    fieldInputName={"imageClosure"}
+                    setFieldValue={setFieldValue}
+                    initialValues={values}
+                    label="Closure Image"
+                    tooltip={false}
+                    acceptTypes={{ "image/jpeg": [], "image/png": [] }}
+                    maxFiles={1}
+                    error={
+                      touched.imageClosure && errors.imageClosure
+                        ? errors.imageClosure
+                        : null
+                    }
+                  />
                 </div>
                 {productType === "secondary product" && (
                   <div className={styles.productContainer}>
@@ -1697,14 +1757,13 @@ const AddProduct = ({ placeholder }) => {
                       maxFiles={1}
                       error={
                         touched.purchaseInvoiceFile &&
-                          errors.purchaseInvoiceFile
+                        errors.purchaseInvoiceFile
                           ? errors.purchaseInvoiceFile
                           : null
                       }
                     />
                   </div>
                 )}
-
               </div>
             </div>
 
