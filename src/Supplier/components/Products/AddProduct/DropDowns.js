@@ -258,7 +258,7 @@ export const initialValues = {
   controlledSubstance: false,
   otcClassification: "",
   genericName: "",
-  strength: defaultValues || "",
+  strength:  "",
   composition: defaultValues || "",
   purpose: defaultValues || "",
   drugAdministrationRoute: defaultValues || "",
