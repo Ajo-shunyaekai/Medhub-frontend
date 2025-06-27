@@ -56,7 +56,8 @@ const ProductList = ({
       <div className={styles.container}>
         {productList && productList.length > 0 ? (
           productList.map((medicine, index) => {
-            const imageName = medicine?.general?.image?.[0];
+            const firstViewKey = Object.keys(medicine.general.image || {})[0];
+            const imageName = medicine?.general?.image?.[0] || medicine.general.image?.[firstViewKey]?.[0];
             const serverUrl = process.env.REACT_APP_SERVER_URL;
             let imageSrc = ProductImage; // default fallback image
 

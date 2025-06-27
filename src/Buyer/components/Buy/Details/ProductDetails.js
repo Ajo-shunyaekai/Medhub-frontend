@@ -143,14 +143,27 @@ const ProductDetails = () => {
     }
   };
 
-  const quantityOptions = inventoryList?.map((ele) => ({
-    // value: `${ele.quantityFrom}-${ele.quantityTo}`,
-    // label: `${ele.quantityFrom} - ${ele.quantityTo}`,
-    value: ele.quantity, 
-    label: ele.quantity,
-    price: ele.price,
-    deliveryTime: ele.deliveryTime,
-  }));
+  // const quantityOptions = inventoryList?.map((ele) => ({
+  //   // value: `${ele.quantityFrom}-${ele.quantityTo}`,
+  //   // label: `${ele.quantityFrom} - ${ele.quantityTo}`,
+  //   value: ele.quantity, 
+  //   label: ele.quantity,
+  //   price: ele.price,
+  //   deliveryTime: ele.deliveryTime,
+  // }));
+
+  const quantityOptions = inventoryList?.map((ele) => {
+    const hasRange = ele.quantityFrom && ele.quantityTo;
+    const displayValue = hasRange ? `${ele.quantityFrom}-${ele.quantityTo}` : ele.quantity;
+  
+    return {
+      value: displayValue,
+      label: displayValue,
+      price: ele.price,
+      deliveryTime: ele.deliveryTime,
+    };
+  });
+  
 
   // Get the first quantity option as the default
   const defaultOption = quantityOptions[0] || {
@@ -760,7 +773,7 @@ const ProductDetails = () => {
                 Medical Equipment and Devices
               </span>
               <div className={styles.innerSection}>
-                {/* Basic Details */}
+                
                 {["interoperability", "laserType"].some(getCategoryData) && (
                   <div className={styles.mainSection}>
                     {getCategoryData("interoperability") && (
@@ -784,7 +797,7 @@ const ProductDetails = () => {
                   </div>
                 )}
  
-                {/* Drug Class & Controlled Substance */}
+                
                 {["coolingSystem", "spotSize"].some(getCategoryData) && (
                   <div className={styles.mainSection}>
                     {getCategoryData("coolingSystem") && (
@@ -810,9 +823,9 @@ const ProductDetails = () => {
                 )}
               </div>
  
-              {/* Textarea Section */}
-              <div className={styles.textareaContainer}>
-                {/* Composition & Formulation */}
+              
+              {/* <div className={styles.textareaContainer}>
+                
  
                 {[
                   "specification",
@@ -871,13 +884,13 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
-              </div>
+              </div> */}
             </div>
           )}
         {/* End Medical Equipment and Devices */}
  
         {/* Pharmaceuticals */}
-        {productDetail?.category === "Pharmaceuticals" &&
+        {/* {productDetail?.category === "Pharmaceuticals" &&
           [
             "genericName",
             "strength",
@@ -895,7 +908,7 @@ const ProductDetails = () => {
             <div className={styles.mainContainer}>
               <span className={styles.innerHead}>Pharmaceuticals</span>
               <div className={styles.innerSection}>
-                {/* Basic Details */}
+               
                 {["genericName", "strength", "otcClassification"].some(
                   getCategoryData
                 ) && (
@@ -931,7 +944,7 @@ const ProductDetails = () => {
                   </div>
                 )}
  
-                {/* Drug Class & Controlled Substance */}
+              
                 {["drugClass", "expiry", "controlledSubstance"].some(
                   getCategoryData
                 ) && (
@@ -966,7 +979,7 @@ const ProductDetails = () => {
                 )}
               </div>
  
-              {/* Textarea Section */}
+          
               {[
                 "composition",
                 "formulation",
@@ -976,7 +989,7 @@ const ProductDetails = () => {
                 "sideEffectsAndWarnings",
               ].some(getCategoryData) && (
                 <div className={styles.textareaContainer}>
-                  {/* Composition & Formulation */}
+                  
                   {["composition", "drugAdministrationRoute"].some(
                     getCategoryData
                   ) && (
@@ -1005,7 +1018,7 @@ const ProductDetails = () => {
                     </div>
                   )}
  
-                  {/* Purpose & Drug Administration */}
+                 
                   {["purpose", "formulation"].some(getCategoryData) && (
                     <div className={styles.textareaSection}>
                       {getCategoryData("purpose") && (
@@ -1028,7 +1041,7 @@ const ProductDetails = () => {
                       )}
                     </div>
                   )}
-                  {/* Purpose & Drug Administration */}
+                  
                   {["purpose", "formulation"].some(getCategoryData) && (
                     <div className={styles.textareaSection}>
                       {getCategoryData("purpose") && (
@@ -1052,7 +1065,7 @@ const ProductDetails = () => {
                     </div>
                   )}
  
-                  {/* Side Effects & Allergens */}
+                 
                   {["sideEffectsAndWarnings", "allergens"].some(
                     getCategoryData
                   ) && (
@@ -1080,7 +1093,7 @@ const ProductDetails = () => {
                 </div>
               )}
             </div>
-          )}
+          )} */}
         {/* End Pharmaceuticals */}
  
         {/* Skin, Hair and Cosmetic Supplies */}
@@ -1421,10 +1434,10 @@ const ProductDetails = () => {
             </div>
           )}
  
-        {/* End Skin, Hair and Cosmetic Supplies */}
+       
  
-        {/* Vital Health and Wellness */}
-        {productDetail?.category == "VitalHealthAndWellness" &&
+        {/*  Vital Health and Wellness */}
+        {/* {productDetail?.category == "VitalHealthAndWellness" &&
           [
             "genericName",
             "strength",
@@ -1449,7 +1462,7 @@ const ProductDetails = () => {
                 Vital Health and Wellness
               </span>
               <div className={styles.innerSection}>
-                {/* Generic Info Section */}
+                
                 {[
                   "genericName",
                   "strength",
@@ -1495,7 +1508,7 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
-                {/* Drug Info Section */}
+                
                 {["expiry", "vegan", "crueltyFree"].some(getCategoryData) && (
                   <div className={styles.mainSection}>
                     {getCategoryData("expiry") && (
@@ -1525,7 +1538,7 @@ const ProductDetails = () => {
                   </div>
                 )}
               </div>
-              {/* Composition/Formulation/Purpose Section */}
+              
               <div className={styles.textareaContainer}>
                 {["drugClass", "drugAdministrationRoute"].some(
                   getCategoryData
@@ -1638,13 +1651,13 @@ const ProductDetails = () => {
                 )}
               </div>
             </div>
-          )}
+          )} */}
  
         {/* End Vital Health and Wellness */}
  
         {/* Medical Consumables and Disposables */}
  
-        {productDetail?.category == "MedicalConsumablesAndDisposables" &&
+        {/* {productDetail?.category == "MedicalConsumablesAndDisposables" &&
           [
             "thickness",
             "powdered",
@@ -1668,7 +1681,7 @@ const ProductDetails = () => {
                 Medical Consumables and Disposables
               </span>
               <div className={styles.innerSection}>
-                {/* Generic Info Section */}
+               
                 {[
                   "thickness",
                   "powdered",
@@ -1728,7 +1741,7 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
-                {/* Drug Info Section */}
+                
                 {[
                   "filtrationEfficiency",
                   "breathability",
@@ -1790,7 +1803,7 @@ const ProductDetails = () => {
                   </div>
                 )}
               </div>
-              {/* Composition/Formulation/Purpose Section */}
+              
               <div className={styles.textareaContainer}>
                 {["purpose", "chemicalResistance"].some(getCategoryData) && (
                   <div className={styles.textareaSection}>
@@ -1848,11 +1861,11 @@ const ProductDetails = () => {
                 )}
               </div>
             </div>
-          )}
+          )} */}
         {/* End Medical Consumables and Disposables */}
  
         {/* Laboratory Supplies */}
-        {productDetail?.category == "LaboratorySupplies" &&
+        {/* {productDetail?.category == "LaboratorySupplies" &&
           [
             "connectivity",
             "physicalState",
@@ -1871,7 +1884,7 @@ const ProductDetails = () => {
             <div className={styles.mainContainer}>
               <span className={styles.innerHead}>Laboratory Supplies</span>
               <div className={styles.innerSection}>
-                {/* Generic Info Section */}
+                
                 {["connectivity", "physicalState"].some(getCategoryData) && (
                   <div className={styles.mainSection}>
                     {getCategoryData("connectivity") && (
@@ -1898,7 +1911,7 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
-                {/* Drug Info Section */}
+                
                 {["hazardClassification"].some(getCategoryData) && (
                   <div className={styles.mainSection}>
                     {getCategoryData("hazardClassification") && (
@@ -1919,7 +1932,7 @@ const ProductDetails = () => {
                   </div>
                 )}
               </div>
-              {/* Composition/Formulation/Purpose Section */}
+              
               <div className={styles.textareaContainer}>
                 {["magnificationRange", "objectiveLenses"].some(
                   getCategoryData
@@ -2036,12 +2049,12 @@ const ProductDetails = () => {
                 )}
               </div>
             </div>
-          )}
+          )} */}
  
         {/* End Laboratory Supplies */}
  
         {/* Diagnostic and Monitoring Devices */}
-        {productDetail?.category == "DiagnosticAndMonitoringDevices" &&
+        {/* {productDetail?.category == "DiagnosticAndMonitoringDevices" &&
           [
             "measurementRange",
             "noiseLevel",
@@ -2065,7 +2078,7 @@ const ProductDetails = () => {
                 Diagnostic and Monitoring Devices
               </span>
               <div className={styles.innerSection}>
-                {/* Generic Info Section */}
+                
                 {["measurementRange", "noiseLevel"].some(getCategoryData) && (
                   <div className={styles.mainSection}>
                     {getCategoryData("measurementRange") && (
@@ -2088,7 +2101,7 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
-                {/* Drug Info Section */}
+                
                 {["usageRate"].some(getCategoryData) && (
                   <div className={styles.mainSection}>
                     {getCategoryData("usageRate") && (
@@ -2102,7 +2115,7 @@ const ProductDetails = () => {
                   </div>
                 )}
               </div>
-              {/* Composition/Formulation/Purpose Section */}
+              
               <div className={styles.textareaContainer}>
                 {["diagnosticFunctions", "flowRate"].some(getCategoryData) && (
                   <div className={styles.textareaSection}>
@@ -2213,13 +2226,13 @@ const ProductDetails = () => {
                 )}
               </div>
             </div>
-          )}
+          )} */}
  
         {/* End Diagnostic and Monitoring Devices */}
  
         {/* Hospital and Clinic Supplies */}
  
-        {productDetail?.category == "HospitalAndClinicSupplies" &&
+        {/* {productDetail?.category == "HospitalAndClinicSupplies" &&
           [
             "adhesiveness",
             "absorbency",
@@ -2239,7 +2252,7 @@ const ProductDetails = () => {
                 Hospital and Clinic Supplies
               </span>
               <div className={styles.innerSection}>
-                {/* Generic Info Section */}
+               
                 {[
                   "expiry",
                   "absorbency",
@@ -2293,7 +2306,7 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
-                {/* Drug Info Section */}
+                
                 {[
                   "adhesiveness",
                   "texture",
@@ -2343,7 +2356,7 @@ const ProductDetails = () => {
                   </div>
                 )}
               </div>
-              {/* Composition/Formulation/Purpose Section */}
+              
               <div className={styles.textareaContainer}>
                 {["purpose", "chemicalResistance"].some(getCategoryData) && (
                   <div className={styles.textareaSection}>
@@ -2369,13 +2382,13 @@ const ProductDetails = () => {
                 )}
               </div>
             </div>
-          )}
+          )} */}
  
         {/* End Hospital and Clinic Supplies */}
  
         {/* Orthopedic Supplies */}
  
-        {productDetail?.category == "OrthopedicSupplies" &&
+        {/* {productDetail?.category == "OrthopedicSupplies" &&
           [
             "elasticity",
             "sterilized",
@@ -2391,7 +2404,7 @@ const ProductDetails = () => {
             <div className={styles.mainContainer}>
               <span className={styles.innerHead}>Orthopedic Supplies</span>
               <div className={styles.innerSection}>
-                {/* Generic Info Section */}
+                
                 {["strength", "sterilized", "absorbency"].some(
                   getCategoryData
                 ) && (
@@ -2421,7 +2434,7 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
-                {/* Drug Info Section */}
+               
                 {["elasticity", "moistureResistance"].some(getCategoryData) && (
                   <div className={styles.mainSection}>
                     {getCategoryData("elasticity") && (
@@ -2445,7 +2458,7 @@ const ProductDetails = () => {
                   </div>
                 )}
               </div>
-              {/* Composition/Formulation/Purpose Section */}
+              
               <div className={styles.textareaContainer}>
                 {["purpose", "targetCondition"].some(getCategoryData) && (
                   <div className={styles.textareaSection}>
@@ -2509,12 +2522,12 @@ const ProductDetails = () => {
                 )}
               </div>
             </div>
-          )}
+          )} */}
  
         {/* End Orthopedic Supplies */}
  
         {/* Dental Products */}
-        {productDetail?.category == "DentalProducts" &&
+        {/* {productDetail?.category == "DentalProducts" &&
           [
             "productMaterial",
             "usageRate",
@@ -2527,7 +2540,7 @@ const ProductDetails = () => {
             <div className={styles.mainContainer}>
               <span className={styles.innerHead}>Dental Products</span>
               <div className={styles.innerSection}>
-                {/* Generic Info Section */}
+                
                 {["expiry", "usageRate"].some(getCategoryData) && (
                   <div className={styles.mainSection}>
                     {getCategoryData("expiry") && (
@@ -2551,7 +2564,7 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
-                {/* Drug Info Section */}
+                
                 {["productMaterial"].some(getCategoryData) && (
                   <div className={styles.mainSection}>
                     {getCategoryData("productMaterial") && (
@@ -2567,7 +2580,7 @@ const ProductDetails = () => {
                   </div>
                 )}
               </div>
-              {/* Composition/Formulation/Purpose Section */}
+              
               <div className={styles.textareaContainer}>
                 {["purpose", "targetCondition"].some(getCategoryData) && (
                   <div className={styles.textareaSection}>
@@ -2622,12 +2635,12 @@ const ProductDetails = () => {
                 )}
               </div>
             </div>
-          )}
+          )} */}
  
         {/* End Dental Products */}
  
         {/* Eye Care Supplies */}
-        {productDetail?.category == "EyeCareSupplies" &&
+        {/* {productDetail?.category == "EyeCareSupplies" &&
           [
             "diameter",
             "frame",
@@ -2640,7 +2653,7 @@ const ProductDetails = () => {
             <div className={styles.mainContainer}>
               <span className={styles.innerHead}>Eye Care Supplies</span>
               <div className={styles.innerSection}>
-                {/* Generic Info Section */}
+                
                 {["diameter", "frame"].some(getCategoryData) && (
                   <div className={styles.mainSection}>
                     {getCategoryData("diameter") && (
@@ -2661,7 +2674,7 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
-                {/* Drug Info Section */}
+                
                 {["lens", "lensMaterial"].some(getCategoryData) && (
                   <div className={styles.mainSection}>
                     {getCategoryData("lens") && (
@@ -2686,7 +2699,7 @@ const ProductDetails = () => {
                   </div>
                 )}
               </div>
-              {/* Composition/Formulation/Purpose Section */}
+             
               <div className={styles.textareaContainer}>
                 {["lensPower", "baseCurve"].some(getCategoryData) && (
                   <div className={styles.textareaSection}>
@@ -2725,11 +2738,11 @@ const ProductDetails = () => {
                 )}
               </div>
             </div>
-          )}
+          )} */}
         {/* End Eye Care Supplies */}
  
         {/* Home Healthcare Products */}
-        {productDetail?.category == "HomeHealthcareProducts" &&
+        {/* {productDetail?.category == "HomeHealthcareProducts" &&
           [
             "maxWeightCapacity",
             "gripType",
@@ -2751,7 +2764,7 @@ const ProductDetails = () => {
             <div className={styles.mainContainer}>
               <span className={styles.innerHead}>Home Healthcare Products</span>
               <div className={styles.innerSection}>
-                {/* Generic Info Section */}
+               
                 {["maxWeightCapacity", "gripType", "expiry"].some(
                   getCategoryData
                 ) && (
@@ -2787,7 +2800,7 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
-                {/* Drug Info Section */}
+                
                 {["batterySize", "batteryType"].some(getCategoryData) && (
                   <div className={styles.mainSection}>
                     {getCategoryData("batterySize") && (
@@ -2814,7 +2827,7 @@ const ProductDetails = () => {
                   </div>
                 )}
               </div>
-              {/* Composition/Formulation/Purpose Section */}
+              
               <div className={styles.textareaContainer}>
                 {["colorOptions", "foldability"].some(getCategoryData) && (
                   <div className={styles.textareaSection}>
@@ -2920,12 +2933,12 @@ const ProductDetails = () => {
                 )}
               </div>
             </div>
-          )}
+          )} */}
  
         {/* End Home Healthcare Products */}
  
         {/* Alternative Medicines */}
-        {productDetail?.category == "AlternativeMedicines" &&
+        {/* {productDetail?.category == "AlternativeMedicines" &&
           [
             "expiry",
             "purpose",
@@ -2937,7 +2950,7 @@ const ProductDetails = () => {
             <div className={styles.mainContainer}>
               <span className={styles.innerHead}>Alternative Medicines</span>
               <div className={styles.innerSection}>
-                {/* Generic Info Section */}
+                
                 {["expiry"].some(getCategoryData) && (
                   <div className={styles.mainSection}>
                     {getCategoryData("expiry") && (
@@ -2953,7 +2966,7 @@ const ProductDetails = () => {
                   </div>
                 )}
               </div>
-              {/* Composition/Formulation/Purpose Section */}
+              
               <div className={styles.textareaContainer}>
                 {["purpose", "composition"].some(getCategoryData) && (
                   <div className={styles.textareaSection}>
@@ -3004,13 +3017,13 @@ const ProductDetails = () => {
                 )}
               </div>
             </div>
-          )}
+          )} */}
  
         {/* End Alternative Medicines */}
  
         {/* Emergency and First Aid Supplies */}
  
-        {productDetail?.category == "EmergencyAndFirstAidSupplies" &&
+        {/* {productDetail?.category == "EmergencyAndFirstAidSupplies" &&
           ["expiry", "composition", "productLongevity", "foldability"].some(
             getCategoryData
           ) && (
@@ -3019,7 +3032,7 @@ const ProductDetails = () => {
                 Emergency and First Aid Supplies
               </span>
               <div className={styles.innerSection}>
-                {/* Generic Info Section */}
+                
                 {["expiry"].some(getCategoryData) && (
                   <div className={styles.mainSection}>
                     {getCategoryData("expiry") && (
@@ -3035,7 +3048,7 @@ const ProductDetails = () => {
                   </div>
                 )}
               </div>
-              {/* Composition/Formulation/Purpose Section */}
+              
               <div className={styles.textareaContainer}>
                 {["productLongevity", "composition"].some(getCategoryData) && (
                   <div className={styles.textareaSection}>
@@ -3075,12 +3088,12 @@ const ProductDetails = () => {
                 )}
               </div>
             </div>
-          )}
+          )} */}
  
         {/* End Emergency and First Aid Supplies */}
  
         {/* Disinfection and Hygiene Supplies */}
-        {productDetail?.category == "DisinfectionAndHygieneSupplies" &&
+        {/* {productDetail?.category == "DisinfectionAndHygieneSupplies" &&
           [
             "expiry",
             "composition",
@@ -3093,7 +3106,7 @@ const ProductDetails = () => {
                 Disinfection and Hygiene Supplies
               </span>
               <div className={styles.innerSection}>
-                {/* Generic Info Section */}
+                
                 {["expiry"].some(getCategoryData) && (
                   <div className={styles.mainSection}>
                     {getCategoryData("expiry") && (
@@ -3109,7 +3122,7 @@ const ProductDetails = () => {
                   </div>
                 )}
               </div>
-              {/* Composition/Formulation/Purpose Section */}
+              
               <div className={styles.textareaContainer}>
                 {["composition", "concentration"].some(getCategoryData) && (
                   <div className={styles.textareaSection}>
@@ -3158,12 +3171,12 @@ const ProductDetails = () => {
                 )}
               </div>
             </div>
-          )}
+          )} */}
  
         {/* End Disinfection and Hygiene Supplies */}
  
         {/* Nutrition and Dietary Products */}
-        {productDetail?.category == "NutritionAndDietaryProducts" &&
+        {/* {productDetail?.category == "NutritionAndDietaryProducts" &&
           [
             "flavorOptions",
             "aminoAcidProfile",
@@ -3181,7 +3194,7 @@ const ProductDetails = () => {
                 Nutrition and Dietary Products
               </span>
               <div className={styles.innerSection}>
-                {/* Generic Info Section */}
+                
                 {["expiry", "vegan"].some(getCategoryData) && (
                   <div className={styles.mainSection}>
                     {getCategoryData("expiry") && (
@@ -3215,7 +3228,7 @@ const ProductDetails = () => {
                   </div>
                 )}
               </div>
-              {/* Composition/Formulation/Purpose Section */}
+              
               <div className={styles.textareaContainer}>
                 {["flavorOptions", "aminoAcidProfile"].some(
                   getCategoryData
@@ -3306,12 +3319,12 @@ const ProductDetails = () => {
                 )}
               </div>
             </div>
-          )}
+          )} */}
  
         {/* End Nutrition and Dietary Products */}
  
         {/* Healthcare IT Solutions */}
-        {productDetail?.category == "HealthcareITSolutions" &&
+        {/* {productDetail?.category == "HealthcareITSolutions" &&
           [
             "license",
             "scalabilityInfo",
@@ -3326,7 +3339,7 @@ const ProductDetails = () => {
             <div className={styles.mainContainer}>
               <span className={styles.innerHead}>Healthcare IT Solutions</span>
               <div className={styles.textareaContainer}>
-                {/* Composition/Formulation/Purpose Section */}
+                
                 {["license", "scalabilityInfo"].some(getCategoryData) && (
                   <div className={styles.textareaSection}>
                     {getCategoryData("license") && (
@@ -3424,7 +3437,7 @@ const ProductDetails = () => {
                 )}
               </div>
             </div>
-          )}
+          )} */}
         {/* End Healthcare IT Solutions */}
  
         {/* End the category details section */}
