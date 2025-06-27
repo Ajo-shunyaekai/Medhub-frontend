@@ -375,6 +375,8 @@ export const addProductValidationSchema = Yup.object({
   countryOfOrigin: Yup.string().required(
     "Manufacturer Country of Origin is required."
   ),
+  minimumPurchaseUnit: Yup.string().required("Minimum Order Quantity is required."),
+  tags: Yup.string().required("Tags are required."),
   model: Yup.string()
     .required("Part/Model Number is required.")
     .matches(
@@ -506,18 +508,18 @@ export const addProductValidationSchema = Yup.object({
               return /^\d+(\.\d{1,3})?$/.test(value.toString()); // Allows up to 3 decimals
             }
           ),
-        totalPrice: Yup.number()
-          .typeError("Total Price must be a number.")
-          .required("Total Price is required.")
-          .positive("Total Price must be greater than 0")
-          .test(
-            "decimal-places",
-            "Price can have up to 3 decimal places only.",
-            (value) => {
-              if (value === undefined || value === null) return true; // Skip validation if empty
-              return /^\d+(\.\d{1,3})?$/.test(value.toString()); // Allows up to 3 decimals
-            }
-          ),
+        // totalPrice: Yup.number()
+        //   .typeError("Total Price must be a number.")
+        //   .required("Total Price is required.")
+        //   .positive("Total Price must be greater than 0")
+        //   .test(
+        //     "decimal-places",
+        //     "Price can have up to 3 decimal places only.",
+        //     (value) => {
+        //       if (value === undefined || value === null) return true; // Skip validation if empty
+        //       return /^\d+(\.\d{1,3})?$/.test(value.toString()); // Allows up to 3 decimals
+        //     }
+        //   ),
         deliveryTime: Yup.string()
           .matches(
             /^\d{1,3}$/,
@@ -713,10 +715,10 @@ export const addProductValidationSchema = Yup.object({
     is: "secondary",
     then: Yup.string().required("Condition is required."),
   }),
-  minimumPurchaseUnit: Yup.string().when("market", {
-    is: "secondary",
-    then: Yup.string().required("Minimum Purchase Unit is required."),
-  }),
+  // minimumPurchaseUnit: Yup.string().when("market", {
+  //   is: "secondary",
+  //   then: Yup.string().required("Minimum Purchase Unit is required."),
+  // }),
 
   // New Fields Validation
   subCategory: Yup.string()
@@ -1326,6 +1328,8 @@ export const editProductValidationSchema = Yup.object({
   countryOfOrigin: Yup.string().required(
     "Manufacturer Country of Origin is required."
   ),
+  minimumPurchaseUnit: Yup.string().required("Minimum Order Quantity is required."),
+  tags: Yup.string().required("Tags are required."),
   model: Yup.string()
     .required("Part/Model Number is required.")
     .matches(
@@ -1477,24 +1481,24 @@ export const editProductValidationSchema = Yup.object({
               return /^\d+(\.\d{1,3})?$/.test(value.toString()); // Allows up to 3 decimals
             }
           ),
-        totalPrice: Yup.number()
-          .typeError("Total Price must be a number.")
-          .required("Total Price is required.")
-          .positive("Total Price must be greater than 0")
-          .test(
-            "decimal-places",
-            "Price can have up to 3 decimal places only.",
-            (value) => {
-              if (value === undefined || value === null) return true; // Skip validation if empty
-              return /^\d+(\.\d{1,3})?$/.test(value.toString()); // Allows up to 3 decimals
-            }
-          ),
+        // totalPrice: Yup.number()
+        //   .typeError("Total Price must be a number.")
+        //   .required("Total Price is required.")
+        //   .positive("Total Price must be greater than 0")
+        //   .test(
+        //     "decimal-places",
+        //     "Price can have up to 3 decimal places only.",
+        //     (value) => {
+        //       if (value === undefined || value === null) return true; // Skip validation if empty
+        //       return /^\d+(\.\d{1,3})?$/.test(value.toString()); // Allows up to 3 decimals
+        //     }
+        //   ),
         deliveryTime: Yup.string()
           .matches(
             /^\d{1,3}$/,
-            "Delivery Time must be a number with up to 3 digits."
+            "Shipping Time must be a number with up to 3 digits."
           )
-          .required("Est. Delivery Time is required."),
+          .required("Est. Shipping Time is required."),
       })
     )
     .min(1, "At least one product is required."), // Optional: You can enforce at least one item in the array
@@ -1689,10 +1693,10 @@ export const editProductValidationSchema = Yup.object({
     is: "secondary",
     then: Yup.string().required("Condition is required."),
   }),
-  minimumPurchaseUnit: Yup.string().when("market", {
-    is: "secondary",
-    then: Yup.string().required("Minimum Purchase Unit is required."),
-  }),
+  // minimumPurchaseUnit: Yup.string().when("market", {
+  //   is: "secondary",
+  //   then: Yup.string().required("Minimum Purchase Unit is required."),
+  // }),
 
   // New Fields Validation
   subCategory: Yup.string()

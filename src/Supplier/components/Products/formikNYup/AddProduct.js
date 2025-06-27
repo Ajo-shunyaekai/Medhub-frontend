@@ -15,6 +15,8 @@ const productValidationSchema = Yup.object({
   countryOfOrigin: Yup.string().required("Country of Origin is required."),
   upc: Yup.string().nullable(),
   model: Yup.string().required("Part/Model Number is required."),
+  minimumPurchaseUnit:  Yup.string().required("Minimum Order Quantity is required."),
+  tags: Yup.string().required("Tags are required."),
   image: Yup.array()
     .max(4, "You can upload up to 4 images.")
     .of(
@@ -219,10 +221,10 @@ const productValidationSchema = Yup.object({
     is: "secondary",
     then: Yup.string().required("Condition is required."),
   }),
-  minimumPurchaseUnit: Yup.string().when("market", {
-    is: "secondary",
-    then: Yup.string().required("Minimum Purchase Unit is required."),
-  }),
+  // minimumPurchaseUnit: Yup.string().when("market", {
+  //   is: "secondary",
+  //   then: Yup.string().required("Minimum Purchase Unit is required."),
+  // }),
 
   // New Fields Validation
   subCategory: Yup.string()

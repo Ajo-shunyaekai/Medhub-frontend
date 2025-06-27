@@ -7163,13 +7163,13 @@ const EditAddProduct = ({ placeholder }) => {
 
                         <div className={styles.productContainer}>
                           <label className={styles.formLabel}>
-                            Est. Delivery Time
+                            Est. Shipping Time
                             {/* <span className={styles?.labelStamp}>*</span> */}
                           </label>
                           <Field
                             name={`productPricingDetails.${index}.deliveryTime`}
                             type="text"
-                            placeholder="Enter Est. Delivery Time in days"
+                            placeholder="Enter Est. Shipping Time in days"
                             className={styles.formInput}
                             onChange={(e) => {
                               // Allow only alphanumeric characters, spaces, hyphens

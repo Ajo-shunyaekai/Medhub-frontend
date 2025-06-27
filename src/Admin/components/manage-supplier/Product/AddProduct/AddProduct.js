@@ -594,15 +594,18 @@ const AddProduct = ({ placeholder }) => {
                       )}
                     </div>
 
-                    <div className={styles.productContainer}>
+                   
+                  </>
+                )}
+                 <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
-                        Minimum Purchase Unit
+                        Minimum Order Quantity
                         <span className={styles.labelStamp}>*</span>
                       </label>
                       <input
                         className={styles.formInput}
                         type="text"
-                        placeholder="Enter Minimum Purchase Unit"
+                        placeholder="Enter Minimum Order Quantity"
                         // autoComplete="off"
                         name="minimumPurchaseUnit"
                         value={values.minimumPurchaseUnit}
@@ -617,9 +620,7 @@ const AddProduct = ({ placeholder }) => {
                             {errors.minimumPurchaseUnit}
                           </span>
                         )}
-                    </div>
-                  </>
-                )}
+                  </div>
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>Strength</label>
                   <div className={styles.weightContainer}>
@@ -788,10 +789,10 @@ const AddProduct = ({ placeholder }) => {
                     <Tooltip content="Recommended storage (e.g., store in a cool, dry place)"></Tooltip>
                   </div>
                 </div>
-                <div className={styles.productContainer}>
+                {/* <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Stocked in Countries
-                    {/* <span className={styles.labelStamp}>*</span> */}
+                    
                   </label>
                   <MultiSelectDropdown
                     options={countries}
@@ -823,7 +824,7 @@ const AddProduct = ({ placeholder }) => {
                   {touched.countries && errors.countries && (
                     <span className={styles.error}>{errors.countries}</span>
                   )}
-                </div>
+                </div> */}
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Tags
@@ -879,6 +880,85 @@ const AddProduct = ({ placeholder }) => {
                 /> */}
               </div>
             </div>
+
+             {/* Start the manufacturer */}
+
+             <div className={styles.section}>
+              <span className={styles.formHead}>Manufacturer Details</span>
+              <div className={styles.formSection}>
+                <div className={styles.productContainer}>
+                  <label className={styles.formLabel}>
+                    Manufacturer Name
+                    <span className={styles.labelStamp}>*</span>
+                  </label>
+                  <input
+                    className={styles.formInput}
+                    type="text"
+                    placeholder="Enter Manufacturer Name"
+                    autoComplete="off"
+                    name="manufacturer"
+                    value={values.manufacturer}
+                    onBlur={handleBlur}
+                    onChange={(e) =>
+                      handleInputChange(e, setFieldValue, 75, "all", [
+                        "manufacturer",
+                      ])
+                    }
+                  />
+                  {touched.manufacturer && errors.manufacturer && (
+                    <span className={styles.error}>{errors.manufacturer}</span>
+                  )}
+                </div>
+
+                <div className={styles.productContainer}>
+                  <label className={styles.formLabel}>
+                    Manufacturer Country of Origin
+                    <span className={styles.labelStamp}>*</span>
+                  </label>
+                  <Select
+                    name="originCountry"
+                    options={countries}
+                    placeholder="Select Country of Origin"
+                    autoComplete="off"
+                    onBlur={handleBlur}
+                    onChange={(selectedOption) => {
+                      setFieldValue("countryOfOrigin", selectedOption.label);
+                    }}
+                  />
+                  {touched.countryOfOrigin && errors.countryOfOrigin && (
+                    <span className={styles.error}>
+                      {errors.countryOfOrigin}
+                    </span>
+                  )}
+                </div>
+
+                <div className={styles.productTextContainer}>
+                  <label className={styles.formLabel}>
+                    About Manufacturer
+                    <span className={styles.labelStamp}>*</span>
+                  </label>
+                  <textarea
+                    className={styles.formInput}
+                    type="text"
+                    rows={4}
+                    placeholder="Enter About Manufacturer"
+                    value={values.aboutManufacturer}
+                    name="aboutManufacturer"
+                    onBlur={handleBlur}
+                    onChange={(e) =>
+                      handleInputChange(e, setFieldValue, 500, "all")
+                    }
+                  />
+                  {touched.aboutManufacturer && errors.aboutManufacturer && (
+                    <span className={styles.error}>
+                      {errors.aboutManufacturer}
+                    </span>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* End the manufacturer */}
 
             {/* Start the Inventory */}
             <div className={styles.section}>
@@ -1053,7 +1133,7 @@ const AddProduct = ({ placeholder }) => {
                             </button>
                           </div>
                           <div className={styles.radioGroup}>
-                            {["Box", "Strip", "Pack"].map((option) => (
+                            {["Box", "Strip", "Pack", "Unit"].map((option) => (
                               <label key={option}>
                                 <input
                                   type="radio"
@@ -1299,13 +1379,13 @@ const AddProduct = ({ placeholder }) => {
 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
-                      Est. Delivery Time
+                      Est. Shipping Time
                       <span className={styles.labelStamp}>*</span>
                     </label>
                     <Field
                       name={`productPricingDetails.${index}.deliveryTime`}
                       type="text"
-                      placeholder="Enter Est. Delivery Time in days"
+                      placeholder="Enter Est. Shipping Time in days"
                       className={styles.formInput}
                       onInput={(e) => {
                         // Allow only alphanumeric characters, spaces, hyphens
@@ -1374,84 +1454,7 @@ const AddProduct = ({ placeholder }) => {
 
             {/* Start the Compliances and certificate */}
 
-            {/* Start the manufacturer */}
-
-            <div className={styles.section}>
-              <span className={styles.formHead}>Manufacturer Details</span>
-              <div className={styles.formSection}>
-                <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>
-                    Manufacturer Name
-                    <span className={styles.labelStamp}>*</span>
-                  </label>
-                  <input
-                    className={styles.formInput}
-                    type="text"
-                    placeholder="Enter Manufacturer Name"
-                    autoComplete="off"
-                    name="manufacturer"
-                    value={values.manufacturer}
-                    onBlur={handleBlur}
-                    onChange={(e) =>
-                      handleInputChange(e, setFieldValue, 75, "all", [
-                        "manufacturer",
-                      ])
-                    }
-                  />
-                  {touched.manufacturer && errors.manufacturer && (
-                    <span className={styles.error}>{errors.manufacturer}</span>
-                  )}
-                </div>
-
-                <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>
-                    Manufacturer Country of Origin
-                    <span className={styles.labelStamp}>*</span>
-                  </label>
-                  <Select
-                    name="originCountry"
-                    options={countries}
-                    placeholder="Select Country of Origin"
-                    autoComplete="off"
-                    onBlur={handleBlur}
-                    onChange={(selectedOption) => {
-                      setFieldValue("countryOfOrigin", selectedOption.label);
-                    }}
-                  />
-                  {touched.countryOfOrigin && errors.countryOfOrigin && (
-                    <span className={styles.error}>
-                      {errors.countryOfOrigin}
-                    </span>
-                  )}
-                </div>
-
-                <div className={styles.productTextContainer}>
-                  <label className={styles.formLabel}>
-                    About Manufacturer
-                    <span className={styles.labelStamp}>*</span>
-                  </label>
-                  <textarea
-                    className={styles.formInput}
-                    type="text"
-                    rows={4}
-                    placeholder="Enter About Manufacturer"
-                    value={values.aboutManufacturer}
-                    name="aboutManufacturer"
-                    onBlur={handleBlur}
-                    onChange={(e) =>
-                      handleInputChange(e, setFieldValue, 500, "all")
-                    }
-                  />
-                  {touched.aboutManufacturer && errors.aboutManufacturer && (
-                    <span className={styles.error}>
-                      {errors.aboutManufacturer}
-                    </span>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* End the manufacturer */}
+           
 
             {/* Start the Compliances and certificate 222222222 */}
             <div className={styles.section}>
@@ -1729,7 +1732,7 @@ const AddProduct = ({ placeholder }) => {
                     fieldInputName={"imageClosure"}
                     setFieldValue={setFieldValue}
                     initialValues={values}
-                    label="Closure Image"
+                    label="Closeup Image"
                     tooltip={false}
                     acceptTypes={{ "image/jpeg": [], "image/png": [] }}
                     maxFiles={1}

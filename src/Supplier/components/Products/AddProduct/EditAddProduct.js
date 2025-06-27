@@ -892,15 +892,18 @@ const EditAddProduct = ({ placeholder }) => {
                       )}
                   </div>
 
-                  <div className={styles.productContainer}>
+                  
+                </>
+              )}
+              <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
-                      Minimum Purchase Unit
+                      Minimum Order Quantity
                       <span className={styles?.labelStamp}>*</span>
                     </label>
                     <input
                       className={styles.formInput}
                       type="text"
-                      placeholder="Enter Minimum Purchase Unit"
+                      placeholder="Enter Minimum Order Quantity"
                       // autoComplete="off"
                       name="minimumPurchaseUnit"
                       value={formik?.values?.minimumPurchaseUnit}
@@ -916,8 +919,6 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                   </div>
-                </>
-              )}
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>Strength</label>
                 <div className={styles.weightContainer}>
@@ -1083,10 +1084,10 @@ const EditAddProduct = ({ placeholder }) => {
                 </div>
               </div>
 
-              <div className={styles.productContainer}>
+              {/* <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   Stocked in Countries
-                  {/* <span className={styles?.labelStamp}>*</span> */}
+                  
                 </label>
                 <MultiSelectDropdown
                   options={countries}
@@ -1125,7 +1126,7 @@ const EditAddProduct = ({ placeholder }) => {
                     {formik.errors.countries}
                   </span>
                 )}
-              </div>
+              </div> */}
 
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
@@ -1166,6 +1167,99 @@ const EditAddProduct = ({ placeholder }) => {
               </div>
             </div>
           </div>
+
+          {/* Start manufacturer details */}
+          <div className={styles.section}>
+            <span className={styles.formHead}>Manufacturer Details</span>
+            <div className={styles.formSection}>
+              <div className={styles.productContainer}>
+                <label className={styles.formLabel}>
+                  Manufacturer Name
+                  {/* <span className={styles?.labelStamp}>*</span> */}
+                </label>
+                <input
+                  className={styles.formInput}
+                  type="text"
+                  placeholder="Enter Manufacturer Name"
+                  // autoComplete="off"
+                  name="manufacturer"
+                  value={formik?.values?.manufacturer}
+                  onBlur={formik?.handleBlur}
+                  // onChange={(e) => {
+                  //   formik.setFieldValue("manufacturer", e.target.value);
+                  // }}
+                  onChange={(e) =>
+                    handleInputChange(e, formik.setFieldValue, 75, "all", [
+                      "manufacturer",
+                    ])
+                  }
+                />
+                {/* {formik.touched.manufacturer && formik.errors.manufacturer && (
+                  <span className={styles.error}>
+                    {formik.errors.manufacturer}
+                  </span>
+                )} */}
+              </div>
+
+              <div className={styles.productContainer}>
+                <label className={styles.formLabel}>
+                  Manufacturer Country of Origin
+                  {/* <span className={styles?.labelStamp}>*</span> */}
+                </label>
+                <Select
+                  name="countryOfOrigin"
+                  options={countries}
+                  placeholder="Select Country of Origin"
+                  value={
+                    countries.find(
+                      (option) =>
+                        option.label === formik.values?.countryOfOrigin
+                    ) || null
+                  }
+                  onBlur={formik.handleBlur}
+                  onChange={(selectedOption) => {
+                    formik.setFieldValue(
+                      "countryOfOrigin",
+                      selectedOption?.label
+                    );
+                  }}
+                />
+
+                {/* {formik.touched.countryOfOrigin &&
+                  formik.errors.countryOfOrigin && (
+                    <span className={styles.error}>
+                      {formik.errors.countryOfOrigin}
+                    </span>
+                  )} */}
+              </div>
+
+              <div className={styles.productTextContainer}>
+                <label className={styles.formLabel}>
+                  About Manufacturer
+                  <span className={styles?.labelStamp}>*</span>
+                </label>
+                <textarea
+                  className={styles.formInput}
+                  type="text"
+                  placeholder="Enter About Manufacturer"
+                  value={formik?.values?.aboutManufacturer}
+                  name="aboutManufacturer"
+                  onBlur={formik?.handleBlur}
+                  onChange={(e) =>
+                    handleInputChange(e, formik.setFieldValue, 500, "all")
+                  }
+                />
+                {formik.touched.aboutManufacturer &&
+                  formik.errors.aboutManufacturer && (
+                    <span className={styles.error}>
+                      {formik.errors.aboutManufacturer}
+                    </span>
+                  )}
+              </div>
+            </div>
+          </div>
+
+          {/* End manufacturer details */}
 
           {/* Start the Inventory */}
           <div className={styles.section}>
@@ -1339,7 +1433,7 @@ const EditAddProduct = ({ placeholder }) => {
                           </button>
                         </div>
                         <div className={styles.radioGroup}>
-                          {["Box", "Strip", "Pack"].map((type) => (
+                          {["Box", "Strip", "Pack", "Unit"].map((type) => (
                             <label key={type}>
                               <input
                                 type="radio"
@@ -1525,13 +1619,13 @@ const EditAddProduct = ({ placeholder }) => {
                         </div>
                         <div className={styles.productContainer}>
                           <label className={styles.formLabel}>
-                            Est. Delivery Time
+                            Est. Shipping Time
                             {/* <span className={styles?.labelStamp}>*</span> */}
                           </label>
                           <Field
                             name={`productPricingDetails.${index}.deliveryTime`}
                             type="text"
-                            placeholder="Enter Est. Delivery Time in days"
+                            placeholder="Enter Est. Shipping Time in days"
                             className={styles.formInput}
                             onChange={(e) => {
                               // Allow only alphanumeric characters, spaces, hyphens
@@ -1572,98 +1666,7 @@ const EditAddProduct = ({ placeholder }) => {
           </div>
 
           {/* End the Product Pricing */}
-          {/* Start manufacturer details */}
-          <div className={styles.section}>
-            <span className={styles.formHead}>Manufacturer Details</span>
-            <div className={styles.formSection}>
-              <div className={styles.productContainer}>
-                <label className={styles.formLabel}>
-                  Manufacturer Name
-                  {/* <span className={styles?.labelStamp}>*</span> */}
-                </label>
-                <input
-                  className={styles.formInput}
-                  type="text"
-                  placeholder="Enter Manufacturer Name"
-                  // autoComplete="off"
-                  name="manufacturer"
-                  value={formik?.values?.manufacturer}
-                  onBlur={formik?.handleBlur}
-                  // onChange={(e) => {
-                  //   formik.setFieldValue("manufacturer", e.target.value);
-                  // }}
-                  onChange={(e) =>
-                    handleInputChange(e, formik.setFieldValue, 75, "all", [
-                      "manufacturer",
-                    ])
-                  }
-                />
-                {/* {formik.touched.manufacturer && formik.errors.manufacturer && (
-                  <span className={styles.error}>
-                    {formik.errors.manufacturer}
-                  </span>
-                )} */}
-              </div>
-
-              <div className={styles.productContainer}>
-                <label className={styles.formLabel}>
-                  Manufacturer Country of Origin
-                  {/* <span className={styles?.labelStamp}>*</span> */}
-                </label>
-                <Select
-                  name="countryOfOrigin"
-                  options={countries}
-                  placeholder="Select Country of Origin"
-                  value={
-                    countries.find(
-                      (option) =>
-                        option.label === formik.values?.countryOfOrigin
-                    ) || null
-                  }
-                  onBlur={formik.handleBlur}
-                  onChange={(selectedOption) => {
-                    formik.setFieldValue(
-                      "countryOfOrigin",
-                      selectedOption?.label
-                    );
-                  }}
-                />
-
-                {/* {formik.touched.countryOfOrigin &&
-                  formik.errors.countryOfOrigin && (
-                    <span className={styles.error}>
-                      {formik.errors.countryOfOrigin}
-                    </span>
-                  )} */}
-              </div>
-
-              <div className={styles.productTextContainer}>
-                <label className={styles.formLabel}>
-                  About Manufacturer
-                  <span className={styles?.labelStamp}>*</span>
-                </label>
-                <textarea
-                  className={styles.formInput}
-                  type="text"
-                  placeholder="Enter About Manufacturer"
-                  value={formik?.values?.aboutManufacturer}
-                  name="aboutManufacturer"
-                  onBlur={formik?.handleBlur}
-                  onChange={(e) =>
-                    handleInputChange(e, formik.setFieldValue, 500, "all")
-                  }
-                />
-                {formik.touched.aboutManufacturer &&
-                  formik.errors.aboutManufacturer && (
-                    <span className={styles.error}>
-                      {formik.errors.aboutManufacturer}
-                    </span>
-                  )}
-              </div>
-            </div>
-          </div>
-
-          {/* End manufacturer details */}
+          
           {/* Start the Compliances and certificate 222222222 */}
           <div className={styles.section}>
             <div className={styles.formHeadSection}>
