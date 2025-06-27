@@ -398,6 +398,7 @@ const AddProduct = ({ placeholder }) => {
           useFormikContext,
         }) => (
           <Form className={styles.form}>
+            {console.log("eoors valussses", errors)}
             <div className={styles.section}>
               <span className={styles.formHead}>General Information</span>
               <div className={styles.formSection}>

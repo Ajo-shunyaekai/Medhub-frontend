@@ -594,69 +594,69 @@ export const addProductValidationSchema = Yup.object({
           return value && allowedFormats.includes(value.type);
         })
     ),
-  safetyDatasheet: Yup.array()
-    .max(4, "You can upload up to 4 safety datasheets.")
-    .of(
-      Yup.mixed()
-        .required("A file is required.")
-        .test(
-          "fileSize",
-          "File too large",
-          (value) => value && value.size <= 1024 * 1024 * 5
-        ) // Max 5MB
-        .test("fileType", "Unsupported file format", (value) => {
-          const allowedFormats = [
-            "application/pdf",
-            "image/jpeg",
-            "image/png",
-            "application/msword",
-            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-          ];
-          return value && allowedFormats.includes(value.type);
-        })
-    ),
-  healthHazardRating: Yup.array()
-    .max(4, "You can upload up to 4 safety datasheets.")
-    .of(
-      Yup.mixed()
-        .required("A file is required.")
-        .test(
-          "fileSize",
-          "File too large",
-          (value) => value && value.size <= 1024 * 1024 * 5
-        ) // Max 5MB
-        .test("fileType", "Unsupported file format", (value) => {
-          const allowedFormats = [
-            "application/pdf",
-            "image/jpeg",
-            "image/png",
-            "application/msword",
-            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-          ];
-          return value && allowedFormats.includes(value.type);
-        })
-    ),
-  environmentalImpact: Yup.array()
-    .max(4, "You can upload up to 4 safety datasheets.")
-    .of(
-      Yup.mixed()
-        .required("A file is required.")
-        .test(
-          "fileSize",
-          "File too large",
-          (value) => value && value.size <= 1024 * 1024 * 5
-        ) // Max 5MB
-        .test("fileType", "Unsupported file format", (value) => {
-          const allowedFormats = [
-            "application/pdf",
-            "image/jpeg",
-            "image/png",
-            "application/msword",
-            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-          ];
-          return value && allowedFormats.includes(value.type);
-        })
-    ),
+  // safetyDatasheet: Yup.array()
+  //   .max(4, "You can upload up to 4 safety datasheets.")
+  //   .of(
+  //     Yup.mixed()
+  //       .required("A file is required.")
+  //       .test(
+  //         "fileSize",
+  //         "File too large",
+  //         (value) => value && value.size <= 1024 * 1024 * 5
+  //       ) // Max 5MB
+  //       .test("fileType", "Unsupported file format", (value) => {
+  //         const allowedFormats = [
+  //           "application/pdf",
+  //           "image/jpeg",
+  //           "image/png",
+  //           "application/msword",
+  //           "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  //         ];
+  //         return value && allowedFormats.includes(value.type);
+  //       })
+  //   ),
+  // healthHazardRating: Yup.array()
+  //   .max(4, "You can upload up to 4 safety datasheets.")
+  //   .of(
+  //     Yup.mixed()
+  //       .required("A file is required.")
+  //       .test(
+  //         "fileSize",
+  //         "File too large",
+  //         (value) => value && value.size <= 1024 * 1024 * 5
+  //       ) // Max 5MB
+  //       .test("fileType", "Unsupported file format", (value) => {
+  //         const allowedFormats = [
+  //           "application/pdf",
+  //           "image/jpeg",
+  //           "image/png",
+  //           "application/msword",
+  //           "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  //         ];
+  //         return value && allowedFormats.includes(value.type);
+  //       })
+  //   ),
+  // environmentalImpact: Yup.array()
+  //   .max(4, "You can upload up to 4 safety datasheets.")
+  //   .of(
+  //     Yup.mixed()
+  //       .required("A file is required.")
+  //       .test(
+  //         "fileSize",
+  //         "File too large",
+  //         (value) => value && value.size <= 1024 * 1024 * 5
+  //       ) // Max 5MB
+  //       .test("fileType", "Unsupported file format", (value) => {
+  //         const allowedFormats = [
+  //           "application/pdf",
+  //           "image/jpeg",
+  //           "image/png",
+  //           "application/msword",
+  //           "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  //         ];
+  //         return value && allowedFormats.includes(value.type);
+  //       })
+  //   ),
   category: Yup.string()
     .oneOf([
       "MedicalEquipmentAndDevices",
@@ -961,361 +961,361 @@ export const addProductValidationSchema = Yup.object({
       ),
     })
     .nullable(),
-  // Common fields of multiple categories
-  drugClass: Yup.string()
-    .when("category", {
-      is: (category) =>
-        [
-          "Pharmaceuticals",
-          "SkinHairCosmeticSupplies",
-          "VitalHealthAndWellness",
-        ].includes(category),
-      then: Yup.string().required("Drug Class is required."),
-    })
-    .nullable(),
-  genericName: Yup.string()
-    .when("category", {
-      is: (category) =>
-        ["Pharmaceuticals", "VitalHealthAndWellness"].includes(category),
-      then: Yup.string().required("Generic Name is required."),
-    })
-    .nullable(),
-  strength: Yup.string()
-    .when("category", {
-      is: (category) =>
-        [
-          "Pharmaceuticals",
-          "SkinHairCosmeticSupplies",
-          "VitalHealthAndWellness",
-          "OrthopedicSupplies",
-        ].includes(category),
-      then: Yup.string().required("Strength is required."),
-    })
-    .nullable(),
-  composition: Yup.string()
-    .when("category", {
-      is: (category) =>
-        [
-          "Pharmaceuticals",
-          "SkinHairCosmeticSupplies",
-          "VitalHealthAndWellness",
-          "AlternativeMedicines",
-          "EmergencyAndFirstAidSupplies",
-          "DisinfectionAndHygieneSupplies",
-          "NutritionAndDietaryProducts",
-        ].includes(category),
-      then: Yup.string().required("Composition/Ingredients is required."),
-    })
-    .nullable(),
-  purpose: Yup.string()
-    .when("category", {
-      is: (category) => ["SkinHairCosmeticSupplies"].includes(category),
-      then: Yup.string().required("Purpose is required."),
-    })
-    .nullable(),
-  drugAdministrationRoute: Yup.string()
-    .when("category", {
-      is: (category) =>
-        ["SkinHairCosmeticSupplies", "VitalHealthAndWellness"].includes(
-          category
-        ),
-      then: Yup.string().required("Drug Administration Route is required."),
-    })
-    .nullable(),
-  // expiry: Yup.string()
+  // // Common fields of multiple categories
+  // drugClass: Yup.string()
   //   .when("category", {
   //     is: (category) =>
   //       [
   //         "Pharmaceuticals",
   //         "SkinHairCosmeticSupplies",
   //         "VitalHealthAndWellness",
-  //         "MedicalConsumablesAndDisposables",
-  //         "HospitalAndClinicSupplies",
-  //         // "OrthopedicSupplies",
-  //         "DentalProducts",
-  //         "HomeHealthcareProducts",
+  //       ].includes(category),
+  //     then: Yup.string().required("Drug Class is required."),
+  //   })
+  //   .nullable(),
+  // genericName: Yup.string()
+  //   .when("category", {
+  //     is: (category) =>
+  //       ["Pharmaceuticals", "VitalHealthAndWellness"].includes(category),
+  //     then: Yup.string().required("Generic Name is required."),
+  //   })
+  //   .nullable(),
+  // strength: Yup.string()
+  //   .when("category", {
+  //     is: (category) =>
+  //       [
+  //         "Pharmaceuticals",
+  //         "SkinHairCosmeticSupplies",
+  //         "VitalHealthAndWellness",
+  //         "OrthopedicSupplies",
+  //       ].includes(category),
+  //     then: Yup.string().required("Strength is required."),
+  //   })
+  //   .nullable(),
+  // composition: Yup.string()
+  //   .when("category", {
+  //     is: (category) =>
+  //       [
+  //         "Pharmaceuticals",
+  //         "SkinHairCosmeticSupplies",
+  //         "VitalHealthAndWellness",
   //         "AlternativeMedicines",
   //         "EmergencyAndFirstAidSupplies",
   //         "DisinfectionAndHygieneSupplies",
   //         "NutritionAndDietaryProducts",
   //       ].includes(category),
-  //     then: Yup.string().required("Shelf Life/Expiry is required."),
+  //     then: Yup.string().required("Composition/Ingredients is required."),
   //   })
   //   .nullable(),
-  // interoperability: Yup.string()
+  // purpose: Yup.string()
   //   .when("category", {
-  //     is: (category) => ["HealthcareITSolutions"].includes(category),
-  //     then: Yup.string().required("Interoperability is required."),
+  //     is: (category) => ["SkinHairCosmeticSupplies"].includes(category),
+  //     then: Yup.string().required("Purpose is required."),
   //   })
   //   .nullable(),
-  // interoperabilityFile: Yup.array()
+  // drugAdministrationRoute: Yup.string()
   //   .when("category", {
-  //     is: (category) => ["HealthcareITSolutions"].includes(category),
+  //     is: (category) =>
+  //       ["SkinHairCosmeticSupplies", "VitalHealthAndWellness"].includes(
+  //         category
+  //       ),
+  //     then: Yup.string().required("Drug Administration Route is required."),
+  //   })
+  //   .nullable(),
+  // // expiry: Yup.string()
+  // //   .when("category", {
+  // //     is: (category) =>
+  // //       [
+  // //         "Pharmaceuticals",
+  // //         "SkinHairCosmeticSupplies",
+  // //         "VitalHealthAndWellness",
+  // //         "MedicalConsumablesAndDisposables",
+  // //         "HospitalAndClinicSupplies",
+  // //         // "OrthopedicSupplies",
+  // //         "DentalProducts",
+  // //         "HomeHealthcareProducts",
+  // //         "AlternativeMedicines",
+  // //         "EmergencyAndFirstAidSupplies",
+  // //         "DisinfectionAndHygieneSupplies",
+  // //         "NutritionAndDietaryProducts",
+  // //       ].includes(category),
+  // //     then: Yup.string().required("Shelf Life/Expiry is required."),
+  // //   })
+  // //   .nullable(),
+  // // interoperability: Yup.string()
+  // //   .when("category", {
+  // //     is: (category) => ["HealthcareITSolutions"].includes(category),
+  // //     then: Yup.string().required("Interoperability is required."),
+  // //   })
+  // //   .nullable(),
+  // // interoperabilityFile: Yup.array()
+  // //   .when("category", {
+  // //     is: (category) => ["HealthcareITSolutions"].includes(category),
+  // //     then: Yup.array()
+  // //       .min(1, "At least one file is required for the Interoperability file.")
+  // //       .max(4, "You can upload up to 4 Interoperability files.")
+  // //       .required("Interoperability files is required."),
+  // //     // .test(
+  // //     //   "fileSize",
+  // //     //   "File too large",
+  // //     //   (value) => value && value.size <= 1024 * 1024 * 5
+  // //     // ), // Max 5MB
+  // //   })
+  // //   .nullable(),
+  // specification: Yup.string()
+  //   .when("category", {
+  //     is: (category) =>
+  //       [
+  //         "MedicalEquipmentAndDevices",
+  //         "DiagnosticAndMonitoringDevices",
+  //       ].includes(category),
+  //     then: Yup.string().required("Specification is required."),
+  //   })
+  //   .nullable(),
+  // specificationFile: Yup.array()
+  //   .when("category", {
+  //     is: (category) =>
+  //       [
+  //         "MedicalEquipmentAndDevices",
+  //         "DiagnosticAndMonitoringDevices",
+  //       ].includes(category),
   //     then: Yup.array()
-  //       .min(1, "At least one file is required for the Interoperability file.")
-  //       .max(4, "You can upload up to 4 Interoperability files.")
-  //       .required("Interoperability files is required."),
-  //     // .test(
-  //     //   "fileSize",
-  //     //   "File too large",
-  //     //   (value) => value && value.size <= 1024 * 1024 * 5
-  //     // ), // Max 5MB
+  //       .min(1, "At least one file is required for the specification file.")
+  //       .max(4, "You can upload up to 4 specification files.")
+  //       .required("specification files is required.")
+  //       .of(
+  //         Yup.mixed()
+  //           .required("A file is required.")
+  //           .test(
+  //             "fileSize",
+  //             "File too large",
+  //             (value) => value && value.size <= 1024 * 1024 * 5
+  //           ) // Max 5MB
+  //       ),
   //   })
   //   .nullable(),
-  specification: Yup.string()
-    .when("category", {
-      is: (category) =>
-        [
-          "MedicalEquipmentAndDevices",
-          "DiagnosticAndMonitoringDevices",
-        ].includes(category),
-      then: Yup.string().required("Specification is required."),
-    })
-    .nullable(),
-  specificationFile: Yup.array()
-    .when("category", {
-      is: (category) =>
-        [
-          "MedicalEquipmentAndDevices",
-          "DiagnosticAndMonitoringDevices",
-        ].includes(category),
-      then: Yup.array()
-        .min(1, "At least one file is required for the specification file.")
-        .max(4, "You can upload up to 4 specification files.")
-        .required("specification files is required.")
-        .of(
-          Yup.mixed()
-            .required("A file is required.")
-            .test(
-              "fileSize",
-              "File too large",
-              (value) => value && value.size <= 1024 * 1024 * 5
-            ) // Max 5MB
-        ),
-    })
-    .nullable(),
-  diagnosticFunctions: Yup.string()
-    .when("category", {
-      is: (category) => ["DiagnosticAndMonitoringDevices"].includes(category),
-      then: Yup.string().required("Diagnostic Functions is required."),
-    })
-    .nullable(),
-  performanceTestingReportFile: Yup.array()
-    .when("category", {
-      is: (category) =>
-        [
-          "MedicalEquipmentAndDevices",
-          "DiagnosticAndMonitoringDevices",
-          "HomeHealthcareProducts",
-        ].includes(category),
-      then: Yup.array()
-        .max(4, "You can upload up to 4 performance testing files.")
-        .of(
-          Yup.mixed()
-            .required("A file is required.")
-            .test(
-              "fileSize",
-              "File too large",
-              (value) => value && value.size <= 1024 * 1024 * 5
-            ) // Max 5MB
-        ),
-    })
-    .nullable(),
-  additivesNSweeteners: Yup.string()
-    .when("category", {
-      is: (category) => ["NutritionAndDietaryProducts"].includes(category),
-      then: Yup.string().required("Additives & Sweeteners is required."),
-    })
-    .nullable(),
-  targetCondition: Yup.string()
-    .when("category", {
-      is: (category) =>
-        ["SkinHairCosmeticSupplies", "OrthopedicSupplies"].includes(category),
-      then: Yup.string().required("Target Condition is required."),
-    })
-    .nullable(),
-  foldability: Yup.string()
-    .when("category", {
-      is: (category) => ["EmergencyAndFirstAidSupplies"].includes(category),
-      then: Yup.string().required("Foldability is required."),
-    })
-    .nullable(),
-  healthBenefit: Yup.string()
-    .when("category", {
-      is: (category) =>
-        ["VitalHealthAndWellness", "NutritionAndDietaryProducts"].includes(
-          category
-        ),
+  // diagnosticFunctions: Yup.string()
+  //   .when("category", {
+  //     is: (category) => ["DiagnosticAndMonitoringDevices"].includes(category),
+  //     then: Yup.string().required("Diagnostic Functions is required."),
+  //   })
+  //   .nullable(),
+  // performanceTestingReportFile: Yup.array()
+  //   .when("category", {
+  //     is: (category) =>
+  //       [
+  //         "MedicalEquipmentAndDevices",
+  //         "DiagnosticAndMonitoringDevices",
+  //         "HomeHealthcareProducts",
+  //       ].includes(category),
+  //     then: Yup.array()
+  //       .max(4, "You can upload up to 4 performance testing files.")
+  //       .of(
+  //         Yup.mixed()
+  //           .required("A file is required.")
+  //           .test(
+  //             "fileSize",
+  //             "File too large",
+  //             (value) => value && value.size <= 1024 * 1024 * 5
+  //           ) // Max 5MB
+  //       ),
+  //   })
+  //   .nullable(),
+  // additivesNSweeteners: Yup.string()
+  //   .when("category", {
+  //     is: (category) => ["NutritionAndDietaryProducts"].includes(category),
+  //     then: Yup.string().required("Additives & Sweeteners is required."),
+  //   })
+  //   .nullable(),
+  // targetCondition: Yup.string()
+  //   .when("category", {
+  //     is: (category) =>
+  //       ["SkinHairCosmeticSupplies", "OrthopedicSupplies"].includes(category),
+  //     then: Yup.string().required("Target Condition is required."),
+  //   })
+  //   .nullable(),
+  // foldability: Yup.string()
+  //   .when("category", {
+  //     is: (category) => ["EmergencyAndFirstAidSupplies"].includes(category),
+  //     then: Yup.string().required("Foldability is required."),
+  //   })
+  //   .nullable(),
+  // healthBenefit: Yup.string()
+  //   .when("category", {
+  //     is: (category) =>
+  //       ["VitalHealthAndWellness", "NutritionAndDietaryProducts"].includes(
+  //         category
+  //       ),
 
-      then: Yup.string().required("Health Benfits is required."),
-    })
-    .nullable(),
-  // Add the other fields under MedicalEquipmentAndDevices
-  // Add the other fields under Pharmaceuticals
-  // Add the other fields under SkinHairCosmeticSupplies
-  dermatologistTested: Yup.string()
-    .when("category", {
-      is: "SkinHairCosmeticSupplies",
-      then: Yup.string()
-        .required("Dermatologist Tested is required.")
-        .oneOf(["Yes", "No"], "Invalid Dermatologist Tested"),
-    })
-    .nullable(),
-  dermatologistTestedFile: Yup.array().when("category", {
-    is: "SkinHairCosmeticSupplies", // Check category first
-    then: Yup.array()
-      .when("dermatologistTested", {
-        is: (val) => val && val == "Yes", // If dermatologistTestedFile has a value
-        then: Yup.array()
-          .min(1, "At least one file is required for the Dermatologist Tested.")
-          .max(4, "You can upload up to 4 dermatologist tested files.")
-          .required("Dermatologist Tested file is required.")
-          .of(
-            Yup.mixed()
-              .required("A file is required.")
-              .test(
-                "fileSize",
-                "File too large",
-                (value) => value && value.size <= 1024 * 1024 * 5
-              ) // Max 5MB
-          ),
-        otherwise: Yup.array().nullable(), // If no dermatologistTestedFile, file is optional
-      })
-      .nullable(),
-    otherwise: Yup.array().nullable(), // If category is not dermatologistTestedFile, it's not required
-  }),
-  pediatricianRecommended: Yup.string()
-    .when("category", {
-      is: "SkinHairCosmeticSupplies",
-      then: Yup.string()
-        .required("Pediatrician Recommended is required.")
-        .oneOf(["Yes", "No"], "Invalid Pediatrician Recommended"),
-    })
-    .nullable(),
-  pediatricianRecommendedFile: Yup.array().when("category", {
-    is: "SkinHairCosmeticSupplies", // Check category first
-    then: Yup.array()
-      .when("pediatricianRecommended", {
-        is: (val) => val && val == "Yes", // If pediatricianRecommendedFile has a value
-        then: Yup.array()
-          .min(
-            1,
-            "At least one file is required for the Pediatrician Recommended."
-          )
-          .max(4, "You can upload up to 4 Pediatrician Recommended files.")
-          .required("Pediatrician Recommended file is required.")
-          .of(
-            Yup.mixed()
-              .required("A file is required.")
-              .test(
-                "fileSize",
-                "File too large",
-                (value) => value && value.size <= 1024 * 1024 * 5
-              ) // Max 5MB
-          ),
-        otherwise: Yup.array().nullable(), // If no pediatricianRecommendedFile, file is optional
-      })
-      .nullable(),
-    otherwise: Yup.array().nullable(), // If category is not pediatricianRecommendedFile, it's not required
-  }),
-  // Add the other fields under VitalHealthAndWellness
-  // Add the other fields under MedicalConsumablesAndDisposables
-  // Add the other fields under LaboratorySupplies
-  // Add the other fields under DiagnosticAndMonitoringDevices
-  // Add the other fields under HospitalAndClinicSupplies
-  // Add the other fields under OrthopedicSupplies
-  // Add the other fields under DentalProducts
-  // Add the other fields under EyeCareSupplies
-  // Add the other fields under HomeHealthcareProducts
-  // // Add the other fields under
-  healthClaimsFile: Yup.array()
-    .when("category", {
-      is: "AlternativeMedicines",
-      then: Yup.array()
-        .max(4, "You can upload up to 4 Health Claims Files.")
-        .of(
-          Yup.mixed()
-            .required("A file is required.")
-            .test(
-              "fileSize",
-              "File too large",
-              (value) => value && value.size <= 1024 * 1024 * 5
-            ) // Max 5MB
-        ),
-    })
-    .nullable(),
-  // Add the other fields under EmergencyAndFirstAidSupplies
-  productLongevity: Yup.string()
-    .when("category", {
-      is: "EmergencyAndFirstAidSupplies",
-      then: Yup.string().required("Product Longevity is required."),
-    })
-    .nullable(),
-  // Add the other fields under DisinfectionAndHygieneSupplies
-  // Add the other fields under NutritionAndDietaryProducts
-  flavorOptions: Yup.string()
-    .when("category", {
-      is: "NutritionAndDietaryProducts",
-      then: Yup.string().required("Flavor Options is required."),
-    })
-    .nullable(),
-  aminoAcidProfile: Yup.string()
-    .when("category", {
-      is: "NutritionAndDietaryProducts",
-      then: Yup.string().required("Amino Acid Profile is required."),
-    })
-    .nullable(),
-  fatContent: Yup.string()
-    .when("category", {
-      is: "NutritionAndDietaryProducts",
-      then: Yup.string().required("Fat Content is required."),
-    })
-    .nullable(),
-  dairyFree: Yup.string()
-    .when("category", {
-      is: "NutritionAndDietaryProducts",
-      then: Yup.string()
-        .oneOf(["Yes", "No"], "Invalid Dairy Free")
-        .required("Dairy Free is required."),
-    })
-    .nullable(),
-  // Add the other fields under HealthcareITSolutions
-  // license: Yup.string()
-  //   .when("category", {
-  //     is: "HealthcareITSolutions",
-  //     then: Yup.string().required("License is required."),
+  //     then: Yup.string().required("Health Benfits is required."),
   //   })
   //   .nullable(),
-  // scalabilityInfo: Yup.string()
+  // // Add the other fields under MedicalEquipmentAndDevices
+  // // Add the other fields under Pharmaceuticals
+  // // Add the other fields under SkinHairCosmeticSupplies
+  // dermatologistTested: Yup.string()
   //   .when("category", {
-  //     is: "HealthcareITSolutions",
-  //     then: Yup.string().required("Scalability Info is required."),
+  //     is: "SkinHairCosmeticSupplies",
+  //     then: Yup.string()
+  //       .required("Dermatologist Tested is required.")
+  //       .oneOf(["Yes", "No"], "Invalid Dermatologist Tested"),
   //   })
   //   .nullable(),
-  // addOns: Yup.string()
+  // dermatologistTestedFile: Yup.array().when("category", {
+  //   is: "SkinHairCosmeticSupplies", // Check category first
+  //   then: Yup.array()
+  //     .when("dermatologistTested", {
+  //       is: (val) => val && val == "Yes", // If dermatologistTestedFile has a value
+  //       then: Yup.array()
+  //         .min(1, "At least one file is required for the Dermatologist Tested.")
+  //         .max(4, "You can upload up to 4 dermatologist tested files.")
+  //         .required("Dermatologist Tested file is required.")
+  //         .of(
+  //           Yup.mixed()
+  //             .required("A file is required.")
+  //             .test(
+  //               "fileSize",
+  //               "File too large",
+  //               (value) => value && value.size <= 1024 * 1024 * 5
+  //             ) // Max 5MB
+  //         ),
+  //       otherwise: Yup.array().nullable(), // If no dermatologistTestedFile, file is optional
+  //     })
+  //     .nullable(),
+  //   otherwise: Yup.array().nullable(), // If category is not dermatologistTestedFile, it's not required
+  // }),
+  // pediatricianRecommended: Yup.string()
   //   .when("category", {
-  //     is: "HealthcareITSolutions",
-  //     then: Yup.string().required("Add-Ons is required."),
+  //     is: "SkinHairCosmeticSupplies",
+  //     then: Yup.string()
+  //       .required("Pediatrician Recommended is required.")
+  //       .oneOf(["Yes", "No"], "Invalid Pediatrician Recommended"),
   //   })
   //   .nullable(),
-  // userAccess: Yup.string()
+  // pediatricianRecommendedFile: Yup.array().when("category", {
+  //   is: "SkinHairCosmeticSupplies", // Check category first
+  //   then: Yup.array()
+  //     .when("pediatricianRecommended", {
+  //       is: (val) => val && val == "Yes", // If pediatricianRecommendedFile has a value
+  //       then: Yup.array()
+  //         .min(
+  //           1,
+  //           "At least one file is required for the Pediatrician Recommended."
+  //         )
+  //         .max(4, "You can upload up to 4 Pediatrician Recommended files.")
+  //         .required("Pediatrician Recommended file is required.")
+  //         .of(
+  //           Yup.mixed()
+  //             .required("A file is required.")
+  //             .test(
+  //               "fileSize",
+  //               "File too large",
+  //               (value) => value && value.size <= 1024 * 1024 * 5
+  //             ) // Max 5MB
+  //         ),
+  //       otherwise: Yup.array().nullable(), // If no pediatricianRecommendedFile, file is optional
+  //     })
+  //     .nullable(),
+  //   otherwise: Yup.array().nullable(), // If category is not pediatricianRecommendedFile, it's not required
+  // }),
+  // // Add the other fields under VitalHealthAndWellness
+  // // Add the other fields under MedicalConsumablesAndDisposables
+  // // Add the other fields under LaboratorySupplies
+  // // Add the other fields under DiagnosticAndMonitoringDevices
+  // // Add the other fields under HospitalAndClinicSupplies
+  // // Add the other fields under OrthopedicSupplies
+  // // Add the other fields under DentalProducts
+  // // Add the other fields under EyeCareSupplies
+  // // Add the other fields under HomeHealthcareProducts
+  // // // Add the other fields under
+  // healthClaimsFile: Yup.array()
   //   .when("category", {
-  //     is: "HealthcareITSolutions",
-  //     then: Yup.string().required("User Access is required."),
+  //     is: "AlternativeMedicines",
+  //     then: Yup.array()
+  //       .max(4, "You can upload up to 4 Health Claims Files.")
+  //       .of(
+  //         Yup.mixed()
+  //           .required("A file is required.")
+  //           .test(
+  //             "fileSize",
+  //             "File too large",
+  //             (value) => value && value.size <= 1024 * 1024 * 5
+  //           ) // Max 5MB
+  //       ),
   //   })
   //   .nullable(),
-  // keyFeatures: Yup.string()
+  // // Add the other fields under EmergencyAndFirstAidSupplies
+  // productLongevity: Yup.string()
   //   .when("category", {
-  //     is: "HealthcareITSolutions",
-  //     then: Yup.string().required("Key Features is required."),
+  //     is: "EmergencyAndFirstAidSupplies",
+  //     then: Yup.string().required("Product Longevity is required."),
   //   })
   //   .nullable(),
-  // coreFunctionalities: Yup.string()
+  // // Add the other fields under DisinfectionAndHygieneSupplies
+  // // Add the other fields under NutritionAndDietaryProducts
+  // flavorOptions: Yup.string()
   //   .when("category", {
-  //     is: "HealthcareITSolutions",
-  //     then: Yup.string().required("Core Functionalities is required."),
+  //     is: "NutritionAndDietaryProducts",
+  //     then: Yup.string().required("Flavor Options is required."),
   //   })
   //   .nullable(),
+  // aminoAcidProfile: Yup.string()
+  //   .when("category", {
+  //     is: "NutritionAndDietaryProducts",
+  //     then: Yup.string().required("Amino Acid Profile is required."),
+  //   })
+  //   .nullable(),
+  // fatContent: Yup.string()
+  //   .when("category", {
+  //     is: "NutritionAndDietaryProducts",
+  //     then: Yup.string().required("Fat Content is required."),
+  //   })
+  //   .nullable(),
+  // dairyFree: Yup.string()
+  //   .when("category", {
+  //     is: "NutritionAndDietaryProducts",
+  //     then: Yup.string()
+  //       .oneOf(["Yes", "No"], "Invalid Dairy Free")
+  //       .required("Dairy Free is required."),
+  //   })
+  //   .nullable(),
+  // // Add the other fields under HealthcareITSolutions
+  // // license: Yup.string()
+  // //   .when("category", {
+  // //     is: "HealthcareITSolutions",
+  // //     then: Yup.string().required("License is required."),
+  // //   })
+  // //   .nullable(),
+  // // scalabilityInfo: Yup.string()
+  // //   .when("category", {
+  // //     is: "HealthcareITSolutions",
+  // //     then: Yup.string().required("Scalability Info is required."),
+  // //   })
+  // //   .nullable(),
+  // // addOns: Yup.string()
+  // //   .when("category", {
+  // //     is: "HealthcareITSolutions",
+  // //     then: Yup.string().required("Add-Ons is required."),
+  // //   })
+  // //   .nullable(),
+  // // userAccess: Yup.string()
+  // //   .when("category", {
+  // //     is: "HealthcareITSolutions",
+  // //     then: Yup.string().required("User Access is required."),
+  // //   })
+  // //   .nullable(),
+  // // keyFeatures: Yup.string()
+  // //   .when("category", {
+  // //     is: "HealthcareITSolutions",
+  // //     then: Yup.string().required("Key Features is required."),
+  // //   })
+  // //   .nullable(),
+  // // coreFunctionalities: Yup.string()
+  // //   .when("category", {
+  // //     is: "HealthcareITSolutions",
+  // //     then: Yup.string().required("Core Functionalities is required."),
+  // //   })
+  // //   .nullable(),
 });
 
 export const editProductValidationSchema = Yup.object({
@@ -1548,82 +1548,82 @@ export const editProductValidationSchema = Yup.object({
           return value && allowedFormats.includes(value.type);
         })
     ),
-  safetyDatasheet: Yup.array().max(
-    4,
-    "You can upload up to 4 safety datasheets."
-  ),
-  safetyDatasheetNew: Yup.array()
-    .max(4, "You can upload up to 4 safety datasheets.")
-    .of(
-      Yup.mixed()
-        .required("A file is required.")
-        .test(
-          "fileSize",
-          "File too large",
-          (value) => value && value.size <= 1024 * 1024 * 5
-        ) // Max 5MB
-        .test("fileType", "Unsupported file format", (value) => {
-          const allowedFormats = [
-            "application/pdf",
-            "image/jpeg",
-            "image/png",
-            "application/msword",
-            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-          ];
-          return value && allowedFormats.includes(value.type);
-        })
-    ),
-  healthHazardRating: Yup.array().max(
-    4,
-    "You can upload up to 4 safety datasheets."
-  ),
-  // .of(
-  // Yup.string().required("A file path is required.") // Since it's now a string
+  // safetyDatasheet: Yup.array().max(
+  //   4,
+  //   "You can upload up to 4 safety datasheets."
   // ),
-  healthHazardRatingNew: Yup.array()
-    .max(4, "You can upload up to 4 safety datasheets.")
-    .of(
-      Yup.mixed()
-        .required("A file is required.")
-        .test("fileType", "Unsupported file format", (value) => {
-          const allowedFormats = [
-            "application/pdf",
-            "image/jpeg",
-            "image/png",
-            "application/msword",
-            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-          ];
-          return value && allowedFormats.includes(value.type);
-        })
-    ),
-  environmentalImpact: Yup.array().max(
-    4,
-    "You can upload up to 4 safety datasheets."
-  ),
-  // .of(
-  // Yup.string().required("A file path is required.") // Since it's now a string
+  // safetyDatasheetNew: Yup.array()
+  //   .max(4, "You can upload up to 4 safety datasheets.")
+  //   .of(
+  //     Yup.mixed()
+  //       .required("A file is required.")
+  //       .test(
+  //         "fileSize",
+  //         "File too large",
+  //         (value) => value && value.size <= 1024 * 1024 * 5
+  //       ) // Max 5MB
+  //       .test("fileType", "Unsupported file format", (value) => {
+  //         const allowedFormats = [
+  //           "application/pdf",
+  //           "image/jpeg",
+  //           "image/png",
+  //           "application/msword",
+  //           "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  //         ];
+  //         return value && allowedFormats.includes(value.type);
+  //       })
+  //   ),
+  // healthHazardRating: Yup.array().max(
+  //   4,
+  //   "You can upload up to 4 safety datasheets."
   // ),
-  environmentalImpactNew: Yup.array()
-    .max(4, "You can upload up to 4 safety datasheets.")
-    .of(
-      Yup.mixed()
-        .required("A file is required.")
-        .test(
-          "fileSize",
-          "File too large",
-          (value) => value && value.size <= 1024 * 1024 * 5
-        ) // Max 5MB
-        .test("fileType", "Unsupported file format", (value) => {
-          const allowedFormats = [
-            "application/pdf",
-            "image/jpeg",
-            "image/png",
-            "application/msword",
-            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-          ];
-          return value && allowedFormats.includes(value.type);
-        })
-    ),
+  // // .of(
+  // // Yup.string().required("A file path is required.") // Since it's now a string
+  // // ),
+  // healthHazardRatingNew: Yup.array()
+  //   .max(4, "You can upload up to 4 safety datasheets.")
+  //   .of(
+  //     Yup.mixed()
+  //       .required("A file is required.")
+  //       .test("fileType", "Unsupported file format", (value) => {
+  //         const allowedFormats = [
+  //           "application/pdf",
+  //           "image/jpeg",
+  //           "image/png",
+  //           "application/msword",
+  //           "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  //         ];
+  //         return value && allowedFormats.includes(value.type);
+  //       })
+  //   ),
+  // environmentalImpact: Yup.array().max(
+  //   4,
+  //   "You can upload up to 4 safety datasheets."
+  // ),
+  // // .of(
+  // // Yup.string().required("A file path is required.") // Since it's now a string
+  // // ),
+  // environmentalImpactNew: Yup.array()
+  //   .max(4, "You can upload up to 4 safety datasheets.")
+  //   .of(
+  //     Yup.mixed()
+  //       .required("A file is required.")
+  //       .test(
+  //         "fileSize",
+  //         "File too large",
+  //         (value) => value && value.size <= 1024 * 1024 * 5
+  //       ) // Max 5MB
+  //       .test("fileType", "Unsupported file format", (value) => {
+  //         const allowedFormats = [
+  //           "application/pdf",
+  //           "image/jpeg",
+  //           "image/png",
+  //           "application/msword",
+  //           "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  //         ];
+  //         return value && allowedFormats.includes(value.type);
+  //       })
+  //   ),
   category: Yup.string()
     .oneOf([
       "MedicalEquipmentAndDevices",
@@ -1934,444 +1934,444 @@ export const editProductValidationSchema = Yup.object({
       ),
     })
     .nullable(),
-  // Common fields of multiple categories
-  drugClass: Yup.string()
-    .when("category", {
-      is: (category) =>
-        [
-          "Pharmaceuticals",
-          "SkinHairCosmeticSupplies",
-          "VitalHealthAndWellness",
-        ].includes(category),
-      then: Yup.string().required("Drug Class is required."),
-    })
-    .nullable(),
-  genericName: Yup.string()
-    .when("category", {
-      is: (category) =>
-        ["Pharmaceuticals", "VitalHealthAndWellness"].includes(category),
-      then: Yup.string().required("Generic Name is required."),
-    })
-    .nullable(),
-  strength: Yup.string()
-    .when("category", {
-      is: (category) =>
-        [
-          "Pharmaceuticals",
-          "SkinHairCosmeticSupplies",
-          "VitalHealthAndWellness",
-          "OrthopedicSupplies",
-        ].includes(category),
-      then: Yup.string().required("Strength is required."),
-    })
-    .nullable(),
-  composition: Yup.string()
-    .when("category", {
-      is: (category) =>
-        [
-          "Pharmaceuticals",
-          "SkinHairCosmeticSupplies",
-          "VitalHealthAndWellness",
-          "AlternativeMedicines",
-          "EmergencyAndFirstAidSupplies",
-          "DisinfectionAndHygieneSupplies",
-          "NutritionAndDietaryProducts",
-        ].includes(category),
-      then: Yup.string().required("Composition/Ingredients is required."),
-    })
-    .nullable(),
-  purpose: Yup.string()
-    .when("category", {
-      is: (category) => ["SkinHairCosmeticSupplies"].includes(category),
-      then: Yup.string().required("Purpose is required."),
-    })
-    .nullable(),
-  drugAdministrationRoute: Yup.string()
-    .when("category", {
-      is: (category) =>
-        ["SkinHairCosmeticSupplies", "VitalHealthAndWellness"].includes(
-          category
-        ),
-      then: Yup.string().required("Drug Administration Route is required."),
-    })
-    .nullable(),
-  // expiry: Yup.string()
+  // // Common fields of multiple categories
+  // drugClass: Yup.string()
   //   .when("category", {
   //     is: (category) =>
   //       [
   //         "Pharmaceuticals",
   //         "SkinHairCosmeticSupplies",
   //         "VitalHealthAndWellness",
-  //         "MedicalConsumablesAndDisposables",
-  //         "HospitalAndClinicSupplies",
-  //         // "OrthopedicSupplies",
-  //         "DentalProducts",
-  //         "HomeHealthcareProducts",
+  //       ].includes(category),
+  //     then: Yup.string().required("Drug Class is required."),
+  //   })
+  //   .nullable(),
+  // genericName: Yup.string()
+  //   .when("category", {
+  //     is: (category) =>
+  //       ["Pharmaceuticals", "VitalHealthAndWellness"].includes(category),
+  //     then: Yup.string().required("Generic Name is required."),
+  //   })
+  //   .nullable(),
+  // strength: Yup.string()
+  //   .when("category", {
+  //     is: (category) =>
+  //       [
+  //         "Pharmaceuticals",
+  //         "SkinHairCosmeticSupplies",
+  //         "VitalHealthAndWellness",
+  //         "OrthopedicSupplies",
+  //       ].includes(category),
+  //     then: Yup.string().required("Strength is required."),
+  //   })
+  //   .nullable(),
+  // composition: Yup.string()
+  //   .when("category", {
+  //     is: (category) =>
+  //       [
+  //         "Pharmaceuticals",
+  //         "SkinHairCosmeticSupplies",
+  //         "VitalHealthAndWellness",
   //         "AlternativeMedicines",
   //         "EmergencyAndFirstAidSupplies",
   //         "DisinfectionAndHygieneSupplies",
   //         "NutritionAndDietaryProducts",
   //       ].includes(category),
-  //     then: Yup.string().required("Shelf Life/Expiry is required."),
+  //     then: Yup.string().required("Composition/Ingredients is required."),
   //   })
   //   .nullable(),
+  // purpose: Yup.string()
+  //   .when("category", {
+  //     is: (category) => ["SkinHairCosmeticSupplies"].includes(category),
+  //     then: Yup.string().required("Purpose is required."),
+  //   })
+  //   .nullable(),
+  // drugAdministrationRoute: Yup.string()
+  //   .when("category", {
+  //     is: (category) =>
+  //       ["SkinHairCosmeticSupplies", "VitalHealthAndWellness"].includes(
+  //         category
+  //       ),
+  //     then: Yup.string().required("Drug Administration Route is required."),
+  //   })
+  //   .nullable(),
+  // // expiry: Yup.string()
+  // //   .when("category", {
+  // //     is: (category) =>
+  // //       [
+  // //         "Pharmaceuticals",
+  // //         "SkinHairCosmeticSupplies",
+  // //         "VitalHealthAndWellness",
+  // //         "MedicalConsumablesAndDisposables",
+  // //         "HospitalAndClinicSupplies",
+  // //         // "OrthopedicSupplies",
+  // //         "DentalProducts",
+  // //         "HomeHealthcareProducts",
+  // //         "AlternativeMedicines",
+  // //         "EmergencyAndFirstAidSupplies",
+  // //         "DisinfectionAndHygieneSupplies",
+  // //         "NutritionAndDietaryProducts",
+  // //       ].includes(category),
+  // //     then: Yup.string().required("Shelf Life/Expiry is required."),
+  // //   })
+  // //   .nullable(),
 
-  // interoperability: Yup.string()
+  // // interoperability: Yup.string()
+  // //   .when("category", {
+  // //     is: (category) => ["HealthcareITSolutions"].includes(category),
+  // //     then: Yup.string().required("Interoperability is required."),
+  // //   })
+  // //   .nullable(),
+  // // interoperabilityFile: Yup.array()
+  // //   .max(4, "You can upload up to 4 Interoperability files.")
+  // //   .of(
+  // //     Yup.string().required("A file path is required.") // Since it's now a string
+  // //   ),
+  // interoperabilityFileNew: Yup.array()
   //   .when("category", {
   //     is: (category) => ["HealthcareITSolutions"].includes(category),
-  //     then: Yup.string().required("Interoperability is required."),
+  //     then: Yup.array().max(4, "You can upload up to 4 Interoperability file."),
+  //     // .of(
+  //     // Yup.string().required("A file path is required.") // Since it's now a string
+  //     // ),
   //   })
   //   .nullable(),
-  // interoperabilityFile: Yup.array()
-  //   .max(4, "You can upload up to 4 Interoperability files.")
-  //   .of(
-  //     Yup.string().required("A file path is required.") // Since it's now a string
-  //   ),
-  interoperabilityFileNew: Yup.array()
-    .when("category", {
-      is: (category) => ["HealthcareITSolutions"].includes(category),
-      then: Yup.array().max(4, "You can upload up to 4 Interoperability file."),
-      // .of(
-      // Yup.string().required("A file path is required.") // Since it's now a string
-      // ),
-    })
-    .nullable(),
-  interoperabilityFileNew: Yup.array()
-    .when("category", {
-      is: (category) => ["HealthcareITSolutions"].includes(category),
-      then: Yup.array()
-        .max(4, "You can upload up to 4 Interoperability files.")
-        .required("Interoperability files is required."),
-    })
-    .nullable(),
-  specification: Yup.string()
-    .when("category", {
-      is: (category) =>
-        [
-          "MedicalEquipmentAndDevices",
-          "DiagnosticAndMonitoringDevices",
-        ].includes(category),
-      then: Yup.string().required("Specification is required."),
-    })
-    .nullable(),
-  specificationFile: Yup.array()
-    .when("category", {
-      is: (category) =>
-        [
-          "MedicalEquipmentAndDevices",
-          "DiagnosticAndMonitoringDevices",
-        ].includes(category),
-      then: Yup.array().max(4, "You can upload up to 4 specification files."),
-      // .of(
-      // Yup.string().required("A file path is required.") // Since it's now a string
-      // ),
-    })
-    // .when("category", {
-    //   is: (category) =>
-    //     ["MedicalEquipmentAndDevices","DiagnosticAndMonitoringDevices"].includes(category),
-    //   then: Yup.array()
-    //     .min(1, "At least one file is required for the specification file.")
-    //     .max(4, "You can upload up to 4 specification files.")
-    //     .required("specification files is required."),
-    //   // .of(
-    //   // Yup.string().required("A file path is required.") // Since it's now a string
-    //   // ),
-    // })
-    .nullable(),
-  specificationFileNew: Yup.array()
-    .when("category", {
-      is: (category) => ["MedicalEquipmentAndDevices"].includes(category),
-      then: Yup.array()
-        .max(4, "You can upload up to 4 specification files.")
-        .of(
-          Yup.mixed()
-            .required("A file is required.")
-            .test(
-              "fileSize",
-              "File too large",
-              (value) => value && value.size <= 1024 * 1024 * 5
-            ) // Max 5MB
-        ),
-    })
-    .when("category", {
-      is: (category) => ["DiagnosticAndMonitoringDevices"].includes(category),
-      then: Yup.array()
-        // .min(1, "At least one file is required for the specification file.")
-        .max(4, "You can upload up to 4 specification files.")
-        .required("specification files is required.")
-        .of(
-          Yup.mixed()
-            .required("A file is required.")
-            .test(
-              "fileSize",
-              "File too large",
-              (value) => value && value.size <= 1024 * 1024 * 5
-            ) // Max 5MB
-        ),
-    })
-    .nullable(),
-  diagnosticFunctions: Yup.string()
-    .when("category", {
-      is: (category) => ["DiagnosticAndMonitoringDevices"].includes(category),
-      then: Yup.string().required("Diagnostic Functions is required."),
-    })
-    .nullable(),
+  // interoperabilityFileNew: Yup.array()
+  //   .when("category", {
+  //     is: (category) => ["HealthcareITSolutions"].includes(category),
+  //     then: Yup.array()
+  //       .max(4, "You can upload up to 4 Interoperability files.")
+  //       .required("Interoperability files is required."),
+  //   })
+  //   .nullable(),
+  // specification: Yup.string()
+  //   .when("category", {
+  //     is: (category) =>
+  //       [
+  //         "MedicalEquipmentAndDevices",
+  //         "DiagnosticAndMonitoringDevices",
+  //       ].includes(category),
+  //     then: Yup.string().required("Specification is required."),
+  //   })
+  //   .nullable(),
+  // specificationFile: Yup.array()
+  //   .when("category", {
+  //     is: (category) =>
+  //       [
+  //         "MedicalEquipmentAndDevices",
+  //         "DiagnosticAndMonitoringDevices",
+  //       ].includes(category),
+  //     then: Yup.array().max(4, "You can upload up to 4 specification files."),
+  //     // .of(
+  //     // Yup.string().required("A file path is required.") // Since it's now a string
+  //     // ),
+  //   })
+  //   // .when("category", {
+  //   //   is: (category) =>
+  //   //     ["MedicalEquipmentAndDevices","DiagnosticAndMonitoringDevices"].includes(category),
+  //   //   then: Yup.array()
+  //   //     .min(1, "At least one file is required for the specification file.")
+  //   //     .max(4, "You can upload up to 4 specification files.")
+  //   //     .required("specification files is required."),
+  //   //   // .of(
+  //   //   // Yup.string().required("A file path is required.") // Since it's now a string
+  //   //   // ),
+  //   // })
+  //   .nullable(),
+  // specificationFileNew: Yup.array()
+  //   .when("category", {
+  //     is: (category) => ["MedicalEquipmentAndDevices"].includes(category),
+  //     then: Yup.array()
+  //       .max(4, "You can upload up to 4 specification files.")
+  //       .of(
+  //         Yup.mixed()
+  //           .required("A file is required.")
+  //           .test(
+  //             "fileSize",
+  //             "File too large",
+  //             (value) => value && value.size <= 1024 * 1024 * 5
+  //           ) // Max 5MB
+  //       ),
+  //   })
+  //   .when("category", {
+  //     is: (category) => ["DiagnosticAndMonitoringDevices"].includes(category),
+  //     then: Yup.array()
+  //       // .min(1, "At least one file is required for the specification file.")
+  //       .max(4, "You can upload up to 4 specification files.")
+  //       .required("specification files is required.")
+  //       .of(
+  //         Yup.mixed()
+  //           .required("A file is required.")
+  //           .test(
+  //             "fileSize",
+  //             "File too large",
+  //             (value) => value && value.size <= 1024 * 1024 * 5
+  //           ) // Max 5MB
+  //       ),
+  //   })
+  //   .nullable(),
+  // diagnosticFunctions: Yup.string()
+  //   .when("category", {
+  //     is: (category) => ["DiagnosticAndMonitoringDevices"].includes(category),
+  //     then: Yup.string().required("Diagnostic Functions is required."),
+  //   })
+  //   .nullable(),
 
-  performanceTestingReportFile: Yup.array()
-    .when("category", {
-      is: (category) =>
-        [
-          "MedicalEquipmentAndDevices",
-          "DiagnosticAndMonitoringDevices",
-          "HomeHealthcareProducts",
-        ].includes(category),
-      then: Yup.array().max(
-        4,
-        "You can upload up to 4 performance testing files."
-      ),
-      // .of(
-      // Yup.string().required("A file path is required.") // Since it's now a string
-      // ),
-    })
-    .nullable(),
-  performanceTestingReportFileNew: Yup.array()
-    .when("category", {
-      is: (category) =>
-        [
-          "MedicalEquipmentAndDevices",
-          "DiagnosticAndMonitoringDevices",
-          "HomeHealthcareProducts",
-        ].includes(category),
-      then: Yup.array()
-        .max(4, "You can upload up to 4 performance testing files.")
-        .of(
-          Yup.mixed()
-            .required("A file is required.")
-            .test(
-              "fileSize",
-              "File too large",
-              (value) => value && value.size <= 1024 * 1024 * 5
-            ) // Max 5MB
-        ),
-    })
-    .nullable(),
-  additivesNSweeteners: Yup.string()
-    .when("category", {
-      is: (category) => ["NutritionAndDietaryProducts"].includes(category),
-      then: Yup.string().required("Additives & Sweeteners is required."),
-    })
-    .nullable(),
-  targetCondition: Yup.string()
-    .when("category", {
-      is: (category) =>
-        ["SkinHairCosmeticSupplies", "OrthopedicSupplies"].includes(category),
-      then: Yup.string().required("Target Condition is required."),
-    })
-    .nullable(),
-  foldability: Yup.string()
-    .when("category", {
-      is: (category) => ["EmergencyAndFirstAidSupplies"].includes(category),
-      then: Yup.string().required("Foldability is required."),
-    })
-    .nullable(),
-  healthBenefit: Yup.string()
-    .when("category", {
-      is: (category) =>
-        ["VitalHealthAndWellness", "NutritionAndDietaryProducts"].includes(
-          category
-        ),
+  // performanceTestingReportFile: Yup.array()
+  //   .when("category", {
+  //     is: (category) =>
+  //       [
+  //         "MedicalEquipmentAndDevices",
+  //         "DiagnosticAndMonitoringDevices",
+  //         "HomeHealthcareProducts",
+  //       ].includes(category),
+  //     then: Yup.array().max(
+  //       4,
+  //       "You can upload up to 4 performance testing files."
+  //     ),
+  //     // .of(
+  //     // Yup.string().required("A file path is required.") // Since it's now a string
+  //     // ),
+  //   })
+  //   .nullable(),
+  // performanceTestingReportFileNew: Yup.array()
+  //   .when("category", {
+  //     is: (category) =>
+  //       [
+  //         "MedicalEquipmentAndDevices",
+  //         "DiagnosticAndMonitoringDevices",
+  //         "HomeHealthcareProducts",
+  //       ].includes(category),
+  //     then: Yup.array()
+  //       .max(4, "You can upload up to 4 performance testing files.")
+  //       .of(
+  //         Yup.mixed()
+  //           .required("A file is required.")
+  //           .test(
+  //             "fileSize",
+  //             "File too large",
+  //             (value) => value && value.size <= 1024 * 1024 * 5
+  //           ) // Max 5MB
+  //       ),
+  //   })
+  //   .nullable(),
+  // additivesNSweeteners: Yup.string()
+  //   .when("category", {
+  //     is: (category) => ["NutritionAndDietaryProducts"].includes(category),
+  //     then: Yup.string().required("Additives & Sweeteners is required."),
+  //   })
+  //   .nullable(),
+  // targetCondition: Yup.string()
+  //   .when("category", {
+  //     is: (category) =>
+  //       ["SkinHairCosmeticSupplies", "OrthopedicSupplies"].includes(category),
+  //     then: Yup.string().required("Target Condition is required."),
+  //   })
+  //   .nullable(),
+  // foldability: Yup.string()
+  //   .when("category", {
+  //     is: (category) => ["EmergencyAndFirstAidSupplies"].includes(category),
+  //     then: Yup.string().required("Foldability is required."),
+  //   })
+  //   .nullable(),
+  // healthBenefit: Yup.string()
+  //   .when("category", {
+  //     is: (category) =>
+  //       ["VitalHealthAndWellness", "NutritionAndDietaryProducts"].includes(
+  //         category
+  //       ),
 
-      then: Yup.string().required("Health Benfits is required."),
-    })
-    .nullable(),
-  dermatologistTested: Yup.string()
-    .when("category", {
-      is: "SkinHairCosmeticSupplies",
-      then: Yup.string()
-        .required("Dermatologist Tested is required.")
-        .oneOf(["Yes", "No"], "Invalid Dermatologist Tested"),
-    })
-    .nullable(),
-  dermatologistTestedFile: Yup.array().when("category", {
-    is: "SkinHairCosmeticSupplies", // Check category first
-    then: Yup.array()
-      .when("dermatologistTested", {
-        is: (val) => val && val == "Yes", // If dermatologistTestedFile has a value
-        then: Yup.array().max(
-          4,
-          "You can upload up to 4 dermatologist tested files."
-        ),
-        otherwise: Yup.array().nullable(), // If no dermatologistTestedFile, file is optional
-      })
-      .nullable(),
-    otherwise: Yup.array().nullable(), // If category is not dermatologistTestedFile, it's not required
-  }),
-  dermatologistTestedFileNew: Yup.array().when("category", {
-    is: "SkinHairCosmeticSupplies", // Check category first
-    then: Yup.array()
-      .when("dermatologistTested", {
-        is: (val) => val && val == "Yes", // If dermatologistTestedFile has a value
-        then: Yup.array()
-          // .min(
-          //   1,
-          //   "At least one file is required for the Dermatologist Tested."
-          // )
-          .max(4, "You can upload up to 4 dermatologist tested files.")
-          .required("Dermatologist Tested file is required.")
-          .of(
-            Yup.mixed()
-              .required("A file is required.")
-              .test(
-                "fileSize",
-                "File too large",
-                (value) => value && value.size <= 1024 * 1024 * 5
-              ) // Max 5MB
-          ),
-        otherwise: Yup.array().nullable(), // If no dermatologistTestedFile, file is optional
-      })
-      .nullable(),
-    otherwise: Yup.array().nullable(), // If category is not dermatologistTestedFile, it's not required
-  }),
-  pediatricianRecommended: Yup.string()
-    .when("category", {
-      is: "SkinHairCosmeticSupplies",
-      then: Yup.string()
-        .required("Pediatrician Recommended is required.")
-        .oneOf(["Yes", "No"], "Invalid Pediatrician Recommended"),
-    })
-    .nullable(),
-  pediatricianRecommendedFile: Yup.array().when("category", {
-    is: "SkinHairCosmeticSupplies", // Check category first
-    then: Yup.array()
-      .when("pediatricianRecommended", {
-        is: (val) => val && val == "Yes", // If pediatricianRecommendedFile has a value
-        then: Yup.array().max(
-          4,
-          "You can upload up to 4 Pediatrician Recommended files."
-        ),
-        otherwise: Yup.array().nullable(), // If no pediatricianRecommendedFile, file is optional
-      })
-      .nullable(),
-    otherwise: Yup.array().nullable(), // If category is not pediatricianRecommendedFile, it's not required
-  }),
-  pediatricianRecommendedFileNew: Yup.array().when("category", {
-    is: "SkinHairCosmeticSupplies", // Check category first
-    then: Yup.array()
-      .when("pediatricianRecommended", {
-        is: (val) => val && val == "Yes", // If pediatricianRecommendedFile has a value
-        then: Yup.array()
-          // .min(
-          //   1,
-          //   "At least one file is required for the Pediatrician Recommended."
-          // )
-          .max(4, "You can upload up to 4 Pediatrician Recommended files.")
-          .required("Pediatrician Recommended file is required.")
-          .of(
-            Yup.mixed()
-              .required("A file is required.")
-              .test(
-                "fileSize",
-                "File too large",
-                (value) => value && value.size <= 1024 * 1024 * 5
-              ) // Max 5MB
-          ),
-        otherwise: Yup.array().nullable(), // If no pediatricianRecommendedFile, file is optional
-      })
-      .nullable(),
-    otherwise: Yup.array().nullable(), // If category is not pediatricianRecommendedFile, it's not required
-  }),
-  healthClaimsFile: Yup.array()
-    .when("category", {
-      is: "AlternativeMedicines",
-      then: Yup.array().max(4, "You can upload up to 4 Health Claims Files."),
-    })
-    .nullable(),
-  healthClaimsFileNew: Yup.array()
-    .when("category", {
-      is: "AlternativeMedicines",
-      then: Yup.array()
-        .max(4, "You can upload up to 4 Health Claims Files.")
-        .of(
-          Yup.mixed()
-            .required("A file is required.")
-            .test(
-              "fileSize",
-              "File too large",
-              (value) => value && value.size <= 1024 * 1024 * 5
-            ) // Max 5MB
-        ),
-    })
-    .nullable(),
-  // Add the other fields under EmergencyAndFirstAidSupplies
-  productLongevity: Yup.string()
-    .when("category", {
-      is: "EmergencyAndFirstAidSupplies",
-      then: Yup.string().required("Product Longevity is required."),
-    })
-    .nullable(),
-  // Add the other fields under DisinfectionAndHygieneSupplies
-  // Add the other fields under NutritionAndDietaryProducts
-  flavorOptions: Yup.string()
-    .when("category", {
-      is: "NutritionAndDietaryProducts",
-      then: Yup.string().required("Flavor Options is required."),
-    })
-    .nullable(),
-  aminoAcidProfile: Yup.string()
-    .when("category", {
-      is: "NutritionAndDietaryProducts",
-      then: Yup.string().required("Amino Acid Profile is required."),
-    })
-    .nullable(),
-  fatContent: Yup.string()
-    .when("category", {
-      is: "NutritionAndDietaryProducts",
-      then: Yup.string().required("Fat Content is required."),
-    })
-    .nullable(),
-  dairyFree: Yup.string()
-    .when("category", {
-      is: "NutritionAndDietaryProducts",
-      then: Yup.string()
-        .oneOf(["Yes", "No"], "Invalid Dairy Free")
-        .required("Dairy Free is required."),
-    })
-    .nullable(),
-  // Add the other fields under HealthcareITSolutions
-  // license: Yup.string()
-  //   .when("category", {
-  //     is: "HealthcareITSolutions",
-  //     then: Yup.string().required("License is required."),
+  //     then: Yup.string().required("Health Benfits is required."),
   //   })
   //   .nullable(),
-  // scalabilityInfo: Yup.string()
+  // dermatologistTested: Yup.string()
   //   .when("category", {
-  //     is: "HealthcareITSolutions",
-  //     then: Yup.string().required("Scalability Info is required."),
+  //     is: "SkinHairCosmeticSupplies",
+  //     then: Yup.string()
+  //       .required("Dermatologist Tested is required.")
+  //       .oneOf(["Yes", "No"], "Invalid Dermatologist Tested"),
   //   })
   //   .nullable(),
-  // addOns: Yup.string()
+  // dermatologistTestedFile: Yup.array().when("category", {
+  //   is: "SkinHairCosmeticSupplies", // Check category first
+  //   then: Yup.array()
+  //     .when("dermatologistTested", {
+  //       is: (val) => val && val == "Yes", // If dermatologistTestedFile has a value
+  //       then: Yup.array().max(
+  //         4,
+  //         "You can upload up to 4 dermatologist tested files."
+  //       ),
+  //       otherwise: Yup.array().nullable(), // If no dermatologistTestedFile, file is optional
+  //     })
+  //     .nullable(),
+  //   otherwise: Yup.array().nullable(), // If category is not dermatologistTestedFile, it's not required
+  // }),
+  // dermatologistTestedFileNew: Yup.array().when("category", {
+  //   is: "SkinHairCosmeticSupplies", // Check category first
+  //   then: Yup.array()
+  //     .when("dermatologistTested", {
+  //       is: (val) => val && val == "Yes", // If dermatologistTestedFile has a value
+  //       then: Yup.array()
+  //         // .min(
+  //         //   1,
+  //         //   "At least one file is required for the Dermatologist Tested."
+  //         // )
+  //         .max(4, "You can upload up to 4 dermatologist tested files.")
+  //         .required("Dermatologist Tested file is required.")
+  //         .of(
+  //           Yup.mixed()
+  //             .required("A file is required.")
+  //             .test(
+  //               "fileSize",
+  //               "File too large",
+  //               (value) => value && value.size <= 1024 * 1024 * 5
+  //             ) // Max 5MB
+  //         ),
+  //       otherwise: Yup.array().nullable(), // If no dermatologistTestedFile, file is optional
+  //     })
+  //     .nullable(),
+  //   otherwise: Yup.array().nullable(), // If category is not dermatologistTestedFile, it's not required
+  // }),
+  // pediatricianRecommended: Yup.string()
   //   .when("category", {
-  //     is: "HealthcareITSolutions",
-  //     then: Yup.string().required("Add-Ons is required."),
+  //     is: "SkinHairCosmeticSupplies",
+  //     then: Yup.string()
+  //       .required("Pediatrician Recommended is required.")
+  //       .oneOf(["Yes", "No"], "Invalid Pediatrician Recommended"),
   //   })
   //   .nullable(),
-  // userAccess: Yup.string()
+  // pediatricianRecommendedFile: Yup.array().when("category", {
+  //   is: "SkinHairCosmeticSupplies", // Check category first
+  //   then: Yup.array()
+  //     .when("pediatricianRecommended", {
+  //       is: (val) => val && val == "Yes", // If pediatricianRecommendedFile has a value
+  //       then: Yup.array().max(
+  //         4,
+  //         "You can upload up to 4 Pediatrician Recommended files."
+  //       ),
+  //       otherwise: Yup.array().nullable(), // If no pediatricianRecommendedFile, file is optional
+  //     })
+  //     .nullable(),
+  //   otherwise: Yup.array().nullable(), // If category is not pediatricianRecommendedFile, it's not required
+  // }),
+  // pediatricianRecommendedFileNew: Yup.array().when("category", {
+  //   is: "SkinHairCosmeticSupplies", // Check category first
+  //   then: Yup.array()
+  //     .when("pediatricianRecommended", {
+  //       is: (val) => val && val == "Yes", // If pediatricianRecommendedFile has a value
+  //       then: Yup.array()
+  //         // .min(
+  //         //   1,
+  //         //   "At least one file is required for the Pediatrician Recommended."
+  //         // )
+  //         .max(4, "You can upload up to 4 Pediatrician Recommended files.")
+  //         .required("Pediatrician Recommended file is required.")
+  //         .of(
+  //           Yup.mixed()
+  //             .required("A file is required.")
+  //             .test(
+  //               "fileSize",
+  //               "File too large",
+  //               (value) => value && value.size <= 1024 * 1024 * 5
+  //             ) // Max 5MB
+  //         ),
+  //       otherwise: Yup.array().nullable(), // If no pediatricianRecommendedFile, file is optional
+  //     })
+  //     .nullable(),
+  //   otherwise: Yup.array().nullable(), // If category is not pediatricianRecommendedFile, it's not required
+  // }),
+  // healthClaimsFile: Yup.array()
   //   .when("category", {
-  //     is: "HealthcareITSolutions",
-  //     then: Yup.string().required("User Access is required."),
+  //     is: "AlternativeMedicines",
+  //     then: Yup.array().max(4, "You can upload up to 4 Health Claims Files."),
   //   })
   //   .nullable(),
-  // keyFeatures: Yup.string()
+  // healthClaimsFileNew: Yup.array()
   //   .when("category", {
-  //     is: "HealthcareITSolutions",
-  //     then: Yup.string().required("Key Features is required."),
+  //     is: "AlternativeMedicines",
+  //     then: Yup.array()
+  //       .max(4, "You can upload up to 4 Health Claims Files.")
+  //       .of(
+  //         Yup.mixed()
+  //           .required("A file is required.")
+  //           .test(
+  //             "fileSize",
+  //             "File too large",
+  //             (value) => value && value.size <= 1024 * 1024 * 5
+  //           ) // Max 5MB
+  //       ),
   //   })
   //   .nullable(),
-  // coreFunctionalities: Yup.string()
+  // // Add the other fields under EmergencyAndFirstAidSupplies
+  // productLongevity: Yup.string()
   //   .when("category", {
-  //     is: "HealthcareITSolutions",
-  //     then: Yup.string().required("Core Functionalities is required."),
+  //     is: "EmergencyAndFirstAidSupplies",
+  //     then: Yup.string().required("Product Longevity is required."),
   //   })
   //   .nullable(),
+  // // Add the other fields under DisinfectionAndHygieneSupplies
+  // // Add the other fields under NutritionAndDietaryProducts
+  // flavorOptions: Yup.string()
+  //   .when("category", {
+  //     is: "NutritionAndDietaryProducts",
+  //     then: Yup.string().required("Flavor Options is required."),
+  //   })
+  //   .nullable(),
+  // aminoAcidProfile: Yup.string()
+  //   .when("category", {
+  //     is: "NutritionAndDietaryProducts",
+  //     then: Yup.string().required("Amino Acid Profile is required."),
+  //   })
+  //   .nullable(),
+  // fatContent: Yup.string()
+  //   .when("category", {
+  //     is: "NutritionAndDietaryProducts",
+  //     then: Yup.string().required("Fat Content is required."),
+  //   })
+  //   .nullable(),
+  // dairyFree: Yup.string()
+  //   .when("category", {
+  //     is: "NutritionAndDietaryProducts",
+  //     then: Yup.string()
+  //       .oneOf(["Yes", "No"], "Invalid Dairy Free")
+  //       .required("Dairy Free is required."),
+  //   })
+  //   .nullable(),
+  // // Add the other fields under HealthcareITSolutions
+  // // license: Yup.string()
+  // //   .when("category", {
+  // //     is: "HealthcareITSolutions",
+  // //     then: Yup.string().required("License is required."),
+  // //   })
+  // //   .nullable(),
+  // // scalabilityInfo: Yup.string()
+  // //   .when("category", {
+  // //     is: "HealthcareITSolutions",
+  // //     then: Yup.string().required("Scalability Info is required."),
+  // //   })
+  // //   .nullable(),
+  // // addOns: Yup.string()
+  // //   .when("category", {
+  // //     is: "HealthcareITSolutions",
+  // //     then: Yup.string().required("Add-Ons is required."),
+  // //   })
+  // //   .nullable(),
+  // // userAccess: Yup.string()
+  // //   .when("category", {
+  // //     is: "HealthcareITSolutions",
+  // //     then: Yup.string().required("User Access is required."),
+  // //   })
+  // //   .nullable(),
+  // // keyFeatures: Yup.string()
+  // //   .when("category", {
+  // //     is: "HealthcareITSolutions",
+  // //     then: Yup.string().required("Key Features is required."),
+  // //   })
+  // //   .nullable(),
+  // // coreFunctionalities: Yup.string()
+  // //   .when("category", {
+  // //     is: "HealthcareITSolutions",
+  // //     then: Yup.string().required("Core Functionalities is required."),
+  // //   })
+  // //   .nullable(),
 });
