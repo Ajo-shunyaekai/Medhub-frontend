@@ -55,7 +55,8 @@ const ProductCard = ({
         {productList &&
           productList.length > 0 &&
           productList.map((medicine, index) => {
-            const imageName = medicine?.general?.image?.[0];
+            const firstViewKey = Object.keys(medicine.general.image || {})[0];
+            const imageName = medicine.general.image?.[0] || medicine.general.image?.[firstViewKey]?.[0];
             const serverUrl = process.env.REACT_APP_SERVER_URL;
             let imageSrc = ProductImage; // default fallback image
 
@@ -69,6 +70,10 @@ const ProductCard = ({
                 imageSrc = imageUrl;
               }
             }
+            const costPerProduct =
+            medicine?.inventoryDetails?.[0]?.inventoryList?.price || "N/A";
+            const stockedIn = medicine?.inventoryDetails?.[0]?.stockedInDetails[0]?.country ||
+              "N/A";
 
             return (
               <div className={styles.card} key={index}>
@@ -133,18 +138,30 @@ const ProductCard = ({
                       </>
                     ) : (
                       <>
-                        <div className={styles.section}>
+                        {/* <div className={styles.section}>
                           <span className={styles.head}>Total Quantity</span>
                           <span className={styles.text}>
                             {medicine?.general?.quantity || "N/A"}
                           </span>
-                        </div>
+                        </div> */}
                       </>
                     )}
-                    <div className={styles.section}>
+                    {/* <div className={styles.section}>
                       <span className={styles.head}>Stock Status</span>
                       <span className={styles.text}>
                         {medicine?.inventoryDetails?.[0]?.stock || "N/A"}
+                      </span>
+                    </div> */}
+                      <div className={styles.section}>
+                      <span className={styles.head}>Cost Per Product</span>
+                      <span className={styles.text}>
+                        {costPerProduct !== "N/A" ? `${costPerProduct} USD` : "N/A"}
+                      </span>
+                    </div>
+                     <div className={styles.section}>
+                      <span className={styles.head}>Countries Where Stock Traded</span>
+                      <span className={styles.text}>
+                        {stockedIn}
                       </span>
                     </div>
                   </div>

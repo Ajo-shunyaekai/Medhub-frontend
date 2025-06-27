@@ -397,7 +397,7 @@ const openPurchaseInvoice = () => {
         )}
         {/* End the product description */}
 
-         {/* {productDetail?.general?.image?.length > 0 && (
+         {productDetail?.general?.image?.length > 0 && (
           <div className={styles.mainContainer}>
             <span className={styles.innerHead}>Product Images</span>
             <div className={styles.productImageSection}>
@@ -430,16 +430,16 @@ const openPurchaseInvoice = () => {
               })}
             </div>
           </div>
-        )} */}
+        )}
 
         {productDetail?.general?.image &&
           Object.keys(productDetail.general.image).length > 0 && (
             <div className={styles.mainContainer}>
               <span className={styles.innerHead}>Product Images</span>
               <div className={styles.productImageSection}>
-                {Object.entries(productDetail.general.image).map(
+                {Object.entries(productDetail?.general?.image).map(
                   ([viewLabel, images]) =>
-                    images.map((imgUrl, index) => {
+                    images?.map((imgUrl, index) => {
                       const isImageFile = isImageExtension(imgUrl);
                       return (
                         <div className={styles.imageContainer} key={`${viewLabel}-${index}`}>
@@ -587,10 +587,20 @@ const openPurchaseInvoice = () => {
               {productDetail?.inventoryDetails?.inventoryList?.map((ele) => (
                 <div className={styles.inventorySection}>
                   <div className={styles.inventoryContainer}>
-                    <span className={styles.inventoryInput}>
-                      {/* {ele?.quantityFrom} - {ele?.quantityTo} */}
+                    {/* <span className={styles.inventoryInput}>
+                      {ele?.quantityFrom} - {ele?.quantityTo}
                       {ele?.quantity}
-                    </span>
+                      
+                    </span> */}
+                    {ele?.quantityFrom && ele?.quantityTo ? (
+                      <span className={styles.inventoryInput}>
+                        {ele.quantityFrom} - {ele.quantityTo}
+                        </span>
+                    ) : ele?.quantity ? (
+                      <span className={styles.inventoryInput}>{ele.quantity}</span>
+                    ) : (
+                      <span>N/A</span>  
+                    )}
                   </div>
                   <div className={styles.inventoryContainer}>
                     <span className={styles.inventoryInput}>{ele?.price} USD</span>
