@@ -2,7 +2,7 @@
     background: linear-gradient(270deg, #f5f5f7, #e1f2ff);
     border-radius: 4px;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
     padding: 50px 30px;
 }
