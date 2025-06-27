@@ -1581,7 +1581,7 @@ const AddProduct = ({ placeholder }) => {
 
             {/* End the compliances and certificate 222222222 */}
 
-            {/* Start the Additional Information */}
+            {/* Start the Product Documents */}
             <div className={styles.additionalSection}>
               <span className={styles.formHead}>Product Documents</span>
               <div className={styles.formSection}>
@@ -1626,12 +1626,30 @@ const AddProduct = ({ placeholder }) => {
               </div>
             </div>
 
-            {/* End the Additional Information */}
+            {/* End the Product Documents */}
 
             {/* Start the Additional Information */}
             <div className={styles.additionalSection}>
               <span className={styles.formHead}>Additional Information</span>
               <div className={styles.formSection}>
+              <div className={styles.productContainer}>
+                  <label className={styles.formLabel}>
+                    Warranty
+                  </label>
+                  <input
+                    className={styles.formInput}
+                    type="text"
+                    placeholder="Enter Warranty"
+                    // autoComplete="off"
+                    name="warranty"
+                    value={values.warranty}
+                    onChange={(e) =>
+                      handleInputChange(e, setFieldValue, 20, "all")
+                    }
+                    onBlur={handleBlur}
+                  />
+                
+                </div>
                 <div className={styles.productContainer}>
                   <AddProductFileUpload
                     styles={styles}

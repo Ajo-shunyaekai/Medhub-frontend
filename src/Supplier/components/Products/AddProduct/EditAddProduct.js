@@ -1964,6 +1964,24 @@ const EditAddProduct = ({ placeholder }) => {
           <div className={styles.additionalSection}>
             <span className={styles.formHead}>Additional Information</span>
             <div className={styles.formSection}>
+            <div className={styles.productContainer}>
+                  <label className={styles.formLabel}>
+                    Warranty
+                  </label>
+                  <input
+                    className={styles.formInput}
+                    type="text"
+                    placeholder="Enter Warranty"
+                    // autoComplete="off"
+                    name="warranty"
+                    value={formik?.values?.warranty}
+                    onChange={(e) =>
+                      handleInputChange(e, formik.setFieldValue, 20, "all")
+                    }
+                    onBlur={formik?.handleBlur}
+                  />
+                
+                </div>
               <div className={styles.productContainer}>
                 <AddProductFileUpload
                   styles={styles}
