@@ -76,37 +76,50 @@ const SearchProductDetails = () => {
   // }, [id, dispatch, currentPage, searchKey]);
 
   // Update filtered data when productDetail changes
-  
+
   useEffect(() => {
     const fetchData = async () => {
       const query = [];
-    
-      if (searchValue) query.push(`search_value=${encodeURIComponent(searchValue)}`);
+
+      if (searchValue)
+        query.push(`search_value=${encodeURIComponent(searchValue)}`);
       if (searchKey) query.push(`search_key=${encodeURIComponent(searchKey)}`);
       query.push(`page_no=${currentPage}`);
       query.push(`page_size=${itemsPerPage}`);
-    
+
       if (filters.price.length > 0) {
-        query.push(`price=${filters.price.map(val => val.replace(/ /g, '%20')).join(',')}`);
+        query.push(
+          `price=${filters.price
+            .map((val) => val.replace(/ /g, "%20"))
+            .join(",")}`
+        );
       }
-    
+
       // if (filters.deliveryTime.length > 0) {
       //   query.push(`delivery_time=${filters.deliveryTime.map(val => val.replace(/ /g, '%20')).join(',')}`);
       // }
-    
+
       if (filters.totalQuantity.length > 0) {
-        query.push(`quantity=${filters.totalQuantity.map(val => val.replace(/ /g, '%20')).join(',')}`);
+        query.push(
+          `quantity=${filters.totalQuantity
+            .map((val) => val.replace(/ /g, "%20"))
+            .join(",")}`
+        );
       }
-    
+
       if (filters.stockStatus.length > 0) {
-        query.push(`stock_status=${filters.stockStatus.map(val => val.replace(/ /g, '%20')).join(',')}`);
+        query.push(
+          `stock_status=${filters.stockStatus
+            .map((val) => val.replace(/ /g, "%20"))
+            .join(",")}`
+        );
       }
-    
+
       const queryString = query.join("&");
       const url = `product/get-suppliers/${id}?${queryString}`;
-    
+
       const response = await dispatch(fetchSupplierProductsList(url));
-    
+
       if (response.meta.requestStatus === "fulfilled") {
         setProductList(response?.payload?.products || []);
         setTotalitems(response?.payload?.totalItems || 0);
@@ -115,12 +128,10 @@ const SearchProductDetails = () => {
         setTotalitems(0);
       }
     };
-    
-  
+
     fetchData();
   }, [id, dispatch, currentPage, searchKey, filters]);
-  
-  
+
   useEffect(() => {
     const dataToFilter = productDetail?.data || [productDetail] || [];
     setFilteredData(dataToFilter);
@@ -161,15 +172,15 @@ const SearchProductDetails = () => {
   const handlePriceRange = (selectedValues) => {
     setFilters((prev) => ({ ...prev, price: selectedValues }));
   };
-  
+
   // const handleDeliveryTime = (selectedValues) => {
   //   setFilters((prev) => ({ ...prev, deliveryTime: selectedValues }));
   // };
-  
+
   const handleStockedIn = (selectedValues) => {
     setFilters((prev) => ({ ...prev, stockStatus: selectedValues }));
   };
-  
+
   const handleQuantity = (selectedValues) => {
     setFilters((prev) => ({ ...prev, totalQuantity: selectedValues }));
   };
@@ -184,7 +195,7 @@ const SearchProductDetails = () => {
       stockStatus: [],
       totalQuantity: [],
     };
-    setFilters(resetState)
+    setFilters(resetState);
   };
 
   // Configuration for ProductCards
@@ -354,7 +365,7 @@ const SearchProductDetails = () => {
                   </span>
                 </div>
               )}
-              
+
               {/* {productDetail?.general?.quantity && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Product Quantity</span>
@@ -365,24 +376,26 @@ const SearchProductDetails = () => {
               )} */}
             </div>
             <div className={styles.mainSection}>
-              {productDetail?.[productDetail?.category]?.subCategory && (
-                <div className={styles.medicinesSection}>
-                  <span className={styles.medicineHead}>
-                    Product Sub Category
-                  </span>
-                  <span className={styles.medicineText}>
-                    {productDetail?.[productDetail?.category]?.subCategory}
-                  </span>
-                </div>
-              )}
-              {productDetail?.general?.form && (
+              {productDetail?.[productDetail?.category]?.subCategory ||
+                (productDetail?.subCategory && (
+                  <div className={styles.medicinesSection}>
+                    <span className={styles.medicineHead}>
+                      Product Sub Category
+                    </span>
+                    <span className={styles.medicineText}>
+                      {productDetail?.[productDetail?.category]?.subCategory ||
+                        productDetail?.subCategory}
+                    </span>
+                  </div>
+                ))}
+              {/* {productDetail?.general?.form && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Type/Form</span>
                   <span className={styles.medicineText}>
                     {productDetail?.general?.form}
                   </span>
                 </div>
-              )}
+              )} */}
               {/* {productDetail?.general?.model && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Part/Model Number</span>
@@ -405,7 +418,7 @@ const SearchProductDetails = () => {
         </div>
 
         {/* Product Description */}
-        {/* {productDetail?.general?.description && (
+        {productDetail?.general?.description && (
           <div className={styles.mainContainer}>
             <div className={styles.manufacturerDescriptionSection}>
               <span className={styles.medicineHead}>Product Description</span>
@@ -417,7 +430,7 @@ const SearchProductDetails = () => {
               ></span>
             </div>
           </div>
-        )} */}
+        )}
 
         {/* Manufacturer Section */}
         {/* {(productDetail?.general?.manufacturer ||

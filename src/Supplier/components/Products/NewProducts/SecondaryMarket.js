@@ -41,7 +41,8 @@ const SecondaryMarket = ({
         </Link>
         {products?.length > 0 ? (
           products?.map((product) => {
-            const imageName = product.general.image?.[0];
+            const firstViewKey = Object.keys(product.general.image || {})[0];
+            const imageName = product.general.image?.[0] || product.general.image?.[firstViewKey]?.[0];
             let imageSrc = ProductImage;
 
             if (imageName) {

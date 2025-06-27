@@ -519,7 +519,7 @@ const AddProduct = ({ placeholder }) => {
                     isDisabled={!selectedSubCategory}
                   />
                 </div>
-                {productType === "secondary product" && (
+                {productType === "secondary" && (
                   <>
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
@@ -640,11 +640,12 @@ const AddProduct = ({ placeholder }) => {
                     <div className={styles.unitSection}>
                       <Select
                         className={styles.formSelect}
+                        name="strengthUnit"
                         options={strengthOptions}
                         placeholder="Select Units"
                         onBlur={handleBlur}
                         onChange={(selectedOption) => {
-                          setFieldValue("volumeUnit", selectedOption?.value);
+                          setFieldValue("strengthUnit", selectedOption?.value);
                         }}
                       />
                     </div>
@@ -1079,7 +1080,7 @@ const AddProduct = ({ placeholder }) => {
                           // touched.stockedInDetails?.[index]?.quantity &&
                           //   errors.stockedInDetails?.[index]?.quantity && (
                           <span span className={styles.error}>
-                            {errors?.stockedInDetails?.[index]?.quantity}
+                            {touched.stockedInDetails && errors?.stockedInDetails?.[index]?.quantity}
                           </span>
                           // )
                         }
@@ -1145,7 +1146,7 @@ const AddProduct = ({ placeholder }) => {
                             onChange={(selectedOption) => {
                               setFieldValue(
                                 `productPricingDetails.${index}.quantity`,
-                                selectedOption?.value.replace(/\D/g, "") // Allow only numbers
+                                selectedOption?.value
                               );
                             }}
                           />
@@ -1739,7 +1740,7 @@ const AddProduct = ({ placeholder }) => {
                     }
                   />
                 </div>
-                {productType === "secondary product" && (
+                {productType === "secondary" && (
                   <div className={styles.productContainer}>
                     <AddProductFileUpload
                       styles={styles}
