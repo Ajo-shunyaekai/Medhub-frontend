@@ -640,11 +640,12 @@ const AddProduct = ({ placeholder }) => {
                     <div className={styles.unitSection}>
                       <Select
                         className={styles.formSelect}
+                        name="strengthUnit"
                         options={strengthOptions}
                         placeholder="Select Units"
                         onBlur={handleBlur}
                         onChange={(selectedOption) => {
-                          setFieldValue("volumeUnit", selectedOption?.value);
+                          setFieldValue("strengthUnit", selectedOption?.value);
                         }}
                       />
                     </div>
