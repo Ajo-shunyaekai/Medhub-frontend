@@ -4,9 +4,9 @@ import arrow from "../../../../assets/images/arrow.svg";
 import category from "../../../../../utils/Category";
 import { FaCapsules, FaHeartbeat, FaStar, FaSyringe, FaLeaf, FaPills, FaBandAid, FaStethoscope, FaVial, FaCrutch, FaThermometer, FaDna, FaLungs, FaBone, FaEye, FaBrain, FaTooth } from "react-icons/fa";
 
-const CategoryCard = ({ icon, color, title, description, onClick }) => {
+const CategoryCard = ({ icon, color, title, description, onClick, isActive }) => {
   return (
-    <div className={styles.categoryCard} onClick={onClick}>
+    <div className={`${styles.categoryCard} ${isActive ? styles.activeCard : ""}`} onClick={onClick}>
       <div className={styles.cardIconWrapper} style={{ backgroundColor: color }}>
         {icon}
       </div>
@@ -31,10 +31,11 @@ const AccordionFilter = ({
 }) => {
   const [selectedCountries, setSelectedCountries] = useState([]);
   const [isHovered, setIsHovered] = useState(false);
-  const carouselRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
+  const [activeCard, setActiveCard] = useState(null); // New state for active card
+  const carouselRef = useRef(null);
 
   // Use imported category data
   const categoryArrays = useMemo(() => category, []);
@@ -86,6 +87,7 @@ const AccordionFilter = ({
     setSelectedLevel3Category(null);
     setSelectedCountries([]);
     setFilterCategory(null);
+    setActiveCard(null); // Reset active card
   };
 
   const isFilterSelected =
@@ -146,6 +148,29 @@ const AccordionFilter = ({
     setIsHovered(false);
   };
 
+  // Navigation arrow handlers
+  const handlePrevClick = () => {
+    if (carouselRef.current) {
+      const firstCard = carouselRef.current.children[0];
+      const cardWidthWithGap = firstCard ? firstCard.offsetWidth + 20 : 0;
+      carouselRef.current.scrollBy({
+        left: -cardWidthWithGap * 2, // Scroll left by two cards
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const handleNextClick = () => {
+    if (carouselRef.current) {
+      const firstCard = carouselRef.current.children[0];
+      const cardWidthWithGap = firstCard ? firstCard.offsetWidth + 20 : 0;
+      carouselRef.current.scrollBy({
+        left: cardWidthWithGap * 2, // Scroll right by two cards
+        behavior: "smooth",
+      });
+    }
+  };
+
   // Define a set of React icons to cycle through
   const iconSet = [
     <FaCapsules size={30} color="#5e676f" strokeWidth={1} />,
@@ -197,6 +222,13 @@ const AccordionFilter = ({
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
+            <button
+              className={styles.navArrowLeft}
+              onClick={handlePrevClick}
+              aria-label="Previous cards"
+            >
+              &lt;
+            </button>
             <div
               className={`${styles.cardsWrapper} ${isDragging ? styles.dragging : ""}`}
               ref={carouselRef}
@@ -211,12 +243,21 @@ const AccordionFilter = ({
                   icon={getCategoryIcon(index)}
                   color={getCategoryColor(index)}
                   title={category.name}
-                  onClick={() =>
-                    setSelectedCategory({ value: category.name, label: category.name })
-                  }
+                  onClick={() => {
+                    setSelectedCategory({ value: category.name, label: category.name });
+                    setActiveCard(`${category.name}-${index}`); // Set active card
+                  }}
+                  isActive={activeCard === `${category.name}-${index}`} // Pass active state
                 />
               ))}
             </div>
+            <button
+              className={styles.navArrowRight}
+              onClick={handleNextClick}
+              aria-label="Next cards"
+            >
+              &gt;
+            </button>
           </div>
         </div>
         {isFilterSelected && (

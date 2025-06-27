@@ -176,7 +176,39 @@ width: 80px;
 .cardArrow {
   color: #555;
 }
+.activeCard {
+  border: 2px solid #007bff; /* Example: Blue border for active card */
+  background-color: #e6f3ff; /* Example: Light blue background */
+  transform: scale(1.05); /* Slightly scale up the active card */
+  transition: all 0.3s ease;
+}
 
+.navArrowLeft,
+.navArrowRight {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 10;
+  border-radius: 50%;
+}
+.navArrowLeft {
+  left: 10px;
+}
+
+.navArrowRight {
+  right: 10px;
+}
+
+.navArrowLeft:hover,
+.navArrowRight:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
 /* Responsive adjustments (Owl Carousel-like) */
 @media (max-width: 1340px) {
  .cardTitle {
