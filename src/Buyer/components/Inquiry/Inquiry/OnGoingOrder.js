@@ -59,7 +59,7 @@ const OnGoingongoing = ({ inquiryList, totalInquiries, currentPage, inquiryPerPa
           </Link>
           {row?.enquiry_status === 'pending' && (
             <div
-              className={styles.activeBtn}
+              className={styles.activeDownloadBtn}
               onClick={() => handleNavigate(row?.enquiry_id)}
               title="Cancel Enquiry"
             >

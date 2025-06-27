@@ -7,13 +7,7 @@
   text-align: center;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-  cursor: pointer !important;
-}
-.upload-content-wrapper {
-  display: flex;
-  gap: 10px;
-  justify-content: start;
-  align-items: center;
+  cursor: pointer;
 }
 
 .image-name {
@@ -28,16 +22,19 @@
 
 .upload-area {
   position: relative;
-  cursor: pointer !important;
+  cursor: pointer;
   text-align: center;
 }
-.image-file-name {
+.upload-content-wrapper{
+  position: relative;
+}
+.image-file-name{
   width: 200px;
   -webkit-line-clamp: 1 !important;
   margin-right: 20px !important;
   -webkit-box-orient: vertical !important;
   display: -webkit-box !important;
-  font-size: 12px !important;
+  font-size: 12px !important;  
   overflow: hidden !important;
   text-overflow: ellipsis !important;
   white-space: normal !important;
@@ -47,19 +44,35 @@
   width: 40px;
   height: 40px;
 }
-
+.tooltip-container{
+        position: absolute;
+    right: 4px;
+    top: -50%;
+}
+/* .emailInfoIcon{
+position: absolute;
+    right: 1%;
+    top: 24%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    cursor: pointer !important;
+    z-index: 2;
+} */
+.tooltipIcons{
+      width: 14px;
+    cursor: pointer !important;
+}
 .remove-icon {
   position: absolute;
   right: 10px;
-  cursor: pointer !important;
+  cursor: pointer;
   width: 10px;
   height: 14px;
-  color: #212121 !important;
+  color: #5e676f !important;
 }
 
 .upload-icon {
-  width: 20px;
-  cursor: pointer !important;
+  width: 36px;
 }
 
 .image-uploader {
@@ -67,41 +80,18 @@
 }
 
 .upload-area {
-  cursor: pointer !important;
-  padding: 11px !important;
+  cursor: pointer;
+  padding: 24px 0px;
   display: inline-block;
 }
 .upload-text {
   font-size: 13px;
-  font-weight: 500 !important;
-  cursor: pointer !important;
-  color: #616161 !important;
 }
 .uploaded-image {
   max-width: 100%;
-  cursor: pointer !important;
-}
-.tooltip-container {
-  position: absolute;
-  top: 10px;
-  right: 5px;
-  cursor: pointer !important;
+  cursor: pointer;
 }
 
-.emailInfoIcon {
-  position: absolute;
-  right: 1%;
-  top: 24%;
-  transform: translateY(-50%);
-  font-size: 14px;
-  cursor: pointer !important;
-  z-index: 2;
-}
-
-.tooltipIcons {
-  width: 14px;
-  cursor: pointer !important;
-}
 
 /* start the modal code */
 .modal {
@@ -139,24 +129,24 @@
   right: 8px;
   font-size: 24px;
   font-weight: bold;
-  cursor: pointer !important;
+  cursor: pointer;
 }
 
-.file-upload-container {
+.file-upload-container{
   display: flex;
   justify-content: start;
   align-items: center;
   gap: 1rem;
 }
 
-.file-container {
+.file-container{
   background-color: white;
   margin: 0.5rem 0px;
   padding: 0.5rem;
   border-radius: 4px;
 }
 
-.file-wrapper {
+.file-wrapper{
   display: flex;
   justify-content: start;
   align-items: start;

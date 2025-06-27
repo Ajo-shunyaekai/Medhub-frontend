@@ -163,7 +163,7 @@ function InvoiceTemplate({ invoice }) {
                                                         <p style={{ fontSize: '13px', color: "#5E676F",}}>{supplierAddressLine1}</p>
                                                         <p style={{ fontSize: '13px', color: "#5E676F", }}>{supplierAddressLine2}</p>
                                                         <div style={{ display: 'flex', justifyContent: 'start' }}>
-                                                            <p style={{ fontSize: '13px', color: "#5E676F", fontWeight: 500 }}>VAT Reg No :</p>
+                                                            <p style={{ fontSize: '13px', color: "#5E676F",}}>VAT Reg No :</p>
                                                             <p style={{ fontSize: '13px', color: "#5E676F", }}> {invoiceDetails?.supplier_vat_reg_no}</p>
                                                         </div>
                                                     </td>
@@ -173,7 +173,7 @@ function InvoiceTemplate({ invoice }) {
                                                         <p style={{ fontSize: '13px', color: "#5E676F", textAlign: 'end' }}>{buyerAddressLine1}</p>
                                                         <p style={{ fontSize: '13px', color: "#5E676F", textAlign: 'end' }}>{buyerAddressLine2}</p>
                                                         <div style={{ display: 'flex', justifyContent: 'end' }}>
-                                                            <p style={{ fontSize: '13px', color: "#5E676F", fontWeight: 500 }}>VAT Reg No :</p>
+                                                            <p style={{ fontSize: '13px', color: "#5E676F", }}>VAT Reg No :</p>
                                                             <p style={{ fontSize: '13px', color: "#5E676F", }}> {invoiceDetails?.buyer_vat_reg_no}</p>
                                                         </div>
                                                     </td>
@@ -289,7 +289,7 @@ function InvoiceTemplate({ invoice }) {
                                 <tr>
                                     <td style={{ verticalAlign: 'top', width: '100%', paddingBottom: '20px', borderBottom: '1px solid #616161' }}>
                                         <h1 style={{ fontSize: '16px', fontWeight: '500', marginTop: '16px' }}>Payment Terms :</h1>
-                                        <div style={{ fontSize: '13px', fontWeight: 500, lineHeight: '20px', color: "#5E676F", marginTop: '4px' }}>
+                                        <div style={{ fontSize: '13px', lineHeight: '20px', color: "#5E676F", marginTop: '4px' }}>
                                             {invoiceDetails?.payment_terms?.map((term, i) => (
                                                 <p key={`term-${i}`} style={{ position: 'relative', paddingLeft: '20px' }}>
                                                     <span style={{ position: 'absolute', left: '0', top: '0', fontSize: '22px' }}>•</span>

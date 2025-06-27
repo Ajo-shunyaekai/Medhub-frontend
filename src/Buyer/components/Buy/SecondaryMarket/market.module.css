@@ -2,6 +2,8 @@
     display: flex;
     flex-direction: column;
     gap: 30px;
+    width: 100%;
+  max-width: 90%;
 }
 
 /* Button container */
@@ -44,4 +46,9 @@
 /* Hover effect for inactive tabs */
 .tabButton:hover:not(.activeTab) {
   background-color: #e0e0e0; /* Slightly darker gray on hover */
+}
+@media (max-width: 1200px) {
+.marketContainer {
+max-width: 100%;
+}
 }

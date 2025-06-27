@@ -222,9 +222,9 @@
 }
 
 .table-assign-driver-heading {
-  color: #192039;
-  font-size: 18px;
-  font-weight: 500;
+color: #192039;
+    font-size: 18px;
+    font-weight: 600;
 }
 
 .table> :not(caption)>*>* {
@@ -371,17 +371,17 @@
 }
 
 .ongoing-details-left-top-main-heading {
-  font-size: 14px;
-  color: #99a0ac !important;
+    color: #99a0ac;
+    font-size: 12px;
   cursor: pointer !important;
 }
 
 .ongoing-details-left-top-main-contents {
-  font-weight: 500;
-  font-size: 13px;
-  line-height: 15px;
-  color: #5e676f !important;
-  cursor: pointer !important;
+font-weight: 500;
+    font-size: 13px;
+    line-height: 15px;
+    color: #5e676f !important;
+    cursor: pointer;
   ;
 }
 

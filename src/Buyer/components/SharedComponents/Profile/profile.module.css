@@ -97,6 +97,7 @@
 }
 
 .mainHead {
+  color: #5e676f;
   font-size: 26px;
   font-weight: 500;
   display: -webkit-box;
@@ -185,6 +186,7 @@ color: #5e676f;
 }
 
 .companyMainHeading {
+  color: #5e676f;
   font-size: 20px;
   font-weight: 500;
 }
@@ -234,6 +236,7 @@ color: #5e676f;
 }
 
 .textareaHead {
+  color: #5e676f;
   font-size: 20px;
   font-weight: 500;
 }
@@ -353,6 +356,7 @@ color: #5e676f;
   gap: 16px;
 }
 .editProfileSubHead {
+  color: #5e676f;
   font-size: 18px;
   font-weight: 500;
 }
@@ -370,6 +374,7 @@ color: #5e676f;
   row-gap: 6px;
 }
 .editLabel {
+    color: #5e676f;
   font-size: 14px;
   font-weight: 500;
 }

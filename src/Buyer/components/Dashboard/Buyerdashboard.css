@@ -1,6 +1,7 @@
 body::first-letter {
   background-color: #f9f9fa !important;
   color: #5e676f;
+  font-family: 'Ubuntu', sans-serif;
   user-select: none !important;
   text-transform: uppercase !important;
 }
@@ -108,9 +109,9 @@ body::first-letter {
 
 .buyer-panel-top-head {
   color:#4f4f4f;
-  font-weight: 500;
   font-size: 0.825rem;
   line-height: 18px;
+  font-weight: 500
 }
 
 .buyer-panel-pro-text {
@@ -146,9 +147,9 @@ body::first-letter {
 }
 
 .buyer-panel-bottom-head {
-  color:#4f4f4f;
-  font-weight: 500;
+  color: #212121 !important;
   font-size: 0.825rem;
+  font-weight: 500;
 }
 
 .buyer-panel-bottom-text {
@@ -159,8 +160,8 @@ body::first-letter {
 
 .buyer-panel-cart-top-left-section {
   width: 30%;
-   
   background-color: white;
+   
   text-align: center;
   padding: 12px 10px;
   display: flex;
@@ -170,8 +171,8 @@ body::first-letter {
 
 .buyer-panel-left-head {
   color:#4f4f4f;
-  font-weight: 500;
   font-size: 0.825rem;
+  font-weight: 500;
 }
 
 .buyer-panel-cart-left-bottom-section {
@@ -184,8 +185,8 @@ body::first-letter {
 
 .buyer-panel-cart-left-bottom-container {
   width: 50%;
-   
   background-color: white;
+   
   border-radius: 4px;
   padding: 25px 16px 6px 16px;
   display: flex;
@@ -212,7 +213,7 @@ body::first-letter {
 
 .buyer-panel-left-bottom-head {
   font-size: 0.825rem;
-  color:#4f4f4f;
+  color: #212121 !important;
   font-weight: 500;
 }
 
@@ -231,8 +232,8 @@ body::first-letter {
 
 .buyer-panel-right-head {
   color:#4f4f4f;
-  font-weight: 500;
   font-size: 0.825rem;
+  font-weight: 500;
 }
 
 .buyer-panel-right-country-section {
@@ -271,6 +272,7 @@ body::first-letter {
   justify-content: start;
   align-items: center;
 }
+
 
 /* Style the circular bar */
 .circular-bar-container {

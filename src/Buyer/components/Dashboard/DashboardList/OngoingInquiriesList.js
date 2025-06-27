@@ -110,7 +110,7 @@ const OngoingInquiriesList = () => {
             </div>
           </Link>
           {row?.enquiry_status === "pending" && (
-            <div className={styles.activeBtn}>
+            <div className={styles.activeDownloadBtn}>
               <HighlightOffIcon
                 className={styles['table-icon']}
                 onClick={() => handleNavigate(row?.enquiry_id)}

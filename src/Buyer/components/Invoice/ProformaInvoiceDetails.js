@@ -679,8 +679,8 @@ function ProformaDetailsPage() {
                                         <p
                                           style={{
                                             fontSize: "14px",
-                                            fontWeight: "500",
-                                            color: "#616161",
+                                            
+                                            color: "#5e676f",
                                           }}
                                         >
                                           {bankDetails.bank_name}

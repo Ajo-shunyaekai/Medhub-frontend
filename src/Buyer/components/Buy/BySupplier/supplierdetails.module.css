@@ -52,7 +52,7 @@
 .cardSection {
     background-color: #fff;
     border-radius: 4px;
- box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+ 
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -68,7 +68,7 @@
 
 .mainHead {
     color:#5e676f;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 500;
 }
 .typeLink{
@@ -79,7 +79,7 @@
 .typeHead {
     font-size: 14px;
     font-weight: 500;
-    color: #616161 !important;
+    color: #5e676f !important;
 }
 
 .headIcons {
@@ -107,7 +107,7 @@
 .cardInnerSection {
     background-color: #fff;
     border-radius: 4px;
- box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+ 
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -119,7 +119,7 @@
 .cardContainer {
     background-color: #fff;
     border-radius: 4px;
- box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+ 
     display: flex;
     flex-direction: column;
     gap: 6px;
@@ -128,7 +128,7 @@
 }
 
 .cardHeads {
-     color:#4f4f4f;
+     color:#5e676f;
     font-size: 15px;
     font-weight: 500;
 }
@@ -142,18 +142,17 @@
 }
 
 .cardContents {
-       color: #99a0ac;
-    font-size: 14px;
-    font-weight: 500;
+          font-size: 13px;
+    color: #99a0ac;
 }
 
 .cardContent {
-    color: #5e676f;
+        font-size: 13px;
+    color: #99a0ac;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: normal;
     text-align: end;
-    font-size: 14px;
 }
 
 .cardMainContainer {
@@ -179,7 +178,7 @@
 .rightSection {
     background-color: #fff;
     border-radius: 4px;
- box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;   
+ 
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -190,7 +189,7 @@
 }
 
 .rightHead {
-       color:#4f4f4f;
+       color:#5e676f;
     font-size: 14px;
     font-weight: 500;
 }
@@ -257,7 +256,6 @@
     border-radius: 4px;
     display: flex
 ;
-box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
     align-items: center;
     gap: 20px;
     padding: 14px 18px;
@@ -285,7 +283,7 @@ box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 
 }
 
 .title {
-    color:#4f4f4f;
+    color:#5e676f;
     font-size: 24px;
     font-weight: 500;
 }

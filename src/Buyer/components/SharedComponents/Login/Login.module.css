@@ -11,7 +11,7 @@
   display: none;
 }
 .loginContainerLogoSection {
-  width: 50%; 
+  width: 50%;
   display: flex;
   justify-content: center;
 }
@@ -32,12 +32,12 @@
 }
 .loginContainerFormSectionHeading {
   width: 100%;
-  color:#4f4f4f;
   font-size: 20px;
   line-height: normal;
   font-weight: 500;
   max-width: 100%;
   margin: 0px auto;
+  color:#4f4f4f;
 }
 .loginMainFormSection {
   display: flex;
@@ -57,18 +57,17 @@
   font-weight: 500;
 }
 .loginFormMainInput {
-  width: 100% !important;
-  font-weight: 500 !important;
-  color: #616161 !important;
-  border-radius: 4px !important;
-  outline: none !important;
-  border: none !important;
-  margin-bottom: 0px !important;
-  padding: 12px !important;
-  font-size: 14px !important;
-  border-color: transparent !important;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
-  appearance: none !important;
+     width: 100% !important;
+    color: #5e676f !important;
+    border-radius: 4px !important;
+    outline: none !important;
+    border: none !important;
+    margin-bottom: 0px !important;
+    padding: 12px !important;
+    font-size: 13px !important;
+    border-color: transparent !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+    appearance: none !important;
 }
 .loginFormMainButtons {
   width: 100%;
@@ -117,28 +116,29 @@ background: linear-gradient(to left, #00dcff, #0075ce);
    cursor: pointer !important;;
 }
 
- /* for button loader */
- .loginFormMainLogin[disabled] {
-  cursor: not-allowed;
-  background-color: #ccc; /* Change to your desired disabled color */
-}
 
-.loadingSpinner {
-  border: 4px solid rgba(0, 0, 0, 0.1);
-  border-left-color: #000; /* Spinner color */
-  border-radius: 50%;
-  width: 16px;
-  height: 16px;
-  animation: spin 1s linear infinite;
-  margin: 0 auto;
-}
-
-@keyframes spin {
-  to {
-      transform: rotate(360deg);
+   /* for button loader */
+   .loginFormMainLogin[disabled] {
+    cursor: not-allowed;
+    background-color: #ccc; /* Change to your desired disabled color */
   }
-}
-/* for button loader */
+  
+  .loadingSpinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #000; /* Spinner color */
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+  }
+  
+  @keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+  }
+  /* for button loader */
 
 .login-error {
   font-size: 12px;
@@ -146,10 +146,10 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   margin-top: -6px;
 }
 .loginFormMainPassword {
-  color:#3b71ca;;
-  font-size: 14px;
-  font-weight: 500;
-   cursor: pointer !important;;
+     font-size: 14px;
+    font-weight: 500;
+    color: #5e676f;
+    cursor: pointer !important;
 }
 .headerCenter {
   font-size: 16px;
@@ -173,13 +173,13 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   align-items: baseline;
 }
 .loginSignupContent {
+  color:#5e676f ;
   font-size: 14px;
   font-weight: 500;
-  color:#4f4f4f;
 }
 .loginSignupHere {
-  color:#3b71ca;;
   font-size: 14px;
+   color:#3b71ca;;
   font-weight: 500;
    cursor: pointer !important;;
 }
@@ -265,7 +265,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 }
 
 .errorMessage {
-  color: red; /* Set error message text color to red */
-  font-size: 12px; /* Optional: Set font size */
-  margin-top: 5px; /* Optional: Adjust margin */
+  color: red; 
+  font-size: 12px; 
+  margin-top: 5px; 
 }

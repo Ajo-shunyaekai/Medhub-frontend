@@ -18,7 +18,7 @@
 }
 
 .productHead {
-  color:#4f4f4f;
+  color:#5e676f;
   padding-top: 5px;
   font-size: 20px;
   font-weight: 500;
@@ -105,7 +105,7 @@
 }
 
 .head {
-  color:#4f4f4f;
+  color:#5e676f;
   font-size: 16px;
   font-weight: 500;
   position: relative;
@@ -209,9 +209,9 @@ box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 
 }
 
 .cardMainHeading {
-  color:#4f4f4f;
-  font-size: 22px;
-  font-weight: 500;
+  color:#5e676f;
+     font-size: 26px;
+    font-weight: 500;
 }
 
 .cardHead {

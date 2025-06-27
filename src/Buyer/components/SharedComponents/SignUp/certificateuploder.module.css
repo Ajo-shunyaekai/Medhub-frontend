@@ -25,14 +25,13 @@
 
 .uploadIcon {
   width: 20px;
-  color: #888;
+  color: #5e6767;
   cursor: pointer !important;
 }
 
 .uploadText {
-     color: #99a0ac;
-  font-size: 14px;
-  font-weight: 500;
+  color: #5e6767;
+  font-size: 13px;
   cursor: pointer !important;
 }
 

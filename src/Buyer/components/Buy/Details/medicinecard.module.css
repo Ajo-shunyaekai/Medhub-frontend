@@ -1,9 +1,8 @@
 .gridContainer{
     background: linear-gradient(270deg, #f5f5f7, #e1f2ff);
     border-radius: 4px;
-    display: flex;
-    justify-content: start;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
     padding: 50px 30px;
 }
@@ -15,7 +14,7 @@
     align-items: center;
     gap: 30px;
     padding: 24px 32px;
-    width: 49%;
+    width: 100%;
 }
 .heading{
     font-size: 18px;
