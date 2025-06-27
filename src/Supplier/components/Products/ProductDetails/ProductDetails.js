@@ -397,70 +397,79 @@ const openPurchaseInvoice = () => {
         )}
         {/* End the product description */}
 
-         {productDetail?.general?.image?.length > 0 && (
-          <div className={styles.mainContainer}>
-            <span className={styles.innerHead}>Product Images</span>
-            <div className={styles.productImageSection}>
-              {productDetail?.general?.image?.map((img, index) => {
-                const baseUrl = process.env.REACT_APP_SERVER_URL?.endsWith("/")
-                  ? process.env.REACT_APP_SERVER_URL
-                  : `${process.env.REACT_APP_SERVER_URL}/`;
+        {productDetail?.general?.image &&
+  (Array.isArray(productDetail.general.image) ? (
+    // Render if image is an array
+    productDetail.general.image.length > 0 && (
+      <div className={styles.mainContainer}>
+        <span className={styles.innerHead}>Product Images</span>
+        <div className={styles.productImageSection}>
+          {productDetail.general.image.map((img, index) => {
+            const baseUrl = process.env.REACT_APP_SERVER_URL?.endsWith("/")
+              ? process.env.REACT_APP_SERVER_URL
+              : `${process.env.REACT_APP_SERVER_URL}/`;
 
-                // If not a full URL, prepend base path
-                const imgUrl = img?.startsWith("http")
-                  ? img
-                  : `${baseUrl}uploads/products/${img}`;
+            const imgUrl = img?.startsWith("http")
+              ? img
+              : `${baseUrl}uploads/products/${img}`;
 
-                // Check if it ends with image extension
+            const isImageFile = isImageExtension(imgUrl);
+
+            return (
+              <div className={styles.imageContainer} key={index}>
+                <img
+                  className={styles.imageSection}
+                  src={isImageFile ? imgUrl : fallbackImageUrl}
+                  alt="Product Image"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = fallbackImageUrl;
+                  }}
+                />
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    )
+  ) : (
+    // Render if image is an object
+    Object.keys(productDetail.general.image).length > 0 && (
+      <div className={styles.mainContainer}>
+        <span className={styles.innerHead}>Product Images</span>
+        <div className={styles.productImageSection}>
+          {Object.entries(productDetail.general.image).map(
+            ([viewLabel, images]) =>
+              images?.map((imgUrl, index) => {
                 const isImageFile = isImageExtension(imgUrl);
-
                 return (
-                  <div className={styles.imageContainer} key={index}>
+                  <div
+                    className={styles.imageContainer}
+                    key={`${viewLabel}-${index}`}
+                  >
+                    <span>
+                      {viewLabel.charAt(0).toUpperCase() + viewLabel.slice(1)} Image
+                    </span>
                     <img
                       className={styles.imageSection}
                       src={isImageFile ? imgUrl : fallbackImageUrl}
-                      alt="Product Image"
+                      alt={`${viewLabel} view`}
                       onError={(e) => {
                         e.target.onerror = null;
                         e.target.src = fallbackImageUrl;
                       }}
                     />
+                    <div className={styles.imageLabel}>
+                      {viewLabel.toUpperCase()}
+                    </div>
                   </div>
                 );
-              })}
-            </div>
-          </div>
-        )}
-
-        {productDetail?.general?.image &&
-          Object.keys(productDetail.general.image).length > 0 && (
-            <div className={styles.mainContainer}>
-              <span className={styles.innerHead}>Product Images</span>
-              <div className={styles.productImageSection}>
-                {Object.entries(productDetail?.general?.image).map(
-                  ([viewLabel, images]) =>
-                    images?.map((imgUrl, index) => {
-                      const isImageFile = isImageExtension(imgUrl);
-                      return (
-                        <div className={styles.imageContainer} key={`${viewLabel}-${index}`}>
-                          <span>{viewLabel.charAt(0).toUpperCase() + viewLabel.slice(1)} Image</span>
-                          <img
-                            className={styles.imageSection}
-                            src={isImageFile ? imgUrl : fallbackImageUrl}
-                            alt={`${viewLabel} view`}
-                            onError={(e) => {
-                              e.target.onerror = null;
-                              e.target.src = fallbackImageUrl;
-                            }}
-                          />
-                          <div className={styles.imageLabel}>{viewLabel.toUpperCase()}</div>
-                        </div>
-                      );
-                    })
-                )}
-              </div>
-            </div>
+              })
           )}
+        </div>
+      </div>
+    )
+  ))}
 
         {/* End product image section */}
 

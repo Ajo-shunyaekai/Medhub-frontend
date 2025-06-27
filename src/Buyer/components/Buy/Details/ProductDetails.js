@@ -3542,7 +3542,8 @@ const ProductDetails = () => {
                         className={styles.complianceSection}
                         key={item._id || index}
                       >
-                        <RenderProductFiles files={item.file} />
+                        {/* <RenderProductFiles files={item.file} /> */}
+                        <RenderProductFiles files={Array.isArray(item.file) ? item.file : [item.file]} />
                         <span className={styles.medicineContent}>
                           {item.date}
                         </span>
