@@ -415,8 +415,12 @@ const EditAddProduct = ({ placeholder }) => {
         condition: secondaryMarketDetails?.condition || "",
         minimumPurchaseUnit: secondaryMarketDetails?.minimumPurchaseUnit || "",
         // subCategory: categoryDetails?.subCategory || "",
-        subCategory: productDetail?.subCategory || "",
-        anotherCategory: productDetail?.anotherCategory || "",
+        subCategory:
+          categoryDetails?.subCategory || productDetail?.subCategory || "",
+        anotherCategory:
+          categoryDetails?.anotherCategory ||
+          productDetail?.anotherCategory ||
+          "",
         stockedInDetails: inventoryDetails?.stockedInDetails || [
           {
             country: "",
