@@ -1,29 +1,21 @@
-import React, { useState, useMemo } from "react";
-import Select, { components } from "react-select";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import styles from "./category.module.css";
-import '../../../SharedComponents/SignUp/signup.css';
-import categoryArrays from "../../../../../utils/Category";
-import countryList from "react-select-country-list";
+import arrow from "../../../../assets/images/arrow.svg";
+import category from "../../../../../utils/Category";
+import { FaCapsules, FaHeartbeat, FaStar, FaSyringe, FaLeaf, FaPills, FaBandAid, FaStethoscope, FaVial, FaCrutch, FaThermometer, FaDna, FaLungs, FaBone, FaEye, FaBrain, FaTooth } from "react-icons/fa";
 
-const MultiSelectOption = ({ children, ...props }) => (
-  <components.Option {...props}>
-    <input type="checkbox" checked={props.isSelected} onChange={() => null} />{" "}
-    <label>{children}</label>
-  </components.Option>
-);
-
-const MultiSelectDropdown = ({ options, value, onChange }) => {
+const CategoryCard = ({ icon, color, title, description, onClick }) => {
   return (
-    <Select
-      className={styles.signupFormsSectionsSelect}
-      options={options}
-      isMulti
-      closeMenuOnSelect={false}
-      hideSelectedOptions={false}
-      components={{ Option: MultiSelectOption }}
-      onChange={onChange}
-      value={value}
-    />
+    <div className={styles.categoryCard} onClick={onClick}>
+      <div className={styles.cardIconWrapper} style={{ backgroundColor: color }}>
+        {icon}
+      </div>
+      <h3 className={styles.cardTitle}>{title}</h3>
+      <p className={styles.cardDescription}>{description}</p>
+      <div className={styles.cardArrow}>
+        <img src={arrow} alt="arrow" className={styles.arrow} />
+      </div>
+    </div>
   );
 };
 
@@ -38,13 +30,35 @@ const AccordionFilter = ({
   setSelectedLevel3Category,
 }) => {
   const [selectedCountries, setSelectedCountries] = useState([]);
+  const [isHovered, setIsHovered] = useState(false);
+  const carouselRef = useRef(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
 
-  const countryOptions = useMemo(() =>
-    countryList().getData().map(country => ({
-      value: country.value, // e.g., "US"
-      label: country.label // e.g., "United States"
-    })),
-    []);
+  // Use imported category data
+  const categoryArrays = useMemo(() => category, []);
+
+  // Duplicate cards for seamless looping effect
+  const cardsForCarousel = useMemo(() => {
+    const numCardsToDuplicate = 5;
+    return [
+      ...categoryArrays.slice(-numCardsToDuplicate),
+      ...categoryArrays,
+      ...categoryArrays.slice(0, numCardsToDuplicate),
+    ];
+  }, [categoryArrays]);
+
+  // Initial scroll to the start of the "real" content
+  useEffect(() => {
+    if (carouselRef.current) {
+      const firstCard = carouselRef.current.children[0];
+      const cardWidthWithGap = firstCard ? firstCard.offsetWidth + 20 : 0;
+
+      const initialOffset = categoryArrays.length * cardWidthWithGap;
+      carouselRef.current.scrollTo({ left: initialOffset, behavior: "instant" });
+    }
+  }, [categoryArrays]);
 
   const categoryOptions = categoryArrays.map((cat) => ({
     value: cat.name,
@@ -56,37 +70,12 @@ const AccordionFilter = ({
     return categoryArrays.find((cat) => cat.name === category)?.schema || null;
   };
 
-  const getSubCategories = (categoryName) => {
-    return (
-      categoryArrays
-        .find((cat) => cat.name === categoryName)
-        ?.subCategories.map((sub) => ({
-          value: sub.name,
-          label: sub.name,
-        })) || []
-    );
-  };
-
-  const getLevel3Categories = (subCategoryName) => {
-    const category = categoryArrays.find(
-      (cat) => cat.name === selectedCategory?.label
-    );
-    return (
-      category?.subCategories
-        .find((sub) => sub.name === subCategoryName)
-        ?.anotherCategories.map((level3) => ({
-          value: level3,
-          label: level3,
-        })) || []
-    );
-  };
-
   const handleApply = () => {
     const filterData = {
       category: getCategorySchema(selectedCategory?.label) || "",
       subCategory: selectedSubCategory?.label || "",
       level3Category: selectedLevel3Category?.label || "",
-      countries: selectedCountries.map(country => country.label) || [] // Use country.label for full names
+      countries: selectedCountries.map((country) => country.label) || [],
     };
     setFilterCategory(filterData);
   };
@@ -100,70 +89,134 @@ const AccordionFilter = ({
   };
 
   const isFilterSelected =
-    selectedCategory || selectedSubCategory || selectedLevel3Category || selectedCountries.length > 0;
+    selectedCategory ||
+    selectedSubCategory ||
+    selectedLevel3Category ||
+    selectedCountries.length > 0;
+
+  // Auto-scrolling effect for carousel
+  useEffect(() => {
+    let interval;
+    if (!isHovered && !isDragging) {
+      interval = setInterval(() => {
+        if (carouselRef.current) {
+          const { scrollWidth, clientWidth, scrollLeft } = carouselRef.current;
+          const firstCard = carouselRef.current.children[0];
+          const cardWidthWithGap = firstCard ? firstCard.offsetWidth + 20 : 0;
+
+          const realContentStart = categoryArrays.length * cardWidthWithGap;
+          const realContentEnd =
+            realContentStart + categoryArrays.length * cardWidthWithGap;
+
+          if (scrollLeft + clientWidth >= realContentEnd) {
+            carouselRef.current.scrollTo({
+              left: realContentStart,
+              behavior: "instant",
+            });
+          } else {
+            carouselRef.current.scrollBy({
+              left: cardWidthWithGap,
+              behavior: "smooth",
+            });
+          }
+        }
+      }, 3000);
+    }
+    return () => clearInterval(interval);
+  }, [isHovered, isDragging, categoryArrays.length]);
+
+  // Drag handlers
+  const handleMouseDown = (e) => {
+    setIsDragging(true);
+    setStartX(e.pageX - carouselRef.current.offsetLeft);
+    setScrollLeft(carouselRef.current.scrollLeft);
+    setIsHovered(true);
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.pageX - carouselRef.current.offsetLeft;
+    const walk = (x - startX) * 1.5;
+    carouselRef.current.scrollLeft = scrollLeft - walk;
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+    setIsHovered(false);
+  };
+
+  // Define a set of React icons to cycle through
+  const iconSet = [
+    <FaCapsules size={30} color="#5e676f" strokeWidth={1} />,
+    <FaHeartbeat size={30} color="#5e676f" strokeWidth={1} />,
+    <FaStar size={30} color="#5e676f" strokeWidth={1} />,
+    <FaSyringe size={30} color="#5e676f" strokeWidth={1} />,
+    <FaLeaf size={30} color="#5e676f" strokeWidth={1} />,
+    <FaPills size={30} color="#5e676f" strokeWidth={1} />,
+    <FaBandAid size={30} color="#5e676f" strokeWidth={1} />,
+    <FaStethoscope size={30} color="#5e676f" strokeWidth={1} />,
+    <FaVial size={30} color="#5e676f" strokeWidth={1} />,
+    <FaCrutch size={30} color="#5e676f" strokeWidth={1} />,
+    <FaThermometer size={30} color="#5e676f" strokeWidth={1} />,
+    <FaDna size={30} color="#5e676f" strokeWidth={1} />,
+    <FaLungs size={30} color="#5e676f" strokeWidth={1} />,
+    <FaBone size={30} color="#5e676f" strokeWidth={1} />,
+    <FaEye size={30} color="#5e676f" strokeWidth={1} />,
+    <FaBrain size={30} color="#5e676f" strokeWidth={1} />,
+    <FaTooth size={30} color="#5e676f" strokeWidth={1} />,
+  ];
+
+  // Define a set of colors to cycle through
+  const colorSet = [
+    "#d6f3f7", // Light blue
+    "#ffded7", // Light red
+    "#feead6", // Light yellow
+    "#f7f7d6", // Light green
+    "#d6f7df", // Light pink
+    "#F0F0F0", // Light gray
+    "#E0F2F1", // Light teal
+    "#FFF3E0", // Light orange
+  ];
+
+  // Function to get icon and color based on category index
+  const getCategoryIcon = (index) => {
+    return iconSet[index % iconSet.length];
+  };
+
+  const getCategoryColor = (index) => {
+    return colorSet[index % colorSet.length];
+  };
 
   return (
     <div className={styles.filterWrapper}>
-      <div
-        className={`${styles.accordionContent} ${isOpen ? styles.open : ""}`}
-      >
+      <div className={`${styles.accordionContent} ${isOpen ? styles.open : ""}`}>
         <div className={styles.filterContainer}>
-          <div className={styles.filterSection}>
-            <label>Countries Where Stock Traded</label>
-            <MultiSelectDropdown
-              options={countryOptions}
-              value={selectedCountries}
-              onChange={(selectedOptions) => {
-                setSelectedCountries(selectedOptions || []);
-              }}
-            />
-          </div>
-          <div className={styles.filterSection}>
-            <label>Product Category</label>
-            <Select
-              className={styles.reactSelect}
-              options={categoryOptions}
-              value={selectedCategory}
-              onChange={(selectedOption) => {
-                setSelectedCategory(selectedOption);
-                setSelectedSubCategory(null);
-                setSelectedLevel3Category(null);
-              }}
-              placeholder="Select Category"
-            />
-          </div>
-          <div className={styles.filterSection}>
-            <label>Product Sub Category</label>
-            <Select
-              className={styles.reactSelect}
-              options={
-                selectedCategory ? getSubCategories(selectedCategory.label) : []
-              }
-              value={selectedSubCategory}
-              onChange={(selectedOption) => {
-                setSelectedSubCategory(selectedOption);
-                setSelectedLevel3Category(null);
-              }}
-              placeholder="Select Sub Category"
-              isDisabled={!selectedCategory}
-            />
-          </div>
-          <div className={styles.filterSection}>
-            <label>Product Sub Category (Level 3)</label>
-            <Select
-              className={styles.reactSelect}
-              options={
-                selectedSubCategory
-                  ? getLevel3Categories(selectedSubCategory.value)
-                  : []
-              }
-              value={selectedLevel3Category}
-              onChange={(selectedOption) => {
-                setSelectedLevel3Category(selectedOption);
-              }}
-              placeholder="Select Level 3 Category"
-              isDisabled={!selectedSubCategory}
-            />
+          <div
+            className={styles.categoryCardContainer}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+          >
+            <div
+              className={`${styles.cardsWrapper} ${isDragging ? styles.dragging : ""}`}
+              ref={carouselRef}
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseUp}
+            >
+              {cardsForCarousel.map((category, index) => (
+                <CategoryCard
+                  key={`${category.name}-${index}`}
+                  icon={getCategoryIcon(index)}
+                  color={getCategoryColor(index)}
+                  title={category.name}
+                  onClick={() =>
+                    setSelectedCategory({ value: category.name, label: category.name })
+                  }
+                />
+              ))}
+            </div>
           </div>
         </div>
         {isFilterSelected && (

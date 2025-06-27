@@ -115,11 +115,21 @@ cursor: pointer !important;
 }
 
 /* end the breadcrumbs section */
-
-
+@media screen and (max-width: 1580px) {
+.main {
+   margin: unset !important;
+   width: 96%;
+}
+}
 
 /* Start media query */
 @media screen and (max-width: 1420px) {
+    .main {
+        max-width: 92%;
+    }
+}
+
+@media screen and (max-width: 1200px) {
     .main {
         max-width: 100%;
     }

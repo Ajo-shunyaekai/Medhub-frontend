@@ -24,36 +24,35 @@ const FilterSection = ({
   const filters = [
     {
       key: 'price',
-      label: 'Cost per Product',
+      label: 'Unit Price',
       options: [
-        { value: '1 - 10', label: '1-10 USD' },
-        { value: '10 - 20', label: '10-20 USD' },
-        { value: '20 - 30', label: '20-30 USD' },
-        { value: '30 - 40', label: '30-40 USD' },
         { value: 'greater than 40', label: 'More than 40 USD' },
+           { value: '30 - 40', label: '30-40 USD' },
+             { value: '20 - 30', label: '20-30 USD' },
+             { value: '10 - 20', label: '10-20 USD' },
+        { value: '1 - 10', label: '1-10 USD' },
+        
+      
+     
+        
       ],
       handler: handlePriceRange,
     },
     {
-      key: 'stockStatus',
-      label: 'Stock Status',
-      options: [
-            { value: 'In-stock', label: 'In-stock' },
-            { value: 'Out of Stock', label: 'Out of Stock' },
-            { value: 'On-demand', label: 'On-demand' },
-          ],
-      handler: handleStockedIn,
-    },
-    {
       key: 'totalQuantity',
-      label: 'Total Quantity',
+      label: 'Quantity',
       options: [
-        { value: '0 - 500', label: '0-500' },
-        { value: '500 - 1000', label: '500-1000' },
-        { value: '1000 - 2000', label: '1000-2000' },
-        { value: '2000 - 3000', label: '2000-3000' },
-        { value: '3000 - 4000', label: '3000-4000' },
         { value: 'greater than 4000', label: 'More than 4000' },
+          { value: '3000 - 4000', label: '3000-4000' },
+          { value: '2000 - 3000', label: '2000-3000' },
+              { value: '1000 - 2000', label: '1000-2000' },
+               { value: '500 - 1000', label: '500-1000' },
+        { value: '0 - 500', label: '0-500' },
+       
+    
+        
+      
+        
       ],
       handler: handleQuantity,
     },
