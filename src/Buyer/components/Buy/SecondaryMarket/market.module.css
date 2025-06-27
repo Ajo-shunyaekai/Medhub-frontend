@@ -48,7 +48,7 @@
   background-color: #e0e0e0; /* Slightly darker gray on hover */
 }
 @media (max-width: 1200px) {
-.marketContainer {
+.productContainer {
 max-width: 100%;
 }
 }
