@@ -155,7 +155,7 @@ const openPurchaseInvoice = () => {
                     ?.minimumPurchaseUnit && (
                     <div className={styles.medicinesSection}>
                       <span className={styles.medicineHead}>
-                        Minimum Purchase Unit
+                         Minimum Order Quantity
                       </span>
                       <span className={styles.medicineText}>
                         {
@@ -352,8 +352,16 @@ const openPurchaseInvoice = () => {
                   </span>
                 </div>
               )}
+              {productDetail?.general?.totalQuantity || productDetail?.general?.quantity && (
+                <div className={styles.medicinesSection}>
+                  <span className={styles.medicineHead}>Total Quantity</span>
+                  <span className={styles.medicineText}>
+                    {productDetail?.general?.totalQuantity || productDetail?.general?.quantity}
+                  </span>
+                </div>
+              )}
 
-              {/* {productDetail?.storage && (
+              {productDetail?.storage && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>
                     Storage Conditions
@@ -362,7 +370,7 @@ const openPurchaseInvoice = () => {
                     {productDetail?.storage}
                   </span>
                 </div>
-              )} */}
+              )}
             </div>
           </div>
         </div>

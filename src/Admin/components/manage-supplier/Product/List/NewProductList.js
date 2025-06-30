@@ -40,24 +40,24 @@ const NewProductList = ({
     },
     {
       name: "Sub Category",
-      selector: (row) => row?.[row?.category]?.subCategory || "N/A",
+      selector: (row) => row?.[row?.category]?.subCategory || row?.subCategory || "N/A",
       sortable: true,
     },
     {
       name: "Quantity",
-      selector: (row) => row?.general.quantity || "0",
+      selector: (row) => row?.general.quantity || row?.general.totalQuantity || "0",
       sortable: true,
     },
-    {
-      name: "Stock Status",
-      selector: (row) => {
-        const stockValues = row?.inventoryDetails?.[0]?.stock
-          ? [row?.inventoryDetails[0].stock]
-          : ["N/A"];
-        return stockValues[0];
-      },
-      sortable: true,
-    },
+    // {
+    //   name: "Stock Status",
+    //   selector: (row) => {
+    //     const stockValues = row?.inventoryDetails?.[0]?.stock
+    //       ? [row?.inventoryDetails[0].stock]
+    //       : ["N/A"];
+    //     return stockValues[0];
+    //   },
+    //   sortable: true,
+    // },
     {
       name: "Action",
       selector: (row) => (

@@ -49,7 +49,7 @@ const SecondaryProductList = ({
     {
       name: "Total Quantity",
       selector: (row) => row?.general.quantity,
-      cell: (row) => row?.general.quantity || "0",
+      cell: (row) => row?.general.quantity || row?.general.totalQuantity || "0",
     },
     {
       name: "Stock Status",
