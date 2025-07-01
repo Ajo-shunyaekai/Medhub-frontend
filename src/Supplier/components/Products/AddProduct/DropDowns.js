@@ -237,6 +237,25 @@ export const initialValues = {
       quantity: "",
     },
   ],
+  categoryDetailsFile:[],
+  categoryDetails: [
+    {
+      name: undefined,
+      label: undefined,
+      placeholder: undefined,
+      type: undefined,
+      maxLimit: undefined,
+      allowedType: undefined,
+      fieldValue: undefined,
+      optionsDD:[]
+    },
+  ],
+  faqs: [
+    {
+      ques: undefined,
+      ans: undefined,
+    },
+  ],
   productPricingDetails: [
     {
       quantity: "",
@@ -258,7 +277,7 @@ export const initialValues = {
   controlledSubstance: false,
   otcClassification: "",
   genericName: "",
-  strength:  "",
+  strength: "",
   composition: defaultValues || "",
   purpose: defaultValues || "",
   drugAdministrationRoute: defaultValues || "",
@@ -375,7 +394,9 @@ export const addProductValidationSchema = Yup.object({
   countryOfOrigin: Yup.string().required(
     "Manufacturer Country of Origin is required."
   ),
-  minimumPurchaseUnit: Yup.string().required("Minimum Order Quantity is required."),
+  minimumPurchaseUnit: Yup.string().required(
+    "Minimum Order Quantity is required."
+  ),
   tags: Yup.string().required("Tags are required."),
   model: Yup.string()
     .required("Part/Model Number is required.")
@@ -525,7 +546,7 @@ export const addProductValidationSchema = Yup.object({
             /^\d{1,3}$/,
             "Delivery Time must be a number with up to 3 digits."
           )
-          .required("Est. Delivery Time is required."),
+          .required("Est. Shipping Time is required."),
       })
     )
     .min(1, "At least one product is required."), // Optional: You can enforce at least one item in the array
@@ -1328,7 +1349,9 @@ export const editProductValidationSchema = Yup.object({
   countryOfOrigin: Yup.string().required(
     "Manufacturer Country of Origin is required."
   ),
-  minimumPurchaseUnit: Yup.string().required("Minimum Order Quantity is required."),
+  minimumPurchaseUnit: Yup.string().required(
+    "Minimum Order Quantity is required."
+  ),
   tags: Yup.string().required("Tags are required."),
   model: Yup.string()
     .required("Part/Model Number is required.")
@@ -1440,16 +1463,18 @@ export const editProductValidationSchema = Yup.object({
   // .nullable(),
   stockedInDetails: Yup.array().of(
     Yup.object({
-      country: Yup.string().required("Country is required.")
-      .test(
-        "country-in-countries",
-        "Country must be one of the selected countries",
-        (value, context) => {
-          const { countries } = context?.from?.[context?.from?.length-1]?.value; // Get the countries array from the form values
-          console.log("context.parent",countries)
-          return countries?.includes(value); // Check if the country exists in the countries array
-        }
-      ),
+      country: Yup.string()
+        .required("Country is required.")
+        .test(
+          "country-in-countries",
+          "Country must be one of the selected countries",
+          (value, context) => {
+            const { countries } =
+              context?.from?.[context?.from?.length - 1]?.value; // Get the countries array from the form values
+            console.log("context.parent", countries);
+            return countries?.includes(value); // Check if the country exists in the countries array
+          }
+        ),
       quantity: Yup.number()
         .required("Quantity is required.")
         .positive("Quantity must be greater than 0"),

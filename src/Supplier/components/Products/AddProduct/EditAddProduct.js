@@ -413,7 +413,10 @@ const EditAddProduct = ({ placeholder }) => {
         purchaseInvoiceFile: secondaryMarketDetails?.purchaseInvoiceFile || [],
         purchaseInvoiceFileNew: [],
         condition: secondaryMarketDetails?.condition || "",
-        minimumPurchaseUnit: secondaryMarketDetails?.minimumPurchaseUnit || "",
+        minimumPurchaseUnit:
+          secondaryMarketDetails?.minimumPurchaseUnit ||
+          general?.minimumPurchaseUnit ||
+          "",
         // subCategory: categoryDetails?.subCategory || "",
         subCategory:
           categoryDetails?.subCategory || productDetail?.subCategory || "",
@@ -891,34 +894,32 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                   </div>
-
-                  
                 </>
               )}
               <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Minimum Order Quantity
-                      <span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <input
-                      className={styles.formInput}
-                      type="text"
-                      placeholder="Enter Minimum Order Quantity"
-                      // autoComplete="off"
-                      name="minimumPurchaseUnit"
-                      value={formik?.values?.minimumPurchaseUnit}
-                      onChange={(e) =>
-                        handleInputChange(e, formik.setFieldValue, 4, "number")
-                      }
-                      onBlur={formik?.handleBlur}
-                    />
-                    {formik.touched.minimumPurchaseUnit &&
-                      formik.errors.minimumPurchaseUnit && (
-                        <span className={styles.error}>
-                          {formik.errors.minimumPurchaseUnit}
-                        </span>
-                      )}
-                  </div>
+                <label className={styles.formLabel}>
+                  Minimum Order Quantity
+                  <span className={styles?.labelStamp}>*</span>
+                </label>
+                <input
+                  className={styles.formInput}
+                  type="text"
+                  placeholder="Enter Minimum Order Quantity"
+                  // autoComplete="off"
+                  name="minimumPurchaseUnit"
+                  value={formik?.values?.minimumPurchaseUnit}
+                  onChange={(e) =>
+                    handleInputChange(e, formik.setFieldValue, 4, "number")
+                  }
+                  onBlur={formik?.handleBlur}
+                />
+                {formik.touched.minimumPurchaseUnit &&
+                  formik.errors.minimumPurchaseUnit && (
+                    <span className={styles.error}>
+                      {formik.errors.minimumPurchaseUnit}
+                    </span>
+                  )}
+              </div>
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>Strength</label>
                 <div className={styles.weightContainer}>
@@ -1666,7 +1667,7 @@ const EditAddProduct = ({ placeholder }) => {
           </div>
 
           {/* End the Product Pricing */}
-          
+
           {/* Start the Compliances and certificate 222222222 */}
           <div className={styles.section}>
             <div className={styles.formHeadSection}>
@@ -1964,24 +1965,21 @@ const EditAddProduct = ({ placeholder }) => {
           <div className={styles.additionalSection}>
             <span className={styles.formHead}>Additional Information</span>
             <div className={styles.formSection}>
-            <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>
-                    Warranty
-                  </label>
-                  <input
-                    className={styles.formInput}
-                    type="text"
-                    placeholder="Enter Warranty"
-                    // autoComplete="off"
-                    name="warranty"
-                    value={formik?.values?.warranty}
-                    onChange={(e) =>
-                      handleInputChange(e, formik.setFieldValue, 20, "all")
-                    }
-                    onBlur={formik?.handleBlur}
-                  />
-                
-                </div>
+              <div className={styles.productContainer}>
+                <label className={styles.formLabel}>Warranty</label>
+                <input
+                  className={styles.formInput}
+                  type="text"
+                  placeholder="Enter Warranty"
+                  // autoComplete="off"
+                  name="warranty"
+                  value={formik?.values?.warranty}
+                  onChange={(e) =>
+                    handleInputChange(e, formik.setFieldValue, 20, "all")
+                  }
+                  onBlur={formik?.handleBlur}
+                />
+              </div>
               <div className={styles.productContainer}>
                 <AddProductFileUpload
                   styles={styles}

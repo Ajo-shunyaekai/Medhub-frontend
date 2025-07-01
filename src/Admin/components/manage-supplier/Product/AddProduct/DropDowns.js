@@ -1501,7 +1501,7 @@ export const editProductValidationSchema = Yup.object({
             /^\d{1,3}$/,
             "Delivery Time must be a number with up to 3 digits."
           )
-          .required("Est. Delivery Time is required."),
+          .required("Est. Shipping Time is required."),
       })
     )
     .min(1, "At least one product is required."), // Optional: You can enforce at least one item in the array

@@ -505,7 +505,7 @@ const ProductDetails = () => {
                 </div>
                 <div className={styles.inventoryContainer}>
                   <span className={styles.inventoryHead}>
-                    Est. Delivery Time*
+                    Est. Shipping Time*
                   </span>
                 </div>
               </div>

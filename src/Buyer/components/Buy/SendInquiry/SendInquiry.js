@@ -320,7 +320,7 @@ const SendInquiry = ({ socket }) => {
                                 </div>
                                 <div className="send-enquiry-inner-bottom-container">
                                   <span className="send-enquiry-inner-bootom-head">
-                                    Est. Delivery Time
+                                    Est. Shipping Time
                                   </span>
                                   <span className="send-enquiry-inner-bootom-text">
                                     {product?.est_delivery_days

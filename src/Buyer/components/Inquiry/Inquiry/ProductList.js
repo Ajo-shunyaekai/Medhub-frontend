@@ -139,7 +139,7 @@ const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject, i
               </td>
               <td className="tables-tds">
                 <div className="table-g-section-content">
-                  <span className="table-g-driver-name">Est. Delivery Time</span>
+                  <span className="table-g-driver-name">Est. Shipping Time</span>
                   <span className="table-g-not-name">
                     {item.est_delivery_days
                       ? item.est_delivery_days.toLowerCase().includes('days')
