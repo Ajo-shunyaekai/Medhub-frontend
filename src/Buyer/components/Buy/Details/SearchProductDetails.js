@@ -29,6 +29,7 @@ const SearchProductDetails = () => {
   const [searchKey, setSearchKey] = useState(null);
   const [filteredData, setFilteredData] = useState([]);
   const [productList, setProductList] = useState([]);
+  const [originalList, setOriginalList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalitems] = useState(0);
   const itemsPerPage = 10;
@@ -38,6 +39,7 @@ const SearchProductDetails = () => {
     // deliveryTime: [],
     totalQuantity: [],
     stockStatus: [],
+    countries: []
   });
 
   const pdfFile =
@@ -115,6 +117,15 @@ const SearchProductDetails = () => {
         );
       }
 
+      if (filters.countries.length > 0) {
+        query.push(
+          `countries=${filters.countries
+            .map((val) => val.replace(/ /g, "%20"))
+            .join(",")}`
+        );
+      }
+  
+
       const queryString = query.join("&");
       const url = `product/get-suppliers/${id}?${queryString}`;
 
@@ -122,6 +133,7 @@ const SearchProductDetails = () => {
 
       if (response.meta.requestStatus === "fulfilled") {
         setProductList(response?.payload?.products || []);
+        setOriginalList(response?.payload?.products || []);
         setTotalitems(response?.payload?.totalItems || 0);
       } else {
         setProductList([]);
@@ -169,9 +181,9 @@ const SearchProductDetails = () => {
   };
 
   // Filter handlers (minimal implementation, adjust as per your needs)
-  const handlePriceRange = (selectedValues) => {
-    setFilters((prev) => ({ ...prev, price: selectedValues }));
-  };
+  // const handlePriceRange = (selectedValues) => {
+  //   setFilters((prev) => ({ ...prev, price: selectedValues }));
+  // };
 
   // const handleDeliveryTime = (selectedValues) => {
   //   setFilters((prev) => ({ ...prev, deliveryTime: selectedValues }));
@@ -181,19 +193,52 @@ const SearchProductDetails = () => {
     setFilters((prev) => ({ ...prev, stockStatus: selectedValues }));
   };
 
-  const handleQuantity = (selectedValues) => {
-    setFilters((prev) => ({ ...prev, totalQuantity: selectedValues }));
+  const handleStockedInCountry = (selectedValues) => {
+    console.log('selectedValues',selectedValues)
+    setFilters((prev) => ({ ...prev, countries: selectedValues }));
   };
 
+
+
+  // const handleQuantity = (selectedValues) => {
+  //   setFilters((prev) => ({ ...prev, totalQuantity: selectedValues }));
+  // };
+
+  const handleQuantity = (sortOrder) => {
+    const sorted = [...productList].sort((a, b) =>
+      sortOrder === "asc"
+        ? (a.general?.quantity || 0) - (b.general?.quantity || 0)
+        : (b.general?.quantity || 0) - (a.general?.quantity || 0)
+    );
+    setProductList(sorted);
+  };
+  
+  
+  const handlePriceRange = (sortOrder) => {
+    console.log("Sorting by price", sortOrder);
+   
+    const sorted = [...productList].sort((a, b) => {
+      const priceA = Number(a.inventoryDetails?.inventoryList?.[0]?.price) || 0;
+      const priceB = Number(b.inventoryDetails?.inventoryList?.[0]?.price) || 0;
+  
+      return sortOrder === "asc" ? priceA - priceB : priceB - priceA;
+    });
+  
+    setProductList(sorted);
+  };
+  
+  
   const handleReset = () => {
     const dataToFilter = productDetail?.data || [productDetail] || [];
     setFilteredData(dataToFilter);
     setInputValue("");
+    setProductList(originalList);
     const resetState = {
       price: [],
       // deliveryTime: [],
       stockStatus: [],
       totalQuantity: [],
+      countries: []
     };
     setFilters(resetState);
   };
@@ -513,6 +558,7 @@ const SearchProductDetails = () => {
         // handleDeliveryTime={handleDeliveryTime}
         handleStockedIn={handleStockedIn}
         handleQuantity={handleQuantity}
+        handleStockedInCountry = {handleStockedInCountry}
         handleReset={handleReset}
       />
 

@@ -109,10 +109,10 @@ const SupplierMedicineCard = ({
                       {costPerProduct !== "N/A" ? `${costPerProduct} USD` : "N/A"}
                     </span>
                   </div>
-                  {/* <div className={styles.section}>
+                  <div className={styles.section}>
                     <span className={styles.head}>Total Quantity</span>
                     <span className={styles.text}>{totalQuantity}</span>
-                  </div> */}
+                  </div>
                   {/* <div className={styles.section}>
                     <span className={styles.head}>Est. Shipping Time</span>
                     <span className={styles.text}>

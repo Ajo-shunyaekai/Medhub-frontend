@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import styles from "./productdetails.module.css";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
-import { RiArrowUpDownLine } from "react-icons/ri";
+import { RiArrowUpDownLine} from "react-icons/ri";
 import countryList from "react-select-country-list";
 
 const FilterSection = ({
@@ -10,6 +10,7 @@ const FilterSection = ({
   handleDeliveryTime = () => {},
   handleStockedIn = () => {},
   handleQuantity = () => {},
+  handleStockedInCountry = () => {},
   handleReset = () => {},
   handleSortToggle = () => {},
   handleCountry = () => {},
@@ -24,21 +25,31 @@ const FilterSection = ({
   });
   const [sortAsc, setSortAsc] = useState(true);
   const [countries, setCountries] = useState([]);
+  const [sortOrder, setSortOrder] = useState({});
 
   const dropdownRef = useRef(null);
 
+  // useEffect(() => {
+  //   const options = countryList().getData();
+  //   setCountries(options);
+  // }, []);
   useEffect(() => {
-    const options = countryList().getData();
-    setCountries(options);
+    const rawCountries = countryList().getData(); // { label: "India", value: "IN" }
+    const formatted = rawCountries.map((c) => ({
+      value: c.label, // <-- Send full country name as value
+      label: c.label, // <-- Display full country name in UI
+    }));
+    setCountries(formatted);
   }, []);
+  
 
   // Define filter data
   const filters = [
     {
       key: "countries",
-      label: "Countries",
+      label: "Stocked In Countries",
       options: countries,
-      handler: handleCountry,
+      handler: handleStockedInCountry,
     },
     // {
     //   key: "price",
@@ -52,18 +63,30 @@ const FilterSection = ({
     //   ],
     //   handler: handlePriceRange,
     // },
+    // {
+    //   key: "totalQuantity",
+    //   label: "Quantity",
+    //   options: [
+    //     { value: "greater than 4000", label: "More than 4000" },
+    //     { value: "3000 - 4000", label: "3000-4000" },
+    //     { value: "2000 - 3000", label: "2000-3000" },
+    //     { value: "1000 - 2000", label: "1000-2000" },
+    //     { value: "500 - 1000", label: "500-1000" },
+    //     { value: "0 - 500", label: "0-500" },
+    //   ],
+    //   handler: handleQuantity,
+    // },
+    {
+      key: "price",
+      label: "Unit Price",
+      handler: handlePriceRange,
+      isSort: true,
+    },
     {
       key: "totalQuantity",
       label: "Quantity",
-      options: [
-        { value: "greater than 4000", label: "More than 4000" },
-        { value: "3000 - 4000", label: "3000-4000" },
-        { value: "2000 - 3000", label: "2000-3000" },
-        { value: "1000 - 2000", label: "1000-2000" },
-        { value: "500 - 1000", label: "500-1000" },
-        { value: "0 - 500", label: "0-500" },
-      ],
       handler: handleQuantity,
+      isSort: true,
     },
   ];
 
@@ -94,6 +117,21 @@ const FilterSection = ({
       return updatedFilters;
     });
   };
+
+  const handleSort = (key) => {
+    setSortOrder((prev) => {
+      const newOrder = prev[key] === "asc" ? "desc" : "asc";
+  
+      const filter = filters.find((f) => f.key === key);
+      if (filter?.handler) {
+        filter.handler(newOrder);
+      }
+  
+      return { ...prev, [key]: newOrder };
+    });
+  };
+  
+  
 
   // Handle click outside to close dropdown
   const handleClickOutside = (event) => {
@@ -139,28 +177,33 @@ const FilterSection = ({
       <div className={styles.innerSectionFilter}>
         {/* Filter Dropdowns */}
         <div className={styles.mainSectionFilter}>
+
           {filters.map((filter) => (
             <div key={filter.key} className={styles.medicinesSectionFilter}>
-              <div
-                className={styles.PurcahseButtonFilter}
-                onClick={() => toggleDropdown(filter.key)}
-              >
+              <div className={styles.PurcahseButtonFilter}>
                 <span>{filter.label}</span>
-                {openDropdown === filter.key ? <FaAngleUp /> : <FaAngleDown />}
+
+                {/* Icon logic */}
+                {filter.key === "countries" ? (
+                  <div onClick={() => toggleDropdown(filter.key)}>
+                    {openDropdown === filter.key ? <FaAngleUp /> : <FaAngleDown />}
+                  </div>
+                ) : (
+                  <div onClick={() => handleSort(filter.key)}>
+                    {sortOrder[filter.key] === "asc" ? <RiArrowUpDownLine /> : <RiArrowUpDownLine />}
+                  </div>
+                )}
               </div>
-              {openDropdown === filter.key && (
+
+              {/* Render dropdown only for filters with options */}
+              {openDropdown === filter.key && filter.options && (
                 <div className={styles.filterDropdownContentFilter}>
                   {filter.options.map((option) => (
-                    <div
-                      key={option.value}
-                      className={styles.filterOptionFilter}
-                    >
+                    <div key={option.value} className={styles.filterOptionFilter}>
                       <label className={styles.medicineTextFilter}>
                         <input
                           type="checkbox"
-                          checked={selectedFilters[filter.key].includes(
-                            option.value
-                          )}
+                          checked={selectedFilters[filter.key]?.includes(option.value)}
                           onChange={() =>
                             handleFilterChange(filter.key, option.value)
                           }
@@ -175,9 +218,9 @@ const FilterSection = ({
           ))}
 
           {/* Sorting Button */}
-          <div className={styles.PurcahseButtonFilter} onClick={toggleSort}>
+          {/* <div className={styles.PurcahseButtonFilter} onClick={toggleSort}>
             <span>Sort</span> <RiArrowUpDownLine />
-          </div>
+          </div> */}
         </div>
 
         {/* Reset Button */}
