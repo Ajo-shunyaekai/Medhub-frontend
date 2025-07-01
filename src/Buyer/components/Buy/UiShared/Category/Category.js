@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect, useRef } from "react";
 import styles from "./category.module.css";
 import arrow from "../../../../assets/images/arrow.svg";
 import category from "../../../../../utils/Category";
+import { SlArrowLeft,SlArrowRight } from "react-icons/sl";
 import { FaCapsules, FaHeartbeat, FaStar, FaSyringe, FaLeaf, FaPills, FaBandAid, FaStethoscope, FaVial, FaCrutch, FaThermometer, FaDna, FaLungs, FaBone, FaEye, FaBrain, FaTooth } from "react-icons/fa";
 
 const CategoryCard = ({ icon, color, title, description, onClick, isActive }) => {
@@ -99,7 +100,7 @@ const AccordionFilter = ({
   // Auto-scrolling effect for carousel
   useEffect(() => {
     let interval;
-    if (!isHovered && !isDragging) {
+    if (!isHovered && !isDragging && activeCard === null) {
       interval = setInterval(() => {
         if (carouselRef.current) {
           const { scrollWidth, clientWidth, scrollLeft } = carouselRef.current;
@@ -123,9 +124,9 @@ const AccordionFilter = ({
           }
         }
       }, 3000);
-    }
-    return () => clearInterval(interval);
-  }, [isHovered, isDragging, categoryArrays.length]);
+  }
+  return () => clearInterval(interval);
+}, [isHovered, isDragging, activeCard, categoryArrays.length]);
 
   // Drag handlers
   const handleMouseDown = (e) => {
@@ -227,7 +228,7 @@ const AccordionFilter = ({
               onClick={handlePrevClick}
               aria-label="Previous cards"
             >
-              &lt;
+              <SlArrowLeft />
             </button>
             <div
               className={`${styles.cardsWrapper} ${isDragging ? styles.dragging : ""}`}
@@ -256,7 +257,7 @@ const AccordionFilter = ({
               onClick={handleNextClick}
               aria-label="Next cards"
             >
-              &gt;
+              <SlArrowRight />
             </button>
           </div>
         </div>
