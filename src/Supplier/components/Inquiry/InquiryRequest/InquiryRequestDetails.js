@@ -174,10 +174,6 @@ const InquiryRequestDetails = ({ socket }) => {
       : `${process.env.REACT_APP_API_URL}/uploads/buyer/buyer_images/${inquiryDetails.buyer.buyer_image[0]}`
     : null;
 
-  // Debugging logs
-  console.log("Buyer Image Data:", inquiryDetails?.buyer?.buyer_image);
-  console.log("Buyer Logo URL:", buyerLogoUrl);
-
   return (
     <div className="inquiry-details-container">
       <div className="inquiry-details-conatiner-heading">

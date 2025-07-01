@@ -365,7 +365,6 @@ const AddProduct = ({ placeholder }) => {
         validationSchema={productValidationSchema}
         validateOnBlur={true}
         onSubmit={(values) => {
-          console.log("valuesonsubmit", values);
           setLoading(true);
           // Create a new FormData object
           const formData = new FormData();
@@ -526,7 +525,6 @@ const AddProduct = ({ placeholder }) => {
           useFormikContext,
         }) => (
           <Form className={styles.form}>
-            {console.log("eoors valussses", errors)}
             <div className={styles.section}>
               <span className={styles.formHead}>General Information</span>
               <div className={styles.formSection}>
@@ -1295,7 +1293,6 @@ const AddProduct = ({ placeholder }) => {
                                     )
                                   )}
                                 </div>
-                                {console.log("sectiob", section)}
                               </div>
                               {
                                 <span span className={styles.error}>
@@ -1758,7 +1755,6 @@ const AddProduct = ({ placeholder }) => {
                         //   }
 
                         //   e.target.value = parts.join(".");
-                        //   console.log("e.target.value", e.target.value, values);
                         //   setFieldValue(
                         //     `productPricingDetails.${index}.totalPrice`,
                         //     e.target.value
@@ -2215,10 +2211,10 @@ const AddProduct = ({ placeholder }) => {
                               setFieldTouched(`faqs.${index}.ques`, true)
                             }
                           />
-                          {touched.faqs?.[index]?.name &&
-                            errors.faqs?.[index]?.name && (
+                          {touched.faqs?.[index]?.ques &&
+                            errors.faqs?.[index]?.ques && (
                               <span span className={styles.error}>
-                                {errors.faqs[index].name}
+                                {errors.faqs[index].ques}
                               </span>
                             )}
                         </div>
@@ -2244,7 +2240,6 @@ const AddProduct = ({ placeholder }) => {
                                 }
                               />
                             </div>
-                            {console.log("sectiob", section)}
                           </div>
                           {
                             <span span className={styles.error}>

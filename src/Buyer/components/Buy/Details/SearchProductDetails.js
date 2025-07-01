@@ -194,7 +194,6 @@ const SearchProductDetails = () => {
   };
 
   const handleStockedInCountry = (selectedValues) => {
-    console.log('selectedValues',selectedValues)
     setFilters((prev) => ({ ...prev, countries: selectedValues }));
   };
 
@@ -215,7 +214,6 @@ const SearchProductDetails = () => {
   
   
   const handlePriceRange = (sortOrder) => {
-    console.log("Sorting by price", sortOrder);
    
     const sorted = [...productList].sort((a, b) => {
       const priceA = Number(a.inventoryDetails?.inventoryList?.[0]?.price) || 0;

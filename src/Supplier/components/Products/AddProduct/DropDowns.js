@@ -237,7 +237,7 @@ export const initialValues = {
       quantity: "",
     },
   ],
-  categoryDetailsFile:[],
+  categoryDetailsFile: [],
   categoryDetails: [
     {
       name: undefined,
@@ -247,7 +247,7 @@ export const initialValues = {
       maxLimit: undefined,
       allowedType: undefined,
       fieldValue: undefined,
-      optionsDD:[]
+      optionsDD: [],
     },
   ],
   faqs: [
@@ -508,6 +508,18 @@ export const addProductValidationSchema = Yup.object({
         .required("Quantity is required.")
         .positive("Quantity must be greater than 0"),
       // type: Yup.string().required("Type is required."),
+    })
+  ),
+  categoryDetails: Yup.array().of(
+    Yup.object({
+      name: Yup.string().required("Parameter name is required."),
+      fieldValue: Yup.mixed().required("Parameter description is required."),
+    })
+  ),
+  faqs: Yup.array().of(
+    Yup.object({
+      ques: Yup.string().required("Question is required."),
+      ans: Yup.string().required("Answer is required."),
     })
   ),
   // .min(1, "At least one product is required."), // Optional: You can enforce at least one item in the array
@@ -1471,7 +1483,6 @@ export const editProductValidationSchema = Yup.object({
           (value, context) => {
             const { countries } =
               context?.from?.[context?.from?.length - 1]?.value; // Get the countries array from the form values
-            console.log("context.parent", countries);
             return countries?.includes(value); // Check if the country exists in the countries array
           }
         ),
@@ -1479,6 +1490,18 @@ export const editProductValidationSchema = Yup.object({
         .required("Quantity is required.")
         .positive("Quantity must be greater than 0"),
       // type: Yup.string().required("Type is required."),
+    })
+  ),
+  categoryDetails: Yup.array().of(
+    Yup.object({
+      name: Yup.string().required("Parameter name is required."),
+      fieldValue: Yup.mixed().required("Parameter description is required."),
+    })
+  ),
+  faqs: Yup.array().of(
+    Yup.object({
+      ques: Yup.string().required("Question is required."),
+      ans: Yup.string().required("Answer is required."),
     })
   ),
   //   .min(1, "At least one product is required."), // Optional: You can enforce at least one item in the array

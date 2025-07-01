@@ -1362,7 +1362,6 @@ const AddProduct = ({ placeholder }) => {
                         //   }
 
                         //   e.target.value = parts.join(".");
-                        //   console.log("e.target.value", e.target.value, values);
                         //   setFieldValue(
                         //     `productPricingDetails.${index}.totalPrice`,
                         //     e.target.value
