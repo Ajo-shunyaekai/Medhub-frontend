@@ -173,7 +173,6 @@ const ProductDetails = () => {
   };
 
   const handleSubmit = (values, { resetForm }) => {
-    console.log("values", values);
     setLoading(true); // Set loading true during form submission
     const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
     const buyerIdLocalStorage = localStorage?.getItem("buyer_id");

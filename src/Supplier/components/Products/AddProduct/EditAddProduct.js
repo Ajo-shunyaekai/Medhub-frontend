@@ -351,7 +351,6 @@ const EditAddProduct = ({ placeholder }) => {
   useEffect(() => {
     if (formik && productDetail) {
       // Destructure the general part of productDetail to simplify access
-      console.log("\n\n\nproductDetail", productDetail);
       const general = productDetail?.general || {};
       const additional = productDetail?.additional || {};
       const inventoryDetails = productDetail?.inventoryDetails || {};

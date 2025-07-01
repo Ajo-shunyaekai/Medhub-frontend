@@ -17,7 +17,6 @@ const isImageExtension = (fileName) => {
 //   }
 // };
 const RenderProductFiles = ({ files }) => {
-  console.log("files",files)
   const baseUrl = process.env.REACT_APP_SERVER_URL?.endsWith("/")
   ? process.env.REACT_APP_SERVER_URL
   : `${process.env.REACT_APP_SERVER_URL}/`;

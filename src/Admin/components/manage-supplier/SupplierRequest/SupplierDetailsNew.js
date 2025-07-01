@@ -33,7 +33,6 @@ const SupplierDetailsNew = () => {
   const [isEditable, setIsEditable] = useState(false);
   const { user } = useSelector((state) => state.userReducer);
 
-  console.log("first", user?.accessControl)
 
   const handleEditClick = () => {
     setIsEditable(true);
