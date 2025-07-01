@@ -1,6 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
-import styles from './productdetails.module.css';
-import { FaAngleDown, FaAngleUp } from 'react-icons/fa';
+import { useState, useEffect, useRef } from "react";
+import styles from "./productdetails.module.css";
+import { FaAngleDown, FaAngleUp } from "react-icons/fa";
+import { RiArrowUpDownLine } from "react-icons/ri";
+import countryList from "react-select-country-list";
 
 const FilterSection = ({
   countryAvailable = [],
@@ -9,50 +11,57 @@ const FilterSection = ({
   handleStockedIn = () => {},
   handleQuantity = () => {},
   handleReset = () => {},
+  handleSortToggle = () => {},
+  handleCountry = () => {},
 }) => {
   const [openDropdown, setOpenDropdown] = useState(null);
   const [selectedFilters, setSelectedFilters] = useState({
-    price: [],
+    // price: [],
     // deliveryTime: [],
     stockStatus: [],
     totalQuantity: [],
+    countries: [],
   });
+  const [sortAsc, setSortAsc] = useState(true);
+  const [countries, setCountries] = useState([]);
 
   const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const options = countryList().getData();
+    setCountries(options);
+  }, []);
 
   // Define filter data
   const filters = [
     {
-      key: 'price',
-      label: 'Unit Price',
-      options: [
-        { value: 'greater than 40', label: 'More than 40 USD' },
-           { value: '30 - 40', label: '30-40 USD' },
-             { value: '20 - 30', label: '20-30 USD' },
-             { value: '10 - 20', label: '10-20 USD' },
-        { value: '1 - 10', label: '1-10 USD' },
-        
-      
-     
-        
-      ],
-      handler: handlePriceRange,
+      key: "countries",
+      label: "Countries",
+      options: countries,
+      handler: handleCountry,
     },
+    // {
+    //   key: "price",
+    //   label: "Unit Price",
+    //   options: [
+    //     { value: "greater than 40", label: "More than 40 USD" },
+    //     { value: "30 - 40", label: "30-40 USD" },
+    //     { value: "20 - 30", label: "20-30 USD" },
+    //     { value: "10 - 20", label: "10-20 USD" },
+    //     { value: "1 - 10", label: "1-10 USD" },
+    //   ],
+    //   handler: handlePriceRange,
+    // },
     {
-      key: 'totalQuantity',
-      label: 'Quantity',
+      key: "totalQuantity",
+      label: "Quantity",
       options: [
-        { value: 'greater than 4000', label: 'More than 4000' },
-          { value: '3000 - 4000', label: '3000-4000' },
-          { value: '2000 - 3000', label: '2000-3000' },
-              { value: '1000 - 2000', label: '1000-2000' },
-               { value: '500 - 1000', label: '500-1000' },
-        { value: '0 - 500', label: '0-500' },
-       
-    
-        
-      
-        
+        { value: "greater than 4000", label: "More than 4000" },
+        { value: "3000 - 4000", label: "3000-4000" },
+        { value: "2000 - 3000", label: "2000-3000" },
+        { value: "1000 - 2000", label: "1000-2000" },
+        { value: "500 - 1000", label: "500-1000" },
+        { value: "0 - 500", label: "0-500" },
       ],
       handler: handleQuantity,
     },
@@ -96,10 +105,11 @@ const FilterSection = ({
   // Reset all filters and close dropdown
   const resetAllFilters = () => {
     const resetState = {
-      price: [],
+      // price: [],
       // deliveryTime: [],
       stockStatus: [],
       totalQuantity: [],
+      countries: [],
     };
     setSelectedFilters(resetState);
     setOpenDropdown(null); // Close any open dropdown
@@ -108,9 +118,9 @@ const FilterSection = ({
 
   // Add event listener for click outside
   useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -118,6 +128,11 @@ const FilterSection = ({
   const anyFilterSelected = Object.values(selectedFilters).some(
     (selections) => selections.length > 0
   );
+
+  const toggleSort = () => {
+    setSortAsc((prev) => !prev);
+    handleSortToggle(!sortAsc);
+  };
 
   return (
     <div className={styles.mainContainerFilter} ref={dropdownRef}>
@@ -136,12 +151,19 @@ const FilterSection = ({
               {openDropdown === filter.key && (
                 <div className={styles.filterDropdownContentFilter}>
                   {filter.options.map((option) => (
-                    <div key={option.value} className={styles.filterOptionFilter}>
+                    <div
+                      key={option.value}
+                      className={styles.filterOptionFilter}
+                    >
                       <label className={styles.medicineTextFilter}>
                         <input
                           type="checkbox"
-                          checked={selectedFilters[filter.key].includes(option.value)}
-                          onChange={() => handleFilterChange(filter.key, option.value)}
+                          checked={selectedFilters[filter.key].includes(
+                            option.value
+                          )}
+                          onChange={() =>
+                            handleFilterChange(filter.key, option.value)
+                          }
                         />
                         <span>{option.label}</span>
                       </label>
@@ -151,6 +173,11 @@ const FilterSection = ({
               )}
             </div>
           ))}
+
+          {/* Sorting Button */}
+          <div className={styles.PurcahseButtonFilter} onClick={toggleSort}>
+            <span>Sort</span> <RiArrowUpDownLine />
+          </div>
         </div>
 
         {/* Reset Button */}
