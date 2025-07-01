@@ -12,6 +12,9 @@ import { ClipLoader } from "react-spinners";
 import { useDispatch } from "react-redux";
 import { updateInquiryCartCount } from "../../../../redux/reducers/inquirySlice";
 import Loader from "../../SharedComponents/Loader/Loader";
+import ProductImage from "../../../assets/images/productImage.png";
+import { extractLast13WithExtension } from "../../../../utils/helper";
+
 
 const SendInquiry = ({ socket }) => {
   const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
@@ -32,6 +35,19 @@ const SendInquiry = ({ socket }) => {
     localStorage?.getItem("list_count")
   );
   const [loading, setLoading] = useState(true);
+
+  const isImageExtension = (filename) => {
+    return /\.(jpg|jpeg|png|webp|gif|bmp)$/i.test(filename);
+  };
+
+  const isValidHttpUrl = (url) => {
+    try {
+      const parsed = new URL(url);
+      return parsed.protocol === "http:" || parsed.protocol === "https:";
+    } catch (_) {
+      return false;
+    }
+  };
 
   const handleCheckboxChange = (id) => {
     setCheckedState((prevState) => ({
@@ -155,13 +171,13 @@ const SendInquiry = ({ socket }) => {
       items: selectedItems,
     };
 
-    for (const supplier of enquiryPayload.items) {
-      for (const item of supplier.item_details) {
-        if (parseInt(item.total_quantity, 10) <= 50) {
-          return toast(`Selected Item is out of stock`, { type: "error" });
-        }
-      }
-    }
+    // for (const supplier of enquiryPayload.items) {
+    //   for (const item of supplier.item_details) {
+    //     if (parseInt(item.total_quantity, 10) <= 50) {
+    //       return toast(`Selected Item is out of stock`, { type: "error" });
+    //     }
+    //   }
+    // }
     if (enquiryPayload.items.length === 0) {
       return toast("Select Atleast One Item", { type: "error" });
     }
@@ -257,7 +273,34 @@ const SendInquiry = ({ socket }) => {
                             {supplierName}
                           </div>
                         </div>
-                        {supplierData.items.map((product) => (
+                        
+                      {supplierData.items.map((product) => {
+                        // Enhanced image logic
+                        const defaultImage = ProductImage;
+                        const serverUrl = process.env.REACT_APP_SERVER_URL;
+
+                        const imageRaw = product?.medicine_image;
+                        let imageName = "";
+
+                        if (Array.isArray(imageRaw)) {
+                          imageName = imageRaw?.[0];
+                        } else if (typeof imageRaw === "object" && imageRaw !== null) {
+                          const firstKey = Object.keys(imageRaw || {})?.[0];
+                          imageName = imageRaw?.[firstKey]?.[0];
+                        }
+
+                        let imageSrc = defaultImage;
+                        const isFullUrl = isValidHttpUrl(imageName);
+
+                        if (imageName) {
+                          if (isFullUrl && isImageExtension(imageName)) {
+                            imageSrc = imageName;
+                          } else if (isImageExtension(imageName)) {
+                            imageSrc = `${serverUrl}uploads/products/${imageName}`;
+                          }
+                        }
+
+                        return (
                           <div
                             key={product?._id}
                             className="send-enquiry-inner-bottom-section-container"
@@ -268,21 +311,19 @@ const SendInquiry = ({ socket }) => {
                                   type="checkbox"
                                   className="custom-checkbox"
                                   checked={checkedState[product?._id] || false}
-                                  onChange={() =>
-                                    handleCheckboxChange(product?._id)
-                                  }
+                                  onChange={() => handleCheckboxChange(product?._id)}
                                 />
                                 <span className="custom-checkbox-checkmark"></span>
                               </label>
                             </div>
                             <div className="send-enquiry-inner-image">
                               <img
-                                src={
-                                  product?.medicine_image[0]?.startsWith("http")
-                                    ? product?.medicine_image[0]
-                                    : `${process.env.REACT_APP_SERVER_URL}uploads/products/${product?.medicine_image[0]}`
-                                }
-                                alt="Product"
+                                src={imageSrc}
+                                alt={extractLast13WithExtension(imageName) || "ProductImg"}
+                                onError={(e) => {
+                                  e.target.onerror = null;
+                                  e.target.src = defaultImage;
+                                }}
                               />
                             </div>
                             <div className="send-enquiry-inner-content">
@@ -304,7 +345,7 @@ const SendInquiry = ({ socket }) => {
                                 </div>
                                 <div className="send-enquiry-inner-bottom-container">
                                   <span className="send-enquiry-inner-bootom-head">
-                                   Cost Per Product
+                                    Cost Per Product
                                   </span>
                                   <span className="send-enquiry-inner-bootom-text">
                                     {product?.unit_price} USD
@@ -324,32 +365,29 @@ const SendInquiry = ({ socket }) => {
                                   </span>
                                   <span className="send-enquiry-inner-bootom-text">
                                     {product?.est_delivery_days
-                                      ? product.est_delivery_days
-                                          .toLowerCase()
-                                          .includes("days")
-                                        ? product.est_delivery_days.replace(
-                                            /days/i,
-                                            "Days"
-                                          )
+                                      ? product.est_delivery_days.toLowerCase().includes("days")
+                                        ? product.est_delivery_days.replace(/days/i, "Days")
                                         : `${product.est_delivery_days} Days`
                                       : "TBC- based on quantity"}
                                   </span>
                                 </div>
                               </div>
                             </div>
-                            <div className="send-enquiry-remove-section" title="Remove Product">
+                            <div
+                              className="send-enquiry-remove-section"
+                              title="Remove Product"
+                            >
                               <HighlightOffOutlinedIcon
                                 className="send-enquiry-clear-icon"
                                 onClick={() =>
-                                  handleRemoveItem(
-                                    supplierData?.list_id,
-                                    product?._id
-                                  )
+                                  handleRemoveItem(supplierData?.list_id, product?._id)
                                 }
                               />
                             </div>
                           </div>
-                        ))}
+                        );
+                      })}
+
                       </div>
                     )
                   )
