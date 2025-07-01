@@ -31,20 +31,55 @@ const AssignDriver = ({ items, inquiryDetails }) => {
   };
 
   // Function to get the correct image source
-  const getImageSrc = (imageName) => {
-    const serverUrl = process.env.REACT_APP_SERVER_URL;
-    let imageSrc = ProductImage; // Default fallback image
+  // const getImageSrc = (imageName) => {
+  //   const serverUrl = process.env.REACT_APP_SERVER_URL;
+  //   let imageSrc = ProductImage; // Default fallback image
 
+  //   if (imageName) {
+  //     const imageUrl = imageName?.startsWith("http")
+  //       ? imageName
+  //       : `${serverUrl}uploads/products/${imageName}`;
+  //     if (isValidHttpUrl(imageName) && isImageExtension(imageName)) {
+  //       imageSrc = imageName;
+  //     } else if (isImageExtension(imageName)) {
+  //       imageSrc = imageUrl;
+  //     }
+  //   }
+  //   return imageSrc;
+  // };
+
+  const getImageSrc = (imageData) => {
+    const serverUrl = process.env.REACT_APP_SERVER_URL;
+    let imageName = "";
+    let imageSrc = ProductImage; // default fallback image
+  
+    if (!imageData) return imageSrc;
+  
+    // Handle case when imageData is an array
+    if (Array.isArray(imageData)) {
+      imageName = imageData?.[0];
+    }
+  
+    // Handle case when imageData is an object with nested image arrays
+    else if (typeof imageData === "object" && imageData !== null) {
+      const firstKey = Object.keys(imageData)?.[0];
+      imageName = imageData?.[firstKey]?.[0];
+    }
+  
     if (imageName) {
-      const imageUrl = imageName?.startsWith("http")
+      const isUrl = isValidHttpUrl(imageName);
+      const isImage = isImageExtension(imageName);
+      const imageUrl = imageName.startsWith("http")
         ? imageName
         : `${serverUrl}uploads/products/${imageName}`;
-      if (isValidHttpUrl(imageName) && isImageExtension(imageName)) {
+  
+      if (isUrl && isImage) {
         imageSrc = imageName;
-      } else if (isImageExtension(imageName)) {
+      } else if (isImage) {
         imageSrc = imageUrl;
       }
     }
+  
     return imageSrc;
   };
 
@@ -72,7 +107,7 @@ const AssignDriver = ({ items, inquiryDetails }) => {
               <td className="tables-td-cont">
                 <div className="table-second-container">
                     <img
-                        src={getImageSrc(item?.medicine_details?.general?.image?.[0])}
+                        src={getImageSrc(item?.medicine_details?.general?.image)}
                         alt={item?.medicine_details?.general?.name || 'Product'}
                         className="product-image"
                         style={{ width: '40px', height: '40px', marginRight: '10px' }}

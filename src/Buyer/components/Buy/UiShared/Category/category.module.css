@@ -102,6 +102,7 @@
 
 /* Category Card Container and Carousel Styling */
 .categoryCardContainer {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -176,10 +177,23 @@ width: 80px;
 .cardArrow {
   color: #555;
 }
+/* .activeCard {
+  border: 2px solid #007bff;
+  background-color: #e6f3ff;
+  transform: scale(1.05);
+  transition: all 0.3s ease;
+} */
 .activeCard {
-  border: 2px solid #007bff; /* Example: Blue border for active card */
-  background-color: #e6f3ff; /* Example: Light blue background */
-  transform: scale(1.05); /* Slightly scale up the active card */
+  position: relative;
+  background: linear-gradient(to left, #00dcff, #0075ce);
+  border-radius: 8px;
+  background-clip: padding-box, border-box;
+  background-origin: padding-box, border-box;
+  background-image:
+    linear-gradient(#e6f3ff, #e6f3ff),
+    linear-gradient(to left, #00dcff, #0075ce);
+  border: 2px solid transparent;
+  transform: scale(1.00);
   transition: all 0.3s ease;
 }
 
@@ -188,26 +202,32 @@ width: 80px;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background-color: rgba(0, 0, 0, 0.5);
-  color: white;
+  background-color: #f6f6f6 !important;
+  color: linear-gradient(to left, #00dcff, #0075ce) !important;
   border: none;
-  padding: 10px;
-  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  font-size: 0.8rem;
   cursor: pointer;
   z-index: 10;
   border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .navArrowLeft {
-  left: 10px;
+  left: 5px;
 }
-
+ 
 .navArrowRight {
-  right: 10px;
+  right: 5px;
 }
 
 .navArrowLeft:hover,
 .navArrowRight:hover {
-  background-color: rgba(0, 0, 0, 0.7);
+  /* background-color: rgba(0, 0, 0, 0.7); */
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  color: #fff;
 }
 /* Responsive adjustments (Owl Carousel-like) */
 @media (max-width: 1340px) {

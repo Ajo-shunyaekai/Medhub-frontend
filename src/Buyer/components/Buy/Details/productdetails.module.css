@@ -32,14 +32,17 @@
 }
 
 .PurcahseButtonFilter {
-    display: flex
-;
+    display: flex;
     align-items: center;
-    justify-content: space-between;
-    cursor: pointer;
+    gap: 6px;
+    /* justify-content: space-between; */
     font-size: 16px;
     font-weight: 500;
     min-width: 200px;
+}
+
+.PurcahseButtonFilter span,svg {
+  cursor: pointer !important;
 }
 
 .filterDropdownContentFilter {

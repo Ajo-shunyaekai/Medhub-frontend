@@ -140,7 +140,8 @@ const InquiryProductList = ({
         <tbody>
           {currentOrders?.map((item, index) => {
             // Determine the image source
-            const imageName = item?.medicine_details?.general?.image?.[0];
+            const firstViewKey = Object.keys(item?.medicine_details?.general?.image || {})[0];
+            const imageName = item?.medicine_details?.general?.image?.[0] || item?.medicine_details?.general?.image?.[firstViewKey]?.[0];
             let imageSrc = ProductImage;
 
             if (imageName) {

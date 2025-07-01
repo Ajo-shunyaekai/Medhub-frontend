@@ -24,7 +24,7 @@ ul {
     display: flex;
     justify-content: center;
     margin-bottom: 0px !important;
-    gap: 3rem;
+    gap: 6rem;
     padding-left: 0px !important;
     width: 100%;
 }

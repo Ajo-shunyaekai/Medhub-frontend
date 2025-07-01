@@ -238,7 +238,7 @@ const OnGoingInquiriesDetails = () => {
             <div className="ongoing-details-left-inner-section-container">
               <div className="ongoing-details-left-top-containers">
                 <div className="ongoing-details-top-order-cont">
-<div className="ongoing-details-supplier-logo-container">
+                 <div className="ongoing-details-supplier-logo-container">
                   {inquiryDetails?.supplier?.supplier_image?.[0] && (
                     <img
                       src={
