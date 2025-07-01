@@ -12,7 +12,7 @@ import { Chips } from "primereact/chips";
 import "./addproduct.css";
 import "../../SharedComponents/Signup/signup.css";
 import styles from "./addproduct.module.css";
-import categoryArrays from "../../../../utils/Category";
+import categoryArrays, { categoriesData } from "../../../../utils/Category";
 import { Field, Form, Formik } from "formik";
 import { useDispatch } from "react-redux";
 import Tooltip from "../../SharedComponents/Tooltip/Tooltip";
@@ -50,6 +50,7 @@ import {
 import { FiUploadCloud } from "react-icons/fi";
 import FileUploadModal from "../../SharedComponents/FileUploadModal/FileUploadModal";
 import { AddProductFileUpload } from "../../../../utils/helper";
+import AddProductAddOtherDetailsFileUpload from "./AddProductAddOtherDetailsFileUpload";
 
 const MultiSelectOption = ({ children, ...props }) => (
   <components.Option {...props}>
@@ -251,6 +252,7 @@ const AddProduct = ({ placeholder }) => {
   const handleCancel = () => {
     navigate("/supplier/product");
   };
+
   // Handlers for Stocked in Details
   const addStockedInSection = (setFieldValue, values) => {
     setFieldValue("stockedInDetails", [
@@ -276,6 +278,79 @@ const AddProduct = ({ placeholder }) => {
     const updatedList = values.stockedInDetails.filter((_, i) => i !== index);
     setFieldValue("stockedInDetails", updatedList);
   };
+
+  // Handlers for Add Other Details
+  const addcategoryDetailsSection = (setFieldValue, values) => {
+    setFieldValue("categoryDetails", [
+      ...values.categoryDetails,
+      {
+        name: undefined,
+        label: undefined,
+        placeholder: undefined,
+        type: undefined,
+        maxLimit: undefined,
+        allowedType: undefined,
+        fieldValue: undefined,
+      },
+    ]);
+  };
+
+  const handlecategoryDetailsNameChange = (index, selected, setFieldValue) => {
+    setFieldValue(`categoryDetails[${index}].name`, selected?.value || "");
+    setFieldValue(`categoryDetails[${index}].label`, selected?.label || "");
+    setFieldValue(
+      `categoryDetails[${index}].placeholder`,
+      selected?.placeholder || ""
+    );
+    setFieldValue(`categoryDetails[${index}].type`, selected?.type || "");
+    setFieldValue(
+      `categoryDetails[${index}].maxLimit`,
+      selected?.maxLimit || ""
+    );
+    setFieldValue(
+      `categoryDetails[${index}].allowedType`,
+      selected?.allowedType || ""
+    );
+    setFieldValue(
+      `categoryDetails[${index}].fieldValue`,
+      selected?.fieldValue || ""
+    );
+    setFieldValue(
+      `categoryDetails[${index}].optionsDD`,
+      selected?.optionsDD || []
+    );
+  };
+
+  const handlecategoryDetailsFieldValueChange = (index, e, setFieldValue) => {
+    const value = e.target.value;
+    setFieldValue(`categoryDetails[${index}].fieldValue`, value);
+  };
+
+  const removecategoryDetailsFormSection = (index, setFieldValue, values) => {
+    const updatedList = values.categoryDetails.filter((_, i) => i !== index);
+    setFieldValue("categoryDetails", updatedList);
+  };
+
+  // Handlers for FAQs
+  const addFAQs = (setFieldValue, values) => {
+    setFieldValue("faqs", [...values.faqs, { ques: "", ans: "", type: "Box" }]);
+  };
+
+  const handleFaqsQuesChange = (index, e, setFieldValue) => {
+    const value = e.target.value;
+    setFieldValue(`faqs[${index}].ques`, value || "");
+  };
+
+  const handleFaqsAnsChange = (index, e, setFieldValue) => {
+    const value = e.target.value;
+    setFieldValue(`faqs[${index}].ans`, value || "");
+  };
+
+  const removeFaqFormSection = (index, setFieldValue, values) => {
+    const updatedList = values.faqs.filter((_, i) => i !== index);
+    setFieldValue("faqs", updatedList);
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.headContainer}>
@@ -373,7 +448,60 @@ const AddProduct = ({ placeholder }) => {
               formData.append("complianceFile", file?.file)
             );
           }
+
+          const categoryDetailsUpdated = JSON.stringify(
+            values?.categoryDetails?.map((section) => ({
+              name: section?.name || "",
+              type: section?.type || "",
+              fieldValue:
+                section?.type == "file"
+                  ? section?.fieldValue?.[0]
+                  : section?.fieldValue || "",
+            })) || [
+              {
+                name: "",
+                type: "",
+                fieldValue: "",
+              },
+            ]
+          );
+          const categoryDetailsUpdated2 = values?.categoryDetails?.map(
+            (section) => ({
+              name: section?.name || "",
+              type: section?.type || "",
+              fieldValue:
+                section?.type == "file"
+                  ? section?.fieldValue?.[0]
+                  : section?.fieldValue || "",
+            })
+          ) || [
+            {
+              name: "",
+              type: "",
+              fieldValue: "",
+            },
+          ];
+
+          if (
+            JSON.stringify(values?.categoryDetailsFile) !=
+            JSON.stringify(categoryDetailsUpdated2?.map((file) => file?.file))
+          ) {
+            // fisetFieldValue("categoryDetailsFile", []);
+            categoryDetailsUpdated2?.forEach((file) =>
+              formData.append("categoryDetailsFile", file?.file)
+            );
+          }
+
+          const faqsUpdated = JSON.stringify(
+            values?.faqs?.map((section) => ({
+              ques: section?.ques || "",
+              ans: section?.ans || "",
+            }))
+          );
+
           formData.append("cNCFileNDate", cNCFileNDateUpdated);
+          formData.append("categoryDetails", categoryDetailsUpdated);
+          formData.append("faqs", faqsUpdated);
           formData.append("tags", values?.tags?.split(","));
 
           dispatch(addProduct(formData)).then((response) => {
@@ -463,10 +591,24 @@ const AddProduct = ({ placeholder }) => {
                       setFieldValue("category", selectedOption?.value);
                       setSelectedCategory(selectedOption);
 
-                      setSelectedSubCategory(null);
+                      // Clear all related fields
                       setFieldValue("subCategory", "");
-                      setSelectedLevel3Category(null);
+                      setSelectedSubCategory(null);
+
                       setFieldValue("anotherCategory", "");
+                      setSelectedLevel3Category(null);
+
+                      setFieldValue("categoryDetails", [
+                        {
+                          name: undefined,
+                          label: undefined,
+                          placeholder: undefined,
+                          type: undefined,
+                          maxLimit: undefined,
+                          allowedType: undefined,
+                          fieldValue: undefined,
+                        },
+                      ]);
                     }}
                     placeholder="Select Category"
                   />
@@ -597,34 +739,32 @@ const AddProduct = ({ placeholder }) => {
                         </span>
                       )}
                     </div>
-
-                  
                   </>
                 )}
-                  <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Minimum Order Quantity
-                        <span className={styles.labelStamp}>*</span>
-                      </label>
-                      <input
-                        className={styles.formInput}
-                        type="text"
-                        placeholder="Enter Minimum Order Quantity"
-                        // autoComplete="off"
-                        name="minimumPurchaseUnit"
-                        value={values.minimumPurchaseUnit}
-                        onChange={(e) =>
-                          handleInputChange(e, setFieldValue, 4, "number")
-                        }
-                        onBlur={handleBlur}
-                      />
-                      {touched.minimumPurchaseUnit &&
-                        errors.minimumPurchaseUnit && (
-                          <span className={styles.error}>
-                            {errors.minimumPurchaseUnit}
-                          </span>
-                        )}
-                    </div>
+                <div className={styles.productContainer}>
+                  <label className={styles.formLabel}>
+                    Minimum Order Quantity
+                    <span className={styles.labelStamp}>*</span>
+                  </label>
+                  <input
+                    className={styles.formInput}
+                    type="text"
+                    placeholder="Enter Minimum Order Quantity"
+                    // autoComplete="off"
+                    name="minimumPurchaseUnit"
+                    value={values.minimumPurchaseUnit}
+                    onChange={(e) =>
+                      handleInputChange(e, setFieldValue, 4, "number")
+                    }
+                    onBlur={handleBlur}
+                  />
+                  {touched.minimumPurchaseUnit &&
+                    errors.minimumPurchaseUnit && (
+                      <span className={styles.error}>
+                        {errors.minimumPurchaseUnit}
+                      </span>
+                    )}
+                </div>
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>Strength</label>
                   <div className={styles.weightContainer}>
@@ -965,6 +1105,255 @@ const AddProduct = ({ placeholder }) => {
 
             {/* End the manufacturer */}
 
+            {/* Start the Add Other Details */}
+            <div className={styles.section}>
+              {/* {inventoryStockedCountries?.length > 0 ? ( */}
+              <div className={styles.Stocksection}>
+                <div className={styles.formHeadSection}>
+                  <span className={styles.formHead}>Add Other Details</span>
+                  {values?.category && (
+                    <span
+                      className={styles.formAddButton}
+                      onClick={() =>
+                        addcategoryDetailsSection(setFieldValue, values)
+                      }
+                    >
+                      Add More
+                    </span>
+                  )}
+                </div>
+                {values?.category ? (
+                  values?.categoryDetails?.map((section, index) => {
+                    // Get category options
+                    const categoryOptions =
+                      categoriesData
+                        ?.find((cat) => cat?.schema === values?.category)
+                        ?.options?.map((option) => ({
+                          ...option,
+                          label: option?.label,
+                          value: option?.name,
+                        })) || [];
+
+                    // Match the selected option by value (not label)
+                    const selectedOption = categoryOptions.find(
+                      (opt) => opt.value === section.name
+                    );
+                    return (
+                      <div
+                        key={`stocked_${index}`}
+                        className={styles.stockedContainer2}
+                      >
+                        <div className={styles.stockedSection}>
+                          <div className={styles.StockedDiv}>
+                            <label className={styles.formLabel}>
+                              Parameter Name
+                              <span className={styles.labelStamp}>*</span>
+                            </label>
+                            <Select
+                              className={styles.formSelect}
+                              value={selectedOption || null}
+                              onChange={(selected) =>
+                                handlecategoryDetailsNameChange(
+                                  index,
+                                  selected,
+                                  setFieldValue
+                                )
+                              }
+                              options={
+                                categoriesData
+                                  ?.find(
+                                    (cat) => cat?.schema == values?.category
+                                  )
+                                  ?.options?.map((option) => ({
+                                    ...option,
+                                    label: option?.label,
+                                    value: option?.name,
+                                  })) || []
+                              }
+                              placeholder="Select Parameter Name"
+                              name={`categoryDetails.${index}.name`}
+                              onBlur={() =>
+                                setFieldTouched(
+                                  `categoryDetails.${index}.name`,
+                                  true
+                                )
+                              }
+                            />
+                            {touched.categoryDetails?.[index]?.name &&
+                              errors.categoryDetails?.[index]?.name && (
+                                <span span className={styles.error}>
+                                  {errors.categoryDetails[index].name}
+                                </span>
+                              )}
+                          </div>
+                          {section?.name ? (
+                            <div className={styles.StockedDivQuantity}>
+                              <label className={styles.formLabel}>
+                                Parameter Description
+                                <span className={styles.labelStamp}>*</span>
+                              </label>
+                              <div className={styles.quantitySelector}>
+                                <div className={styles.inputGroup}>
+                                  {section?.type == "text" ? (
+                                    <input
+                                      type="text"
+                                      name={`categoryDetails.${index}.fieldValue`}
+                                      onChange={(e) =>
+                                        handlecategoryDetailsFieldValueChange(
+                                          index,
+                                          e,
+                                          setFieldValue
+                                        )
+                                      }
+                                      value={section.fieldValue}
+                                      placeholder={section?.placeholder}
+                                      className={styles.inputStocked}
+                                      onBlur={() =>
+                                        setFieldTouched(
+                                          `categoryDetails.${index}.fieldValue`,
+                                          true
+                                        )
+                                      }
+                                    />
+                                  ) : section?.type == "textarea" ? (
+                                    <textarea
+                                      className={styles.inputStocked}
+                                      type="text"
+                                      placeholder={section?.placeholder}
+                                      // autoComplete="off"
+                                      name={`categoryDetails.${index}.fieldValue`}
+                                      value={section?.fieldValue}
+                                      onChange={(e) =>
+                                        handlecategoryDetailsFieldValueChange(
+                                          index,
+                                          e,
+                                          setFieldValue
+                                        )
+                                      }
+                                      onBlur={() =>
+                                        setFieldTouched(
+                                          `categoryDetails.${index}.fieldValue`,
+                                          true
+                                        )
+                                      }
+                                    />
+                                  ) : section?.type == "dropdown" ? (
+                                    <Select
+                                      className={styles.formSelect}
+                                      options={section?.optionsDD}
+                                      placeholder={section?.placeholder}
+                                      name={`categoryDetails.${index}.fieldValue`}
+                                      onBlur={handleBlur}
+                                      onChange={(selectedOption) =>
+                                        setFieldValue(
+                                          `categoryDetails.${index}.fieldValue`,
+                                          selectedOption.value
+                                        )
+                                      }
+                                    />
+                                  ) : section?.type == "checkbox" ? (
+                                    <div className={styles.radioGroup}>
+                                      {["true", "false"].map((option) => (
+                                        <label key={option}>
+                                          <input
+                                            type="radio"
+                                            name={`categoryDetails.${index}.fieldValue`}
+                                            value={option} // <-- This must be the option value, not section.fieldValue
+                                            checked={
+                                              section.fieldValue === option
+                                            } // checked if value matches
+                                            onChange={(e) =>
+                                              setFieldValue(
+                                                `categoryDetails.${index}.fieldValue`,
+                                                e.target.value
+                                              )
+                                            }
+                                          />
+                                          <span>
+                                            {option === "true" ? "Yes" : "No"}
+                                          </span>
+                                        </label>
+                                      ))}
+                                    </div>
+                                  ) : (
+                                    section?.type == "file" && (
+                                      <Field
+                                        name={`categoryDetails.${index}.fieldValue`}
+                                      >
+                                        {({ field }) => (
+                                          <AddProductAddOtherDetailsFileUpload
+                                            fieldInputName={`categoryDetails.${index}.fieldValue`}
+                                            setFieldValue={setFieldValue}
+                                            initialValues={values}
+                                            selectedFile={section?.fieldValue}
+                                            preview={true}
+                                            fileIndex={index}
+                                            isEdit={false}
+                                          />
+                                        )}
+                                      </Field>
+                                    )
+                                  )}
+                                </div>
+                                {console.log("sectiob", section)}
+                              </div>
+                              {
+                                <span span className={styles.error}>
+                                  {touched.categoryDetails &&
+                                    errors?.categoryDetails?.[index]
+                                      ?.fieldValue}
+                                </span>
+                                // )
+                              }
+                            </div>
+                          ) : (
+                            <div className={styles.StockedDivQuantity}>
+                              <label className={styles.formLabel}>
+                                Parameter Description
+                                <span className={styles.labelStamp}>*</span>
+                              </label>
+                              <div className={styles.quantitySelector}>
+                                <div className={styles.inputGroup}>
+                                  <input
+                                    type="text"
+                                    value={section.fieldValue}
+                                    placeholder={
+                                      "Please select parameter name first"
+                                    }
+                                    disabled={true}
+                                    className={styles.inputStocked}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                        {values.categoryDetails.length > 1 && (
+                          <div
+                            className={styles.formclosebutton}
+                            onClick={() =>
+                              removecategoryDetailsFormSection(
+                                index,
+                                setFieldValue,
+                                values
+                              )
+                            }
+                          >
+                            <CloseIcon className={styles.iconClose} />
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })
+                ) : (
+                  <div className={styles.stockedContainer}>
+                    Please select category first to add other details of the
+                    product.
+                  </div>
+                )}
+              </div>
+            </div>
+            {/* End the Add Other Details */}
 
             {/* Start the Inventory */}
             <div className={styles.section}>
@@ -1049,8 +1438,6 @@ const AddProduct = ({ placeholder }) => {
                 </div>
 
               </div> */}
-
-              
 
               {/* {inventoryStockedCountries?.length > 0 ? ( */}
               <div className={styles.Stocksection}>
@@ -1168,7 +1555,8 @@ const AddProduct = ({ placeholder }) => {
                           // touched.stockedInDetails?.[index]?.quantity &&
                           //   errors.stockedInDetails?.[index]?.quantity && (
                           <span span className={styles.error}>
-                            {touched.stockedInDetails && errors?.stockedInDetails?.[index]?.quantity}
+                            {touched.stockedInDetails &&
+                              errors?.stockedInDetails?.[index]?.quantity}
                           </span>
                           // )
                         }
@@ -1462,7 +1850,6 @@ const AddProduct = ({ placeholder }) => {
 
             {/* Start the Compliances and certificate */}
 
-            
             {/* Start the Compliances and certificate 222222222 */}
             <div className={styles.section}>
               <div className={styles.formHeadSection}>
@@ -1639,10 +2026,8 @@ const AddProduct = ({ placeholder }) => {
             <div className={styles.additionalSection}>
               <span className={styles.formHead}>Additional Information</span>
               <div className={styles.formSection}>
-              <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>
-                    Warranty
-                  </label>
+                <div className={styles.productContainer}>
+                  <label className={styles.formLabel}>Warranty</label>
                   <input
                     className={styles.formInput}
                     type="text"
@@ -1655,7 +2040,6 @@ const AddProduct = ({ placeholder }) => {
                     }
                     onBlur={handleBlur}
                   />
-                
                 </div>
                 <div className={styles.productContainer}>
                   <AddProductFileUpload
@@ -1757,7 +2141,7 @@ const AddProduct = ({ placeholder }) => {
                     fieldInputName={"imageClosure"}
                     setFieldValue={setFieldValue}
                     initialValues={values}
-                    label="Closeup Image"
+                    label="Close Up Image"
                     tooltip={false}
                     acceptTypes={{ "image/jpeg": [], "image/png": [] }}
                     maxFiles={1}
@@ -1792,6 +2176,100 @@ const AddProduct = ({ placeholder }) => {
                 )}
               </div>
             </div>
+
+            {/* Start the Add Other Details */}
+            <div className={styles.section}>
+              {/* {inventoryStockedCountries?.length > 0 ? ( */}
+              <div className={styles.Stocksection}>
+                <div className={styles.formHeadSection}>
+                  <span className={styles.formHead}>Add FAQs</span>
+                  <span
+                    className={styles.formAddButton}
+                    onClick={() => addFAQs(setFieldValue, values)}
+                  >
+                    Add More
+                  </span>
+                </div>
+                {values?.faqs?.map((section, index) => {
+                  return (
+                    <div
+                      key={`stocked_${index}`}
+                      className={styles.stockedContainer2}
+                    >
+                      <div className={styles.stockedSection2}>
+                        <div className={styles.StockedDiv2}>
+                          <label className={styles.formLabel}>
+                            Question
+                            <span className={styles.labelStamp}>*</span>
+                          </label>
+                          <input
+                            type="text"
+                            name={`faqs.${index}.ques`}
+                            onChange={(e) =>
+                              handleFaqsQuesChange(index, e, setFieldValue)
+                            }
+                            value={section.ques}
+                            placeholder={"Enter Question"}
+                            className={styles.inputStocked}
+                            onBlur={() =>
+                              setFieldTouched(`faqs.${index}.ques`, true)
+                            }
+                          />
+                          {touched.faqs?.[index]?.name &&
+                            errors.faqs?.[index]?.name && (
+                              <span span className={styles.error}>
+                                {errors.faqs[index].name}
+                              </span>
+                            )}
+                        </div>
+                        <div className={styles.StockedDiv2}>
+                          <label className={styles.formLabel}>
+                            Answer
+                            <span className={styles.labelStamp}>*</span>
+                          </label>
+                          <div className={styles.quantitySelector}>
+                            <div className={styles.inputGroup2}>
+                              <textarea
+                                className={styles.inputStocked}
+                                type="text"
+                                placeholder={"Enter Answer"}
+                                // autoComplete="off"
+                                name={`faqs.${index}.ans`}
+                                value={section?.ans}
+                                onChange={(e) =>
+                                  handleFaqsAnsChange(index, e, setFieldValue)
+                                }
+                                onBlur={() =>
+                                  setFieldTouched(`faqs.${index}.ans`, true)
+                                }
+                              />
+                            </div>
+                            {console.log("sectiob", section)}
+                          </div>
+                          {
+                            <span span className={styles.error}>
+                              {touched.faqs && errors?.faqs?.[index]?.ans}
+                            </span>
+                            // )
+                          }
+                        </div>
+                      </div>
+                      {values.faqs.length > 1 && (
+                        <div
+                          className={styles.formclosebutton2}
+                          onClick={() =>
+                            removeFaqFormSection(index, setFieldValue, values)
+                          }
+                        >
+                          <CloseIcon className={styles.iconClose} />
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            {/* End the Add Other Details */}
 
             {/* Start button section */}
             <div className={styles.buttonContainer}>

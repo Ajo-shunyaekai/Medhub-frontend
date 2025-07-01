@@ -412,7 +412,10 @@ const EditAddProduct = ({ placeholder }) => {
         purchaseInvoiceFile: secondaryMarketDetails?.purchaseInvoiceFile || [],
         purchaseInvoiceFileNew: [],
         condition: secondaryMarketDetails?.condition || "",
-        minimumPurchaseUnit: secondaryMarketDetails?.minimumPurchaseUnit || "",
+        minimumPurchaseUnit:
+          secondaryMarketDetails?.minimumPurchaseUnit ||
+          general?.minimumPurchaseUnit ||
+          "",
         subCategory: categoryDetails?.subCategory || "",
         anotherCategory: categoryDetails?.anotherCategory || "",
         stockedInDetails: inventoryDetails?.stockedInDetails || [

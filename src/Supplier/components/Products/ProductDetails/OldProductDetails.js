@@ -231,7 +231,7 @@ label>
             <input className={styles.inputFormat} type='text' placeholder='Enter Product' />
           </div>
           <div className={styles.inputContainer}>
-            <label className={styles.labelName}>Est. Delivery Time*</label>
+            <label className={styles.labelName}>Est. Shipping Time*</label>
             <input className={styles.inputFormat} type='text' placeholder='Enter Time' />
           </div>
           </div>

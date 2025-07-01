@@ -223,7 +223,7 @@ const InquiryProductList = ({
                 <td className="tables-td">
                   <div className="table-g-section-content">
                     <span className="table-g-driver-name">
-                      Est. Delivery Time
+                      Est. Shipping Time
                     </span>
                     {inquiryDetails?.enquiry_status?.toLowerCase() !==
                     "pending" ? (

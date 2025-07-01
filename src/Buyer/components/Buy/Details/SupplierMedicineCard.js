@@ -114,7 +114,7 @@ const SupplierMedicineCard = ({
                     <span className={styles.text}>{totalQuantity}</span>
                   </div> */}
                   {/* <div className={styles.section}>
-                    <span className={styles.head}>Est. Delivery Time</span>
+                    <span className={styles.head}>Est. Shipping Time</span>
                     <span className={styles.text}>
                       {estimatedDeliveryTime !== "N/A"
                         ? `${estimatedDeliveryTime} `

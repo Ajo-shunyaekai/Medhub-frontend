@@ -1750,7 +1750,7 @@ const AddProduct = ({ placeholder }) => {
                     fieldInputName={"imageClosure"}
                     setFieldValue={setFieldValue}
                     initialValues={values}
-                    label="Closeup Image"
+                    label="Close Up Image"
                     tooltip={false}
                     acceptTypes={{ "image/jpeg": [], "image/png": [] }}
                     maxFiles={1}
