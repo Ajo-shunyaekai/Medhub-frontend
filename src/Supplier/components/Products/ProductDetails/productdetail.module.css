@@ -69,15 +69,8 @@
     max-width: 82%;
     z-index: 99999999;
 }
-.mainManufacturerContainer{
-    background-color: #fff;
-    border-radius: 4px;
- box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
-    padding: 26px 30px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 20rem;   
+.mainManufacturerContainer {
+  margin-bottom: 20rem;
 }
 .innerSection {
     width: 100%;
@@ -222,6 +215,15 @@ font-size: 28px;
     width: 100%;
 }
 
+.faqContainer {
+  display: flex;
+  /* flex-direction: column; */
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+  cursor: pointer !important;
+}
+
 .inventoryHead {
     color:#4f4f4f;
     font-size: 14px;
@@ -241,6 +243,21 @@ font-size: 28px;
     padding: 12px !important;
     position: relative !important;
     width: 100% !important;
+}
+
+.faqInput {
+  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+  background-color: #fff !important;
+  border: none !important;
+  border-radius: 4px !important;
+  margin-bottom: 16px;
+  color: #99a0ac;
+  font-size: 14px;
+  font-weight: 500;
+  outline: none !important;
+  padding: 12px !important;
+  position: relative !important;
+  width: 100% !important;
 }
 
 /* Style the manufacturer container */

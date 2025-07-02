@@ -8,11 +8,14 @@ import { useState, useEffect } from "react";
 import Modal from "react-modal";
 import CloseIcon from "../../../assets/images/Icon.svg";
 import moment from "moment";
+import { borderBottom } from "@mui/system";
+import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 
 Modal.setAppElement("#root");
 
 const ProductDetails = () => {
   const { id } = useParams();
+  const [activeFaq, setActiveFaq] = useState(0);
   const dispatch = useDispatch();
   const { productDetail } = useSelector((state) => state?.productReducer || {});
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -56,7 +59,7 @@ const ProductDetails = () => {
   const isImageExtension = (fileName) => {
     return /\.(png|jpe?g|gif|bmp|webp)$/i.test(fileName);
   };
-const openPurchaseInvoice = () => {
+  const openPurchaseInvoice = () => {
     if (pdfFile) {
       window.open(pdfUrl, "_blank");
     } else {
@@ -168,7 +171,7 @@ const openPurchaseInvoice = () => {
                 </div>
               )}
 
-           {productDetail?.secondaryMarketDetails?.purchaseInvoiceFile
+              {productDetail?.secondaryMarketDetails?.purchaseInvoiceFile
                 ?.length > 0 && (
                 <div className={styles.mainPurchaseSection}>
                   <button
@@ -187,16 +190,16 @@ const openPurchaseInvoice = () => {
         {/* Start general information section */}
         <div className={styles.mainContainer}>
           <div className={styles.headingSecContainer}>
-          <span className={styles.innerHead}>General Information</span>{" "}
-          {productDetail?.updatedAt && (
-            <span className={styles.medicineHead2}>
-              (Last Modified Date:{" "}
-              {moment(productDetail?.updatedAt || new Date()).format(
-                "DD/MM/YYYY"
-              )}
-              )
-            </span>
-          )}
+            <span className={styles.innerHead}>General Information</span>{" "}
+            {productDetail?.updatedAt && (
+              <span className={styles.medicineHead2}>
+                (Last Modified Date:{" "}
+                {moment(productDetail?.updatedAt || new Date()).format(
+                  "DD/MM/YYYY"
+                )}
+                )
+              </span>
+            )}
           </div>
           <div className={styles.innerSection}>
             <div className={styles.mainSection}>
@@ -234,7 +237,8 @@ const openPurchaseInvoice = () => {
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Strength</span>
                   <span className={styles.medicineText}>
-                    {productDetail?.general?.strength}{productDetail?.general?.strengthUnit}
+                    {productDetail?.general?.strength}
+                    {productDetail?.general?.strengthUnit}
                   </span>
                 </div>
               )}
@@ -250,7 +254,7 @@ const openPurchaseInvoice = () => {
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Tags</span>
                   <span className={styles.medicineText}>
-                    {productDetail?.general?.tags?.join(', ')}
+                    {productDetail?.general?.tags?.join(", ")}
                   </span>
                 </div>
               )}
@@ -328,7 +332,7 @@ const openPurchaseInvoice = () => {
                   </span>
                 </div>
               )}
-               {/* {productDetail?.general?.weight && (
+              {/* {productDetail?.general?.weight && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Product Weight</span>
                   <span className={styles.medicineText}>
@@ -345,7 +349,7 @@ const openPurchaseInvoice = () => {
                   </span>
                 </div>
               )}
-             {/* {productDetail?.general?.dimension && (
+              {/* {productDetail?.general?.dimension && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Product Dimension</span>
                   <span className={styles.medicineText}>
@@ -362,24 +366,28 @@ const openPurchaseInvoice = () => {
                   </span>
                 </div>
               )}
-              {productDetail?.general?.minimumPurchaseQuantity || productDetail?.general?.minimumPurchaseUnit  && (
-                <div className={styles.medicinesSection}>
-                  <span className={styles.medicineHead}>Minimum Order Quantity</span>
-                  <span className={styles.medicineText}>
-                    {productDetail?.general?.minimumPurchaseQuantity || productDetail?.general?.minimumPurchaseUnit}
-                  </span>
-                </div>
-              )}
-              {productDetail?.general?.totalQuantity || productDetail?.general?.quantity && (
-                <div className={styles.medicinesSection}>
-                  <span className={styles.medicineHead}>Total Quantity</span>
-                  <span className={styles.medicineText}>
-                    {productDetail?.general?.totalQuantity || productDetail?.general?.quantity}
-                  </span>
-                </div>
-              )}
-
-              
+              {productDetail?.general?.minimumPurchaseQuantity ||
+                (productDetail?.general?.minimumPurchaseUnit && (
+                  <div className={styles.medicinesSection}>
+                    <span className={styles.medicineHead}>
+                      Minimum Order Quantity
+                    </span>
+                    <span className={styles.medicineText}>
+                      {productDetail?.general?.minimumPurchaseQuantity ||
+                        productDetail?.general?.minimumPurchaseUnit}
+                    </span>
+                  </div>
+                ))}
+              {productDetail?.general?.totalQuantity ||
+                (productDetail?.general?.quantity && (
+                  <div className={styles.medicinesSection}>
+                    <span className={styles.medicineHead}>Total Quantity</span>
+                    <span className={styles.medicineText}>
+                      {productDetail?.general?.totalQuantity ||
+                        productDetail?.general?.quantity}
+                    </span>
+                  </div>
+                ))}
             </div>
           </div>
         </div>
@@ -414,79 +422,137 @@ const openPurchaseInvoice = () => {
         )}
         {/* End the product description */}
 
-        {productDetail?.general?.image &&
-  (Array.isArray(productDetail.general.image) ? (
-    // Render if image is an array
-    productDetail.general.image.length > 0 && (
-      <div className={styles.mainContainer}>
-        <span className={styles.innerHead}>Product Images</span>
-        <div className={styles.productImageSection}>
-          {productDetail.general.image.map((img, index) => {
-            const baseUrl = process.env.REACT_APP_SERVER_URL?.endsWith("/")
-              ? process.env.REACT_APP_SERVER_URL
-              : `${process.env.REACT_APP_SERVER_URL}/`;
-
-            const imgUrl = img?.startsWith("http")
-              ? img
-              : `${baseUrl}uploads/products/${img}`;
-
-            const isImageFile = isImageExtension(imgUrl);
-
-            return (
-              <div className={styles.imageContainer} key={index}>
-                <img
-                  className={styles.imageSection}
-                  src={isImageFile ? imgUrl : fallbackImageUrl}
-                  alt="Product Image"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = fallbackImageUrl;
-                  }}
-                />
+        <div className={styles.mainContainer}>
+          <span className={styles.innerHead}>Manufacturer Details</span>
+          <div className={styles.manufacturerMainContainer}>
+            <div className={styles.manufacturerContainer}>
+              <div className={styles.manufacturersection}>
+                <span className={styles.medicineHead}>Manufacturer Name</span>
+                <span className={styles.medicineText}>
+                  {productDetail?.general?.manufacturer || "N/A"}
+                </span>
               </div>
-            );
-          })}
+              <div className={styles.manufacturersection}>
+                <span className={styles.medicineHead}>Country of Origin</span>
+                <span className={styles.medicineText}>
+                  {productDetail?.general?.countryOfOrigin || "N/A"}
+                </span>
+              </div>
+              <div className={styles.manufacturersection}>
+                <span className={styles.medicineHead}>About Manufacturer</span>
+                <span className={styles.medicineText}>
+                  {productDetail?.general?.aboutManufacturer || "N/A"}
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    )
-  ) : (
-    // Render if image is an object
-    Object.keys(productDetail.general.image).length > 0 && (
-      <div className={styles.mainContainer}>
-        <span className={styles.innerHead}>Product Images</span>
-        <div className={styles.productImageSection}>
-          {Object.entries(productDetail.general.image).map(
-            ([viewLabel, images]) =>
-              images?.map((imgUrl, index) => {
-                const isImageFile = isImageExtension(imgUrl);
-                return (
-                  <div
-                    className={styles.imageContainer}
-                    key={`${viewLabel}-${index}`}
-                  >
-                    <span>
-                      {viewLabel.charAt(0).toUpperCase() + viewLabel.slice(1)} Image
-                    </span>
-                    <img
-                      className={styles.imageSection}
-                      src={isImageFile ? imgUrl : fallbackImageUrl}
-                      alt={`${viewLabel} view`}
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = fallbackImageUrl;
-                      }}
-                    />
-                    <div className={styles.imageLabel}>
-                      {viewLabel.toUpperCase()}
+        {productDetail?.categoryDetails?.length > 0 && (
+          <div className={styles.mainContainer}>
+            <span className={styles.innerHead}>Other Details</span>
+            <div className={styles.innerComplianceSection}>
+              {productDetail?.categoryDetails?.map((item, index) => (
+                <div className={styles.additionalUploadSection}>
+                  <span className={styles.medicineHead}>{item?.name}</span>
+                  <div className={styles.additionalImageSection}>
+                    {/* {productDetail?.categoryDetails?.map((item, index) => ( */}
+                    <div
+                      className={styles.complianceSection}
+                      key={item._id || index}
+                    >
+                      {item?.type == "file" ? (
+                        <RenderProductFiles files={item.fieldValue} />
+                      ) : (
+                        <span className={styles.medicineContent}>
+                          {item.fieldValue}
+                        </span>
+                      )}
                     </div>
                   </div>
-                );
-              })
-          )}
-        </div>
-      </div>
-    )
-  ))}
+                </div>
+              ))}
+            </div>
+            <div
+              className={styles.innerComplianceSection}
+              style={{ marginTop: "20px" }}
+            ></div>
+          </div>
+        )}
+
+        {productDetail?.general?.image &&
+          (Array.isArray(productDetail.general.image)
+            ? // Render if image is an array
+              productDetail.general.image.length > 0 && (
+                <div className={styles.mainContainer}>
+                  <span className={styles.innerHead}>Product Images</span>
+                  <div className={styles.productImageSection}>
+                    {productDetail.general.image.map((img, index) => {
+                      const baseUrl =
+                        process.env.REACT_APP_SERVER_URL?.endsWith("/")
+                          ? process.env.REACT_APP_SERVER_URL
+                          : `${process.env.REACT_APP_SERVER_URL}/`;
+
+                      const imgUrl = img?.startsWith("http")
+                        ? img
+                        : `${baseUrl}uploads/products/${img}`;
+
+                      const isImageFile = isImageExtension(imgUrl);
+
+                      return (
+                        <div className={styles.imageContainer} key={index}>
+                          <img
+                            className={styles.imageSection}
+                            src={isImageFile ? imgUrl : fallbackImageUrl}
+                            alt="Product Image"
+                            onError={(e) => {
+                              e.target.onerror = null;
+                              e.target.src = fallbackImageUrl;
+                            }}
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )
+            : // Render if image is an object
+              Object.keys(productDetail.general.image).length > 0 && (
+                <div className={styles.mainContainer}>
+                  <span className={styles.innerHead}>Product Images</span>
+                  <div className={styles.productImageSection}>
+                    {Object.entries(productDetail.general.image).map(
+                      ([viewLabel, images]) =>
+                        images?.map((imgUrl, index) => {
+                          const isImageFile = isImageExtension(imgUrl);
+                          return (
+                            <div
+                              className={styles.imageContainer}
+                              key={`${viewLabel}-${index}`}
+                            >
+                              <span>
+                                {viewLabel.charAt(0).toUpperCase() +
+                                  viewLabel.slice(1)}{" "}
+                                Image
+                              </span>
+                              <img
+                                className={styles.imageSection}
+                                src={isImageFile ? imgUrl : fallbackImageUrl}
+                                alt={`${viewLabel} view`}
+                                onError={(e) => {
+                                  e.target.onerror = null;
+                                  e.target.src = fallbackImageUrl;
+                                }}
+                              />
+                              <div className={styles.imageLabel}>
+                                {viewLabel.toUpperCase()}
+                              </div>
+                            </div>
+                          );
+                        })
+                    )}
+                  </div>
+                </div>
+              ))}
 
         {/* End product image section */}
 
@@ -621,18 +687,24 @@ const openPurchaseInvoice = () => {
                     {ele?.quantityFrom && ele?.quantityTo ? (
                       <span className={styles.inventoryInput}>
                         {ele.quantityFrom} - {ele.quantityTo}
-                        </span>
+                      </span>
                     ) : ele?.quantity ? (
-                      <span className={styles.inventoryInput}>{ele.quantity}</span>
+                      <span className={styles.inventoryInput}>
+                        {ele.quantity}
+                      </span>
                     ) : (
-                      <span>N/A</span>  
+                      <span>N/A</span>
                     )}
                   </div>
                   <div className={styles.inventoryContainer}>
-                    <span className={styles.inventoryInput}>{ele?.price} USD</span>
+                    <span className={styles.inventoryInput}>
+                      {ele?.price} USD
+                    </span>
                   </div>
                   <div className={styles.inventoryContainer}>
-                    <span className={styles.inventoryInput}>{ele?.totalPrice} USD</span>
+                    <span className={styles.inventoryInput}>
+                      {ele?.totalPrice} USD
+                    </span>
                   </div>
                   <div className={styles.inventoryContainer}>
                     <span className={styles.inventoryInput}>
@@ -652,7 +724,7 @@ const openPurchaseInvoice = () => {
           productDetail?.healthNSafety?.environmentalImpact?.length > 0) && (
           <div className={styles.mainContainer}>
             <span className={styles.innerHead}>
-            Compliances & Certification
+              Compliances & Certification
             </span>
             <div className={styles.innerComplianceSection}>
               {productDetail?.cNCFileNDate?.length > 0 && (
@@ -750,7 +822,7 @@ const openPurchaseInvoice = () => {
                 </div>
               )}
 
-               {productDetail?.additional?.guidelinesFile?.length > 0 && (
+              {productDetail?.additional?.guidelinesFile?.length > 0 && (
                 <div className={styles.additionalUploadSection}>
                   <div className={styles.additionalUploadSection}>
                     <span className={styles.medicineHead}>User Guidelines</span>
@@ -761,8 +833,7 @@ const openPurchaseInvoice = () => {
                     </div>
                   </div>
                 </div>
-              )} 
-
+              )}
             </div>
           </div>
         )}
@@ -771,13 +842,11 @@ const openPurchaseInvoice = () => {
 
         {/* start of Product documents */}
         {(productDetail?.documents?.catalogue?.length > 0 ||
-          productDetail?.documents?.specification?.length > 0 ) && (
+          productDetail?.documents?.specification?.length > 0) && (
           <div className={styles.mainContainer}>
-            <span className={styles.innerHead}>
-              Product Documents
-            </span>
+            <span className={styles.innerHead}>Product Documents</span>
             <div className={styles.innerComplianceSection}>
-            {productDetail?.documents?.catalogue?.length > 0 && (
+              {productDetail?.documents?.catalogue?.length > 0 && (
                 <div className={styles.additionalUploadSection}>
                   <span className={styles.medicineHead}>Product Catalogue</span>
                   <div className={styles.additionalImageSection}>
@@ -832,34 +901,43 @@ const openPurchaseInvoice = () => {
         )}
         {/* end of product document */}
 
-        {/* Start Manufacturer section */}
-      
-        <div className={styles.mainManufacturerContainer}>
-          <span className={styles.innerHead}>Manufacturer Details</span>
-          <div className={styles.manufacturerMainContainer}>
-            <div className={styles.manufacturerContainer}>
-              <div className={styles.manufacturersection}>
-                <span className={styles.medicineHead}>Manufacturer Name</span>
-                <span className={styles.medicineText}>
-                  {productDetail?.general?.manufacturer || "N/A"}
-                </span>
+        <div className={styles.mainContainer}>
+          <span className={styles.innerHead}>FAQs</span>
+          <div className={styles.innerComplianceSection}>
+            {productDetail?.faqs?.map((item, index) => (
+              <div className={styles.faqInput}>
+                <div
+                  className={styles.faqContainer}
+                  onClick={() =>
+                    setActiveFaq(activeFaq === index ? undefined : index)
+                  }
+                >
+                  <span className={styles.inventoryHead}>{item?.ques}</span>
+                  <span className={styles.inventoryHead}>
+                    {activeFaq === index ? <FaAngleUp /> : <FaAngleDown />}
+                  </span>
+                </div>
+                {activeFaq === index && (
+                  <div
+                    style={{
+                      borderBottom: "1px solid #99a0ac",
+                      marginTop: "6px",
+                      marginBottom: "6px",
+                    }}
+                  ></div>
+                )}
+                {activeFaq === index && <span>{item?.ans}</span>}
               </div>
-              <div className={styles.manufacturersection}>
-                <span className={styles.medicineHead}>Country of Origin</span>
-                <span className={styles.medicineText}>
-                  {productDetail?.general?.countryOfOrigin || "N/A"}
-                </span>
-              </div>
-              <div className={styles.manufacturersection}>
-                <span className={styles.medicineHead}>About Manufacturer</span>
-                <span className={styles.medicineText}>
-                  {productDetail?.general?.aboutManufacturer || "N/A"}
-                </span>
-              </div>
-            </div>
+            ))}
           </div>
+          <div
+            className={styles.innerComplianceSection}
+            style={{ marginTop: "20px" }}
+          ></div>
         </div>
+        {/* Start Manufacturer section */}
 
+        <div className={styles.mainManufacturerContainer}></div>
 
         {/* End Manufacturer section */}
 
@@ -892,17 +970,9 @@ const openPurchaseInvoice = () => {
             <p>Loading PDF or file not found...</p>
           )}
         </Modal>
-      </div>   
+      </div>
     </div>
   );
 };
 
 export default ProductDetails;
-
-
-
-
-
-
-
-
