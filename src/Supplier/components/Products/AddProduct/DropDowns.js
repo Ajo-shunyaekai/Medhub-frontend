@@ -238,24 +238,8 @@ export const initialValues = {
     },
   ],
   categoryDetailsFile: [],
-  categoryDetails: [
-    {
-      name: undefined,
-      label: undefined,
-      placeholder: undefined,
-      type: undefined,
-      maxLimit: undefined,
-      allowedType: undefined,
-      fieldValue: undefined,
-      optionsDD: [],
-    },
-  ],
-  faqs: [
-    {
-      ques: undefined,
-      ans: undefined,
-    },
-  ],
+  categoryDetails: [],
+  faqs: [],
   productPricingDetails: [
     {
       quantity: "",
