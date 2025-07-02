@@ -374,6 +374,8 @@ const AddProduct = ({ placeholder }) => {
             const value = values[key];
             if (
               key != "productPricingDetails" ||
+              key != "categoryDetails" ||
+              key != "faqs" ||
               key != "stockedInDetails" ||
               key != "cNCFileNDate"
             ) {
@@ -483,11 +485,13 @@ const AddProduct = ({ placeholder }) => {
 
           if (
             JSON.stringify(values?.categoryDetailsFile) !=
-            JSON.stringify(categoryDetailsUpdated2?.map((file) => file?.file))
+            JSON.stringify(
+              categoryDetailsUpdated2?.map((file) => file?.fieldValue)
+            )
           ) {
             // fisetFieldValue("categoryDetailsFile", []);
             categoryDetailsUpdated2?.forEach((file) =>
-              formData.append("categoryDetailsFile", file?.file)
+              formData.append("categoryDetailsFile", file?.fieldValue)
             );
           }
 
@@ -495,7 +499,7 @@ const AddProduct = ({ placeholder }) => {
             values?.faqs?.map((section) => ({
               ques: section?.ques || "",
               ans: section?.ans || "",
-            }))
+            })) || []
           );
 
           formData.append("cNCFileNDate", cNCFileNDateUpdated);
@@ -596,17 +600,7 @@ const AddProduct = ({ placeholder }) => {
                       setFieldValue("anotherCategory", "");
                       setSelectedLevel3Category(null);
 
-                      setFieldValue("categoryDetails", [
-                        {
-                          name: undefined,
-                          label: undefined,
-                          placeholder: undefined,
-                          type: undefined,
-                          maxLimit: undefined,
-                          allowedType: undefined,
-                          fieldValue: undefined,
-                        },
-                      ]);
+                      setFieldValue("categoryDetails", []);
                     }}
                     placeholder="Select Category"
                   />
