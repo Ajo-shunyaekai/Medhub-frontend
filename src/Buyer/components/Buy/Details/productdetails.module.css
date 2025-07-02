@@ -686,4 +686,9 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 }
 }
 
+.accordion-item:first-of-type>.accordion-header .accordion-button {
+  border-top-left-radius: var(--bs-accordion-inner-border-radius);
+  border-top-right-radius: var(--bs-accordion-inner-border-radius);
+}
+
 /* End Product details */

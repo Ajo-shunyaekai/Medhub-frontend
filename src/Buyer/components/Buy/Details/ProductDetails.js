@@ -20,6 +20,7 @@ import { addToList } from "../../../../redux/reducers/listSlice";
 import { updateInquiryCartCount } from "../../../../redux/reducers/inquirySlice";
 import { postRequestWithToken } from "../../../../api/Requests";
 import Loader from "../../SharedComponents/Loader/Loader";
+import Accordion from "react-bootstrap/Accordion";
 
 Modal.setAppElement("#root");
 
@@ -569,6 +570,88 @@ const ProductDetails = () => {
           </div>
         )}
         {/* End the product description */}
+
+        {/* Start Manufacturer section */}
+        {(productDetail?.general?.manufacturer ||
+          // productDetail?.general?.aboutManufacturer ||
+          productDetail?.general?.countryOfOrigin) && (
+          <div className={styles.mainManufacturerContainer}>
+            <span className={styles.innerHead}>Manufacturer Details</span>
+            <div className={styles.manufacturerMainContainer}>
+              {(productDetail?.general?.manufacturer ||
+                productDetail?.general?.countryOfOrigin) && (
+                <div className={styles.manufacturerContainer}>
+                  {productDetail?.general?.manufacturer && (
+                    <div className={styles.manufacturersection}>
+                      <span className={styles.medicineHead}>
+                        Manufacturer Name
+                      </span>
+                      <span className={styles.medicineText}>
+                        {productDetail?.general?.manufacturer}
+                      </span>
+                    </div>
+                  )}
+                  {productDetail?.general?.countryOfOrigin && (
+                    <div className={styles.manufacturersection}>
+                      <span className={styles.medicineHead}>
+                        Contry of Origin
+                      </span>
+                      <span className={styles.medicineText}>
+                        {productDetail?.general?.countryOfOrigin}
+                      </span>
+                    </div>
+                  )}
+                  {productDetail?.general?.aboutManufacturer && (
+                    <div className={styles.manufacturersection}>
+                      <span className={styles.medicineHead}>
+                        About Manufacturer
+                      </span>
+                      <span className={styles.medicineText}>
+                        {productDetail?.general?.aboutManufacturer}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+ 
+        {/* End Manufacturer section */}
+
+        {/* Start of Category Other Details */}
+        {productDetail?.categoryDetails?.length > 0 && (
+          <div className={styles.mainContainer}>
+            <span className={styles.innerHead}>Other Details</span>
+            <div className={styles.innerComplianceSection}>
+              {productDetail?.categoryDetails?.map((item, index) => (
+                <div className={styles.additionalUploadSection}>
+                  <span className={styles.medicineHead}>{item?.name}</span>
+                  <div className={styles.additionalImageSection}>
+                    {/* {productDetail?.categoryDetails?.map((item, index) => ( */}
+                    <div
+                      className={styles.complianceSection}
+                      key={item._id || index}
+                    >
+                      {item?.type == "file" ? (
+                        <RenderProductFiles files={[item.fieldValue]} />
+                      ) : (
+                        <span className={styles.medicineContent}>
+                          {item.fieldValue}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div
+              className={styles.innerComplianceSection}
+              style={{ marginTop: "20px" }}
+            ></div>
+          </div>
+        )}
+        {/* End of Category Other Details */}
  
         {/* Start product image section */}
  
@@ -808,43 +891,7 @@ const ProductDetails = () => {
           </div>
         )}
         {/* End Inventory & Packaging section */}
-        {/* Start Manufacturer section */}
-        {(productDetail?.general?.manufacturer ||
-          // productDetail?.general?.aboutManufacturer ||
-          productDetail?.general?.countryOfOrigin) && (
-          <div className={styles.mainManufacturerContainer}>
-            <span className={styles.innerHead}>Manufacturer Details</span>
-            <div className={styles.manufacturerMainContainer}>
-              {(productDetail?.general?.manufacturer ||
-                productDetail?.general?.countryOfOrigin) && (
-                <div className={styles.manufacturerContainer}>
-                  {productDetail?.general?.manufacturer && (
-                    <div className={styles.manufacturersection}>
-                      <span className={styles.medicineHead}>
-                        Manufacturer Name
-                      </span>
-                      <span className={styles.medicineText}>
-                        {productDetail?.general?.manufacturer}
-                      </span>
-                    </div>
-                  )}
-                  {productDetail?.general?.countryOfOrigin && (
-                    <div className={styles.manufacturersection}>
-                      <span className={styles.medicineHead}>
-                        Contry of Origin
-                      </span>
-                      <span className={styles.medicineText}>
-                        {productDetail?.general?.countryOfOrigin}
-                      </span>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-          </div>
-        )}
- 
-        {/* End Manufacturer section */}
+        
  
         {/* Start the category details section */}
         {/* Medical Equipment and Devices */}
@@ -3867,6 +3914,25 @@ const ProductDetails = () => {
           </div>
         )}
         {/* End the product inventory section */}
+
+        {
+          <>
+            <div className="support-heading">FAQ</div>
+            <div className="faq-container">
+              <Accordion>
+                {productDetail?.faqs?.map((item, index) => (
+                  <Accordion.Item eventKey={index} className="faq-cover mt-2">
+                    <Accordion.Header className="faq-heading">
+                      {" "}
+                      {item?.ques}
+                    </Accordion.Header>
+                    <Accordion.Body>{item?.ans}</Accordion.Body>
+                  </Accordion.Item>
+                ))}
+              </Accordion>
+            </div>
+          </>
+        }
       </div>
       <div className={styles.section}>
         <ProductCard
