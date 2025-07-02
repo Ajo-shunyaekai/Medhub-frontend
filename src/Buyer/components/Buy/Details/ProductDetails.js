@@ -313,7 +313,7 @@ const ProductDetails = () => {
                     </div>
                   )}
 
-                  {productDetail?.secondaryMarketDetails
+                  {/* {productDetail?.secondaryMarketDetails
                     ?.minimumPurchaseUnit && (
                     <div className={styles.medicinesSection}>
                       <span className={styles.medicineHead}>
@@ -326,7 +326,7 @@ const ProductDetails = () => {
                         }
                       </span>
                     </div>
-                  )}
+                  )} */}
                 </div>
               )}
 
@@ -490,6 +490,7 @@ const ProductDetails = () => {
                   </span>
                 </div>
               )}
+              
               {/* {productDetail?.general?.dimension && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Product Dimension</span>
@@ -503,6 +504,22 @@ const ProductDetails = () => {
                   <span className={styles.medicineHead}>Brand Name</span>
                   <span className={styles.medicineText}>
                     {productDetail?.general?.brand}
+                  </span>
+                </div>
+              )}
+              {productDetail?.general?.minimumPurchaseQuantity && (
+                <div className={styles.medicinesSection}>
+                  <span className={styles.medicineHead}>Minimum Order Quantity</span>
+                  <span className={styles.medicineText}>
+                    {productDetail?.general?.minimumPurchaseQuantity}
+                  </span>
+                </div>
+              )}
+              {productDetail?.general?.quantity && (
+                <div className={styles.medicinesSection}>
+                  <span className={styles.medicineHead}>Total Quantity</span>
+                  <span className={styles.medicineText}>
+                    {productDetail?.general?.quantity}
                   </span>
                 </div>
               )}
@@ -709,7 +726,7 @@ const ProductDetails = () => {
                         </span>
                       </div>
                     )}
-                    {productDetail?.inventoryDetails?.countries && (
+                    {/* {productDetail?.inventoryDetails?.countries && (
                       <div className={styles.medicinesSection}>
                         <span className={styles.medicineHead}>
                           Stocked in Countries
@@ -730,7 +747,7 @@ const ProductDetails = () => {
                           )}
                         </span>
                       </div>
-                    )}
+                    )} */}
                   </div>
  
                   <div className={styles.mainSection}>
@@ -767,7 +784,7 @@ const ProductDetails = () => {
                   <div className={styles.mainSection}>
                     <div className={styles.medicinesSection}>
                       <span className={styles.medicineHead}>
-                        Country where Stock Trades
+                        Stocked In Countries
                       </span>
                       <span className={styles.medicineHeadings}>Quantity</span>
                     </div>

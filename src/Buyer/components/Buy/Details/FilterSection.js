@@ -25,7 +25,12 @@ const FilterSection = ({
   });
   const [sortAsc, setSortAsc] = useState(true);
   const [countries, setCountries] = useState([]);
-  const [sortOrder, setSortOrder] = useState({});
+  // const [sortOrder, setSortOrder] = useState({});
+  const [sortOrder, setSortOrder] = useState({
+    type: null, // 'price' or 'totalQuantity' or null
+    sortName: null, // 'price' or 'quantity' or null
+    order: 'asc', // 'asc' or 'desc'
+  });
 
   const dropdownRef = useRef(null);
 
@@ -118,19 +123,48 @@ const FilterSection = ({
     });
   };
 
+  // const handleSort = (key) => {
+  //   setSortOrder((prev) => {
+  //     const newOrder = prev[key] === "asc" ? "desc" : "asc";
+  
+  //     const filter = filters.find((f) => f.key === key);
+  //     if (filter?.handler) {
+  //       filter.handler(newOrder);
+  //     }
+  
+  //     return { ...prev, [key]: newOrder };
+  //   });
+  // };
+  
   const handleSort = (key) => {
     setSortOrder((prev) => {
-      const newOrder = prev[key] === "asc" ? "desc" : "asc";
-  
+      let newOrder;
+      
+      // If clicking the same sort type, toggle order
+      if (prev.type === key) {
+        newOrder = {
+          type: key,
+          sortName: filters.find(f => f.key === key)?.sortName || key,
+          order: prev.order === "asc" ? "desc" : "asc",
+        };
+      } else {
+        // If clicking a different sort type, start with ascending
+        newOrder = {
+          type: key,
+          sortName: filters.find(f => f.key === key)?.sortName || key,
+          order: "asc",
+        };
+      }
+
+      // Call the respective handler with the new order
       const filter = filters.find((f) => f.key === key);
       if (filter?.handler) {
-        filter.handler(newOrder);
+        filter.handler(newOrder.order);
       }
-  
-      return { ...prev, [key]: newOrder };
+
+      return newOrder;
     });
   };
-  
   
 
   // Handle click outside to close dropdown

@@ -42,6 +42,12 @@ const SearchProductDetails = () => {
     countries: []
   });
 
+  const [currentSort, setCurrentSort] = useState({
+    type: null,
+    sortName: null,
+    order: 'asc',
+  });
+
   const pdfFile =
     productDetail?.secondaryMarketDetails?.purchaseInvoiceFile?.[0] ||
     productDetail?.data?.[0]?.secondaryMarketDetails?.purchaseInvoiceFile?.[0];
@@ -210,19 +216,32 @@ const SearchProductDetails = () => {
         : (b.general?.quantity || 0) - (a.general?.quantity || 0)
     );
     setProductList(sorted);
+
+    setCurrentSort({
+      type: 'totalQuantity',
+      sortName: 'quantity',
+      order: sortOrder
+    });
   };
   
   
   const handlePriceRange = (sortOrder) => {
    
     const sorted = [...productList].sort((a, b) => {
-      const priceA = Number(a.inventoryDetails?.inventoryList?.[0]?.price) || 0;
-      const priceB = Number(b.inventoryDetails?.inventoryList?.[0]?.price) || 0;
-  
+      const priceA = Number(a.inventoryDetails?.[0]?.inventoryList?.price) || 0;
+      const priceB = Number(b.inventoryDetails?.[0]?.inventoryList?.price) || 0;
+  // console.log('priceA',priceA)
+  // console.log('priceB',priceB)
       return sortOrder === "asc" ? priceA - priceB : priceB - priceA;
     });
   
     setProductList(sorted);
+
+    setCurrentSort({
+      type: 'price',
+      sortName: 'price',
+      order: sortOrder
+    });
   };
   
   
@@ -239,6 +258,11 @@ const SearchProductDetails = () => {
       countries: []
     };
     setFilters(resetState);
+    setCurrentSort({
+      type: null,
+      sortName: null,
+      order: 'asc',
+    });
   };
 
   // Configuration for ProductCards
@@ -558,6 +582,7 @@ const SearchProductDetails = () => {
         handleQuantity={handleQuantity}
         handleStockedInCountry = {handleStockedInCountry}
         handleReset={handleReset}
+        currentSort={currentSort}
       />
 
       {/* Product Cards */}

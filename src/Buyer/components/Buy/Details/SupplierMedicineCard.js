@@ -122,7 +122,7 @@ const SupplierMedicineCard = ({
                     </span>
                   </div> */}
                   <div className={styles.section}>
-                    <span className={styles.head}>Countries Where Stock Traded</span>
+                    <span className={styles.head}>Stocked In Countries</span>
                     <span className={styles.text}>{stockedIn}</span>
                   </div>
                   {/* <div className={styles.section}>
