@@ -501,10 +501,10 @@ const AddProduct = ({ placeholder }) => {
               ans: section?.ans || "",
             })) || []
           );
- 
           formData.append("cNCFileNDate", cNCFileNDateUpdated);
-          formData.append("categoryDetails", categoryDetailsUpdated);
-          formData.append("faqs", faqsUpdated);
+          categoryDetailsUpdated?.length > 0 &&
+            formData.append("categoryDetails", categoryDetailsUpdated);
+          values?.faqs?.length > 0 && formData.append("faqs", faqsUpdated);
           // formData.append("tags", values?.tags?.split(","));
  
           dispatch(addProduct(formData)).then((response) => {
