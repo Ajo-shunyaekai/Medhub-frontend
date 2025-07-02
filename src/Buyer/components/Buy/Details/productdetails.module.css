@@ -22,7 +22,7 @@
 .mainSectionFilter {
     display: flex;
     flex-wrap: wrap;
-    gap: 4rem;
+    gap: 7rem;
     width: 100%;
     justify-content: center;
 }
@@ -38,11 +38,16 @@
     /* justify-content: space-between; */
     font-size: 16px;
     font-weight: 500;
-    min-width: 200px;
+    /* min-width: 200px; */
 }
 
-.PurcahseButtonFilter span,svg {
+.PurcahseButtonFilter span,svg,img {
   cursor: pointer !important;
+}
+
+.PurcahseButtonFilter svg,img {
+  padding-top: 2px;
+  font-size: 1.2rem;
 }
 
 .filterDropdownContentFilter {

@@ -215,16 +215,16 @@ const FilterSection = ({
 
           {filters.map((filter) => (
             <div key={filter.key} className={styles.medicinesSectionFilter}>
-              <div className={styles.PurcahseButtonFilter}>
-                <span>{filter.label}</span>
 
-                {/* Icon logic */}
+              {/* Icon logic */}
                 {filter.key === "countries" ? (
-                  <div onClick={() => toggleDropdown(filter.key)}>
+                  <div className={styles.PurcahseButtonFilter} onClick={() => toggleDropdown(filter.key)}>
+                    <span>{filter.label}</span>
                     {openDropdown === filter.key ? <FaAngleUp /> : <FaAngleDown />}
                   </div>
                 ) : (
-                  <div onClick={() => handleSort(filter.key)}>
+                  <div className={styles.PurcahseButtonFilter} onClick={() => handleSort(filter.key)}>
+                    <span>{filter.label}</span>
                     {/* {sortOrder[filter.key] === "asc" ? <GoSortAsc /> : <GoSortDesc />} */}
                     {sortOrder.type === filter.key ? (
                       sortOrder.order === "asc" ? <GoSortAsc/> : <GoSortDesc/>
@@ -233,7 +233,6 @@ const FilterSection = ({
                     )}
                   </div>
                 )}
-              </div>
 
               {/* Render dropdown only for filters with options */}
               {openDropdown === filter.key && filter.options && (
