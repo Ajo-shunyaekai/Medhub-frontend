@@ -977,6 +977,7 @@ const AddProduct = ({ placeholder }) => {
                       handleInputChange(e, setFieldValue, 75, "all")
                     }
                     onBlur={handleBlur}
+                    // error={errors.tags}
                   />
                   {touched.tags && errors.tags && (
                     <span className={styles.error}>{errors.tags}</span>

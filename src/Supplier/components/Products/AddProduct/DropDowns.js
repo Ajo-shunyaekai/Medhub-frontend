@@ -200,6 +200,7 @@ export const initialValues = {
   weight: "",
   unit: "",
   unit_tax: "",
+  tags: "",
   packageType: "",
   packageMaterial: "",
   packageMaterialIfOther: "",
@@ -235,6 +236,7 @@ export const initialValues = {
     {
       country: "",
       quantity: "",
+      type: 'Box'
     },
   ],
   categoryDetailsFile: [],
