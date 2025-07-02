@@ -230,8 +230,7 @@ const SearchProductDetails = () => {
     const sorted = [...productList].sort((a, b) => {
       const priceA = Number(a.inventoryDetails?.[0]?.inventoryList?.price) || 0;
       const priceB = Number(b.inventoryDetails?.[0]?.inventoryList?.price) || 0;
-  // console.log('priceA',priceA)
-  // console.log('priceB',priceB)
+  
       return sortOrder === "asc" ? priceA - priceB : priceB - priceA;
     });
   

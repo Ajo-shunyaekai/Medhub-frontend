@@ -254,6 +254,16 @@ const openPurchaseInvoice = () => {
                   </span>
                 </div>
               )}
+              {productDetail?.storage && (
+                <div className={styles.medicinesSection}>
+                  <span className={styles.medicineHead}>
+                    Storage Conditions
+                  </span>
+                  <span className={styles.medicineText}>
+                    {productDetail?.storage}
+                  </span>
+                </div>
+              )}
               {/* {productDetail?.general?.quantity && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Product Quantity</span>
@@ -352,11 +362,11 @@ const openPurchaseInvoice = () => {
                   </span>
                 </div>
               )}
-              {productDetail?.general?.minimumPurchaseQuantity && (
+              {productDetail?.general?.minimumPurchaseQuantity || productDetail?.general?.minimumPurchaseUnit  && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Minimum Order Quantity</span>
                   <span className={styles.medicineText}>
-                    {productDetail?.general?.minimumPurchaseQuantity}
+                    {productDetail?.general?.minimumPurchaseQuantity || productDetail?.general?.minimumPurchaseUnit}
                   </span>
                 </div>
               )}
@@ -369,16 +379,7 @@ const openPurchaseInvoice = () => {
                 </div>
               )}
 
-              {productDetail?.storage && (
-                <div className={styles.medicinesSection}>
-                  <span className={styles.medicineHead}>
-                    Storage Conditions
-                  </span>
-                  <span className={styles.medicineText}>
-                    {productDetail?.storage}
-                  </span>
-                </div>
-              )}
+              
             </div>
           </div>
         </div>
