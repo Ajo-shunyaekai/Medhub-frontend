@@ -64,25 +64,6 @@ const SearchProductDetails = () => {
     }
   }, [id, dispatch]);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const response = await dispatch(
-  //       fetchSupplierProductsList(
-  //         `product/get-suppliers/${id}?search_key=${searchKey}&page_no=${currentPage}&page_size=${itemsPerPage}`
-  //       )
-  //     );
-
-  //     if (response.meta.requestStatus === "fulfilled") {
-  //       setProductList(response?.payload?.products || []);
-  //       setTotalitems(response?.payload?.totalItems || 0);
-  //     } else {
-  //       setProductList([]);
-  //       setTotalitems(0);
-  //     }
-  //   };
-  //   fetchData();
-  // }, [id, dispatch, currentPage, searchKey]);
-
   // Update filtered data when productDetail changes
 
   useEffect(() => {
