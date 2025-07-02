@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import styles from "./productdetails.module.css";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { RiArrowUpDownLine} from "react-icons/ri";
+import { GoSortAsc, GoSortDesc } from "react-icons/go";
 import countryList from "react-select-country-list";
 
 const FilterSection = ({
@@ -224,7 +225,12 @@ const FilterSection = ({
                   </div>
                 ) : (
                   <div onClick={() => handleSort(filter.key)}>
-                    {sortOrder[filter.key] === "asc" ? <RiArrowUpDownLine /> : <RiArrowUpDownLine />}
+                    {/* {sortOrder[filter.key] === "asc" ? <GoSortAsc /> : <GoSortDesc />} */}
+                    {sortOrder.type === filter.key ? (
+                      sortOrder.order === "asc" ? <GoSortAsc/> : <GoSortDesc/>
+                    ) : (
+                      <GoSortAsc/> 
+                    )}
                   </div>
                 )}
               </div>
