@@ -37,6 +37,16 @@ const validationSchema = Yup.object().shape({
     .typeError("Must be a number"),
 });
 
+const toTitleCase = (str) => {
+  return str
+    .replace(/([a-z])([A-Z])/g, '$1 $2') // add space between camelCase words
+    .replace(/[_\-]/g, ' ')              // replace underscores/dashes with spaces
+    .split(' ')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ');
+};
+
+
 const ProductDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -626,7 +636,7 @@ const ProductDetails = () => {
             <div className={styles.innerComplianceSection}>
               {productDetail?.categoryDetails?.map((item, index) => (
                 <div className={styles.additionalUploadSection}>
-                  <span className={styles.medicineHead}>{item?.name}</span>
+                  <span className={styles.medicineHead}>{toTitleCase(item?.name)}</span>
                   <div className={styles.additionalImageSection}>
                     {/* {productDetail?.categoryDetails?.map((item, index) => ( */}
                     <div
@@ -796,7 +806,7 @@ const ProductDetails = () => {
           <div className={styles.mainContainer}>
             <span className={styles.innerHead}>Inventory & Packaging</span>
             <div className={styles.innerMainSection}>
-              {(productDetail?.inventoryDetails?.sku ||
+              {/* {(productDetail?.inventoryDetails?.sku ||
                 productDetail?.inventoryDetails?.stock ||
                 productDetail?.inventoryDetails?.date) && (
                 <div className={styles.inventorySection}>
@@ -809,7 +819,7 @@ const ProductDetails = () => {
                         </span>
                       </div>
                     )}
-                    {/* {productDetail?.inventoryDetails?.countries && (
+                    {productDetail?.inventoryDetails?.countries && (
                       <div className={styles.medicinesSection}>
                         <span className={styles.medicineHead}>
                           Stocked in Countries
@@ -830,7 +840,7 @@ const ProductDetails = () => {
                           )}
                         </span>
                       </div>
-                    )} */}
+                    )}
                   </div>
  
                   <div className={styles.mainSection}>
@@ -860,7 +870,7 @@ const ProductDetails = () => {
                     )}
                   </div>
                 </div>
-              )}
+              )} */}
               {productDetail?.inventoryDetails?.stockedInDetails?.length >
                 0 && (
                 <div className={styles.inventorySection}>
@@ -3915,9 +3925,9 @@ const ProductDetails = () => {
         )}
         {/* End the product inventory section */}
 
-        {
+        {productDetail?.faqs?.length > 0 && (
           <>
-            <div className="support-heading">FAQ</div>
+            <div className="support-heading">FAQs</div>
             <div className="faq-container">
               <Accordion>
                 {productDetail?.faqs?.map((item, index) => (
@@ -3932,7 +3942,7 @@ const ProductDetails = () => {
               </Accordion>
             </div>
           </>
-        }
+        )}
       </div>
       <div className={styles.section}>
         <ProductCard

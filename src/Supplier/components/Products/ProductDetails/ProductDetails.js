@@ -12,6 +12,15 @@ import { borderBottom } from "@mui/system";
 import Accordion from "react-bootstrap/Accordion";
  
 Modal.setAppElement("#root");
+
+const toTitleCase = (str) => {
+  return str
+    .replace(/([a-z])([A-Z])/g, '$1 $2') // add space between camelCase words
+    .replace(/[_\-]/g, ' ')              // replace underscores/dashes with spaces
+    .split(' ')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ');
+};
  
 const ProductDetails = () => {
   const { id } = useParams();
@@ -452,7 +461,7 @@ const ProductDetails = () => {
             <div className={styles.innerComplianceSection}>
               {productDetail?.categoryDetails?.map((item, index) => (
                 <div className={styles.additionalUploadSection}>
-                  <span className={styles.medicineHead}>{item?.name}</span>
+                  <span className={styles.medicineHead}>{toTitleCase(item?.name)}</span>
                   <div className={styles.additionalImageSection}>
                     {/* {productDetail?.categoryDetails?.map((item, index) => ( */}
                     <div
@@ -567,7 +576,7 @@ const ProductDetails = () => {
                 productDetail?.inventoryDetails?.stock ||
                 productDetail?.inventoryDetails?.date) && (
                 <div className={styles.inventorySection}>
-                  <div className={styles.mainSection}>
+                  {/* <div className={styles.mainSection}>
                     {productDetail?.inventoryDetails?.sku && (
                       <div className={styles.medicinesSection}>
                         <span className={styles.medicineHead}>SKU</span>
@@ -598,9 +607,9 @@ const ProductDetails = () => {
                         </span>
                       </div>
                     )}
-                  </div>
+                  </div> */}
  
-                  <div className={styles.mainSection}>
+                  {/* <div className={styles.mainSection}>
                     {productDetail?.inventoryDetails?.stock && (
                       <div className={styles.medicinesSection}>
                         <span className={styles.medicineHead}>Stock</span>
@@ -615,12 +624,12 @@ const ProductDetails = () => {
                           Date of Manufacture
                         </span>
                         <span className={styles.medicineText}>
-                          {/* {productDetail?.inventoryDetails?.date} */}
+                         
                           {formatDate(productDetail?.inventoryDetails?.date)}
                         </span>
                       </div>
                     )}
-                  </div>
+                  </div> */}
                 </div>
               )}
               {productDetail?.inventoryDetails?.stockedInDetails?.length >
@@ -899,9 +908,9 @@ const ProductDetails = () => {
           </div>
         )}
         {/* end of product document */}
-        {
+        {productDetail?.faqs?.length > 0 && (
           <>
-            <div className="support-heading">FAQ</div>
+            <div className="support-heading">FAQs</div>
             <div className="faq-container">
               <Accordion>
                 {productDetail?.faqs?.map((item, index) => (
@@ -916,7 +925,7 @@ const ProductDetails = () => {
               </Accordion>
             </div>
           </>
-        }
+        )}
         {/* Start Manufacturer section */}
  
         <div className={styles.mainManufacturerContainer}></div>
