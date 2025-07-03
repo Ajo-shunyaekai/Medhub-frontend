@@ -222,14 +222,14 @@ const ProductDetails = () => {
                 </div>
               )}
               {/* {productDetail?.[productDetail?.category]?.anotherCategory && ( */}
-              {productDetail?.anotherCategory && (
+              {productDetail?.[productDetail?.category]?.anotherCategory || productDetail?.anotherCategory && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>
                     Product Sub Category(Level3)
                   </span>
                   <span className={styles.medicineText}>
                     {/* {productDetail?.[productDetail?.category]?.anotherCategory}{" "} */}
-                    {productDetail?.anotherCategory}
+                    {productDetail?.[productDetail?.category]?.anotherCategory || productDetail?.anotherCategory}
                   </span>
                 </div>
               )}
@@ -321,14 +321,14 @@ const ProductDetails = () => {
             </div>
             <div className={styles.mainSection}>
               {/* {productDetail?.[productDetail?.category]?.subCategory && ( */}
-              {productDetail?.subCategory && (
+              {productDetail?.[productDetail?.category]?.subCategory || productDetail?.subCategory && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>
                     Product Sub Category
                   </span>
                   <span className={styles.medicineText}>
                     {/* {productDetail?.[productDetail?.category]?.subCategory}{" "} */}
-                    {productDetail?.subCategory}
+                    {productDetail?.[productDetail?.category]?.subCategory || productDetail?.subCategory}
                   </span>
                 </div>
               )}

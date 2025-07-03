@@ -496,3 +496,8 @@ cursor: pointer !important;
     width: 200px;
 }
 }
+
+.accordion-item:first-of-type>.accordion-header .accordion-button {
+    border-top-left-radius: var(--bs-accordion-inner-border-radius);
+    border-top-right-radius: var(--bs-accordion-inner-border-radius);
+}
