@@ -150,7 +150,7 @@ font-size: 28px;
 }
 
 .medicineText {
-    width: 50%;
+    width: 100%;
       font-size: 14px;
     color: #99a0ac;
     font-weight: 500;
@@ -259,6 +259,7 @@ font-size: 28px;
 .manufacturersection {
     width: 100%;
     display: flex;
+    flex-direction: column;
     gap: 10px;
 }
 
@@ -313,10 +314,12 @@ font-size: 28px;
 }
 
 .additionalUploadSection {
-    width: 100%;
+    flex: 1 1 280px;
+    min-width: 280px;
+    max-width: 280px;
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 5px;
 }
 
 .additionalImageSection {
@@ -384,6 +387,7 @@ font-size: 28px;
 .innerComplianceSection {
     width: 100%;
     display: flex;
+    flex-wrap: wrap;
     gap: 20px;
     justify-content: start;
 }
@@ -495,6 +499,13 @@ cursor: pointer !important;
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+@media (max-width: 1500px) {
+  .additionalUploadSection {
+    flex: 1 1 350px;
+    min-width: 350px;
+    max-width: 350px;
+  }
 }
 @media(max-width:1400px){
     .container {
