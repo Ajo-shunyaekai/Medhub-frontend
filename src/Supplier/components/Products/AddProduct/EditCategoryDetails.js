@@ -21,6 +21,7 @@ const useFileUpload = (
   const [filesOld, setFilesOld] = useState(selectedFile || []);
   const [filesNew, setFilesNew] = useState([]);
   const [filesNewMerged, setFilesNewMerged] = useState([]);
+
   const onDrop = useCallback(
     (acceptedFiles) => {
       setFieldValue(fieldInputName, acceptedFiles);
@@ -60,9 +61,7 @@ const useFileUpload = (
       } else {
         setFieldValue(
           "categoryDetailsFileNew",
-
           initialValues?.categoryDetailsFileNew?.filter(
-            // (_, index) => index != indexToRemove
             (_, index) => JSON.stringify(_) !== file
           )
         );
@@ -74,24 +73,19 @@ const useFileUpload = (
         (ele, index) => JSON.stringify(ele) === file
       );
       const filteredValues = initialValues?.categoryDetailsFileNew?.filter(
-        // (_, index) => index != indexToRemove
         (_, index) => JSON.stringify(_) !== file
       )?.length;
       if (filteredValues > 1) {
         setFieldValue(
           "categoryDetailsFile",
-
           initialValues?.categoryDetailsFile?.filter(
             (_, index) => index !== indexToRemove
-            // (_, index) => JSON.stringify(_) != file
           )
         );
       } else {
         setFieldValue(
           "categoryDetailsFile",
-
           initialValues?.categoryDetailsFile?.filter(
-            // (_, index) => index != indexToRemove
             (_, index) => JSON.stringify(_) !== file
           )
         );
@@ -103,8 +97,7 @@ const useFileUpload = (
   const defaultAccept = {
     "application/pdf": [],
     "application/msword": [],
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-      [],
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document": [],
     "image/png": [],
     "image/jpeg": [],
     "image/jpg": [],
@@ -139,7 +132,6 @@ const EditCategoryDetails = ({
   fileIndex,
   isEdit,
 }) => {
-  // const tooltipId = `tooltip-${label.replace(/\s+/g, "-")?.toLowerCase()}`;
   const tooltipContent = tooltip || "Default tooltip text";
 
   // Call the useFileUpload hook with acceptTypes and maxFiles
@@ -179,9 +171,7 @@ const EditCategoryDetails = ({
           </p>
         </div>
         {tooltip && (
-          <>
-            <Tooltip content={tooltipContent} className={styles.tooltipSec} />
-          </>
+          <Tooltip content={tooltipContent} className={styles.tooltipSec} />
         )}
       </div>
       {(typeof fileUpload?.selectedFile === "string"
@@ -196,8 +186,8 @@ const EditCategoryDetails = ({
             // Determine the file extension based on whether it's a File object or string
             const fileExtension =
               typeof file === "string"
-                ? file?.split(".")?.pop()?.toLowerCase() // If it's a string (e.g., an existing file path)
-                : file?.name?.split(".")?.pop()?.toLowerCase(); // If it's a File object
+                ? file?.split(".")?.pop()?.toLowerCase()
+                : file?.name?.split(".")?.pop()?.toLowerCase();
 
             const isImage =
               fileExtension === "jpeg" ||
@@ -208,19 +198,21 @@ const EditCategoryDetails = ({
 
             const isPdf = fileExtension === "pdf";
 
+            // Handle the case where file is a string (URL)
+            const fileSrc =
+              typeof file === "string"
+                ? file.startsWith("http")
+                  ? file // If it's a URL
+                  : `${process.env.REACT_APP_SERVER_URL}uploads/products/${file}` // Else it's a relative path
+                : URL.createObjectURL(file); // Handle the file object case
+
             return (
               <div key={index} className={styles.filePreview}>
                 {isImage ? (
                   <img
-                    src={
-                      typeof file === "string"
-                        ? file?.startsWith("http")
-                          ? file
-                          : `${process.env.REACT_APP_SERVER_URL}uploads/products/${file}`
-                        : URL.createObjectURL(file)
-                    }
+                    src={fileSrc}
                     alt={
-                      file?.startsWith("http")
+                      typeof file === "string"
                         ? extractLast13WithExtension(file)
                         : file?.name
                     }
