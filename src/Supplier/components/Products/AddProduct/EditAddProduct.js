@@ -311,13 +311,13 @@ const EditAddProduct = ({ placeholder }) => {
   const editor = useRef(null);
   const [content, setContent] = useState(formik?.values?.description || "");
 
-  const config = useMemo(
-    () => ({
-      readonly: false,
-      placeholder: formik?.values?.description || "Enter Product Description",
-    }),
-    [formik?.values?.description]
-  );
+  // const config = useMemo(
+  //   () => ({
+  //     readonly: false,
+  //     placeholder: formik?.values?.description || "Enter Product Description",
+  //   }),
+  //   [formik?.values?.description]
+  // );
 
   useEffect(() => {
     const countryOptions = countryList().getData();
@@ -1237,19 +1237,17 @@ const EditAddProduct = ({ placeholder }) => {
                   <span className={styles?.labelStamp}>*</span>
                 </label>
                 <textarea
-                  className={styles?.formInput}
-                  type="text"
-                  rows={5}
-                  placeholder="Enter Description"
-                  name="description"
-                  value={formik?.values?.description}
-                  onChange={(content) =>
-                    formik?.setFieldValue("description", content)
-                  }
-                  onBlur={() =>
-                    formik?.handleBlur({ target: { name: "description" } })
-                  }
-                />
+                    className={styles.formInput}
+                    type="text"
+                    name="description"
+                    rows={5}
+                    placeholder="Enter Description"
+                    value={formik?.values.description}
+                    onChange={formik?.handleChange}
+                    onBlur={() =>
+                      formik?.handleBlur
+                    }
+                  />
 
                 <span className={styles?.error}></span>
               </div>

@@ -1002,7 +1002,7 @@ const AddProduct = ({ placeholder }) => {
                     value={values.description}
                     onChange={handleChange}
                     onBlur={() =>
-                      handleBlur({ target: { name: "description" } })
+                      handleBlur
                     }
                     error={errors.description}
                   />
