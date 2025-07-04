@@ -376,7 +376,7 @@ export const addProductValidationSchema = Yup.object({
     "Manufacturer Country of Origin is required."
   ),
   minimumPurchaseUnit: Yup.string().required("Minimum Order Quantity is required."),
-  tags: Yup.string().required("Tags are required."),
+  tags: Yup.mixed().required("Tags are required."),
   model: Yup.string()
     .required("Part/Model Number is required.")
     .matches(
@@ -1341,7 +1341,7 @@ export const editProductValidationSchema = Yup.object({
     "Manufacturer Country of Origin is required."
   ),
   minimumPurchaseUnit: Yup.string().required("Minimum Order Quantity is required."),
-  tags: Yup.string().required("Tags are required."),
+  tags: Yup.mixed().required("Tags are required."),
   
   model: Yup.string()
     .required("Part/Model Number is required.")
@@ -1454,16 +1454,16 @@ export const editProductValidationSchema = Yup.object({
   stockedInDetails: Yup.array().of(
     Yup.object({
       country: Yup.string()
-        .required("Country is required.")
-        .test(
-          "country-in-countries",
-          "Country must be one of the selected countries",
-          (value, context) => {
-            const { countries } =
-              context?.from?.[context?.from?.length - 1]?.value; // Get the countries array from the form values
-            return countries?.includes(value); // Check if the country exists in the countries array
-          }
-        ),
+        .required("Country is required."),
+        // .test(
+        //   "country-in-countries",
+        //   "Country must be one of the selected countries",
+        //   (value, context) => {
+        //     const { countries } =
+        //       context?.from?.[context?.from?.length - 1]?.value; // Get the countries array from the form values
+        //     return countries?.includes(value); // Check if the country exists in the countries array
+        //   }
+        // ),
       quantity: Yup.number()
         .required("Quantity is required.")
         .positive("Quantity must be greater than 0"),

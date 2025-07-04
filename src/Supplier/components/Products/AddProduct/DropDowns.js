@@ -189,7 +189,14 @@ export const initialValues = {
   countryOfOrigin: "",
   upc: "",
   model: "",
-  image: [],
+  imageFront: [],
+  imageBack: [],
+  imageSide: [],
+  imageClosure: [],
+  imageFrontNew: [],
+  imageBackNew: [],
+  imageSideNew: [],
+  imageClosureNew: [],
   brand: "",
   form: "",
   quantity: "",
@@ -236,7 +243,7 @@ export const initialValues = {
     {
       country: "",
       quantity: "",
-      type: 'Box'
+      type: "Box",
     },
   ],
   categoryDetailsFile: [],
@@ -264,6 +271,7 @@ export const initialValues = {
   otcClassification: "",
   genericName: "",
   strength: "",
+  strengthUnit: "",
   composition: defaultValues || "",
   purpose: defaultValues || "",
   drugAdministrationRoute: defaultValues || "",
@@ -383,7 +391,7 @@ export const addProductValidationSchema = Yup.object({
   minimumPurchaseUnit: Yup.string().required(
     "Minimum Order Quantity is required."
   ),
-  tags: Yup.string().required("Tags are required."),
+  tags: Yup.mixed().required("Tags are required."),
   model: Yup.string()
     .required("Part/Model Number is required.")
     .matches(
@@ -1350,7 +1358,7 @@ export const editProductValidationSchema = Yup.object({
   minimumPurchaseUnit: Yup.string().required(
     "Minimum Order Quantity is required."
   ),
-  tags: Yup.string().required("Tags are required."),
+  tags: Yup.mixed().required("Tags are required."),
   model: Yup.string()
     .required("Part/Model Number is required.")
     .matches(
@@ -1461,17 +1469,16 @@ export const editProductValidationSchema = Yup.object({
   // .nullable(),
   stockedInDetails: Yup.array().of(
     Yup.object({
-      country: Yup.string()
-        .required("Country is required.")
-        .test(
-          "country-in-countries",
-          "Country must be one of the selected countries",
-          (value, context) => {
-            const { countries } =
-              context?.from?.[context?.from?.length - 1]?.value; // Get the countries array from the form values
-            return countries?.includes(value); // Check if the country exists in the countries array
-          }
-        ),
+      country: Yup.string().required("Country is required."),
+      // .test(
+      //   "country-in-countries",
+      //   "Country must be one of the selected countries",
+      //   (value, context) => {
+      //     const { countries } =
+      //       context?.from?.[context?.from?.length - 1]?.value; // Get the countries array from the form values
+      //     return countries?.includes(value); // Check if the country exists in the countries array
+      //   }
+      // ),
       quantity: Yup.number()
         .required("Quantity is required.")
         .positive("Quantity must be greater than 0"),
