@@ -253,7 +253,8 @@ export const renderFiles2 = (files, type, styles, certificateFileNDate) => {
   });
 };
 
-const useFileUpload = (
+// useFileUpload Hook
+export const useFileUpload = (
   fieldInputName,
   oldFieldName,
   setFieldValue,
@@ -262,8 +263,12 @@ const useFileUpload = (
   maxFiles = 4,
   existingFiles = []
 ) => {
-  const [files, setFiles] = useState(Array.isArray(existingFiles) ? existingFiles : [] || []);
-  const [filesOld, setFilesOld] = useState(Array.isArray(existingFiles) ? existingFiles : [] || []);
+  const [files, setFiles] = useState(
+    Array.isArray(existingFiles) ? existingFiles : [] || []
+  );
+  const [filesOld, setFilesOld] = useState(
+    Array.isArray(existingFiles) ? existingFiles : [] || []
+  );
   const [filesNew, setFilesNew] = useState([]);
   const filesMerged = [...(filesOld || []), ...(filesNew || [])];
   const onDrop = useCallback(
@@ -271,40 +276,67 @@ const useFileUpload = (
       setFilesNew((prev) => {
         const totalFiles = [...prev, ...acceptedFiles].slice(0, maxFiles); // Limit to maxFiles
         if (acceptedFiles?.length + prev.length > maxFiles) {
-          alert(`You can only upload a maximum of ${maxFiles || 4} files.`);
-          return prev;
+          alert(
+            `You can only upload a maximum of ${
+              oldFieldName == "imageFront" ||
+              oldFieldName == "imageBack" ||
+              oldFieldName == "imageSide" ||
+              oldFieldName == "imageClosure"
+                ? 1
+                : maxFiles
+            } ${
+              (oldFieldName == "imageFront" ||
+              oldFieldName == "imageBack" ||
+              oldFieldName == "imageSide" ||
+              oldFieldName == "imageClosure"
+                ? 1
+                : maxFiles) != 1
+                ? "files"
+                : "file"
+            }.`
+          );
+          return prev; // Keep previous files if limit exceeded
         }
+        // Update Formik state
         setFieldValue(fieldInputName, totalFiles);
         return totalFiles;
       });
     },
     [fieldInputName, setFieldValue, maxFiles]
   );
+
+  // Effect to handle initial file state
+  useEffect(() => {
+    if (existingFiles?.length > 0) {
+      setFilesOld(existingFiles); // Set the existing files
+    }
+  }, [existingFiles]);
+
+  // // Effect to merge the old and new files
   // useEffect(() => {
-  //   setFilesOld(Array.isArray(existingFiles) ? existingFiles : []);
-  // }, [existingFiles]);
-  //   useEffect(() => {
-  //   const mergedFiles = [
-  //     ...(Array.isArray(filesOld) ? filesOld : []),
-  //     ...(Array.isArray(filesNew) ? filesNew : []),
-  //   ];
+  //   const mergedFiles = [...filesOld, ...filesNew];
   //   if (JSON.stringify(mergedFiles) !== JSON.stringify(filesMerged)) {
-  //     setFilesMerged(mergedFiles);
+  //     setFilesMerged(mergedFiles); // Only update if the merged files are different
   //   }
   // }, [filesNew, filesOld, filesMerged]);
+
   const removeFile = (index, event, arrayToFilter) => {
     if (event) event.stopPropagation();
-    if (arrayToFilter === "new") {
+    if (arrayToFilter == "new") {
       setFilesNew((prev) => {
+        // Create the updated file list by removing the file at the specified index
         const updatedFiles = prev.filter((_, i) => i !== index);
-        setFieldValue(fieldInputName, updatedFiles);
-        return updatedFiles;
+
+        setFieldValue(fieldInputName, updatedFiles); // Set new files (File objects)
+        return updatedFiles; // Return the updated list to update the state
       });
-    } else if (arrayToFilter === "old") {
+    } else if (arrayToFilter == "old") {
       setFilesOld((prev) => {
+        // Create the updated file list by removing the file at the specified index
         const updatedFiles = prev.filter((_, i) => i !== index);
-        setFieldValue(oldFieldName, updatedFiles);
-        return updatedFiles;
+
+        setFieldValue(oldFieldName, updatedFiles); // Set old files (strings or file paths)
+        return updatedFiles; // Return the updated list to update the state
       });
     }
   };

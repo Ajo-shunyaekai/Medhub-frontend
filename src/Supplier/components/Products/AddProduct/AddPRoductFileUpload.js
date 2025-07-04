@@ -169,8 +169,6 @@ const AddProductFileUpload = ({
             ? extractLast13WithExtension(file)
             : file?.name;
           const fileExtension = fileName?.split(".")?.pop()?.toLowerCase();
-
-          // Type checks
           const isImage = ["jpeg", "jpg", "png", "gif", "bmp", "webp"].includes(
             fileExtension
           );
@@ -197,7 +195,6 @@ const AddProductFileUpload = ({
                 : `${process.env.REACT_APP_SERVER_URL}uploads/products/${file}`
               : URL.createObjectURL(file);
           } else {
-            // If not image or PDF, fallback image
             imageSrc = fallbackImage;
           }
 
@@ -216,9 +213,7 @@ const AddProductFileUpload = ({
                   className={styles.previewImage}
                 />
               )}
-
               <p className={styles.fileName}>{fileName}</p>
-
               <button
                 type="button"
                 className={styles.removeButton}
