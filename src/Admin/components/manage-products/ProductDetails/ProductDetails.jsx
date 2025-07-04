@@ -6,6 +6,16 @@ import CloseIcon from "../../../assets/Images/Icon.svg"; // Can be removed if no
 import RenderProductFiles from "./RenderProductFiles";
 import { fetchProductDetail } from "../../../../redux/reducers/productSlice";
 import moment from "moment";
+import Accordion from "react-bootstrap/Accordion";
+
+const toTitleCase = (str) => {
+  return str
+    .replace(/([a-z])([A-Z])/g, '$1 $2') // add space between camelCase words
+    .replace(/[_\-]/g, ' ')              // replace underscores/dashes with spaces
+    .split(' ')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ');
+};
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -151,7 +161,7 @@ const ProductDetails = () => {
                     </div>
                   )}
 
-                  {productDetail?.secondaryMarketDetails
+                  {/* {productDetail?.secondaryMarketDetails
                     ?.minimumPurchaseUnit && (
                     <div className={styles.medicinesSection}>
                       <span className={styles.medicineHead}>
@@ -164,7 +174,7 @@ const ProductDetails = () => {
                         }
                       </span>
                     </div>
-                  )}
+                  )} */}
                 </div>
               )}
 
@@ -227,7 +237,7 @@ const ProductDetails = () => {
                   </span>
                 </div>
               )}
-              {productDetail?.general?.form && (
+              {productDetail?.general?.strength && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Strength</span>
                   <span className={styles.medicineText}>
@@ -247,7 +257,15 @@ const ProductDetails = () => {
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Tags</span>
                   <span className={styles.medicineText}>
-                    {productDetail?.general?.tags}
+                    {productDetail?.general?.tags?.join(", ")}
+                  </span>
+                </div>
+              )}
+              {productDetail?.general?.storage && (
+                <div className={styles.medicinesSection}>
+                  <span className={styles.medicineHead}>Storage Conditions</span>
+                  <span className={styles.medicineText}>
+                    {productDetail?.storage}
                   </span>
                 </div>
               )}
@@ -340,6 +358,15 @@ const ProductDetails = () => {
                   </span>
                 </div>
               )}
+              {productDetail?.general?.minimumPurchaseQuantity || productDetail?.general?.minimumPurchaseUnit && (
+                <div className={styles.medicinesSection}>
+                  <span className={styles.medicineHead}>Minimum Order Quantity</span>
+                  <span className={styles.medicineText}>
+                    {productDetail?.general?.minimumPurchaseQuantity ||
+                        productDetail?.general?.minimumPurchaseUnit}
+                  </span>
+                </div>
+              )}
               {productDetail?.general?.totalQuantity || productDetail?.general?.quantity && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Total Quantity</span>
@@ -349,7 +376,7 @@ const ProductDetails = () => {
                 </div>
               )}
 
-              {productDetail?.storage && (
+              {/* {productDetail?.storage && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>
                     Storage Conditions
@@ -358,7 +385,7 @@ const ProductDetails = () => {
                     {productDetail?.storage}
                   </span>
                 </div>
-              )}
+              )} */}
             </div>
           </div>
         </div>
@@ -393,6 +420,167 @@ const ProductDetails = () => {
         )}
         {/* End the product description */}
 
+        {/* Start Manufacturer section */}
+        <div className={styles.mainManufacturerContainer}>
+          <span className={styles.innerHead}>Manufacturer Details</span>
+          <div className={styles.manufacturerMainContainer}>
+            <div className={styles.manufacturerContainer}>
+              <div className={styles.manufacturersection}>
+                <span className={styles.medicineHead}>Manufacturer Name</span>
+                <span className={styles.medicineText}>
+                  {productDetail?.general?.manufacturer || "N/A"}
+                </span>
+              </div>
+              <div className={styles.manufacturersection}>
+                <span className={styles.medicineHead}>Country of Origin</span>
+                <span className={styles.medicineText}>
+                  {productDetail?.general?.countryOfOrigin || "N/A"}
+                </span>
+              </div>
+              <div className={styles.manufacturersection}>
+                <span className={styles.medicineHead}>About Manufacturer</span>
+                <span className={styles.medicineText}>
+                  {productDetail?.general?.aboutManufacturer || "N/A"}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* End Manufacturer section */}
+
+        {/* start of category details */}
+        {productDetail?.categoryDetails?.length > 0 && (
+          <div className={styles.mainContainer}>
+            <span className={styles.innerHead}>Other Details</span>
+            <div className={styles.innerComplianceSection}>
+              {productDetail?.categoryDetails?.map((item, index) => (
+                <div className={styles.additionalUploadSection}>
+                  <span className={styles.medicineHead}>{toTitleCase(item?.name)}</span>
+                  <div className={styles.additionalImageSection}>
+                    {/* {productDetail?.categoryDetails?.map((item, index) => ( */}
+                    <div
+                      className={styles.complianceSection}
+                      key={item._id || index}
+                    >
+                      {item?.type == "file" ? (
+                        <RenderProductFiles files={[item.fieldValue]} />
+                      ) : (
+                        <span className={styles.medicineContent}>
+                          {item.fieldValue}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div
+              className={styles.innerComplianceSection}
+              style={{ marginTop: "20px" }}
+            ></div>
+          </div>
+        )}
+        {/* end of category detsils */}
+
+        {/* Start product image section */}
+        {/* {productDetail?.general?.image?.length > 0 && (
+          <div className={styles.mainContainer}>
+            <span className={styles.innerHead}>Product Images</span>
+            <div className={styles.productImageSection}>
+              {productDetail?.general?.image?.map((img) => (
+                <div className={styles.imageContainer}>
+                  <img
+                    className={styles.imageSection}
+                    src={
+                      !productDetail?.bulkUpload
+                        ? img?.startsWith("http")
+                          ? img
+                          : `${process.env.REACT_APP_SERVER_URL}uploads/products/${img}`
+                        : img
+                    }
+                    alt="image"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        )} */}
+
+{productDetail?.general?.image &&
+            (Array.isArray(productDetail.general.image) ? (
+              // Render if image is an array
+              productDetail.general.image.length > 0 && (
+                <div className={styles.mainContainer}>
+                  <span className={styles.innerHead}>Product Images</span>
+                  <div className={styles.productImageSection}>
+                    {productDetail.general.image.map((img, index) => {
+                      const baseUrl = process.env.REACT_APP_SERVER_URL?.endsWith("/")
+                        ? process.env.REACT_APP_SERVER_URL
+                        : `${process.env.REACT_APP_SERVER_URL}/`;
+
+                      const imgUrl = img?.startsWith("http")
+                        ? img
+                        : `${baseUrl}uploads/products/${img}`;
+
+                      const isImageFile = isImageExtension(imgUrl);
+
+                      return (
+                        <div className={styles.imageContainer} key={index}>
+                          <img
+                            className={styles.imageSection}
+                            src={isImageFile ? imgUrl : fallbackImageUrl}
+                            alt="Product Image"
+                            onError={(e) => {
+                              e.target.onerror = null;
+                              e.target.src = fallbackImageUrl;
+                            }}
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )
+            ) : (
+              // Render if image is an object
+              Object.keys(productDetail.general.image).length > 0 && (
+                <div className={styles.mainContainer}>
+                  <span className={styles.innerHead}>Product Images</span>
+                  <div className={styles.productImageSection}>
+                    {Object.entries(productDetail.general.image).map(
+                      ([viewLabel, images]) =>
+                        images?.map((imgUrl, index) => {
+                          const isImageFile = isImageExtension(imgUrl);
+                          return (
+                            <div
+                              className={styles.imageContainer}
+                              key={`${viewLabel}-${index}`}
+                            >
+                              <span>
+                                {viewLabel.charAt(0).toUpperCase() + viewLabel.slice(1)} Image
+                              </span>
+                              <img
+                                className={styles.imageSection}
+                                src={isImageFile ? imgUrl : fallbackImageUrl}
+                                alt={`${viewLabel} view`}
+                                onError={(e) => {
+                                  e.target.onerror = null;
+                                  e.target.src = fallbackImageUrl;
+                                }}
+                              />
+                              <div className={styles.imageLabel}>
+                                {viewLabel.toUpperCase()}
+                              </div>
+                            </div>
+                          );
+                        })
+                    )}
+                  </div>
+                </div>
+              )
+            ))}
+        {/* End product image section */}
+
         {/* Start Inventory & Packaging section */}
         {(productDetail?.inventoryDetails?.stockedInDetails?.length > 0 ||
           productDetail?.inventoryDetails?.sku ||
@@ -401,7 +589,7 @@ const ProductDetails = () => {
           <div className={styles.mainContainer}>
             <span className={styles.innerHead}>Inventory & Packaging</span>
             <div className={styles.innerMainSection}>
-              {(productDetail?.inventoryDetails?.sku ||
+              {/* {(productDetail?.inventoryDetails?.sku ||
                 productDetail?.inventoryDetails?.stock ||
                 productDetail?.inventoryDetails?.date) && (
                 <div className={styles.inventorySection}>
@@ -459,7 +647,7 @@ const ProductDetails = () => {
                     )}
                   </div>
                 </div>
-              )}
+              )} */}
               {productDetail?.inventoryDetails?.stockedInDetails?.length >
                 0 && (
                 <div className={styles.inventorySection}>
@@ -498,14 +686,14 @@ const ProductDetails = () => {
             <div className={styles.innerInventorySection}>
               <div className={styles.inventorySection}>
                 <div className={styles.inventoryContainer}>
-                  <span className={styles.inventoryHead}>Quantity*</span>
+                  <span className={styles.inventoryHead}>Quantity</span>
                 </div>
                 <div className={styles.inventoryContainer}>
-                  <span className={styles.inventoryHead}>Cost Per Product*</span>
+                  <span className={styles.inventoryHead}>Cost Per Product</span>
                 </div>
                 <div className={styles.inventoryContainer}>
                   <span className={styles.inventoryHead}>
-                    Est. Shipping Time*
+                    Est. Shipping Time
                   </span>
                 </div>
               </div>
@@ -539,6 +727,211 @@ const ProductDetails = () => {
           </div>
         )}
         {/* End the product inventory section */}
+
+        {/* Start Compliance & Certification Health & Safety */}
+        {(productDetail?.cNCFileNDate?.length > 0 ||
+          productDetail?.healthNSafety?.safetyDatasheet?.length > 0 ||
+          productDetail?.healthNSafety?.healthHazardRating?.length > 0 ||
+          productDetail?.healthNSafety?.environmentalImpact?.length > 0) && (
+          <div className={styles.mainContainer}>
+            <span className={styles.innerHead}>
+              Compliance & Certification
+            </span>
+            <div className={styles.innerComplianceSection}>
+              {productDetail?.cNCFileNDate?.length > 0 && (
+                <div className={styles.additionalUploadSection}>
+                  <span className={styles.medicineHead}>
+                    Regulatory Compliance
+                  </span>
+                  <div className={styles.additionalImageSection}>
+                    {productDetail.cNCFileNDate.map((item, index) => (
+                      <div
+                        className={styles.complianceSection}
+                        key={item._id || index}
+                      >
+                        <RenderProductFiles files={item.file} />
+                        <span className={styles.medicineContent}>
+                          {formatDate(item.date)}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {/* {productDetail?.healthNSafety?.safetyDatasheet?.length > 0 && (
+                <div className={styles.additionalUploadSection}>
+                  <span className={styles.medicineHead}>Safety Datasheet</span>
+                  <div className={styles.additionalImageSection}>
+                    <RenderProductFiles
+                      files={productDetail?.healthNSafety?.safetyDatasheet}
+                    />
+                  </div>
+                </div>
+              )} */}
+            </div>
+            <div
+              className={styles.innerComplianceSection}
+              style={{ marginTop: "20px" }}
+            >
+              {/* {productDetail?.healthNSafety?.healthHazardRating?.length > 0 && (
+                <div className={styles.additionalUploadSection}>
+                  <span className={styles.medicineHead}>
+                    Health Hazard Rating
+                  </span>
+                  <div className={styles.additionalImageSection}>
+                    <RenderProductFiles
+                      files={productDetail?.healthNSafety?.healthHazardRating}
+                    />
+                  </div>
+                </div>
+              )} */}
+              {/* {productDetail?.healthNSafety?.environmentalImpact?.length >
+                0 && (
+                <div className={styles.additionalUploadSection}>
+                  <span className={styles.medicineHead}>
+                    Environmental Impact
+                  </span>
+                  <div className={styles.additionalImageSection}>
+                    <RenderProductFiles
+                      files={productDetail?.healthNSafety?.environmentalImpact}
+                    />
+                  </div>
+                </div>
+              )} */}
+            </div>
+          </div>
+        )}
+        {/* End Compliance & Certification Health & Safety */}
+
+        {/* Start Additional information */}
+        {(productDetail?.additional?.other ||
+          productDetail?.additional?.warranty ||
+          productDetail?.additional?.guidelinesFile?.length > 0) && (
+          <div className={styles.addtionalContainer}>
+            <span className={styles.innerHead}>Additional Information </span>
+            <div className={styles.manufacturerMainContainer}>
+              {productDetail?.additional?.other && (
+                <div className={styles.additionalSection}>
+                  {productDetail?.additional?.warranty && (
+                    <div className={styles.additionalInnerSection}>
+                      <span className={styles.medicineHead}>Warranty</span>
+                      <span className={styles.medicineText}>
+                        {productDetail?.additional?.warranty}
+                      </span>
+                    </div>
+                  )}
+                  {productDetail?.additional?.other && (
+                    <div className={styles.additionalInnerSection}>
+                      <span className={styles.medicineHead}>
+                        Other Information
+                      </span>
+                      <span className={styles.medicineText}>
+                        {productDetail?.additional?.other}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {productDetail?.additional?.guidelinesFile?.length > 0 && (
+                <div className={styles.additionalUploadSection}>
+                  <div className={styles.additionalUploadSection}>
+                    <span className={styles.medicineHead}>User Guidelines</span>
+                    <div className={styles.additionalImageSection}>
+                      <RenderProductFiles
+                        files={productDetail?.additional?.guidelinesFile}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+        {/* End Additional information */}
+
+         {/* start of Product documents */}
+      {(productDetail?.documents?.catalogue?.length > 0 ||
+          productDetail?.documents?.specification?.length > 0 ) && (
+          <div className={styles.mainContainer}>
+            <span className={styles.innerHead}>
+              Product Documents
+            </span>
+            <div className={styles.innerComplianceSection}>
+            {productDetail?.documents?.catalogue?.length > 0 && (
+                <div className={styles.additionalUploadSection}>
+                  <span className={styles.medicineHead}>Product Catalogue</span>
+                  <div className={styles.additionalImageSection}>
+                    <RenderProductFiles
+                      files={productDetail?.documents?.catalogue}
+                    />
+                  </div>
+                </div>
+              )}
+              {productDetail?.documents?.specification?.length > 0 && (
+                <div className={styles.additionalUploadSection}>
+                  <span className={styles.medicineHead}>Specification</span>
+                  <div className={styles.additionalImageSection}>
+                    <RenderProductFiles
+                      files={productDetail?.documents?.specification}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+            <div
+              className={styles.innerComplianceSection}
+              style={{ marginTop: "20px" }}
+            >
+              {productDetail?.healthNSafety?.healthHazardRating?.length > 0 && (
+                <div className={styles.additionalUploadSection}>
+                  <span className={styles.medicineHead}>
+                    Health Hazard Rating
+                  </span>
+                  <div className={styles.additionalImageSection}>
+                    {/* <RenderProductFiles
+                      files={productDetail?.healthNSafety?.healthHazardRating}
+                    /> */}
+                  </div>
+                </div>
+              )}
+              {productDetail?.healthNSafety?.environmentalImpact?.length >
+                0 && (
+                <div className={styles.additionalUploadSection}>
+                  <span className={styles.medicineHead}>
+                    Environmental Impact
+                  </span>
+                  <div className={styles.additionalImageSection}>
+                    {/* <RenderProductFiles
+                      files={productDetail?.healthNSafety?.environmentalImpact}
+                    /> */}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+        {/* end of product document */}
+        {/* start of faqs */}
+        {productDetail?.faqs?.length > 0 && (
+          <>
+            <div className="support-heading">FAQs</div>
+            <div className="faq-container">
+              <Accordion>
+                {productDetail?.faqs?.map((item, index) => (
+                  <Accordion.Item eventKey={index} className="faq-cover mt-2">
+                    <Accordion.Header className="faq-heading">
+                      {" "}
+                      {item?.ques}
+                    </Accordion.Header>
+                    <Accordion.Body>{item?.ans}</Accordion.Body>
+                  </Accordion.Item>
+                ))}
+              </Accordion>
+            </div>
+          </>
+        )}
+        {/* end of faqs */}
 
         {/* Start the category details section */}
         {/* Medical Equipment and Devices */}
@@ -3206,226 +3599,8 @@ const ProductDetails = () => {
 
         {/* End the category details section */}
 
-        {/* Start product image section */}
-        {/* {productDetail?.general?.image?.length > 0 && (
-          <div className={styles.mainContainer}>
-            <span className={styles.innerHead}>Product Images</span>
-            <div className={styles.productImageSection}>
-              {productDetail?.general?.image?.map((img) => (
-                <div className={styles.imageContainer}>
-                  <img
-                    className={styles.imageSection}
-                    src={
-                      !productDetail?.bulkUpload
-                        ? img?.startsWith("http")
-                          ? img
-                          : `${process.env.REACT_APP_SERVER_URL}uploads/products/${img}`
-                        : img
-                    }
-                    alt="image"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        )} */}
-
-          {productDetail?.general?.image &&
-            (Array.isArray(productDetail.general.image) ? (
-              // Render if image is an array
-              productDetail.general.image.length > 0 && (
-                <div className={styles.mainContainer}>
-                  <span className={styles.innerHead}>Product Images</span>
-                  <div className={styles.productImageSection}>
-                    {productDetail.general.image.map((img, index) => {
-                      const baseUrl = process.env.REACT_APP_SERVER_URL?.endsWith("/")
-                        ? process.env.REACT_APP_SERVER_URL
-                        : `${process.env.REACT_APP_SERVER_URL}/`;
-
-                      const imgUrl = img?.startsWith("http")
-                        ? img
-                        : `${baseUrl}uploads/products/${img}`;
-
-                      const isImageFile = isImageExtension(imgUrl);
-
-                      return (
-                        <div className={styles.imageContainer} key={index}>
-                          <img
-                            className={styles.imageSection}
-                            src={isImageFile ? imgUrl : fallbackImageUrl}
-                            alt="Product Image"
-                            onError={(e) => {
-                              e.target.onerror = null;
-                              e.target.src = fallbackImageUrl;
-                            }}
-                          />
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              )
-            ) : (
-              // Render if image is an object
-              Object.keys(productDetail.general.image).length > 0 && (
-                <div className={styles.mainContainer}>
-                  <span className={styles.innerHead}>Product Images</span>
-                  <div className={styles.productImageSection}>
-                    {Object.entries(productDetail.general.image).map(
-                      ([viewLabel, images]) =>
-                        images?.map((imgUrl, index) => {
-                          const isImageFile = isImageExtension(imgUrl);
-                          return (
-                            <div
-                              className={styles.imageContainer}
-                              key={`${viewLabel}-${index}`}
-                            >
-                              <span>
-                                {viewLabel.charAt(0).toUpperCase() + viewLabel.slice(1)} Image
-                              </span>
-                              <img
-                                className={styles.imageSection}
-                                src={isImageFile ? imgUrl : fallbackImageUrl}
-                                alt={`${viewLabel} view`}
-                                onError={(e) => {
-                                  e.target.onerror = null;
-                                  e.target.src = fallbackImageUrl;
-                                }}
-                              />
-                              <div className={styles.imageLabel}>
-                                {viewLabel.toUpperCase()}
-                              </div>
-                            </div>
-                          );
-                        })
-                    )}
-                  </div>
-                </div>
-              )
-            ))}
-        {/* End product image section */}
-        {/* Start Compliance & Certification Health & Safety */}
-        {(productDetail?.cNCFileNDate?.length > 0 ||
-          productDetail?.healthNSafety?.safetyDatasheet?.length > 0 ||
-          productDetail?.healthNSafety?.healthHazardRating?.length > 0 ||
-          productDetail?.healthNSafety?.environmentalImpact?.length > 0) && (
-          <div className={styles.mainContainer}>
-            <span className={styles.innerHead}>
-              Compliance & Certification
-            </span>
-            <div className={styles.innerComplianceSection}>
-              {productDetail?.cNCFileNDate?.length > 0 && (
-                <div className={styles.additionalUploadSection}>
-                  <span className={styles.medicineHead}>
-                    Regulatory Compliance
-                  </span>
-                  <div className={styles.additionalImageSection}>
-                    {productDetail.cNCFileNDate.map((item, index) => (
-                      <div
-                        className={styles.complianceSection}
-                        key={item._id || index}
-                      >
-                        <RenderProductFiles files={item.file} />
-                        <span className={styles.medicineContent}>
-                          {formatDate(item.date)}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-              {/* {productDetail?.healthNSafety?.safetyDatasheet?.length > 0 && (
-                <div className={styles.additionalUploadSection}>
-                  <span className={styles.medicineHead}>Safety Datasheet</span>
-                  <div className={styles.additionalImageSection}>
-                    <RenderProductFiles
-                      files={productDetail?.healthNSafety?.safetyDatasheet}
-                    />
-                  </div>
-                </div>
-              )} */}
-            </div>
-            <div
-              className={styles.innerComplianceSection}
-              style={{ marginTop: "20px" }}
-            >
-              {/* {productDetail?.healthNSafety?.healthHazardRating?.length > 0 && (
-                <div className={styles.additionalUploadSection}>
-                  <span className={styles.medicineHead}>
-                    Health Hazard Rating
-                  </span>
-                  <div className={styles.additionalImageSection}>
-                    <RenderProductFiles
-                      files={productDetail?.healthNSafety?.healthHazardRating}
-                    />
-                  </div>
-                </div>
-              )} */}
-              {/* {productDetail?.healthNSafety?.environmentalImpact?.length >
-                0 && (
-                <div className={styles.additionalUploadSection}>
-                  <span className={styles.medicineHead}>
-                    Environmental Impact
-                  </span>
-                  <div className={styles.additionalImageSection}>
-                    <RenderProductFiles
-                      files={productDetail?.healthNSafety?.environmentalImpact}
-                    />
-                  </div>
-                </div>
-              )} */}
-            </div>
-          </div>
-        )}
-        {/* End Compliance & Certification Health & Safety */}
-
-        {/* Start Additional information */}
-        {(productDetail?.additional?.other ||
-          productDetail?.additional?.warranty ||
-          productDetail?.additional?.guidelinesFile?.length > 0) && (
-          <div className={styles.addtionalContainer}>
-            <span className={styles.innerHead}>Additional Information </span>
-            <div className={styles.manufacturerMainContainer}>
-              {productDetail?.additional?.other && (
-                <div className={styles.additionalSection}>
-                  {productDetail?.additional?.warranty && (
-                    <div className={styles.additionalInnerSection}>
-                      <span className={styles.medicineHead}>Warranty</span>
-                      <span className={styles.medicineText}>
-                        {productDetail?.additional?.warranty}
-                      </span>
-                    </div>
-                  )}
-                  {productDetail?.additional?.other && (
-                    <div className={styles.additionalInnerSection}>
-                      <span className={styles.medicineHead}>
-                        Other Information
-                      </span>
-                      <span className={styles.medicineText}>
-                        {productDetail?.additional?.other}
-                      </span>
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {productDetail?.additional?.guidelinesFile?.length > 0 && (
-                <div className={styles.additionalUploadSection}>
-                  <div className={styles.additionalUploadSection}>
-                    <span className={styles.medicineHead}>User Guidelines</span>
-                    <div className={styles.additionalImageSection}>
-                      <RenderProductFiles
-                        files={productDetail?.additional?.guidelinesFile}
-                      />
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* End Additional information */}
+        
+        
       {/* Start Manufacturer section */}
 {/* {(productDetail?.general?.manufacturer ||
   productDetail?.general?.countryOfOrigin) && (
@@ -3463,91 +3638,8 @@ const ProductDetails = () => {
   </div>
 )} */}
 
-{/* start of Product documents */}
-      {(productDetail?.documents?.catalogue?.length > 0 ||
-          productDetail?.documents?.specification?.length > 0 ) && (
-          <div className={styles.mainContainer}>
-            <span className={styles.innerHead}>
-              Product Documents
-            </span>
-            <div className={styles.innerComplianceSection}>
-            {productDetail?.documents?.catalogue?.length > 0 && (
-                <div className={styles.additionalUploadSection}>
-                  <span className={styles.medicineHead}>Product Catalogue</span>
-                  <div className={styles.additionalImageSection}>
-                    <RenderProductFiles
-                      files={productDetail?.documents?.catalogue}
-                    />
-                  </div>
-                </div>
-              )}
-              {productDetail?.documents?.specification?.length > 0 && (
-                <div className={styles.additionalUploadSection}>
-                  <span className={styles.medicineHead}>Specification</span>
-                  <div className={styles.additionalImageSection}>
-                    <RenderProductFiles
-                      files={productDetail?.documents?.specification}
-                    />
-                  </div>
-                </div>
-              )}
-            </div>
-            <div
-              className={styles.innerComplianceSection}
-              style={{ marginTop: "20px" }}
-            >
-              {productDetail?.healthNSafety?.healthHazardRating?.length > 0 && (
-                <div className={styles.additionalUploadSection}>
-                  <span className={styles.medicineHead}>
-                    Health Hazard Rating
-                  </span>
-                  <div className={styles.additionalImageSection}>
-                    {/* <RenderProductFiles
-                      files={productDetail?.healthNSafety?.healthHazardRating}
-                    /> */}
-                  </div>
-                </div>
-              )}
-              {productDetail?.healthNSafety?.environmentalImpact?.length >
-                0 && (
-                <div className={styles.additionalUploadSection}>
-                  <span className={styles.medicineHead}>
-                    Environmental Impact
-                  </span>
-                  <div className={styles.additionalImageSection}>
-                    {/* <RenderProductFiles
-                      files={productDetail?.healthNSafety?.environmentalImpact}
-                    /> */}
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-        {/* end of product document */}
+     
 
-{/* Start Manufacturer section */}
-<div className={styles.mainManufacturerContainer}>
-  <span className={styles.innerHead}>Manufacturer Details</span>
-  <div className={styles.manufacturerMainContainer}>
-    <div className={styles.manufacturerContainer}>
-      <div className={styles.manufacturersection}>
-        <span className={styles.medicineHead}>Manufacturer Name</span>
-        <span className={styles.medicineText}>
-          {productDetail?.general?.manufacturer || "N/A"}
-        </span>
-      </div>
-      <div className={styles.manufacturersection}>
-        <span className={styles.medicineHead}>Country of Origin</span>
-        <span className={styles.medicineText}>
-          {productDetail?.general?.countryOfOrigin || "N/A"}
-        </span>
-      </div>
-    </div>
-  </div>
-</div>
-{/* End Manufacturer section */}
-{/* End Manufacturer section */}
       </div>
     </div>
   );

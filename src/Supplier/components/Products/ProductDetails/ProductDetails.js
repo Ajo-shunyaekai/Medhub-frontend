@@ -13,6 +13,15 @@ import Accordion from "react-bootstrap/Accordion";
 
 Modal.setAppElement("#root");
 
+const toTitleCase = (str) => {
+  return str
+    .replace(/([a-z])([A-Z])/g, '$1 $2') // add space between camelCase words
+    .replace(/[_\-]/g, ' ')              // replace underscores/dashes with spaces
+    .split(' ')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ');
+};
+ 
 const ProductDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -213,14 +222,14 @@ const ProductDetails = () => {
                 </div>
               )}
               {/* {productDetail?.[productDetail?.category]?.anotherCategory && ( */}
-              {productDetail?.anotherCategory && (
+              {productDetail?.[productDetail?.category]?.anotherCategory || productDetail?.anotherCategory && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>
                     Product Sub Category(Level3)
                   </span>
                   <span className={styles.medicineText}>
                     {/* {productDetail?.[productDetail?.category]?.anotherCategory}{" "} */}
-                    {productDetail?.anotherCategory}
+                    {productDetail?.[productDetail?.category]?.anotherCategory || productDetail?.anotherCategory}
                   </span>
                 </div>
               )}
@@ -312,14 +321,14 @@ const ProductDetails = () => {
             </div>
             <div className={styles.mainSection}>
               {/* {productDetail?.[productDetail?.category]?.subCategory && ( */}
-              {productDetail?.subCategory && (
+              {productDetail?.[productDetail?.category]?.subCategory || productDetail?.subCategory && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>
                     Product Sub Category
                   </span>
                   <span className={styles.medicineText}>
                     {/* {productDetail?.[productDetail?.category]?.subCategory}{" "} */}
-                    {productDetail?.subCategory}
+                    {productDetail?.[productDetail?.category]?.subCategory || productDetail?.subCategory}
                   </span>
                 </div>
               )}
@@ -452,7 +461,7 @@ const ProductDetails = () => {
             <div className={styles.innerComplianceSection}>
               {productDetail?.categoryDetails?.map((item, index) => (
                 <div className={styles.additionalUploadSection}>
-                  <span className={styles.medicineHead}>{item?.name}</span>
+                  <span className={styles.medicineHead}>{toTitleCase(item?.name)}</span>
                   <div className={styles.additionalImageSection}>
                     {/* {productDetail?.categoryDetails?.map((item, index) => ( */}
                     <div
@@ -567,7 +576,7 @@ const ProductDetails = () => {
                 productDetail?.inventoryDetails?.stock ||
                 productDetail?.inventoryDetails?.date) && (
                 <div className={styles.inventorySection}>
-                  <div className={styles.mainSection}>
+                  {/* <div className={styles.mainSection}>
                     {productDetail?.inventoryDetails?.sku && (
                       <div className={styles.medicinesSection}>
                         <span className={styles.medicineHead}>SKU</span>
@@ -615,12 +624,12 @@ const ProductDetails = () => {
                           Date of Manufacture
                         </span>
                         <span className={styles.medicineText}>
-                          {/* {productDetail?.inventoryDetails?.date} */}
+                         
                           {formatDate(productDetail?.inventoryDetails?.date)}
                         </span>
                       </div>
                     )}
-                  </div>
+                  </div> */}
                 </div>
               )}
               {productDetail?.inventoryDetails?.stockedInDetails?.length >
@@ -901,7 +910,7 @@ const ProductDetails = () => {
         {/* end of product document */}
         {productDetail?.faqs?.length > 0 && (
           <>
-            <div className="support-heading">FAQ</div>
+            <div className="support-heading">FAQs</div>
             <div className="faq-container">
               <Accordion>
                 {productDetail?.faqs?.map((item, index) => (
