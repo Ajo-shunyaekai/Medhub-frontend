@@ -1237,17 +1237,15 @@ const EditAddProduct = ({ placeholder }) => {
                   <span className={styles?.labelStamp}>*</span>
                 </label>
                 <textarea
-                    className={styles.formInput}
-                    type="text"
-                    name="description"
-                    rows={5}
-                    placeholder="Enter Description"
-                    value={formik?.values.description}
-                    onChange={formik?.handleChange}
-                    onBlur={() =>
-                      formik?.handleBlur
-                    }
-                  />
+                  className={styles.formInput}
+                  type="text"
+                  name="description"
+                  rows={5}
+                  placeholder="Enter Description"
+                  value={formik?.values.description}
+                  onChange={formik?.handleChange}
+                  onBlur={() => formik?.handleBlur}
+                />
 
                 <span className={styles?.error}></span>
               </div>
@@ -2288,7 +2286,7 @@ const EditAddProduct = ({ placeholder }) => {
                 <AddProductFileUpload
                   styles={styles}
                   productDetails={productDetail}
-                  maxFiles={1}
+                  maxFiles={1 - (formik?.values?.imageFront?.length || 0)}
                   fieldInputName={"imageFrontNew"}
                   oldFieldName={"imageFront"}
                   existingFiles={formik?.values?.imageFront}
@@ -2318,7 +2316,7 @@ const EditAddProduct = ({ placeholder }) => {
                 <AddProductFileUpload
                   styles={styles}
                   productDetails={productDetail}
-                  maxFiles={1}
+                  maxFiles={1 - (formik?.values?.imageBack?.length || 0)}
                   fieldInputName={"imageBackNew"}
                   oldFieldName={"imageBack"}
                   existingFiles={formik?.values?.imageBack}
@@ -2348,7 +2346,7 @@ const EditAddProduct = ({ placeholder }) => {
                 <AddProductFileUpload
                   styles={styles}
                   productDetails={productDetail}
-                  maxFiles={1}
+                  maxFiles={1 - (formik?.values?.imageSide?.length || 0)}
                   fieldInputName={"imageSideNew"}
                   oldFieldName={"imageSide"}
                   existingFiles={formik?.values?.imageSide}
@@ -2378,7 +2376,7 @@ const EditAddProduct = ({ placeholder }) => {
                 <AddProductFileUpload
                   styles={styles}
                   productDetails={productDetail}
-                  maxFiles={1}
+                  maxFiles={1 - (formik?.values?.imageClosure?.length || 0)}
                   fieldInputName={"imageClosureNew"}
                   oldFieldName={"imageClosure"}
                   existingFiles={formik?.values?.imageClosure}
