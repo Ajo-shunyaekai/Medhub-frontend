@@ -10,7 +10,7 @@ import CloseIcon from "../../../assets/images/Icon.svg";
 import moment from "moment";
 import { borderBottom } from "@mui/system";
 import Accordion from "react-bootstrap/Accordion";
- 
+
 Modal.setAppElement("#root");
 
 const toTitleCase = (str) => {
@@ -35,34 +35,34 @@ const ProductDetails = () => {
       ? pdfFile
       : `${process.env.REACT_APP_SERVER_URL}/uploads/products/${pdfFile}`
     : "https://morth.nic.in/sites/default/files/dd12-13_0.pdf";
- 
+
   useEffect(() => {
     if (id) {
       dispatch(fetchProductDetail(`product/${id}`));
     }
   }, [id]);
- 
+
   const getCategoryData = (property) => {
     if (!productDetail?.category) return null;
     return productDetail[productDetail.category]?.[property];
   };
- 
+
   const formatDate = (dateString) => {
     if (!dateString) return ""; // Handle empty or undefined dates
- 
+
     const dateObj = new Date(dateString);
     if (isNaN(dateObj)) return ""; // Handle invalid dates
- 
+
     const day = String(dateObj.getDate()).padStart(2, "0");
     const month = String(dateObj.getMonth() + 1).padStart(2, "0"); // Months are 0-based
     const year = dateObj.getFullYear();
- 
+
     return `${day}-${month}-${year}`;
   };
- 
+
   const fallbackImageUrl =
     "https://medhub.shunyaekai.com/uploads/fallbackImage.jpg";
- 
+
   // Utility to check if URL ends with image extension
   const isImageExtension = (fileName) => {
     return /\.(png|jpe?g|gif|bmp|webp)$/i.test(fileName);
@@ -74,7 +74,7 @@ const ProductDetails = () => {
       alert("No purchase invoice file available.");
     }
   };
- 
+
   return (
     <div className={styles.container}>
       <span className={styles.heading}>Product Details</span>
@@ -92,7 +92,7 @@ const ProductDetails = () => {
             </Link>
           </div>
         </div>
- 
+
         {/* Start Secondar Market section */}
         {(productDetail?.secondaryMarketDetails?.purchasedOn ||
           productDetail?.secondaryMarketDetails?.countryAvailable?.length > 0 ||
@@ -161,7 +161,7 @@ const ProductDetails = () => {
                       </span>
                     </div>
                   )}
- 
+
                   {/* {productDetail?.secondaryMarketDetails
                     ?.minimumPurchaseUnit && (
                     <div className={styles.medicinesSection}>
@@ -178,7 +178,7 @@ const ProductDetails = () => {
                   )} */}
                 </div>
               )}
- 
+
               {productDetail?.secondaryMarketDetails?.purchaseInvoiceFile
                 ?.length > 0 && (
                 <div className={styles.mainPurchaseSection}>
@@ -193,7 +193,7 @@ const ProductDetails = () => {
             </div>
           </div>
         )}
- 
+
         {/* End Secondar Market section */}
         {/* Start general information section */}
         <div className={styles.mainContainer}>
@@ -295,7 +295,7 @@ const ProductDetails = () => {
                   </span>
                 </div>
               )} */}
- 
+
               {/* {productDetail?.general?.packageType && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>
@@ -399,7 +399,7 @@ const ProductDetails = () => {
             </div>
           </div>
         </div>
- 
+
         {/* End general information section */}
         {/* Start Short description */}
         {/* {productDetail?.general?.aboutManufacturer && (
@@ -413,7 +413,7 @@ const ProductDetails = () => {
           </div>
         )} */}
         {/* End the Short description */}
- 
+
         {/* Start product description */}
         {productDetail?.general?.description && (
           <div className={styles.mainContainer}>
@@ -429,7 +429,7 @@ const ProductDetails = () => {
           </div>
         )}
         {/* End the product description */}
- 
+
         <div className={styles.mainContainer}>
           <span className={styles.innerHead}>Manufacturer Details</span>
           <div className={styles.manufacturerMainContainer}>
@@ -486,7 +486,7 @@ const ProductDetails = () => {
             ></div>
           </div>
         )}
- 
+
         {productDetail?.general?.image &&
           (Array.isArray(productDetail.general.image)
             ? // Render if image is an array
@@ -499,13 +499,13 @@ const ProductDetails = () => {
                         process.env.REACT_APP_SERVER_URL?.endsWith("/")
                           ? process.env.REACT_APP_SERVER_URL
                           : `${process.env.REACT_APP_SERVER_URL}/`;
- 
+
                       const imgUrl = img?.startsWith("http")
                         ? img
                         : `${baseUrl}uploads/products/${img}`;
- 
+
                       const isImageFile = isImageExtension(imgUrl);
- 
+
                       return (
                         <div className={styles.imageContainer} key={index}>
                           <img
@@ -561,9 +561,9 @@ const ProductDetails = () => {
                   </div>
                 </div>
               ))}
- 
+
         {/* End product image section */}
- 
+
         {/* Start Inventory & Packaging section */}
         {(productDetail?.inventoryDetails?.stockedInDetails?.length > 0 ||
           productDetail?.inventoryDetails?.sku ||
@@ -607,9 +607,9 @@ const ProductDetails = () => {
                         </span>
                       </div>
                     )}
-                  </div> */}
- 
-                  {/* <div className={styles.mainSection}>
+                  </div>
+
+                  <div className={styles.mainSection}>
                     {productDetail?.inventoryDetails?.stock && (
                       <div className={styles.medicinesSection}>
                         <span className={styles.medicineHead}>Stock</span>
@@ -642,7 +642,7 @@ const ProductDetails = () => {
                       </span>
                       <span className={styles.medicineHeadings}>Quantity</span>
                     </div>
- 
+
                     {productDetail?.inventoryDetails?.stockedInDetails?.map(
                       (ele) => (
                         <div className={styles.medicinesSection}>
@@ -662,7 +662,7 @@ const ProductDetails = () => {
           </div>
         )}
         {/* End Inventory & Packaging section */}
- 
+
         {/* Start the product inventory section */}
         {productDetail?.inventoryDetails?.inventoryList?.length > 0 && (
           <div className={styles.mainContainer}>
@@ -799,7 +799,7 @@ const ProductDetails = () => {
           </div>
         )}
         {/* End Compliance & Certification Health & Safety */}
- 
+
         {/* Start Additional information */}
         {(productDetail?.additional?.other ||
           productDetail?.additional?.warranty ||
@@ -829,7 +829,7 @@ const ProductDetails = () => {
                   )}
                 </div>
               )}
- 
+
               {productDetail?.additional?.guidelinesFile?.length > 0 && (
                 <div className={styles.additionalUploadSection}>
                   <div className={styles.additionalUploadSection}>
@@ -845,9 +845,9 @@ const ProductDetails = () => {
             </div>
           </div>
         )}
- 
+
         {/* End Additional information */}
- 
+
         {/* start of Product documents */}
         {(productDetail?.documents?.catalogue?.length > 0 ||
           productDetail?.documents?.specification?.length > 0) && (
@@ -927,11 +927,11 @@ const ProductDetails = () => {
           </>
         )}
         {/* Start Manufacturer section */}
- 
+
         <div className={styles.mainManufacturerContainer}></div>
- 
+
         {/* End Manufacturer section */}
- 
+
         {/* Modal for PDF Preview */}
         <Modal
           isOpen={modalIsOpen}
@@ -946,7 +946,7 @@ const ProductDetails = () => {
           >
             <img className={styles.closeImg} src={CloseIcon} alt="closeIcon" />
           </div>
- 
+
           {/* PDF display with loading and error handling */}
           {pdfFile ? (
             <iframe
@@ -965,5 +965,5 @@ const ProductDetails = () => {
     </div>
   );
 };
- 
+
 export default ProductDetails;
