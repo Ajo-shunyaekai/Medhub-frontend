@@ -77,10 +77,11 @@ const PurchasedOrder = ({ poList, totalList, currentPage, listPerPage, handlePag
                         border-bottom: none !important;
                     }
                     .rdt_TableHeadRow {
-                         background-color: #f9f9fa;
-    font-weight: bold !important;
-    font-size: 14px !important;
-    border-bottom: none !important;
+                        background-color: #f9f9fa;
+                        color: #5e676f;
+                        font-size: 0.825rem;
+                        font-weight: 600;
+                        border-bottom: none !important;
                     }
                     .rdt_TableBody {
                         gap: 10px !important;
@@ -88,16 +89,19 @@ const PurchasedOrder = ({ poList, totalList, currentPage, listPerPage, handlePag
                     .rdt_TableCol {
                             
                         color: #5e676f !important;
+              font-size: 0.825rem;
     font-weight: 500 !important;
                     }
                     .rdt_TableCell {
                             
                            color: #99a0ac;
+              font-size: 0.825rem;
                  
                     }
                     .rdt_TableCellStatus {
                             
                            color: #99a0ac;
+              font-size: 0.825rem;
                     }
                 `}
             </style>
