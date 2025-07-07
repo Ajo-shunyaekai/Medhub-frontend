@@ -7,7 +7,7 @@
 }
 
 .mainContainerFilter {
- background: linear-gradient(to left, #00dcff, #0075ce);
+  background: linear-gradient(to left, #00dcff, #0075ce);
   color: #fff;
   padding: 12px;
 }
@@ -20,11 +20,11 @@
 }
 
 .mainSectionFilter {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 7rem;
-    width: 100%;
-    justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7rem;
+  width: 100%;
+  justify-content: center;
 }
 
 .medicinesSectionFilter {
@@ -32,20 +32,23 @@
 }
 
 .PurcahseButtonFilter {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    /* justify-content: space-between; */
-    font-size: 16px;
-    font-weight: 500;
-    /* min-width: 200px; */
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  /* justify-content: space-between; */
+  font-size: 16px;
+  font-weight: 500;
+  /* min-width: 200px; */
 }
 
-.PurcahseButtonFilter span,svg,img {
+.PurcahseButtonFilter span,
+svg,
+img {
   cursor: pointer !important;
 }
 
-.PurcahseButtonFilter svg,img {
+.PurcahseButtonFilter svg,
+img {
   padding-top: 2px;
   font-size: 1.2rem;
 }
@@ -53,8 +56,8 @@
 .filterDropdownContentFilter {
   background-color: #fff;
   border-radius: 2px;
-   
-  color:#5e676f;
+
+  color: #5e676f;
   display: flex;
   flex-direction: column;
   font-size: 14px;
@@ -113,7 +116,8 @@
 .ProductMainContainer {
   background-color: #fff;
   border-radius: 4px;
-   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
   padding: 26px 30px;
   width: 100%;
   display: flex;
@@ -161,8 +165,8 @@
 }
 
 .innerHead {
-  color:#5e676f;
-  font-size: 18px;
+  color: #5e676f;
+  font-size: 15px;
   font-weight: 500;
   margin-bottom: 8px;
 }
@@ -176,7 +180,8 @@
 .mainContainer {
   background-color: #fff;
   border-radius: 4px;
- box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;  
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
   padding: 26px 30px;
   display: flex;
   flex-direction: column;
@@ -195,7 +200,8 @@
 .mainManufacturerContainer {
   background-color: #fff;
   border-radius: 4px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important; 
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
   padding: 26px 30px;
   display: flex;
   flex-direction: column;
@@ -216,13 +222,13 @@
 }
 
 .medicineName {
- color:#5e676f;
-  font-size: 28px;
+  color: #5e676f;
+  font-size: 20px;
   font-weight: 500;
 }
 
 .editButton {
- background: linear-gradient(to left, #00dcff, #0075ce);
+  background: linear-gradient(to left, #00dcff, #0075ce);
   border: none !important;
   outline: none !important;
   border-radius: 4px;
@@ -253,10 +259,10 @@
 }
 
 .medicineHead {
-  font-size: 14px;
-  font-weight: 500;
+  color: #5e676f;
+  font-size: 0.825rem;
   min-width: 250px;
- color:#5e676f;
+  font-weight: 600;
 }
 
 .medicineHeadings {
@@ -266,27 +272,27 @@
 
 .medicineText {
   width: 100%;
-    font-size: 14px;
-    color: #99a0ac;
-    font-weight: 500;
+  font-size: 0.825rem;
+  color: #99a0ac;
+  /* font-weight: 500; */
   word-wrap: break-word;
   white-space: normal;
   overflow-wrap: break-word;
 }
 
 .medicineTexts {
-       font-size: 14px;
-    color: #99a0ac;
-    font-weight: 500;
+  font-size: 14px;
+  color: #99a0ac;
+  font-weight: 500;
   word-wrap: break-word;
   white-space: normal;
   overflow-wrap: break-word;
 }
 
 .medicineContent {
-         font-size: 14px;
-    color: #99a0ac;
-    font-weight: 500;
+  font-size: 14px;
+  color: #99a0ac;
+  font-weight: 500;
   word-wrap: break-word;
   white-space: normal;
   overflow-wrap: break-word;
@@ -294,9 +300,9 @@
 }
 
 .medicineDescriptionContent {
-       font-size: 14px;
-    color: #99a0ac;
-    font-weight: 500;
+  color: #99a0ac;
+  /* font-weight: 500; */
+  font-size: 0.825rem;
   word-wrap: break-word;
   white-space: normal;
   overflow-wrap: break-word;
@@ -311,7 +317,7 @@
 .innerMainSection {
   display: flex;
   flex-direction: column;
-  gap: 10px;  
+  gap: 10px;
   width: 100%;
 }
 
@@ -340,20 +346,20 @@
 }
 
 .inventoryHead {
-  color:#5e676f;
+  color: #5e676f;
   font-size: 14px;
   font-weight: 500;
 }
 
 .inventoryInput {
-      box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
   background-color: #fff !important;
   border: none !important;
   border-radius: 4px !important;
   color: #5e676f;
   font-size: 14px;
   outline: none !important;
-    padding: 10.4px !important;
+  padding: 10.4px !important;
   position: relative !important;
   width: 100% !important;
 }
@@ -471,7 +477,7 @@
   gap: 20px;
 }
 .submitButton {
-background: linear-gradient(to left, #00dcff, #0075ce);
+  background: linear-gradient(to left, #00dcff, #0075ce);
   color: white;
   outline: none !important;
   border: none !important;
@@ -485,7 +491,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
   background-color: #ffffff;
   border: 1px solid #212121;
-  color:#5e676f;
+  color: #5e676f;
   padding: 6px 22px;
   border-radius: 4px;
   font-weight: 500;
@@ -499,7 +505,8 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 .addtionalContainer {
   background-color: #fff;
   border-radius: 4px;
-   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
   padding: 26px 30px;
   display: flex;
   flex-direction: column;
@@ -620,8 +627,8 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 }
 
 .uploadImage {
-    width: 50px;
-    height: auto;
+  width: 50px;
+  height: auto;
 }
 
 .complianceIcon {
@@ -634,11 +641,9 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   height: auto;
 }
 
-
-
 .PurcahseButton {
   align-items: center;
- background: linear-gradient(to left, #00dcff, #0075ce);
+  background: linear-gradient(to left, #00dcff, #0075ce);
   border: none !important;
   border-radius: 4px;
   color: #fff;
@@ -681,7 +686,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 .closeButton {
   background-color: #fff;
   border-radius: 4px;
-   
+
   padding: 8px;
   border: none !important;
   cursor: pointer !important;
@@ -828,7 +833,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 }
 
 .docx-content {
-  font-family: 'Times New Roman', serif;
+  font-family: "Times New Roman", serif;
   line-height: 1.6;
   color: #333;
   background: white;
@@ -839,7 +844,9 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   overflow-y: auto;
 }
 
-.docx-content h1, .docx-content h2, .docx-content h3 {
+.docx-content h1,
+.docx-content h2,
+.docx-content h3 {
   color: #2c3e50;
   margin-top: 20px;
   margin-bottom: 10px;
@@ -855,11 +862,14 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   margin: 10px 0;
 }
 
-.docx-content table, .docx-content th, .docx-content td {
+.docx-content table,
+.docx-content th,
+.docx-content td {
   border: 1px solid #ddd;
 }
 
-.docx-content th, .docx-content td {
+.docx-content th,
+.docx-content td {
   padding: 8px;
   text-align: left;
 }
@@ -893,43 +903,45 @@ background: linear-gradient(to left, #00dcff, #0075ce);
     width: 95vw;
     max-height: 95vh;
   }
-  
-  .modal-header, .modal-footer {
+
+  .modal-header,
+  .modal-footer {
     padding: 10px 15px;
   }
-  
+
   .modal-body {
     padding: 15px;
   }
-  
+
   .modal-header h3 {
     font-size: 16px;
   }
-  
+
   .modal-footer {
     flex-direction: column;
     gap: 10px;
   }
-  
-  .download-link, .close-modal-btn {
+
+  .download-link,
+  .close-modal-btn {
     width: 100%;
     text-align: center;
   }
 }
 /* modal */
 @media (max-width: 1560px) {
-.container {
-  margin: unset;
-}
+  .container {
+    margin: unset;
+  }
 }
 @media (max-width: 1460px) {
   .medicineHead {
-  min-width: 220px;
-}
-.container {
-  max-width: 96%;
-}
-.PurcahseButton {
+    min-width: 220px;
+  }
+  .container {
+    max-width: 96%;
+  }
+  .PurcahseButton {
     padding: 6px 0px;
     width: 140px;
     font-size: 12.5px;
@@ -942,20 +954,20 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 }
 @media (max-width: 1300px) {
   .container {
-  max-width: 94%;
-}
+    max-width: 94%;
+  }
 }
 
 @media (max-width: 1200px) {
   .medicineHead {
     min-width: 200px;
   }
-    .container {
-  max-width: 98%;
-}
+  .container {
+    max-width: 98%;
+  }
 }
 
-.accordion-item:first-of-type>.accordion-header .accordion-button {
+.accordion-item:first-of-type > .accordion-header .accordion-button {
   border-top-left-radius: var(--bs-accordion-inner-border-radius);
   border-top-right-radius: var(--bs-accordion-inner-border-radius);
 }

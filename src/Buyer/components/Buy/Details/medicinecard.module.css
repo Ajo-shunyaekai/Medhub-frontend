@@ -1,134 +1,130 @@
-.gridContainer{
-    background: linear-gradient(270deg, #f5f5f7, #e1f2ff);
-    border-radius: 4px;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    padding: 50px 30px;
+.gridContainer {
+  background: linear-gradient(270deg, #f5f5f7, #e1f2ff);
+  border-radius: 4px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  padding: 50px 30px;
 }
-.card{
-    background-color: #fff;
-    border-radius: 4px;
- box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
-    display: flex;
-    align-items: center;
-    gap: 30px;
-    padding: 24px 32px;
-    width: 100%;
+.card {
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  padding: 24px 32px;
+  width: 100%;
 }
-.heading{
-    font-size: 18px;
-    color: #5e676f;
-    font-weight: 500;
+.heading {
+  font-size: 16px;
+  color: #5e676f;
+  font-weight: 500;
 }
-.container{
-    display: flex;
-    flex-direction: column;
-    gap: 36px;
-    margin-bottom: 26rem;
-       
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  margin-bottom: 26rem;
 }
-.cardMainHeading{
-    font-size: 22px;
-      font-weight: 500;
+.cardMainHeading {
+  font-size: 22px;
+  font-weight: 500;
 }
-.innerContainer{
-    display: flex;
-        flex-direction: column;
-        gap: 10px;
-        justify-content: center;
-        align-items: center;
-        width: 25%;
+.innerContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  width: 25%;
 }
-.imageContainer{
-    display: flex
-    ;
-        height: 100px;
-        justify-content: center;
-        overflow: hidden;
-        width: 100px;
+.imageContainer {
+  display: flex;
+  height: 100px;
+  justify-content: center;
+  overflow: hidden;
+  width: 100px;
 }
-.imageContainer img{
-    height: 100%;
-    object-fit: contain;
-    width: 100%;
+.imageContainer img {
+  height: 100%;
+  object-fit: contain;
+  width: 100%;
 }
-.button{
-   background: linear-gradient(to left, #00dcff, #0075ce);
-    border: none;
-    border-radius: 4px;
-    color: #fff;
-    column-gap: 8px;
-    cursor: pointer !important;
-    display: flex
-;
-    font-size: 14px;
-    justify-content: center;
-    outline: none;
-    padding: 6px 8px;
+.button {
+  background: linear-gradient(to left, #00dcff, #0075ce);
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  column-gap: 8px;
+  cursor: pointer !important;
+  display: flex;
+  font-size: 14px;
+  justify-content: center;
+  outline: none;
+  padding: 6px 8px;
 }
-.contentSection{
-    display: flex;
-        flex-direction: column;
-        gap: 8px;
-        width: 70%;
+.contentSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 70%;
 }
-.mainHeading{
-    color:#4f4f4f;
-    font-size: 22px;
-      font-weight: 500;
+.mainHeading {
+  color: #4f4f4f;
+  font-size: 22px;
+  font-weight: 500;
 }
-.section{
-    display: flex;
-    gap: 10px;
+.section {
+  display: flex;
+  gap: 10px;
 }
-.head{
-    color: #5e676f;
-    font-size: 13px;
-    font-weight: 500;
-    width: 30%;
-    min-width: 130px;
+.head {
+  color: #5e676f;
+  font-size: 0.825rem;
+  font-weight: 500;
+  width: 30%;
+  min-width: 130px;
 }
-.text{
-       color: #5e676f;
-    font-size: 13px;
-    line-height: 20px;
-    width: 60%;
+.text {
+  color: #99a0ac;
+  font-size: 0.825rem;
+  line-height: 20px;
+  width: 60%;
 }
-.noData{
-    background-color: #fff;
-    border-radius: 4px;
- 
-    display: flex
-;
-    align-items: center;
-    gap: 30px;
-    padding: 24px 32px;
-    width: 49%;
-    font-size: 16px;
-    font-weight: 500;
+.noData {
+  background-color: #fff;
+  border-radius: 4px;
+
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  padding: 24px 32px;
+  width: 49%;
+  font-size: 16px;
+  font-weight: 500;
 }
 @media screen and (max-width: 1300px) {
-    .card{
+  .card {
     gap: 20px;
     padding: 24px 16px;
     width: 48.6%;
-}
-.button{
+  }
+  .button {
     font-size: 12px;
-}
-.mainHeading{
+  }
+  .mainHeading {
     font-size: 20px;
-}
+  }
 }
 @media screen and (max-width: 1024px) {
-    .card{
-        gap: 20px;
-        padding: 30px 28px;
-        width: 99%;
-}
-.button{
+  .card {
+    gap: 20px;
+    padding: 30px 28px;
+    width: 99%;
+  }
+  .button {
     font-size: 14px;
-}
-
+  }
 }
