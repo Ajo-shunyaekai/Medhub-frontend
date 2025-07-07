@@ -449,54 +449,16 @@ const AddProduct = ({ placeholder }) => {
               formData.append("complianceFile", file?.file)
             );
           }
-          const categoryDetailsmapped = values?.categoryDetails?.map(
-            (section) => ({
+
+          const categoryDetailsUpdated = JSON.stringify(
+            values?.categoryDetails?.map((section) => ({
               name: section?.name || "",
               type: section?.type || "",
               fieldValue:
                 section?.type == "file"
                   ? section?.fieldValue?.[0]
                   : section?.fieldValue || "",
-            })
-          ) || [
-            {
-              name: "",
-              type: "",
-              fieldValue: "",
-            },
-          ];
-
-          const cdtyp1 =
-            categoryDetailsmapped?.filter(
-              (section) => section?.type == "text"
-            ) || [];
-          const cdtyp2 =
-            categoryDetailsmapped?.filter(
-              (section) => section?.type == "dropdown"
-            ) || [];
-          const cdtyp3 =
-            categoryDetailsmapped?.filter(
-              (section) => section?.type == "checkbox"
-            ) || [];
-          const cdtyp4 =
-            categoryDetailsmapped?.filter(
-              (section) => section?.type == "textarea"
-            ) || [];
-          const cdtyp5 =
-            categoryDetailsmapped?.filter(
-              (section) => section?.type == "file"
-            ) || [];
-
-          const concatedinOrder = [
-            ...cdtyp1,
-            ...cdtyp2,
-            ...cdtyp3,
-            ...cdtyp4,
-            ...cdtyp5,
-          ];
-
-          const categoryDetailsUpdated = JSON.stringify(
-            concatedinOrder || [
+            })) || [
               {
                 name: "",
                 type: "",
