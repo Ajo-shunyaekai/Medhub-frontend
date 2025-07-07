@@ -363,9 +363,14 @@
 }
 /* Style the manufacturer container */
 .manufacturerMainContainer {
-  display: flex;
+  /* display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 14px; */
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: start;
 }
 
 .manufacturerContainer {
@@ -376,12 +381,17 @@
 }
 
 .manufacturersection {
-  flex: 1 1 250px;
+  /* flex: 1 1 250px;
   min-width: 250px;
   max-width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 10px; */
+  flex: 0 0 calc((100% - 40px) / 3);
+  max-width: calc((100% - 40px) / 3);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .manufacturerDescriptionSection {
@@ -474,9 +484,14 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 }
 
 .additionalUploadSection {
-  flex: 1 1 270px;
+  /* flex: 1 1 270px;
   min-width: 270px;
   max-width: 270px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px; */
+  flex: 0 0 calc((100% - 40px) / 3);
+  max-width: calc((100% - 40px) / 3);
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -677,11 +692,11 @@ background: linear-gradient(to left, #00dcff, #0075ce);
     width: 140px;
     font-size: 12.5px;
   }
-  .additionalUploadSection {
+  /* .additionalUploadSection {
     flex: 1 1 350px;
     min-width: 350px;
     max-width: 350px;
-  }
+  } */
 }
 @media (max-width: 1300px) {
   .container {
