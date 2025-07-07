@@ -1175,207 +1175,213 @@ const AddProduct = ({ placeholder }) => {
                       (opt) => opt.value === section.name
                     );
                     return (
-                      <div
-                        key={`stocked_${index}`}
-                        className={styles.stockedContainer2}
-                      >
-                        <div className={styles.stockedSection}>
-                          <div className={styles.StockedDiv}>
-                            <label className={styles.formLabel}>
-                              Parameter Name
-                              <span className={styles.labelStamp}>*</span>
-                            </label>
-                            <Select
-                              className={styles.formSelect}
-                              value={selectedOption || null}
-                              onChange={(selected) =>
-                                handlecategoryDetailsNameChange(
-                                  index,
-                                  selected,
-                                  setFieldValue
-                                )
-                              }
-                              options={
-                                categoriesData
-                                  ?.find(
-                                    (cat) => cat?.schema == values?.category
-                                  )
-                                  ?.options?.map((option) => ({
-                                    ...option,
-                                    label: option?.label,
-                                    value: option?.name,
-                                  })) || []
-                              }
-                              placeholder="Select Parameter Name"
-                              name={`categoryDetails.${index}.name`}
-                              onBlur={() =>
-                                setFieldTouched(
-                                  `categoryDetails.${index}.name`,
-                                  true
-                                )
-                              }
-                            />
-                            {touched.categoryDetails?.[index]?.name &&
-                              errors.categoryDetails?.[index]?.name && (
-                                <span span className={styles.error}>
-                                  {errors.categoryDetails[index].name}
-                                </span>
-                              )}
-                          </div>
-                          {section?.name ? (
-                            <div className={styles.StockedDivQuantity}>
+                      <>
+                        <div
+                          key={`stocked_${index}`}
+                          className={styles.stockedContainer2}
+                        >
+                          <div className={styles.stockedSection}>
+                            <div className={styles.StockedDiv}>
                               <label className={styles.formLabel}>
-                                Parameter Description
+                                Parameter Name
                                 <span className={styles.labelStamp}>*</span>
                               </label>
-                              <div className={styles.quantitySelector}>
-                                <div className={styles.inputGroup}>
-                                  {section?.type == "text" ? (
+                              <Select
+                                className={styles.formSelect}
+                                value={selectedOption || null}
+                                onChange={(selected) =>
+                                  handlecategoryDetailsNameChange(
+                                    index,
+                                    selected,
+                                    setFieldValue
+                                  )
+                                }
+                                options={
+                                  categoriesData
+                                    ?.find(
+                                      (cat) => cat?.schema == values?.category
+                                    )
+                                    ?.options?.map((option) => ({
+                                      ...option,
+                                      label: option?.label,
+                                      value: option?.name,
+                                    })) || []
+                                }
+                                placeholder="Select Parameter Name"
+                                name={`categoryDetails.${index}.name`}
+                                onBlur={() =>
+                                  setFieldTouched(
+                                    `categoryDetails.${index}.name`,
+                                    true
+                                  )
+                                }
+                              />
+                              {touched.categoryDetails?.[index]?.name &&
+                                errors.categoryDetails?.[index]?.name && (
+                                  <span span className={styles.error}>
+                                    {errors.categoryDetails[index].name}
+                                  </span>
+                                )}
+                            </div>
+                            {section?.name ? (
+                              <div className={styles.StockedDivQuantity}>
+                                <label className={styles.formLabel}>
+                                  Parameter Description
+                                  <span className={styles.labelStamp}>*</span>
+                                </label>
+                                <div className={styles.quantitySelector}>
+                                  <div className={styles.inputGroup}>
+                                    {section?.type == "text" ? (
+                                      <input
+                                        type="text"
+                                        name={`categoryDetails.${index}.fieldValue`}
+                                        onChange={(e) =>
+                                          handlecategoryDetailsFieldValueChange(
+                                            index,
+                                            e,
+                                            setFieldValue
+                                          )
+                                        }
+                                        value={section.fieldValue}
+                                        placeholder={section?.placeholder}
+                                        className={styles.inputStocked}
+                                        onBlur={() =>
+                                          setFieldTouched(
+                                            `categoryDetails.${index}.fieldValue`,
+                                            true
+                                          )
+                                        }
+                                      />
+                                    ) : section?.type == "textarea" ? (
+                                      <textarea
+                                        className={styles.inputStocked}
+                                        type="text"
+                                        placeholder={section?.placeholder}
+                                        // autoComplete="off"
+                                        name={`categoryDetails.${index}.fieldValue`}
+                                        value={section?.fieldValue}
+                                        onChange={(e) =>
+                                          handlecategoryDetailsFieldValueChange(
+                                            index,
+                                            e,
+                                            setFieldValue
+                                          )
+                                        }
+                                        onBlur={() =>
+                                          setFieldTouched(
+                                            `categoryDetails.${index}.fieldValue`,
+                                            true
+                                          )
+                                        }
+                                      />
+                                    ) : section?.type == "dropdown" ? (
+                                      <Select
+                                        className={styles.formSelect}
+                                        options={section?.optionsDD}
+                                        placeholder={section?.placeholder}
+                                        name={`categoryDetails.${index}.fieldValue`}
+                                        onBlur={handleBlur}
+                                        onChange={(selectedOption) =>
+                                          setFieldValue(
+                                            `categoryDetails.${index}.fieldValue`,
+                                            selectedOption.value
+                                          )
+                                        }
+                                      />
+                                    ) : section?.type == "checkbox" ? (
+                                      <div className={styles.radioGroup}>
+                                        {["true", "false"].map((option) => (
+                                          <label key={option}>
+                                            <input
+                                              type="radio"
+                                              name={`categoryDetails.${index}.fieldValue`}
+                                              value={option} // <-- This must be the option value, not section.fieldValue
+                                              checked={
+                                                section.fieldValue === option
+                                              } // checked if value matches
+                                              onChange={(e) =>
+                                                setFieldValue(
+                                                  `categoryDetails.${index}.fieldValue`,
+                                                  e.target.value
+                                                )
+                                              }
+                                            />
+                                            <span>
+                                              {option === "true" ? "Yes" : "No"}
+                                            </span>
+                                          </label>
+                                        ))}
+                                      </div>
+                                    ) : (
+                                      section?.type == "file" && (
+                                        <Field
+                                          name={`categoryDetails.${index}.fieldValue`}
+                                        >
+                                          {({ field }) => (
+                                            <AddProductAddOtherDetailsFileUpload
+                                              fieldInputName={`categoryDetails.${index}.fieldValue`}
+                                              setFieldValue={setFieldValue}
+                                              initialValues={values}
+                                              selectedFile={section?.fieldValue}
+                                              preview={true}
+                                              fileIndex={index}
+                                              isEdit={false}
+                                            />
+                                          )}
+                                        </Field>
+                                      )
+                                    )}
+                                  </div>
+                                </div>
+                                {
+                                  <span span className={styles.error}>
+                                    {touched.categoryDetails &&
+                                      errors?.categoryDetails?.[index]
+                                        ?.fieldValue}
+                                  </span>
+                                  // )
+                                }
+                              </div>
+                            ) : (
+                              <div className={styles.StockedDivQuantity}>
+                                <label className={styles.formLabel}>
+                                  Parameter Description
+                                  <span className={styles.labelStamp}>*</span>
+                                </label>
+                                <div className={styles.quantitySelector}>
+                                  <div className={styles.inputGroup}>
                                     <input
                                       type="text"
-                                      name={`categoryDetails.${index}.fieldValue`}
-                                      onChange={(e) =>
-                                        handlecategoryDetailsFieldValueChange(
-                                          index,
-                                          e,
-                                          setFieldValue
-                                        )
-                                      }
                                       value={section.fieldValue}
-                                      placeholder={section?.placeholder}
+                                      placeholder={
+                                        "Please select parameter name first"
+                                      }
+                                      disabled={true}
                                       className={styles.inputStocked}
-                                      onBlur={() =>
-                                        setFieldTouched(
-                                          `categoryDetails.${index}.fieldValue`,
-                                          true
-                                        )
-                                      }
                                     />
-                                  ) : section?.type == "textarea" ? (
-                                    <textarea
-                                      className={styles.inputStocked}
-                                      type="text"
-                                      placeholder={section?.placeholder}
-                                      // autoComplete="off"
-                                      name={`categoryDetails.${index}.fieldValue`}
-                                      value={section?.fieldValue}
-                                      onChange={(e) =>
-                                        handlecategoryDetailsFieldValueChange(
-                                          index,
-                                          e,
-                                          setFieldValue
-                                        )
-                                      }
-                                      onBlur={() =>
-                                        setFieldTouched(
-                                          `categoryDetails.${index}.fieldValue`,
-                                          true
-                                        )
-                                      }
-                                    />
-                                  ) : section?.type == "dropdown" ? (
-                                    <Select
-                                      className={styles.formSelect}
-                                      options={section?.optionsDD}
-                                      placeholder={section?.placeholder}
-                                      name={`categoryDetails.${index}.fieldValue`}
-                                      onBlur={handleBlur}
-                                      onChange={(selectedOption) =>
-                                        setFieldValue(
-                                          `categoryDetails.${index}.fieldValue`,
-                                          selectedOption.value
-                                        )
-                                      }
-                                    />
-                                  ) : section?.type == "checkbox" ? (
-                                    <div className={styles.radioGroup}>
-                                      {["true", "false"].map((option) => (
-                                        <label key={option}>
-                                          <input
-                                            type="radio"
-                                            name={`categoryDetails.${index}.fieldValue`}
-                                            value={option} // <-- This must be the option value, not section.fieldValue
-                                            checked={
-                                              section.fieldValue === option
-                                            } // checked if value matches
-                                            onChange={(e) =>
-                                              setFieldValue(
-                                                `categoryDetails.${index}.fieldValue`,
-                                                e.target.value
-                                              )
-                                            }
-                                          />
-                                          <span>
-                                            {option === "true" ? "Yes" : "No"}
-                                          </span>
-                                        </label>
-                                      ))}
-                                    </div>
-                                  ) : (
-                                    section?.type == "file" && (
-                                      <Field
-                                        name={`categoryDetails.${index}.fieldValue`}
-                                      >
-                                        {({ field }) => (
-                                          <AddProductAddOtherDetailsFileUpload
-                                            fieldInputName={`categoryDetails.${index}.fieldValue`}
-                                            setFieldValue={setFieldValue}
-                                            initialValues={values}
-                                            selectedFile={section?.fieldValue}
-                                            preview={true}
-                                            fileIndex={index}
-                                            isEdit={false}
-                                          />
-                                        )}
-                                      </Field>
-                                    )
-                                  )}
+                                  </div>
                                 </div>
                               </div>
-                              {
-                                <span span className={styles.error}>
-                                  {touched.categoryDetails &&
-                                    errors?.categoryDetails?.[index]
-                                      ?.fieldValue}
-                                </span>
-                                // )
-                              }
-                            </div>
-                          ) : (
-                            <div className={styles.StockedDivQuantity}>
-                              <label className={styles.formLabel}>
-                                Parameter Description
-                                <span className={styles.labelStamp}>*</span>
-                              </label>
-                              <div className={styles.quantitySelector}>
-                                <div className={styles.inputGroup}>
-                                  <input
-                                    type="text"
-                                    value={section.fieldValue}
-                                    placeholder={
-                                      "Please select parameter name first"
-                                    }
-                                    disabled={true}
-                                    className={styles.inputStocked}
-                                  />
-                                </div>
-                              </div>
-                            </div>
+                            )}
+                          </div>
+                          <div
+                            className={styles.formclosebutton}
+                            onClick={() =>
+                              removecategoryDetailsFormSection(
+                                index,
+                                setFieldValue,
+                                values
+                              )
+                            }
+                          >
+                            <CloseIcon className={styles.iconClose} />
+                          </div>
+                        </div>
+                        {values?.categoryDetails?.length > 1 &&
+                          index != values?.categoryDetails?.length - 1 && (
+                            <div className={styles.stockedContainer3}></div>
                           )}
-                        </div>
-                        <div
-                          className={styles.formclosebutton}
-                          onClick={() =>
-                            removecategoryDetailsFormSection(
-                              index,
-                              setFieldValue,
-                              values
-                            )
-                          }
-                        >
-                          <CloseIcon className={styles.iconClose} />
-                        </div>
-                      </div>
+                      </>
                     );
                   })
                 ) : (
@@ -2224,76 +2230,82 @@ const AddProduct = ({ placeholder }) => {
                 </div>
                 {values?.faqs?.map((section, index) => {
                   return (
-                    <div
-                      key={`stocked_${index}`}
-                      className={styles.stockedContainer2}
-                    >
-                      <div className={styles.stockedSection2}>
-                        <div className={styles.StockedDiv2}>
-                          <label className={styles.formLabel}>
-                            Question
-                            <span className={styles.labelStamp}>*</span>
-                          </label>
-                          <input
-                            type="text"
-                            name={`faqs.${index}.ques`}
-                            onChange={(e) =>
-                              handleFaqsQuesChange(index, e, setFieldValue)
-                            }
-                            value={section.ques}
-                            placeholder={"Enter Question"}
-                            className={styles.inputStocked}
-                            onBlur={() =>
-                              setFieldTouched(`faqs.${index}.ques`, true)
-                            }
-                          />
-                          {touched.faqs?.[index]?.ques &&
-                            errors.faqs?.[index]?.ques && (
-                              <span span className={styles.error}>
-                                {errors.faqs[index].ques}
-                              </span>
-                            )}
-                        </div>
-                        <div className={styles.StockedDiv2}>
-                          <label className={styles.formLabel}>
-                            Answer
-                            <span className={styles.labelStamp}>*</span>
-                          </label>
-                          <div className={styles.quantitySelector}>
-                            <div className={styles.inputGroup2}>
-                              <textarea
-                                className={styles.inputStocked}
-                                type="text"
-                                placeholder={"Enter Answer"}
-                                // autoComplete="off"
-                                name={`faqs.${index}.ans`}
-                                value={section?.ans}
-                                onChange={(e) =>
-                                  handleFaqsAnsChange(index, e, setFieldValue)
-                                }
-                                onBlur={() =>
-                                  setFieldTouched(`faqs.${index}.ans`, true)
-                                }
-                              />
-                            </div>
-                          </div>
-                          {
-                            <span span className={styles.error}>
-                              {touched.faqs && errors?.faqs?.[index]?.ans}
-                            </span>
-                            // )
-                          }
-                        </div>
-                      </div>
+                    <>
                       <div
-                        className={styles.formclosebutton2}
-                        onClick={() =>
-                          removeFaqFormSection(index, setFieldValue, values)
-                        }
+                        key={`stocked_${index}`}
+                        className={styles.stockedContainer2}
                       >
-                        <CloseIcon className={styles.iconClose} />
+                        <div className={styles.stockedSection2}>
+                          <div className={styles.StockedDiv2}>
+                            <label className={styles.formLabel}>
+                              Question
+                              <span className={styles.labelStamp}>*</span>
+                            </label>
+                            <input
+                              type="text"
+                              name={`faqs.${index}.ques`}
+                              onChange={(e) =>
+                                handleFaqsQuesChange(index, e, setFieldValue)
+                              }
+                              value={section.ques}
+                              placeholder={"Enter Question"}
+                              className={styles.inputStocked}
+                              onBlur={() =>
+                                setFieldTouched(`faqs.${index}.ques`, true)
+                              }
+                            />
+                            {touched.faqs?.[index]?.ques &&
+                              errors.faqs?.[index]?.ques && (
+                                <span span className={styles.error}>
+                                  {errors.faqs[index].ques}
+                                </span>
+                              )}
+                          </div>
+                          <div className={styles.StockedDiv2}>
+                            <label className={styles.formLabel}>
+                              Answer
+                              <span className={styles.labelStamp}>*</span>
+                            </label>
+                            <div className={styles.quantitySelector}>
+                              <div className={styles.inputGroup2}>
+                                <textarea
+                                  className={styles.inputStocked}
+                                  type="text"
+                                  placeholder={"Enter Answer"}
+                                  // autoComplete="off"
+                                  name={`faqs.${index}.ans`}
+                                  value={section?.ans}
+                                  onChange={(e) =>
+                                    handleFaqsAnsChange(index, e, setFieldValue)
+                                  }
+                                  onBlur={() =>
+                                    setFieldTouched(`faqs.${index}.ans`, true)
+                                  }
+                                />
+                              </div>
+                            </div>
+                            {
+                              <span span className={styles.error}>
+                                {touched.faqs && errors?.faqs?.[index]?.ans}
+                              </span>
+                              // )
+                            }
+                          </div>
+                        </div>
+                        <div
+                          className={styles.formclosebutton2}
+                          onClick={() =>
+                            removeFaqFormSection(index, setFieldValue, values)
+                          }
+                        >
+                          <CloseIcon className={styles.iconClose} />
+                        </div>
                       </div>
-                    </div>
+                      {values?.faqs?.length > 1 &&
+                        index != values?.faqs?.length - 1 && (
+                          <div className={styles.stockedContainer3}></div>
+                        )}
+                    </>
                   );
                 })}
               </div>
