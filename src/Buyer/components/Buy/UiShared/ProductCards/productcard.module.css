@@ -1,7 +1,7 @@
 .gridContainer {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 20px;
 }
 h4 {
@@ -17,7 +17,7 @@ h4 {
   padding: 20px 24px;
   width: 100%;
 }
-
+ 
 .container {
   margin-bottom: 26rem;
   display: flex;
@@ -28,7 +28,7 @@ h4 {
   border-radius: 4px;
   padding: 30px;
 }
-
+ 
 .innerContainer {
   display: flex;
   flex-direction: column;
@@ -36,23 +36,22 @@ h4 {
   justify-content: center;
   align-items: center;
 }
-
+ 
 .imageContainer {
   width: 100px;
   height: 100px;
   display: flex;
   justify-content: center;
   overflow: hidden;
-
-  /*   */
+ 
 }
-
+ 
 .imageContainer img {
   height: 100%;
   object-fit: contain;
   width: 100%;
 }
-
+ 
 .button {
   background: linear-gradient(to left, #00dcff, #0075ce);
   border: none;
@@ -72,42 +71,42 @@ h4 {
   gap: 10px;
   width: 100%;
 }
-
+ 
 .contentSection {
   display: flex;
   flex-direction: column;
   gap: 10px;
   width: 72%;
 }
-
+ 
 .mainHeading {
   color: #5e676f;
   font-size: 20px;
   font-weight: 500;
 }
-
+ 
 .section {
   display: flex;
   gap: 20px;
 }
-
+ 
 .head {
   width: 100px;
   color: #5e676f;
   font-size: 0.825rem;
   font-weight: 500;
 }
-
+ 
 .text {
   color: #99a0ac;
   font-size: 0.825rem;
   line-height: 20px;
 }
-
+ 
 .noData {
   background-color: #fff;
   border-radius: 4px;
-
+ 
   display: flex;
   align-items: center;
   gap: 30px;
@@ -121,23 +120,27 @@ h4 {
   display: flex;
   justify-content: end;
 }
-
+ 
 @media screen and (max-width: 1300px) {
   .card {
     gap: 20px;
     padding: 24px 16px;
   }
-
+ 
   .button {
     font-size: 12px;
   }
-
+ 
   .mainHeading {
     font-size: 20px;
   }
 }
 @media screen and (max-width: 1024px) {
-  .section {
-    width: 26%;
+  .gridContainer {
+    width: 100%;
+    grid-template-columns: repeat(1, 1fr);
   }
+  /* .section {
+    width: 26%;
+  } */
 }
