@@ -104,14 +104,6 @@ const SecondaryMarket = ({
                       {product.general.quantity || "0"}
                     </span>
                   </div>
-                  <div className={styles.cardInnerContainer}>
-                    <span className={styles.cardHead}>Stock Status</span>
-                    <span className={styles.cardText}>
-                      {product.inventoryDetails[0]?.stock ||
-                        product.inventory?.stock ||
-                        "N/A"}
-                    </span>
-                  </div>
                 </div>
               </div>
             );
