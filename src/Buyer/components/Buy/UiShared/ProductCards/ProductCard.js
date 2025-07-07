@@ -50,7 +50,7 @@ const ProductCard = ({
   };
   return (
     <div className={styles.container}>
-      {heading && <h4 className={styles.cardHeading}>{heading}</h4>}
+      {heading && <h5 className={styles.cardHeading}>{heading}</h5>}
       <div className={styles.gridContainer}>
         {productList &&
           productList.length > 0 &&
