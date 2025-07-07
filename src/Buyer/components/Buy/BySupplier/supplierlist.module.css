@@ -18,7 +18,7 @@
 }
 
 .productHead {
-  color:#5e676f;
+  color: #5e676f;
   padding-top: 5px;
   font-size: 20px;
   font-weight: 500;
@@ -38,30 +38,27 @@
 
 .newProductButton {
   background-color: #f5f5f6;
-     color: #99a0ac;
+  color: #99a0ac;
   padding: 8px 20px;
   border-radius: 4px;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer !important;
-  ;
 }
 
 .secondaryButton {
   background-color: #ffffff;
-     color: #99a0ac;
+  color: #99a0ac;
   padding: 8px 20px;
   border-radius: 4px;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer !important;
-  ;
 }
 
 .active {
-  color:#3b71ca;;
+  color: #3b71ca;
   background-color: #e1e1e4;
-  ;
 }
 
 /* End product.js section */
@@ -76,8 +73,8 @@
   margin-bottom: 20rem;
 
   background: linear-gradient(to left, #f5f5f7, #e1f2ff);
-    border-radius: 4px;
-    padding: 50px 30px;
+  border-radius: 4px;
+  padding: 50px 30px;
 }
 
 .container {
@@ -92,7 +89,7 @@
 .mainSection {
   background-color: #fff;
   border-radius: 4px;
-   
+
   cursor: pointer !important;
   display: flex;
   flex-direction: column;
@@ -105,7 +102,7 @@
 }
 
 .head {
-  color:#5e676f;
+  color: #5e676f;
   font-size: 16px;
   font-weight: 500;
   position: relative;
@@ -134,7 +131,7 @@
   box-shadow: 0 1px 0 #11111a1a, 0 8px 24px #11111a1a, 0 16px 48px #11111a1a;
   display: flex;
   justify-content: center;
-  transition: transform .3s ease;
+  transition: transform 0.3s ease;
   width: 80px;
   height: 80px;
 }
@@ -145,14 +142,14 @@
 }
 
 .mainCard {
-    background-color: #fff;
-    border-radius: 4px;
-    display: flex
-;
-box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
-    flex-direction: column;
-    gap: 10px;
-    padding: 24px 20px;
+  background-color: #fff;
+  border-radius: 4px;
+  display: flex;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+  flex-direction: column;
+  gap: 10px;
+  padding: 24px 20px;
 }
 
 .cardImgSection {
@@ -163,11 +160,11 @@ box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 
 }
 
 .cardImg {
- display: flex;
-    justify-content: center;
-    width: 80px;
-   height: 40px;
-    overflow: hidden;
+  display: flex;
+  justify-content: center;
+  width: 80px;
+  height: 40px;
+  overflow: hidden;
 }
 
 .productImg {
@@ -175,11 +172,10 @@ box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 
   height: 100%;
   object-fit: contain;
 }
-.buttonContainer{
-      width: 100%;
-    display: flex
-;
-    margin-top: 15px;
+.buttonContainer {
+  width: 100%;
+  display: flex;
+  margin-top: 15px;
 }
 .cardButton {
   background: linear-gradient(to left, #00dcff, #0075ce);
@@ -189,7 +185,7 @@ box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 
   cursor: pointer !important;
   display: flex;
   font-size: 14px;
-    padding: 6px 16px;
+  padding: 6px 16px;
   border: none;
   outline: none;
   justify-content: center;
@@ -205,25 +201,24 @@ box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 
 .cardInnerContainer {
   display: flex;
   gap: 10px;
-
 }
 
 .cardMainHeading {
-  color:#5e676f;
-     font-size: 26px;
-    font-weight: 500;
+  color: #5e676f;
+  font-size: 22px;
+  font-weight: 500;
 }
 
 .cardHead {
-  font-size: 15px;
+  font-size: 0.825rem;
   font-weight: 500;
   min-width: 180px;
-  color:#5e676f;
+  color: #5e676f;
 }
 
 .cardText {
-     color: #5e676f;
-  font-size: 13px;
+  color: #99a0ac;
+  font-size: 0.825rem;
   line-height: 20px;
   width: 60%;
 }
@@ -257,33 +252,32 @@ box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 
 /* Start the media query */
 @media (max-width: 1600px) {
   .cardHead {
-       width: 20vw;
-}
+    width: 20vw;
+  }
   .container {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-
 @media (max-width: 1240px) {
- .cardHead {
-       width: 50%;
-       min-width: 140px;
-}  
-.cardMainHeading {
- font-size: 20px;
- line-height: 24px;
-}
+  .cardHead {
+    width: 50%;
+    min-width: 140px;
+  }
+  .cardMainHeading {
+    font-size: 20px;
+    line-height: 24px;
+  }
 }
 
 /* Responsive design for smaller screens (e.g., mobile) */
 @media (max-width: 1024px) {
   .container {
-           grid-template-columns: 1fr;
-        width: 100%;
+    grid-template-columns: 1fr;
+    width: 100%;
   }
-   .cardHead {
-       width: 50%;
-       min-width: 140px;
-}  
+  .cardHead {
+    width: 50%;
+    min-width: 140px;
+  }
 }
