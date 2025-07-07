@@ -1,154 +1,143 @@
 .gridContainer {
-      width: 100%;
-    display: grid
-;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
 }
-h4{
-    margin-bottom: 0px !important;
+h4 {
+  margin-bottom: 0px !important;
 }
 .card {
-    background-color: #fff;
-    border-radius: 4px;
-     box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-    padding: 20px 24px;
-    width: 100%;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 20px 24px;
+  width: 100%;
 }
 
 .container {
-   margin-bottom: 26rem;
-    display: flex
-;
-    flex-direction: column;
-    gap: 20px;
-    background: white;
-    margin-top: 25px;
-    border-radius: 4px;
-    padding: 30px;
+  margin-bottom: 26rem;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: white;
+  margin-top: 25px;
+  border-radius: 4px;
+  padding: 30px;
 }
 
 .innerContainer {
-    display: flex
-    ;
-        flex-direction: column;
-        gap: 10px;
-        justify-content: center;
-        align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
 }
 
 .imageContainer {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
 
-     width: 100px;
-    height: 100px;
-        display: flex;
-    justify-content: center;
-    overflow: hidden;
-   
-    /*   */
+  /*   */
 }
 
 .imageContainer img {
-    height: 100%;
-    object-fit: contain;
-    width: 100%;
-
+  height: 100%;
+  object-fit: contain;
+  width: 100%;
 }
 
 .button {
-   background: linear-gradient(to left, #00dcff, #0075ce);
-    border: none;
-    border-radius: 4px;
-    color: #fff;
-    column-gap: 8px;
-    cursor: pointer !important;
-    display: flex;
-    font-size: 14px;
-    justify-content: center;
-    outline: none;
-    padding: 6px 10px;
+  background: linear-gradient(to left, #00dcff, #0075ce);
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  column-gap: 8px;
+  cursor: pointer !important;
+  display: flex;
+  font-size: 14px;
+  justify-content: center;
+  outline: none;
+  padding: 6px 10px;
 }
-.cardContentSection{
-       display: flex
-;
-    flex-direction: column;
-    gap: 10px;
-    width: 100%;
+.cardContentSection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
 }
 
 .contentSection {
-    display: flex
-    ;
-        flex-direction: column;
-        gap: 10px;
-        width: 72%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 72%;
 }
 
 .mainHeading {
-    color:#5e676f;
-    font-size: 22px;
-      font-weight: 500;
+  color: #5e676f;
+  font-size: 20px;
+  font-weight: 500;
 }
 
 .section {
-     display: flex
-;
-    gap: 20px;
+  display: flex;
+  gap: 20px;
 }
 
 .head {
-    width: 100px;
-    color: #5e676f;
-    font-size: 13px;
-    font-weight: 500;
+  width: 100px;
+  color: #5e676f;
+  font-size: 0.825rem;
+  font-weight: 500;
 }
 
 .text {
-       color: #5e676f;
-    font-size: 13px;
-    line-height: 20px;
+  color: #99a0ac;
+  font-size: 0.825rem;
+  line-height: 20px;
 }
 
 .noData {
-    background-color: #fff;
-    border-radius: 4px;
- 
-    display: flex;
-    align-items: center;
-    gap: 30px;
-    padding: 24px 32px;
-    width: 100%;
-    font-size: 16px;
-    font-weight: 500;
+  background-color: #fff;
+  border-radius: 4px;
+
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  padding: 24px 32px;
+  width: 100%;
+  font-size: 16px;
+  font-weight: 500;
 }
-.buttonContainer{
-    width: 100px;
-    display: flex
-;
-    justify-content: end;
+.buttonContainer {
+  width: 100px;
+  display: flex;
+  justify-content: end;
 }
 
 @media screen and (max-width: 1300px) {
-    .card {
-        gap: 20px;
-        padding: 24px 16px;
-    }
+  .card {
+    gap: 20px;
+    padding: 24px 16px;
+  }
 
-    .button {
-        font-size: 12px;
-    }
+  .button {
+    font-size: 12px;
+  }
 
-    .mainHeading {
-        font-size: 20px;
-    }
-    
+  .mainHeading {
+    font-size: 20px;
+  }
 }
 @media screen and (max-width: 1024px) {
-
-.section {
-        width: 26%;
-}
+  .section {
+    width: 26%;
+  }
 }

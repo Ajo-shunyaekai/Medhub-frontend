@@ -21,9 +21,9 @@ import { updateInquiryCartCount } from "../../../../redux/reducers/inquirySlice"
 import { postRequestWithToken } from "../../../../api/Requests";
 import Loader from "../../SharedComponents/Loader/Loader";
 import Accordion from "react-bootstrap/Accordion";
- 
+
 Modal.setAppElement("#root");
- 
+
 // Validation schema using Yup
 const validationSchema = Yup.object().shape({
   selectedQuantity: Yup.string().required("Quantity Range is Required"),
@@ -36,17 +36,16 @@ const validationSchema = Yup.object().shape({
     .positive("Must be a positive price")
     .typeError("Must be a number"),
 });
- 
+
 const toTitleCase = (str) => {
   return str
-    .replace(/([a-z])([A-Z])/g, '$1 $2') // add space between camelCase words
-    .replace(/[_\-]/g, ' ')              // replace underscores/dashes with spaces
-    .split(' ')
+    .replace(/([a-z])([A-Z])/g, "$1 $2") // add space between camelCase words
+    .replace(/[_\-]/g, " ") // replace underscores/dashes with spaces
+    .split(" ")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(' ');
+    .join(" ");
 };
- 
- 
+
 const ProductDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -62,15 +61,15 @@ const ProductDetails = () => {
       ? pdfFile
       : `${process.env.REACT_APP_SERVER_URL}/Uploads/products/${pdfFile}`
     : "https://morth.nic.in/sites/default/files/dd12-13_0.pdf";
- 
+
   const fallbackImageUrl =
     "https://medhub.shunyaekai.com/uploads/fallbackImage.jpg";
- 
+
   // Utility to check if URL ends with image extension
   const isImageExtension = (fileName) => {
     return /\.(png|jpe?g|gif|bmp|webp)$/i.test(fileName);
   };
- 
+
   const inventoryList = productDetail?.inventoryDetails?.inventoryList || [];
   const [productList, setProductList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -85,13 +84,13 @@ const ProductDetails = () => {
     totalQuantity: [],
   });
   const itemsPerPage = 5;
- 
+
   const searchTimeoutRef = useRef(null);
- 
+
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
- 
+
   useEffect(() => {
     if (id) {
       setLoading(true); // Set loading true before fetching
@@ -100,7 +99,7 @@ const ProductDetails = () => {
       });
     }
   }, [id, dispatch]);
- 
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -127,12 +126,12 @@ const ProductDetails = () => {
     };
     fetchData();
   }, [id, dispatch, currentPage, searchKey]);
- 
+
   const getCategoryData = (property) => {
     if (!productDetail?.category) return null;
     return productDetail[productDetail.category]?.[property];
   };
- 
+
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
     if (searchTimeoutRef.current) {
@@ -143,7 +142,7 @@ const ProductDetails = () => {
       setCurrentPage(1);
     }, 500);
   };
- 
+
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       if (searchTimeoutRef.current) {
@@ -153,7 +152,7 @@ const ProductDetails = () => {
       setCurrentPage(1);
     }
   };
- 
+
   // const quantityOptions = inventoryList?.map((ele) => ({
   //   // value: `${ele.quantityFrom}-${ele.quantityTo}`,
   //   // label: `${ele.quantityFrom} - ${ele.quantityTo}`,
@@ -162,13 +161,13 @@ const ProductDetails = () => {
   //   price: ele.price,
   //   deliveryTime: ele.deliveryTime,
   // }));
- 
+
   const quantityOptions = inventoryList?.map((ele) => {
     const hasRange = ele.quantityFrom && ele.quantityTo;
     const displayValue = hasRange
       ? `${ele.quantityFrom}-${ele.quantityTo}`
       : ele.quantity;
- 
+
     return {
       value: displayValue,
       label: displayValue,
@@ -176,28 +175,28 @@ const ProductDetails = () => {
       deliveryTime: ele.deliveryTime,
     };
   });
- 
+
   // Get the first quantity option as the default
   const defaultOption = quantityOptions[0] || {
     value: "",
     price: "",
     deliveryTime: "",
   };
- 
+
   const handleSubmit = (values, { resetForm }) => {
     setLoading(true); // Set loading true during form submission
     const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
     const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
     const buyerId =
       localStorage?.getItem("_id") || localStorage?.getItem("_id");
- 
+
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
       localStorage?.clear();
       navigate("/buyer/login");
       setLoading(false);
       return;
     }
- 
+
     const obj = {
       buyerId,
       buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
@@ -211,7 +210,7 @@ const ProductDetails = () => {
       unit_tax: productDetail?.general?.unit_tax,
       est_delivery_time: values?.deliveryTime,
     };
- 
+
     postRequestWithToken("buyer/add-to-list", obj, async (response) => {
       if (response?.code === 200) {
         toast(response.message, { type: "success" });
@@ -227,50 +226,50 @@ const ProductDetails = () => {
       }
     });
   };
- 
+
   // Create a ref for the container to scroll
   const containerRef = useRef(null);
- 
+
   // Scroll to the top of the component when the id changes
   useEffect(() => {
     if (containerRef.current) {
       containerRef.current.scrollTop = 0;
     }
   }, [id]);
- 
+
   // Function to open PDF in a new window
   const openInvoiceInNewWindow = () => {
     window.open(pdfUrl, "_blank");
   };
 
-   // For new image thumbnail
-   const baseUrl = process.env.REACT_APP_SERVER_URL?.endsWith("/")
-   ? process.env.REACT_APP_SERVER_URL
-   : `${process.env.REACT_APP_SERVER_URL}/`;
+  // For new image thumbnail
+  const baseUrl = process.env.REACT_APP_SERVER_URL?.endsWith("/")
+    ? process.env.REACT_APP_SERVER_URL
+    : `${process.env.REACT_APP_SERVER_URL}/`;
 
- const getFullImageUrl = (img) =>
-   img?.startsWith("http") ? img : `${baseUrl}uploads/products/${img}`;
+  const getFullImageUrl = (img) =>
+    img?.startsWith("http") ? img : `${baseUrl}uploads/products/${img}`;
 
- const imageArray = Array.isArray(productDetail?.general?.image)
-   ? productDetail.general.image
-   : Object.values(productDetail?.general?.image || {}).flat();
+  const imageArray = Array.isArray(productDetail?.general?.image)
+    ? productDetail.general.image
+    : Object.values(productDetail?.general?.image || {}).flat();
 
- const [selectedImage, setSelectedImage] = useState(() =>
-   imageArray.length > 0 ? getFullImageUrl(imageArray[0]) : fallbackImageUrl
- );
+  const [selectedImage, setSelectedImage] = useState(() =>
+    imageArray.length > 0 ? getFullImageUrl(imageArray[0]) : fallbackImageUrl
+  );
 
- // Update main image if productDetail changes
- useEffect(() => {
-   if (imageArray.length > 0) {
-     setSelectedImage(getFullImageUrl(imageArray[0]));
-   }
- }, [productDetail?.general?.image]);
- 
+  // Update main image if productDetail changes
+  useEffect(() => {
+    if (imageArray.length > 0) {
+      setSelectedImage(getFullImageUrl(imageArray[0]));
+    }
+  }, [productDetail?.general?.image]);
+
   // Render Loader if loading is true, otherwise render the content
   if (loading) {
     return <Loader />;
   }
- 
+
   return (
     <div className={styles.container} ref={containerRef}>
       <div className={styles.section}>
@@ -347,7 +346,7 @@ const ProductDetails = () => {
                       </span>
                     </div>
                   )}
- 
+
                   {/* {productDetail?.secondaryMarketDetails
                     ?.minimumPurchaseUnit && (
                     <div className={styles.medicinesSection}>
@@ -364,7 +363,7 @@ const ProductDetails = () => {
                   )} */}
                 </div>
               )}
- 
+
               {productDetail?.secondaryMarketDetails?.purchaseInvoiceFile
                 ?.length > 0 && (
                 <div className={styles.mainPurchaseSection}>
@@ -380,7 +379,7 @@ const ProductDetails = () => {
           </div>
         )}
         {/* End Secondary Market section */}
- 
+
         {/* Start general information section */}
         <div className={styles.mainContainer}>
           <span className={styles.innerHead}>General Information</span>
@@ -459,7 +458,7 @@ const ProductDetails = () => {
                   </span>
                 </div>
               )} */}
- 
+
               {/* {productDetail?.general?.packageType && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>
@@ -513,7 +512,7 @@ const ProductDetails = () => {
                   </span>
                 </div>
               )} */}
- 
+
               {productDetail?.general?.upc && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>UPC</span>
@@ -522,7 +521,7 @@ const ProductDetails = () => {
                   </span>
                 </div>
               )}
- 
+
               {/* {productDetail?.general?.dimension && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Product Dimension</span>
@@ -557,7 +556,7 @@ const ProductDetails = () => {
                   </span>
                 </div>
               )}
- 
+
               {/* {productDetail?.storage && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>
@@ -571,9 +570,9 @@ const ProductDetails = () => {
             </div>
           </div>
         </div>
- 
+
         {/* End general information section */}
- 
+
         {/* {productDetail?.general?.aboutManufacturer && (
           <div className={styles.mainContainer}>
             <div className={styles.manufacturerDescriptionSection}>
@@ -587,7 +586,7 @@ const ProductDetails = () => {
             </div>
           </div>
         )} */}
- 
+
         {/* Start product description */}
         {productDetail?.general?.description && (
           <div className={styles.mainContainer}>
@@ -603,7 +602,7 @@ const ProductDetails = () => {
           </div>
         )}
         {/* End the product description */}
- 
+
         {/* Start Manufacturer section */}
         {(productDetail?.general?.manufacturer ||
           // productDetail?.general?.aboutManufacturer ||
@@ -649,24 +648,26 @@ const ProductDetails = () => {
             </div>
           </div>
         )}
- 
+
         {/* End Manufacturer section */}
- 
+
         {/* Start of Category Other Details */}
         {productDetail?.categoryDetails?.length > 0 && (
           <div className={styles.mainContainer}>
             <span className={styles.innerHead}>
-            Other Details{" "}
-          {productDetail?.category
-            ? `of ${productDetail.category
-                .replace(/([a-z])([A-Z])/g, "$1 $2")
-                .replace(/\b\w/g, (char) => char.toUpperCase())}`
-            : ""}
-              </span>
+              Other Details{" "}
+              {productDetail?.category
+                ? `of ${productDetail.category
+                    .replace(/([a-z])([A-Z])/g, "$1 $2")
+                    .replace(/\b\w/g, (char) => char.toUpperCase())}`
+                : ""}
+            </span>
             <div className={styles.innerComplianceSection}>
               {productDetail?.categoryDetails?.map((item, index) => (
                 <div className={styles.additionalUploadSection}>
-                  <span className={styles.medicineHead}>{toTitleCase(item?.name)}</span>
+                  <span className={styles.medicineHead}>
+                    {toTitleCase(item?.name)}
+                  </span>
                   <div className={styles.additionalImageSection}>
                     {/* {productDetail?.categoryDetails?.map((item, index) => ( */}
                     <div
@@ -692,9 +693,9 @@ const ProductDetails = () => {
           </div>
         )}
         {/* End of Category Other Details */}
- 
+
         {/* Start product image section */}
- 
+
         {/* <div className={styles.mainContainer}>
           <span className={styles.innerHead}>Product Images</span>
           <div className={styles.productImageSection}>
@@ -725,7 +726,7 @@ const ProductDetails = () => {
             })}
           </div>
         </div> */}
- 
+
         {/* {productDetail?.general?.image &&
           Object.keys(productDetail.general.image).length > 0 && (
             <div className={styles.mainContainer}>
@@ -755,7 +756,7 @@ const ProductDetails = () => {
               </div>
             </div>
           )} */}
- 
+
         {/* {Array.isArray(productDetail?.general?.image) ? (
           <div className={styles.mainContainer}>
             <span className={styles.innerHead}>Product Images</span>
@@ -835,7 +836,9 @@ const ProductDetails = () => {
                 <img
                   className={styles.imageSection}
                   src={
-                    isImageExtension(selectedImage) ? selectedImage : fallbackImageUrl
+                    isImageExtension(selectedImage)
+                      ? selectedImage
+                      : fallbackImageUrl
                   }
                   alt="Main Product Image"
                   onError={(e) => {
@@ -871,7 +874,7 @@ const ProductDetails = () => {
             </div>
           </div>
         )}
- 
+
         {/* End product image section */}
         {/* Start Inventory & Packaging section */}
         {(productDetail?.inventoryDetails?.stockedInDetails?.length > 0 ||
@@ -954,16 +957,16 @@ const ProductDetails = () => {
                       <span className={styles.medicineHead}>
                         Stocked In Countries
                       </span>
-                      <span className={styles.medicineHeadings}>Quantity</span>
+                      <span className={styles.medicineHead}>Quantity</span>
                     </div>
- 
+
                     {productDetail?.inventoryDetails?.stockedInDetails?.map(
                       (ele) => (
                         <div className={styles.medicinesSection}>
                           <span className={styles.medicineHead}>
                             {ele?.country}
                           </span>
-                          <span className={styles.medicineTexts}>
+                          <span className={styles.medicineTexts2}>
                             {ele?.quantity} {ele?.type}
                           </span>
                         </div>
@@ -976,7 +979,7 @@ const ProductDetails = () => {
           </div>
         )}
         {/* End Inventory & Packaging section */}
- 
+
         {/* Start Compliance & Certification Health & Safety */}
         {(productDetail?.cNCFileNDate?.length > 0 ||
           productDetail?.healthNSafety?.safetyDatasheet?.length > 0 ||
@@ -1054,7 +1057,7 @@ const ProductDetails = () => {
           </div>
         )}
         {/* End Compliance & Certification Health & Safety */}
- 
+
         {/* Start Additional information */}
         {(productDetail?.additional?.other ||
           productDetail?.additional?.warranty ||
@@ -1084,7 +1087,7 @@ const ProductDetails = () => {
                   )}
                 </div>
               )}
- 
+
               {productDetail?.additional?.guidelinesFile?.length > 0 && (
                 <div className={styles.additionalUploadSection}>
                   <div className={styles.additionalUploadSection}>
@@ -1100,9 +1103,9 @@ const ProductDetails = () => {
             </div>
           </div>
         )}
- 
+
         {/* End Additional information */}
- 
+
         {/* start of Product documents */}
         {(productDetail?.documents?.catalogue?.length > 0 ||
           productDetail?.documents?.specification?.length > 0) && (
@@ -1163,7 +1166,7 @@ const ProductDetails = () => {
           </div>
         )}
         {/* end of product document */}
- 
+
         {/* Start the product inventory section */}
         {productDetail?.inventoryDetails?.inventoryList?.length > 0 && (
           <div className={styles.mainContainer}>
@@ -1192,7 +1195,7 @@ const ProductDetails = () => {
                   <span className={styles.inventoryHead}>Target Price*</span>
                 </div>
               </div>
- 
+
               <Formik
                 initialValues={{
                   selectedQuantity: defaultOption.value,
@@ -1210,7 +1213,7 @@ const ProductDetails = () => {
                     quantityOptions.find(
                       (opt) => opt.value === values.selectedQuantity
                     ) || defaultOption;
- 
+
                   return (
                     <Form className={styles.formSection}>
                       <div className={styles.fromContainer}>
@@ -1311,10 +1314,10 @@ const ProductDetails = () => {
           </div>
         )}
         {/* End the product inventory section */}
- 
+
         {productDetail?.faqs?.length > 0 && (
           <>
-            <div className="support-heading">FAQs</div>
+            <span className={styles.innerHead}>FAQs</span>
             <div className="faq-container">
               <Accordion>
                 {productDetail?.faqs?.map((item, index) => (
@@ -1345,5 +1348,5 @@ const ProductDetails = () => {
     </div>
   );
 };
- 
+
 export default ProductDetails;

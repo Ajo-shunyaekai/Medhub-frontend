@@ -289,10 +289,17 @@ img {
   overflow-wrap: break-word;
 }
 
-.medicineContent {
-  font-size: 14px;
+.medicineTexts2 {
+  font-size: 0.825rem;
   color: #99a0ac;
-  font-weight: 500;
+  word-wrap: break-word;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+.medicineContent {
+  font-size: 0.825rem;
+  color: #99a0ac;
   word-wrap: break-word;
   white-space: normal;
   overflow-wrap: break-word;
@@ -347,7 +354,7 @@ img {
 
 .inventoryHead {
   color: #5e676f;
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
 }
 
@@ -356,8 +363,8 @@ img {
   background-color: #fff !important;
   border: none !important;
   border-radius: 4px !important;
-  color: #5e676f;
-  font-size: 14px;
+  font-size: 0.825rem;
+  color: #99a0ac;
   outline: none !important;
   padding: 10.4px !important;
   position: relative !important;
@@ -970,6 +977,26 @@ img {
 .accordion-item:first-of-type > .accordion-header .accordion-button {
   border-top-left-radius: var(--bs-accordion-inner-border-radius);
   border-top-right-radius: var(--bs-accordion-inner-border-radius);
+  font-size: 0.825rem !important;
+  color: #5e676f !important;
+  font-weight: 500 !important;
 }
 
-/* End Product details */
+.faq-cover{
+  font-size: 0.825rem;
+  color: #99a0ac;
+}
+
+/* Target the accordion-button inside the header */
+.accordion-item .accordion-header .accordion-button {
+  font-size: 0.825rem !important;
+  font-weight: 500 !important;
+  color: #5e676f !important;
+}
+
+/* Optional: you can remove this if the above works */
+.faq-heading {
+  font-size: 0.825rem !important;
+  font-weight: 500 !important;
+  color: #5e676f !important;
+} 
