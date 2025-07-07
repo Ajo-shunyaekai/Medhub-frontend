@@ -248,7 +248,7 @@ export const initialValues = {
   ],
   categoryDetailsFile: [],
   categoryDetails: [],
-  faqs: [],
+  faqs: [{ ques: "", ans: "" }],
   productPricingDetails: [
     {
       quantity: "",
