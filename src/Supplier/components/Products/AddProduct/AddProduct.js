@@ -1108,7 +1108,14 @@ const AddProduct = ({ placeholder }) => {
               {/* {inventoryStockedCountries?.length > 0 ? ( */}
               <div className={styles.Stocksection}>
                 <div className={styles.formHeadSection}>
-                  <span className={styles.formHead}>Add Other Details</span>
+                  <span className={styles.formHead}>
+                    Add Other Details of{" "}
+                    {
+                      categoriesData?.find(
+                        (cat) => cat?.schema === values?.category
+                      )?.name
+                    }
+                  </span>
                   {values?.category && (
                     <span
                       className={styles.formAddButton}
