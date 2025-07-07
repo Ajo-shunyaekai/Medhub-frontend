@@ -75,6 +75,29 @@ const ProductDetails = () => {
     }
   };
 
+  // For new image thumbnail
+  const baseUrl = process.env.REACT_APP_SERVER_URL?.endsWith("/")
+    ? process.env.REACT_APP_SERVER_URL
+    : `${process.env.REACT_APP_SERVER_URL}/`;
+
+  const getFullImageUrl = (img) =>
+    img?.startsWith("http") ? img : `${baseUrl}uploads/products/${img}`;
+
+  const imageArray = Array.isArray(productDetail?.general?.image)
+    ? productDetail.general.image
+    : Object.values(productDetail?.general?.image || {}).flat();
+
+  const [selectedImage, setSelectedImage] = useState(() =>
+    imageArray.length > 0 ? getFullImageUrl(imageArray[0]) : fallbackImageUrl
+  );
+
+  // Update main image if productDetail changes
+  useEffect(() => {
+    if (imageArray.length > 0) {
+      setSelectedImage(getFullImageUrl(imageArray[0]));
+    }
+  }, [productDetail?.general?.image]);
+
   return (
     <div className={styles.container}>
       <span className={styles.heading}>Product Details</span>
@@ -487,7 +510,7 @@ const ProductDetails = () => {
           </div>
         )}
 
-        {productDetail?.general?.image &&
+        {/* {productDetail?.general?.image &&
           (Array.isArray(productDetail.general.image)
             ? // Render if image is an array
               productDetail.general.image.length > 0 && (
@@ -523,44 +546,91 @@ const ProductDetails = () => {
                   </div>
                 </div>
               )
-            : // Render if image is an object
-              Object.keys(productDetail.general.image).length > 0 && (
-                <div className={styles.mainContainer}>
-                  <span className={styles.innerHead}>Product Images</span>
-                  <div className={styles.productImageSection}>
-                    {Object.entries(productDetail.general.image).map(
-                      ([viewLabel, images]) =>
-                        images?.map((imgUrl, index) => {
-                          const isImageFile = isImageExtension(imgUrl);
-                          return (
-                            <div
-                              className={styles.imageContainer}
-                              key={`${viewLabel}-${index}`}
-                            >
-                              <span>
-                                {viewLabel.charAt(0).toUpperCase() +
-                                  viewLabel.slice(1)}{" "}
-                                Image
-                              </span>
-                              <img
-                                className={styles.imageSection}
-                                src={isImageFile ? imgUrl : fallbackImageUrl}
-                                alt={`${viewLabel} view`}
-                                onError={(e) => {
-                                  e.target.onerror = null;
-                                  e.target.src = fallbackImageUrl;
-                                }}
-                              />
-                              <div className={styles.imageLabel}>
-                                {viewLabel.toUpperCase()}
-                              </div>
+          : // Render if image is an object
+            Object.keys(productDetail.general.image).length > 0 && (
+              <div className={styles.mainContainer}>
+                <span className={styles.innerHead}>Product Images</span>
+                <div className={styles.productImageSection}>
+                  {Object.entries(productDetail.general.image).map(
+                    ([viewLabel, images]) =>
+                      images?.map((imgUrl, index) => {
+                        const isImageFile = isImageExtension(imgUrl);
+                        return (
+                          <div
+                            className={styles.imageContainer}
+                            key={`${viewLabel}-${index}`}
+                          >
+                            <span>
+                              {viewLabel.charAt(0).toUpperCase() +
+                                viewLabel.slice(1)}{" "}
+                              Image
+                            </span>
+                            <img
+                              className={styles.imageSection}
+                              src={isImageFile ? imgUrl : fallbackImageUrl}
+                              alt={`${viewLabel} view`}
+                              onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.src = fallbackImageUrl;
+                              }}
+                            />
+                            <div className={styles.imageLabel}>
+                              {viewLabel.toUpperCase()}
                             </div>
-                          );
-                        })
-                    )}
-                  </div>
+                          </div>
+                        );
+                      })
+                  )}
                 </div>
-              ))}
+              </div>
+            ))} */}
+
+        {/* New way of displaying product */}
+        {imageArray.length > 0 && (
+          <div className={styles.mainContainer}>
+            <span className={styles.innerHead}>Product Images</span>
+            <div className={styles.productImageSection}>
+              {/* Main Image */}
+              <div className={styles.imageContainer}>
+                <img
+                  className={styles.imageSection}
+                  src={
+                    isImageExtension(selectedImage) ? selectedImage : fallbackImageUrl
+                  }
+                  alt="Main Product Image"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = fallbackImageUrl;
+                  }}
+                />
+              </div>
+
+              {/* Thumbnails */}
+              <div className={styles.thumbnailRow}>
+                {imageArray.map((img, index) => {
+                  const imgUrl = getFullImageUrl(img);
+                  const isImageFile = isImageExtension(imgUrl);
+
+                  return (
+                    <img
+                      key={index}
+                      className={`${styles.thumbnailImage} ${
+                        selectedImage === imgUrl ? styles.activeThumbnail : ""
+                      }`}
+                      src={isImageFile ? imgUrl : fallbackImageUrl}
+                      alt={`Thumbnail ${index}`}
+                      onClick={() => setSelectedImage(imgUrl)}
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = fallbackImageUrl;
+                      }}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* End product image section */}
 
