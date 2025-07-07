@@ -242,6 +242,29 @@ const ProductDetails = () => {
   const openInvoiceInNewWindow = () => {
     window.open(pdfUrl, "_blank");
   };
+
+   // For new image thumbnail
+   const baseUrl = process.env.REACT_APP_SERVER_URL?.endsWith("/")
+   ? process.env.REACT_APP_SERVER_URL
+   : `${process.env.REACT_APP_SERVER_URL}/`;
+
+ const getFullImageUrl = (img) =>
+   img?.startsWith("http") ? img : `${baseUrl}uploads/products/${img}`;
+
+ const imageArray = Array.isArray(productDetail?.general?.image)
+   ? productDetail.general.image
+   : Object.values(productDetail?.general?.image || {}).flat();
+
+ const [selectedImage, setSelectedImage] = useState(() =>
+   imageArray.length > 0 ? getFullImageUrl(imageArray[0]) : fallbackImageUrl
+ );
+
+ // Update main image if productDetail changes
+ useEffect(() => {
+   if (imageArray.length > 0) {
+     setSelectedImage(getFullImageUrl(imageArray[0]));
+   }
+ }, [productDetail?.general?.image]);
  
   // Render Loader if loading is true, otherwise render the content
   if (loading) {
@@ -733,7 +756,7 @@ const ProductDetails = () => {
             </div>
           )} */}
  
-        {Array.isArray(productDetail?.general?.image) ? (
+        {/* {Array.isArray(productDetail?.general?.image) ? (
           <div className={styles.mainContainer}>
             <span className={styles.innerHead}>Product Images</span>
             <div className={styles.productImageSection}>
@@ -800,6 +823,53 @@ const ProductDetails = () => {
               </div>
             </div>
           )
+        )} */}
+
+        {/* New way of displaying product */}
+        {imageArray.length > 0 && (
+          <div className={styles.mainContainer}>
+            <span className={styles.innerHead}>Product Images</span>
+            <div className={styles.productImageSection}>
+              {/* Main Image */}
+              <div className={styles.imageContainer}>
+                <img
+                  className={styles.imageSection}
+                  src={
+                    isImageExtension(selectedImage) ? selectedImage : fallbackImageUrl
+                  }
+                  alt="Main Product Image"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = fallbackImageUrl;
+                  }}
+                />
+              </div>
+
+              {/* Thumbnails */}
+              <div className={styles.thumbnailRow}>
+                {imageArray.map((img, index) => {
+                  const imgUrl = getFullImageUrl(img);
+                  const isImageFile = isImageExtension(imgUrl);
+
+                  return (
+                    <img
+                      key={index}
+                      className={`${styles.thumbnailImage} ${
+                        selectedImage === imgUrl ? styles.activeThumbnail : ""
+                      }`}
+                      src={isImageFile ? imgUrl : fallbackImageUrl}
+                      alt={`Thumbnail ${index}`}
+                      onClick={() => setSelectedImage(imgUrl)}
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = fallbackImageUrl;
+                      }}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+          </div>
         )}
  
         {/* End product image section */}
