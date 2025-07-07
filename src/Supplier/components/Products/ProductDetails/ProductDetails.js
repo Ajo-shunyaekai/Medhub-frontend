@@ -457,7 +457,14 @@ const ProductDetails = () => {
         </div>
         {productDetail?.categoryDetails?.length > 0 && (
           <div className={styles.mainContainer}>
-            <span className={styles.innerHead}>Other Details</span>
+            <span className={styles.innerHead}>
+            Other Details{" "}
+          {productDetail?.category
+            ? `of ${productDetail.category
+                .replace(/([a-z])([A-Z])/g, "$1 $2")
+                .replace(/\b\w/g, (char) => char.toUpperCase())}`
+            : ""}
+              </span>
             <div className={styles.innerComplianceSection}>
               {productDetail?.categoryDetails?.map((item, index) => (
                 <div className={styles.additionalUploadSection}>
