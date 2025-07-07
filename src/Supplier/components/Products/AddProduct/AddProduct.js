@@ -355,9 +355,9 @@ const AddProduct = ({ placeholder }) => {
     <div className={styles.container}>
       <div className={styles.headContainer}>
         <span className={styles.heading}>Add Products</span>
-        <button onClick={() => setOpen(true)} className={styles.bulkButton}>
+        {/* <button onClick={() => setOpen(true)} className={styles.bulkButton}>
           Bulk Upload
-        </button>
+        </button> */}
       </div>
 
       <Formik
@@ -1116,10 +1116,15 @@ const AddProduct = ({ placeholder }) => {
                       )?.name
                     } */}
                     Add Other Details{" "}
-                    {categoriesData?.find((cat) => cat?.schema === values?.category)?.name
-                      ? `of ${categoriesData.find((cat) => cat?.schema === values?.category)?.name}`
+                    {categoriesData?.find(
+                      (cat) => cat?.schema === values?.category
+                    )?.name
+                      ? `of ${
+                          categoriesData.find(
+                            (cat) => cat?.schema === values?.category
+                          )?.name
+                        }`
                       : ""}
-
                   </span>
                   {values?.category && (
                     <span
@@ -1360,8 +1365,10 @@ const AddProduct = ({ placeholder }) => {
                   })
                 ) : (
                   <div className={styles.stockedContainer}>
-                    Please select category first to add other details of the
-                    product.
+                    <label className={styles.formLabel}>
+                      Please select category first to add other details of the
+                      product.
+                    </label>
                   </div>
                 )}
               </div>
