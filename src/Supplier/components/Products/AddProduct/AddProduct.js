@@ -646,6 +646,7 @@ const AddProduct = ({ placeholder }) => {
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Product Sub Category (Level 3)
+                    <span className={styles.labelStamp2}>*</span>
                   </label>
                   <Select
                     className={styles.formSelect}
@@ -765,7 +766,9 @@ const AddProduct = ({ placeholder }) => {
                     )}
                 </div>
                 <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>Strength</label>
+                  <label className={styles.formLabel}>
+                    Strength<span className={styles.labelStamp2}>*</span>
+                  </label>
                   <div className={styles.weightContainer}>
                     <div className={styles.weightSection}>
                       <div className={styles.tooltipContainer}>
@@ -798,6 +801,7 @@ const AddProduct = ({ placeholder }) => {
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     UPC (Universal Product Code)
+                    <span className={styles.labelStamp2}>*</span>
                   </label>
                   <input
                     className={styles.formInput}
@@ -843,7 +847,9 @@ const AddProduct = ({ placeholder }) => {
                   )}
                 </div>
                 <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>Brand Name</label>
+                  <label className={styles.formLabel}>
+                    Brand Name<span className={styles.labelStamp2}>*</span>
+                  </label>
                   <input
                     className={styles.formInput}
                     type="text"
@@ -861,6 +867,7 @@ const AddProduct = ({ placeholder }) => {
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Product Type/Form
+                    <span className={styles.labelStamp2}>*</span>
                     {/* <span className={styles.labelStamp}>*</span> */}
                   </label>
                   <div className={styles.tooltipContainer}>
@@ -916,7 +923,10 @@ const AddProduct = ({ placeholder }) => {
                   )}
                 </div>
                 <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>Storage Conditions</label>
+                  <label className={styles.formLabel}>
+                    Storage Conditions
+                    <span className={styles.labelStamp2}>*</span>
+                  </label>
                   <div className={styles.tooltipContainer}>
                     <input
                       className={styles.formInput}
@@ -932,42 +942,6 @@ const AddProduct = ({ placeholder }) => {
                     <Tooltip content="Recommended storage (e.g., store in a cool, dry place)"></Tooltip>
                   </div>
                 </div>
-                {/* <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>
-                    Stocked in Countries
-                    
-                  </label>
-                  <MultiSelectDropdown
-                    options={countries}
-                    placeholderButtonLabel="Select Countries"
-                    name="countries"
-                    onChange={(selectedOptions) => {
-                      // Ensure we map selected options correctly
-                      const selectedValues = selectedOptions
-                        ? selectedOptions.map((option) => option.label)
-                        : [];
-                      // setInventoryStockedCountries(
-                      //   selectedValues?.map((option) => ({
-                      //     label: option,
-                      //     value: option,
-                      //   })) || []
-                      // );
-                      setFieldValue("countries", selectedValues); // Update Formik value with the selected country values
-                      // if (selectedValues?.length == 0) {
-                      //   setStockedInDetails([
-                      //     {
-                      //       country: "",
-                      //       quantity: "",
-                      //       placeholder: "Enter Quantity",
-                      //     },
-                      //   ]);
-                      // }
-                    }}
-                  />
-                  {touched.countries && errors.countries && (
-                    <span className={styles.error}>{errors.countries}</span>
-                  )}
-                </div> */}
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Tags
@@ -1927,7 +1901,10 @@ const AddProduct = ({ placeholder }) => {
 
                   {/* Date of Expiry Section */}
                   <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Date of Expiry</label>
+                    <label className={styles.formLabel}>
+                      Date of Expiry
+                      <span className={styles.labelStamp2}>*</span>
+                    </label>
                     <div className={styles.tooltipContainer}>
                       {/* Date Mask Input */}
 
@@ -2046,7 +2023,9 @@ const AddProduct = ({ placeholder }) => {
               <span className={styles.formHead}>Additional Information</span>
               <div className={styles.formSection}>
                 <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>Warranty</label>
+                  <label className={styles.formLabel}>
+                    Warranty<span className={styles.labelStamp2}>*</span>
+                  </label>
                   <input
                     className={styles.formInput}
                     type="text"
@@ -2080,7 +2059,10 @@ const AddProduct = ({ placeholder }) => {
                   />
                 </div>
                 <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>Other Information</label>
+                  <label className={styles.formLabel}>
+                    Other Information
+                    <span className={styles.labelStamp2}>*</span>
+                  </label>
                   <div className={styles.tooltipContainer}>
                     <textarea
                       className={styles.formTextarea}
