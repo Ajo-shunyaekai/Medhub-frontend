@@ -3,7 +3,8 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import CloseIcon from "../../../assets/Images/Icon.svg"; // Can be removed if not used elsewhere
-import RenderProductFiles from "./RenderProductFiles";
+// import RenderProductFiles from "./RenderProductFiles";
+import RenderProductFiles from '../../../../Buyer/components/Buy/Details/RenderFiles'
 import { fetchProductDetail } from "../../../../redux/reducers/productSlice";
 import moment from "moment";
 import Accordion from "react-bootstrap/Accordion";

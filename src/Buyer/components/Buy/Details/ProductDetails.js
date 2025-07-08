@@ -8,7 +8,9 @@ import {
   fetchProductDetail,
 } from "../../../../redux/reducers/productSlice";
 import { useState, useEffect, useRef } from "react";
-import Modal from "react-modal";
+// import Modal from "react-modal";
+import Modal from 'react-modal';
+import { Document, Page, pdfjs } from 'react-pdf';
 import CloseIcon from "../../../assets/images/Icon.svg";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

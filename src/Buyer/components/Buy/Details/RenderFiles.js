@@ -1,8 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
+// import { Document, Page } from "react-pdf";
 import { FaFilePdf, FaFileWord } from "react-icons/fa";
 import styles from './productdetails.module.css'
 import PDFIcon from '../../../assets/images/pdf.png';
 import DocxIcon from '../../../assets/images/doc.png'
+import CloseIcon from '@mui/icons-material/Close';
+// import { Modal } from "react-responsive-modal";
+// import "react-responsive-modal/styles.css";
+// import Modal from 'react-modal';
+// import { Document, Page, pdfjs } from 'react-pdf';
+// import 'react-pdf/dist/esm/Page/AnnotationLayer.css'; // optional but improves rendering
+// import 'react-pdf/dist/esm/Page/TextLayer.css';
+import PdfViewerModal from '../../../../common/PdfViewer.js'
+
+// pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
  
 const extractFileName = (url) => {
   return url?.split("/")?.pop();
@@ -10,89 +21,134 @@ const extractFileName = (url) => {
 
 const fallbackImageUrl = "https://medhub.shunyaekai.com/uploads/fallbackImage.jpg";
 
-
 // utility to check if URL ends with image extension
 const isImageExtension = (fileName) => {
   return /\.(png|jpe?g|gif|bmp|webp)$/i.test(fileName);
 };
 
+
+// const isImageExtension = (fileName) =>
+//   /\.(png|jpe?g|gif|bmp|webp)$/i.test(fileName);
+// const isPdf = (fileName) => fileName?.toLowerCase()?.endsWith(".pdf");
+// const isDocx = (fileName) => fileName?.toLowerCase()?.endsWith(".docx");
+
 const RenderProductFiles = ({ files }) => {
-
+  const [open, setOpen] = useState(false);
+  const [pdfToPreview, setPdfToPreview] = useState(null);
+  console.log('pdfToPreview',pdfToPreview)
   const baseUrl = process.env.REACT_APP_SERVER_URL?.endsWith("/")
-  ? process.env.REACT_APP_SERVER_URL
-  : `${process.env.REACT_APP_SERVER_URL}/`;
+    ? process.env.REACT_APP_SERVER_URL
+    : `${process.env.REACT_APP_SERVER_URL}/`;
 
-return files?.map((file, index) => {
-  const fileUrl = file?.startsWith("http")
-    ? file
-    : `${baseUrl}uploads/products/${file}`;
+  const handleOpenPdf = (fileUrl) => {
+    setPdfToPreview(fileUrl);
+    setOpen(true);
+  };
 
-  const isImage = isImageExtension(fileUrl);
-  const isPdf = fileUrl?.toLowerCase()?.endsWith(".pdf");
-  const isDocx = fileUrl?.toLowerCase()?.endsWith(".docx");
+  const handleClose = () => {
+    setOpen(false);
+    setPdfToPreview(null);
+  };
 
-  if (isImage) {
-    return (
-      <img
-        key={index}
-        src={fileUrl}
-        alt="Image File"
-        className={styles.uploadImage}
-        onError={(e) => {
-          e.target.onerror = null;
-          e.target.src = fallbackImageUrl;
-        }}
-      />
-    );
-  }
+  const isImageExtension = (url) =>
+    /\.(jpeg|jpg|png|gif|webp)$/i.test(url);
 
-  if (isPdf) {
-    return (
-      <a
-        key={index}
-        href={fileUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={styles.pdfLink}
-      >
-        <img
-          src={PDFIcon} // Or any PDF icon you prefer
-          alt="PDF File"
-          className={styles.uploadImage}
-        />
-        {/* <p>View PDF</p> */}
-      </a>
-    );
-  } else if(isDocx) {
-    return (
-      <a
-        key={index}
-        href={fileUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={styles.pdfLink}
-      >
-        <img
-          src={DocxIcon} // Or any PDF icon you prefer
-          alt="Docx File"
-          className={styles.uploadImage}
-        />
-        {/* <p>View PDF</p> */}
-      </a>
-    );
-  }
+  const isPdf = (url) => url?.toLowerCase()?.endsWith(".pdf");
+  const isDocx = (url) => url?.toLowerCase()?.endsWith(".docx");
 
-  // Fallback for unknown types
   return (
-    <img
-      key={index}
-      src={fallbackImageUrl}
-      alt="Fallback"
-      className={styles.uploadImage}
-    />
-  );
-});
+    <>
+      {files?.map((file, index) => {
+        // const fileUrl = file?.startsWith("http")
+        //   ? file
+        //   : `${baseUrl}uploads/products/${file}`;
 
+        const filename = file?.split("/")?.pop(); // ensures just the filename
+        const fileUrl = `${process.env.REACT_APP_SERVER_URL.replace(/\/$/, "")}/pdf-proxy/${filename}`;
+
+        if (isImageExtension(fileUrl)) {
+          return (
+            <img
+              key={index}
+              src={fileUrl}
+              alt="Image"
+              className={styles.uploadImage}
+              onError={(e) => (e.target.src = fallbackImageUrl)}
+            />
+          );
+        }
+
+        if (isPdf(fileUrl)) {
+          return (
+            <div
+              key={index}
+              className={styles.pdfLink}
+              onClick={() => handleOpenPdf(fileUrl)}
+              style={{ cursor: "pointer" }}
+            >
+              <img src={PDFIcon} alt="PDF" className={styles.uploadImage} />
+            </div>
+          );
+        }
+
+        if (isDocx(fileUrl)) {
+          return (
+            <a
+              key={index}
+              href={fileUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.pdfLink}
+            >
+              <img src={DocxIcon} alt="DOCX" className={styles.uploadImage} />
+            </a>
+          );
+        }
+
+        return (
+          <img
+            key={index}
+            src={fallbackImageUrl}
+            alt="Fallback"
+            className={styles.uploadImage}
+          />
+        );
+      })}
+
+
+      {/* PDF Modal using react-modal */}
+      {/* <Modal
+        isOpen={open}
+        onRequestClose={handleClose}
+        contentLabel="PDF Viewer"
+        style={{
+          content: {
+            width: '550px',
+            height: '650px',
+            margin: 'auto',
+            overflow: 'auto',
+          },
+        }}
+      >
+        
+        <span onClick={handleClose} style={{ float: 'right' }}>
+                        <CloseIcon style={{ float: 'right' }} />
+                      </span>
+        {pdfToPreview ? (
+          <Document
+            file={{ url: pdfToPreview, withCredentials: false }}
+            onLoadError={(err) => console.error("PDF Load Error:", err)}
+            onSourceError={(err) => console.error("PDF Source Error:", err)}
+          >
+            <Page pageNumber={1} width={480} />
+          </Document>
+        ) : (
+          <p>Loading...</p>
+        )}
+      </Modal> */}
+      <PdfViewerModal isOpen={open} onClose={handleClose} fileUrl={pdfToPreview} />
+    </>
+  );
 };
- 
+
 export default RenderProductFiles;

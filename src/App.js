@@ -28,6 +28,11 @@ import {
 import Error from "./Buyer/components/SharedComponents/Error/Error";
 import { initGA, sendPageview } from "./analytics";
 
+import { Document, Page } from 'react-pdf';
+import { GlobalWorkerOptions } from 'pdfjs-dist/build/pdf';
+GlobalWorkerOptions.workerSrc = `${process.env.PUBLIC_URL}/pdf.worker.min.js`;
+
+
 // Socket Connection
 const socket = io.connect(process.env.REACT_APP_SERVER_URL, {
   autoConnect: false,
