@@ -1,220 +1,221 @@
 .container {
-    width: 100%;
-    max-width: 94%;
-    height: 100vh;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-    row-gap: 20px;
-    overflow: scroll;
-    scrollbar-width: none;
-    background-attachment: fixed;
+  width: 100%;
+  max-width: 94%;
+  height: 100vh;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  overflow: scroll;
+  scrollbar-width: none;
+  background-attachment: fixed;
 }
- 
+
 .container::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
-.headingSecContainer{
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
+.headingSecContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
- 
+
 .heading {
-    font-size: 20px;
-      font-weight: 500;
-    padding-top: 5px;
-    color:#5e676f;
+  font-size: 20px;
+  font-weight: 500;
+  padding-top: 5px;
+  color: #5e676f;
 }
- 
+
 .innerHead {
-    color:#5e676f;
-    font-size: 18px;
-      font-weight: 500;
-    margin-bottom: 8px;
+  color: #5e676f;
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 8px;
 }
- 
+
 .section {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
 }
- 
+
 .mainContainer {
-    background-color: #fff;
-    border-radius: 4px;
- box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
-    padding: 26px 30px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+  padding: 26px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
-.mainUpparContainer{
-    background-color: #fff;
-    border-radius: 4px;
- box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
-    padding: 26px 30px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    position: sticky;
-    top: 0%;  
-    z-index: 999999;
+.mainUpparContainer {
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+  padding: 26px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: sticky;
+  top: 0%;
+  z-index: 999999;
 }
-.mainFixedContainer{
-    position: fixed;
-    width: 100%;
-    max-width: 82%;
-    z-index: 99999999;
+.mainFixedContainer {
+  position: fixed;
+  width: 100%;
+  max-width: 82%;
+  z-index: 99999999;
 }
 .mainManufacturerContainer {
   margin-bottom: 20rem;
 }
 .innerSection {
-    width: 100%;
-    display: flex;
-    gap: 20px;
+  width: 100%;
+  display: flex;
+  gap: 20px;
 }
- 
+
 .InnerContainer {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: start;
-    /* background-color: #fff;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  /* background-color: #fff;
     border-radius: 4px;
  
     padding: 26px 30px; */
 }
- 
+
 .medicineName {
-font-size: 28px;
-    font-weight: 500;
-    color: #5e676f;
+  font-size: 28px;
+  font-weight: 500;
+  color: #5e676f;
 }
- 
+
 .editButton {
-   background: linear-gradient(to left, #00dcff, #0075ce);
-    border: none !important;
-    outline: none !important;
-    border-radius: 4px;
-    color: #fff !important;
-    cursor: pointer !important;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.825rem;
-    padding: 6px 16px;
+  background: linear-gradient(to left, #00dcff, #0075ce);
+  border: none !important;
+  outline: none !important;
+  border-radius: 4px;
+  color: #fff !important;
+  cursor: pointer !important;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.825rem;
+  padding: 6px 16px;
 }
-.editButton:hover{
-    color: #fff !important;
+.editButton:hover {
+  color: #fff !important;
 }
 .mainSection {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
 }
- 
+
 .medicinesSection {
-    display: flex;
-        align-items: baseline;
-        gap: 10px
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
 }
- 
+
 .medicineHead {
-    font-size: 0.825rem;
-    font-weight: 500;
-    width: 250px;
-    color:#5e676f;
-}
- 
-.medicineHead2 {
-    font-size: 0.825rem;
-    font-weight: 500;   
-}
- 
-.medicineHeadings{
-    font-size: 0.825rem;
-    font-weight: 500;
-    width: 75%;
-}
- 
-.medicineText {
-    width: 100%;
-      font-size: 0.825rem;
-    color: #99a0ac;
-    font-weight: 500;
-    word-wrap: break-word; 
-    white-space: normal;     
-    overflow-wrap: break-word;
-}
-.medicineTexts{
-    width: 75%;
-      font-size: 0.825rem;
-    color: #99a0ac;
-    font-weight: 500;
-    word-wrap: break-word; 
-    white-space: normal;     
-    overflow-wrap: break-word;
-}
-.medicineContent{
-       color: #5e676f;
   font-size: 0.825rem;
-    color: #99a0ac;
-    font-weight: 500;
-    word-wrap: break-word; 
-    white-space: normal;     
-    overflow-wrap: break-word;
-    width: 100%; 
+  font-weight: 500;
+  width: 250px;
+  color: #5e676f;
 }
-.medicineDescriptionContent{
-       color: #5e676f;
-   font-size: 0.825rem;
-    color: #99a0ac;
-    font-weight: 500;
-    word-wrap: break-word; 
-    white-space: normal;     
-    overflow-wrap: break-word;
-    width: 100%; 
+
+.medicineHead2 {
+  font-size: 0.825rem;
+  font-weight: 500;
 }
-.medicineDescriptionContent img{
-    width: 180px;
-    height: auto;
+
+.medicineHeadings {
+  font-size: 0.825rem;
+  font-weight: 500;
+  width: 75%;
+}
+
+.medicineText {
+  width: 100%;
+  font-size: 0.825rem;
+  color: #99a0ac;
+  font-weight: 500;
+  word-wrap: break-word;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+.medicineTexts {
+  width: 75%;
+  font-size: 0.825rem;
+  color: #99a0ac;
+  font-weight: 500;
+  word-wrap: break-word;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+.medicineContent {
+  color: #5e676f;
+  font-size: 0.825rem;
+  color: #99a0ac;
+  font-weight: 500;
+  word-wrap: break-word;
+  white-space: normal;
+  overflow-wrap: break-word;
+  width: 100%;
+}
+.medicineDescriptionContent {
+  color: #5e676f;
+  font-size: 0.825rem;
+  color: #99a0ac;
+  font-weight: 500;
+  word-wrap: break-word;
+  white-space: normal;
+  overflow-wrap: break-word;
+  width: 100%;
+}
+.medicineDescriptionContent img {
+  width: 180px;
+  height: auto;
 }
 .innerMainSection {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
 }
- 
+
 .innerInventorySection {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
- 
+
 .inventorySection {
-    display: flex;
-    width: 100%;
+  display: flex;
+  width: 100%;
 }
- 
+
 .inventorySection {
-    width: 100%;
-    display: flex;
-    gap: 10px;
+  width: 100%;
+  display: flex;
+  gap: 10px;
 }
- 
+
 .inventoryContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
 }
- 
+
 .faqContainer {
   display: flex;
   /* flex-direction: column; */
@@ -223,28 +224,28 @@ font-size: 28px;
   width: 100%;
   cursor: pointer !important;
 }
- 
+
 .inventoryHead {
-    color:#5e676f;
-    font-size: 0.825rem;
-    font-weight: 500;
+  color: #5e676f;
+  font-size: 0.825rem;
+  font-weight: 500;
 }
- 
+
 .inventoryInput {
-        box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
-    background-color: #fff !important;
-    border: none !important;
-    border-radius: 4px !important;
- 
-       color: #99a0ac;
-    font-size: 0.825rem;
-    font-weight: 500;
-    outline: none !important;
-    padding: 12px !important;
-    position: relative !important;
-    width: 100% !important;
+  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+  background-color: #fff !important;
+  border: none !important;
+  border-radius: 4px !important;
+
+  color: #99a0ac;
+  font-size: 0.825rem;
+  font-weight: 500;
+  outline: none !important;
+  padding: 12px !important;
+  position: relative !important;
+  width: 100% !important;
 }
- 
+
 .faqInput {
   box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
   background-color: #fff !important;
@@ -259,59 +260,39 @@ font-size: 28px;
   position: relative !important;
   width: 100% !important;
 }
- 
+
 /* Style the manufacturer container */
 .manufacturerMainContainer {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: start;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: start;
 }
- 
+
 .manufacturerContainer {
-    display: flex;
-    width: 100%;
-    gap: 20px;
+  display: flex;
+  width: 100%;
+  gap: 20px;
 }
- 
+
 .manufacturersection {
-    /* width: 100%;
+  /* width: 100%;
     display: flex;
     flex-direction: column;
     gap: 10px; */
-     flex: 0 0 calc((100% - 40px) / 3);
-    max-width: calc((100% - 40px) / 3);
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+  flex: 0 0 calc((100% - 40px) / 3);
+  max-width: calc((100% - 40px) / 3);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
- 
+
 .manufacturerDescriptionSection {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
- 
-/* End the manufacturer container */
-/* .productImageSection {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    position: relative;
-}
- 
-.imageContainer {
-    width: 16%;
-    height: 150px;
-    overflow: hidden;
-}
- 
-.imageSection {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-} */
 
 .productImageSection {
   display: flex;
@@ -320,9 +301,30 @@ font-size: 28px;
   gap: 1rem;
 }
 
+.productImageSection2 {
+  display: flex;
+  /* flex-direction: column; */
+  align-items: center;
+  gap: 1rem;
+}
+
 .imageContainer {
   width: 400px;
   height: 400px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.imageContainer2 {
+  width: 40%;
+  padding: 10px;
+  height: 280px;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   overflow: hidden;
@@ -351,6 +353,35 @@ font-size: 28px;
   justify-content: center;
   margin-top: 1rem;
 }
+.thumbnailRow2 {
+  /* display: flex; */
+  /* gap: 10px; */
+  /* flex-wrap: wrap; */
+  /* justify-content: center; */
+  /* margin-top: 1rem; */
+}
+.imageViewerSection {
+  display: flex;
+  gap: 40px;
+}
+.thumbnailContainer {
+  display: flex;
+  gap: 10px;
+  width: 60%;
+  flex-wrap: wrap;
+}
+
+.thumbnail {
+  display: flex;
+  gap: 16px;
+  width: 38%;
+  min-width: 250px;
+  align-items: center;
+}
+.thumbnail img {
+  width: 80px;
+  height: 80px;
+}
 
 .thumbnailImage {
   width: 60px;
@@ -365,31 +396,44 @@ font-size: 28px;
 .thumbnailImage:hover {
   border-color: #007bff;
 }
- 
+.thumbnailImage2 {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: border 0.2s ease;
+}
+
+.thumbnailImage2:hover {
+  border-color: #007bff;
+}
+
 /* Start the additional Information Container */
- 
+
 .addtionalContainer {
-    background-color: #fff;
-    border-radius: 4px;
- 
-    padding: 26px 30px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  background-color: #fff;
+  border-radius: 4px;
+
+  padding: 26px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
- 
+
 .additionalSection {
-    display: flex;
-    width: 100%;
-    gap: 20px;
+  display: flex;
+  width: 100%;
+  gap: 20px;
 }
- 
+
 .additionalInnerSection {
-    display: flex;
-    width: 50%;
-    gap: 10px;
+  display: flex;
+  width: 50%;
+  gap: 10px;
 }
- 
+
 /* .additionalUploadSection {
     flex: 1 1 280px;
     min-width: 280px;
@@ -406,184 +450,181 @@ font-size: 28px;
   flex-direction: column;
   gap: 5px;
 }
- 
+
 .additionalImageSection {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
 }
- 
+
 .additionalImageSec {
-    width: 24%;
-    height: 240px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  width: 24%;
+  height: 240px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
- 
+
 .additionalInnerImage {
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
- 
+
 .additionalImage {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
- 
+
 .additionalLink {
-    cursor: pointer !important;
-    font-size: 0.825rem;
-    font-weight: 500;
-    color: rgb(40, 47, 134) !important;
+  cursor: pointer !important;
+  font-size: 0.825rem;
+  font-weight: 500;
+  color: rgb(40, 47, 134) !important;
 }
- 
+
 /* End the additional information container */
- 
+
 /* Style category section */
 .textareaContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
- 
+
 .textareaSection {
-    display: flex;
-    gap: 20px;
+  display: flex;
+  gap: 20px;
 }
- 
+
 .textareaInnerSection {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
 }
- 
+
 .medicinesFileSection {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
- 
+
 .innerComplianceSection {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: start;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: start;
 }
- 
+
 .uploadFileSection {
-    display: flex;
-    gap: 20px;
-    margin-top: 10px;
+  display: flex;
+  gap: 20px;
+  margin-top: 10px;
 }
- 
+
 .uploadFileContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
- 
+
 .productIcon {
-    width: 30px;
-    height: auto;
+  width: 30px;
+  height: auto;
 }
- 
+
 .uploadImage {
-    width: 100px;
-    height: auto;
+  width: 100px;
+  height: auto;
 }
- 
+
 .complianceIcon {
-    width: 50px;
-    height: auto;
+  width: 50px;
+  height: auto;
 }
- 
+
 .complianceImage {
-    width: 150px;
-    height: auto;
+  width: 150px;
+  height: auto;
 }
-.mainPurchaseSection{
- 
+.mainPurchaseSection {
 }
-.PurcahseButton{
-    align-items: center;
-   background: linear-gradient(to left, #00dcff, #0075ce);
-    border: none !important;
-    border-radius: 4px;
-    color: #fff;
-    column-gap: 8px;
-    cursor: pointer !important;
-    display: flex;
-    font-size: 0.825rem;
-    justify-content: center;
-    outline: none !important;
-    padding: 6px 0;
-    width: 168px;
+.PurcahseButton {
+  align-items: center;
+  background: linear-gradient(to left, #00dcff, #0075ce);
+  border: none !important;
+  border-radius: 4px;
+  color: #fff;
+  column-gap: 8px;
+  cursor: pointer !important;
+  display: flex;
+  font-size: 0.825rem;
+  justify-content: center;
+  outline: none !important;
+  padding: 6px 0;
+  width: 168px;
 }
 /* End category section */
- 
+
 /* Start the modal */
 .modal {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: white;
-    padding: 20px;
-    width: 80%;
-    height: 80%;
-    max-width: 800px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-  }
-  
-  .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-  }
-  
-  .closeButton {
-    background-color: #fff;
-    border-radius: 4px;
- 
-    padding:8px;
-    border: none !important;
-    cursor: pointer !important;
-    float: right;
-    display: flex
-;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  .closeImg{
-width: 10px;
-cursor: pointer !important;
-  }
-  
-  .pdfIframe {
-    width: 100%;
-    height: 90%;
-    border: none;
-  }
- 
- 
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  width: 80%;
+  height: 80%;
+  max-width: 800px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.closeButton {
+  background-color: #fff;
+  border-radius: 4px;
+
+  padding: 8px;
+  border: none !important;
+  cursor: pointer !important;
+  float: right;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.closeImg {
+  width: 10px;
+  cursor: pointer !important;
+}
+
+.pdfIframe {
+  width: 100%;
+  height: 90%;
+  border: none;
+}
+
 /* End the modal */
- 
-.complianceSection{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+
+.complianceSection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 /* @media (max-width: 1500px) {
   .additionalUploadSection {
@@ -592,25 +633,24 @@ cursor: pointer !important;
     max-width: 350px;
   }
 } */
-@media(max-width:1400px){
-    .container {
-       max-width: 100%;
-    }
-    .PurcahseButton  {
-        padding: 6px 0px;
-        width: 140px;
-        font-size: 12.5px;
-    }
+@media (max-width: 1400px) {
+  .container {
+    max-width: 100%;
+  }
+  .PurcahseButton {
+    padding: 6px 0px;
+    width: 140px;
+    font-size: 12.5px;
+  }
 }
- 
- 
-@media(max-width:1200px){
-.medicineHead {
+
+@media (max-width: 1200px) {
+  .medicineHead {
     width: 200px;
+  }
 }
-}
- 
-.accordion-item:first-of-type>.accordion-header .accordion-button {
-    border-top-left-radius: var(--bs-accordion-inner-border-radius);
-    border-top-right-radius: var(--bs-accordion-inner-border-radius);
+
+.accordion-item:first-of-type > .accordion-header .accordion-button {
+  border-top-left-radius: var(--bs-accordion-inner-border-radius);
+  border-top-right-radius: var(--bs-accordion-inner-border-radius);
 }
