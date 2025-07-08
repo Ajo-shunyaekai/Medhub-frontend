@@ -373,7 +373,7 @@
 .thumbnail {
   display: flex;
   gap: 16px;
-  width: 38%;
+  width: 35%;
   min-width: 250px;
   align-items: center;
 }

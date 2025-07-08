@@ -41,3 +41,19 @@ code {
   font-size: 0.825rem;
   color: #99a0ac;
 }
+
+/* React Modal Component */
+.ReactModal__Overlay,.ReactModal__Overlay--after-open {
+  background-color: rgba(82, 79, 79, 0.521) !important;
+}
+
+.ReactModal__Content,.ReactModal__Content--after-open {
+  width: 550px !important;
+  height: 550px !important;
+  scrollbar-width: none !important; 
+  -ms-overflow-style: none !important; 
+}
+
+.ReactModal__Content--after-openr::-webkit-scrollbar {
+  display: none;
+}
