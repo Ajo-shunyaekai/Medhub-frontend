@@ -2,20 +2,17 @@ import React from "react";
 import styles from './ProductDetails/productdetail.module.css'
 import PDFIcon from '../../assets/images/pdf.png';
 import DocxIcon from '../../assets/images/doc.png'
+import Modal from 'react-modal';
+import { Document, Page, pdfjs } from 'react-pdf';
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css'; // optional but improves rendering
+import 'react-pdf/dist/esm/Page/TextLayer.css';
+
 const fallbackImageUrl = "https://medhub.shunyaekai.com/uploads/fallbackImage.jpg";
 // utility to check if URL ends with image extension
 const isImageExtension = (fileName) => {
   return /\.(png|jpe?g|gif|bmp|webp)$/i.test(fileName);
 };
-// utility to check if it's a valid http/https URL
-// const isValidHttpUrl = (url) => {
-//   try {
-//     const parsedUrl = new URL(url);
-//     return (parsedUrl.protocol === "http:" || parsedUrl.protocol === "https:") && isImageExtension(parsedUrl.pathname);
-//   } catch (_) {
-//     return false;
-//   }
-// };
+
 const RenderProductFiles = ({ files }) => {
   const baseUrl = process.env.REACT_APP_SERVER_URL?.endsWith("/")
   ? process.env.REACT_APP_SERVER_URL

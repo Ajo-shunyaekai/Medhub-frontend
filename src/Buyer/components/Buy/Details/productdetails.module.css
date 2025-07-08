@@ -704,6 +704,17 @@ img {
   margin-bottom: 20px;
 }
 
+.formclose {
+   box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+  padding: 4px 8px;
+  font-size: 13px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  cursor: pointer !important;
+}
+
 .closeImg {
   width: 10px;
   cursor: pointer !important;

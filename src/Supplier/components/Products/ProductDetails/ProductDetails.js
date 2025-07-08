@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductDetail } from "../../../../redux/reducers/productSlice";
-import RenderProductFiles from "../RenderProductFiles";
+// import RenderProductFiles from "../RenderProductFiles";
+import RenderProductFiles from '../../../../Buyer/components/Buy/Details/RenderFiles'
 import { useState, useEffect } from "react";
 import Modal from "react-modal";
 import CloseIcon from "../../../assets/images/Icon.svg";
