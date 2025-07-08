@@ -707,7 +707,7 @@ img {
 .formclose {
    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
   padding: 4px 8px;
-  font-size: 13px;
+  font-size: 0.825rem;
   border-radius: 4px;
   display: flex;
   align-items: center;
