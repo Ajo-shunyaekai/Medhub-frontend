@@ -1011,6 +1011,112 @@ img {
   font-weight: 500 !important;
   color: #5e676f !important;
 } 
+
+/*
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999999;
+}
+  
+.modalContent {
+  background: white;
+  padding: 30px;
+  border-radius: 4px;
+  width: 650px;
+  height: 50vh;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.pdfIframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+  
+.modalTitle {
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 14px;
+}
+
+.fileInputWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100% !important;
+}
+
+.modalInnerSection {
+  background-color: #fff !important;
+  align-items: center !important;
+  border: none !important;
+  border-radius: 4px !important;
+  height: 90%;
+  font-size: 14px !important;
+  outline: none !important;
+  padding: 12px !important;
+  position: relative !important;
+  width: 100% !important;
+  display: flex;
+  gap: 10px;
+  cursor: pointer !important;
+}
+
+.fileInput {
+  opacity: 0;
+  position: absolute;
+  cursor: pointer !important;
+}
+.fileModalName {
+  font-size: 0.825rem;
+  font-weight: 500;
+  text-align: start;
+}
+.placeholderText {
+  font-size: 0.825rem;
+  color: #888;
+}
+.modalButtonContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+  gap: 10px;
+}
+.modalHeadContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.closeButton {
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #fff !important;
+  align-items: center !important;
+  border: none !important;
+  border-radius: 4px !important;
+
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 24px;
+  cursor: pointer !important;
+}
+
+.closeButton:hover {
+  color: #000;
+}
+  */
  
 .imageContainer2 {
   width: 40%;

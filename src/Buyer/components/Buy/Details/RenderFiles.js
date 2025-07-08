@@ -147,6 +147,45 @@ const RenderProductFiles = ({ files }) => {
         )}
       </Modal> */}
       <PdfViewerModal isOpen={open} onClose={handleClose} fileUrl={pdfToPreview} />
+
+      {/* Optional Modal for pdf viewer */}
+      {/* {open && (
+          
+        <div className={styles.modalOverlay}>
+              <div className={styles.modalContent}>
+                <div className={styles.modalHeadContainer}>
+                  <div className={styles.modalTitle}>{'PDF Viewer'}</div>
+                  <button className={styles.closeButton} onClick={handleClose}>×</button>
+                </div>
+                <div className={styles.fileInputWrapper}>
+                  <label className={styles.formLabel}>{title} File (CSV)</label>
+                  <div className={styles.modalInnerSection}>
+                    {pdfToPreview ? (
+                      <iframe
+                        src={pdfToPreview}
+                        className={styles.pdfIframe}
+                        width={`100%`}
+                        height={`100vh`}
+                        title="Purchase Invoice"
+                        accessKey=""
+                        onError={() =>
+                          alert("Failed to load PDF. Please check the file path.")
+                        }
+                      />
+                    ) : (
+                      <p>Loading PDF or file not found...</p>
+                    )}
+                  </div>
+                  {error && <p className={styles.errorText}>{error}</p>}
+                </div>
+                <div className={styles.modalButtonContainer}>
+                   <button className={styles.buttonSubmit} onClick={handleUploadClick}>{title}</button>
+                  <button className={styles.buttonCancel} onClick={onClose}>Cancel</button>
+                 
+                </div>
+              </div>
+            </div>
+        )} */}
     </>
   );
 };
