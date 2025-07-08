@@ -9,8 +9,8 @@ import {
 } from "../../../../redux/reducers/productSlice";
 import { useState, useEffect, useRef } from "react";
 // import Modal from "react-modal";
-import Modal from 'react-modal';
-import { Document, Page, pdfjs } from 'react-pdf';
+import Modal from "react-modal";
+import { Document, Page, pdfjs } from "react-pdf";
 import CloseIcon from "../../../assets/images/Icon.svg";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -827,14 +827,13 @@ const ProductDetails = () => {
             </div>
           )
         )} */}
-
+        
         {/* New way of displaying product */}
         {imageArray.length > 0 && (
           <div className={styles.mainContainer}>
             <span className={styles.innerHead}>Product Images</span>
-            <div className={styles.productImageSection}>
-              {/* Main Image */}
-              <div className={styles.imageContainer}>
+            <div className={styles.imageViewerSection}>
+              <div className={styles.imageContainer2}>
                 <img
                   className={styles.imageSection}
                   src={
@@ -849,35 +848,46 @@ const ProductDetails = () => {
                   }}
                 />
               </div>
-
-              {/* Thumbnails */}
-              <div className={styles.thumbnailRow}>
+              <div className={styles.thumbnailContainer}>
                 {imageArray.map((img, index) => {
                   const imgUrl = getFullImageUrl(img);
                   const isImageFile = isImageExtension(imgUrl);
 
                   return (
-                    <img
-                      key={index}
-                      className={`${styles.thumbnailImage} ${
-                        selectedImage === imgUrl ? styles.activeThumbnail : ""
-                      }`}
-                      src={isImageFile ? imgUrl : fallbackImageUrl}
-                      alt={`Thumbnail ${index}`}
-                      onClick={() => setSelectedImage(imgUrl)}
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = fallbackImageUrl;
-                      }}
-                    />
+                    <div className={styles.thumbnail}>
+                      <img
+                        key={index}
+                        className={`${styles.thumbnailImage2} ${
+                          selectedImage === imgUrl ? styles.activeThumbnail : ""
+                        }`}
+                        src={isImageFile ? imgUrl : fallbackImageUrl}
+                        alt={`Thumbnail ${index}`}
+                        onClick={() => setSelectedImage(imgUrl)}
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = fallbackImageUrl;
+                        }}
+                      />
+                      <span
+                        className={styles.medicineHead}
+                        onClick={() => setSelectedImage(imgUrl)}
+                      >
+                        {index == 0
+                          ? "Front"
+                          : index == 1
+                          ? "Back"
+                          : index == 2
+                          ? "Side"
+                          : "Closeup"}{" "}
+                        Image
+                      </span>
+                    </div>
                   );
                 })}
               </div>
             </div>
           </div>
         )}
-
-        {/* End product image section */}
         {/* Start Inventory & Packaging section */}
         {(productDetail?.inventoryDetails?.stockedInDetails?.length > 0 ||
           productDetail?.inventoryDetails?.sku ||

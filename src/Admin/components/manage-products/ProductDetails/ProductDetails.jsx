@@ -1,21 +1,21 @@
 import styles from "./productdetail.module.css";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import CloseIcon from "../../../assets/Images/Icon.svg"; // Can be removed if not used elsewhere
 // import RenderProductFiles from "./RenderProductFiles";
-import RenderProductFiles from '../../../../Buyer/components/Buy/Details/RenderFiles'
+import RenderProductFiles from "../../../../Buyer/components/Buy/Details/RenderFiles";
 import { fetchProductDetail } from "../../../../redux/reducers/productSlice";
 import moment from "moment";
 import Accordion from "react-bootstrap/Accordion";
 
 const toTitleCase = (str) => {
   return str
-    .replace(/([a-z])([A-Z])/g, '$1 $2') // add space between camelCase words
-    .replace(/[_\-]/g, ' ')              // replace underscores/dashes with spaces
-    .split(' ')
+    .replace(/([a-z])([A-Z])/g, "$1 $2") // add space between camelCase words
+    .replace(/[_\-]/g, " ") // replace underscores/dashes with spaces
+    .split(" ")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(' ');
+    .join(" ");
 };
 
 const ProductDetails = () => {
@@ -80,6 +80,29 @@ const ProductDetails = () => {
       alert("PDF file not found.");
     }
   };
+
+  // For new image thumbnail
+  const baseUrl = process.env.REACT_APP_SERVER_URL?.endsWith("/")
+    ? process.env.REACT_APP_SERVER_URL
+    : `${process.env.REACT_APP_SERVER_URL}/`;
+
+  const getFullImageUrl = (img) =>
+    img?.startsWith("http") ? img : `${baseUrl}uploads/products/${img}`;
+
+  const imageArray = Array.isArray(productDetail?.general?.image)
+    ? productDetail.general.image
+    : Object.values(productDetail?.general?.image || {}).flat();
+
+  const [selectedImage, setSelectedImage] = useState(() =>
+    imageArray.length > 0 ? getFullImageUrl(imageArray[0]) : fallbackImageUrl
+  );
+
+  // Update main image if productDetail changes
+  useEffect(() => {
+    if (imageArray.length > 0) {
+      setSelectedImage(getFullImageUrl(imageArray[0]));
+    }
+  }, [productDetail?.general?.image]);
 
   return (
     <div className={styles.container}>
@@ -194,19 +217,19 @@ const ProductDetails = () => {
           </div>
         )}
 
-
-         {/* Start general information section */}
+        {/* Start general information section */}
         <div className={styles.mainContainer}>
           <div className={styles.contain}>
-          <span className={styles.innerHead}>General Information</span>{" "}
-          {productDetail?.updatedAt && (
-            <span className={styles.medicineHead2}>
-              (Last Modified Date:{" "}
-              {moment(productDetail?.updatedAt || new Date()).format(
-                "DD/MM/YYYY"
-              )})
-            </span>
-          )}
+            <span className={styles.innerHead}>General Information</span>{" "}
+            {productDetail?.updatedAt && (
+              <span className={styles.medicineHead2}>
+                (Last Modified Date:{" "}
+                {moment(productDetail?.updatedAt || new Date()).format(
+                  "DD/MM/YYYY"
+                )}
+                )
+              </span>
+            )}
           </div>
           <div className={styles.innerSection}>
             <div className={styles.mainSection}>
@@ -220,16 +243,19 @@ const ProductDetails = () => {
                   </span>
                 </div>
               )}
-              {productDetail?.[productDetail?.category]?.anotherCategory || productDetail?.anotherCategory && (
-                <div className={styles.medicinesSection}>
-                  <span className={styles.medicineHead}>
-                    Product Sub Category(Level3)
-                  </span>
-                  <span className={styles.medicineText}>
-                    {productDetail?.[productDetail?.category]?.anotherCategory || productDetail?.anotherCategory}{" "}
-                  </span>
-                </div>
-              )}
+              {productDetail?.[productDetail?.category]?.anotherCategory ||
+                (productDetail?.anotherCategory && (
+                  <div className={styles.medicinesSection}>
+                    <span className={styles.medicineHead}>
+                      Product Sub Category(Level3)
+                    </span>
+                    <span className={styles.medicineText}>
+                      {productDetail?.[productDetail?.category]
+                        ?.anotherCategory ||
+                        productDetail?.anotherCategory}{" "}
+                    </span>
+                  </div>
+                ))}
               {productDetail?.general?.form && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Type/Form</span>
@@ -242,7 +268,8 @@ const ProductDetails = () => {
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Strength</span>
                   <span className={styles.medicineText}>
-                  {productDetail?.general?.strength}{productDetail?.general?.strengthUnit}
+                    {productDetail?.general?.strength}
+                    {productDetail?.general?.strengthUnit}
                   </span>
                 </div>
               )}
@@ -264,7 +291,9 @@ const ProductDetails = () => {
               )}
               {productDetail?.general?.storage && (
                 <div className={styles.medicinesSection}>
-                  <span className={styles.medicineHead}>Storage Conditions</span>
+                  <span className={styles.medicineHead}>
+                    Storage Conditions
+                  </span>
                   <span className={styles.medicineText}>
                     {productDetail?.storage}
                   </span>
@@ -306,16 +335,18 @@ const ProductDetails = () => {
               )} */}
             </div>
             <div className={styles.mainSection}>
-              {productDetail?.[productDetail?.category]?.subCategory || productDetail?.subCategory && (
-                <div className={styles.medicinesSection}>
-                  <span className={styles.medicineHead}>
-                    Product Sub Category
-                  </span>
-                  <span className={styles.medicineText}>
-                    {productDetail?.[productDetail?.category]?.subCategory || productDetail?.subCategory}{" "}
-                  </span>
-                </div>
-              )}
+              {productDetail?.[productDetail?.category]?.subCategory ||
+                (productDetail?.subCategory && (
+                  <div className={styles.medicinesSection}>
+                    <span className={styles.medicineHead}>
+                      Product Sub Category
+                    </span>
+                    <span className={styles.medicineText}>
+                      {productDetail?.[productDetail?.category]?.subCategory ||
+                        productDetail?.subCategory}{" "}
+                    </span>
+                  </div>
+                ))}
               {productDetail?.general?.model && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Part/Model Number</span>
@@ -359,23 +390,28 @@ const ProductDetails = () => {
                   </span>
                 </div>
               )}
-              {productDetail?.general?.minimumPurchaseQuantity || productDetail?.general?.minimumPurchaseUnit && (
-                <div className={styles.medicinesSection}>
-                  <span className={styles.medicineHead}>Minimum Order Quantity</span>
-                  <span className={styles.medicineText}>
-                    {productDetail?.general?.minimumPurchaseQuantity ||
+              {productDetail?.general?.minimumPurchaseQuantity ||
+                (productDetail?.general?.minimumPurchaseUnit && (
+                  <div className={styles.medicinesSection}>
+                    <span className={styles.medicineHead}>
+                      Minimum Order Quantity
+                    </span>
+                    <span className={styles.medicineText}>
+                      {productDetail?.general?.minimumPurchaseQuantity ||
                         productDetail?.general?.minimumPurchaseUnit}
-                  </span>
-                </div>
-              )}
-              {productDetail?.general?.totalQuantity || productDetail?.general?.quantity && (
-                <div className={styles.medicinesSection}>
-                  <span className={styles.medicineHead}>Total Quantity</span>
-                  <span className={styles.medicineText}>
-                    {productDetail?.general?.totalQuantity || productDetail?.general?.quantity}
-                  </span>
-                </div>
-              )}
+                    </span>
+                  </div>
+                ))}
+              {productDetail?.general?.totalQuantity ||
+                (productDetail?.general?.quantity && (
+                  <div className={styles.medicinesSection}>
+                    <span className={styles.medicineHead}>Total Quantity</span>
+                    <span className={styles.medicineText}>
+                      {productDetail?.general?.totalQuantity ||
+                        productDetail?.general?.quantity}
+                    </span>
+                  </div>
+                ))}
 
               {/* {productDetail?.storage && (
                 <div className={styles.medicinesSection}>
@@ -456,7 +492,9 @@ const ProductDetails = () => {
             <div className={styles.innerComplianceSection}>
               {productDetail?.categoryDetails?.map((item, index) => (
                 <div className={styles.additionalUploadSection}>
-                  <span className={styles.medicineHead}>{toTitleCase(item?.name)}</span>
+                  <span className={styles.medicineHead}>
+                    {toTitleCase(item?.name)}
+                  </span>
                   <div className={styles.additionalImageSection}>
                     {/* {productDetail?.categoryDetails?.map((item, index) => ( */}
                     <div
@@ -507,17 +545,18 @@ const ProductDetails = () => {
           </div>
         )} */}
 
-{productDetail?.general?.image &&
-            (Array.isArray(productDetail.general.image) ? (
-              // Render if image is an array
+        {/* {productDetail?.general?.image &&
+          (Array.isArray(productDetail.general.image)
+            ? // Render if image is an array
               productDetail.general.image.length > 0 && (
                 <div className={styles.mainContainer}>
                   <span className={styles.innerHead}>Product Images</span>
                   <div className={styles.productImageSection}>
                     {productDetail.general.image.map((img, index) => {
-                      const baseUrl = process.env.REACT_APP_SERVER_URL?.endsWith("/")
-                        ? process.env.REACT_APP_SERVER_URL
-                        : `${process.env.REACT_APP_SERVER_URL}/`;
+                      const baseUrl =
+                        process.env.REACT_APP_SERVER_URL?.endsWith("/")
+                          ? process.env.REACT_APP_SERVER_URL
+                          : `${process.env.REACT_APP_SERVER_URL}/`;
 
                       const imgUrl = img?.startsWith("http")
                         ? img
@@ -542,8 +581,7 @@ const ProductDetails = () => {
                   </div>
                 </div>
               )
-            ) : (
-              // Render if image is an object
+            : // Render if image is an object
               Object.keys(productDetail.general.image).length > 0 && (
                 <div className={styles.mainContainer}>
                   <span className={styles.innerHead}>Product Images</span>
@@ -558,7 +596,9 @@ const ProductDetails = () => {
                               key={`${viewLabel}-${index}`}
                             >
                               <span>
-                                {viewLabel.charAt(0).toUpperCase() + viewLabel.slice(1)} Image
+                                {viewLabel.charAt(0).toUpperCase() +
+                                  viewLabel.slice(1)}{" "}
+                                Image
                               </span>
                               <img
                                 className={styles.imageSection}
@@ -578,9 +618,69 @@ const ProductDetails = () => {
                     )}
                   </div>
                 </div>
-              )
-            ))}
+              ))} */}
         {/* End product image section */}
+
+        {/* New way of displaying product */}
+        {imageArray.length > 0 && (
+          <div className={styles.mainContainer}>
+            <span className={styles.innerHead}>Product Images</span>
+            <div className={styles.imageViewerSection}>
+              <div className={styles.imageContainer2}>
+                <img
+                  className={styles.imageSection}
+                  src={
+                    isImageExtension(selectedImage)
+                      ? selectedImage
+                      : fallbackImageUrl
+                  }
+                  alt="Main Product Image"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = fallbackImageUrl;
+                  }}
+                />
+              </div>
+              <div className={styles.thumbnailContainer}>
+                {imageArray.map((img, index) => {
+                  const imgUrl = getFullImageUrl(img);
+                  const isImageFile = isImageExtension(imgUrl);
+
+                  return (
+                    <div className={styles.thumbnail}>
+                      <img
+                        key={index}
+                        className={`${styles.thumbnailImage2} ${
+                          selectedImage === imgUrl ? styles.activeThumbnail : ""
+                        }`}
+                        src={isImageFile ? imgUrl : fallbackImageUrl}
+                        alt={`Thumbnail ${index}`}
+                        onClick={() => setSelectedImage(imgUrl)}
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = fallbackImageUrl;
+                        }}
+                      />
+                      <span
+                        className={styles.medicineHead}
+                        onClick={() => setSelectedImage(imgUrl)}
+                      >
+                        {index == 0
+                          ? "Front"
+                          : index == 1
+                          ? "Back"
+                          : index == 2
+                          ? "Side"
+                          : "Closeup"}{" "}
+                        Image
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Start Inventory & Packaging section */}
         {(productDetail?.inventoryDetails?.stockedInDetails?.length > 0 ||
@@ -707,15 +807,19 @@ const ProductDetails = () => {
                     {ele?.quantityFrom && ele?.quantityTo ? (
                       <span className={styles.inventoryInput}>
                         {ele.quantityFrom} - {ele.quantityTo}
-                        </span>
+                      </span>
                     ) : ele?.quantity ? (
-                      <span className={styles.inventoryInput}>{ele.quantity}</span>
+                      <span className={styles.inventoryInput}>
+                        {ele.quantity}
+                      </span>
                     ) : (
-                      <span>N/A</span>  
+                      <span>N/A</span>
                     )}
                   </div>
                   <div className={styles.inventoryContainer}>
-                    <span className={styles.inventoryInput}>{ele?.price} USD</span>
+                    <span className={styles.inventoryInput}>
+                      {ele?.price} USD
+                    </span>
                   </div>
                   <div className={styles.inventoryContainer}>
                     <span className={styles.inventoryInput}>
@@ -735,9 +839,7 @@ const ProductDetails = () => {
           productDetail?.healthNSafety?.healthHazardRating?.length > 0 ||
           productDetail?.healthNSafety?.environmentalImpact?.length > 0) && (
           <div className={styles.mainContainer}>
-            <span className={styles.innerHead}>
-              Compliance & Certification
-            </span>
+            <span className={styles.innerHead}>Compliance & Certification</span>
             <div className={styles.innerComplianceSection}>
               {productDetail?.cNCFileNDate?.length > 0 && (
                 <div className={styles.additionalUploadSection}>
@@ -851,15 +953,13 @@ const ProductDetails = () => {
         )}
         {/* End Additional information */}
 
-         {/* start of Product documents */}
-      {(productDetail?.documents?.catalogue?.length > 0 ||
-          productDetail?.documents?.specification?.length > 0 ) && (
+        {/* start of Product documents */}
+        {(productDetail?.documents?.catalogue?.length > 0 ||
+          productDetail?.documents?.specification?.length > 0) && (
           <div className={styles.mainContainer}>
-            <span className={styles.innerHead}>
-              Product Documents
-            </span>
+            <span className={styles.innerHead}>Product Documents</span>
             <div className={styles.innerComplianceSection}>
-            {productDetail?.documents?.catalogue?.length > 0 && (
+              {productDetail?.documents?.catalogue?.length > 0 && (
                 <div className={styles.additionalUploadSection}>
                   <span className={styles.medicineHead}>Product Catalogue</span>
                   <div className={styles.additionalImageSection}>
@@ -3600,10 +3700,8 @@ const ProductDetails = () => {
 
         {/* End the category details section */}
 
-        
-        
-      {/* Start Manufacturer section */}
-{/* {(productDetail?.general?.manufacturer ||
+        {/* Start Manufacturer section */}
+        {/* {(productDetail?.general?.manufacturer ||
   productDetail?.general?.countryOfOrigin) && (
   <div className={styles.mainManufacturerContainer}>
     <span className={styles.innerHead}>Manufacturer Details</span>
@@ -3638,9 +3736,6 @@ const ProductDetails = () => {
     </div>
   </div>
 )} */}
-
-     
-
       </div>
     </div>
   );
