@@ -205,7 +205,7 @@ const OrdersDetails = ({ socket }) => {
                       to={`/buyer/logistics-form/${orderId}/${orderDetails?.buyer?._id}`}
                     >
                       <div className='active-order-details-left-top-main-heading-button'>
-                        Book Logistics
+                        Submit Drop Details
                       </div>
                     </Link>
                   </div>

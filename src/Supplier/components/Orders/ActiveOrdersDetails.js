@@ -128,7 +128,7 @@ const ActiveOrdersDetails = ({ socket }) => {
                                     <div className='active-order-details-top-order-cont'>
                                         <Link to={`/supplier/logistics-form/${orderId}/${orderDetails.supplier._id}`}>
                                             <div className='active-order-details-left-top-main-heading-button'>
-                                                Submit Details
+                                                Submit Pickup Details
                                             </div>
                                         </Link>
                                     </div>
