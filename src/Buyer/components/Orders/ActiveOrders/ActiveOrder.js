@@ -57,6 +57,17 @@ const ActiveOrder = ({
       name: "Status",
       selector: (row) => row?.status || "-",
       sortable: true,
+      cell: (row) => (
+        <div
+          className={
+            row?.status == "Active"
+              ? styles.showPendingWork
+              : ""
+          }
+        >
+          {row?.status}
+        </div>
+      ),
     },
     {
       name: "Action",
