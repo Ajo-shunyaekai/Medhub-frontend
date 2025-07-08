@@ -408,6 +408,16 @@
 .thumbnailImage2:hover {
   border-color: #007bff;
 }
+.activeThumbnail {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: border 0.2s ease;
+  border-color: #007bff;
+}
 
 /* Start the additional Information Container */
 

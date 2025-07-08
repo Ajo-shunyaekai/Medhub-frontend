@@ -600,11 +600,11 @@ const ProductDetails = () => {
             ))} */}
 
         {/* New way of displaying product */}
-        {imageArray.length > 0 && (
+        {/* {imageArray.length > 0 && (
           <div className={styles.mainContainer}>
             <span className={styles.innerHead}>Product Images</span>
             <div className={styles.productImageSection}>
-              {/* Main Image */}
+              
               <div className={styles.imageContainer}>
                 <img
                   className={styles.imageSection}
@@ -620,8 +620,7 @@ const ProductDetails = () => {
                   }}
                 />
               </div>
-
-              {/* Thumbnails */}
+              
               <div className={styles.thumbnailRow}>
                 {imageArray.map((img, index) => {
                   const imgUrl = getFullImageUrl(img);
@@ -646,7 +645,7 @@ const ProductDetails = () => {
               </div>
             </div>
           </div>
-        )}
+        )} */}
 
         {/* End product image section */}
 
