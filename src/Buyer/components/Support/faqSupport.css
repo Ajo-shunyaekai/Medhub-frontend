@@ -33,7 +33,7 @@
 .accordion-button {
   padding: 1rem;
   color:#5e676f;
-  font-size: 14px;
+  font-size: 0.825rem;
 
 }
 .accordion-button:not(.collapsed) {
@@ -42,7 +42,7 @@
 }
 .accordion-body {
   padding: 1rem;
-  font-size: 14px;
+  font-size: 0.825rem;
      color: #99a0ac;
 }
 
@@ -57,12 +57,12 @@
   .accordion-button {
     padding: 0.7rem;
 
-    font-size: 14px;
+    font-size: 0.825rem;
   }
 
   .accordion-body {
     padding: 0.7rem;
-    font-size: 14px;
+    font-size: 0.825rem;
   }
 }
 

@@ -99,7 +99,7 @@
         padding: 50px 34px;
     }
     .content{
-        font-size: 14px;
+        font-size: 0.825rem;
     }
 }
 @media screen and (max-width: 380px) {

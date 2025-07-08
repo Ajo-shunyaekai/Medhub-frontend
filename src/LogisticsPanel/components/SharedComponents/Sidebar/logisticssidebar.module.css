@@ -85,7 +85,7 @@ body{
   padding: 8px 5px;
   border: none;
   outline: none;
-  font-size: 14px;
+  font-size: 0.825rem;
   color: grey;
   background-color: #f9f9fa;
 }
@@ -122,7 +122,7 @@ body{
   row-gap: 12px;
 }
 .no_notifications{
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
 }
 .noti_top_wrapper::-webkit-scrollbar {
@@ -150,10 +150,10 @@ body{
 
 .noti_profile_text {
   width: 100%;
-  font-size: 13px;
+  font-size: 0.825rem;
   font-weight: 500;
   line-height: 20px;
-  color:#4f4f4f;
+  color:#5e676f;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -182,7 +182,7 @@ body{
 }
 .noti_profile_text span {
   cursor: pointer !important;
-  font-size: 14px;
+  font-size: 0.825rem;
 
 }
 .noti_bottom_wrapper {
@@ -196,14 +196,14 @@ body{
 }
 
 .noti_see_all_num {
-  color:#4f4f4f;
+  color:#5e676f;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 0.825rem;
 }
 
 .noti_see_all_btn {
   color: #282f86;
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
   cursor: pointer !important;
 }
@@ -227,14 +227,14 @@ body{
 .profile_wrapper a {
   list-style: none;
   text-decoration: none;
-  color:#4f4f4f;
+  color:#5e676f;
   width: 100%;
   max-width: 90%;
 }
 
 .profile_text {
   text-transform: capitalize;
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
   border-bottom: 1px solid rgba(160, 175, 185, 0.15);
   padding: 8px 14px;
@@ -268,10 +268,10 @@ body{
 }
 
 .profile_sign_out {
-  color:#4f4f4f;
+  color:#5e676f;
   font-weight: 500;
   padding: 8px 14px;
- font-size: 14px;
+ font-size: 0.825rem;
    cursor: pointer !important;;
 }
 
@@ -325,7 +325,7 @@ body{
   width: 180px;
   font-size: 14px;
   display: flex;
-  color:#4f4f4f;
+  color:#5e676f;
   text-decoration: none;
   justify-content: start;
   align-items: center;

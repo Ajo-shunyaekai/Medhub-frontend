@@ -41,7 +41,7 @@
   color: #99a0ac;
   padding: 8px 20px;
   border-radius: 4px;
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
   cursor: pointer !important;
 }
@@ -51,7 +51,7 @@
   color: #99a0ac;
   padding: 8px 20px;
   border-radius: 4px;
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
   cursor: pointer !important;
 }
@@ -119,7 +119,7 @@
   border-radius: 4px;
   color: #fff;
   cursor: pointer !important;
-  font-size: 14px;
+  font-size: 0.825rem;
   padding: 6px 8px;
   border: none;
   outline: none;
@@ -184,7 +184,7 @@
   column-gap: 8px;
   cursor: pointer !important;
   display: flex;
-  font-size: 14px;
+  font-size: 0.825rem;
   padding: 6px 16px;
   border: none;
   outline: none;
@@ -240,7 +240,7 @@
   width: 455px;
   height: 100%;
   gap: 10px;
-  font-size: 14px;
+  font-size: 0.825rem;
     font-weight: 500; */
   padding: 20px;
   font-size: 1.2em;

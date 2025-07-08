@@ -51,7 +51,7 @@
   row-gap: 10px;
 }
 .login-form-main-label {
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
 }
 .login-form-main-input {
@@ -91,13 +91,13 @@
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
   background-color: #ffffff;
   border: 1px solid #212121;
-  color:#4f4f4f;
+  color:#5e676f;
   padding: 6px 22px;
   border-radius: 4px;
   display: flex;
   align-items: center;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 0.825rem;
    cursor: pointer !important;;
 }
 .login-form-main-login {
@@ -110,7 +110,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   display: flex;
   align-items: center;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 0.825rem;
    cursor: pointer !important;;
 }
 
@@ -143,7 +143,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   margin-top: -6px;
 }
 .login-form-main-password {
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
    cursor: pointer !important;;
 }
@@ -169,11 +169,11 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   align-items: baseline;
 }
 .login__signup__content {
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
 }
 .login__signup__here {
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
    cursor: pointer !important;;
 }
@@ -243,18 +243,18 @@ background: linear-gradient(to left, #00dcff, #0075ce);
     max-width: 96%;
   }
   .login-form-main-label {
-    font-size: 14px;
+    font-size: 0.825rem;
   }
   .login-form-input-eye-icons {
     left: 89%;
   }
   .login-form-main-cancel {
     padding: 4px 24px;
-    font-size: 14px;
+    font-size: 0.825rem;
   }
   .login-form-main-login {
     padding: 4px 24px;
-    font-size: 14px;
+    font-size: 0.825rem;
   }
 }
 

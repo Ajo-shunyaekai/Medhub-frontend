@@ -111,7 +111,7 @@
 }
  
 .cardManu {
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
 }
  
@@ -142,7 +142,7 @@
  
 .cardMonth {
   display: block;
-  font-size: 14px;
+  font-size: 0.825rem;
     color: #282F86;
   margin-top: 20px;
 }
@@ -216,11 +216,11 @@
     font-size: 26px;
   }
   .cardMonth {
-    font-size: 12px;
+    font-size: 0.825rem;
     margin-top: 16px;
   }
   .cardListText {
-    font-size: 14px;
+    font-size: 0.825rem;
   }
   .cardList {
     row-gap: 16px;

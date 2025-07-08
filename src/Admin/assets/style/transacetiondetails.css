@@ -109,12 +109,12 @@
 }
 .transaction-details-company-type-sec-head{
     color:#99a0ac !important;
-    font-size: 14px;
+    font-size: 0.825rem;
 }
 .transaction-details-company-type-sec-text{
        color: #5e676f;
        font-weight: 500;
-    font-size: 14px;
+    font-size: 0.825rem;
     overflow-wrap: break-word;
     white-space: normal;
     word-break: break-word;
@@ -159,12 +159,12 @@
 }
 
 .transaction-details-description-head {
-    font-size: 14px;
+    font-size: 0.825rem;
     font-weight: 500;
 }
 
 .transaction-details-description-content {
-    font-size: 13px;
+    font-size: 0.825rem;
        color: #99a0ac;
 }
 
@@ -175,7 +175,7 @@
 }
 
 .transaction-details-left-inner-sec-text {
-    font-size: 14px;
+    font-size: 0.825rem;
        color: #99a0ac;
 }
 
@@ -216,7 +216,7 @@
     column-gap: 8px;
     cursor: pointer !important;
     display: flex;
-    font-size: 14px;
+    font-size: 0.825rem;
     outline: none !important;
     padding: 4px 12px;
 }
@@ -301,7 +301,7 @@
     font-weight: 500;
 }
 .transaction-details-inner-head {
-    font-size: 14px;
+    font-size: 0.825rem;
     font-weight: 500;
 }
 .transaction-details-company-img-container{
@@ -317,7 +317,7 @@
 }
 
 .transaction-details-inner-text {
-    font-size: 13px;
+    font-size: 0.825rem;
        color: #99a0ac;
     text-align: end;
     display: -webkit-box;
@@ -336,14 +336,14 @@
 
 .transaction-details-card-conteianer-head {
     color: #212121 !important;
-    font-size: 14px;
+    font-size: 0.825rem;
     font-weight: 500;
     text-align: start;
      cursor: pointer !important;;
 }
 
 .transaction-details-card-conteianer-text {
-    font-size: 14px;
+    font-size: 0.825rem;
        color: #99a0ac;
     text-align: start;
 }
@@ -407,13 +407,13 @@
 .supply-tdss {
     padding: 16px 20px;
     width: 14vw;
-    font-size: 13px;
+    font-size: 0.825rem;
     font-weight: 500;
 }
 
 .supply-button-tdss {
     width: 4vw;
-    font-size: 13px;
+    font-size: 0.825rem;
     font-weight: 500;
 }
 
@@ -430,12 +430,12 @@
 }
 
 .table-g-supply-name {
-    font-size: 14px;
+    font-size: 0.825rem;
     font-weight: 500;
 }
 
 .table-g-supply-text {
-    font-size: 13px;
+    font-size: 0.825rem;
        color: #99a0ac;
 }
 
@@ -499,7 +499,7 @@
     align-items: center;
      cursor: pointer !important;;
     display: flex;
-    font-size: 14px;
+    font-size: 0.825rem;
     line-height: 18px;
     font-weight: 500;
     padding: 6px 22px;
@@ -514,7 +514,7 @@
     align-items: center;
      cursor: pointer !important;;
     display: flex;
-    font-size: 14px;
+    font-size: 0.825rem;
     line-height: 18px;
     font-weight: 500;
     padding: 6px 22px;
@@ -533,7 +533,7 @@
     }
 
     .transaction-details-inner-head {
-        font-size: 14px;
+        font-size: 0.825rem;
     }
 }
 @media screen and (max-width: 1200px) {

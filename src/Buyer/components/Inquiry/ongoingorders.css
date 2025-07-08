@@ -48,14 +48,14 @@
   width: 13%;
   font-weight: 500;
   padding: 6px;
-  font-size: 14px;
+  font-size: 0.825rem;
 }
 
 .ongoing-container-large-th {
   width: 22%;
   font-weight: 500;
   padding: 6px;
-  font-size: 14px;
+  font-size: 0.825rem;
 }
 
 .ongoing-section-tr {
@@ -71,20 +71,20 @@
   width: 13%;
   font-weight: 500;
   padding: 16px 6px;
-  font-size: 14px;
+  font-size: 0.825rem;
 }
 
 .ongoing-section-large-td {
   width: 22%;
   font-weight: 500;
   padding: 16px 6px;
-  font-size: 14px;
+  font-size: 0.825rem;
 }
 
 .ongoing-section-heading {
      color: #99a0ac;
-  font-size: 13px;
-  font-weight: 400;
+  font-size: 0.825rem;
+  font-weight: 500;
 }
 
 .ongoing-section-button {

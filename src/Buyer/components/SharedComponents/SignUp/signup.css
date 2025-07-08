@@ -61,7 +61,7 @@
 }
 
 .signup-form-section-label {
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
 }
 
@@ -135,7 +135,7 @@
   display: flex;
   align-items: center;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 0.825rem;
   cursor: pointer;
 }
 
@@ -149,7 +149,7 @@
   display: flex;
   align-items: center;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 0.825rem;
   cursor: pointer;
 }
 
@@ -228,7 +228,7 @@
   justify-content: start;
   align-items: center;
   column-gap: 10px;
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
   margin-bottom: 10px;
   position: relative;
@@ -460,6 +460,6 @@
   }
 
   .signup-form-checkbox-label {
-    font-size: 14px;
+    font-size: 0.825rem;
   }
 }

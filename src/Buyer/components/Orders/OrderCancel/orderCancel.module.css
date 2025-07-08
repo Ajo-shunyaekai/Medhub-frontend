@@ -5,14 +5,14 @@
   padding: 10px 14px;
   font-size: 18px;
   font-weight: 500;
-  color:#4f4f4f;
+  color:#5e676f;
    cursor: pointer !important;;
 }
 
 .order-cancel-content {
   padding: 10px 14px;
-  font-size: 14px;
-  color:#4f4f4f;
+  font-size: 0.825rem;
+  color:#5e676f;
 }
 
 .order-textarea-heading {
@@ -24,10 +24,10 @@
 }
 
 .order-textarea-heading span {
-  font-size: 14px;
+  font-size: 0.825rem;
   line-height: 16px;
   font-weight: 500;
-  color:#4f4f4f;
+  color:#5e676f;
   margin-bottom: 10px;
 }
 
@@ -37,8 +37,8 @@ textarea.order-textarea {
   border-radius: 4px;
   outline: none !important;
   padding: 6px 8px 4px 10px;
-  font-size: 14px;
-  color:#4f4f4f;
+  font-size: 0.825rem;
+  color:#5e676f;
 }
 
 .order-btn-container {
@@ -57,13 +57,13 @@ textarea.order-textarea {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
   background-color: #ffffff;
   border: 1px solid #212121;
-  color:#4f4f4f;
+  color:#5e676f;
   padding: 6px 22px;
   border-radius: 4px;
   display: flex;
   align-items: center;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 0.825rem;
    cursor: pointer !important;;
 }
 
@@ -77,6 +77,6 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   display: flex;
   align-items: center;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 0.825rem;
 } 
 

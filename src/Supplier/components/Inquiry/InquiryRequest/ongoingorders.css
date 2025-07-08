@@ -19,7 +19,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
     display: flex;
     align-items: center;
     column-gap: 8px;
-    font-size: 14px;
+    font-size: 0.825rem;
      cursor: pointer !important;;
 }
 
@@ -62,14 +62,14 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   width: 18%;
   font-weight: 500;
   padding: 6px;
-  font-size: 14px;
+  font-size: 0.825rem;
 }
 
 .ongoing-container-large-th {
   width: 22%;
   font-weight: 500;
   padding: 6px;
-  font-size: 14px;
+  font-size: 0.825rem;
 }
 
 .ongoing-section-tr {
@@ -85,20 +85,20 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   width: 18%;
   font-weight: 500;
   padding: 16px 6px;
-  font-size: 14px;
+  font-size: 0.825rem;
 }
 
 .ongoing-section-large-td {
   width: 22%;
   font-weight: 500;
   padding: 16px 6px;
-  font-size: 14px;
+  font-size: 0.825rem;
 }
 
 .ongoing-section-heading {
      color: #99a0ac;
-  font-size: 13px;
-  font-weight: 400;
+  font-size: 0.825rem;
+  font-weight: 500;
 }
 
 .ongoing-section-button {

@@ -11,7 +11,7 @@
 }
 
 .image-name {
-  font-size: 14px;
+  font-size: 0.825rem;
   margin-top: 6px;
 }
 
@@ -54,7 +54,7 @@ position: absolute;
     right: 1%;
     top: 24%;
     transform: translateY(-50%);
-    font-size: 14px;
+    font-size: 0.825rem;
     cursor: pointer !important;
     z-index: 2;
 } */
@@ -85,7 +85,7 @@ position: absolute;
   display: inline-block;
 }
 .upload-text {
-  font-size: 13px;
+  font-size: 0.825rem;
 }
 .uploaded-image {
   max-width: 100%;

@@ -47,7 +47,7 @@
 .support-heading {
   padding-top: 5px;
   font-size: 20px;
-  color:#4f4f4f;
+  color:#5e676f;
   text-transform: capitalize;
 }
 
@@ -98,7 +98,7 @@
      color: #99a0ac;
   background-color: #ffffff;
    cursor: pointer !important;;
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
 }
 .active {
@@ -109,7 +109,7 @@
 .form-heading {
   width: 100%;
   max-width: 100%;
-  font-size: 22px;
+  font-size: 15px;
   font-weight: 500;
   color:#5e676f;
   text-transform: capitalize;
@@ -117,7 +117,7 @@
 }
 .form-input {
   width: 100%;
-  font-size: 14px;
+  font-size: 0.825rem;
   border: none;
   padding: 12px 15px;
   border-radius: 4px;
@@ -128,7 +128,7 @@
 }
 .form-textarea {
   width: 100%;
-  font-size: 14px;
+  font-size: 0.825rem;
   border: none;
   padding: 12px 15px;
   border-radius: 4px;
@@ -149,7 +149,7 @@
   padding-top: 5px;
   font-size: 20px;
   font-weight: 500;
-  color:#4f4f4f;
+  color:#5e676f;
   text-transform: capitalize;
 }
 
@@ -170,7 +170,7 @@
   margin-top:20px;
 }
 .form-submit-btn {
-  font-size: 14px;
+  font-size: 0.825rem;
   cursor: pointer !important;
   border: none !important;
   padding: 6px 24px !important;
@@ -224,7 +224,7 @@
   }
   .form-submit-btn {
     padding: 6px 24px;
-    font-size: 14px;
+    font-size: 0.825rem;
   }
 
   .form-container {
