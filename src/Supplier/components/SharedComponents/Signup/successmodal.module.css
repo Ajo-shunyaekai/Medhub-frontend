@@ -32,7 +32,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 }
 @media screen and (max-width: 767px) {
   .signup-modal-cont-text {
-    font-size: 14px;
+    font-size: 0.825rem;
     line-height: 20px;
   }
   .signup-modal-cont-heading {
@@ -40,7 +40,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
     font-weight: 500;
   }
   .signup-modal-cont-button {
-    font-size: 14px;
+    font-size: 0.825rem;
   }
   .signup-modal-image-section img {
     width: 80px;

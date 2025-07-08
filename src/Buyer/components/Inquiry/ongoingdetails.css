@@ -19,8 +19,8 @@
 }
 
 .table-assign-date-time {
-  color:#4f4f4f;
-  font-size: 13px;
+  color:#5e676f;
+  font-size: 0.825rem;
 }
 
 .table-card-body-container {
@@ -39,7 +39,7 @@
 }
 
 .ongoing-details-supplier-image-logo {
-  font-size: 12px;
+  font-size: 0.825rem;
   width: 100%;
   height: 80px;
   object-fit: contain;
@@ -201,7 +201,7 @@
   display: flex;
   align-items: center;
   column-gap: 8px;
-  font-size: 14px;
+  font-size: 0.825rem;
   line-height: 20px;
   cursor: pointer !important;
   ;
@@ -224,7 +224,7 @@
 .table-assign-driver-heading {
 color: #192039;
     font-size: 18px;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .table> :not(caption)>*>* {
@@ -372,13 +372,13 @@ color: #192039;
 
 .ongoing-details-left-top-main-heading {
     color: #99a0ac;
-    font-size: 12px;
+    font-size: 0.825rem;
   cursor: pointer !important;
 }
 
 .ongoing-details-left-top-main-contents {
 font-weight: 500;
-    font-size: 13px;
+    font-size: 0.825rem;
     line-height: 15px;
     color: #5e676f !important;
     cursor: pointer;
@@ -387,80 +387,80 @@ font-weight: 500;
 
 .ongoing-details-left-bottom-vehicle-head {
      color: #99a0ac;
-  font-size: 12px;
+  font-size: 0.825rem;
 }
 
 .ongoing-details-left-bottom-vehichle-no-head {
      color: #99a0ac;
-  font-size: 12px;
+  font-size: 0.825rem;
 }
 
 .ongoing-details-right-inner-section-heading {
      color: #99a0ac;
-  font-size: 13px;
+  font-size: 0.825rem;
 }
 
 .ongoing-details-left-bottom-vehicle-text {
   font-weight: 500;
-  font-size: 13px;
+  font-size: 0.825rem;
   line-height: 15px;
 }
 
 .ongoing-details-left-bottom-vehichle-no-text {
   font-weight: 500;
-  font-size: 13px;
+  font-size: 0.825rem;
   line-height: 15px;
 }
 
 .ongoing-details-top-bottom-order-heading {
      color: #99a0ac;
-  font-size: 12px;
+  font-size: 0.825rem;
 }
 
 .ongoing-details-top-bottom-order-content {
   font-weight: 500;
-  font-size: 13px;
+  font-size: 0.825rem;
   line-height: 15px;
 }
 
 .table-container-text {
-  color:#4f4f4f;
-  font-size: 13px;
+  color:#5e676f;
+  font-size: 0.825rem;
 }
 
 .table-g-not-names {
-  font-size: 13px;
+  font-size: 0.825rem;
   font-weight: 500;
   color: #5e676f !important;
 }
 
 .table-g-driver-name {
   color:#5e676f;
-  font-size: 13px;
+  font-size: 0.825rem;
 }
 
 .table-g-not-name {
      color: #5e676f;
-  font-size: 13px;
+  font-size: 0.825rem;
   font-weight: 500;
 }
 
 .ongoing-details-payment-first-terms-heading {
-  color:#4f4f4f;
+  color:#5e676f;
   font-size: 16px;
   font-weight: 500;
 }
 
 .ongoing-details-payment-first-terms-text {
   color: #5e676f;
-  font-size: 13px;
+  font-size: 0.825rem;
   font-weight: 500;
   padding: 0px 10px;
 }
 
 .ongoing-details-payment-detention-head {
-  color:#4f4f4f;
-  font-size: 14px;
+  color:#5e676f;
+  font-size: 0.825rem;
 }
 
 .ongoing-details-payment-detention-content {
@@ -471,7 +471,7 @@ font-weight: 500;
 }
 
 .ongoing-details-payment-detention-date {
-  font-size: 13px;
+  font-size: 0.825rem;
   font-weight: 500;
 }
 
@@ -487,7 +487,7 @@ font-weight: 500;
 
 .ongoing-details-payment-remark-text {
      color: #99a0ac;
-  font-size: 14px;
+  font-size: 0.825rem;
 }
 
 .ongoing-details-payment-right-section-heading {
@@ -497,13 +497,13 @@ font-weight: 500;
 }
 
 .ongoing-details-right-pickdata-head {
-  color:#4f4f4f;
-  font-size: 13px;
+  color:#5e676f;
+  font-size: 0.825rem;
 }
 
 .ongoing-details-right-pickdata-text {
-  color:#4f4f4f;
-  font-size: 13px;
+  color:#5e676f;
+  font-size: 0.825rem;
   font-weight: 500;
 }
 
@@ -518,14 +518,14 @@ font-weight: 500;
 
 .table-g-not-name-buttons {
   background-color: #f7f7d6;
-  color:#4f4f4f;
+  color:#5e676f;
   width: 100px;
   text-align: center;
   padding: 8px 0px;
   border-radius: 4px;
   cursor: pointer !important;
   ;
-  font-size: 14px;
+  font-size: 0.825rem;
   margin-top: 6px;
 }
 
@@ -543,7 +543,7 @@ font-weight: 500;
   color: #fff;
   cursor: pointer !important;
   ;
-  font-size: 14px;
+  font-size: 0.825rem;
   height: 30px;
   font-weight: 500;
   display: flex;
@@ -557,7 +557,7 @@ font-weight: 500;
   color: #fff;
   cursor: pointer !important;
   ;
-  font-size: 14px;
+  font-size: 0.825rem;
   height: 30px;
   font-weight: 500;
   display: flex;
@@ -614,7 +614,7 @@ font-weight: 500;
   display: flex;
   align-items: center;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 0.825rem;
   cursor: pointer !important;
   ;
 }
@@ -623,13 +623,13 @@ font-weight: 500;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
   background-color: #ffffff;
   border: 1px solid #5e676f;
-  color:#4f4f4f;
+  color:#5e676f;
   padding: 6px 22px;
   border-radius: 4px;
   display: flex;
   align-items: center;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 0.825rem;
   cursor: pointer !important;
   ;
 }
@@ -650,7 +650,7 @@ font-weight: 500;
   display: flex;
   align-items: center;
   column-gap: 8px;
-  font-size: 14px;
+  font-size: 0.825rem;
   cursor: pointer !important;
   ;
 }

@@ -71,7 +71,7 @@
   padding: 8px 5px;
   border: none;
   outline: none;
-  font-size: 14px;
+  font-size: 0.825rem;
   color: grey;
   background-color: #f9f9fa;
 }
@@ -133,8 +133,8 @@
 
 .noti_profile_text {
   width: 100%;
-  font-size: 14px;
-  color:#4f4f4f;
+  font-size: 0.825rem;
+  color:#5e676f;
   font-weight: 500;
   display: flex;
   flex-direction: column;
@@ -153,15 +153,15 @@
 }
 
 .noti_see_all_num {
-  color:#4f4f4f;
-  font-size: 14px;
+  color:#5e676f;
+  font-size: 0.825rem;
   font-weight: 500;
   cursor: pointer !important;
 }
 
 .noti_see_all_btn {
   color: #282f86;
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
   cursor: pointer !important;
 }
@@ -192,14 +192,14 @@
 .profile_wrapper a {
   list-style: none;
   text-decoration: none;
-  color:#4f4f4f;
+  color:#5e676f;
   width: 100%;
   max-width: 90%;
 }
 
 .profile_text {
   text-transform: capitalize;
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
   border-bottom: 1px solid rgba(160, 175, 185, 0.15);
   padding: 8px 14px;
@@ -233,9 +233,9 @@
 }
 
 .profile_sign_out {
-  color:#4f4f4f;
+  color:#5e676f;
     padding: 8px 14px;
-    font-size: 14px;
+    font-size: 0.825rem;
     font-weight: 500;
     cursor: pointer !important;
 }
@@ -294,7 +294,7 @@
 }
 
 .sidebar_text {
-  font-size: 14.4px;
+  font-size: 14px;
     display: flex;
         color: #5e676f !important;
     gap: 10px;
@@ -355,7 +355,7 @@
   gap: 10px;
   justify-content: start;
   align-items: center;
-  color:#4f4f4f;
+  color:#5e676f;
   font-size: 14px;
 }
 

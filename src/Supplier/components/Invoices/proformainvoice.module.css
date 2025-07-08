@@ -86,7 +86,7 @@
   }
   .create-invoice-div-label {
     color:#5e676f;
-    font-size: 14px;
+    font-size: 0.825rem;
     font-weight: 500;
   }
   .create-invoice-div-input {
@@ -117,13 +117,13 @@
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
     background-color: #ffffff;
     border: 1px solid #212121;
-    color:#4f4f4f;
+    color:#5e676f;
     padding: 6px 22px;
     border-radius: 4px;
     display: flex;
     align-items: center;
     font-weight: 500;
-    font-size: 14px;
+    font-size: 0.825rem;
      cursor: pointer !important;;
   }
   .create-invoices-submit {
@@ -135,7 +135,7 @@
     display: flex;
     align-items: center;
     font-weight: 500;
-    font-size: 14px;
+    font-size: 0.825rem;
      cursor: pointer !important;;
   }
 
@@ -178,7 +178,7 @@
      cursor: pointer !important;;
     display: flex;
     align-items: center;
-    font-size: 14px;
+    font-size: 0.825rem;
     padding: 6px 16px;
     margin-right: 18px;
   }

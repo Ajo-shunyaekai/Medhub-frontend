@@ -37,7 +37,7 @@
   font-weight: 500;
   max-width: 100%;
   margin: 0px auto;
-  color:#4f4f4f;
+  color:#5e676f;
 }
 .loginMainFormSection {
   display: flex;
@@ -52,8 +52,8 @@
   row-gap: 10px;
 }
 .loginFormMainLabel {
-  color:#4f4f4f;
-  font-size: 14px;
+  color:#5e676f;
+  font-size: 0.825rem;
   font-weight: 500;
 }
 .loginFormMainInput {
@@ -93,13 +93,13 @@
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
   background-color: #ffffff;
   border: 1px solid #212121;
-  color:#4f4f4f;
+  color:#5e676f;
   padding: 6px 22px;
   border-radius: 4px;
   display: flex;
   align-items: center;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 0.825rem;
    cursor: pointer !important;;
 }
 .loginFormMainLogin {
@@ -112,7 +112,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   display: flex;
   align-items: center;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 0.825rem;
    cursor: pointer !important;;
 }
 
@@ -146,7 +146,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   margin-top: -6px;
 }
 .loginFormMainPassword {
-     font-size: 14px;
+     font-size: 0.825rem;
     font-weight: 500;
     color: #5e676f;
     cursor: pointer !important;
@@ -174,11 +174,11 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 }
 .loginSignupContent {
   color:#5e676f ;
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
 }
 .loginSignupHere {
-  font-size: 14px;
+  font-size: 0.825rem;
    color:#3b71ca;;
   font-weight: 500;
    cursor: pointer !important;;
@@ -249,18 +249,18 @@ background: linear-gradient(to left, #00dcff, #0075ce);
     max-width: 96%;
   }
   .loginFormMainLabel {
-    font-size: 14px;
+    font-size: 0.825rem;
   }
   .loginFormInputEyeIcons {
     left: 89%;
   }
   .login-form-main-cancel {
     padding: 4px 24px;
-    font-size: 14px;
+    font-size: 0.825rem;
   }
   .loginFormMainLogin {
     padding: 4px 24px;
-    font-size: 14px;
+    font-size: 0.825rem;
   }
 }
 

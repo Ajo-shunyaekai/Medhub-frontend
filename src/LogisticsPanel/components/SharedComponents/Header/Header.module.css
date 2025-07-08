@@ -33,7 +33,7 @@ ul {
 .links {
   display: flex;
   column-gap: 15px;
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
   list-style: none;
 }
@@ -89,13 +89,13 @@ ul {
   cursor: pointer;
   display: block;
   color: #fff;
-  font-size: 14px;
+  font-size: 0.825rem;
 }
 
 .dropdownMenuMobile {
   display: none;
   list-style: none;
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
   margin-top: 5px;
 }
@@ -135,7 +135,7 @@ ul {
   row-gap: 12px;
 }
 .no_notifications {
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
 }
 .noti_top_wrapper::-webkit-scrollbar {
@@ -151,7 +151,7 @@ ul {
 }
 
 .noti_profile {
-  color:#4f4f4f;
+  color:#5e676f;
   font-weight: 500;
   font-size: 11px;
   display: flex;
@@ -163,10 +163,10 @@ ul {
 
 .noti_profile_text {
   width: 100%;
-  font-size: 13px;
+  font-size: 0.825rem;
   font-weight: 500;
   line-height: 20px;
-  color:#4f4f4f;
+  color:#5e676f;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -194,7 +194,7 @@ ul {
 }
 .noti_profile_text span {
   cursor: pointer !important;
-  font-size: 14px;
+  font-size: 0.825rem;
 }
 .noti_bottom_wrapper {
   display: flex;
@@ -207,14 +207,14 @@ ul {
 }
 
 .noti_see_all_num {
-  color:#4f4f4f;
+  color:#5e676f;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 0.825rem;
 }
 
 .noti_see_all_btn {
   color: #282f86;
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
   cursor: pointer !important;
 }
@@ -245,26 +245,26 @@ ul {
 
 .profile_text {
   text-transform: capitalize;
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
   border-bottom: 1px solid rgba(160, 175, 185, 0.15);
   padding: 8px 14px;
 }
 
 .profile_text:hover {
-  color:#4f4f4f;
+  color:#5e676f;
 }
 
 .profile_sign_out {
   color: #282f86;
   font-weight: 500;
   padding: 8px 14px;
-  font-size: 14px;
+  font-size: 0.825rem;
   cursor: pointer !important;
 }
 
 .profile_sign_out:hover {
-  color:#4f4f4f;
+  color:#5e676f;
 }
 
 .drawerMenus {
@@ -279,7 +279,7 @@ ul {
 
 .drawerMenus a {
   color: #fff;
-  font-size: 13px;
+  font-size: 0.825rem;
   overflow: hidden;
   position: relative;
   text-decoration: none;

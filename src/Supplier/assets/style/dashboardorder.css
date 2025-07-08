@@ -29,7 +29,7 @@
 
 .completed-order-table {
   color: #212121 !important;
-  font-size: 14px;
+  font-size: 0.825rem;
 }
 
 .completed-order-table-view {
@@ -90,19 +90,19 @@
 
 .completed-header-text-color {
      color: #99a0ac;
-  font-size: 12px;
+  font-size: 0.825rem;
   font-weight: 500;
   background-color: transparent !important;
 }
 
 .completed-table-text-color {
-  color:#4f4f4f;
-  font-size: 14px;
+  color:#5e676f;
+  font-size: 0.825rem;
 }
 
 .completed-table-text-color-2 {
      color: #99a0ac;
-  font-size: 14px;
+  font-size: 0.825rem;
 }
 
 .completed-table-order-1 {
@@ -124,7 +124,7 @@
 
 .completed-pagi-total {
      color: #99a0ac;
-  font-size: 14px;
+  font-size: 0.825rem;
 }
 
 .pagination {
@@ -187,19 +187,19 @@
 
 .header-text-color {
      color: #99a0ac;
-  font-size: 12px;
+  font-size: 0.825rem;
   font-weight: 500;
   background-color: transparent !important;
 }
 
 .table-text-color {
-  color:#4f4f4f;
-  font-size: 14px;
+  color:#5e676f;
+  font-size: 0.825rem;
 }
 
 .table-text-color-2 {
      color: #99a0ac;
-  font-size: 14px;
+  font-size: 0.825rem;
 }
 
 .table-order-1 {

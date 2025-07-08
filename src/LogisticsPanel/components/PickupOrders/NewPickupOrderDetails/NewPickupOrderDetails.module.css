@@ -53,14 +53,14 @@
 .logisticsInnerHead {
   /* color: #212121 !important; */
   color:#3b71ca;;
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
   line-height: 20px;
 }
 
 .logisticsInnerText {
      color: #99a0ac;
-  font-size: 14px;
+  font-size: 0.825rem;
   overflow-wrap: break-word;
   text-align: end;
   white-space: normal;
@@ -100,7 +100,7 @@
 }
 .logisticsAddText {
      color: #99a0ac;
-  font-size: 14px;
+  font-size: 0.825rem;
 }
 .packageMainContainer {
   display: flex;
@@ -159,7 +159,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   display: flex;
   align-items: center;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 0.825rem;
   cursor: pointer !important; */
   padding: 7px 10px;
   background: linear-gradient(to left, #00dcff, #0075ce);
@@ -178,13 +178,13 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   /* box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
   background-color: #ffffff;
   border: 1px solid #212121;
-  color:#4f4f4f;
+  color:#5e676f;
   padding: 6px 22px;
   border-radius: 4px;
   display: flex;
   align-items: center;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 0.825rem;
   cursor: pointer !important; */
   padding: 7px 10px;
   background-color: #fff;
@@ -207,7 +207,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   color: #282f86;
 }
 .logisticsText {
-  font-size: 14px;
+  font-size: 0.825rem;
   line-height: 20px;
   /* font-weight: 500; */
 }
@@ -236,7 +236,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 
 .th {
   font-weight: 500;
-  font-size: 14px;
+  font-size: 0.825rem;
   color: #282f86;
 }
 
@@ -264,7 +264,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 
 .tableContent span {
      color: #99a0ac;
-  font-size: 14px;
+  font-size: 0.825rem;
 }
 
 .paginationContainer {
@@ -293,14 +293,14 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 }
 
 .totalItems {
-  font-size: 14px;
+  font-size: 0.825rem;
   color: #666;
 }
 
 /* Responsive Styles */
 @media (max-width: 768px) {
   .table {
-    font-size: 14px;
+    font-size: 0.825rem;
   }
 
   .th,
@@ -353,14 +353,14 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 
 .logisticsInnerHead {
   color: #212121 !important;
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
   line-height: 20px;
 }
 
 .logisticsInnerText {
      color: #99a0ac;
-  font-size: 14px;
+  font-size: 0.825rem;
   overflow-wrap: break-word;
   text-align: end;
   white-space: normal;
@@ -393,7 +393,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 }
 .logisticsAddText {
      color: #99a0ac;
-  font-size: 14px;
+  font-size: 0.825rem;
 }
 .packageMainContainer {
   display: flex;
@@ -475,7 +475,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   font-weight: 500;
 }
 .logisticsText {
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
 }
 
@@ -502,7 +502,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 
 .th {
   font-weight: 500;
-  font-size: 14px;
+  font-size: 0.825rem;
 }
 
 .productNameCell {
@@ -529,7 +529,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 
 .tableContent span {
      color: #99a0ac;
-  font-size: 14px;
+  font-size: 0.825rem;
 }
 
 .paginationContainer {
@@ -558,13 +558,13 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 }
 
 .totalItems {
-  font-size: 14px;
+  font-size: 0.825rem;
   color: #666;
 }
 
 @media (max-width: 768px) {
   .table {
-    font-size: 14px;
+    font-size: 0.825rem;
   }
 
   .th,

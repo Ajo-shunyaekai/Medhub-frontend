@@ -60,7 +60,7 @@ img {
   color: #5e676f;
   display: flex;
   flex-direction: column;
-  font-size: 14px;
+  font-size: 0.825rem;
   padding: 14px;
   padding-left: 14px !important;
   position: absolute;
@@ -93,7 +93,7 @@ img {
   display: flex;
   background-color: transparent;
   color: #fff;
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
   justify-content: center;
   padding: 0;
@@ -237,7 +237,7 @@ img {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 14px;
+  font-size: 0.825rem;
   padding: 6px 16px;
 }
 
@@ -262,11 +262,11 @@ img {
   color: #5e676f;
   font-size: 0.825rem;
   min-width: 250px;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .medicineHeadings {
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
 }
 
@@ -281,7 +281,7 @@ img {
 }
 
 .medicineTexts {
-  font-size: 14px;
+  font-size: 0.825rem;
   color: #99a0ac;
   font-weight: 500;
   word-wrap: break-word;
@@ -491,7 +491,7 @@ img {
   padding: 6px 22px;
   border-radius: 4px;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 0.825rem;
   cursor: pointer !important;
 }
 .cancelButton {
@@ -502,7 +502,7 @@ img {
   padding: 6px 22px;
   border-radius: 4px;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 0.825rem;
   cursor: pointer !important;
 }
 
@@ -576,7 +576,7 @@ img {
 
 .additionalLink {
   cursor: pointer !important;
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
   color: rgb(40, 47, 134) !important;
 }
@@ -657,7 +657,7 @@ img {
   column-gap: 8px;
   cursor: pointer !important;
   display: flex;
-  font-size: 14px;
+  font-size: 0.825rem;
   justify-content: center;
   outline: none !important;
   padding: 6px 0;
@@ -763,7 +763,7 @@ img {
   margin: 0;
   font-size: 18px;
   color: #333;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .close-button {

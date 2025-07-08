@@ -17,7 +17,7 @@
 .buyer-product-details-stength {
   font-size: 24px;
   font-weight: 500;
-  color:#4f4f4f;
+  color:#5e676f;
 }
 .buyer-product-details-inner-company-stockedin{
   display: flex;
@@ -26,7 +26,7 @@
 }
 .buyer-stockedin-heading{
   width: 220px;
-  font-size: 13px;
+  font-size: 0.825rem;
   font-weight: 500;
   color: #212121 !important;
 }
@@ -57,7 +57,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   align-items: center;
   justify-content: center;
   column-gap: 8px;
-  font-size: 14px;
+  font-size: 0.825rem;
   cursor: pointer !important;
   outline: none !important;
   border: none !important;
@@ -65,7 +65,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 
 /* end the button container code */
 .buyer-product-details-heading {
-  color:#4f4f4f;
+  color:#5e676f;
   margin: 0px 0.5rem;
   font-size: 20px;
   font-weight: 500;
@@ -142,12 +142,12 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   font-size: 28px;
   line-height: 28px;
   font-weight: 500;
-  color:#4f4f4f;
+  color:#5e676f;
 }
 
 .buyer-product-details-sec-one-left p {
-  font-size: 14px;
-  color:#4f4f4f;
+  font-size: 0.825rem;
+  color:#5e676f;
   font-weight: 500;
   text-transform: capitalize;
 }
@@ -160,15 +160,15 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   display: flex;
   align-items: center;
   column-gap: 8px;
-  font-size: 14px;
+  font-size: 0.825rem;
   cursor: pointer !important;
   outline: none !important;
   border: none !important;
 }
 
 .buyer-product-details-mfg {
-  color:#4f4f4f;
-  font-size: 12px;
+  color:#5e676f;
+  font-size: 0.825rem;
   text-align: center;
   margin-top: 5px;
   line-height: 16px;
@@ -212,25 +212,25 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 }
 
 .buyer-product-details-two-left-text {
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
   width: 200px;
 }
 
 .buyer-product-details-four-left-text {
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
   width: 200px;
 }
 
 .buyer-product-details-two-right-text {
-  font-size: 14px;
+  font-size: 0.825rem;
      color: #99a0ac;
   font-weight: 500;
 }
 
 .buyer-product-details-four-right-text {
-  font-size: 14px;
+  font-size: 0.825rem;
      color: #99a0ac;
   font-weight: 500;
   width: 720px;
@@ -260,9 +260,9 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 }
 
 .buyer-product-range-heading {
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
-  color:#4f4f4f;
+  color:#5e676f;
 }
 
 .buyer-product-range-text {
@@ -286,9 +286,9 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 
 .buyer-product-range-input {
   outline: none;
-  font-size: 13px;
+  font-size: 0.825rem;
   padding: 11px 10px;
-  color:#4f4f4f;
+  color:#5e676f;
   width: 100%;
   border: none;
   border-radius: 4px;
@@ -311,13 +311,13 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 .buyer-product-details-mfg-heading {
   font-size: 16px;
   text-transform: capitalize;
-  color:#4f4f4f;
+  color:#5e676f;
   font-weight: 500;
   margin-bottom: 0.5rem;
 }
 
 .buyer-product-details-mfg-details {
-  font-size: 14px;
+  font-size: 0.825rem;
      color: #99a0ac;
   font-weight: 500;
 }
@@ -352,11 +352,11 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 }
 .buyer-product-details-main-company-stockedin{
   width: 220px;
-  font-size: 13px;
-  color:#4f4f4f;
+  font-size: 0.825rem;
+  color:#5e676f;
 }
 .buyer-product-details-main-company-totalquantity{
-  font-size: 14px;
+  font-size: 0.825rem;
 }
 .buyer-product-details-inner-company a {
   display: flex;
@@ -367,13 +367,13 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 
 .buyer-product-details-inner-copmany-head {
   color: #212121 !important;
-  font-size: 14px;
+  font-size: 0.825rem;
   width: 200px;
   font-weight: 500;
 }
 
 .buyer-product-details-inner-copmany-text {
-  font-size: 14px;
+  font-size: 0.825rem;
      color: #99a0ac;
   font-weight: 500;
   display: flex;
@@ -500,11 +500,11 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   }
 
   .buyer-product-range-heading {
-    font-size: 14px;
+    font-size: 0.825rem;
   }
 
   .buyer-product-range-input {
-    font-size: 13px;
+    font-size: 0.825rem;
     padding: 7px 10px;
   }
 
@@ -515,7 +515,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 
 @media screen and (max-width: 650px) {
   .buyer-product-range-heading {
-    font-size: 12px;
+    font-size: 0.825rem;
     text-align: center;
   }
 
@@ -529,7 +529,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 @media screen and (max-width: 550px) {
   .buyer-product-details-two-left-text {
     width: 40vw;
-    font-size: 13px;
+    font-size: 0.825rem;
   }
 
   .buyer-product-details-sec-one-left h4 {
@@ -537,11 +537,11 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   }
 
   .buyer-product-details-sec-one-left p {
-    font-size: 14px;
+    font-size: 0.825rem;
   }
 
   .buyer-product-details-two-right-text {
-    font-size: 14px;
+    font-size: 0.825rem;
   }
 
   .buyer-product-details-four-right-text {
@@ -573,7 +573,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 .buyer-product-details-card-section-heading {
   width: 100%;
   font-size: 16px;
-  color:#4f4f4f;
+  color:#5e676f;
   font-weight: 500;
 }
 
@@ -616,7 +616,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   display: flex;
   align-items: center;
   column-gap: 8px;
-  font-size: 14px;
+  font-size: 0.825rem;
    cursor: pointer !important;;
 }
 
@@ -639,11 +639,11 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   font-size: 22px;
   line-height: 26px;
   font-weight: 500;
-  color:#4f4f4f;
+  color:#5e676f;
 }
 
 .buyer-product-details-card-medicine-text {
-  font-size: 12px;
+  font-size: 0.825rem;
      color: #99a0ac;
 }
 
@@ -655,13 +655,13 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 
 .buyer-product-details-card-text-head {
   width: 150px;
-  font-size: 14px;
+  font-size: 0.825rem;
   line-height: 16px;
   font-weight: 500 !important;
 }
 
 .buyer-product-details-card-test-text {
-  font-size: 13px;
+  font-size: 0.825rem;
      color: #99a0ac;
   width: 104px;
     display: -webkit-box;
@@ -689,7 +689,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
     display: flex;
     align-items: center;
     font-weight: 500;
-    font-size: 14px;
+    font-size: 0.825rem;
      cursor: pointer !important;;
 }
 
@@ -722,13 +722,13 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
     background-color: #ffffff;
     border: 1px solid #212121;
-    color:#4f4f4f;
+    color:#5e676f;
     padding: 6px 22px;
     border-radius: 4px;
     display: flex;
     align-items: center;
     font-weight: 500;
-    font-size: 14px;
+    font-size: 0.825rem;
      cursor: pointer !important;;
 }
 /* start the media query */
@@ -761,7 +761,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 
   .buyer-product-details-card-text-head {
     width: 120px;
-    font-size: 13px;
+    font-size: 0.825rem;
   }
 }
 
@@ -786,7 +786,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 
   .buyer-product-details-card-image-button-cont {
     padding: 6px 14px;
-    font-size: 12px;
+    font-size: 0.825rem;
   }
 }
 
@@ -811,7 +811,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 
   .buyer-product-details-card-text-head {
     width: 160px;
-    font-size: 14px;
+    font-size: 0.825rem;
   }
 
   .buyer-product-details-company-conatiner {
@@ -842,7 +842,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 
   .buyer-product-details-card-text-head {
     width: 120px;
-    font-size: 13px;
+    font-size: 0.825rem;
   }
 
   .buyer-product-details-card-right-container {
@@ -901,7 +901,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 
   .buyer-product-details-card-text-head {
     width: 150px;
-    font-size: 14px;
+    font-size: 0.825rem;
   }
 
   .buyer-product-details-card-image-button-cont {
@@ -923,7 +923,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
     color: white;
     padding: 6px 16px;
     border-radius: 4px;
-    font-size: 14px;
+    font-size: 0.825rem;
   }
 }
 
@@ -986,7 +986,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   justify-content: end;
   align-items: center;
   column-gap: 8px;
-  font-size: 14px;
+  font-size: 0.825rem;
   cursor: pointer !important;
   outline: none !important;
   border: none !important;

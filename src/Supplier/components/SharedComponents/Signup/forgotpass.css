@@ -35,7 +35,7 @@
 }
 
 .verify-subtext {
-    font-size: 14px;
+    font-size: 0.825rem;
     color: #666666;
     margin-bottom: 24px;
 }
@@ -85,9 +85,9 @@
 
 .verify-footer {
     margin-top: 16px;
-    font-size: 14px;
+    font-size: 0.825rem;
     font-weight: 500;
-    color:#4f4f4f;
+    color:#5e676f;
 }
 
 .resend-link {

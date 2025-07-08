@@ -57,7 +57,7 @@
     display: flex;
     align-items: center;
     column-gap: 8px;
-    font-size: 14px;
+    font-size: 0.825rem;
      cursor: pointer !important;;
   }
   .buy-product-card-first-left {
@@ -69,10 +69,10 @@
     font-size: 22px;
     line-height: 26px;
       font-weight: 500;
-    color:#4f4f4f;
+    color:#5e676f;
   }
   .buy-product-card-first-copmany-description {
-    font-size: 12px;
+    font-size: 0.825rem;
        color: #99a0ac;
     display: -webkit-box;
     -webkit-line-clamp: 1;
@@ -83,13 +83,13 @@
   }
   .buy-product-card-second-head {
     width: 116px;
-    font-size: 14px;
+    font-size: 0.825rem;
     line-height: 16px;
     font-weight: 500 !important;
   }
   .buy-product-card-second-text {
     width: 130px;
-    font-size: 13px;
+    font-size: 0.825rem;
        color: #99a0ac;
     display: -webkit-box;
     -webkit-line-clamp: 1;
@@ -153,14 +153,14 @@
   }
   .buy-product-card-second-head {
     width: 106px;
-    font-size: 13px;
+    font-size: 0.825rem;
   }
   .buy-product-card-first-section {
     row-gap: 4px;
   }
   .buy-product-card-first-send-button {
     padding: 5px 13px;
-    font-size: 13px;
+    font-size: 0.825rem;
 }
 }
   @media screen and (max-width: 630px) {
@@ -181,13 +181,13 @@
     }
     .buy-product-card-second-head {
       width: 120px;
-      font-size: 14px;
+      font-size: 0.825rem;
     }
     .buy-product-card-first-medicine-image {
       width: 180px;
     }
     .buy-product-card-first-send-button {
-      font-size: 12px;
+      font-size: 0.825rem;
     }
     .buy-product-card-section {
       column-gap: 10px;

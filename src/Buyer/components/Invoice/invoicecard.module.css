@@ -28,14 +28,14 @@
 }
 
 .invoice-card-conts-head {
-  color:#4f4f4f;
-  font-size: 14px;
+  color:#5e676f;
+  font-size: 0.825rem;
   width: 150px;
   font-weight: 500;
 }
 
 .invoice-card-conts-text {
-  font-size: 14px;
+  font-size: 0.825rem;
      color: #99a0ac;
   font-weight: 500;
 }

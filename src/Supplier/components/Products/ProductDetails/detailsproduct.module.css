@@ -14,7 +14,7 @@
 }
 
 .mainHead {
-    color:#4f4f4f;
+    color:#5e676f;
     font-size: 20px;
     font-weight: 500;
     padding-top: 5px;
@@ -42,7 +42,7 @@
       font-size: 36px;
     line-height: 40px;
     font-weight: 500;
-    color:#4f4f4f;
+    color:#5e676f;
 }
 
 .content {
@@ -126,11 +126,11 @@
 .mainHeading {
     font-size: 20px;
     font-weight: 500;
-    color:#4f4f4f;
+    color:#5e676f;
 }
 
 .mainTexting {
-    font-size: 13px;
+    font-size: 0.825rem;
     font-weight: 500;
        color: #99a0ac;
 }
@@ -165,13 +165,13 @@
 
 .headSec {
   font-weight: 500;
-    font-size: 13px;
-    color:#4f4f4f;
+    font-size: 0.825rem;
+    color:#5e676f;
     min-width: 100px;
 }
 
 .textSec {
-      font-size: 13px;
+      font-size: 0.825rem;
        color: #99a0ac;
     font-weight: 500;
     text-align: end;
@@ -208,17 +208,17 @@
 
 .headCountry {
    font-weight: 500;
-    font-size: 13px;
-    color:#4f4f4f;
+    font-size: 0.825rem;
+    color:#5e676f;
     min-width: 100px;
 }
 .textCountryHead{
     font-weight: 500;
-    font-size: 13px;
-    color:#4f4f4f;
+    font-size: 0.825rem;
+    color:#5e676f;
 }
 .textCountry {
-    font-size: 13px;
+    font-size: 0.825rem;
     font-weight: 500;
        color: #99a0ac;
 }
@@ -238,7 +238,7 @@
 .categoryHeading {
        font-size: 20px;
     font-weight: 500;
-    color:#4f4f4f;
+    color:#5e676f;
 }
 
 .categorySection {
@@ -255,13 +255,13 @@ flex-wrap: wrap;
 
 .categoryHead {
        font-weight: 500;
-    font-size: 13px;
-    color:#4f4f4f;
+    font-size: 0.825rem;
+    color:#5e676f;
     min-width: 100px;
 }
 
 .categoryText {
-  font-size: 13px;
+  font-size: 0.825rem;
        color: #99a0ac;
     font-weight: 500;
     text-align: end;
@@ -279,7 +279,7 @@ flex-wrap: wrap;
 }
 
 .descriptionContent {
-       font-size: 13px;
+       font-size: 0.825rem;
     font-weight: 500;
        color: #99a0ac;
 }
@@ -314,8 +314,8 @@ flex-wrap: wrap;
 
 .fileName {
   font-weight: 500;
-    font-size: 13px;
-    color:#4f4f4f;
+    font-size: 0.825rem;
+    color:#5e676f;
 }
 
 .expiryName {
@@ -325,7 +325,7 @@ flex-wrap: wrap;
 .fileHeading{
 font-size: 18px;
 font-weight: 500;
-color:#4f4f4f;
+color:#5e676f;
 }
 .fileSection{
   display: flex;
@@ -353,7 +353,7 @@ color:#4f4f4f;
 
 .labelName {
       font-size: 16px;
-    color:#4f4f4f;
+    color:#5e676f;
     font-weight: 500;
 }
 
