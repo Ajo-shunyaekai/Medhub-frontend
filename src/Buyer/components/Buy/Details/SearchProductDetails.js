@@ -423,8 +423,8 @@ const SearchProductDetails = () => {
               )} */}
             </div>
             <div className={styles.mainSection}>
-              {productDetail?.[productDetail?.category]?.subCategory ||
-                (productDetail?.subCategory && (
+              {(productDetail?.[productDetail?.category]?.subCategory ||
+                productDetail?.subCategory) && (
                   <div className={styles.medicinesSection}>
                     <span className={styles.medicineHead}>
                       Product Sub Category
@@ -434,7 +434,7 @@ const SearchProductDetails = () => {
                         productDetail?.subCategory}
                     </span>
                   </div>
-                ))}
+                )}
               {/* {productDetail?.general?.form && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Type/Form</span>
