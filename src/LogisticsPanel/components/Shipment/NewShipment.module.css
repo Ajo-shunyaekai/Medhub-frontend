@@ -75,7 +75,7 @@ form {
 }
 
 .formLabel {
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
   color: #282f86;
   word-break: break-word;
@@ -114,7 +114,7 @@ form {
   right: 2%;
   top: 20%;
   transform: translateY(-50%);
-  font-size: 14px;
+  font-size: 0.825rem;
   cursor: pointer !important;
   z-index: 0;
 }
@@ -126,7 +126,7 @@ form {
 
 .labelStamp {
   font-size: 16px;
-  color:#4f4f4f;
+  color:#5e676f;
 }
 
 .logisticsButtonContainer {

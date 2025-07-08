@@ -22,11 +22,11 @@ form {
 
 .labelStamp {
   font-size: 16px;
-  color:#4f4f4f;
+  color: #4f4f4f;
 }
 
 .formLabel {
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
   color: #282f86;
   word-break: break-word;
@@ -36,7 +36,7 @@ form {
   background-color: #fff !important;
   border: none !important;
   border-radius: 4px !important;
-   
+
   font-size: 14px !important;
   outline: none !important;
   padding: 25px !important;
@@ -123,7 +123,7 @@ form {
   padding-top: 5px;
   font-size: 20px;
   font-weight: 500;
-  color:#4f4f4f;
+  color:#5e676f;
   text-transform: capitalize;
 }
 
@@ -137,7 +137,7 @@ form {
   column-gap: 8px;
   cursor: pointer !important;
   display: flex;
-  font-size: 14px;
+  font-size: 0.825rem;
   margin-right: 18px;
   padding: 6px 16px;
 }
@@ -207,7 +207,7 @@ form {
   column-gap: 8px;
   cursor: pointer !important;
   display: flex;
-  font-size: 14px;
+  font-size: 0.825rem;
   margin-right: 18px;
   padding: 6px 16px;
 }
@@ -227,7 +227,7 @@ form {
 .formclose {
    
   padding: 4px 8px;
-  font-size: 13px;
+  font-size: 0.825rem;
   border-radius: 4px;
   display: flex;
   align-items: center;
@@ -278,7 +278,7 @@ form {
 }
 
 .checkText {
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
   word-break: break-word;
 } */
@@ -321,7 +321,7 @@ form {
 }
 
 .uploadLabel {
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
   display: flex;
   flex-direction: column;
@@ -366,12 +366,13 @@ form {
 }
 
 .uploadIcon {
-  color: #888;
+  color: #99a0ac;
+  font-size: 0.825rem;
   cursor: pointer !important;
 }
 
 .uploadText {
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
   cursor: pointer !important;
 }
@@ -418,7 +419,7 @@ form {
   border: none;
   background: transparent;
   cursor: pointer;
-  color:#4f4f4f;
+  color:#5e676f;
   cursor: pointer !important;
 } */
 
@@ -458,7 +459,7 @@ form {
   cursor: pointer !important;
   display: flex;
   align-items: center;
-  font-size: 14px;
+  font-size: 0.825rem;
   padding: 10px 16px;
   position: relative;
   right: 50px;
@@ -515,7 +516,7 @@ form {
   right: 2%;
   top: 20%;
   transform: translateY(-50%);
-  font-size: 14px;
+  font-size: 0.825rem;
   cursor: pointer !important;
   z-index: 0;
 }
@@ -557,7 +558,7 @@ form {
 
 .fileName {
   margin-top: 5px;
-  font-size: 12px;
+  font-size: 0.825rem;
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
@@ -581,11 +582,11 @@ form {
   border: 1px solid #212121;
   border-radius: 4px;
   box-shadow: 0 1px 2px #0000000d !important;
-  color:#4f4f4f;
+  color:#5e676f;
   align-items: center;
   cursor: pointer !important;
   display: flex;
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
   padding: 6px 22px;
 }
@@ -599,7 +600,7 @@ form {
   align-items: center;
   cursor: pointer !important;
   display: flex;
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
   padding: 6px 22px;
 } */
@@ -661,12 +662,12 @@ form {
   cursor: pointer !important;
 }
 .fileModalName {
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
   text-align: start;
 }
 .placeholderText {
-  font-size: 14px;
+  font-size: 0.825rem;
   color: #888;
 }
 .modalButtonContainer {
@@ -702,7 +703,7 @@ form {
   color: #000;
 }
 .labelStamp {
-  font-size: 16px;
+  font-size: 12px;
   color: #ff0000;
 } */
 /* End bulk upload section */

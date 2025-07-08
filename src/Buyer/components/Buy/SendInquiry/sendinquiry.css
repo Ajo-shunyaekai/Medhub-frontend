@@ -18,7 +18,7 @@
     background-color: #fff;
     border-radius: 4px;
  
-    font-size: 14px;
+    font-size: 0.825rem;
     font-weight: 500;
 }
 
@@ -67,7 +67,7 @@
 }
 
 .send-enquiry-upper-left-text {
-    font-size: 14px;
+    font-size: 0.825rem;
        color: #99a0ac;
 }
 
@@ -89,7 +89,7 @@
 }
 
 .send-enquiry-upper-right-number {
-    font-size: 14px;
+    font-size: 0.825rem;
        color: #5e676f;
 }
 
@@ -102,7 +102,7 @@
     ;
     display: flex;
     align-items: center;
-    font-size: 14px;
+    font-size: 0.825rem;
     padding: 6px 16px;
 }
 
@@ -249,14 +249,14 @@
 }
 
 .send-enquiry-inner-top-supplier {
-    font-size: 12px;
+    font-size: 0.825rem;
     line-height: 18px;
        color: #99a0ac;
     width: 650px;
 }
 
 .send-enquiry-inner-top-name {
-    font-size: 12px;
+    font-size: 0.825rem;
        color: #99a0ac;
 }
 
@@ -276,14 +276,14 @@
 }
 
 .send-enquiry-inner-bootom-head {
-    font-size: 14px;
+    font-size: 0.825rem;
     color:#5e676f;
     line-height: 16px;
     font-weight: 500 !important;
 }
 
 .send-enquiry-inner-bootom-text {
-    font-size: 13px;
+    font-size: 0.825rem;
        color: #5e676f;
 }
 
@@ -341,7 +341,7 @@
     gap: 10px;
   }
   .pagi-total{
-    font-size: 12px;
+    font-size: 0.825rem;
   }
   .page-link {
     display: inline-block;
@@ -409,7 +409,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
     display: flex;
     align-items: center;
     font-weight: 500;
-    font-size: 14px;
+    font-size: 0.825rem;
     cursor: pointer !important;
     ;
 }

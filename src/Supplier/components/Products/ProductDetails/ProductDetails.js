@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductDetail } from "../../../../redux/reducers/productSlice";
 // import RenderProductFiles from "../RenderProductFiles";
-import RenderProductFiles from '../../../../Buyer/components/Buy/Details/RenderFiles'
+import RenderProductFiles from "../../../../Buyer/components/Buy/Details/RenderFiles";
 import { useState, useEffect } from "react";
 import Modal from "react-modal";
 import CloseIcon from "../../../assets/images/Icon.svg";
@@ -16,13 +16,13 @@ Modal.setAppElement("#root");
 
 const toTitleCase = (str) => {
   return str
-    .replace(/([a-z])([A-Z])/g, '$1 $2') // add space between camelCase words
-    .replace(/[_\-]/g, ' ')              // replace underscores/dashes with spaces
-    .split(' ')
+    .replace(/([a-z])([A-Z])/g, "$1 $2") // add space between camelCase words
+    .replace(/[_\-]/g, " ") // replace underscores/dashes with spaces
+    .split(" ")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(' ');
+    .join(" ");
 };
- 
+
 const ProductDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -246,17 +246,19 @@ const ProductDetails = () => {
                 </div>
               )}
               {/* {productDetail?.[productDetail?.category]?.anotherCategory && ( */}
-              {productDetail?.[productDetail?.category]?.anotherCategory || productDetail?.anotherCategory && (
-                <div className={styles.medicinesSection}>
-                  <span className={styles.medicineHead}>
-                    Product Sub Category(Level3)
-                  </span>
-                  <span className={styles.medicineText}>
-                    {/* {productDetail?.[productDetail?.category]?.anotherCategory}{" "} */}
-                    {productDetail?.[productDetail?.category]?.anotherCategory || productDetail?.anotherCategory}
-                  </span>
-                </div>
-              )}
+              {productDetail?.[productDetail?.category]?.anotherCategory ||
+                (productDetail?.anotherCategory && (
+                  <div className={styles.medicinesSection}>
+                    <span className={styles.medicineHead}>
+                      Product Sub Category(Level3)
+                    </span>
+                    <span className={styles.medicineText}>
+                      {/* {productDetail?.[productDetail?.category]?.anotherCategory}{" "} */}
+                      {productDetail?.[productDetail?.category]
+                        ?.anotherCategory || productDetail?.anotherCategory}
+                    </span>
+                  </div>
+                ))}
               {productDetail?.general?.form && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Type/Form</span>
@@ -345,17 +347,19 @@ const ProductDetails = () => {
             </div>
             <div className={styles.mainSection}>
               {/* {productDetail?.[productDetail?.category]?.subCategory && ( */}
-              {productDetail?.[productDetail?.category]?.subCategory || productDetail?.subCategory && (
-                <div className={styles.medicinesSection}>
-                  <span className={styles.medicineHead}>
-                    Product Sub Category
-                  </span>
-                  <span className={styles.medicineText}>
-                    {/* {productDetail?.[productDetail?.category]?.subCategory}{" "} */}
-                    {productDetail?.[productDetail?.category]?.subCategory || productDetail?.subCategory}
-                  </span>
-                </div>
-              )}
+              {productDetail?.[productDetail?.category]?.subCategory ||
+                (productDetail?.subCategory && (
+                  <div className={styles.medicinesSection}>
+                    <span className={styles.medicineHead}>
+                      Product Sub Category
+                    </span>
+                    <span className={styles.medicineText}>
+                      {/* {productDetail?.[productDetail?.category]?.subCategory}{" "} */}
+                      {productDetail?.[productDetail?.category]?.subCategory ||
+                        productDetail?.subCategory}
+                    </span>
+                  </div>
+                ))}
               {productDetail?.general?.model && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Part/Model Number</span>
@@ -482,17 +486,19 @@ const ProductDetails = () => {
         {productDetail?.categoryDetails?.length > 0 && (
           <div className={styles.mainContainer}>
             <span className={styles.innerHead}>
-            Other Details{" "}
-          {productDetail?.category
-            ? `of ${productDetail.category
-                .replace(/([a-z])([A-Z])/g, "$1 $2")
-                .replace(/\b\w/g, (char) => char.toUpperCase())}`
-            : ""}
-              </span>
+              Other Details{" "}
+              {productDetail?.category
+                ? `of ${productDetail.category
+                    .replace(/([a-z])([A-Z])/g, "$1 $2")
+                    .replace(/\b\w/g, (char) => char.toUpperCase())}`
+                : ""}
+            </span>
             <div className={styles.innerComplianceSection}>
               {productDetail?.categoryDetails?.map((item, index) => (
                 <div className={styles.additionalUploadSection}>
-                  <span className={styles.medicineHead}>{toTitleCase(item?.name)}</span>
+                  <span className={styles.medicineHead}>
+                    {toTitleCase(item?.name)}
+                  </span>
                   <div className={styles.additionalImageSection}>
                     {/* {productDetail?.categoryDetails?.map((item, index) => ( */}
                     <div
@@ -603,7 +609,9 @@ const ProductDetails = () => {
                 <img
                   className={styles.imageSection}
                   src={
-                    isImageExtension(selectedImage) ? selectedImage : fallbackImageUrl
+                    isImageExtension(selectedImage)
+                      ? selectedImage
+                      : fallbackImageUrl
                   }
                   alt="Main Product Image"
                   onError={(e) => {
@@ -633,6 +641,69 @@ const ProductDetails = () => {
                         e.target.src = fallbackImageUrl;
                       }}
                     />
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* End product image section */}
+
+        {/* New way of displaying product */}
+        {imageArray.length > 0 && (
+          <div className={styles.mainContainer}>
+            <span className={styles.innerHead}>Product Images</span>
+            <div className={styles.imageViewerSection}>
+              <div className={styles.imageContainer2}>
+                <img
+                  className={styles.imageSection}
+                  src={
+                    isImageExtension(selectedImage)
+                      ? selectedImage
+                      : fallbackImageUrl
+                  }
+                  alt="Main Product Image"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = fallbackImageUrl;
+                  }}
+                />
+              </div>
+              <div className={styles.thumbnailContainer}>
+                {imageArray.map((img, index) => {
+                  const imgUrl = getFullImageUrl(img);
+                  const isImageFile = isImageExtension(imgUrl);
+
+                  return (
+                    <div className={styles.thumbnail}>
+                      <img
+                        key={index}
+                        className={`${styles.thumbnailImage2} ${
+                          selectedImage === imgUrl ? styles.activeThumbnail : ""
+                        }`}
+                        src={isImageFile ? imgUrl : fallbackImageUrl}
+                        alt={`Thumbnail ${index}`}
+                        onClick={() => setSelectedImage(imgUrl)}
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = fallbackImageUrl;
+                        }}
+                      />
+                      <span
+                        className={styles.medicineHead}
+                        onClick={() => setSelectedImage(imgUrl)}
+                      >
+                        {index == 0
+                          ? "Front"
+                          : index == 1
+                          ? "Back"
+                          : index == 2
+                          ? "Side"
+                          : "Closeup"}{" "}
+                        Image
+                      </span>
+                    </div>
                   );
                 })}
               </div>

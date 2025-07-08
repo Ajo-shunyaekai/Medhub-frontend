@@ -71,7 +71,7 @@ flex-direction: column;
 }
 .dropdownToggle{
   width: 180px;
-    font-size: 14px;
+    font-size: 0.825rem;
     display: flex;
     color:#5e676f;
     text-decoration: none;
@@ -101,7 +101,7 @@ flex-direction: column;
   padding: 8px 5px;
   border: none;
   outline: none;
-  font-size: 14px;
+  font-size: 0.825rem;
   color: grey;
   background-color: #f9f9fa;
 }
@@ -153,7 +153,7 @@ flex-direction: column;
 }
 .noti_profile {
   width: 100%;
-  font-size: 13px;
+  font-size: 0.825rem;
   font-weight: 500;
   line-height: 20px;
   color:#5e676f;
@@ -172,12 +172,12 @@ flex-direction: column;
       width: 100%;
       justify-content: space-between;
       gap: 4px;
-      font-size: 14px;
+      font-size: 0.825rem;
       color: #5e676f;
 }
 .noti_profile_text {
   width: 100%;
-  font-size: 14px;
+  font-size: 0.825rem;
   color:#5e676f;
   padding: 10px 14px;
   border-bottom: 1px solid #a0afb926;
@@ -192,7 +192,7 @@ flex-direction: column;
   color: #448bff!important;
 }
 .noti_error{
-font-size: 14px;
+font-size: 0.825rem;
     font-weight: 500; 
     text-align: center;
     padding: 10px
@@ -208,12 +208,12 @@ font-size: 14px;
 
 .noti_see_all_num {
   color:#5e676f;
-  font-size: 14px;
+  font-size: 0.825rem;
 }
 
 .noti_see_all_btn {
   color: #005ef7;
-  font-size: 14px;
+  font-size: 0.825rem;
   cursor: pointer !important;
 }
 
@@ -243,7 +243,7 @@ color: #5e676f;
 
 .profile_text {
   text-transform: capitalize;
-  font-size: 14px;
+  font-size: 0.825rem;
   border-bottom: 1px solid rgba(160, 175, 185, 0.15);
   padding: 8px 14px;
 color: #5e676f;
@@ -279,7 +279,7 @@ color: #5e676f;
 .profile_sign_out {
   color:#5e676f;
   padding: 8px 14px;
- font-size: 14px;
+ font-size: 0.825rem;
    cursor: pointer !important;;
 }
 

@@ -16,7 +16,7 @@
 }
 
 .add-image-name {
-  font-size: 14px;
+  font-size: 0.825rem;
   margin-top: 6px;
 }
 
@@ -53,7 +53,7 @@
 }
 
 .add-upload-text {
-  font-size: 14px;
+  font-size: 0.825rem;
 }
 
 .add-uploaded-image {
@@ -100,14 +100,14 @@
   width: 20px;
   /* Adjust as needed */
    cursor: pointer !important;;
-  color:#4f4f4f;
+  color:#5e676f;
 }
 
 .pdf-file-name {
   width: 380px;
   padding: 12px;
   border-radius: 4px;
-  font-size: 12px;
+  font-size: 0.825rem;
   background-color: #ffffff;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
 }

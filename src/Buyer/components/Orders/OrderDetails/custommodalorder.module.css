@@ -79,7 +79,7 @@
     padding: 4px 10px;
      cursor: pointer !important;;
     white-space: nowrap;
-    font-size: 13px;
+    font-size: 0.825rem;
 }
 
 .dropdownItem:hover {
@@ -121,11 +121,11 @@
     gap: 10px;
 }
 .modalContentText{
-font-size: 14px;
+font-size: 0.825rem;
 font-weight: 500;
 }
 .selectModalText{
-    font-size: 14px;
+    font-size: 0.825rem;
     font-weight: 500;
     margin-top: 6px;
 }
@@ -135,7 +135,7 @@ font-weight: 500;
     width: 100%;
 }
 .custom-modal-label-heading{
-    font-size: 14px;
+    font-size: 0.825rem;
     font-weight: 500;
 }
 .custom-modal-input-form-containers-section{
@@ -156,7 +156,7 @@ font-weight: 500;
     display: flex;
     align-items: center;
     column-gap: 8px;
-    font-size: 14px;
+    font-size: 0.825rem;
      cursor: pointer !important;;
     border: none !important;
 }

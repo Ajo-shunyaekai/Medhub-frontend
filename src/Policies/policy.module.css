@@ -16,7 +16,7 @@
 }
 
 .title {
-  color:#4f4f4f;
+  color:#5e676f;
   text-align: center;
   margin-bottom: 10px !important;
 }
@@ -42,14 +42,14 @@
 .sectionTitle {
   font-size: 24px;
   margin-top: 10px;
-  color:#4f4f4f;
+  color:#5e676f;
 }
 
 .sectionContentTitle {
   font-size: 20px;
   margin-top: 10px;
   margin-bottom: 10px;
-  color:#4f4f4f;
+  color:#5e676f;
   font-weight: 500;
 }
 
@@ -79,7 +79,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   display: flex;
   align-items: center;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 0.825rem;
   cursor: pointer !important;
 }
 
@@ -132,7 +132,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   color: white;
   padding: 5px 18px;
   border-radius: 4px;
-  font-size: 14px;
+  font-size: 0.825rem;
   border: none !important;
   cursor: pointer !important;
 }

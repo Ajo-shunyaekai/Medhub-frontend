@@ -94,7 +94,7 @@
 }
 
 .mySupplierCardHeading {
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
   color:#5e676f;
 }
@@ -102,7 +102,7 @@
 .mySupplierCardText {
   width: 100%;
      color: #99a0ac;
-  font-size: 13px;
+  font-size: 0.825rem;
   font-weight: 500;
 }
 
@@ -120,7 +120,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   display: flex;
   align-items: center;
   column-gap: 8px;
-  font-size: 14px;
+  font-size: 0.825rem;
   cursor: pointer !important;
 }
 
@@ -131,7 +131,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   width: 100%;
   text-align: left !important;
   color: #212121 !important;
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
   display: flex;
   justify-content: left !important;
@@ -143,6 +143,6 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 }
 
 .mySupplierDescription {
-  font-size: 14px;
+  font-size: 0.825rem;
 }
 

@@ -42,7 +42,7 @@ ul {
     display: flex;
     background-color: transparent;
     color: #fff;
-    font-size: 14px;
+    font-size: 0.825rem;
     font-weight: 500;
     justify-content: center;
     padding: 0;
@@ -53,10 +53,10 @@ ul {
     background-color: #fff;
     border-radius: 2px;
  
-    color:#4f4f4f;
+    color:#5e676f;
     display: flex;
     flex-direction: column;
-    font-size: 14px;
+    font-size: 0.825rem;
     padding: 14px;
     padding-left: 14px !important;
     position: absolute;
@@ -166,7 +166,7 @@ ul {
 
 .cardHeading {
     font-size: 24px;
-    color:#4f4f4f;
+    color:#5e676f;
     font-weight: 500;
 }
 
@@ -192,16 +192,16 @@ width: 100%;
 }
 
 .cardHead {
-    font-size: 14px;
+    font-size: 0.825rem;
     font-weight: 500;
-    color:#4f4f4f;
+    color:#5e676f;
 }
 
 .cardText {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: normal;
-    font-size: 14px;
+    font-size: 0.825rem;
        color: #99a0ac;
     font-weight: 500;
 
@@ -219,7 +219,7 @@ width: 100%;
     column-gap: 8px;
     cursor: pointer !important;
     display: flex;
-    font-size: 14px;
+    font-size: 0.825rem;
     padding: 6px 16px;
     outline: none !important;
     border: none !important;

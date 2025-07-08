@@ -24,12 +24,12 @@
   justify-content: start;
 }
 .invoice-card-conts-head {
-  font-size: 14px;
+  font-size: 0.825rem;
   width: 150px;
   font-weight: 500;
 }
 .invoice-card-conts-text {
-  font-size: 14px;
+  font-size: 0.825rem;
      color: #99a0ac;
   font-weight: 500;
 }

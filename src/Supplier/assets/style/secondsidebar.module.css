@@ -18,7 +18,7 @@
   display: flex;
   align-items: center;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 0.825rem;
   cursor: pointer !important;
 }
 .title {
@@ -56,7 +56,7 @@
   cursor: pointer !important;
 }
 .text {
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 450;
   cursor: pointer !important;
 }

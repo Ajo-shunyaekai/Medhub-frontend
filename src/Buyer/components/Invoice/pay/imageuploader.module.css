@@ -11,7 +11,7 @@
 }
 
 .image-name {
-  font-size: 14px;
+  font-size: 0.825rem;
   margin-top: 6px;
 }
 
@@ -65,7 +65,7 @@
   display: inline-block;
 }
 .upload-text {
-  font-size: 13px;
+  font-size: 0.825rem;
   /* font-weight: 500; */
      color: #5e6765;
 }

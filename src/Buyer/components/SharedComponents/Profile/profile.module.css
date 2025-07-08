@@ -38,7 +38,7 @@
   cursor: pointer !important;
   display: flex;
   align-items: center;
-  font-size: 14px;
+  font-size: 0.825rem;
   padding: 6px 16px;
 }
 
@@ -108,7 +108,7 @@
   white-space: normal;
 }
 .expiryDate{
-    font-size: 12px;
+    font-size: 0.825rem;
 color: #5e676f;
 
     margin-top: -6px;
@@ -134,7 +134,7 @@ color: #5e676f;
 }
 
 .textSection {
-  font-size: 14px;
+  font-size: 0.825rem;
       color: #5e676f !important;
   /* font-weight: 500; */
   line-height: 20px;
@@ -199,7 +199,7 @@ color: #5e676f;
 }
 
 .companyHead {
-  font-size: 14px;
+  font-size: 0.825rem;
   color: #5e676f !important;
   font-weight: 500;
   line-height: 20px;
@@ -213,7 +213,7 @@ color: #5e676f;
   overflow-wrap: break-word;
   color: #5e676f;
 
-  font-size: 13px;
+  font-size: 0.825rem;
   text-align: end;
 }
 
@@ -243,7 +243,7 @@ color: #5e676f;
 
 .textareaContent {
    color: #5e676f;
-  font-size: 14px;
+  font-size: 0.825rem;
   line-height: 20px;
 }
 
@@ -280,7 +280,7 @@ color: #5e676f;
 }
 
 .documentDocName {
-  font-size: 14px;
+  font-size: 0.825rem;
   color: #5e676f !important;
   font-weight: 500;
   line-height: 20px;
@@ -302,7 +302,7 @@ color: #5e676f;
 
 .fileName {
   cursor: pointer !important;
-  font-size: 13px;
+  font-size: 0.825rem;
   text-decoration: underline;
 }
 
@@ -333,7 +333,7 @@ color: #5e676f;
   display: none;
 }
 .labelStamp {
-  color:#4f4f4f;
+  color:#5e676f;
 }
 .editForm {
   display: flex;
@@ -375,11 +375,11 @@ color: #5e676f;
 }
 .editLabel {
     color: #5e676f;
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
 }
 .onEditInfo {
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
   color: crimson;
 }
@@ -424,20 +424,20 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   display: flex;
   align-items: center;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 0.825rem;
   cursor: pointer !important;
 }
 .editCancel {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
   background-color: #ffffff;
   border: 1px solid #5e676f;
-  color:#4f4f4f;
+  color:#5e676f;
   padding: 6px 22px;
   border-radius: 4px;
   display: flex;
   align-items: center;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 0.825rem;
   cursor: pointer !important;
 }
 

@@ -28,7 +28,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   justify-self: end;
   align-items: center;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 0.825rem;
   cursor: pointer !important;
 }
 .documentInnerSection {
@@ -118,7 +118,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 }
 
 .labelStamp {
-  color:#4f4f4f;
+  color:#5e676f;
 } 
 
 /* Style the signup form */
@@ -138,11 +138,11 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 }
 .signupInnerHeading {
   font-size: 18px;
-  color:#4f4f4f;
+  color:#5e676f;
   font-weight: 500;
 }
 .signupFormSectionLabel {
-    font-size: 14px;
+    font-size: 0.825rem;
     font-weight: 500;
     color: #5e676f;
 }
@@ -170,7 +170,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   right: 1%;
   top: 16%;
   transform: translateY(-50%);
-  font-size: 14px;
+  font-size: 0.825rem;
   cursor: pointer !important;
   z-index: 2;
 }
@@ -179,7 +179,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   right: 1%;
   top: 24%;
   transform: translateY(-50%);
-  font-size: 14px;
+  font-size: 0.825rem;
   cursor: pointer !important;
   z-index: 2;
 }
@@ -199,13 +199,13 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
   background-color: #ffffff;
   border: 1px solid #212121;
-  color:#4f4f4f;
+  color:#5e676f;
   padding: 6px 22px;
   border-radius: 4px;
   display: flex;
   align-items: center;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 0.825rem;
   cursor: pointer !important;
 }
 
@@ -219,7 +219,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   display: flex;
   align-items: center;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 0.825rem;
   cursor: pointer !important;
 }
 

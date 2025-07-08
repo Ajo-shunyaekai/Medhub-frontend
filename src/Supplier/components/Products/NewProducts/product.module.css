@@ -204,7 +204,7 @@
 .cardHead {
   color: #5e676f;
   font-size: 0.825rem;
-  font-weight: 600;
+  font-weight: 500;
   min-width: 100px;
   color: #5e676f;
 }
@@ -260,12 +260,12 @@
   }
 
   .cardHead {
-    font-size: 13px;
+    font-size: 0.825rem;
     width: 50%;
   }
 
   .cardButton {
-    font-size: 13px;
+    font-size: 0.825rem;
   }
 }
 @media screen and (max-width: 1080px) {

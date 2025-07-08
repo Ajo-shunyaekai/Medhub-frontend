@@ -31,7 +31,7 @@
   column-gap: 8px;
   cursor: pointer !important;
   display: flex;
-  font-size: 14px;
+  font-size: 0.825rem;
   margin-right: 18px;
   padding: 6px 16px;
 }
@@ -116,7 +116,7 @@
   column-gap: 8px;
   cursor: pointer !important;
   display: flex;
-  font-size: 14px;
+  font-size: 0.825rem;
   margin-right: 18px;
   padding: 6px 16px;
 }
@@ -136,7 +136,7 @@
 .formclose {
   box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
   padding: 4px 8px;
-  font-size: 13px;
+  font-size: 0.825rem;
   border-radius: 4px;
   display: flex;
   align-items: center;
@@ -203,7 +203,7 @@
 }
 
 .checkText {
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
   word-break: break-word;
 }
@@ -211,7 +211,7 @@
 .formLabel {
   color: #5e676f;
   font-size: 0.825rem;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .formInput {
@@ -279,7 +279,7 @@
 }
 
 .uploadLabel {
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
   display: flex;
   flex-direction: column;
@@ -335,11 +335,12 @@
 .uploadIcon {
   width: 30px;
   color: #99a0ac;
+  font-size: 0.825rem;
   cursor: pointer !important;
 }
 
 .uploadText {
-  font-size: 14px;
+  font-size: 0.825rem;
   cursor: pointer !important;
 }
 
@@ -385,7 +386,7 @@
   cursor: pointer !important;
   display: flex;
   align-items: center;
-  font-size: 14px;
+  font-size: 0.825rem;
   padding: 10px 16px;
   position: relative;
   right: 50px;
@@ -459,7 +460,7 @@
   position: absolute;
   right: 1%;
   top: 8%;
-  font-size: 14px;
+  font-size: 0.825rem;
   cursor: pointer !important;
   z-index: 0;
 }
@@ -554,7 +555,7 @@
   align-items: center;
   cursor: pointer !important;
   display: flex;
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
   padding: 6px 22px;
 }
@@ -568,7 +569,7 @@
   align-items: center;
   cursor: pointer !important;
   display: flex;
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
   padding: 6px 22px;
 }
@@ -630,12 +631,12 @@
   cursor: pointer !important;
 }
 .fileModalName {
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
   text-align: start;
 }
 .placeholderText {
-  font-size: 14px;
+  font-size: 0.825rem;
   color: #888;
 }
 .modalButtonContainer {
@@ -732,7 +733,7 @@
 }
 
 .create-invoice-div-label {
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
 }
 
@@ -766,7 +767,7 @@
   display: flex;
   align-items: center;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 0.825rem;
   cursor: pointer;
 }
 
@@ -780,7 +781,7 @@
   display: flex;
   align-items: center;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 0.825rem;
   cursor: pointer;
 }
 
@@ -904,7 +905,7 @@
   cursor: pointer;
   display: flex;
   align-items: center;
-  font-size: 14px;
+  font-size: 0.825rem;
   padding: 10.4px 20px;
   position: relative;
   right: 50px;
@@ -918,7 +919,7 @@
   cursor: pointer;
   display: flex;
   align-items: center;
-  font-size: 14px;
+  font-size: 0.825rem;
   padding: 10px 16px;
   position: relative;
   right: 50px;

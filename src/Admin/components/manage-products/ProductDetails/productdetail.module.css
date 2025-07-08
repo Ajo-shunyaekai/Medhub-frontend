@@ -28,7 +28,7 @@
 }
 
 .innerHead {
-    color:#4f4f4f;
+    color:#5e676f;
     font-size: 18px;
       font-weight: 500;
     margin-bottom: 8px;
@@ -99,7 +99,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 14px;
+    font-size: 0.825rem;
     padding: 6px 16px;
 }
 .editButton:hover{
@@ -119,19 +119,19 @@
 }
 
 .medicineHead {
-    font-size: 14px;
+    font-size: 0.825rem;
     font-weight: 500;
     width: 250px;
     color:#5e676f;
 }
 
 .medicineHead2 {
-    font-size: 14px;
+    font-size: 0.825rem;
     font-weight: 500;   
 }
 
 .medicineHeadings{
-    font-size: 14px;
+    font-size: 0.825rem;
     font-weight: 500;
     width: 75%;
 }
@@ -139,7 +139,7 @@
 .medicineText {
     width: 50%;
        color: #5e676f;
-    font-size: 14px;
+    font-size: 0.825rem;
     /* font-weight: 500; */
     word-wrap: break-word; 
     white-space: normal;     
@@ -148,14 +148,14 @@
 .medicineTexts{
     width: 75%;
        color: #5e676f;
-    font-size: 14px;
+    font-size: 0.825rem;
     word-wrap: break-word; 
     white-space: normal;     
     overflow-wrap: break-word;
 }
 .medicineContent{
        color: #5e676f;
-    font-size: 14px;
+    font-size: 0.825rem;
     word-wrap: break-word; 
     white-space: normal;     
     overflow-wrap: break-word;
@@ -163,7 +163,7 @@
 }
 .medicineDescriptionContent{
        color: #5e676f;
-    font-size: 14px;
+    font-size: 0.825rem;
     /* font-weight: 500; */
     word-wrap: break-word; 
     white-space: normal;     
@@ -206,8 +206,8 @@
 }
 
 .inventoryHead {
-    color:#4f4f4f;
-    font-size: 14px;
+    color:#5e676f;
+    font-size: 0.825rem;
     font-weight: 500;
 }
 
@@ -218,7 +218,7 @@
     border-radius: 4px !important;
  
        color: #99a0ac;
-    font-size: 14px;
+    font-size: 0.825rem;
     font-weight: 500;
     outline: none !important;
     padding: 12px !important;
@@ -332,7 +332,7 @@
 
 .additionalLink {
     cursor: pointer !important;
-    font-size: 14px;
+    font-size: 0.825rem;
     font-weight: 500;
     color: rgb(40, 47, 134) !important;
 }
@@ -414,7 +414,7 @@
     column-gap: 8px;
     cursor: pointer !important;
     display: flex;
-    font-size: 14px;
+    font-size: 0.825rem;
     justify-content: center;
     outline: none !important;
     padding: 6px 0;

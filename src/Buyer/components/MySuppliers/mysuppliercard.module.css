@@ -41,7 +41,7 @@
      color: #99a0ac;
   padding: 8px 20px;
   border-radius: 4px;
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
   cursor: pointer !important;
   ;
@@ -52,7 +52,7 @@
      color: #99a0ac;
   padding: 8px 20px;
   border-radius: 4px;
-  font-size: 14px;
+  font-size: 0.825rem;
   font-weight: 500;
   cursor: pointer !important;
   ;
@@ -122,7 +122,7 @@
   border-radius: 4px;
   color: #fff;
   cursor: pointer !important;
-  font-size: 14px;
+  font-size: 0.825rem;
   padding: 6px 8px;
   border: none;
   outline: none;
@@ -188,7 +188,7 @@ box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 
   column-gap: 8px;
   cursor: pointer !important;
   display: flex;
-  font-size: 14px;
+  font-size: 0.825rem;
     padding: 6px 16px;
   border: none;
   outline: none;
@@ -215,7 +215,7 @@ box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 
 }
 
 .cardHead {
-     font-size: 14px;
+     font-size: 0.825rem;
     font-weight: 500;
   min-width: 180px;
   color:#5e676f;
@@ -223,7 +223,7 @@ box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 
 
 .cardText {
      color: #5e676f;
-  font-size: 13px;
+  font-size: 0.825rem;
   line-height: 20px;
   width: 60%;
 }
@@ -245,7 +245,7 @@ box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 
   width: 455px;
   height: 100%;
   gap: 10px;
-  font-size: 14px;
+  font-size: 0.825rem;
     font-weight: 500; */
   padding: 20px;
   font-size: 1.2em;

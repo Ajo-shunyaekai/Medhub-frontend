@@ -80,10 +80,10 @@ flex-direction: column;
 .form-cancel-heading{
      color: #192039;
     font-size: 18px;
-    font-weight: 600;
+    font-weight: 500;
 }
 .form-cancel-text{
-    font-size: 14px;
+    font-size: 0.825rem;
        color: #5e676f;
 }
 .label {
@@ -93,7 +93,7 @@ flex-direction: column;
     font-size: 16px;
 }
 .cancel-inquiry-text{
-    font-size: 14px;
+    font-size: 0.825rem;
        color: #5e676f;
     /* font-weight: 500; */
 }
@@ -115,7 +115,7 @@ flex-direction: column;
     display: flex;
     align-items: center;
     font-weight: 500;
-    font-size: 14px;
+    font-size: 0.825rem;
 }
 
    /* for button loader */
@@ -152,7 +152,7 @@ flex-direction: column;
     display: flex;
     align-items: center;
     font-weight: 500;
-    font-size: 14px;
+    font-size: 0.825rem;
 }
 @media screen and (max-width: 1220px) {
 .form-textarea{

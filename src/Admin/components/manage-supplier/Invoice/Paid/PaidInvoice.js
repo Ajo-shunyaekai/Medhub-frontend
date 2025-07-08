@@ -74,7 +74,7 @@ const Paidnvoice = ({ invoiceList, totalItems, currentPage, listPerPage, handleP
                         background-color: #f9f9fa;
                         color: #5e676f;
                         font-size: 0.825rem;
-                        font-weight: 600;
+                        font-weight: 500;
                         border-bottom: none !important;
                     }
                     .rdt_TableBody {

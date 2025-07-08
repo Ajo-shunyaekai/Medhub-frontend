@@ -14,7 +14,7 @@
 }
 
 .certificate-expiry-date {
-    font-size: 12px;
+    font-size: 0.825rem;
     font-weight: 500;
 }
 
@@ -33,7 +33,7 @@
 .buyer-details-left-link-container{
         color: #3b71ca;
  
-    font-size: 13px;
+    font-size: 0.825rem;
     cursor: pointer !important;
 }
 .buyer-details-edit-button {
@@ -44,13 +44,13 @@
     cursor: pointer !important;
     display: flex;
     align-items: center;
-    font-size: 14px;
+    font-size: 0.825rem;
     padding: 6px 16px;
 }
 
 .editable-details {
     text-align: end;
-    font-size: 13px;
+    font-size: 0.825rem;
     line-height: 0px;
     outline: none !important;
     color: #616161 !important;
@@ -70,7 +70,7 @@
     background-color: #31c971;
     border-radius: 4px;
     color: #fff;
-    font-size: 12px;
+    font-size: 0.825rem;
     font-weight: 500;
     display: flex;
     padding: 3px 14px;
@@ -83,7 +83,7 @@
     background-color: #31c971;
     border-radius: 4px;
     color: #fff;
-    font-size: 12px;
+    font-size: 0.825rem;
     font-weight: 500;
     display: flex;
     padding: 3px 14px;
@@ -205,13 +205,13 @@
 }
 
 .buyer-details-company-type-sec-head {
-    font-size: 14px;
+    font-size: 0.825rem;
      font-weight: 500;
 color:#5e676f;
 }
 
 .buyer-details-company-type-sec-text {
-    font-size: 14px;
+    font-size: 0.825rem;
      color:#5e676f;
 }
 
@@ -278,12 +278,12 @@ color:#5e676f;
 
 .buyer-details-description-head {
     color:#5e676f;
-    font-size: 14px;
+    font-size: 0.825rem;
     font-weight: 500;
 }
 
 .buyer-details-description-content {
-    font-size: 13px;
+    font-size: 0.825rem;
       color:#5e676f;
 }
 
@@ -294,7 +294,7 @@ color:#5e676f;
 }
 
 .buyer-details-left-inner-sec-text {
-    font-size: 14px;
+    font-size: 0.825rem;
        color: #99a0ac;
 }
 
@@ -337,7 +337,7 @@ color:#5e676f;
     column-gap: 8px;
     cursor: pointer !important;
     display: flex;
-    font-size: 14px;
+    font-size: 0.825rem;
     outline: none !important;
     padding: 4px 12px;
 }
@@ -425,7 +425,7 @@ color:#5e676f;
 }
 
 .expiry-date {
-    font-size: 12px;
+    font-size: 0.825rem;
        color: #99a0ac;
   
 }
@@ -440,13 +440,13 @@ color:#5e676f;
 }
 
 .buyer-details-company-logo-heading {
-    font-size: 14px;
+    font-size: 0.825rem;
     color:#5e676f;
     font-weight: 500;
 }
 
 .buyer-details-inner-head {
-    font-size: 14px;
+    font-size: 0.825rem;
     font-weight: 500;
     min-width: 240px;
     color:#5e676f;
@@ -468,7 +468,7 @@ color:#5e676f;
 }
 
 .buyer-details-inner-text {
-    font-size: 13px;
+    font-size: 0.825rem;
      color:#5e676f;
     text-align: end;
     display: -webkit-box;
@@ -481,7 +481,7 @@ color:#5e676f;
 
 .buyer-details-card-conteianer-head {
     color: #212121 !important;
-    font-size: 14px;
+    font-size: 0.825rem;
     font-weight: 500;
     text-align: start;
     cursor: pointer !important;
@@ -489,7 +489,7 @@ color:#5e676f;
 }
 
 .buyer-details-card-conteianer-text {
-    font-size: 14px;
+    font-size: 0.825rem;
        color: #99a0ac;
     text-align: start;
 }
@@ -557,13 +557,13 @@ color:#5e676f;
 .supply-tdss {
     padding: 16px 20px;
     width: 14vw;
-    font-size: 13px;
+    font-size: 0.825rem;
     font-weight: 500;
 }
 
 .supply-button-tdss {
     width: 4vw;
-    font-size: 13px;
+    font-size: 0.825rem;
     font-weight: 500;
 }
 
@@ -580,12 +580,12 @@ color:#5e676f;
 }
 
 .table-g-supply-name {
-    font-size: 14px;
+    font-size: 0.825rem;
     font-weight: 500;
 }
 
 .table-g-supply-text {
-    font-size: 13px;
+    font-size: 0.825rem;
        color: #99a0ac;
 }
 
@@ -663,7 +663,7 @@ color:#5e676f;
     cursor: pointer !important;
     ;
     display: flex;
-    font-size: 14px;
+    font-size: 0.825rem;
     line-height: 18px;
     font-weight: 500;
     padding: 6px 22px;
@@ -680,7 +680,7 @@ color:#5e676f;
     cursor: pointer !important;
     ;
     display: flex;
-    font-size: 14px;
+    font-size: 0.825rem;
     line-height: 18px;
     font-weight: 500;
     padding: 6px 22px;
@@ -697,7 +697,7 @@ color:#5e676f;
     }
 
     .buyer-details-inner-head {
-        font-size: 14px;
+        font-size: 0.825rem;
     }
 }
 

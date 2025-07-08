@@ -16,13 +16,13 @@
   border-radius: 4px;
 background: linear-gradient(to left, #00dcff, #0075ce);
   color: white;
-  font-size: 14px;
+  font-size: 0.825rem;
 }
 .invoice-heading {
   padding-top: 5px;
   font-size: 20px;
   font-weight: 500;
-  color:#4f4f4f;
+  color:#5e676f;
 }
 .invoiceHeading{
   cursor: pointer !important;
@@ -65,8 +65,8 @@ background: linear-gradient(to left, #00dcff, #0075ce);
 .invoice-wrapper-left-text {
   display: flex !important;
   column-gap: 10px;
-  font-size: 14px;
-  color:#4f4f4f;
+  font-size: 0.825rem;
+  color:#5e676f;
 }
 
 .invoice-wrapper-left-text.active {

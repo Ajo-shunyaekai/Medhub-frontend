@@ -16,11 +16,28 @@ code {
 .css-1dyz3mf {
   height: 80px !important;
   overflow-y: auto !important;
-    /* Ensure Ubuntu font */
+  /* Ensure Ubuntu font */
 }
 
 /* Select Dropdown CSS */
 .css-hlgwow {
   padding: 1px 8px !important;
-    /* Ensure Ubuntu font */
+  color: #99a0ac !important;
+  font-size: 0.825rem !important;
+}
+.css-hlgwow input,
+.css-hlgwow .css-1jqq78o-placeholder {
+  color: #99a0ac !important;
+}
+
+/* Accordion Css */
+.accordion-button {
+  font-size: 0.825rem !important;
+  font-weight: 500 !important;
+  color: #5e676f !important;
+}
+
+.accordion-body {
+  font-size: 0.825rem;
+  color: #99a0ac;
 }

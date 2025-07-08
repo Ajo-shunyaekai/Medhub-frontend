@@ -27,7 +27,7 @@
 
 .upload-text {
   margin-top: 10px;
-  font-size: 14px;
+  font-size: 0.825rem;
   color: #5e676f;
 }
 
@@ -45,19 +45,19 @@
   right: 2px;
   padding: 3px;
    cursor: pointer !important;;
-  color:#4f4f4f;
+  color:#5e676f;
   background: white;
   border-radius: 50%;
 }
 .error-message {
-  color:#ff0000;
+  color: #ff0000;
   font-size: 12px;
   margin-top: 4px;
   text-align: start;
 }
 
 .image-name {
-  font-size: 14px;
+  font-size: 0.825rem;
   margin-top: 6px;
 }
 
@@ -85,7 +85,7 @@
 }
 
 .upload-text {
-  font-size: 14px;
+  font-size: 0.825rem;
 }
 .modal-image {
   max-width: 100%;
