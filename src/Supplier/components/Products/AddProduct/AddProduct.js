@@ -355,9 +355,9 @@ const AddProduct = ({ placeholder }) => {
     <div className={styles.container}>
       <div className={styles.headContainer}>
         <span className={styles.heading}>Add Products</span>
-        {/* <button onClick={() => setOpen(true)} className={styles.bulkButton}>
+        <button onClick={() => setOpen(true)} className={styles.bulkButton}>
           Bulk Upload
-        </button> */}
+        </button>
       </div>
  
       <Formik
@@ -408,8 +408,9 @@ const AddProduct = ({ placeholder }) => {
             values?.productPricingDetails?.map((section) => ({
               price: section?.price || "",
               totalPrice: section?.totalPrice || "",
-              quantity: section?.quantity || "",
-              // quantityTo: section?.quantityTo || "",
+              // quantity: section?.quantity || "",
+              quantityFrom: section?.quantityFrom || "",
+              quantityTo: section?.quantityTo || "",
               deliveryTime: section?.deliveryTime || "",
             }))
           );
@@ -1607,7 +1608,7 @@ const AddProduct = ({ placeholder }) => {
                     </label>
  
                     <div className={styles.weightContainer}>
-                      <div className={styles.weightSection}>
+                      {/* <div className={styles.weightSection}>
                         <div className={styles.tooltipContainer}>
                           <Select
                             className={styles.formSelect}
@@ -1621,7 +1622,7 @@ const AddProduct = ({ placeholder }) => {
                             }}
                           />
  
-                          {/* <input
+                          <input
                             className={styles.formInput}
                             type="text"
                             placeholder="Quantity From"
@@ -1637,14 +1638,39 @@ const AddProduct = ({ placeholder }) => {
                               )
                             }
                             onBlur={handleBlur}
-                          /> */}
+                          />
                         </div>
                         <span className={styles.error}>
                           {touched.productPricingDetails?.[index]?.quantity &&
                             errors.productPricingDetails?.[index]?.quantity}
                         </span>
+                      </div> */}
+                       <div className={styles.weightSection}>
+                        <div className={styles.tooltipContainer}>
+                          <input
+                            className={styles.formInput}
+                            type="text"
+                            placeholder="Quantity From"
+                            // autoComplete="off"
+                            name={`productPricingDetails.${index}.quantityFrom`}
+                            value={
+                              values.productPricingDetails[index]?.quantityFrom
+                            }
+                            onChange={(e) =>
+                              setFieldValue(
+                                `productPricingDetails.${index}.quantityFrom`,
+                                e.target.value.replace(/\D/g, "") // Allow only numbers
+                              )
+                            }
+                            onBlur={handleBlur}
+                          />
+                        </div>
+                        <span className={styles.error}>
+                          {touched.productPricingDetails?.[index]?.quantityFrom &&
+                            errors.productPricingDetails?.[index]?.quantityFrom}
+                        </span>
                       </div>
-                      {/* <div className={styles.weightSection}>
+                      <div className={styles.weightSection}>
                         <div className={styles.tooltipContainer}>
                           <input
                             className={styles.formInput}
@@ -1668,7 +1694,7 @@ const AddProduct = ({ placeholder }) => {
                           {touched.productPricingDetails?.[index]?.quantityTo &&
                             errors.productPricingDetails?.[index]?.quantityTo}
                         </span>
-                      </div> */}
+                      </div>
                     </div>
                   </div>
  
@@ -1802,14 +1828,14 @@ const AddProduct = ({ placeholder }) => {
                           `productPricingDetails.${index}.quantity`,
                           ""
                         );
-                        // setFieldValue(
-                        //   `productPricingDetails.${index}.quantityFrom`,
-                        //   ""
-                        // );
-                        // setFieldValue(
-                        //   `productPricingDetails.${index}.quantityTo`,
-                        //   ""
-                        // );
+                        setFieldValue(
+                          `productPricingDetails.${index}.quantityFrom`,
+                          ""
+                        );
+                        setFieldValue(
+                          `productPricingDetails.${index}.quantityTo`,
+                          ""
+                        );
                         setFieldValue(
                           `productPricingDetails.${index}.price`,
                           ""

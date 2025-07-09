@@ -330,8 +330,9 @@ const AddProduct = ({ placeholder }) => {
             values?.productPricingDetails?.map((section) => ({
               price: section?.price || "",
               totalPrice: section?.totalPrice || "",
-              quantity: section?.quantity || "",
-              // quantityTo: section?.quantityTo || "",
+              // quantity: section?.quantity || "",
+              quantityFrom: section?.quantityFrom || "",
+              quantityTo: section?.quantityTo || "",
               deliveryTime: section?.deliveryTime || "",
             }))
           );
@@ -1198,7 +1199,8 @@ const AddProduct = ({ placeholder }) => {
                       ...values.productPricingDetails,
                       {
                         quantity: "",
-                        // quantityTo: "",
+                        quantityFrom: "",
+                        quantityTo: "",
                         price: "",
                         totalPrice: "",
                         deliveryTime: "",
@@ -1216,7 +1218,7 @@ const AddProduct = ({ placeholder }) => {
                       Quantity<span className={styles.labelStamp}>*</span>
                     </label>
 
-                    <div className={styles.weightContainer}>
+                    {/* <div className={styles.weightContainer}>
                       <div className={styles.weightSection}>
                         <div className={styles.tooltipContainer}>
                           <Select
@@ -1231,7 +1233,32 @@ const AddProduct = ({ placeholder }) => {
                             }}
                           />
 
-                          {/* <input
+                         
+                        </div>
+                        <span className={styles.error}>
+                          {touched.productPricingDetails?.[index]?.quantity &&
+                            errors.productPricingDetails?.[index]?.quantity}
+                        </span>
+                      </div>
+                      
+                    </div> */}
+
+<div className={styles.weightContainer}>
+                      {/* <div className={styles.weightSection}>
+                        <div className={styles.tooltipContainer}>
+                          <Select
+                            className={styles.formSelect}
+                            options={quantityOptions}
+                            placeholder="Select Quantity"
+                            onChange={(selectedOption) => {
+                              setFieldValue(
+                                `productPricingDetails.${index}.quantity`,
+                                selectedOption?.value
+                              );
+                            }}
+                          />
+ 
+                          <input
                             className={styles.formInput}
                             type="text"
                             placeholder="Quantity From"
@@ -1247,14 +1274,39 @@ const AddProduct = ({ placeholder }) => {
                               )
                             }
                             onBlur={handleBlur}
-                          /> */}
+                          />
                         </div>
                         <span className={styles.error}>
                           {touched.productPricingDetails?.[index]?.quantity &&
                             errors.productPricingDetails?.[index]?.quantity}
                         </span>
+                      </div> */}
+                       <div className={styles.weightSection}>
+                        <div className={styles.tooltipContainer}>
+                          <input
+                            className={styles.formInput}
+                            type="text"
+                            placeholder="Quantity From"
+                            // autoComplete="off"
+                            name={`productPricingDetails.${index}.quantityFrom`}
+                            value={
+                              values.productPricingDetails[index]?.quantityFrom
+                            }
+                            onChange={(e) =>
+                              setFieldValue(
+                                `productPricingDetails.${index}.quantityFrom`,
+                                e.target.value.replace(/\D/g, "") // Allow only numbers
+                              )
+                            }
+                            onBlur={handleBlur}
+                          />
+                        </div>
+                        <span className={styles.error}>
+                          {touched.productPricingDetails?.[index]?.quantityFrom &&
+                            errors.productPricingDetails?.[index]?.quantityFrom}
+                        </span>
                       </div>
-                      {/* <div className={styles.weightSection}>
+                      <div className={styles.weightSection}>
                         <div className={styles.tooltipContainer}>
                           <input
                             className={styles.formInput}
@@ -1278,7 +1330,7 @@ const AddProduct = ({ placeholder }) => {
                           {touched.productPricingDetails?.[index]?.quantityTo &&
                             errors.productPricingDetails?.[index]?.quantityTo}
                         </span>
-                      </div> */}
+                      </div>
                     </div>
                   </div>
 

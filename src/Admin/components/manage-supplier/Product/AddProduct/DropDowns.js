@@ -240,7 +240,8 @@ export const initialValues = {
   productPricingDetails: [
     {
       quantity: "",
-      // quantityTo: "",
+      quantityFrom: "",
+      quantityTo: "",
       price: "",
       totalPrice: "",
       // deliveryTime: "TBC - Depends on quantity",
@@ -505,9 +506,9 @@ export const addProductValidationSchema = Yup.object({
   productPricingDetails: Yup.array()
     .of(
       Yup.object({
-        quantity: Yup.string().required("Quantity is required."),
-        // quantityFrom: Yup.string().required("Quantity From is required."),
-        // quantityTo: Yup.string().required("Quantity To is required."),
+        // quantity: Yup.string().required("Quantity is required."),
+        quantityFrom: Yup.string().required("Quantity From is required."),
+        quantityTo: Yup.string().required("Quantity To is required."),
         price: Yup.number()
           .typeError("Cost Per Price must be a number.")
           .required("Cost Per Price is required.")
@@ -1486,15 +1487,15 @@ export const editProductValidationSchema = Yup.object({
   productPricingDetails: Yup.array()
     .of(
       Yup.object({
-        quantity: Yup.string().required("Quantity is required."),
+        // quantity: Yup.string().required("Quantity is required."),
         // quantity: Yup.number()
         //   .typeError("Quantity From must be a number.")
         //   .required("Quantity is required.")
         //   .positive("Quantity From must be greater than 0"),
-        // quantityTo: Yup.number()
-        //   .typeError("Quantity To must be a number.")
-        //   .required("Quantity To is required.")
-        //   .positive("Quantity To must be greater than 0"),
+        quantityTo: Yup.number()
+          .typeError("Quantity To must be a number.")
+          .required("Quantity To is required.")
+          .positive("Quantity To must be greater than 0"),
         price: Yup.number()
           .typeError("Cost Per Price must be a number.")
           .required("Cost Per Price is required.")
