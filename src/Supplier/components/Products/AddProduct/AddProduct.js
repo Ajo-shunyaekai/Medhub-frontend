@@ -51,14 +51,14 @@ import { FiUploadCloud } from "react-icons/fi";
 import FileUploadModal from "../../SharedComponents/FileUploadModal/FileUploadModal";
 import { AddProductFileUpload } from "../../../../utils/helper";
 import AddProductAddOtherDetailsFileUpload from "./AddProductAddOtherDetailsFileUpload";
-
+ 
 const MultiSelectOption = ({ children, ...props }) => (
   <components.Option {...props}>
     <input type="checkbox" checked={props.isSelected} onChange={() => null} />{" "}
     <label>{children}</label>
   </components.Option>
 );
-
+ 
 const MultiSelectDropdown = ({ options, value, onChange }) => {
   return (
     <Select
@@ -72,7 +72,7 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
     />
   );
 };
-
+ 
 const AddProduct = ({ placeholder }) => {
   const defaultValues = "Speak to the supplier for more info";
   const editorRef = useRef(null);
@@ -104,20 +104,20 @@ const AddProduct = ({ placeholder }) => {
   const [pediatricianRecommended, setPediatricianRecommended] = useState(null);
   const [open, setOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
-
+ 
   const handleSelectFile = (file) => {
     setSelectedFile(file);
   };
-
+ 
   // Start the checked container
-
+ 
   const handleCheckboxChange = (id, vallue) => {
     setChecked((prev) => ({
       ...prev,
       [id]: vallue,
     }));
   };
-
+ 
   const handleInputChange = (
     e,
     setFieldValue,
@@ -127,36 +127,36 @@ const AddProduct = ({ placeholder }) => {
     allowedSpecialChars = ""
   ) => {
     let { value, name } = e.target;
-
+ 
     // Apply character limit
     value = value.slice(0, Number(textLimit));
-
+ 
     // Dimension field validation
     if (name === "dimension") {
       // Allow only numbers, "x", and "."
       value = value.replace(/[^0-9x.]/g, "")?.toLowerCase();
-
+ 
       // Prevent multiple consecutive "x"
       value = value.replace(/x{2,}/g, "x");
-
+ 
       // Split the values by "x" while keeping their sequence
       const parts = value?.split("x").map((part, index) => {
         // Allow up to 5 digits before decimal and 2 after
         part = part.replace(/^(\d{1,5})\.(\d{0,2}).*/, "$1.$2");
-
+ 
         // Ensure only one decimal per number
         part = part.replace(/(\..*)\./g, "$1");
-
+ 
         return part;
       });
-
+ 
       // Join back using "x" but ensure it doesn't remove already typed "x"
       value = parts.join("x");
-
+ 
       setFieldValue(name, value);
       return;
     }
-
+ 
     // Restrict input type
     if (allowedType === "number") {
       value = value.replace(/[^0-9]/g, ""); // Allow only numbers
@@ -175,14 +175,14 @@ const AddProduct = ({ placeholder }) => {
     } else if (allowedType === "decimal") {
       if (!/^\d*\.?\d*$/.test(value)) return;
     }
-
+ 
     setFieldValue(name, value);
   };
-
+ 
   // End the checked container
   const editor = useRef(null);
   const [content, setContent] = useState("");
-
+ 
   // const config = useMemo(
   //   () => ({
   //     readonly: false,
@@ -190,7 +190,7 @@ const AddProduct = ({ placeholder }) => {
   //   }),
   //   [placeholder]
   // );
-
+ 
   useEffect(() => {
     const countryOptions = countryList().getData();
     setCountries(countryOptions);
@@ -201,16 +201,16 @@ const AddProduct = ({ placeholder }) => {
       label: cat.name,
     };
   });
-
+ 
   const getCategorySchema = (category) => {
     if (!category) return null;
     return (
       categoryArrays.find((cat) => cat.name === category.label)?.schema || null
     );
   };
-
+ 
   const selectedSchema = getCategorySchema(selectedCategory);
-
+ 
   const getSubCategories = (categoryName) => {
     return (
       categoryArrays
@@ -221,7 +221,7 @@ const AddProduct = ({ placeholder }) => {
         })) || []
     );
   };
-
+ 
   const getLevel3Categories = (subCategoryName) => {
     const category = categoryArrays.find(
       (cat) => cat.name === selectedCategory?.label
@@ -240,7 +240,7 @@ const AddProduct = ({ placeholder }) => {
       const bulkFormData = new FormData();
       bulkFormData.append("supplier_id", localStorage?.getItem("_id"));
       bulkFormData.append("csvfile", selectedFile);
-
+ 
       dispatch(previewBulkProducts(bulkFormData)).then((response) => {
         if (response?.meta.requestStatus === "fulfilled") {
           navigate("/supplier/preview-file");
@@ -248,11 +248,11 @@ const AddProduct = ({ placeholder }) => {
       });
     }
   };
-
+ 
   const handleCancel = () => {
     navigate("/supplier/product");
   };
-
+ 
   // Handlers for Stocked in Details
   const addStockedInSection = (setFieldValue, values) => {
     setFieldValue("stockedInDetails", [
@@ -260,25 +260,25 @@ const AddProduct = ({ placeholder }) => {
       { country: "", quantity: "", type: "Box" },
     ]);
   };
-
+ 
   const handleStockedInCountryChange = (index, selected, setFieldValue) => {
     setFieldValue(`stockedInDetails[${index}].country`, selected?.label || "");
   };
-
+ 
   const handleStockedInputChange = (index, e, setFieldValue) => {
     const value = e.target.value.replace(/\D/g, "").slice(0, 6);
     setFieldValue(`stockedInDetails[${index}].quantity`, value);
   };
-
+ 
   const handlePackageSelection = (index, type, setFieldValue) => {
     setFieldValue(`stockedInDetails[${index}].type`, type);
   };
-
+ 
   const removeStockedInFormSection = (index, setFieldValue, values) => {
     const updatedList = values.stockedInDetails.filter((_, i) => i !== index);
     setFieldValue("stockedInDetails", updatedList);
   };
-
+ 
   // Handlers for Add Other Details
   const addcategoryDetailsSection = (setFieldValue, values) => {
     setFieldValue("categoryDetails", [
@@ -294,7 +294,7 @@ const AddProduct = ({ placeholder }) => {
       },
     ]);
   };
-
+ 
   const handlecategoryDetailsNameChange = (index, selected, setFieldValue) => {
     setFieldValue(`categoryDetails[${index}].name`, selected?.value || "");
     setFieldValue(`categoryDetails[${index}].label`, selected?.label || "");
@@ -320,37 +320,37 @@ const AddProduct = ({ placeholder }) => {
       selected?.optionsDD || []
     );
   };
-
+ 
   const handlecategoryDetailsFieldValueChange = (index, e, setFieldValue) => {
     const value = e.target.value;
     setFieldValue(`categoryDetails[${index}].fieldValue`, value);
   };
-
+ 
   const removecategoryDetailsFormSection = (index, setFieldValue, values) => {
     const updatedList = values.categoryDetails.filter((_, i) => i !== index);
     setFieldValue("categoryDetails", updatedList);
   };
-
+ 
   // Handlers for FAQs
   const addFAQs = (setFieldValue, values) => {
     setFieldValue("faqs", [...values.faqs, { ques: "", ans: "", type: "Box" }]);
   };
-
+ 
   const handleFaqsQuesChange = (index, e, setFieldValue) => {
     const value = e.target.value;
     setFieldValue(`faqs[${index}].ques`, value || "");
   };
-
+ 
   const handleFaqsAnsChange = (index, e, setFieldValue) => {
     const value = e.target.value;
     setFieldValue(`faqs[${index}].ans`, value || "");
   };
-
+ 
   const removeFaqFormSection = (index, setFieldValue, values) => {
     const updatedList = values.faqs.filter((_, i) => i !== index);
     setFieldValue("faqs", updatedList);
   };
-
+ 
   return (
     <div className={styles.container}>
       <div className={styles.headContainer}>
@@ -359,7 +359,7 @@ const AddProduct = ({ placeholder }) => {
           Bulk Upload
         </button> */}
       </div>
-
+ 
       <Formik
         initialValues={initialValues}
         validationSchema={productValidationSchema}
@@ -368,7 +368,7 @@ const AddProduct = ({ placeholder }) => {
           setLoading(true);
           // Create a new FormData object
           const formData = new FormData();
-
+ 
           // Append fields as usual
           Object.keys(values).forEach((key) => {
             const value = values[key];
@@ -395,7 +395,7 @@ const AddProduct = ({ placeholder }) => {
             }
           });
           formData.append("supplier_id", localStorage?.getItem("_id"));
-
+ 
           const stockedInDetailsUpdated = JSON.stringify(
             values?.stockedInDetails?.map((section) => ({
               country: section?.country || "",
@@ -403,7 +403,7 @@ const AddProduct = ({ placeholder }) => {
               type: section?.type || "",
             }))
           );
-
+ 
           const productPricingDetailsUpdated = JSON.stringify(
             values?.productPricingDetails?.map((section) => ({
               price: section?.price || "",
@@ -413,7 +413,7 @@ const AddProduct = ({ placeholder }) => {
               deliveryTime: section?.deliveryTime || "",
             }))
           );
-
+ 
           const cNCFileNDateUpdated = JSON.stringify(
             values?.cNCFileNDate?.map((section) => ({
               date: section?.date || "",
@@ -434,7 +434,7 @@ const AddProduct = ({ placeholder }) => {
               file: "",
             },
           ];
-
+ 
           formData.append("stockedInDetails", stockedInDetailsUpdated);
           formData.append(
             "productPricingDetails",
@@ -449,7 +449,7 @@ const AddProduct = ({ placeholder }) => {
               formData.append("complianceFile", file?.file)
             );
           }
-
+ 
           const categoryDetailsUpdated = JSON.stringify(
             values?.categoryDetails?.map((section) => ({
               name: section?.name || "",
@@ -482,7 +482,7 @@ const AddProduct = ({ placeholder }) => {
               fieldValue: "",
             },
           ];
-
+ 
           if (
             JSON.stringify(values?.categoryDetailsFile) !=
             JSON.stringify(
@@ -494,7 +494,7 @@ const AddProduct = ({ placeholder }) => {
               formData.append("categoryDetailsFile", file?.fieldValue)
             );
           }
-
+ 
           const faqsUpdated = JSON.stringify(
             values?.faqs?.map((section) => ({
               ques: section?.ques || "",
@@ -511,7 +511,7 @@ const AddProduct = ({ placeholder }) => {
               ? values?.tags?.split(",")
               : values?.tags
           );
-
+ 
           dispatch(addProduct(formData)).then((response) => {
             if (response?.meta.requestStatus === "fulfilled") {
               navigate("/supplier/product"); // Change this to your desired route
@@ -564,7 +564,7 @@ const AddProduct = ({ placeholder }) => {
                     <span className={styles.error}>{errors.name}</span>
                   )}
                 </div>
-
+ 
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Product Market<span className={styles.labelStamp}>*</span>
@@ -597,14 +597,14 @@ const AddProduct = ({ placeholder }) => {
                     onChange={(selectedOption) => {
                       setFieldValue("category", selectedOption?.value);
                       setSelectedCategory(selectedOption);
-
+ 
                       // Clear all related fields
                       setFieldValue("subCategory", "");
                       setSelectedSubCategory(null);
-
+ 
                       setFieldValue("anotherCategory", "");
                       setSelectedLevel3Category(null);
-
+ 
                       setFieldValue("categoryDetails", [
                         { name: "", fieldValue: "", type: "" },
                       ]);
@@ -615,7 +615,7 @@ const AddProduct = ({ placeholder }) => {
                     <span className={styles.error}>{errors.category}</span>
                   )}
                 </div>
-
+ 
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Product Sub Category
@@ -642,7 +642,7 @@ const AddProduct = ({ placeholder }) => {
                     <span className={styles.error}>{errors.subCategory}</span>
                   )}
                 </div>
-
+ 
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Product Sub Category (Level 3)
@@ -671,7 +671,7 @@ const AddProduct = ({ placeholder }) => {
                       <label className={styles.formLabel}>
                         Purchased On<span className={styles.labelStamp}>*</span>
                       </label>
-
+ 
                       <DatePicker
                         className={styles.formDate}
                         clearIcon={null}
@@ -694,7 +694,7 @@ const AddProduct = ({ placeholder }) => {
                         </span>
                       )}
                     </div>
-
+ 
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Condition<span className={styles.labelStamp}>*</span>
@@ -712,13 +712,13 @@ const AddProduct = ({ placeholder }) => {
                         <span className={styles.error}>{errors.condition}</span>
                       )}
                     </div>
-
+ 
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Country Available In
                         <span className={styles.labelStamp}>*</span>
                       </label>
-
+ 
                       <MultiSelectDropdown
                         options={countries}
                         placeholderButtonLabel="Select Countries"
@@ -732,7 +732,7 @@ const AddProduct = ({ placeholder }) => {
                         }}
                         onBlur={handleBlur} // Optional: add this if the component has a blur event
                       />
-
+ 
                       {touched.countryAvailable && errors.countryAvailable && (
                         <span className={styles.error}>
                           {errors.countryAvailable}
@@ -824,7 +824,7 @@ const AddProduct = ({ placeholder }) => {
                   />
                   <span className={styles.error}></span>
                 </div>
-
+ 
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Part/Model Number
@@ -895,7 +895,7 @@ const AddProduct = ({ placeholder }) => {
                     <span className={styles.error}>{errors.form}</span>
                   )} */}
                 </div>
-
+ 
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Product Tax%
@@ -984,7 +984,7 @@ const AddProduct = ({ placeholder }) => {
                     <span className={styles.error}>{errors.description}</span>
                   )}
                 </div>
-
+ 
                 {/* <RichTextEditor
                   label="Product Description"
                   name="description"
@@ -997,9 +997,9 @@ const AddProduct = ({ placeholder }) => {
                 /> */}
               </div>
             </div>
-
+ 
             {/* Start the manufacturer */}
-
+ 
             <div className={styles.section}>
               <span className={styles.formHead}>Manufacturer Details</span>
               <div className={styles.formSection}>
@@ -1026,7 +1026,7 @@ const AddProduct = ({ placeholder }) => {
                     <span className={styles.error}>{errors.manufacturer}</span>
                   )}
                 </div>
-
+ 
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Manufacturer Country of Origin
@@ -1048,7 +1048,7 @@ const AddProduct = ({ placeholder }) => {
                     </span>
                   )}
                 </div>
-
+ 
                 <div className={styles.productTextContainer}>
                   <label className={styles.formLabel}>
                     About Manufacturer
@@ -1074,9 +1074,9 @@ const AddProduct = ({ placeholder }) => {
                 </div>
               </div>
             </div>
-
+ 
             {/* End the manufacturer */}
-
+ 
             {/* Start the Add Other Details */}
             <div className={styles.section}>
               {/* {inventoryStockedCountries?.length > 0 ? ( */}
@@ -1122,7 +1122,7 @@ const AddProduct = ({ placeholder }) => {
                           label: option?.label,
                           value: option?.name,
                         })) || [];
-
+ 
                     // Match the selected option by value (not label)
                     const selectedOption = categoryOptions.find(
                       (opt) => opt.value === section.name
@@ -1242,7 +1242,7 @@ const AddProduct = ({ placeholder }) => {
                                         }
                                       />
                                     ) : section?.type == "checkbox" ? (
-                                      <div className={styles.radioGroup}>
+                                      <div className={styles.radioGroup2}>
                                         {["true", "false"].map((option) => (
                                           <label key={option}>
                                             <input
@@ -1348,7 +1348,7 @@ const AddProduct = ({ placeholder }) => {
               </div>
             </div>
             {/* End the Add Other Details */}
-
+ 
             {/* Start the Inventory */}
             <div className={styles.section}>
               {/* <span className={styles.formHead}>Inventory</span>
@@ -1432,7 +1432,7 @@ const AddProduct = ({ placeholder }) => {
                 </div>
  
               </div> */}
-
+ 
               {/* {inventoryStockedCountries?.length > 0 ? ( */}
               <div className={styles.Stocksection}>
                 <div className={styles.formHeadSection}>
@@ -1574,9 +1574,9 @@ const AddProduct = ({ placeholder }) => {
                 ))}
               </div>
             </div>
-
+ 
             {/* End the Inventory */}
-
+ 
             {/* Start the Product Pricing */}
             <div className={styles.section}>
               <div className={styles.formHeadSection}>
@@ -1605,7 +1605,7 @@ const AddProduct = ({ placeholder }) => {
                     <label className={styles.formLabel}>
                       Quantity<span className={styles.labelStamp}>*</span>
                     </label>
-
+ 
                     <div className={styles.weightContainer}>
                       <div className={styles.weightSection}>
                         <div className={styles.tooltipContainer}>
@@ -1620,7 +1620,7 @@ const AddProduct = ({ placeholder }) => {
                               );
                             }}
                           />
-
+ 
                           {/* <input
                             className={styles.formInput}
                             type="text"
@@ -1671,7 +1671,7 @@ const AddProduct = ({ placeholder }) => {
                       </div> */}
                     </div>
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Unit Price
@@ -1686,15 +1686,15 @@ const AddProduct = ({ placeholder }) => {
                         onChange={handleChange}
                         // onInput={(e) => {
                         //   let value = e.target.value;
-
+ 
                         //   // Allow only numbers and one decimal point
                         //   value = value.replace(/[^0-9.]/g, "");
-
+ 
                         //   // Ensure only one decimal point exists
                         //   if (value?.split(".").length > 2) {
                         //     value = value.slice(0, -1);
                         //   }
-
+ 
                         //   // Limit numbers before decimal to 9 digits and after decimal to 3 digits
                         //   let parts = value?.split(".");
                         //   if (parts[0].length > 9) {
@@ -1703,7 +1703,7 @@ const AddProduct = ({ placeholder }) => {
                         //   if (parts[1]?.length > 3) {
                         //     parts[1] = parts[1].slice(0, 3);
                         //   }
-
+ 
                         //   e.target.value = parts.join(".");
                         //   setFieldValue(
                         //   `productPricingDetails.${index}.totalPrice`,
@@ -1718,7 +1718,7 @@ const AddProduct = ({ placeholder }) => {
                         errors.productPricingDetails?.[index]?.price}
                     </span>
                   </div>
-
+ 
                   {/* <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Total Price
@@ -1765,7 +1765,7 @@ const AddProduct = ({ placeholder }) => {
                         errors.productPricingDetails?.[index]?.totalPrice}
                     </span>
                   </div> */}
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Est. Shipping Time
@@ -1793,7 +1793,7 @@ const AddProduct = ({ placeholder }) => {
                         errors.productPricingDetails?.[index]?.deliveryTime}
                     </span>
                   </div>
-
+ 
                   {values?.productPricingDetails?.length > 1 && (
                     <div
                       className={styles.formCloseSection}
@@ -1822,7 +1822,7 @@ const AddProduct = ({ placeholder }) => {
                           `productPricingDetails.${index}.deliveryTime`,
                           ""
                         );
-
+ 
                         // Remove the row from the array
                         const updatedList = values.productPricingDetails.filter(
                           (_, elindex) => elindex !== index
@@ -1838,11 +1838,11 @@ const AddProduct = ({ placeholder }) => {
                 </div>
               ))}
             </div>
-
+ 
             {/* End the Product Pricing */}
-
+ 
             {/* Start the Compliances and certificate */}
-
+ 
             {/* Start the Compliances and certificate 222222222 */}
             <div className={styles.section}>
               <div className={styles.formHeadSection}>
@@ -1865,7 +1865,7 @@ const AddProduct = ({ placeholder }) => {
                   Add More
                 </span>
               </div>
-
+ 
               {values?.cNCFileNDate?.map((ele, index) => (
                 <div
                   key={`certification_${index}`}
@@ -1898,7 +1898,7 @@ const AddProduct = ({ placeholder }) => {
                         errors.cNCFileNDate?.[index]?.file}
                     </span>
                   </div>
-
+ 
                   {/* Date of Expiry Section */}
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
@@ -1907,7 +1907,7 @@ const AddProduct = ({ placeholder }) => {
                     </label>
                     <div className={styles.tooltipContainer}>
                       {/* Date Mask Input */}
-
+ 
                       <DatePicker
                         className={styles.formDate}
                         clearIcon={null}
@@ -1938,7 +1938,7 @@ const AddProduct = ({ placeholder }) => {
                         errors.cNCFileNDate?.[index]?.date}
                     </span>
                   </div>
-
+ 
                   {/* Remove Section */}
                   {values?.cNCFileNDate?.length > 1 && (
                     <div
@@ -1948,7 +1948,7 @@ const AddProduct = ({ placeholder }) => {
                         setFieldValue(`cNCFileNDate.${index}.file`, {});
                         setFieldValue(`cNCFileNDate.${index}.date`, "");
                         setFieldValue(`cNCFileNDate.${index}.preview`, false);
-
+ 
                         // Remove the row from the array
                         const updatedList = values.cNCFileNDate.filter(
                           (_, elindex) => elindex !== index
@@ -1968,9 +1968,9 @@ const AddProduct = ({ placeholder }) => {
                 </div>
               ))}
             </div>
-
+ 
             {/* End the compliances and certificate 222222222 */}
-
+ 
             {/* Start the Product Documents */}
             <div className={styles.additionalSection}>
               <span className={styles.formHead}>Product Documents</span>
@@ -2015,9 +2015,9 @@ const AddProduct = ({ placeholder }) => {
                 </div>
               </div>
             </div>
-
+ 
             {/* End the Product Documents */}
-
+ 
             {/* Start the Additional Information */}
             <div className={styles.additionalSection}>
               <span className={styles.formHead}>Additional Information</span>
@@ -2086,7 +2086,7 @@ const AddProduct = ({ placeholder }) => {
                 </div>
               </div>
             </div>
-
+ 
             {/* End the Additional Information */}
             <div className={styles.additionalSection}>
               <span className={styles.formHead}>Upload Product Image</span>
@@ -2177,7 +2177,7 @@ const AddProduct = ({ placeholder }) => {
                 )}
               </div>
             </div>
-
+ 
             {/* Start the Add FAQs */}
             <div className={styles.section}>
               {/* {inventoryStockedCountries?.length > 0 ? ( */}
@@ -2274,7 +2274,7 @@ const AddProduct = ({ placeholder }) => {
               </div>
             </div>
             {/* End the Add FAQs */}
-
+ 
             {/* Start button section */}
             <div className={styles.buttonContainer}>
               <button
@@ -2288,12 +2288,12 @@ const AddProduct = ({ placeholder }) => {
                 Cancel
               </button>
             </div>
-
+ 
             {/* End button section */}
           </Form>
         )}
       </Formik>
-
+ 
       {open && (
         <FileUploadModal
           onClose={() => setOpen(false)}
@@ -2307,5 +2307,5 @@ const AddProduct = ({ placeholder }) => {
     </div>
   );
 };
-
+ 
 export default AddProduct;
