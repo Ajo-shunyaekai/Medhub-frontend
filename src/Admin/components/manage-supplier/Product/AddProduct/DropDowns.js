@@ -111,7 +111,6 @@ export const strengthOptions = [
   { value: "per mL", label: "per mL" },
   { value: "per vial", label: "per vial" },
   { value: "per ampoule", label: "per ampoule" },
-  { value: "per mL", label: "per mL" },
   { value: "% concentration", label: "% concentration" },
   { value: "mg/g", label: "mg/g" },
 ]?.sort((a, b) => a?.label?.localeCompare(b?.label));
