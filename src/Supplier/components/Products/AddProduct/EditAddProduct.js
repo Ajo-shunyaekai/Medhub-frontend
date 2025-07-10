@@ -73,7 +73,7 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
 
 // End Image Container Section
 const EditAddProduct = ({ placeholder }) => {
-  const { id } = useParams();
+  const { id, supplierId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -115,11 +115,17 @@ const EditAddProduct = ({ placeholder }) => {
       });
 
       // Append the supplier ID
-      const supplierId = localStorage?.getItem("_id");
-      if (supplierId) {
+      // const supplierId = localStorage?.getItem("_id");
+      // if (supplierId) {
+      //   formData.append("supplier_id", supplierId);
+      // } else {
+      //   console.error("Supplier ID not found in session storage.");
+      // }
+
+      if(supplierId) {
         formData.append("supplier_id", supplierId);
       } else {
-        console.error("Supplier ID not found in session storage.");
+        formData.append("supplier_id", localStorage?.getItem("_id"));
       }
 
       // Prepare and append 'stockedInDetails' and 'productPricingDetails' fields as JSON strings
@@ -208,7 +214,11 @@ const EditAddProduct = ({ placeholder }) => {
       // Dispatch the editProduct action (or any other submit action)
       dispatch(editProduct({ id, values: formData })).then((response) => {
         if (response?.meta.requestStatus === "fulfilled") {
-          navigate(`/supplier/product-details/${id}`); // Change this to your desired route
+          if(supplierId) {
+            navigate(`/admin/supplier/${supplierId}/products/new`);
+          } else {
+            navigate(`/supplier/product-details/${id}`);
+          }
           setLoading(false);
         }
         setLoading(false);
@@ -545,7 +555,12 @@ const EditAddProduct = ({ placeholder }) => {
   }, [productDetail]); // Add formik to the dependency array
 
   const handleCancel = () => {
-    navigate(`/supplier/product-details/${id}`);
+    if(supplierId) {
+      navigate(`/admin/supplier/${supplierId}/products/new`);
+    } else {
+      navigate(`/supplier/product-details/${id}`);
+    }
+    
   };
   // Handlers for Stocked in Details
   const addStockedInSection = (setFieldValue, values) => {

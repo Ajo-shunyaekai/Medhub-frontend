@@ -1318,15 +1318,17 @@ export const adminNestedRoutes = [
   {
     path: "supplier/:supplierId/edit-product/:id",
     component: lazy(() =>
-      import(
-        "./Admin/components/manage-supplier/Product/AddProduct/EditAddProduct"
-      )
+      // import(
+      //   "./Admin/components/manage-supplier/Product/AddProduct/EditAddProduct"
+      // )
+      import("./Supplier/components/Products/AddProduct/EditAddProduct")
     ),
   },
   {
     path: "supplier/:supplierId/add-product",
     component: lazy(() =>
-      import("./Admin/components/manage-supplier/Product/AddProduct/AddProduct")
+      // import("./Admin/components/manage-supplier/Product/AddProduct/AddProduct")
+    import("./Supplier/components/Products/AddProduct/AddProduct")
     ),
   },
   {

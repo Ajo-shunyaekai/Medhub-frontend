@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import "../../../assets/style/react-input-phone.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import RichTextEditor from "./ProductDescriptionEditor";
 import Select, { components } from "react-select";
 import countryList from "react-select-country-list";
@@ -78,6 +78,7 @@ const AddProduct = ({ placeholder }) => {
   const editorRef = useRef(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { supplierId } = useParams();
   const [loading, setLoading] = useState(false);
   const productValidationSchema = addProductValidationSchema;
   const [productType, setProductType] = useState(null);
@@ -238,19 +239,33 @@ const AddProduct = ({ placeholder }) => {
   const handleBulkUpload = () => {
     if (selectedFile) {
       const bulkFormData = new FormData();
-      bulkFormData.append("supplier_id", localStorage?.getItem("_id"));
+      if(supplierId) {
+        bulkFormData.append("supplier_id", supplierId);
+      } else {
+        bulkFormData.append("supplier_id", localStorage?.getItem("_id"));
+      }
       bulkFormData.append("csvfile", selectedFile);
  
       dispatch(previewBulkProducts(bulkFormData)).then((response) => {
         if (response?.meta.requestStatus === "fulfilled") {
-          navigate("/supplier/preview-file");
+          if(supplierId) {
+            navigate(`/admin/supplier/${supplierId}/preview-file`);
+          } else {
+            navigate("/supplier/preview-file");
+          }
+          
         }
       });
     }
   };
  
   const handleCancel = () => {
-    navigate("/supplier/product");
+    if(supplierId) {
+      navigate(`/admin/supplier/${supplierId}/products/new`);
+    } else {
+      navigate("/supplier/product")
+    }
+    ;
   };
  
   // Handlers for Stocked in Details
@@ -394,7 +409,12 @@ const AddProduct = ({ placeholder }) => {
               }
             }
           });
-          formData.append("supplier_id", localStorage?.getItem("_id"));
+          if(supplierId) {
+            formData.append("supplier_id", supplierId);
+          } else {
+            formData.append("supplier_id", localStorage?.getItem("_id"));
+          }
+          // formData.append("supplier_id", localStorage?.getItem("_id"));
  
           const stockedInDetailsUpdated = JSON.stringify(
             values?.stockedInDetails?.map((section) => ({
@@ -526,7 +546,11 @@ const AddProduct = ({ placeholder }) => {
  
           dispatch(addProduct(formData)).then((response) => {
             if (response?.meta.requestStatus === "fulfilled") {
-              navigate("/supplier/product"); // Change this to your desired route
+              if(supplierId) {
+                navigate(`/admin/supplier/${supplierId}/products/new`);
+              } else {
+                navigate("/supplier/product");
+              }
               setLoading(false);
             }
             setLoading(false);
@@ -1310,7 +1334,7 @@ const AddProduct = ({ placeholder }) => {
                               <div className={styles.StockedDivQuantity}>
                                 <label className={styles.formLabel}>
                                   Parameter Description
-                                  <span className={styles.labelStamp}>*</span>
+                                  {/* <span className={styles.labelStamp}>*</span> */}
                                 </label>
                                 <div className={styles.quantitySelector}>
                                   <div className={styles.inputGroup}>
