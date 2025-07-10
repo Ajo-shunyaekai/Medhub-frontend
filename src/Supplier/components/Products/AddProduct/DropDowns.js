@@ -831,6 +831,13 @@ export const addProductValidationSchema = Yup.object({
       is: "MedicalConsumablesAndDisposables",
       then: Yup.string().oneOf(
         [
+          "ECG Electrode",
+          "ECG Consumables",
+          "Ultrasound Consumables",
+          "CTG Paper",
+          "Infusion Pressure Bag",
+          "Connecting Cable",
+          "PFT Mouthpiece",
           "Bandages, Gauze, & Wound Dressings",
           "Gloves, Masks, & Protective gear",
           "Sterilization Products",
@@ -1823,6 +1830,13 @@ export const editProductValidationSchema = Yup.object({
       is: "MedicalConsumablesAndDisposables",
       then: Yup.string().oneOf(
         [
+          "ECG Electrode",
+          "ECG Consumables",
+          "Ultrasound Consumables",
+          "CTG Paper",
+          "Infusion Pressure Bag",
+          "Connecting Cable",
+          "PFT Mouthpiece",
           "Bandages, Gauze, & Wound Dressings",
           "Gloves, Masks, & Protective gear",
           "Sterilization Products",

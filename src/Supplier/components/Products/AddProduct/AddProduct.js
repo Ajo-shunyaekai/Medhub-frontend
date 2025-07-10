@@ -1602,102 +1602,58 @@ const AddProduct = ({ placeholder }) => {
               </div>
               {values?.productPricingDetails?.map((stock, index) => (
                 <div key={`product_${index}`} className={styles.formSection}>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Quantity<span className={styles.labelStamp}>*</span>
-                    </label>
- 
-                    <div className={styles.weightContainer}>
-                      {/* <div className={styles.weightSection}>
-                        <div className={styles.tooltipContainer}>
-                          <Select
-                            className={styles.formSelect}
-                            options={quantityOptions}
-                            placeholder="Select Quantity"
-                            onChange={(selectedOption) => {
-                              setFieldValue(
-                                `productPricingDetails.${index}.quantity`,
-                                selectedOption?.value
-                              );
-                            }}
-                          />
- 
-                          <input
-                            className={styles.formInput}
-                            type="text"
-                            placeholder="Quantity From"
-                            autoComplete="off"
-                            name={`productPricingDetails.${index}.quantity`}
-                            value={
-                              values.productPricingDetails[index]?.quantity
-                            }
-                            onChange={(e) =>
-                              setFieldValue(
-                                `productPricingDetails.${index}.quantity`,
-                                e.target.value.replace(/\D/g, "") // Allow only numbers
-                              )
-                            }
-                            onBlur={handleBlur}
-                          />
-                        </div>
-                        <span className={styles.error}>
-                          {touched.productPricingDetails?.[index]?.quantity &&
-                            errors.productPricingDetails?.[index]?.quantity}
-                        </span>
-                      </div> */}
-                       <div className={styles.weightSection}>
-                        <div className={styles.tooltipContainer}>
-                          <input
-                            className={styles.formInput}
-                            type="text"
-                            placeholder="Quantity From"
-                            // autoComplete="off"
-                            name={`productPricingDetails.${index}.quantityFrom`}
-                            value={
-                              values.productPricingDetails[index]?.quantityFrom
-                            }
-                            onChange={(e) =>
-                              setFieldValue(
-                                `productPricingDetails.${index}.quantityFrom`,
-                                e.target.value.replace(/\D/g, "") // Allow only numbers
-                              )
-                            }
-                            onBlur={handleBlur}
-                          />
-                        </div>
-                        <span className={styles.error}>
-                          {touched.productPricingDetails?.[index]?.quantityFrom &&
-                            errors.productPricingDetails?.[index]?.quantityFrom}
-                        </span>
+                  <div className={styles.productContainer2}>
+                    <div className={styles.productContainer3}>
+                      <label className={styles.formLabel}>
+                        Quantity From
+                        <span className={styles.labelStamp}>*</span>
+                      </label>
+                      <div className={styles.tooltipContainer}>
+                        <Field
+                          name={`productPricingDetails.${index}.quantityFrom`}
+                          type="text"
+                          placeholder="Enter Quantity From"
+                          className={styles.formInput}
+                          onBlur={handleBlur}
+                          onChange={(e) =>
+                            setFieldValue(
+                              `productPricingDetails.${index}.quantityFrom`,
+                              e.target.value.replace(/\D/g, "") // Allow only numbers
+                            )
+                          }
+                        />
                       </div>
-                      <div className={styles.weightSection}>
-                        <div className={styles.tooltipContainer}>
-                          <input
-                            className={styles.formInput}
-                            type="text"
-                            placeholder="Quantity To"
-                            // autoComplete="off"
-                            name={`productPricingDetails.${index}.quantityTo`}
-                            value={
-                              values.productPricingDetails[index]?.quantityTo
-                            }
-                            onChange={(e) =>
-                              setFieldValue(
-                                `productPricingDetails.${index}.quantityTo`,
-                                e.target.value.replace(/\D/g, "") // Allow only numbers
-                              )
-                            }
-                            onBlur={handleBlur}
-                          />
-                        </div>
-                        <span className={styles.error}>
-                          {touched.productPricingDetails?.[index]?.quantityTo &&
-                            errors.productPricingDetails?.[index]?.quantityTo}
-                        </span>
+                      <span className={styles.error}>
+                        {touched.productPricingDetails?.[index]?.quantityFrom &&
+                          errors.productPricingDetails?.[index]?.quantityFrom}
+                      </span>
+                    </div>
+                    <div className={styles.productContainer3}>
+                      <label className={styles.formLabel}>
+                        Quantity To
+                        <span className={styles.labelStamp}>*</span>
+                      </label>
+                      <div className={styles.tooltipContainer}>
+                        <Field
+                          name={`productPricingDetails.${index}.quantityTo`}
+                          type="text"
+                          placeholder="Enter Quantity To"
+                          className={styles.formInput}
+                          onBlur={handleBlur}
+                          onChange={(e) =>
+                            setFieldValue(
+                              `productPricingDetails.${index}.quantityTo`,
+                              e.target.value.replace(/\D/g, "") // Allow only numbers
+                            )
+                          }
+                        />
                       </div>
+                      <span className={styles.error}>
+                        {touched.productPricingDetails?.[index]?.quantityTo &&
+                          errors.productPricingDetails?.[index]?.quantityTo}
+                      </span>
                     </div>
                   </div>
- 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Unit Price

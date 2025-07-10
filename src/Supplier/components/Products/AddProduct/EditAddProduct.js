@@ -1836,192 +1836,58 @@ const EditAddProduct = ({ placeholder }) => {
                         key={`product_${index}`}
                         className={styles?.formSection}
                       >
-                        <div className={styles?.productContainer}>
-                          <label className={styles?.formLabel}>
-                            Quantity
-                            <span className={styles?.labelStamp}>*</span>
-                          </label>
-
-                          <div className={styles.weightContainer}>
-                      {/* <div className={styles.weightSection}>
-                        <div className={styles.tooltipContainer}>
-                          <Select
-                            className={styles.formSelect}
-                            options={quantityOptions}
-                            placeholder="Select Quantity"
-                            onChange={(selectedOption) => {
-                              setFieldValue(
-                                `productPricingDetails.${index}.quantity`,
-                                selectedOption?.value
-                              );
-                            }}
-                          />
- 
-                          <input
-                            className={styles.formInput}
-                            type="text"
-                            placeholder="Quantity From"
-                            autoComplete="off"
-                            name={`productPricingDetails.${index}.quantity`}
-                            value={
-                              values.productPricingDetails[index]?.quantity
-                            }
-                            onChange={(e) =>
-                              setFieldValue(
-                                `productPricingDetails.${index}.quantity`,
-                                e.target.value.replace(/\D/g, "") // Allow only numbers
-                              )
-                            }
-                            onBlur={handleBlur}
-                          />
-                        </div>
-                        <span className={styles.error}>
-                          {touched.productPricingDetails?.[index]?.quantity &&
-                            errors.productPricingDetails?.[index]?.quantity}
-                        </span>
-                      </div> */}
-                       <div className={styles.weightSection}>
-                        <div className={styles.tooltipContainer}>
-                          <input
-                            className={styles.formInput}
-                            type="text"
-                            placeholder="Quantity From"
-                            // autoComplete="off"
-                            name={`productPricingDetails.${index}.quantityFrom`}
-                            value={
-                              formik?.values.productPricingDetails[index]?.quantityFrom
-                            }
-                            onChange={(e) =>
-                              formik?.setFieldValue(
-                                `productPricingDetails.${index}.quantityFrom`,
-                                e.target.value.replace(/\D/g, "") // Allow only numbers
-                              )
-                            }
-                            onBlur={formik?.handleBlur}
-                          />
-                        </div>
-                        <span className={styles.error}>
-                          {formik?.touched.productPricingDetails?.[index]?.quantityFrom &&
-                            formik?.errors.productPricingDetails?.[index]?.quantityFrom}
-                        </span>
+                         <div className={styles.productContainer2}>
+                    <div className={styles.productContainer3}>
+                      <label className={styles.formLabel}>
+                        Quantity From
+                        <span className={styles.labelStamp}>*</span>
+                      </label>
+                      <div className={styles.tooltipContainer}>
+                        <Field
+                          name={`productPricingDetails.${index}.quantityFrom`}
+                          type="text"
+                          placeholder="Enter Quantity From"
+                          className={styles.formInput}
+                          onBlur={formik?.handleBlur}
+                          onChange={(e) =>
+                            formik?.setFieldValue(
+                              `productPricingDetails.${index}.quantityFrom`,
+                              e.target.value.replace(/\D/g, "") // Allow only numbers
+                            )
+                          }
+                        />
                       </div>
-                      <div className={styles.weightSection}>
-                        <div className={styles.tooltipContainer}>
-                          <input
-                            className={styles.formInput}
-                            type="text"
-                            placeholder="Quantity To"
-                            // autoComplete="off"
-                            name={`productPricingDetails.${index}.quantityTo`}
-                            value={
-                              formik?.values.productPricingDetails[index]?.quantityTo
-                            }
-                            onChange={(e) =>
-                              formik?.setFieldValue(
-                                `productPricingDetails.${index}.quantityTo`,
-                                e.target.value.replace(/\D/g, "") // Allow only numbers
-                              )
-                            }
-                            onBlur={formik?.handleBlur}
-                          />
-                        </div>
-                        <span className={styles.error}>
-                          {formik?.touched.productPricingDetails?.[index]?.quantityTo &&
-                            formik?.errors.productPricingDetails?.[index]?.quantityTo}
-                        </span>
-                      </div>
+                      <span className={styles.error}>
+                        {formik?.touched.productPricingDetails?.[index]?.quantityFrom &&
+                          formik?.errors.productPricingDetails?.[index]?.quantityFrom}
+                      </span>
                     </div>
-                   
-
-                          {/* <div className={styles?.weightContainer}>
-                            <div className={styles?.weightSection}>
-                              <div className={styles?.tooltipContainer}>
-                                
-
-                                <input
-                                  className={styles?.formInput}
-                                  type="text"
-                                  placeholder="Quantity From"
-                                  autoComplete="off"
-                                  name={`productPricingDetails.${index}.quantityFrom`}
-                                  value={
-                                    formik?.values?.productPricingDetails[index]?.quantityFrom
-                                  }
-                                  onChange={(e) =>
-                                    formik?.setFieldValue(
-                                      `productPricingDetails.${index}.quantityFrom`,
-                                      e.target.value.replace(/\D/g, "") // Allow only numbers
-                                    )
-                                  }
-                                  onBlur={formik?.handleBlur}
-                                />
-                              </div>
-                              <span className={styles?.error}>
-                                {formik?.touched?.productPricingDetails?.[index]
-                                  ?.quantityFrom &&
-                                  formik?.errors?.productPricingDetails?.[index]
-                                    ?.quantityFrom}
-                              </span>
-                              
-                              <div className={styles?.tooltipContainer}>
-                                <Select
-                                  className={styles?.formSelect}
-                                  options={quantityOptions}
-                                  value={
-                                    quantityOptions.find(
-                                      (option) =>
-                                        option.label === stock?.quantity
-                                    ) || null
-                                  }
-                                  placeholder="Select Quantity"
-                                  onChange={(selectedOption) => {
-                                    formik?.setFieldValue(
-                                      `productPricingDetails.${index}.quantity`,
-                                      selectedOption?.value
-                                    );
-                                  }}
-                                />
-
-                                <input
-                                  className={styles?.formInput}
-                                  type="text"
-                                  placeholder="Quantity From"
-                                  autoComplete="off"
-                                  name={`productPricingDetails.${index}.quantityFrom`}
-                                  value={
-                                    formik?.values?.productPricingDetails[index]?.quantityFrom
-                                  }
-                                  onChange={(e) =>
-                                    formik?.setFieldValue(
-                                      `productPricingDetails.${index}.quantityFrom`,
-                                      e.target.value.replace(/\D/g, "") // Allow only numbers
-                                    )
-                                  }
-                                  onBlur={formik?.handleBlur}
-                                />
-                              </div>
-                              <span className={styles?.error}>
-                                {formik?.touched?.productPricingDetails?.[index]
-                                  ?.quantityFrom &&
-                                  formik?.errors?.productPricingDetails?.[index]
-                                    ?.quantityFrom}
-                              </span>
-                            </div>
-                          </div> */}
-
-                          {/* <span className={styles?.error}>
-                            {formik?.touched?.productPricingDetails?.[index]
-                              ?.quantity &&
-                              formik?.errors?.productPricingDetails?.[index]
-                                ?.quantity}
-                          </span> */}
-                          {/* <span className={styles?.error}>
-                            {formik?.touched?.productPricingDetails?.[index]
-                              ?.quantityTo &&
-                              formik?.errors?.productPricingDetails?.[index]
-                                ?.quantityTo}
-                          </span> */}
-                        </div>
+                    <div className={styles.productContainer3}>
+                      <label className={styles.formLabel}>
+                        Quantity To
+                        <span className={styles.labelStamp}>*</span>
+                      </label>
+                      <div className={styles.tooltipContainer}>
+                        <Field
+                          name={`productPricingDetails.${index}.quantityTo`}
+                          type="text"
+                          placeholder="Enter Quantity To"
+                          className={styles.formInput}
+                          onBlur={formik?.handleBlur}
+                          onChange={(e) =>
+                            formik?.setFieldValue(
+                              `productPricingDetails.${index}.quantityTo`,
+                              e.target.value.replace(/\D/g, "") // Allow only numbers
+                            )
+                          }
+                        />
+                      </div>
+                      <span className={styles.error}>
+                        {formik?.touched.productPricingDetails?.[index]?.quantityTo &&
+                          formik?.errors.productPricingDetails?.[index]?.quantityTo}
+                      </span>
+                    </div>
+                  </div>
 
                         <div className={styles?.productContainer}>
                           <label className={styles?.formLabel}>
@@ -2048,7 +1914,7 @@ const EditAddProduct = ({ placeholder }) => {
                         <div className={styles?.productContainer}>
                           <label className={styles?.formLabel}>
                             Est. Shipping Time
-                            {/* <span className={styles?.labelStamp}>*</span> */}
+                            <span className={styles?.labelStamp}>*</span>
                           </label>
                           <Field
                             name={`productPricingDetails.${index}.deliveryTime`}

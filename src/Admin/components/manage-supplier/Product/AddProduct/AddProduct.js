@@ -10,7 +10,7 @@ import "react-calendar/dist/Calendar.css";
 import { Chips } from "primereact/chips";
 import "./addproduct.css";
 import styles from "./addproduct.module.css";
-import categoryArrays from "../../../../../utils/Category";
+import categoryArrays, {categoriesData} from "../../../../../utils/Category";
 import { Field, Form, Formik } from "formik";
 import "../../../../assets/style/react-input-phone.css";
 import { useDispatch } from "react-redux";
@@ -48,6 +48,7 @@ import {
 } from "./DropDowns";
 import FileUploadModal from "../FileUpload/FileUpload";
 import { AddProductFileUpload } from "../../../../../utils/helper.js";
+import AddProductAddOtherDetailsFileUpload from "../../../../../Supplier/components/Products/AddProduct/AddProductAddOtherDetailsFileUpload.js";
 
 const MultiSelectOption = ({ children, ...props }) => (
   <components.Option {...props}>
@@ -102,20 +103,20 @@ const AddProduct = ({ placeholder }) => {
   const [pediatricianRecommended, setPediatricianRecommended] = useState(null);
   const [open, setOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
-
+ 
   const handleSelectFile = (file) => {
     setSelectedFile(file);
   };
-
+ 
   // Start the checked container
-
+ 
   const handleCheckboxChange = (id, vallue) => {
     setChecked((prev) => ({
       ...prev,
       [id]: vallue,
     }));
   };
-
+ 
   const handleInputChange = (
     e,
     setFieldValue,
@@ -125,36 +126,36 @@ const AddProduct = ({ placeholder }) => {
     allowedSpecialChars = ""
   ) => {
     let { value, name } = e.target;
-
+ 
     // Apply character limit
     value = value.slice(0, Number(textLimit));
-
+ 
     // Dimension field validation
     if (name === "dimension") {
       // Allow only numbers, "x", and "."
       value = value.replace(/[^0-9x.]/g, "")?.toLowerCase();
-
+ 
       // Prevent multiple consecutive "x"
       value = value.replace(/x{2,}/g, "x");
-
+ 
       // Split the values by "x" while keeping their sequence
       const parts = value?.split("x").map((part, index) => {
         // Allow up to 5 digits before decimal and 2 after
         part = part.replace(/^(\d{1,5})\.(\d{0,2}).*/, "$1.$2");
-
+ 
         // Ensure only one decimal per number
         part = part.replace(/(\..*)\./g, "$1");
-
+ 
         return part;
       });
-
+ 
       // Join back using "x" but ensure it doesn't remove already typed "x"
       value = parts.join("x");
-
+ 
       setFieldValue(name, value);
       return;
     }
-
+ 
     // Restrict input type
     if (allowedType === "number") {
       value = value.replace(/[^0-9]/g, ""); // Allow only numbers
@@ -173,14 +174,14 @@ const AddProduct = ({ placeholder }) => {
     } else if (allowedType === "decimal") {
       if (!/^\d*\.?\d*$/.test(value)) return;
     }
-
+ 
     setFieldValue(name, value);
   };
-
+ 
   // End the checked container
   const editor = useRef(null);
   const [content, setContent] = useState("");
-
+ 
   // const config = useMemo(
   //   () => ({
   //     readonly: false,
@@ -188,7 +189,7 @@ const AddProduct = ({ placeholder }) => {
   //   }),
   //   [placeholder]
   // );
-
+ 
   useEffect(() => {
     const countryOptions = countryList().getData();
     setCountries(countryOptions);
@@ -199,16 +200,16 @@ const AddProduct = ({ placeholder }) => {
       label: cat.name,
     };
   });
-
+ 
   const getCategorySchema = (category) => {
     if (!category) return null;
     return (
       categoryArrays.find((cat) => cat.name === category.label)?.schema || null
     );
   };
-
+ 
   const selectedSchema = getCategorySchema(selectedCategory);
-
+ 
   const getSubCategories = (categoryName) => {
     return (
       categoryArrays
@@ -219,7 +220,7 @@ const AddProduct = ({ placeholder }) => {
         })) || []
     );
   };
-
+ 
   const getLevel3Categories = (subCategoryName) => {
     const category = categoryArrays.find(
       (cat) => cat.name === selectedCategory?.label
@@ -238,7 +239,7 @@ const AddProduct = ({ placeholder }) => {
       const bulkFormData = new FormData();
       bulkFormData.append("supplier_id", supplierId);
       bulkFormData.append("csvfile", selectedFile);
-
+ 
       dispatch(previewBulkProducts(bulkFormData)).then((response) => {
         if (response?.meta.requestStatus === "fulfilled") {
           navigate(`/admin/supplier/${supplierId}/preview-file`);
@@ -246,10 +247,11 @@ const AddProduct = ({ placeholder }) => {
       });
     }
   };
-
+ 
   const handleCancel = () => {
     navigate(`/admin/supplier/${supplierId}/products/new`);
   };
+ 
   // Handlers for Stocked in Details
   const addStockedInSection = (setFieldValue, values) => {
     setFieldValue("stockedInDetails", [
@@ -257,24 +259,97 @@ const AddProduct = ({ placeholder }) => {
       { country: "", quantity: "", type: "Box" },
     ]);
   };
-
+ 
   const handleStockedInCountryChange = (index, selected, setFieldValue) => {
     setFieldValue(`stockedInDetails[${index}].country`, selected?.label || "");
   };
-
+ 
   const handleStockedInputChange = (index, e, setFieldValue) => {
     const value = e.target.value.replace(/\D/g, "").slice(0, 6);
     setFieldValue(`stockedInDetails[${index}].quantity`, value);
   };
-
+ 
   const handlePackageSelection = (index, type, setFieldValue) => {
     setFieldValue(`stockedInDetails[${index}].type`, type);
   };
-
+ 
   const removeStockedInFormSection = (index, setFieldValue, values) => {
     const updatedList = values.stockedInDetails.filter((_, i) => i !== index);
     setFieldValue("stockedInDetails", updatedList);
   };
+ 
+  // Handlers for Add Other Details
+  const addcategoryDetailsSection = (setFieldValue, values) => {
+    setFieldValue("categoryDetails", [
+      ...values.categoryDetails,
+      {
+        name: undefined,
+        label: undefined,
+        placeholder: undefined,
+        type: undefined,
+        maxLimit: undefined,
+        allowedType: undefined,
+        fieldValue: undefined,
+      },
+    ]);
+  };
+ 
+  const handlecategoryDetailsNameChange = (index, selected, setFieldValue) => {
+    setFieldValue(`categoryDetails[${index}].name`, selected?.value || "");
+    setFieldValue(`categoryDetails[${index}].label`, selected?.label || "");
+    setFieldValue(
+      `categoryDetails[${index}].placeholder`,
+      selected?.placeholder || ""
+    );
+    setFieldValue(`categoryDetails[${index}].type`, selected?.type || "");
+    setFieldValue(
+      `categoryDetails[${index}].maxLimit`,
+      selected?.maxLimit || ""
+    );
+    setFieldValue(
+      `categoryDetails[${index}].allowedType`,
+      selected?.allowedType || ""
+    );
+    setFieldValue(
+      `categoryDetails[${index}].fieldValue`,
+      selected?.fieldValue || ""
+    );
+    setFieldValue(
+      `categoryDetails[${index}].optionsDD`,
+      selected?.optionsDD || []
+    );
+  };
+ 
+  const handlecategoryDetailsFieldValueChange = (index, e, setFieldValue) => {
+    const value = e.target.value;
+    setFieldValue(`categoryDetails[${index}].fieldValue`, value);
+  };
+ 
+  const removecategoryDetailsFormSection = (index, setFieldValue, values) => {
+    const updatedList = values.categoryDetails.filter((_, i) => i !== index);
+    setFieldValue("categoryDetails", updatedList);
+  };
+ 
+  // Handlers for FAQs
+  const addFAQs = (setFieldValue, values) => {
+    setFieldValue("faqs", [...values.faqs, { ques: "", ans: "", type: "Box" }]);
+  };
+ 
+  const handleFaqsQuesChange = (index, e, setFieldValue) => {
+    const value = e.target.value;
+    setFieldValue(`faqs[${index}].ques`, value || "");
+  };
+ 
+  const handleFaqsAnsChange = (index, e, setFieldValue) => {
+    const value = e.target.value;
+    setFieldValue(`faqs[${index}].ans`, value || "");
+  };
+ 
+  const removeFaqFormSection = (index, setFieldValue, values) => {
+    const updatedList = values.faqs.filter((_, i) => i !== index);
+    setFieldValue("faqs", updatedList);
+  };
+ 
   return (
     <div className={styles.container}>
       <div className={styles.headContainer}>
@@ -283,7 +358,7 @@ const AddProduct = ({ placeholder }) => {
           Bulk Upload
         </button>
       </div>
-
+ 
       <Formik
         initialValues={initialValues}
         validationSchema={productValidationSchema}
@@ -292,12 +367,14 @@ const AddProduct = ({ placeholder }) => {
           setLoading(true);
           // Create a new FormData object
           const formData = new FormData();
-
+ 
           // Append fields as usual
           Object.keys(values).forEach((key) => {
             const value = values[key];
             if (
               key != "productPricingDetails" ||
+              key != "categoryDetails" ||
+              key != "faqs" ||
               key != "stockedInDetails" ||
               key != "cNCFileNDate"
             ) {
@@ -317,7 +394,7 @@ const AddProduct = ({ placeholder }) => {
             }
           });
           formData.append("supplier_id", supplierId);
-
+ 
           const stockedInDetailsUpdated = JSON.stringify(
             values?.stockedInDetails?.map((section) => ({
               country: section?.country || "",
@@ -325,7 +402,7 @@ const AddProduct = ({ placeholder }) => {
               type: section?.type || "",
             }))
           );
-
+ 
           const productPricingDetailsUpdated = JSON.stringify(
             values?.productPricingDetails?.map((section) => ({
               price: section?.price || "",
@@ -336,7 +413,7 @@ const AddProduct = ({ placeholder }) => {
               deliveryTime: section?.deliveryTime || "",
             }))
           );
-
+ 
           const cNCFileNDateUpdated = JSON.stringify(
             values?.cNCFileNDate?.map((section) => ({
               date: section?.date || "",
@@ -357,7 +434,7 @@ const AddProduct = ({ placeholder }) => {
               file: "",
             },
           ];
-
+ 
           formData.append("stockedInDetails", stockedInDetailsUpdated);
           formData.append(
             "productPricingDetails",
@@ -372,9 +449,69 @@ const AddProduct = ({ placeholder }) => {
               formData.append("complianceFile", file?.file)
             );
           }
+ 
+          const categoryDetailsUpdated = JSON.stringify(
+            values?.categoryDetails?.map((section) => ({
+              name: section?.name || "",
+              type: section?.type || "",
+              fieldValue:
+                section?.type == "file"
+                  ? section?.fieldValue?.[0]
+                  : section?.fieldValue || "",
+            })) || [
+              {
+                name: "",
+                type: "",
+                fieldValue: "",
+              },
+            ]
+          );
+          const categoryDetailsUpdated2 = values?.categoryDetails?.map(
+            (section) => ({
+              name: section?.name || "",
+              type: section?.type || "",
+              fieldValue:
+                section?.type == "file"
+                  ? section?.fieldValue?.[0]
+                  : section?.fieldValue || "",
+            })
+          ) || [
+            {
+              name: "",
+              type: "",
+              fieldValue: "",
+            },
+          ];
+ 
+          if (
+            JSON.stringify(values?.categoryDetailsFile) !=
+            JSON.stringify(
+              categoryDetailsUpdated2?.map((file) => file?.fieldValue)
+            )
+          ) {
+            // fisetFieldValue("categoryDetailsFile", []);
+            categoryDetailsUpdated2?.forEach((file) =>
+              formData.append("categoryDetailsFile", file?.fieldValue)
+            );
+          }
+ 
+          const faqsUpdated = JSON.stringify(
+            values?.faqs?.map((section) => ({
+              ques: section?.ques || "",
+              ans: section?.ans || "",
+            })) || []
+          );
           formData.append("cNCFileNDate", cNCFileNDateUpdated);
-          formData.append("tags", values?.tags?.split(","));
-
+          categoryDetailsUpdated?.length > 0 &&
+            formData.append("categoryDetails", categoryDetailsUpdated);
+          values?.faqs?.length > 0 && formData.append("faqs", faqsUpdated);
+          formData.append(
+            "tags",
+            values?.tags?.includes(",")
+              ? values?.tags?.split(",")
+              : values?.tags
+          );
+ 
           dispatch(addProduct(formData)).then((response) => {
             if (response?.meta.requestStatus === "fulfilled") {
               navigate(`/admin/supplier/${supplierId}/products/new`);
@@ -382,6 +519,7 @@ const AddProduct = ({ placeholder }) => {
             }
             setLoading(false);
           });
+          setLoading(false);
         }}
       >
         {({
@@ -426,7 +564,7 @@ const AddProduct = ({ placeholder }) => {
                     <span className={styles.error}>{errors.name}</span>
                   )}
                 </div>
-
+ 
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Product Market<span className={styles.labelStamp}>*</span>
@@ -459,11 +597,17 @@ const AddProduct = ({ placeholder }) => {
                     onChange={(selectedOption) => {
                       setFieldValue("category", selectedOption?.value);
                       setSelectedCategory(selectedOption);
-
-                      setSelectedSubCategory(null);
+ 
+                      // Clear all related fields
                       setFieldValue("subCategory", "");
-                      setSelectedLevel3Category(null);
+                      setSelectedSubCategory(null);
+ 
                       setFieldValue("anotherCategory", "");
+                      setSelectedLevel3Category(null);
+ 
+                      setFieldValue("categoryDetails", [
+                        { name: "", fieldValue: "", type: "" },
+                      ]);
                     }}
                     placeholder="Select Category"
                   />
@@ -471,7 +615,7 @@ const AddProduct = ({ placeholder }) => {
                     <span className={styles.error}>{errors.category}</span>
                   )}
                 </div>
-
+ 
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Product Sub Category
@@ -498,10 +642,11 @@ const AddProduct = ({ placeholder }) => {
                     <span className={styles.error}>{errors.subCategory}</span>
                   )}
                 </div>
-
+ 
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Product Sub Category (Level 3)
+                    <span className={styles.labelStamp2}>*</span>
                   </label>
                   <Select
                     className={styles.formSelect}
@@ -526,7 +671,7 @@ const AddProduct = ({ placeholder }) => {
                       <label className={styles.formLabel}>
                         Purchased On<span className={styles.labelStamp}>*</span>
                       </label>
-
+ 
                       <DatePicker
                         className={styles.formDate}
                         clearIcon={null}
@@ -549,7 +694,7 @@ const AddProduct = ({ placeholder }) => {
                         </span>
                       )}
                     </div>
-
+ 
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Condition<span className={styles.labelStamp}>*</span>
@@ -567,13 +712,13 @@ const AddProduct = ({ placeholder }) => {
                         <span className={styles.error}>{errors.condition}</span>
                       )}
                     </div>
-
+ 
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Country Available In
                         <span className={styles.labelStamp}>*</span>
                       </label>
-
+ 
                       <MultiSelectDropdown
                         options={countries}
                         placeholderButtonLabel="Select Countries"
@@ -587,43 +732,43 @@ const AddProduct = ({ placeholder }) => {
                         }}
                         onBlur={handleBlur} // Optional: add this if the component has a blur event
                       />
-
+ 
                       {touched.countryAvailable && errors.countryAvailable && (
                         <span className={styles.error}>
                           {errors.countryAvailable}
                         </span>
                       )}
                     </div>
-
-                   
                   </>
                 )}
-                 <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Minimum Order Quantity
-                        <span className={styles.labelStamp}>*</span>
-                      </label>
-                      <input
-                        className={styles.formInput}
-                        type="text"
-                        placeholder="Enter Minimum Order Quantity"
-                        // autoComplete="off"
-                        name="minimumPurchaseUnit"
-                        value={values.minimumPurchaseUnit}
-                        onChange={(e) =>
-                          handleInputChange(e, setFieldValue, 4, "number")
-                        }
-                        onBlur={handleBlur}
-                      />
-                      {touched.minimumPurchaseUnit &&
-                        errors.minimumPurchaseUnit && (
-                          <span className={styles.error}>
-                            {errors.minimumPurchaseUnit}
-                          </span>
-                        )}
-                  </div>
                 <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>Strength</label>
+                  <label className={styles.formLabel}>
+                    Minimum Order Quantity
+                    <span className={styles.labelStamp}>*</span>
+                  </label>
+                  <input
+                    className={styles.formInput}
+                    type="text"
+                    placeholder="Enter Minimum Order Quantity"
+                    // autoComplete="off"
+                    name="minimumPurchaseUnit"
+                    value={values.minimumPurchaseUnit}
+                    onChange={(e) =>
+                      handleInputChange(e, setFieldValue, 4, "number")
+                    }
+                    onBlur={handleBlur}
+                  />
+                  {touched.minimumPurchaseUnit &&
+                    errors.minimumPurchaseUnit && (
+                      <span className={styles.error}>
+                        {errors.minimumPurchaseUnit}
+                      </span>
+                    )}
+                </div>
+                <div className={styles.productContainer}>
+                  <label className={styles.formLabel}>
+                    Strength<span className={styles.labelStamp2}>*</span>
+                  </label>
                   <div className={styles.weightContainer}>
                     <div className={styles.weightSection}>
                       <div className={styles.tooltipContainer}>
@@ -656,6 +801,7 @@ const AddProduct = ({ placeholder }) => {
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     UPC (Universal Product Code)
+                    <span className={styles.labelStamp2}>*</span>
                   </label>
                   <input
                     className={styles.formInput}
@@ -678,7 +824,7 @@ const AddProduct = ({ placeholder }) => {
                   />
                   <span className={styles.error}></span>
                 </div>
-
+ 
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Part/Model Number
@@ -701,7 +847,9 @@ const AddProduct = ({ placeholder }) => {
                   )}
                 </div>
                 <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>Brand Name</label>
+                  <label className={styles.formLabel}>
+                    Brand Name<span className={styles.labelStamp2}>*</span>
+                  </label>
                   <input
                     className={styles.formInput}
                     type="text"
@@ -719,6 +867,7 @@ const AddProduct = ({ placeholder }) => {
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Product Type/Form
+                    <span className={styles.labelStamp2}>*</span>
                     {/* <span className={styles.labelStamp}>*</span> */}
                   </label>
                   <div className={styles.tooltipContainer}>
@@ -746,7 +895,7 @@ const AddProduct = ({ placeholder }) => {
                     <span className={styles.error}>{errors.form}</span>
                   )} */}
                 </div>
-
+ 
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Product Tax%
@@ -774,7 +923,10 @@ const AddProduct = ({ placeholder }) => {
                   )}
                 </div>
                 <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>Storage Conditions</label>
+                  <label className={styles.formLabel}>
+                    Storage Conditions
+                    <span className={styles.labelStamp2}>*</span>
+                  </label>
                   <div className={styles.tooltipContainer}>
                     <input
                       className={styles.formInput}
@@ -790,42 +942,6 @@ const AddProduct = ({ placeholder }) => {
                     <Tooltip content="Recommended storage (e.g., store in a cool, dry place)"></Tooltip>
                   </div>
                 </div>
-                {/* <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>
-                    Stocked in Countries
-                    
-                  </label>
-                  <MultiSelectDropdown
-                    options={countries}
-                    placeholderButtonLabel="Select Countries"
-                    name="countries"
-                    onChange={(selectedOptions) => {
-                      // Ensure we map selected options correctly
-                      const selectedValues = selectedOptions
-                        ? selectedOptions.map((option) => option.label)
-                        : [];
-                      // setInventoryStockedCountries(
-                      //   selectedValues?.map((option) => ({
-                      //     label: option,
-                      //     value: option,
-                      //   })) || []
-                      // );
-                      setFieldValue("countries", selectedValues); // Update Formik value with the selected country values
-                      // if (selectedValues?.length == 0) {
-                      //   setStockedInDetails([
-                      //     {
-                      //       country: "",
-                      //       quantity: "",
-                      //       placeholder: "Enter Quantity",
-                      //     },
-                      //   ]);
-                      // }
-                    }}
-                  />
-                  {touched.countries && errors.countries && (
-                    <span className={styles.error}>{errors.countries}</span>
-                  )}
-                </div> */}
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Tags
@@ -837,10 +953,12 @@ const AddProduct = ({ placeholder }) => {
                     placeholder="Enter Tags"
                     // autoComplete="off"
                     name="tags"
+                    value={values.tags}
                     onChange={(e) =>
                       handleInputChange(e, setFieldValue, 75, "all")
                     }
                     onBlur={handleBlur}
+                    // error={errors.tags}
                   />
                   {touched.tags && errors.tags && (
                     <span className={styles.error}>{errors.tags}</span>
@@ -859,16 +977,14 @@ const AddProduct = ({ placeholder }) => {
                     placeholder="Enter Description"
                     value={values.description}
                     onChange={handleChange}
-                    onBlur={() =>
-                      handleBlur({ target: { name: "description" } })
-                    }
+                    onBlur={() => handleBlur}
                     error={errors.description}
                   />
                   {touched.description && errors.description && (
                     <span className={styles.error}>{errors.description}</span>
                   )}
                 </div>
-
+ 
                 {/* <RichTextEditor
                   label="Product Description"
                   name="description"
@@ -881,10 +997,10 @@ const AddProduct = ({ placeholder }) => {
                 /> */}
               </div>
             </div>
-
-             {/* Start the manufacturer */}
-
-             <div className={styles.section}>
+ 
+            {/* Start the manufacturer */}
+ 
+            <div className={styles.section}>
               <span className={styles.formHead}>Manufacturer Details</span>
               <div className={styles.formSection}>
                 <div className={styles.productContainer}>
@@ -910,7 +1026,7 @@ const AddProduct = ({ placeholder }) => {
                     <span className={styles.error}>{errors.manufacturer}</span>
                   )}
                 </div>
-
+ 
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Manufacturer Country of Origin
@@ -932,7 +1048,7 @@ const AddProduct = ({ placeholder }) => {
                     </span>
                   )}
                 </div>
-
+ 
                 <div className={styles.productTextContainer}>
                   <label className={styles.formLabel}>
                     About Manufacturer
@@ -958,9 +1074,281 @@ const AddProduct = ({ placeholder }) => {
                 </div>
               </div>
             </div>
-
+ 
             {/* End the manufacturer */}
-
+ 
+            {/* Start the Add Other Details */}
+            <div className={styles.section}>
+              {/* {inventoryStockedCountries?.length > 0 ? ( */}
+              <div className={styles.Stocksection}>
+                <div className={styles.formHeadSection}>
+                  <span className={styles.formHead}>
+                    {/* Add Other Details of{" "}
+                    {
+                      categoriesData?.find(
+                        (cat) => cat?.schema === values?.category
+                      )?.name
+                    } */}
+                    Add Other Details{" "}
+                    {categoriesData?.find(
+                      (cat) => cat?.schema === values?.category
+                    )?.name
+                      ? `of ${
+                          categoriesData.find(
+                            (cat) => cat?.schema === values?.category
+                          )?.name
+                        }`
+                      : ""}
+                  </span>
+                  {values?.category && (
+                    <span
+                      className={styles.formAddButton}
+                      onClick={() =>
+                        addcategoryDetailsSection(setFieldValue, values)
+                      }
+                    >
+                      Add More
+                    </span>
+                  )}
+                </div>
+                {values?.category ? (
+                  values?.categoryDetails?.map((section, index) => {
+                    // Get category options
+                    const categoryOptions =
+                      categoriesData
+                        ?.find((cat) => cat?.schema === values?.category)
+                        ?.options?.map((option) => ({
+                          ...option,
+                          label: option?.label,
+                          value: option?.name,
+                        })) || [];
+ 
+                    // Match the selected option by value (not label)
+                    const selectedOption = categoryOptions.find(
+                      (opt) => opt.value === section.name
+                    );
+                    return (
+                      <>
+                        <div
+                          key={`stocked_${index}`}
+                          className={styles.stockedContainer2}
+                        >
+                          <div className={styles.stockedSection}>
+                            <div className={styles.StockedDiv}>
+                              <label className={styles.formLabel}>
+                                Parameter Name
+                                <span className={styles.labelStamp}>*</span>
+                              </label>
+                              <Select
+                                className={styles.formSelect}
+                                value={selectedOption || null}
+                                onChange={(selected) =>
+                                  handlecategoryDetailsNameChange(
+                                    index,
+                                    selected,
+                                    setFieldValue
+                                  )
+                                }
+                                options={
+                                  categoriesData
+                                    ?.find(
+                                      (cat) => cat?.schema == values?.category
+                                    )
+                                    ?.options?.map((option) => ({
+                                      ...option,
+                                      label: option?.label,
+                                      value: option?.name,
+                                    })) || []
+                                }
+                                placeholder="Select Parameter Name"
+                                name={`categoryDetails.${index}.name`}
+                                onBlur={() =>
+                                  setFieldTouched(
+                                    `categoryDetails.${index}.name`,
+                                    true
+                                  )
+                                }
+                              />
+                              {touched.categoryDetails?.[index]?.name &&
+                                errors.categoryDetails?.[index]?.name && (
+                                  <span span className={styles.error}>
+                                    {errors.categoryDetails[index].name}
+                                  </span>
+                                )}
+                            </div>
+                            {section?.name ? (
+                              <div className={styles.StockedDivQuantity}>
+                                <label className={styles.formLabel}>
+                                  Parameter Description
+                                  <span className={styles.labelStamp}>*</span>
+                                </label>
+                                <div className={styles.quantitySelector}>
+                                  <div className={styles.inputGroup}>
+                                    {section?.type == "text" ? (
+                                      <input
+                                        type="text"
+                                        name={`categoryDetails.${index}.fieldValue`}
+                                        onChange={(e) =>
+                                          handlecategoryDetailsFieldValueChange(
+                                            index,
+                                            e,
+                                            setFieldValue
+                                          )
+                                        }
+                                        value={section.fieldValue}
+                                        placeholder={section?.placeholder}
+                                        className={styles.inputStocked}
+                                        onBlur={() =>
+                                          setFieldTouched(
+                                            `categoryDetails.${index}.fieldValue`,
+                                            true
+                                          )
+                                        }
+                                      />
+                                    ) : section?.type == "textarea" ? (
+                                      <textarea
+                                        className={styles.inputStocked}
+                                        type="text"
+                                        placeholder={section?.placeholder}
+                                        // autoComplete="off"
+                                        name={`categoryDetails.${index}.fieldValue`}
+                                        value={section?.fieldValue}
+                                        onChange={(e) =>
+                                          handlecategoryDetailsFieldValueChange(
+                                            index,
+                                            e,
+                                            setFieldValue
+                                          )
+                                        }
+                                        onBlur={() =>
+                                          setFieldTouched(
+                                            `categoryDetails.${index}.fieldValue`,
+                                            true
+                                          )
+                                        }
+                                      />
+                                    ) : section?.type == "dropdown" ? (
+                                      <Select
+                                        className={styles.formSelect}
+                                        options={section?.optionsDD}
+                                        placeholder={section?.placeholder}
+                                        name={`categoryDetails.${index}.fieldValue`}
+                                        onBlur={handleBlur}
+                                        onChange={(selectedOption) =>
+                                          setFieldValue(
+                                            `categoryDetails.${index}.fieldValue`,
+                                            selectedOption.value
+                                          )
+                                        }
+                                      />
+                                    ) : section?.type == "checkbox" ? (
+                                      <div className={styles.radioGroup2}>
+                                        {["true", "false"].map((option) => (
+                                          <label key={option}>
+                                            <input
+                                              type="radio"
+                                              name={`categoryDetails.${index}.fieldValue`}
+                                              value={option} // <-- This must be the option value, not section.fieldValue
+                                              checked={
+                                                section.fieldValue === option
+                                              } // checked if value matches
+                                              onChange={(e) =>
+                                                setFieldValue(
+                                                  `categoryDetails.${index}.fieldValue`,
+                                                  e.target.value
+                                                )
+                                              }
+                                            />
+                                            <span>
+                                              {option === "true" ? "Yes" : "No"}
+                                            </span>
+                                          </label>
+                                        ))}
+                                      </div>
+                                    ) : (
+                                      section?.type == "file" && (
+                                        <Field
+                                          name={`categoryDetails.${index}.fieldValue`}
+                                        >
+                                          {({ field }) => (
+                                            <AddProductAddOtherDetailsFileUpload
+                                              fieldInputName={`categoryDetails.${index}.fieldValue`}
+                                              setFieldValue={setFieldValue}
+                                              initialValues={values}
+                                              selectedFile={section?.fieldValue}
+                                              preview={true}
+                                              fileIndex={index}
+                                              isEdit={false}
+                                            />
+                                          )}
+                                        </Field>
+                                      )
+                                    )}
+                                  </div>
+                                </div>
+                                {
+                                  <span span className={styles.error}>
+                                    {touched.categoryDetails &&
+                                      errors?.categoryDetails?.[index]
+                                        ?.fieldValue}
+                                  </span>
+                                  // )
+                                }
+                              </div>
+                            ) : (
+                              <div className={styles.StockedDivQuantity}>
+                                <label className={styles.formLabel}>
+                                  Parameter Description
+                                  <span className={styles.labelStamp}>*</span>
+                                </label>
+                                <div className={styles.quantitySelector}>
+                                  <div className={styles.inputGroup}>
+                                    <input
+                                      type="text"
+                                      value={section.fieldValue}
+                                      placeholder={
+                                        "Please select parameter name first"
+                                      }
+                                      disabled={true}
+                                      className={styles.inputStocked}
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                          <div
+                            className={styles.formclosebutton}
+                            onClick={() =>
+                              removecategoryDetailsFormSection(
+                                index,
+                                setFieldValue,
+                                values
+                              )
+                            }
+                          >
+                            <CloseIcon className={styles.iconClose} />
+                          </div>
+                        </div>
+                        {values?.categoryDetails?.length > 1 &&
+                          index != values?.categoryDetails?.length - 1 && (
+                            <div className={styles.stockedContainer3}></div>
+                          )}
+                      </>
+                    );
+                  })
+                ) : (
+                  <div className={styles.stockedContainer}>
+                    <label className={styles.formLabel}>
+                      Please select category first to add other details of the
+                      product.
+                    </label>
+                  </div>
+                )}
+              </div>
+            </div>
+            {/* End the Add Other Details */}
+ 
             {/* Start the Inventory */}
             <div className={styles.section}>
               {/* <span className={styles.formHead}>Inventory</span>
@@ -1020,7 +1408,7 @@ const AddProduct = ({ placeholder }) => {
                     <span className={styles.error}>{errors.sku}</span>
                   )}
                 </div>
-
+ 
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Stock<span className={styles.labelStamp}>*</span>
@@ -1042,9 +1430,9 @@ const AddProduct = ({ placeholder }) => {
                     <span className={styles.error}>{errors.stock}</span>
                   )}
                 </div>
-
+ 
               </div> */}
-
+ 
               {/* {inventoryStockedCountries?.length > 0 ? ( */}
               <div className={styles.Stocksection}>
                 <div className={styles.formHeadSection}>
@@ -1161,7 +1549,8 @@ const AddProduct = ({ placeholder }) => {
                           // touched.stockedInDetails?.[index]?.quantity &&
                           //   errors.stockedInDetails?.[index]?.quantity && (
                           <span span className={styles.error}>
-                            {touched.stockedInDetails && errors?.stockedInDetails?.[index]?.quantity}
+                            {touched.stockedInDetails &&
+                              errors?.stockedInDetails?.[index]?.quantity}
                           </span>
                           // )
                         }
@@ -1185,9 +1574,9 @@ const AddProduct = ({ placeholder }) => {
                 ))}
               </div>
             </div>
-
+ 
             {/* End the Inventory */}
-
+ 
             {/* Start the Product Pricing */}
             <div className={styles.section}>
               <div className={styles.formHeadSection}>
@@ -1199,8 +1588,7 @@ const AddProduct = ({ placeholder }) => {
                       ...values.productPricingDetails,
                       {
                         quantity: "",
-                        quantityFrom: "",
-                        quantityTo: "",
+                        // quantityTo: "",
                         price: "",
                         totalPrice: "",
                         deliveryTime: "",
@@ -1213,127 +1601,58 @@ const AddProduct = ({ placeholder }) => {
               </div>
               {values?.productPricingDetails?.map((stock, index) => (
                 <div key={`product_${index}`} className={styles.formSection}>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Quantity<span className={styles.labelStamp}>*</span>
-                    </label>
-
-                    {/* <div className={styles.weightContainer}>
-                      <div className={styles.weightSection}>
-                        <div className={styles.tooltipContainer}>
-                          <Select
-                            className={styles.formSelect}
-                            options={quantityOptions}
-                            placeholder="Select Quantity"
-                            onChange={(selectedOption) => {
-                              setFieldValue(
-                                `productPricingDetails.${index}.quantity`,
-                                selectedOption?.value
-                              );
-                            }}
-                          />
-
-                         
-                        </div>
-                        <span className={styles.error}>
-                          {touched.productPricingDetails?.[index]?.quantity &&
-                            errors.productPricingDetails?.[index]?.quantity}
-                        </span>
+                  <div className={styles.productContainer2}>
+                    <div className={styles.productContainer3}>
+                      <label className={styles.formLabel}>
+                        Quantity From
+                        <span className={styles.labelStamp}>*</span>
+                      </label>
+                      <div className={styles.tooltipContainer}>
+                        <Field
+                          name={`productPricingDetails.${index}.quantityFrom`}
+                          type="text"
+                          placeholder="Enter Quantity From"
+                          className={styles.formInput}
+                          onBlur={handleBlur}
+                          onChange={(e) =>
+                            setFieldValue(
+                              `productPricingDetails.${index}.quantityFrom`,
+                              e.target.value.replace(/\D/g, "") // Allow only numbers
+                            )
+                          }
+                        />
                       </div>
-                      
-                    </div> */}
-
-<div className={styles.weightContainer}>
-                      {/* <div className={styles.weightSection}>
-                        <div className={styles.tooltipContainer}>
-                          <Select
-                            className={styles.formSelect}
-                            options={quantityOptions}
-                            placeholder="Select Quantity"
-                            onChange={(selectedOption) => {
-                              setFieldValue(
-                                `productPricingDetails.${index}.quantity`,
-                                selectedOption?.value
-                              );
-                            }}
-                          />
- 
-                          <input
-                            className={styles.formInput}
-                            type="text"
-                            placeholder="Quantity From"
-                            autoComplete="off"
-                            name={`productPricingDetails.${index}.quantity`}
-                            value={
-                              values.productPricingDetails[index]?.quantity
-                            }
-                            onChange={(e) =>
-                              setFieldValue(
-                                `productPricingDetails.${index}.quantity`,
-                                e.target.value.replace(/\D/g, "") // Allow only numbers
-                              )
-                            }
-                            onBlur={handleBlur}
-                          />
-                        </div>
-                        <span className={styles.error}>
-                          {touched.productPricingDetails?.[index]?.quantity &&
-                            errors.productPricingDetails?.[index]?.quantity}
-                        </span>
-                      </div> */}
-                       <div className={styles.weightSection}>
-                        <div className={styles.tooltipContainer}>
-                          <input
-                            className={styles.formInput}
-                            type="text"
-                            placeholder="Quantity From"
-                            // autoComplete="off"
-                            name={`productPricingDetails.${index}.quantityFrom`}
-                            value={
-                              values.productPricingDetails[index]?.quantityFrom
-                            }
-                            onChange={(e) =>
-                              setFieldValue(
-                                `productPricingDetails.${index}.quantityFrom`,
-                                e.target.value.replace(/\D/g, "") // Allow only numbers
-                              )
-                            }
-                            onBlur={handleBlur}
-                          />
-                        </div>
-                        <span className={styles.error}>
-                          {touched.productPricingDetails?.[index]?.quantityFrom &&
-                            errors.productPricingDetails?.[index]?.quantityFrom}
-                        </span>
+                      <span className={styles.error}>
+                        {touched.productPricingDetails?.[index]?.quantityFrom &&
+                          errors.productPricingDetails?.[index]?.quantityFrom}
+                      </span>
+                    </div>
+                    <div className={styles.productContainer3}>
+                      <label className={styles.formLabel}>
+                        Quantity To
+                        <span className={styles.labelStamp}>*</span>
+                      </label>
+                      <div className={styles.tooltipContainer}>
+                        <Field
+                          name={`productPricingDetails.${index}.quantityTo`}
+                          type="text"
+                          placeholder="Enter Quantity To"
+                          className={styles.formInput}
+                          onBlur={handleBlur}
+                          onChange={(e) =>
+                            setFieldValue(
+                              `productPricingDetails.${index}.quantityTo`,
+                              e.target.value.replace(/\D/g, "") // Allow only numbers
+                            )
+                          }
+                        />
                       </div>
-                      <div className={styles.weightSection}>
-                        <div className={styles.tooltipContainer}>
-                          <input
-                            className={styles.formInput}
-                            type="text"
-                            placeholder="Quantity To"
-                            // autoComplete="off"
-                            name={`productPricingDetails.${index}.quantityTo`}
-                            value={
-                              values.productPricingDetails[index]?.quantityTo
-                            }
-                            onChange={(e) =>
-                              setFieldValue(
-                                `productPricingDetails.${index}.quantityTo`,
-                                e.target.value.replace(/\D/g, "") // Allow only numbers
-                              )
-                            }
-                            onBlur={handleBlur}
-                          />
-                        </div>
-                        <span className={styles.error}>
-                          {touched.productPricingDetails?.[index]?.quantityTo &&
-                            errors.productPricingDetails?.[index]?.quantityTo}
-                        </span>
-                      </div>
+                      <span className={styles.error}>
+                        {touched.productPricingDetails?.[index]?.quantityTo &&
+                          errors.productPricingDetails?.[index]?.quantityTo}
+                      </span>
                     </div>
                   </div>
-
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Unit Price
@@ -1348,15 +1667,15 @@ const AddProduct = ({ placeholder }) => {
                         onChange={handleChange}
                         // onInput={(e) => {
                         //   let value = e.target.value;
-
+ 
                         //   // Allow only numbers and one decimal point
                         //   value = value.replace(/[^0-9.]/g, "");
-
+ 
                         //   // Ensure only one decimal point exists
                         //   if (value?.split(".").length > 2) {
                         //     value = value.slice(0, -1);
                         //   }
-
+ 
                         //   // Limit numbers before decimal to 9 digits and after decimal to 3 digits
                         //   let parts = value?.split(".");
                         //   if (parts[0].length > 9) {
@@ -1365,7 +1684,7 @@ const AddProduct = ({ placeholder }) => {
                         //   if (parts[1]?.length > 3) {
                         //     parts[1] = parts[1].slice(0, 3);
                         //   }
-
+ 
                         //   e.target.value = parts.join(".");
                         //   setFieldValue(
                         //   `productPricingDetails.${index}.totalPrice`,
@@ -1380,8 +1699,8 @@ const AddProduct = ({ placeholder }) => {
                         errors.productPricingDetails?.[index]?.price}
                     </span>
                   </div>
-
-                  <div className={styles.productContainer}>
+ 
+                  {/* <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Total Price
                       <span className={styles.labelStamp}>*</span>
@@ -1395,15 +1714,15 @@ const AddProduct = ({ placeholder }) => {
                         onChange={handleChange}
                         // onInput={(e) => {
                         //   let value = e.target.value;
-
+ 
                         //   // Allow only numbers and one decimal point
                         //   value = value.replace(/[^0-9.]/g, "");
-
+ 
                         //   // Ensure only one decimal point exists
                         //   if (value?.split(".").length > 2) {
                         //     value = value.slice(0, -1);
                         //   }
-
+ 
                         //   // Limit numbers before decimal to 9 digits and after decimal to 3 digits
                         //   let parts = value?.split(".");
                         //   if (parts[0].length > 9) {
@@ -1412,7 +1731,7 @@ const AddProduct = ({ placeholder }) => {
                         //   if (parts[1]?.length > 3) {
                         //     parts[1] = parts[1].slice(0, 3);
                         //   }
-
+ 
                         //   e.target.value = parts.join(".");
                         //   setFieldValue(
                         //     `productPricingDetails.${index}.totalPrice`,
@@ -1426,8 +1745,8 @@ const AddProduct = ({ placeholder }) => {
                       {touched.productPricingDetails?.[index]?.totalPrice &&
                         errors.productPricingDetails?.[index]?.totalPrice}
                     </span>
-                  </div>
-
+                  </div> */}
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Est. Shipping Time
@@ -1455,7 +1774,7 @@ const AddProduct = ({ placeholder }) => {
                         errors.productPricingDetails?.[index]?.deliveryTime}
                     </span>
                   </div>
-
+ 
                   {values?.productPricingDetails?.length > 1 && (
                     <div
                       className={styles.formCloseSection}
@@ -1464,14 +1783,14 @@ const AddProduct = ({ placeholder }) => {
                           `productPricingDetails.${index}.quantity`,
                           ""
                         );
-                        // setFieldValue(
-                        //   `productPricingDetails.${index}.quantityFrom`,
-                        //   ""
-                        // );
-                        // setFieldValue(
-                        //   `productPricingDetails.${index}.quantityTo`,
-                        //   ""
-                        // );
+                        setFieldValue(
+                          `productPricingDetails.${index}.quantityFrom`,
+                          ""
+                        );
+                        setFieldValue(
+                          `productPricingDetails.${index}.quantityTo`,
+                          ""
+                        );
                         setFieldValue(
                           `productPricingDetails.${index}.price`,
                           ""
@@ -1484,7 +1803,7 @@ const AddProduct = ({ placeholder }) => {
                           `productPricingDetails.${index}.deliveryTime`,
                           ""
                         );
-
+ 
                         // Remove the row from the array
                         const updatedList = values.productPricingDetails.filter(
                           (_, elindex) => elindex !== index
@@ -1500,13 +1819,11 @@ const AddProduct = ({ placeholder }) => {
                 </div>
               ))}
             </div>
-
+ 
             {/* End the Product Pricing */}
-
+ 
             {/* Start the Compliances and certificate */}
-
-           
-
+ 
             {/* Start the Compliances and certificate 222222222 */}
             <div className={styles.section}>
               <div className={styles.formHeadSection}>
@@ -1529,7 +1846,7 @@ const AddProduct = ({ placeholder }) => {
                   Add More
                 </span>
               </div>
-
+ 
               {values?.cNCFileNDate?.map((ele, index) => (
                 <div
                   key={`certification_${index}`}
@@ -1562,13 +1879,16 @@ const AddProduct = ({ placeholder }) => {
                         errors.cNCFileNDate?.[index]?.file}
                     </span>
                   </div>
-
+ 
                   {/* Date of Expiry Section */}
                   <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Date of Expiry</label>
+                    <label className={styles.formLabel}>
+                      Date of Expiry
+                      <span className={styles.labelStamp2}>*</span>
+                    </label>
                     <div className={styles.tooltipContainer}>
                       {/* Date Mask Input */}
-
+ 
                       <DatePicker
                         className={styles.formDate}
                         clearIcon={null}
@@ -1599,7 +1919,7 @@ const AddProduct = ({ placeholder }) => {
                         errors.cNCFileNDate?.[index]?.date}
                     </span>
                   </div>
-
+ 
                   {/* Remove Section */}
                   {values?.cNCFileNDate?.length > 1 && (
                     <div
@@ -1609,7 +1929,7 @@ const AddProduct = ({ placeholder }) => {
                         setFieldValue(`cNCFileNDate.${index}.file`, {});
                         setFieldValue(`cNCFileNDate.${index}.date`, "");
                         setFieldValue(`cNCFileNDate.${index}.preview`, false);
-
+ 
                         // Remove the row from the array
                         const updatedList = values.cNCFileNDate.filter(
                           (_, elindex) => elindex !== index
@@ -1629,9 +1949,9 @@ const AddProduct = ({ placeholder }) => {
                 </div>
               ))}
             </div>
-
+ 
             {/* End the compliances and certificate 222222222 */}
-
+ 
             {/* Start the Product Documents */}
             <div className={styles.additionalSection}>
               <span className={styles.formHead}>Product Documents</span>
@@ -1676,16 +1996,16 @@ const AddProduct = ({ placeholder }) => {
                 </div>
               </div>
             </div>
-
+ 
             {/* End the Product Documents */}
-
+ 
             {/* Start the Additional Information */}
             <div className={styles.additionalSection}>
               <span className={styles.formHead}>Additional Information</span>
               <div className={styles.formSection}>
-              <div className={styles.productContainer}>
+                <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
-                    Warranty
+                    Warranty<span className={styles.labelStamp2}>*</span>
                   </label>
                   <input
                     className={styles.formInput}
@@ -1699,7 +2019,6 @@ const AddProduct = ({ placeholder }) => {
                     }
                     onBlur={handleBlur}
                   />
-                
                 </div>
                 <div className={styles.productContainer}>
                   <AddProductFileUpload
@@ -1721,7 +2040,10 @@ const AddProduct = ({ placeholder }) => {
                   />
                 </div>
                 <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>Other Information</label>
+                  <label className={styles.formLabel}>
+                    Other Information
+                    <span className={styles.labelStamp2}>*</span>
+                  </label>
                   <div className={styles.tooltipContainer}>
                     <textarea
                       className={styles.formTextarea}
@@ -1745,7 +2067,7 @@ const AddProduct = ({ placeholder }) => {
                 </div>
               </div>
             </div>
-
+ 
             {/* End the Additional Information */}
             <div className={styles.additionalSection}>
               <span className={styles.formHead}>Upload Product Image</span>
@@ -1836,7 +2158,104 @@ const AddProduct = ({ placeholder }) => {
                 )}
               </div>
             </div>
-
+ 
+            {/* Start the Add FAQs */}
+            <div className={styles.section}>
+              {/* {inventoryStockedCountries?.length > 0 ? ( */}
+              <div className={styles.Stocksection}>
+                <div className={styles.formHeadSection}>
+                  <span className={styles.formHead}>Add FAQs</span>
+                  <span
+                    className={styles.formAddButton}
+                    onClick={() => addFAQs(setFieldValue, values)}
+                  >
+                    Add More
+                  </span>
+                </div>
+                {values?.faqs?.map((section, index) => {
+                  return (
+                    <>
+                      <div
+                        key={`stocked_${index}`}
+                        className={styles.stockedContainer2}
+                      >
+                        <div className={styles.stockedSection2}>
+                          <div className={styles.StockedDiv2}>
+                            <label className={styles.formLabel}>
+                              Question
+                              <span className={styles.labelStamp}>*</span>
+                            </label>
+                            <input
+                              type="text"
+                              name={`faqs.${index}.ques`}
+                              onChange={(e) =>
+                                handleFaqsQuesChange(index, e, setFieldValue)
+                              }
+                              value={section.ques}
+                              placeholder={"Enter Question"}
+                              className={styles.inputStocked}
+                              onBlur={() =>
+                                setFieldTouched(`faqs.${index}.ques`, true)
+                              }
+                            />
+                            {touched.faqs?.[index]?.ques &&
+                              errors.faqs?.[index]?.ques && (
+                                <span span className={styles.error}>
+                                  {errors.faqs[index].ques}
+                                </span>
+                              )}
+                          </div>
+                          <div className={styles.StockedDiv2}>
+                            <label className={styles.formLabel}>
+                              Answer
+                              <span className={styles.labelStamp}>*</span>
+                            </label>
+                            <div className={styles.quantitySelector}>
+                              <div className={styles.inputGroup2}>
+                                <textarea
+                                  className={styles.inputStocked}
+                                  type="text"
+                                  placeholder={"Enter Answer"}
+                                  // autoComplete="off"
+                                  name={`faqs.${index}.ans`}
+                                  value={section?.ans}
+                                  onChange={(e) =>
+                                    handleFaqsAnsChange(index, e, setFieldValue)
+                                  }
+                                  onBlur={() =>
+                                    setFieldTouched(`faqs.${index}.ans`, true)
+                                  }
+                                />
+                              </div>
+                            </div>
+                            {
+                              <span span className={styles.error}>
+                                {touched.faqs && errors?.faqs?.[index]?.ans}
+                              </span>
+                              // )
+                            }
+                          </div>
+                        </div>
+                        <div
+                          className={styles.formclosebutton2}
+                          onClick={() =>
+                            removeFaqFormSection(index, setFieldValue, values)
+                          }
+                        >
+                          <CloseIcon className={styles.iconClose} />
+                        </div>
+                      </div>
+                      {values?.faqs?.length > 1 &&
+                        index != values?.faqs?.length - 1 && (
+                          <div className={styles.stockedContainer3}></div>
+                        )}
+                    </>
+                  );
+                })}
+              </div>
+            </div>
+            {/* End the Add FAQs */}
+ 
             {/* Start button section */}
             <div className={styles.buttonContainer}>
               <button
@@ -1850,12 +2269,12 @@ const AddProduct = ({ placeholder }) => {
                 Cancel
               </button>
             </div>
-
+ 
             {/* End button section */}
           </Form>
         )}
       </Formik>
-
+ 
       {open && (
         <FileUploadModal
           onClose={() => setOpen(false)}

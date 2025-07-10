@@ -11,7 +11,7 @@ import Information from "../../../../assets/Images/infomation.svg";
 import { Chips } from "primereact/chips";
 import "./addproduct.css";
 import styles from "./addproduct.module.css";
-import categoryArrays from "../../../../../utils/Category";
+import categoryArrays, {categoriesData} from "../../../../../utils/Category";
 import { Field, FieldArray, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
 // import AddProductFileUpload from "./AddPRoductFileUpload";
@@ -47,8 +47,10 @@ import {
   dairyfeeOptions,
   initialValues,
   editProductValidationSchema,
+  strengthOptions,
 } from "./DropDowns";
 import { AddProductFileUpload } from "../../../../../utils/helper.js";
+import EditCategoryDetails from "../../../../../Supplier/components/Products/AddProduct/EditCategoryDetails.js";
 
 const MultiSelectOption = ({ children, ...props }) => (
   <components.Option {...props}>
@@ -83,18 +85,24 @@ const EditAddProduct = ({ placeholder }) => {
     initialValues: initialValues,
     validationSchema: editProductValidationSchema,
     onSubmit: (values) => {
+      // Custom submit handler with e.preventDefault()
       setLoading(true);
       const formData = new FormData();
 
+      // Append fields as usual
       Object.keys(values).forEach((key) => {
         const value = values[key];
-
+        // Fixing condition to check for 'productPricingDetails' and 'stockedInDetails'
         if (
           (key !== "productPricingDetails" && key !== "stockedInDetails") ||
-          key != "cNCFileNDate"
+          key !== "cNCFileNDate" ||
+          key !== "categoryDetails" ||
+          key !== "faqs"
         ) {
           if (Array.isArray(value)) {
+            // Append array items under the same key
             value.forEach((item) => {
+              // If it's a file, append it with its index (to ensure uniqueness)
               if (item instanceof File) {
                 formData.append(key, item); // appends the file
               } else {
@@ -121,14 +129,18 @@ const EditAddProduct = ({ placeholder }) => {
         values?.stockedInDetails?.map((section) => ({
           country: section?.country || "",
           quantity: section?.quantity || "",
-          // type: section?.type || "",
+        }))
+      );
+      const faqsUpdated = JSON.stringify(
+        values?.faqs?.map((section) => ({
+          ques: section?.ques || "",
+          ans: section?.ans || "",
         }))
       );
       const productPricingDetailsUpdated = JSON.stringify(
         values?.productPricingDetails?.map((section) => ({
           price: section?.price || "",
           // quantity: section?.quantity || "",
-          quantityTo: section?.quantityTo || "",
           quantityFrom: section?.quantityFrom || "",
           quantityTo: section?.quantityTo || "",
           deliveryTime: section?.deliveryTime || "",
@@ -145,14 +157,43 @@ const EditAddProduct = ({ placeholder }) => {
           };
         })
       );
+      const categoryDetailsUpdated = JSON.stringify(
+        values?.categoryDetails?.map((section) => ({
+          name: section?.name || "",
+          type: section?.type || "",
+          fieldValue:
+            section?.type == "file"
+              ? section?.fieldValue?.[0]
+              : section?.fieldValue || "",
+        })) || [
+          {
+            name: "",
+            type: "",
+            fieldValue: "",
+          },
+        ]
+      );
 
       formData.append("stockedInDetails", stockedInDetailsUpdated);
+      formData.append("faqs", faqsUpdated);
       formData.append("productPricingDetails", productPricingDetailsUpdated);
       formData.append(
         "cNCFileNDate",
-        cNCFileNDateUpdated?.length == 0
+        cNCFileNDateUpdated?.length === 0
           ? [{ date: "", file: "" }]
           : cNCFileNDateUpdated
+      );
+      formData.append(
+        "categoryDetails",
+        categoryDetailsUpdated?.length === 0
+          ? [
+              {
+                name: "",
+                type: "",
+                fieldValue: "",
+              },
+            ]
+          : categoryDetailsUpdated
       );
 
       // Dispatch the editProduct action (or any other submit action)
@@ -175,7 +216,6 @@ const EditAddProduct = ({ placeholder }) => {
   const [selectedSubCategory, setSelectedSubCategory] = useState(null);
   const [selectedLevel3Category, setSelectedLevel3Category] = useState(null);
   const [countries, setCountries] = useState([]);
-  const [inventoryList, setInventoryList] = useState([{}]);
   const [stockedInDetails, setStockedInDetails] = useState([
     {
       country: "",
@@ -208,7 +248,6 @@ const EditAddProduct = ({ placeholder }) => {
       [id]: vallue,
     }));
   };
-
   const handleInputChange = (
     e,
     setFieldValue,
@@ -274,13 +313,13 @@ const EditAddProduct = ({ placeholder }) => {
   const editor = useRef(null);
   const [content, setContent] = useState(formik?.values?.description || "");
 
-  const config = useMemo(
-    () => ({
-      readonly: false,
-      placeholder: formik?.values?.description || "Enter Product Description",
-    }),
-    [formik?.values?.description]
-  );
+  // const config = useMemo(
+  //   () => ({
+  //     readonly: false,
+  //     placeholder: formik?.values?.description || "Enter Product Description",
+  //   }),
+  //   [formik?.values?.description]
+  // );
 
   useEffect(() => {
     const countryOptions = countryList().getData();
@@ -352,24 +391,65 @@ const EditAddProduct = ({ placeholder }) => {
 
   useEffect(() => {
     if (formik && productDetail) {
+      // Destructure the general part of productDetail to simplify access
       const general = productDetail?.general || {};
       const additional = productDetail?.additional || {};
       const inventoryDetails = productDetail?.inventoryDetails || {};
       const healthNSafety = productDetail?.healthNSafety || {};
       const secondaryMarketDetails =
         productDetail?.secondaryMarketDetails || {};
-      const categoryDetails = productDetail?.[productDetail?.category] || {}; // Safely access category details
+      // const categoryDetails = productDetail?.[productDetail?.category] || {}; // Safely access category details
 
-      formik.setValues({
+      formik?.setValues({
         name: general?.name || "",
         description: general?.description || "",
+        strength: general?.strength || "",
+        strengthUnit: general?.strengthUnit || "",
+        tags:
+          general?.tags?.length > 1
+            ? general?.tags?.join(", ")
+            : general?.tags || "",
         manufacturer: general?.manufacturer || "",
         aboutManufacturer: general?.aboutManufacturer || "",
         countryOfOrigin: general?.countryOfOrigin || "",
         upc: general?.upc || "",
         model: general?.model || "",
-        image: general?.image || [], // Image field based on general object
-        imageNew: [],
+        imageFront: general?.image?.front
+          ? general?.image?.front
+          : Array.isArray(general?.image) &&
+            general?.image?.length > 0 &&
+            general?.image?.[0]
+          ? [general?.image?.[0]]
+          : [] || [], // ImageFront field based on general object
+        imageFrontNew: [],
+        imageBack: general?.image?.back
+          ? general?.image?.back
+          : Array.isArray(general?.image) &&
+            general?.image?.length > 0 &&
+            general?.image?.[1]
+          ? [general?.image?.[1]]
+          : [] || [], // ImageBack field based on general object
+        imageBackNew: [],
+        imageSide: general?.image?.side
+          ? general?.image?.side
+          : Array.isArray(general?.image) &&
+            general?.image?.length > 0 &&
+            general?.image?.[2]
+          ? [general?.image?.[2]]
+          : [] || [], // ImageSide field based on general object
+        imageSideNew: [],
+        imageClosure: general?.image?.closeup
+          ? general?.image?.closeup
+          : Array.isArray(general?.image) &&
+            general?.image?.length > 0 &&
+            general?.image?.[3]
+          ? [general?.image?.[3]]
+          : [] || [], // ImageClosure field based on general object
+        imageClosureNew: [],
+        specificationSheet: productDetail?.documents?.specification || [], // specificationSheet field based on general object
+        specificationSheetNew: [],
+        catalogue: productDetail?.documents?.catalogue || [], // catalogue field based on general object
+        catalogueNew: [],
         brand: general?.brand || "",
         form: general?.form || "",
         quantity: general?.quantity || "", // Quantity should be from general
@@ -394,7 +474,15 @@ const EditAddProduct = ({ placeholder }) => {
         cNCFileNDate: productDetail?.cNCFileNDate?.filter(
           (ele) => ele?.file || ele?.date
         ) || [{ date: "", file: "" }],
+        faqs:
+          productDetail?.faqs?.filter((ele) => ele?.ques || ele?.answ) || [],
         complianceFileNew: [],
+        categoryDetailsFile: productDetail?.categoryDetailsFile || [],
+        categoryDetails:
+          productDetail?.categoryDetails?.filter(
+            (ele) => ele?.fieldValue || ele?.name || ele?.type
+          ) || [],
+        categoryDetailsFileNew: [],
         storage: productDetail?.storage || "",
         other: productDetail?.additional?.other || "",
         guidelinesFile: additional?.guidelinesFile || [],
@@ -417,8 +505,15 @@ const EditAddProduct = ({ placeholder }) => {
           secondaryMarketDetails?.minimumPurchaseUnit ||
           general?.minimumPurchaseUnit ||
           "",
-        subCategory: categoryDetails?.subCategory || "",
-        anotherCategory: categoryDetails?.anotherCategory || "",
+        // subCategory: categoryDetails?.subCategory || "",
+        subCategory:
+          productDetail?.[productDetail?.category]?.subCategory ||
+          productDetail?.subCategory ||
+          "",
+        anotherCategory:
+          productDetail?.[productDetail?.category]?.anotherCategory ||
+          productDetail?.anotherCategory ||
+          "",
         stockedInDetails: inventoryDetails?.stockedInDetails || [
           {
             country: "",
@@ -436,115 +531,6 @@ const EditAddProduct = ({ placeholder }) => {
             deliveryTime: "",
           },
         ],
-
-        // Common fields of multiple categories
-        drugClass: categoryDetails?.drugClass || "",
-        controlledSubstance: categoryDetails?.controlledSubstance || false,
-        otcClassification: categoryDetails?.otcClassification || "",
-        genericName: categoryDetails?.genericName || "",
-        strength: categoryDetails?.strength || "",
-        composition: categoryDetails?.composition || "",
-        purpose: categoryDetails?.purpose || "",
-        drugAdministrationRoute: categoryDetails?.drugAdministrationRoute || "",
-        expiry: categoryDetails?.expiry || "",
-        allergens: categoryDetails?.allergens || "",
-        formulation: categoryDetails?.formulation || "",
-        vegan: categoryDetails?.vegan || false,
-        crueltyFree: categoryDetails?.crueltyFree || false,
-        sideEffectsAndWarnings: categoryDetails?.sideEffectsAndWarnings || "",
-        thickness: categoryDetails?.thickness || "",
-        interoperability: categoryDetails?.interoperability || "",
-        interoperabilityFile: categoryDetails?.interoperabilityFile || [],
-        interoperabilityFileNew: [],
-        specification: categoryDetails?.specification || "",
-        specificationFile: categoryDetails?.specificationFile || [],
-        specificationFileNew: [],
-        diagnosticFunctions: categoryDetails?.diagnosticFunctions || "",
-        flowRate: categoryDetails?.flowRate || "",
-        performanceTestingReport:
-          categoryDetails?.performanceTestingReport || "",
-        performanceTestingReportFile:
-          categoryDetails?.performanceTestingReportFile || [],
-        performanceTestingReportFileNew: [],
-        additivesNSweeteners: categoryDetails?.additivesNSweeteners || "",
-        powdered: categoryDetails?.powdered || false,
-        productMaterial: categoryDetails?.productMaterial || "",
-        productMaterialIfOther: categoryDetails?.productMaterialIfOther || "",
-        texture: categoryDetails?.texture || false,
-        sterilized: categoryDetails?.sterilized || false,
-        chemicalResistance: categoryDetails?.chemicalResistance || false,
-        fluidResistance: categoryDetails?.fluidResistance || false,
-        shape: categoryDetails?.shape || "",
-        coating: categoryDetails?.coating || "",
-        concentration: categoryDetails?.concentration || "",
-        measurementRange: categoryDetails?.measurementRange || "",
-        maintenanceNotes: categoryDetails?.maintenanceNotes || "",
-        compatibleEquipment: categoryDetails?.compatibleEquipment || "",
-        usageRate: categoryDetails?.usageRate || "",
-        adhesiveness: categoryDetails?.adhesiveness || "",
-        absorbency: categoryDetails?.absorbency || "",
-        targetCondition: categoryDetails?.targetCondition || "",
-        elasticity: categoryDetails?.elasticity || "",
-        breathability: categoryDetails?.breathability || "",
-        foldability: categoryDetails?.foldability || "",
-        fragrance: categoryDetails?.fragrance || "",
-        healthBenefit: categoryDetails?.healthBenefit || "",
-        laserType: categoryDetails?.laserType || "",
-        coolingSystem: categoryDetails?.coolingSystem || "",
-        spotSize: categoryDetails?.spotSize || "",
-        spf: categoryDetails?.spf || "",
-        dermatologistTested: categoryDetails?.dermatologistTested || "",
-        dermatologistTestedFile: categoryDetails?.dermatologistTestedFile || [],
-        dermatologistTestedFileNew:
-          categoryDetails?.dermatologistTestedFileNew || [],
-        pediatricianRecommended: categoryDetails?.pediatricianRecommended || "",
-        pediatricianRecommendedFile:
-          categoryDetails?.pediatricianRecommendedFile || [],
-        pediatricianRecommendedFileNew:
-          categoryDetails?.pediatricianRecommendedFileNew || [],
-        moisturizers: categoryDetails?.moisturizers || "",
-        fillerType: categoryDetails?.fillerType || "",
-        filtrationEfficiency: categoryDetails?.filtrationEfficiency || "",
-        layerCount: categoryDetails?.layerCount || "",
-        filtrationType: categoryDetails?.filtrationType || [],
-        magnificationRange: categoryDetails?.magnificationRange || "",
-        objectiveLenses: categoryDetails?.objectiveLenses || "",
-        powerSource: categoryDetails?.powerSource || "",
-        resolution: categoryDetails?.resolution || "",
-        connectivity: categoryDetails?.connectivity || "",
-        casNumber: categoryDetails?.casNumber || "",
-        grade: categoryDetails?.grade || "",
-        physicalState: categoryDetails?.physicalState || [],
-        hazardClassification: categoryDetails?.hazardClassification || [],
-        noiseLevel: categoryDetails?.noiseLevel || "",
-        moistureResistance: categoryDetails?.moistureResistance || "",
-        colorOptions: categoryDetails?.colorOptions || "",
-        lensPower: categoryDetails?.lensPower || "",
-        baseCurve: categoryDetails?.baseCurve || "",
-        diameter: categoryDetails?.diameter || "",
-        frame: categoryDetails?.frame || "",
-        lens: categoryDetails?.lens || "",
-        lensMaterial: categoryDetails?.lensMaterial || "",
-        maxWeightCapacity: categoryDetails?.maxWeightCapacity || "",
-        gripType: categoryDetails?.gripType || "",
-        lockingMechanism: categoryDetails?.lockingMechanism || "",
-        typeOfSupport: categoryDetails?.typeOfSupport || "",
-        batteryType: categoryDetails?.batteryType || "",
-        batterySize: categoryDetails?.batterySize || "",
-        healthClaims: categoryDetails?.healthClaims || "",
-        healthClaimsFile: categoryDetails?.healthClaimsFile || [],
-        healthClaimsFileNew: [],
-        productLongevity: categoryDetails?.productLongevity || "",
-        flavorOptions: categoryDetails?.flavorOptions || "",
-        aminoAcidProfile: categoryDetails?.aminoAcidProfile || "",
-        fatContent: categoryDetails?.fatContent || "",
-        dairyFree: categoryDetails?.dairyFree || "",
-        license: categoryDetails?.license || "",
-        scalabilityInfo: categoryDetails?.scalabilityInfo || "",
-        addOns: categoryDetails?.addOns || "",
-        userAccess: categoryDetails?.userAccess || "",
-        keyFeatures: categoryDetails?.keyFeatures || "",
-        coreFunctionalities: categoryDetails?.coreFunctionalities || "",
       });
     }
   }, [productDetail]); // Add formik to the dependency array
@@ -552,45 +538,146 @@ const EditAddProduct = ({ placeholder }) => {
   const handleCancel = () => {
     navigate(`/admin/supplier/${supplierId}/products/new`);
   };
+  // Handlers for Stocked in Details
+  const addStockedInSection = (setFieldValue, values) => {
+    setFieldValue("stockedInDetails", [
+      ...values?.stockedInDetails,
+      { country: "", quantity: "", unitType: "Box" },
+    ]);
+  };
+
+  const handleStockedInCountryChange = (index, selected, setFieldValue) => {
+    setFieldValue(`stockedInDetails[${index}].country`, selected?.label || "");
+  };
+
+  const handleStockedInputChange = (index, e, setFieldValue) => {
+    const value = e.target.value.replace(/\D/g, "").slice(0, 6);
+    setFieldValue(`stockedInDetails[${index}].quantity`, value);
+  };
+
+  const handlePackageSelection = (index, unitType, setFieldValue) => {
+    setFieldValue(`stockedInDetails[${index}].unitType`, unitType);
+  };
+
+  const removeStockedInFormSection = (index, setFieldValue, values) => {
+    const updatedList = values?.stockedInDetails.filter((_, i) => i !== index);
+    setFieldValue("stockedInDetails", updatedList);
+  };
+
+  // Handlers for Add Other Details
+  const addcategoryDetailsSection = (setFieldValue, values) => {
+    setFieldValue("categoryDetails", [
+      ...values?.categoryDetails,
+      {
+        name: undefined,
+        label: undefined,
+        placeholder: undefined,
+        type: undefined,
+        maxLimit: undefined,
+        allowedType: undefined,
+        fieldValue: undefined,
+      },
+    ]);
+  };
+
+  const handlecategoryDetailsNameChange = (index, selected, setFieldValue) => {
+    setFieldValue(`categoryDetails[${index}].name`, selected?.value || "");
+    setFieldValue(`categoryDetails[${index}].label`, selected?.label || "");
+    setFieldValue(
+      `categoryDetails[${index}].placeholder`,
+      selected?.placeholder || ""
+    );
+    setFieldValue(`categoryDetails[${index}].type`, selected?.type || "");
+    setFieldValue(
+      `categoryDetails[${index}].maxLimit`,
+      selected?.maxLimit || ""
+    );
+    setFieldValue(
+      `categoryDetails[${index}].allowedType`,
+      selected?.allowedType || ""
+    );
+    setFieldValue(
+      `categoryDetails[${index}].fieldValue`,
+      selected?.fieldValue || ""
+    );
+    setFieldValue(
+      `categoryDetails[${index}].optionsDD`,
+      selected?.optionsDD || []
+    );
+  };
+
+  const handlecategoryDetailsFieldValueChange = (index, e, setFieldValue) => {
+    const value = e.target.value;
+    setFieldValue(`categoryDetails[${index}].fieldValue`, value);
+  };
+
+  const removecategoryDetailsFormSection = (index, setFieldValue, values) => {
+    const updatedList = values?.categoryDetails.filter((_, i) => i !== index);
+    setFieldValue("categoryDetails", updatedList);
+  };
+
+  // Handlers for FAQs
+  const addFAQs = (setFieldValue, values) => {
+    setFieldValue("faqs", [
+      ...values?.faqs,
+      { ques: "", ans: "", type: "Box" },
+    ]);
+  };
+
+  const handleFaqsQuesChange = (index, e, setFieldValue) => {
+    const value = e.target.value;
+    setFieldValue(`faqs[${index}].ques`, value || "");
+  };
+
+  const handleFaqsAnsChange = (index, e, setFieldValue) => {
+    const value = e.target.value;
+    setFieldValue(`faqs[${index}].ans`, value || "");
+  };
+
+  const removeFaqFormSection = (index, setFieldValue, values) => {
+    const updatedList = values?.faqs.filter((_, i) => i !== index);
+    setFieldValue("faqs", updatedList);
+  };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.headContainer}>
-        <span className={styles.heading}>Edit Products</span>
+    <div className={styles?.container}>
+      <div className={styles?.headContainer}>
+        <span className={styles?.heading}>Edit Products</span>
       </div>
       <FormikProvider value={formik}>
+        {/* <Row> */}
         <form
-          className={styles.form}
+          className={styles?.form}
           onSubmit={(e) => {
             e.preventDefault();
 
-            const fields = Object.keys(formik.initialValues);
+            const fields = Object.keys(formik?.initialValues);
             const touchedFields = fields.reduce((acc, key) => {
               acc[key] = true;
               return acc;
             }, {});
 
             // Mark all fields as touched to trigger validation display
-            formik.setTouched(touchedFields, true);
+            formik?.setTouched(touchedFields, true);
 
-            // Check if the form is changed and no validation errors
-            if (Object.keys(formik.errors).length === 0) {
-              formik.handleSubmit();
+            // Check if the form is valid
+            if (Object.keys(formik?.errors).length === 0) {
+              formik?.handleSubmit();
             } else {
-              // If validation errors exist or no change, show the error message
+              console.log('formik?.errors',formik?.errors)
               toast.error("Please fill the required fields correctly.");
             }
           }}
         >
-          <div className={styles.section}>
-            <span className={styles.formHead}>General Information</span>
-            <div className={styles.formSection}>
-              <div className={styles.productContainer}>
-                <label className={styles.formLabel}>
+          <div className={styles?.section}>
+            <span className={styles?.formHead}>General Information</span>
+            <div className={styles?.formSection}>
+              <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>
                   Product Name<span className={styles?.labelStamp}>*</span>
                 </label>
                 <input
-                  className={styles.formInput}
+                  className={styles?.formInput}
                   type="text"
                   placeholder="Enter Product Name"
                   // autoComplete="off"
@@ -599,7 +686,7 @@ const EditAddProduct = ({ placeholder }) => {
                   onChange={(e) =>
                     handleInputChange(
                       e,
-                      formik.setFieldValue,
+                      formik?.setFieldValue,
                       100,
                       "all",
                       ["name"],
@@ -608,24 +695,24 @@ const EditAddProduct = ({ placeholder }) => {
                   }
                   onBlur={formik?.handleBlur}
                 />
-                {formik.touched.name && formik.errors.name && (
-                  <span className={styles.error}>{formik.errors.name}</span>
+                {formik?.touched?.name && formik?.errors?.name && (
+                  <span className={styles?.error}>{formik?.errors?.name}</span>
                 )}
               </div>
 
-              <div className={styles.productContainer}>
-                <label className={styles.formLabel}>
+              <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>
                   Product Market<span className={styles?.labelStamp}>*</span>
                 </label>
                 <Select
-                  className={styles.formSelect}
+                  className={styles?.formSelect}
                   options={Options}
                   placeholder="Select Product Market"
                   value={Options.find(
                     (option) =>
                       option?.value?.replaceAll(" product", "") ===
                       formik?.values?.market
-                  )} // Use productType directly
+                  )}
                   onChange={(selectedOption) => {
                     const selectedValue = selectedOption?.value; // e.g., "new product"
                     const marketValue = selectedValue?.replaceAll(
@@ -633,24 +720,26 @@ const EditAddProduct = ({ placeholder }) => {
                       ""
                     ); // e.g., "new"
                     setProductType(selectedValue); // Update productType for rendering
-                    formik.setFieldValue("market", marketValue); // Update Formik market
+                    formik?.setFieldValue("market", marketValue); // Update Formik market
                   }}
-                  onBlur={formik.handleBlur}
+                  onBlur={formik?.handleBlur}
                   name="market"
                   isDisabled={true}
                 />
 
-                {formik.touched.market && formik.errors.market && (
-                  <span className={styles.error}>{formik.errors.market}</span>
+                {formik?.touched?.market && formik?.errors?.market && (
+                  <span className={styles?.error}>
+                    {formik?.errors?.market}
+                  </span>
                 )}
               </div>
-              <div className={styles.productContainer}>
-                <label className={styles.formLabel}>
+              <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>
                   Product Category
                   <span className={styles?.labelStamp}>*</span>
                 </label>
                 <Select
-                  className={styles.formSelect}
+                  className={styles?.formSelect}
                   options={categoryOptions}
                   value={
                     categoryOptions.find(
@@ -659,28 +748,30 @@ const EditAddProduct = ({ placeholder }) => {
                   }
                   onBlur={formik?.handleBlur}
                   onChange={(selectedOption) => {
-                    formik.setFieldValue("category", selectedOption?.value); // Set formik value
+                    formik?.setFieldValue("category", selectedOption?.value); // Set formik value
                     setSelectedCategory(selectedOption); // Update local state for selected category
                     setSelectedSubCategory(null); // Reset subcategory
-                    formik.setFieldValue("subCategory", ""); // Reset subcategory in form
+                    formik?.setFieldValue("subCategory", ""); // Reset subcategory in form
                     setSelectedLevel3Category(null); // Reset Level 3 category
-                    formik.setFieldValue("anotherCategory", ""); // Reset Level 3 category in form
+                    formik?.setFieldValue("anotherCategory", ""); // Reset Level 3 category in form
+                    formik?.setFieldValue("categoryDetails", []); // Reset categoryDetails in form
                   }}
                   placeholder="Select Category"
                   isDisabled={true}
                 />
-                {formik.touched.category && formik.errors.category && (
-                  <span className={styles.error}>{formik.errors.category}</span>
+                {formik?.touched?.category && formik?.errors?.category && (
+                  <span className={styles?.error}>
+                    {formik?.errors?.category}
+                  </span>
                 )}
               </div>
-
-              <div className={styles.productContainer}>
-                <label className={styles.formLabel}>
+              <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>
                   Product Sub Category
                   <span className={styles?.labelStamp}>*</span>
                 </label>
                 <Select
-                  className={styles.formSelect}
+                  className={styles?.formSelect}
                   options={
                     categoryOptions.find(
                       (option) => option?.value === formik?.values?.category
@@ -706,24 +797,25 @@ const EditAddProduct = ({ placeholder }) => {
                   onChange={(selectedOption) => {
                     setSelectedSubCategory(selectedOption); // Set the selectedSubCategory state
                     setSelectedLevel3Category(null); // Reset Level 3 category when subcategory changes
-                    formik.setFieldValue("subCategory", selectedOption?.value); // Update Formik state
+                    formik?.setFieldValue("subCategory", selectedOption?.value); // Update Formik state
                   }}
                   placeholder="Select Sub Category"
                 />
 
-                {formik.touched.subCategory && formik.errors.subCategory && (
-                  <span className={styles.error}>
-                    {formik.errors.subCategory}
-                  </span>
-                )}
+                {formik?.touched?.subCategory &&
+                  formik?.errors?.subCategory && (
+                    <span className={styles?.error}>
+                      {formik?.errors?.subCategory}
+                    </span>
+                  )}
               </div>
 
-              <div className={styles.productContainer}>
-                <label className={styles.formLabel}>
+              <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>
                   Product Sub Category (Level 3)
                 </label>
                 <Select
-                  className={styles.formSelect}
+                  className={styles?.formSelect}
                   onBlur={formik?.handleBlur}
                   options={
                     getSubCategories(
@@ -765,26 +857,25 @@ const EditAddProduct = ({ placeholder }) => {
                   }
                   onChange={(selectedOption) => {
                     setSelectedLevel3Category(selectedOption);
-                    formik.setFieldValue(
+                    formik?.setFieldValue(
                       "anotherCategory",
                       selectedOption?.value
                     );
                   }}
                   placeholder="Select Level 3 Category"
-                  // isDisabled={!selectedSubCategory}
                 />
               </div>
 
               {formik?.values?.market === "secondary" && (
                 <>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
+                  <div className={styles?.productContainer}>
+                    <label className={styles?.formLabel}>
                       Purchased On
                       <span className={styles?.labelStamp}>*</span>
                     </label>
 
                     <DatePicker
-                      className={styles.formDate}
+                      className={styles?.formDate}
                       clearIcon={null}
                       format="dd/MM/yyyy"
                       placeholder="dd/MM/yyyy"
@@ -792,27 +883,27 @@ const EditAddProduct = ({ placeholder }) => {
                       maxDate={new Date()}
                       value={parseDate(formik?.values?.purchasedOn)}
                       onChange={(date) => {
-                        formik.setFieldValue("purchasedOn", date); // This updates Formik's value
+                        formik?.setFieldValue("purchasedOn", date); // This updates Formik's value
                       }}
                       onBlur={formik?.handleBlur} // Adds the blur event to track when the field is blurred
                       onKeyDown={(e) => {
                         e.preventDefault();
                       }}
                     />
-                    {formik.touched.purchasedOn &&
-                      formik.errors.purchasedOn && (
-                        <span className={styles.error}>
-                          {formik.errors.purchasedOn}
+                    {formik?.touched?.purchasedOn &&
+                      formik?.errors?.purchasedOn && (
+                        <span className={styles?.error}>
+                          {formik?.errors?.purchasedOn}
                         </span>
                       )}
                   </div>
 
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
+                  <div className={styles?.productContainer}>
+                    <label className={styles?.formLabel}>
                       Condition<span className={styles?.labelStamp}>*</span>
                     </label>
                     <Select
-                      className={styles.formSelect}
+                      className={styles?.formSelect}
                       options={conditionOptions}
                       placeholder="Select Condition"
                       onBlur={formik?.handleBlur}
@@ -820,21 +911,22 @@ const EditAddProduct = ({ placeholder }) => {
                         (option) => option?.value === formik?.values?.condition
                       )}
                       onChange={(selectedOption) => {
-                        formik.setFieldValue(
+                        formik?.setFieldValue(
                           "condition",
                           selectedOption?.value
                         );
                       }}
                     />
-                    {formik.touched.condition && formik.errors.condition && (
-                      <span className={styles.error}>
-                        {formik.errors.condition}
-                      </span>
-                    )}
+                    {formik?.touched?.condition &&
+                      formik?.errors?.condition && (
+                        <span className={styles?.error}>
+                          {formik?.errors?.condition}
+                        </span>
+                      )}
                   </div>
 
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
+                  <div className={styles?.productContainer}>
+                    <label className={styles?.formLabel}>
                       Country Available In
                       <span className={styles?.labelStamp}>*</span>
                     </label>
@@ -843,63 +935,104 @@ const EditAddProduct = ({ placeholder }) => {
                       options={countries}
                       placeholderButtonLabel="Select Countries"
                       name="countryAvailable"
-                      value={formik.values?.countryAvailable.map((country) => ({
-                        label: country,
-                        value: country,
-                      }))}
+                      value={formik?.values?.countryAvailable.map(
+                        (country) => ({
+                          label: country,
+                          value: country,
+                        })
+                      )}
                       onChange={(selectedOptions) => {
+                        // Ensure we map selected options correctly
                         const selectedValues = selectedOptions
                           ? selectedOptions.map((option) => option?.label)
                           : [];
-                        formik.setFieldValue(
+                        formik?.setFieldValue(
                           "countryAvailable",
                           selectedValues
-                        );
+                        ); // Update Formik value with the selected country values
                       }}
                       onBlur={formik?.handleBlur} // Optional: add this if the component has a blur event
                     />
 
-                    {formik.touched.countryAvailable &&
-                      formik.errors.countryAvailable && (
-                        <span className={styles.error}>
-                          {formik.errors.countryAvailable}
-                        </span>
-                      )}
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Minimum Purchase Unit
-                      <span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <input
-                      className={styles.formInput}
-                      type="text"
-                      placeholder="Enter Minimum Purchase Unit"
-                      // autoComplete="off"
-                      name="minimumPurchaseUnit"
-                      value={formik?.values?.minimumPurchaseUnit}
-                      onChange={(e) =>
-                        handleInputChange(e, formik.setFieldValue, 4, "number")
-                      }
-                      onBlur={formik?.handleBlur}
-                    />
-                    {formik.touched.minimumPurchaseUnit &&
-                      formik.errors.minimumPurchaseUnit && (
-                        <span className={styles.error}>
-                          {formik.errors.minimumPurchaseUnit}
+                    {formik?.touched?.countryAvailable &&
+                      formik?.errors?.countryAvailable && (
+                        <span className={styles?.error}>
+                          {formik?.errors?.countryAvailable}
                         </span>
                       )}
                   </div>
                 </>
               )}
-
-              <div className={styles.productContainer}>
-                <label className={styles.formLabel}>
+              <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>
+                  Minimum Order Quantity
+                  <span className={styles?.labelStamp}>*</span>
+                </label>
+                <input
+                  className={styles?.formInput}
+                  type="text"
+                  placeholder="Enter Minimum Order Quantity"
+                  // autoComplete="off"
+                  name="minimumPurchaseUnit"
+                  value={formik?.values?.minimumPurchaseUnit}
+                  onChange={(e) =>
+                    handleInputChange(e, formik?.setFieldValue, 4, "number")
+                  }
+                  onBlur={formik?.handleBlur}
+                />
+                {formik?.touched?.minimumPurchaseUnit &&
+                  formik?.errors?.minimumPurchaseUnit && (
+                    <span className={styles?.error}>
+                      {formik?.errors?.minimumPurchaseUnit}
+                    </span>
+                  )}
+              </div>
+              <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>Strength</label>
+                <div className={styles?.weightContainer}>
+                  <div className={styles?.weightSection}>
+                    <div className={styles?.tooltipContainer}>
+                      <input
+                        className={styles?.formInput}
+                        type="text"
+                        placeholder="Enter Strength"
+                        // autoComplete="off"
+                        name="strength"
+                        value={formik?.values?.strength}
+                        onChange={formik?.handleChange}
+                        onBlur={formik?.handleBlur}
+                      />
+                    </div>
+                  </div>
+                  <div className={styles?.unitSection}>
+                    <Select
+                      className={styles.formSelect}
+                      name="strengthUnit"
+                      options={strengthOptions}
+                      placeholder="Select Units"
+                      onBlur={formik?.handleBlur}
+                      value={
+                        strengthOptions.find(
+                          (option) =>
+                            option.label === formik?.values?.strengthUnit
+                        ) || null
+                      }
+                      onChange={(selectedOption) => {
+                        formik?.setFieldValue(
+                          "strengthUnit",
+                          selectedOption?.value
+                        );
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>
                   UPC (Universal Product Code)
                 </label>
                 <input
-                  className={styles.formInput}
+                  className={styles?.formInput}
                   type="text"
                   placeholder="Enter UPC"
                   // autoComplete="off"
@@ -908,7 +1041,7 @@ const EditAddProduct = ({ placeholder }) => {
                   onChange={(e) =>
                     handleInputChange(
                       e,
-                      formik.setFieldValue,
+                      formik?.setFieldValue,
                       20,
                       "all",
                       ["upc"],
@@ -917,86 +1050,63 @@ const EditAddProduct = ({ placeholder }) => {
                   }
                   onBlur={formik?.handleBlur}
                 />
-                <span className={styles.error}></span>
+                <span className={styles?.error}></span>
               </div>
 
-              <div className={styles.productContainer}>
-                <label className={styles.formLabel}>
+              <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>
                   Part/Model Number
                   <span className={styles?.labelStamp}>*</span>
                 </label>
                 <input
-                  className={styles.formInput}
+                  className={styles?.formInput}
                   type="text"
                   placeholder="Enter Part/Model Number"
                   // autoComplete="off"
                   name="model"
                   value={formik?.values?.model}
                   onChange={(e) =>
-                    handleInputChange(e, formik.setFieldValue, 20, "all")
+                    handleInputChange(e, formik?.setFieldValue, 20, "all")
                   }
                   onBlur={formik?.handleBlur}
                 />
-                {formik.touched.model && formik.errors.model && (
-                  <span className={styles.error}>{formik.errors.model}</span>
+                {formik?.touched?.model && formik?.errors?.model && (
+                  <span className={styles?.error}>{formik?.errors?.model}</span>
                 )}
               </div>
-              <div className={styles.productContainer}>
-                <label className={styles.formLabel}>
-                  Short Description
-                  <span className={styles?.labelStamp}>*</span>
-                </label>
-                <textarea
-                  className={styles.formInput}
-                  type="text"
-                  placeholder="Enter Short Description"
-                  value={formik?.values?.aboutManufacturer}
-                  name="aboutManufacturer"
-                  onBlur={formik?.handleBlur}
-                  onChange={(e) =>
-                    handleInputChange(e, formik.setFieldValue, 500, "all")
-                  }
-                />
-                {formik.touched.aboutManufacturer &&
-                  formik.errors.aboutManufacturer && (
-                    <span className={styles.error}>
-                      {formik.errors.aboutManufacturer}
-                    </span>
-                  )}
-              </div>
-              <div className={styles.productContainer}>
-                <label className={styles.formLabel}>Brand Name</label>
+              <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>Brand Name</label>
                 <input
-                  className={styles.formInput}
+                  className={styles?.formInput}
                   type="text"
                   placeholder="Enter Brand Name"
                   // autoComplete="off"
                   name="brand"
                   value={formik?.values?.brand}
                   onChange={(e) =>
-                    handleInputChange(e, formik.setFieldValue, 75, "all", [
+                    handleInputChange(e, formik?.setFieldValue, 75, "all", [
                       "brand",
                     ])
                   }
                   onBlur={formik?.handleBlur}
                 />
-                <span className={styles.error}></span>
+                <span className={styles?.error}></span>
               </div>
-              <div className={styles.productContainer}>
-                <label className={styles.formLabel}>
+              <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>
                   Product Type/Form
                   {/* <span className={styles?.labelStamp}>*</span> */}
                 </label>
-                <div className={styles.tooltipContainer}>
+                <div className={styles?.tooltipContainer}>
                   <input
-                    className={styles.formInput}
+                    className={styles?.formInput}
                     type="text"
                     placeholder="Enter Product Type/Form"
                     // autoComplete="off"
                     name="form"
                     value={formik?.values?.form}
                     onChange={(e) =>
-                      handleInputChange(e, formik.setFieldValue, 25, "text")
+                      handleInputChange(e, formik?.setFieldValue, 25, "text")
                     }
                     onBlur={formik?.handleBlur}
                   />
@@ -1007,5894 +1117,66 @@ const EditAddProduct = ({ placeholder }) => {
                     walker, cane, crutches, grab bar, scooter etc.)"
                   ></Tooltip>
                 </div>
-                {/* {formik.touched.form && formik.errors.form && (
-                  <span className={styles.error}>{formik.errors.form}</span>
+                {/* {formik?.touched?.form && formik?.errors?.form && (
+                  <span className={styles?.error}>{formik?.errors?.form}</span>
                 )} */}
               </div>
-              <div className={styles.productContainer}>
-                <label className={styles.formLabel}>
-                  Product Total Quantity
-                  <span className={styles?.labelStamp}>*</span>
-                </label>
-                <div className={styles.tooltipContainer}>
-                  <input
-                    className={styles.formInput}
-                    type="text"
-                    placeholder="Enter Total Quantity"
-                    // autoComplete="off"
-                    name="quantity"
-                    value={formik?.values?.quantity}
-                    onChange={(e) =>
-                      handleInputChange(e, formik.setFieldValue, 8, "number")
-                    }
-                    onBlur={formik?.handleBlur}
-                  />
-                  <Tooltip content="Add number of tablets in a strip, bottle, or box or number of bottles in a pack."></Tooltip>
-                </div>
-                {formik.touched.quantity && formik.errors.quantity && (
-                  <span className={styles.error}>{formik.errors.quantity}</span>
-                )}
-              </div>
-
-              <div className={styles.productContainer}>
-                <label className={styles.formLabel}>Product Volume</label>
-                <div className={styles.weightContainer}>
-                  <div className={styles.weightSection}>
-                    <div className={styles.tooltipContainer}>
-                      <input
-                        className={styles.formInput}
-                        type="text"
-                        placeholder="Enter Volume"
-                        name="volumn"
-                        value={formik?.values?.volumn}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            9,
-                            "decimal",
-                            ["volumn"]
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip
-                        content=" The volume of the product (e.g., 50 mL, 100 g,
-                      drip chamber ) (e.g., macro, micro),
-                     Length of the needle (e.g., 19 mm, 26 mm ) tape
-                      width, adhesive strip size etc."
-                      ></Tooltip>
-                    </div>
-                  </div>
-                  <div className={styles.unitSection}>
-                    <Select
-                      className={styles.formSelect}
-                      options={volumeUnits}
-                      placeholder="Select Units"
-                      onBlur={formik?.handleBlur}
-                      value={volumeUnits.find(
-                        (option) => option?.value === formik?.values?.volumeUnit
-                      )}
-                      onChange={(selectedOption) => {
-                        formik?.setFieldValue(
-                          "volumeUnit",
-                          selectedOption?.value
-                        );
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className={styles.productContainer}>
-                <label className={styles.formLabel}>Product Dimension</label>
-                <div className={styles.weightContainer}>
-                  <div className={styles.weightSection}>
-                    <div className={styles.tooltipContainer}>
-                      <input
-                        className={styles.formInput}
-                        type="text"
-                        placeholder="Enter Height x Width x Depth"
-                        // autoComplete="off"
-                        name="dimension"
-                        value={formik?.values?.dimension}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            35,
-                            "all",
-                            ["dimension"],
-                            ". x"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="The dimension of the product in Height x Width x Depth."></Tooltip>
-                    </div>
-                  </div>
-                  <div className={styles.unitSection}>
-                    <Select
-                      className={styles.formSelect}
-                      options={dimensionUnits}
-                      placeholder="Select Units"
-                      onBlur={formik?.handleBlur}
-                      value={dimensionUnits.find(
-                        (option) =>
-                          option?.value === formik?.values?.dimensionUnit
-                      )}
-                      onChange={(selectedOption) => {
-                        formik?.setFieldValue(
-                          "dimensionUnit",
-                          selectedOption?.value
-                        );
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className={styles.productContainer}>
-                <label className={styles.formLabel}>
-                  Product Weight & Units
-                  {/* <span className={styles.labelStamp}>*</span> */}
-                </label>
-                <div className={styles.weightContainer}>
-                  <div className={styles.weightSection}>
-                    <div className={styles.tooltipContainer}>
-                      <input
-                        className={styles.formInput}
-                        type="text"
-                        placeholder="Enter Product Weight"
-                        // autoComplete="off"
-                        name="weight"
-                        value={formik?.values?.weight}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            9,
-                            "decimal",
-                            ["weight"]
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="in (g, kg, lbs, l, ml, oz, gal, t)"></Tooltip>
-                    </div>
-                    {/* {formik?.touched.weight && formik?.errors.weight && (
-                      <span className={styles.error}>
-                        {formik?.errors.weight}
-                      </span>
-                    )} */}
-                  </div>
-                  <div className={styles.unitSection}>
-                    <Select
-                      className={styles.formSelect}
-                      options={packagingUnits}
-                      placeholder="Select Units"
-                      onBlur={formik?.handleBlur}
-                      value={packagingUnits.find(
-                        (option) => option?.value === formik?.values?.unit
-                      )}
-                      onChange={(selectedOption) => {
-                        formik.setFieldValue("unit", selectedOption?.value);
-                      }}
-                    />
-                    {/* {formik?.touched.unit && formik?.errors.unit && (
-                      <span className={styles.error}>
-                        {formik?.errors.unit}
-                      </span>
-                    )} */}
-                  </div>
-                </div>
-              </div>
-              <div className={styles.productContainer}>
-                <label className={styles.formLabel}>
+              <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>
                   Product Tax%
                   <span className={styles?.labelStamp}>*</span>
                 </label>
-                <div className={styles.tooltipContainer}>
+                <div className={styles?.tooltipContainer}>
                   <input
-                    className={styles.formInput}
+                    className={styles?.formInput}
                     type="text"
                     placeholder="Enter Tax in percentage"
                     // autoComplete="off"
                     name="unit_tax"
                     value={formik?.values?.unit_tax}
                     onChange={(e) =>
-                      handleInputChange(e, formik.setFieldValue, 9, "decimal")
+                      handleInputChange(e, formik?.setFieldValue, 9, "decimal")
                     }
                     onBlur={formik?.handleBlur}
                   />
                   <Tooltip content="Unit Tax of the product"></Tooltip>
                 </div>
-                {formik.errors.unit_tax && (
-                  <span className={styles.error}>{formik.errors.unit_tax}</span>
-                )}
-              </div>
-              <div className={styles.productContainer}>
-                <label className={styles.formLabel}>
-                  Product Packaging Type
-                </label>
-                <div className={styles.tooltipContainer}>
-                  <input
-                    className={styles.formInput}
-                    type="text"
-                    placeholder="Enter Product Packaging Type"
-                    // autoComplete="off"
-                    name="packageType"
-                    value={formik?.values?.packageType}
-                    onChange={formik?.handleChange}
-                    onBlur={formik?.handleBlur}
-                  />
-                  <Tooltip
-                    content="The type of product packaging (e.g., bottle, tube, jar,
-                    pump, blister
-                    pack, strip, pouches, soft case, hard case, backpack,
-                    case )."
-                  ></Tooltip>
-                </div>
-                {formik.touched.packageType && formik.errors.packageType && (
-                  <span className={styles.error}>
-                    {formik.errors.packageType}
+                {formik?.errors?.unit_tax && (
+                  <span className={styles?.error}>
+                    {formik?.errors?.unit_tax}
                   </span>
                 )}
               </div>
-              <div className={styles.productContainer}>
-                <label className={styles.formLabel}>
-                  Product Packaging Material
-                </label>
-                <div className={styles.tooltipContainer}>
-                  <input
-                    className={styles.formInput}
-                    type="text"
-                    placeholder="Enter Product Packaging Material"
-                    // autoComplete="off"
-                    name="packageMaterial"
-                    value={formik?.values?.packageMaterial}
-                    onChange={formik?.handleChange}
-                    onBlur={formik?.handleBlur}
-                  />
-                  <Tooltip content="The material used for packaging (e.g., plastic, glass, aluminum, cardboard, thermocol etc)."></Tooltip>
-                </div>
 
-                {/* Display error message if any */}
-                {formik.touched.packageMaterial &&
-                  formik.errors.packageMaterial && (
-                    <span className={styles.error}>
-                      {formik.errors.packageMaterial}
-                    </span>
-                  )}
-                {formik.touched.packageMaterialIfOther &&
-                  formik.errors.packageMaterialIfOther && (
-                    <span className={styles.error}>
-                      {formik.errors.packageMaterialIfOther}
-                    </span>
-                  )}
-              </div>
-              <div className={styles.productContainer}>
-                <label className={styles.formLabel}>Storage Conditions</label>
-                <div className={styles.tooltipContainer}>
+              <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>Storage Conditions</label>
+                <div className={styles?.tooltipContainer}>
                   <input
-                    className={styles.formInput}
+                    className={styles?.formInput}
                     type="text"
                     placeholder="Enter Storage Conditions"
                     // autoComplete="off"
                     name="storage"
                     value={formik?.values?.storage}
                     onChange={(e) =>
-                      handleInputChange(e, formik.setFieldValue, 30, "all")
+                      handleInputChange(e, formik?.setFieldValue, 30, "all")
                     }
                     onBlur={formik?.handleBlur}
                   />
                   <Tooltip content="Recommended storage (e.g., store in a cool, dry place)"></Tooltip>
                 </div>
               </div>
-              <div className={styles.productContainer}>
-                <label className={styles.formLabel}>
-                  Manufacturer Name
-                  {/* <span className={styles?.labelStamp}>*</span> */}
-                </label>
-                <input
-                  className={styles.formInput}
-                  type="text"
-                  placeholder="Enter Manufacturer Name"
-                  // autoComplete="off"
-                  name="manufacturer"
-                  value={formik?.values?.manufacturer}
-                  onBlur={formik?.handleBlur}
-                  // onChange={(e) => {
-                  //   formik.setFieldValue("manufacturer", e.target.value);
-                  // }}
 
-                  onChange={(e) =>
-                    handleInputChange(e, formik.setFieldValue, 75, "all", [
-                      "manufacturer",
-                    ])
-                  }
-                />
-                {/* {formik.touched.manufacturer && formik.errors.manufacturer && (
-                  <span className={styles.error}>
-                    {formik.errors.manufacturer}
-                  </span>
-                )} */}
-              </div>
-
-              <div className={styles.productContainer}>
-                <label className={styles.formLabel}>
-                  Manufacturer Contry of Origin
-                  {/* <span className={styles?.labelStamp}>*</span> */}
-                </label>
-                <Select
-                  name="countryOfOrigin"
-                  options={countries}
-                  placeholder="Select Country of Origin"
-                  value={
-                    countries.find(
-                      (option) =>
-                        option.label === formik.values?.countryOfOrigin
-                    ) || null
-                  }
-                  onBlur={formik.handleBlur}
-                  onChange={(selectedOption) => {
-                    formik.setFieldValue(
-                      "countryOfOrigin",
-                      selectedOption?.label
-                    );
-                  }}
-                />
-
-                {/* {formik.touched.countryOfOrigin &&
-                  formik.errors.countryOfOrigin && (
-                    <span className={styles.error}>
-                      {formik.errors.countryOfOrigin}
-                    </span>
-                  )} */}
-              </div>
-
-              <div className={styles.productContainer}>
-                <AddProductFileUpload
-                  styles={styles}
-                  productDetails={productDetail}
-                  maxFiles={4 - (formik?.values?.image?.length || 0)}
-                  fieldInputName={"imageNew"}
-                  oldFieldName={"image"}
-                  existingFiles={formik?.values?.image}
-                  setFieldValue={formik.setFieldValue}
-                  initialValues={formik?.values}
-                  label="Product Image"
-                  tooltip={false}
-                  acceptTypes={{
-                    "image/png": [],
-                    "image/jpeg": [],
-                    "image/jpg": [],
-                  }}
-                  error={
-                    (formik.touched.image ||
-                      formik.touched.imageNew ||
-                      formik.errors.image ||
-                      formik.errors.imageNew) && (
-                      <div>{formik.errors.image || formik.errors.imageNew}</div>
-                    )
-                  }
-                />
-              </div>
-              <div className={styles.productContainer}>
-                {formik?.values?.market === "secondary" && (
-                  <AddProductFileUpload
-                    styles={styles}
-                    productDetails={productDetail}
-                    maxFiles={
-                      1 - (formik?.values?.purchaseInvoiceFile?.length || 0)
-                    }
-                    fieldInputName={"purchaseInvoiceFileNew"}
-                    oldFieldName={"purchaseInvoiceFile"}
-                    existingFiles={formik?.values?.purchaseInvoiceFile}
-                    setFieldValue={formik.setFieldValue}
-                    initialValues={formik?.values}
-                    label="Purchase Invoice"
-                    tooltip={false}
-                    acceptTypes={{
-                      "application/pdf": [],
-                    }}
-                    error={
-                      (formik.touched.purchaseInvoiceFile ||
-                        formik.touched.purchaseInvoiceFileNew ||
-                        formik.errors.purchaseInvoiceFile ||
-                        formik.errors.purchaseInvoiceFileNew) && (
-                        <div>
-                          {formik.errors.purchaseInvoiceFile ||
-                            formik.errors.purchaseInvoiceFileNew}
-                        </div>
-                      )
-                    }
-                  />
-                )}
-              </div>
-              <div className={styles.descriptionContainer}>
-                <RichTextEditor
-                  label="Product Description"
-                  name="description"
-                  value={formik?.values?.description}
-                  onChange={(content) =>
-                    formik?.setFieldValue("description", content)
-                  }
-                  onBlur={() =>
-                    formik?.handleBlur({ target: { name: "description" } })
-                  }
-                  height={300}
-                />
-                {formik.touched.description && formik.errors.description && (
-                  <span className={styles.error}>
-                    {formik.errors.description}
-                  </span>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* Start the Medical Equipment And Devices */}
-          {formik?.values?.category?.toLowerCase() ===
-            "MedicalEquipmentAndDevices"?.toLowerCase() && (
-            <div className={styles.section}>
-              <span className={styles.formHead}>Technical Details</span>
-              <div className={styles.formSection}>
-                <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>Interoperability</label>
-                  <div className={styles.tooltipContainer}>
-                    <input
-                      className={styles.formInput}
-                      type="text"
-                      placeholder="Enter Interoperability"
-                      // autoComplete="off"
-                      name="interoperability"
-                      value={formik?.values?.interoperability}
-                      onChange={(e) =>
-                        handleInputChange(e, formik.setFieldValue, 50, "all")
-                      }
-                      onBlur={formik?.handleBlur}
-                    />
-                    <Tooltip content="Adheres to HL7/FHIR standards for healthcare data exchange."></Tooltip>
-                  </div>
-                </div>
-
-                <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>Laser Type</label>
-                  <div className={styles.tooltipContainer}>
-                    <input
-                      className={styles.formInput}
-                      type="text"
-                      placeholder="Enter Laser Type"
-                      // autoComplete="off"
-                      name="laserType"
-                      value={formik?.values?.laserType}
-                      onChange={(e) =>
-                        handleInputChange(e, formik.setFieldValue, 50, "all")
-                      }
-                      onBlur={formik?.handleBlur}
-                    />
-                    <Tooltip content="Type of laser (e.g., CO2, diode, Nd:YAG, Er:YAG)"></Tooltip>
-                  </div>
-                  <span className={styles.error}></span>
-                </div>
-                <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>Cooling System</label>
-                  <div className={styles.tooltipContainer}>
-                    <input
-                      className={styles.formInput}
-                      type="text"
-                      placeholder="Enter Cooling System"
-                      // autoComplete="off"
-                      name="coolingSystem"
-                      value={formik?.values?.coolingSystem}
-                      onChange={(e) =>
-                        handleInputChange(e, formik.setFieldValue, 50, "all")
-                      }
-                      onBlur={formik?.handleBlur}
-                    />
-                    <Tooltip content="Type of cooling used (e.g., air, contact, cryogenic cooling)."></Tooltip>
-                  </div>
-                  <span className={styles.error}></span>
-                </div>
-
-                <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>Spot Size</label>
-                  <div className={styles.tooltipContainer}>
-                    <input
-                      className={styles.formInput}
-                      type="text"
-                      placeholder="Enter Spot Size"
-                      // autoComplete="off"
-                      name="spotSize"
-                      value={formik?.values?.spotSize}
-                      onChange={(e) =>
-                        handleInputChange(e, formik.setFieldValue, 4, "number")
-                      }
-                      onBlur={formik?.handleBlur}
-                    />
-                    <Tooltip content="Diameter of the laser spot on the skin (in mm or cm)."></Tooltip>
-                  </div>
-                  <span className={styles.error}></span>
-                </div>
-                <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>
-                    Diagnostic Functions
-                  </label>
-                  <div className={styles.tooltipContainer}>
-                    <textarea
-                      className={styles.formInput}
-                      placeholder="Enter Diagnostic Functions"
-                      rows="2"
-                      name="diagnosticFunctions"
-                      value={formik?.values?.diagnosticFunctions}
-                      onChange={(e) =>
-                        handleInputChange(e, formik.setFieldValue, 1000, "all")
-                      }
-                      onBlur={formik?.handleBlur}
-                    />
-                    <Tooltip content="Specific diagnostic tests or functions that the tool performs"></Tooltip>
-                  </div>
-                </div>
-                <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>
-                    Performance Testing Report
-                  </label>
-                  <div className={styles.tooltipContainer}>
-                    <textarea
-                      className={styles.formInput}
-                      placeholder="Enter Performance Testing Report"
-                      rows="2"
-                      name="performanceTestingReport"
-                      value={formik?.values?.performanceTestingReport}
-                      onChange={(e) =>
-                        handleInputChange(e, formik.setFieldValue, 1000, "all")
-                      }
-                      onBlur={formik?.handleBlur}
-                    />
-                    <Tooltip
-                      content="Results from any internal or external product testing
-                        (e.g., nebulizer output, CPAP pressure and airflow
-                        testing)."
-                    ></Tooltip>
-                  </div>
-                  <AddProductFileUpload
-                    styles={styles}
-                    productDetails={productDetail}
-                    maxFiles={
-                      4 -
-                      (formik?.values?.performanceTestingReportFile?.length ||
-                        0)
-                    }
-                    fieldInputName={"performanceTestingReportFileNew"}
-                    oldFieldName={"performanceTestingReportFile"}
-                    existingFiles={formik?.values?.performanceTestingReportFile}
-                    setFieldValue={formik.setFieldValue}
-                    initialValues={formik?.values}
-                    label=""
-                    tooltip={false}
-                    showLabel={false}
-                    acceptTypes={{
-                      "image/png": [],
-                      "image/jpeg": [],
-                      "image/jpg": [],
-                      "application/pdf": [],
-                    }}
-                    error={
-                      (formik.touched.performanceTestingReportFile ||
-                        formik.touched.performanceTestingReportFileNew ||
-                        formik.errors.performanceTestingReportFile ||
-                        formik.errors.performanceTestingReportFileNew) && (
-                        <div>
-                          {formik.errors.performanceTestingReportFile ||
-                            formik.errors.performanceTestingReportFileNew}
-                        </div>
-                      )
-                    }
-                  />
-                </div>
-                <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>Specification</label>
-                  <span className={styles.labelStamp}>*</span>
-                  <div className={styles.tooltipContainer}>
-                    <textarea
-                      className={styles.formInput}
-                      placeholder="Enter Specification"
-                      rows="2"
-                      name="specification"
-                      value={formik?.values?.specification}
-                      onChange={(e) =>
-                        handleInputChange(e, formik.setFieldValue, 1000, "all")
-                      }
-                      onBlur={formik?.handleBlur}
-                    />
-                    <Tooltip content="Technical Specification of the tool  (e.g., hardware, software, network diagnostics, etc.)"></Tooltip>
-                    {formik?.touched.specification &&
-                      formik?.errors.specification && (
-                        <span className={styles.error}>
-                          {formik?.errors.specification}
-                        </span>
-                      )}
-                  </div>
-                  <AddProductFileUpload
-                    styles={styles}
-                    productDetails={productDetail}
-                    maxFiles={
-                      4 - (formik?.values?.specificationFile?.length || 0)
-                    }
-                    fieldInputName={"specificationFileNew"}
-                    oldFieldName={"specificationFile"}
-                    existingFiles={formik?.values?.specificationFile}
-                    setFieldValue={formik.setFieldValue}
-                    initialValues={formik?.values}
-                    label=""
-                    tooltip={false}
-                    showLabel={false}
-                    acceptTypes={{
-                      "image/png": [],
-                      "image/jpeg": [],
-                      "image/jpg": [],
-                      "application/pdf": [],
-                    }}
-                    error={
-                      (formik.touched.specificationFile ||
-                        formik.touched.specificationFileNew ||
-                        formik.errors.specificationFile ||
-                        formik.errors.specificationFileNew) && (
-                        <div>
-                          {formik.errors.specificationFile ||
-                            formik.errors.specificationFileNew}
-                        </div>
-                      )
-                    }
-                  />
-                </div>
-              </div>
-            </div>
-          )}
-          {/* End the MedicalEquipmentAndDevices */}
-
-          {/* Start the Pharmaceuticals */}
-          {formik?.values?.category?.toLowerCase() ===
-            "Pharmaceuticals"?.toLowerCase() && (
-            <>
-              <div className={styles.section}>
-                <span className={styles.formHead}>Product Identification</span>
-                <div className={styles.formSection}>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Generic Name
-                      <span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <input
-                        className={styles.formInput}
-                        type="text"
-                        placeholder="Enter Generic Name"
-                        // autoComplete="off"
-                        name="genericName"
-                        value={formik?.values?.genericName}
-                        onChange={(e) =>
-                          handleInputChange(e, formik.setFieldValue, 50, "all")
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="The generic name of the medication (e.g., Paracetamol, Metformin, Ibuprofene)"></Tooltip>
-                    </div>
-                    {formik.touched.genericName &&
-                      formik.errors.genericName && (
-                        <span className={styles.error}>
-                          {formik.errors.genericName}
-                        </span>
-                      )}
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Drug Class<span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <input
-                        className={styles.formInput}
-                        type="text"
-                        placeholder="Enter Drug Class"
-                        // autoComplete="off"
-                        name="drugClass"
-                        value={formik?.values?.drugClass}
-                        onChange={(e) =>
-                          handleInputChange(e, formik.setFieldValue, 25, "all")
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="The class of the drug (e.g., analgesic, antibiotic, antihypertensive)"></Tooltip>
-                    </div>
-                    {formik.touched.drugClass && formik.errors.drugClass && (
-                      <span className={styles.error}>
-                        {formik.errors.drugClass}
-                      </span>
-                    )}
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Strength<span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <input
-                        className={styles.formInput}
-                        type="text"
-                        placeholder="Enter Strength"
-                        // autoComplete="off"
-                        name="strength"
-                        value={formik?.values?.strength}
-                        onChange={(e) =>
-                          handleInputChange(e, formik.setFieldValue, 10, "all")
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip
-                        content="The strength or concentration of the medication (e.g.
-                           500 mg, 10 mg/mL,Standard or high-strength)."
-                      ></Tooltip>
-                    </div>
-                    {formik.touched.strength && formik.errors.strength && (
-                      <span className={styles.error}>
-                        {formik.errors.strength}
-                      </span>
-                    )}
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      OTC Classification
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <Select
-                        className={styles.formSelect}
-                        options={pharmaOptions}
-                        placeholder="Select OTC Classification"
-                        name="otcClassification"
-                        // Ensure that the value reflects the value from formik or the productDetail state
-                        value={pharmaOptions.find(
-                          (option) =>
-                            option?.value === formik?.values?.otcClassification
-                        )}
-                        onChange={(selectedOption) =>
-                          formik.setFieldValue(
-                            "otcClassification",
-                            selectedOption?.value
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip
-                        content=" Classification of the OTC drug by health authorities
-                          (e.g., <br /> approved for general public use,
-                          behind-the-counter)."
-                      ></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Composition/Ingredients
-                      <span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Composition/Ingredients"
-                        rows="2"
-                        name="composition"
-                        value={formik?.values?.composition}
-                        onChange={(e) =>
-                          handleInputChange(e, formik.setFieldValue, 100, "all")
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content=" Description of the active ingredients and components of the vaccine."></Tooltip>
-                    </div>
-                    {formik.touched.composition &&
-                      formik.errors.composition && (
-                        <span className={styles.error}>
-                          {formik.errors.composition}
-                        </span>
-                      )}
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Formulation</label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Formulation"
-                        rows="2"
-                        name="formulation"
-                        value={formik?.values?.formulation}
-                        onChange={(e) =>
-                          handleInputChange(e, formik.setFieldValue, 50, "all")
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="The type of formulation (e.g., gel, cream, lotion, serum, mask, foam etc)."></Tooltip>
-                    </div>
-                    {/* <span className={styles.error}></span> */}
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Purpose</label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Purpose"
-                        rows="2"
-                        name="purpose"
-                        value={formik?.values?.purpose}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip
-                        content=" Purpose (e.g., COVID-19 detection, blood glucose
-                          monitoring, cholesterol level check,Pain relief,
-                          Prevention of infection.,Cooling and
-                          soothing.,Moisturizing and healing, procedure or use
-                          case of
-                           tool, Relieves symptoms, promotes healing, or
-                          prevents recurrence.)"
-                      ></Tooltip>
-                    </div>
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Drug Administration Route
-                      <span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Drug Administration Route"
-                        rows="2"
-                        name="drugAdministrationRoute"
-                        value={formik?.values?.drugAdministrationRoute}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip
-                        content="  Drugs can be introduced into the body by many routes,
-                          such as enteric (oral, peroral, rectal),
-                          parenteral (intravascular, intramuscular, subcutaneous,
-                          and inhalation
-                           administration) or topical (skin and mucosal
-                          membranes)"
-                      ></Tooltip>
-                    </div>
-                    {formik.touched.drugAdministrationRoute &&
-                      formik.errors.drugAdministrationRoute && (
-                        <span className={styles.error}>
-                          {formik.errors.drugAdministrationRoute}
-                        </span>
-                      )}
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Controlled Substance
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <span className={styles.formCheckboxSection}>
-                        <input
-                          type="checkbox"
-                          id="controlledSubstance"
-                          onBlur={formik?.handleBlur}
-                          name="controlledSubstance"
-                          checked={formik?.values?.controlledSubstance || false}
-                          onChange={(e) => {
-                            handleCheckboxChange(
-                              "controlledSubstance",
-                              e?.target?.checked
-                            );
-                            formik.setFieldValue(
-                              "controlledSubstance",
-                              e?.target?.checked
-                            );
-                          }}
-                        />
-                        <label
-                          className={styles.checkText}
-                          htmlFor="controlledSubstance"
-                        >
-                          Whether the drug is a controlled <br /> substance
-                        </label>
-                      </span>
-
-                      <Tooltip
-                        content=" Whether the drug is a controlled substance (e.g., some
-                          OTC drugs are restricted,
-                          some are only available behind the counter or on
-                          prescription)."
-                      ></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-                </div>
-
-                <div className={styles.innerProductContainer}>
-                  <div className={styles.innerSection}>
-                    <span className={styles.formHead}>Storage & Handling</span>
-                    <div className={styles.productInnerContainer}>
-                      <label className={styles.formLabel}>
-                        Shelf Life/Expiry
-                        {/* <span className={styles?.labelStamp}>*</span> */}
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <input
-                          className={styles.formInput}
-                          type="text"
-                          placeholder="Enter Shelf Life/Expiry "
-                          // autoComplete="off"
-                          name="expiry"
-                          value={formik?.values?.expiry}
-                          onChange={(e) =>
-                            handleInputChange(
-                              e,
-                              formik.setFieldValue,
-                              50,
-                              "all"
-                            )
-                          }
-                          onBlur={formik?.handleBlur}
-                        />
-                        <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
-                      </div>
-                      {/* {formik.touched.expiry && formik.errors.expiry && (
-                        <span className={styles.error}>
-                          {formik.errors.expiry}
-                        </span>
-                      )} */}
-                    </div>
-                  </div>
-
-                  <div className={styles.innerMonitorSection}>
-                    <span className={styles.formHead}>
-                      Monitoring and Adherence
-                    </span>
-                    <div className={styles.formInnerSection}>
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>
-                          Side Effects and Warnings
-                        </label>
-                        <div className={styles.tooltipContainer}>
-                          <textarea
-                            className={styles.formInput}
-                            placeholder="Enter Side Effects and Warnings"
-                            rows="2"
-                            name="sideEffectsAndWarnings"
-                            value={formik?.values?.sideEffectsAndWarnings}
-                            onChange={(e) =>
-                              handleInputChange(
-                                e,
-                                formik.setFieldValue,
-                                1000,
-                                "all"
-                              )
-                            }
-                            onBlur={formik?.handleBlur}
-                          />
-                          <Tooltip
-                            content=" Common side effects associated with the medication.
-                              Known
-                              interactions with other drugs or food (eg.
-                              Alcohol)"
-                          ></Tooltip>
-                        </div>
-                        {/* <span className={styles.error}></span> */}
-                      </div>
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>Allergens</label>
-                        <div className={styles.tooltipContainer}>
-                          <textarea
-                            className={styles.formInput}
-                            placeholder="Enter Allergens"
-                            rows="2"
-                            name="allergens"
-                            value={formik?.values?.allergens}
-                            onChange={(e) =>
-                              handleInputChange(
-                                e,
-                                formik.setFieldValue,
-                                1000,
-                                "all"
-                              )
-                            }
-                            onBlur={formik?.handleBlur}
-                          />
-                          <Tooltip content=" Common allergens in the product (e.g., parabens, sulfates, gluten etc)."></Tooltip>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </>
-          )}
-
-          {/* End the Pharmaceuticals */}
-
-          {/* Start the Skin, Hair and Cosmetic Supplies */}
-          {formik?.values?.category?.toLowerCase() ===
-            "SkinHairCosmeticSupplies"?.toLowerCase() && (
-            <>
-              <div className={styles.section}>
-                <span className={styles.formHead}>Product Identification</span>
-                <div className={styles.formSection}>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>SPF</label>
-                    <div className={styles.tooltipContainer}>
-                      <input
-                        className={styles.formInput}
-                        type="text"
-                        placeholder="Enter SPF"
-                        // autoComplete="off"
-                        name="spf"
-                        value={formik?.values?.spf}
-                        onChange={(e) =>
-                          handleInputChange(e, formik.setFieldValue, 10, "all")
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="If the product is a sunscreen, the SPF (Sun Protection Factor) rating"></Tooltip>
-                    </div>
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Strength<span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <input
-                        className={styles.formInput}
-                        type="text"
-                        placeholder="Enter Strength"
-                        // autoComplete="off"
-                        name="strength"
-                        value={formik?.values?.strength}
-                        onChange={(e) =>
-                          handleInputChange(e, formik.setFieldValue, 20, "all")
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip
-                        content="The strength or concentration of the medication (e.g.
-                          500 mg, 10 mg/mL,Standard or high-strength)."
-                      ></Tooltip>
-                    </div>
-                    {formik.touched.strength && formik.errors.strength && (
-                      <span className={styles.error}>
-                        {formik.errors.strength}
-                      </span>
-                    )}
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Elasticity</label>
-                    <div className={styles.tooltipContainer}>
-                      <input
-                        className={styles.formInput}
-                        type="text"
-                        placeholder="Enter Elasticity"
-                        // autoComplete="off"
-                        name="elasticity"
-                        value={formik?.values?.elasticity}
-                        onChange={(e) =>
-                          handleInputChange(e, formik.setFieldValue, 50, "all")
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Stretch for tapes"></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Adhesiveness</label>
-                    <div className={styles.tooltipContainer}>
-                      <input
-                        className={styles.formInput}
-                        type="text"
-                        placeholder="Enter Adhesiveness"
-                        // autoComplete="off"
-                        name="adhesiveness"
-                        value={formik?.values?.adhesiveness}
-                        onChange={(e) =>
-                          handleInputChange(e, formik.setFieldValue, 50, "all")
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Adhesive or non-adhesive."></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Thickness</label>
-                    <div className={styles.tooltipContainer}>
-                      <input
-                        className={styles.formInput}
-                        type="text"
-                        placeholder="Enter Thickness"
-                        // autoComplete="off"
-                        name="thickness"
-                        value={formik?.values?.thickness}
-                        onChange={(e) =>
-                          handleInputChange(e, formik.setFieldValue, 5, "numer")
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="The thickness of the Item (e.g., in mil or gauge)."></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      OTC Classification
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <Select
-                        className={styles.formSelect}
-                        options={skinhairOptions}
-                        placeholder="Select OTC Classification"
-                        name="otcClassification"
-                        // Ensure that the value reflects the value from formik or the productDetail state
-                        value={pharmaOptions.find(
-                          (option) =>
-                            option?.value === formik?.values?.otcClassification
-                        )}
-                        onChange={(selectedOption) =>
-                          formik.setFieldValue(
-                            "otcClassification",
-                            selectedOption?.value
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip
-                        content=" Classification of the OTC drug by health authorities
-                          (e.g. approved for general public use,
-                          behind-the-counter)."
-                      ></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Formulation</label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Formulation"
-                        rows="2"
-                        name="formulation"
-                        value={formik?.values?.formulation}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="The type of formulation (e.g., gel, cream, lotion, serum, mask, foam etc)."></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Fragrance</label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Fragrance"
-                        rows="2"
-                        name="fragrance"
-                        value={formik?.values?.fragrance}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Whether the product contains fragrance or is fragrance-free."></Tooltip>
-                    </div>
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Composition/Ingredients
-                      <span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Composition/Ingredients"
-                        rows="2"
-                        name="composition"
-                        value={formik?.values?.composition}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Description of the active ingredients and components of the vaccine."></Tooltip>
-                    </div>
-                    {formik.touched.composition &&
-                      formik.errors.composition && (
-                        <span className={styles.error}>
-                          {formik.errors.composition}
-                        </span>
-                      )}
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Purpose<span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Purpose"
-                        rows="2"
-                        name="purpose"
-                        value={formik?.values?.purpose}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Intended use type (e.g., oily, dry, curly, fine, thick, straight, medical, industrial etc)"></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Target Condition
-                      <span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Target Condition"
-                        rows="2"
-                        name="targetCondition"
-                        value={formik?.values?.targetCondition}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="The hair, scalp or skin condition the product is formulated to address "></Tooltip>
-                    </div>
-                    {formik.touched.targetCondition &&
-                      formik.errors.targetCondition && (
-                        <span className={styles.error}>
-                          {formik.errors.targetCondition}
-                        </span>
-                      )}
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Drug Administration Route
-                      <span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Drug Administration Route"
-                        rows="2"
-                        name="drugAdministrationRoute"
-                        value={formik?.values?.drugAdministrationRoute}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip
-                        content=" Drugs can be introduced into the body by many routes,
-                          such as enteric (oral, peroral,
-                         rectal), parenteral (intravascular,
-                          intramuscular, subcutaneous, and inhalation
-                         administration) or topical (skin and mucosal
-                          membranes) "
-                      ></Tooltip>
-                    </div>
-                    {formik.touched.drugAdministrationRoute &&
-                      formik.errors.drugAdministrationRoute && (
-                        <span className={styles.error}>
-                          {formik.errors.drugAdministrationRoute}
-                        </span>
-                      )}
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Drug Class<span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Drug Class"
-                        rows="2"
-                        name="drugClass"
-                        value={formik?.values?.drugClass}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="The class of the drug (e.g., analgesic, antibiotic, antihypertensive)"></Tooltip>
-                    </div>
-                    {formik.touched.drugClass && formik.errors.drugClass && (
-                      <span className={styles.error}>
-                        {formik.errors.drugClass}
-                      </span>
-                    )}
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Concentration</label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Concentration"
-                        rows="2"
-                        name="concentration"
-                        value={formik?.values?.concentration}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip
-                        content="Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
-                          ,Alcohol-based disinfectants are  typically 70-90%
-                          concentration for optimal antimicrobial efficacy.
-                           Oxygen concentration level provided by the device
-                          (e.g., 95%)"
-                      ></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Moisturizers</label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Moisturizers"
-                        rows="2"
-                        name="moisturizers"
-                        value={formik?.values?.moisturizers}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Such as aloe vera, glycerin, or Vitamin E to reduce skin irritation from frequent use"></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Filler Type</label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Filler Type"
-                        rows="2"
-                        name="fillerType"
-                        value={formik?.values?.fillerType}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Hyaluronic acid, Calcium hydroxyapatite"></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Vegan</label>
-                    <div className={styles.tooltipContainer}>
-                      <span className={styles.formCheckboxSection}>
-                        <input
-                          type="checkbox"
-                          id="vegan"
-                          name="vegan"
-                          onBlur={formik?.handleBlur}
-                          checked={
-                            formik?.values?.vegan || checked["vegan"] || false
-                          }
-                          onChange={(e) => {
-                            handleCheckboxChange("vegan", e?.target?.checked);
-                            formik.setFieldValue("vegan", e?.target?.checked);
-                          }}
-                        />
-
-                        <label className={styles.checkText} htmlFor="vegan">
-                          Whether the product is vegan (i.e. <br />, no
-                          animal-derived ingredients).
-                        </label>
-                      </span>
-                      <Tooltip content="Description of the active and/or inactive ingredients and components"></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Cruelty-Free</label>
-                    <div className={styles.tooltipContainer}>
-                      <span className={styles.formCheckboxSection}>
-                        <input
-                          type="checkbox"
-                          id="crueltyFree"
-                          name="crueltyFree"
-                          onBlur={formik?.handleBlur}
-                          checked={
-                            formik?.values?.crueltyFree ||
-                            checked["crueltyFree"] ||
-                            false
-                          }
-                          onChange={(e) => {
-                            handleCheckboxChange(
-                              "crueltyFree",
-                              e?.target?.checked
-                            );
-                            formik.setFieldValue(
-                              "crueltyFree",
-                              e?.target?.checked
-                            );
-                          }}
-                        />
-
-                        <label
-                          className={styles.checkText}
-                          htmlFor="crueltyFree"
-                        >
-                          Whether the product is tested on <br /> animals or is
-                          cruelty-free
-                        </label>
-                      </span>
-                      <Tooltip content="Whether the product is tested on animals or is cruelty-free"></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Controlled Substance
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <span className={styles.formCheckboxSection}>
-                        <input
-                          type="checkbox"
-                          id="controlledSubstance"
-                          onBlur={formik?.handleBlur}
-                          name="controlledSubstance"
-                          checked={formik?.values?.controlledSubstance || false}
-                          onChange={(e) => {
-                            handleCheckboxChange(
-                              "controlledSubstance",
-                              e?.target?.checked
-                            );
-                            formik.setFieldValue(
-                              "controlledSubstance",
-                              e?.target?.checked
-                            );
-                          }}
-                        />
-                        <label
-                          className={styles.checkText}
-                          htmlFor="controlledSubstance"
-                        >
-                          Whether the drug is a controlled <br /> substance
-                        </label>
-                      </span>
-                      <Tooltip
-                        content=" Whether the drug is a controlled substance (e.g., some
-                          OTC drugs are restricted,
-                           some are only available behind the counter or on
-                          prescription)."
-                      ></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-                </div>
-
-                <div className={styles.innerProductContainer}>
-                  <div className={styles.innerMonitorSection}>
-                    <span className={styles.formHead}>
-                      Compliance & Certification
-                    </span>
-                    <div className={styles.formInnerSection}>
-                      {/* Dermatologist Tested */}
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>
-                          Dermatologist Tested
-                          <span className={styles?.labelStamp}>*</span>
-                        </label>
-                        <div className={styles.tooltipContainer}>
-                          <Select
-                            className={styles.formSelect}
-                            options={dermatologistOptions}
-                            placeholder="Select Dermatologist Tested"
-                            name="dermatologistTested"
-                            // value={formik?.values?.dermatologistTested}
-                            value={dermatologistOptions.find(
-                              (option) =>
-                                option?.value ===
-                                formik?.values?.dermatologistTested
-                            )}
-                            onChange={(selectedOption) => {
-                              formik.setFieldValue(
-                                "dermatologistTested",
-                                selectedOption?.value
-                              );
-                              setDermatologistTested(selectedOption?.value);
-                            }}
-                            onBlur={formik?.handleBlur}
-                          />
-                          <Tooltip content=" Whether the product has been dermatologist-tested for sensitivity."></Tooltip>
-                        </div>
-                        {formik.touched.dermatologistTested &&
-                          formik.errors.dermatologistTested && (
-                            <span className={styles.error}>
-                              {formik.errors.dermatologistTested}
-                            </span>
-                          )}
-                        {dermatologistTested === "Yes" && (
-                          <>
-                            <AddProductFileUpload
-                              styles={styles}
-                              productDetails={productDetail}
-                              maxFiles={
-                                4 -
-                                (formik?.values?.dermatologistTestedFile
-                                  ?.length || 0)
-                              }
-                              fieldInputName={"dermatologistTestedFileNew"}
-                              oldFieldName={"dermatologistTestedFile"}
-                              existingFiles={
-                                formik?.values?.dermatologistTestedFile
-                              }
-                              setFieldValue={formik.setFieldValue}
-                              initialValues={formik?.values}
-                              label=""
-                              tooltip={false}
-                              showLabel={false}
-                              acceptTypes={{
-                                "image/png": [],
-                                "image/jpeg": [],
-                                "image/jpg": [],
-                                "application/pdf": [],
-                              }}
-                              error={
-                                (formik.touched.dermatologistTestedFile ||
-                                  formik.touched.dermatologistTestedFileNew ||
-                                  formik.errors.dermatologistTestedFile ||
-                                  formik.errors.dermatologistTestedFileNew) && (
-                                  <div>
-                                    {formik.errors.dermatologistTestedFile ||
-                                      formik.errors.dermatologistTestedFileNew}
-                                  </div>
-                                )
-                              }
-                            />
-                          </>
-                        )}
-                      </div>
-
-                      {/* Pediatrician Recommended */}
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>
-                          Pediatrician Recommended
-                          <span className={styles?.labelStamp}>*</span>
-                        </label>
-                        <div className={styles.tooltipContainer}>
-                          <Select
-                            className={styles.formSelect}
-                            options={pediatricianOptions}
-                            placeholder="Select Pediatrician Recommended"
-                            name="pediatricianRecommended"
-                            // value={formik?.values?.pediatricianRecommended}
-                            value={pediatricianOptions.find(
-                              (option) =>
-                                option?.value ===
-                                formik?.values?.pediatricianRecommended
-                            )}
-                            onChange={(selectedOption) => {
-                              formik.setFieldValue(
-                                "pediatricianRecommended",
-                                selectedOption?.value
-                              );
-                              setPediatricianRecommended(selectedOption?.value);
-                            }}
-                            onBlur={formik?.handleBlur}
-                          />
-                          <Tooltip content="Whether the product has been recommended or endorsed by pediatricians."></Tooltip>
-                        </div>
-                        {formik.touched.pediatricianRecommended &&
-                          formik.errors.pediatricianRecommended && (
-                            <span className={styles.error}>
-                              {formik.errors.pediatricianRecommended}
-                            </span>
-                          )}
-                        {pediatricianRecommended === "Yes" && (
-                          <>
-                            <AddProductFileUpload
-                              styles={styles}
-                              productDetails={productDetail}
-                              maxFiles={
-                                4 -
-                                (formik?.values?.pediatricianRecommendedFile
-                                  ?.length || 0)
-                              }
-                              fieldInputName={"pediatricianRecommendedFileNew"}
-                              oldFieldName={"pediatricianRecommendedFile"}
-                              existingFiles={
-                                formik?.values?.pediatricianRecommendedFile
-                              }
-                              setFieldValue={formik.setFieldValue}
-                              initialValues={formik?.values}
-                              label=""
-                              tooltip={false}
-                              showLabel={false}
-                              acceptTypes={{
-                                "image/png": [],
-                                "image/jpeg": [],
-                                "image/jpg": [],
-                                "application/pdf": [],
-                              }}
-                              error={
-                                (formik.touched.pediatricianRecommendedFile ||
-                                  formik.touched
-                                    .pediatricianRecommendedFileNew ||
-                                  formik.errors.pediatricianRecommendedFile ||
-                                  formik.errors
-                                    .pediatricianRecommendedFileNew) && (
-                                  <div>
-                                    {formik.errors
-                                      .pediatricianRecommendedFile ||
-                                      formik.errors
-                                        .pediatricianRecommendedFileNew}
-                                  </div>
-                                )
-                              }
-                            />
-                          </>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                  <div className={styles.innerMonitorSection}>
-                    <span className={styles.formHead}>
-                      Monitoring and Adherence
-                    </span>
-                    <div className={styles.formInnerSection}>
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>
-                          Side Effects and Warnings
-                        </label>
-                        <div className={styles.tooltipContainer}>
-                          <textarea
-                            className={styles.formInput}
-                            placeholder="Enter Side Effects and Warnings"
-                            rows="2"
-                            name="sideEffectsAndWarnings"
-                            value={formik?.values?.sideEffectsAndWarnings}
-                            onChange={(e) =>
-                              handleInputChange(
-                                e,
-                                formik.setFieldValue,
-                                1000,
-                                "all"
-                              )
-                            }
-                            onBlur={formik?.handleBlur}
-                          />
-                          <Tooltip
-                            content="Common side effects associated with the medication.
-                              Known interactions  with other drugs or food
-                              (eg. Alcohol)"
-                          ></Tooltip>
-                        </div>
-                        <span className={styles.error}></span>
-                      </div>
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>Allergens</label>
-                        <div className={styles.tooltipContainer}>
-                          <textarea
-                            className={styles.formInput}
-                            placeholder="Enter Allergens"
-                            rows="2"
-                            name="allergens"
-                            value={formik?.values?.allergens}
-                            onChange={(e) =>
-                              handleInputChange(
-                                e,
-                                formik.setFieldValue,
-                                1000,
-                                "all"
-                              )
-                            }
-                            onBlur={formik?.handleBlur}
-                          />
-                          <Tooltip content="Common allergens in the product (e.g., parabens, sulfates, gluten etc)."></Tooltip>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className={styles.innerSection}>
-                    <span className={styles.formHead}>Storage & Handling</span>
-                    <div className={styles.productInnerContainer}>
-                      <label className={styles.formLabel}>
-                        Shelf Life/Expiry
-                        {/* <span className={styles?.labelStamp}>*</span> */}
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <input
-                          className={styles.formInput}
-                          type="text"
-                          placeholder="Enter Shelf Life/Expiry"
-                          // autoComplete="off"
-                          name="expiry"
-                          value={formik?.values?.expiry}
-                          onChange={(e) =>
-                            handleInputChange(
-                              e,
-                              formik.setFieldValue,
-                              50,
-                              "all"
-                            )
-                          }
-                          onBlur={formik?.handleBlur}
-                        />
-                        <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
-                      </div>
-                    </div>
-                    {/* {formik.touched.expiry && formik.errors.expiry && (
-                      <span className={styles.error}>
-                        {formik.errors.expiry}
-                      </span>
-                    )} */}
-                  </div>
-                </div>
-              </div>
-            </>
-          )}
-
-          {/* End the Skin, Hair and Cosmetic Supplies */}
-
-          {/* Start the Vital Health and Wellness */}
-          {formik?.values?.category?.toLowerCase() ===
-            "VitalHealthAndWellness"?.toLowerCase() && (
-            <>
-              <div className={styles.section}>
-                <span className={styles.formHead}>Product Identification</span>
-                <div className={styles.formSection}>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Generic Name
-                      <span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <input
-                        className={styles.formInput}
-                        type="text"
-                        placeholder="Enter Generic Name"
-                        // autoComplete="off"
-                        name="genericName"
-                        value={formik?.values?.genericName}
-                        onChange={(e) =>
-                          handleInputChange(e, formik.setFieldValue, 50, "all")
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="The generic name of the medication (e.g., Paracetamol, Metformin, Ibuprofene)"></Tooltip>
-                    </div>
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Strength<span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <input
-                        className={styles.formInput}
-                        type="text"
-                        placeholder="Enter Strength"
-                        // autoComplete="off"
-                        name="strength"
-                        value={formik?.values?.strength}
-                        onChange={(e) =>
-                          handleInputChange(e, formik.setFieldValue, 20, "all")
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip
-                        content=" The strength or concentration of the medication (e.g.,
-                          500 mg, 10 mg/mL,Standard or high-strength)."
-                      ></Tooltip>
-                    </div>
-                    {formik.touched.strength && formik.errors.strength && (
-                      <span className={styles.error}>
-                        {formik.errors.strength}
-                      </span>
-                    )}
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      OTC Classification
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <Select
-                        className={styles.formSelect}
-                        options={vitalHealthOptions}
-                        placeholder="Select OTC Classification"
-                        name="otcClassification"
-                        // Ensure that the value reflects the value from formik or the productDetail state
-                        value={pharmaOptions.find(
-                          (option) =>
-                            option?.value === formik?.values?.otcClassification
-                        )}
-                        onChange={(selectedOption) =>
-                          formik.setFieldValue(
-                            "otcClassification",
-                            selectedOption?.value
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip
-                        content="Classification of the OTC drug by health authorities
-                          (e.g., approved for general public use,
-                          behind-the-counter)."
-                      ></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Health Benefit
-                      <span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Health Benefit"
-                        rows="2"
-                        name="healthBenefit"
-                        value={formik?.values?.healthBenefit}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Info about the health benefits (e.g., “Boosts immunity”, “Supports joint health”)"></Tooltip>
-                    </div>
-                    {formik.touched.healthBenefit &&
-                      formik.errors.healthBenefit && (
-                        <span className={styles.error}>
-                          {formik.errors.healthBenefit}
-                        </span>
-                      )}
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Composition/Ingredients
-                      <span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Composition/Ingredients"
-                        rows="2"
-                        name="composition"
-                        value={formik?.values?.composition}
-                        onChange={(e) =>
-                          handleInputChange(e, formik.setFieldValue, 500, "all")
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Description of the active ingredients and components of the vaccine."></Tooltip>
-                    </div>
-                    {formik.touched.composition &&
-                      formik.errors.composition && (
-                        <span className={styles.error}>
-                          {formik.errors.composition}
-                        </span>
-                      )}
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Formulation</label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Formulation"
-                        rows="2"
-                        name="formulation"
-                        value={formik?.values?.formulation}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="The type of formulation (e.g., gel, cream, lotion, serum, mask, foam etc)."></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Purpose</label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Purpose"
-                        rows="2"
-                        name="purpose"
-                        value={formik?.values?.purpose}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip
-                        content="Purpose (e.g., COVID-19 detection, blood glucose
-                          monitoring, cholesterol level check,Pain relief, 
-                          Prevention of infection.,Cooling and
-                          soothing.,Moisturizing and healing, procedure
-                          or use case of tool, Relieves symptoms, promotes
-                          healing, or prevents recurrence.)"
-                      ></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Drug Administration Route
-                      <span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Drug Administration Route"
-                        rows="2"
-                        name="drugAdministrationRoute"
-                        value={formik?.values?.drugAdministrationRoute}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip
-                        content=" Drugs can be introduced into the body by many routes,
-                          such as enteric (oral, peroral, rectal), parenteral
-                          (intravascular, intramuscular, <br /> subcutaneous, and
-                          inhalation administration) or topical (skin and mucosal
-                          membranes)"
-                      ></Tooltip>
-                    </div>
-                    {formik.touched.drugAdministrationRoute &&
-                      formik.errors.drugAdministrationRoute && (
-                        <span className={styles.error}>
-                          {formik.errors.drugAdministrationRoute}
-                        </span>
-                      )}
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Drug Class<span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Drug Class"
-                        rows="2"
-                        name="drugClass"
-                        value={formik?.values?.drugClass}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="The class of the drug (e.g., analgesic, antibiotic, antihypertensive)"></Tooltip>
-                    </div>
-                    {formik.touched.drugClass && formik.errors.drugClass && (
-                      <span className={styles.error}>
-                        {formik.errors.drugClass}
-                      </span>
-                    )}
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Additives & Sweeteners
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Additives & Sweeteners"
-                        rows="2"
-                        name="additivesNSweeteners"
-                        value={formik?.values?.additivesNSweeteners}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip
-                        content="Some proteins contain artificial sweeteners (e.g.,
-                          sucralose, aspartame),
-                          while others use natural sweeteners (e.g.,
-                          stevia, monk fruit)."
-                      ></Tooltip>
-                    </div>
-                    {formik.touched.additivesNSweeteners &&
-                      formik.errors.additivesNSweeteners && (
-                        <span className={styles.error}>
-                          {formik.errors.additivesNSweeteners}
-                        </span>
-                      )}
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Controlled Substance
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <span className={styles.formCheckboxSection}>
-                        <input
-                          type="checkbox"
-                          id="controlledSubstance"
-                          onBlur={formik?.handleBlur}
-                          name="controlledSubstance"
-                          checked={formik?.values?.controlledSubstance || false}
-                          onChange={() =>
-                            handleCheckboxChange("controlledSubstance")
-                          }
-                        />
-
-                        <label
-                          className={styles.checkText}
-                          htmlFor="controlledSubstance"
-                        >
-                          Whether the drug is a controlled <br /> substance
-                        </label>
-                      </span>
-                      <Tooltip
-                        content=" Whether the drug is a controlled substance (e.g., some
-                          OTC drugs are  restricted, some are only available
-                          behind the counter or on prescription)."
-                      ></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Vegan</label>
-                    <div className={styles.tooltipContainer}>
-                      <span className={styles.formCheckboxSection}>
-                        <input
-                          type="checkbox"
-                          id="vegan"
-                          name="vegan"
-                          onBlur={formik?.handleBlur}
-                          checked={
-                            formik?.values?.vegan || checked["vegan"] || false
-                          }
-                          onChange={(e) => {
-                            handleCheckboxChange("vegan", e?.target?.checked);
-                            formik.setFieldValue("vegan", e?.target?.checked);
-                          }}
-                        />
-
-                        <label className={styles.checkText} htmlFor="vegan">
-                          Whether the product is vegan (i.e.
-                          <br />, no animal-derived ingredients).
-                        </label>
-                      </span>
-                      <Tooltip content="Description of the active and/or inactive ingredients and components"></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Cruelty-Free</label>
-                    <div className={styles.tooltipContainer}>
-                      <span className={styles.formCheckboxSection}>
-                        <input
-                          type="checkbox"
-                          id="crueltyFree"
-                          name="crueltyFree"
-                          onBlur={formik?.handleBlur}
-                          checked={
-                            formik?.values?.crueltyFree ||
-                            checked["crueltyFree"] ||
-                            false
-                          }
-                          onChange={(e) => {
-                            handleCheckboxChange(
-                              "crueltyFree",
-                              e?.target?.checked
-                            );
-                            formik.setFieldValue(
-                              "crueltyFree",
-                              e?.target?.checked
-                            );
-                          }}
-                        />
-
-                        <label
-                          className={styles.checkText}
-                          htmlFor="crueltyFree"
-                        >
-                          Whether the product is tested on <br /> animals or is
-                          cruelty-free
-                        </label>
-                      </span>
-                      <Tooltip content="Whether the product is tested on animals or is cruelty-free"></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-                </div>
-                <div className={styles.innerProductContainer}>
-                  <div className={styles.innerSection}>
-                    <span className={styles.formHead}>Storage & Handling</span>
-                    <div className={styles.productInnerContainer}>
-                      <label className={styles.formLabel}>
-                        Shelf Life/Expiry
-                        {/* <span className={styles?.labelStamp}>*</span> */}
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <input
-                          className={styles.formInput}
-                          type="text"
-                          placeholder="Enter Shelf Life/Expiry"
-                          // autoComplete="off"
-                          name="expiry"
-                          value={formik?.values?.expiry}
-                          onChange={(e) =>
-                            handleInputChange(
-                              e,
-                              formik.setFieldValue,
-                              20,
-                              "all"
-                            )
-                          }
-                          onBlur={formik?.handleBlur}
-                        />
-                        <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
-                      </div>
-                      {/* {formik.touched.expiry && formik.errors.expiry && (
-                        <span className={styles.error}>
-                          {formik.errors.expiry}
-                        </span>
-                      )} */}
-                    </div>
-                  </div>
-
-                  <div className={styles.innerMonitorSection}>
-                    <span className={styles.formHead}>
-                      Monitoring and Adherence
-                    </span>
-                    <div className={styles.formInnerSection}>
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>
-                          Side Effects and Warnings
-                        </label>
-                        <div className={styles.tooltipContainer}>
-                          <textarea
-                            className={styles.formInput}
-                            type="text"
-                            placeholder="Enter Side Effects and Warnings"
-                            // autoComplete="off"
-                            name="sideEffectsAndWarnings"
-                            value={formik?.values?.sideEffectsAndWarnings}
-                            onChange={(e) =>
-                              handleInputChange(
-                                e,
-                                formik.setFieldValue,
-                                500,
-                                "all"
-                              )
-                            }
-                            onBlur={formik?.handleBlur}
-                          />
-                          <Tooltip
-                            content=" Common side effects associated with the medication.
-                              Known interactions with other drugs or food
-                              (eg. Alcohol)"
-                          ></Tooltip>
-                        </div>
-                        <span className={styles.error}></span>
-                      </div>
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>Allergens</label>
-                        <div className={styles.tooltipContainer}>
-                          <textarea
-                            className={styles.formInput}
-                            placeholder="Enter Allergens"
-                            rows="2"
-                            name="allergens"
-                            value={formik?.values?.allergens}
-                            onChange={(e) =>
-                              handleInputChange(
-                                e,
-                                formik.setFieldValue,
-                                1000,
-                                "all"
-                              )
-                            }
-                            onBlur={formik?.handleBlur}
-                          />
-                          <Tooltip content=" Common allergens in the product (e.g., parabens, sulfates, gluten etc)."></Tooltip>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </>
-          )}
-          {/* End the Vital Health and Wellness */}
-
-          {/* Start the Medical Consumables and Disposables */}
-          {formik?.values?.category?.toLowerCase() ===
-            "MedicalConsumablesAndDisposables"?.toLowerCase() && (
-            <>
-              <div className={styles.section}>
-                <span className={styles.formHead}>Product Identification</span>
-                <div className={styles.formSection}>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Thickness</label>
-                    <div className={styles.tooltipContainer}>
-                      <input
-                        className={styles.formInput}
-                        type="text"
-                        placeholder="Enter Thickness"
-                        // autoComplete="off"
-                        name="thickness"
-                        value={formik?.values?.thickness}
-                        onChange={(e) =>
-                          handleInputChange(e, formik.setFieldValue, 5, "all")
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content=" The thickness of the Item (e.g., in mil or gauge)."></Tooltip>
-                    </div>
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Product Material</label>
-                    <div className={styles.tooltipContainer}>
-                      <input
-                        className={styles.formInput}
-                        type="text"
-                        placeholder="Enter Product Material"
-                        // autoComplete="off"
-                        name="productMaterial"
-                        value={formik?.values?.productMaterial}
-                        onChange={(e) =>
-                          handleInputChange(e, formik.setFieldValue, 25, "all")
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content=" Material used (e.g., Latex, Nitrile, Vinyl, Rubber, stainless steel, titanium etc.)."></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Filtration Type</label>
-                    <div className={styles.tooltipContainer}>
-                      <Chips
-                        value={formik?.values.filtrationType}
-                        name="filtrationType"
-                        onBlur={formik?.handleBlur}
-                        onChange={(e) => {
-                          setValue(e.value);
-                          formik.setFieldValue("filtrationType", e.value);
-                        }}
-                        placeholder={
-                          value.length === 0 ? "Press enter to add label" : ""
-                        }
-                      />
-                      <Tooltip
-                        content="Type of Filteration (e.g., PFE (Particle Filtration
-                          Efficiency),  BFE (Bacterial Filtration
-                          Efficiency), Viral Filtration Efficiency etc)"
-                      ></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Purpose</label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Purpose"
-                        rows="2"
-                        name="purpose"
-                        value={formik?.values?.purpose}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Intended use type (e.g., oily, dry, curly, fine, thick, straight, medical, industrial etc)"></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Chemical Resistance
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Chemical Resistance"
-                        rows="2"
-                        name="chemicalResistance"
-                        value={formik?.values?.chemicalResistance}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Any specific chemical resistance features"></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Shape</label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Shape"
-                        rows="2"
-                        name="shape"
-                        value={formik?.values?.shape}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Shape of the needle (e.g., 1/2 circle, 3/8 circle)."></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Coating</label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Coating"
-                        rows="2"
-                        name="coating"
-                        value={formik?.values?.coating}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Type of coating (e.g., antimicrobial, silicone)."></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Powdered</label>
-                    <div className={styles.tooltipContainer}>
-                      <span className={styles.formCheckboxSection}>
-                        <input
-                          type="checkbox"
-                          id="powdered"
-                          checked={
-                            formik?.values?.powdered ||
-                            checked["powdered"] ||
-                            false
-                          }
-                          onChange={(e) => {
-                            handleCheckboxChange(
-                              "powdered",
-                              e?.target?.checked
-                            );
-                            formik.setFieldValue(
-                              "powdered",
-                              e?.target?.checked
-                            );
-                          }}
-                        />
-
-                        <label className={styles.checkText} htmlFor="powdered">
-                          Whether the gloves are powdered <br /> or powder-free.
-                        </label>
-                      </span>
-                      <Tooltip content="Whether the gloves are powdered or powder-free."></Tooltip>
-                    </div>
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Texture</label>
-                    <div className={styles.tooltipContainer}>
-                      <span className={styles.formCheckboxSection}>
-                        <input
-                          type="checkbox"
-                          id="texture"
-                          checked={
-                            formik?.values?.texture ||
-                            checked["texture"] ||
-                            false
-                          }
-                          onChange={(e) => {
-                            handleCheckboxChange("texture", e?.target?.checked);
-                            formik.setFieldValue("texture", e?.target?.checked);
-                          }}
-                        />
-
-                        <label className={styles.checkText} htmlFor="texture">
-                          Whether the item have texture <br /> or smooth
-                        </label>
-                      </span>
-                      <Tooltip content="Whether the item have texture or smooth"></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-                </div>
-                <div className={styles.innerProductContainer}>
-                  <div className={styles.innerSection}>
-                    <span className={styles.formHead}>Storage & Handling</span>
-
-                    <div className={styles.productInnerContainer}>
-                      <label className={styles.formLabel}>
-                        Shelf Life/Expiry
-                        {/* <span className={styles?.labelStamp}>*</span> */}
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <input
-                          className={styles.formInput}
-                          type="text"
-                          placeholder="Enter Shelf Life/Expiry"
-                          // autoComplete="off"
-                          name="expiry"
-                          value={formik?.values?.expiry}
-                          onChange={(e) =>
-                            handleInputChange(
-                              e,
-                              formik.setFieldValue,
-                              20,
-                              "all"
-                            )
-                          }
-                          onBlur={formik?.handleBlur}
-                        />
-                        <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
-                      </div>
-                      {/* {formik.touched.expiry && formik.errors.expiry && (
-                        <span className={styles.error}>
-                          {formik.errors.expiry}
-                        </span>
-                      )} */}
-                    </div>
-                  </div>
-
-                  <div className={styles.innerMonitorSection}>
-                    <span className={styles.formHead}>
-                      Monitoring and Adherence
-                    </span>
-                    <div className={styles.formInnerSection}>
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>Allergens</label>
-                        <div className={styles.tooltipContainer}>
-                          <textarea
-                            className={styles.formInput}
-                            placeholder="Enter Allergens"
-                            rows="2"
-                            name="allergens"
-                            value={formik?.values?.allergens}
-                            onChange={(e) =>
-                              handleInputChange(
-                                e,
-                                formik.setFieldValue,
-                                1000,
-                                "all"
-                              )
-                            }
-                            onBlur={formik?.handleBlur}
-                          />
-                          <Tooltip content="Common allergens in the product (e.g., parabens, sulfates, gluten, milk, Latex etc)."></Tooltip>
-                        </div>
-                      </div>
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>Sterilized</label>
-                        <div className={styles.tooltipContainer}>
-                          <span className={styles.formCheckboxSection}>
-                            <input
-                              type="checkbox"
-                              id="sterilized"
-                              checked={
-                                formik?.values?.sterilized ||
-                                checked["sterilized"] ||
-                                false
-                              }
-                              onChange={(e) => {
-                                handleCheckboxChange(
-                                  "sterilized",
-                                  e?.target?.checked
-                                );
-                                formik.setFieldValue(
-                                  "sterilized",
-                                  e?.target?.checked
-                                );
-                              }}
-                            />
-
-                            <label
-                              className={styles.checkText}
-                              htmlFor="sterilized"
-                            >
-                              Whether the item is sterilized <br /> or
-                              non-sterile.
-                            </label>
-                          </span>
-                          <Tooltip content="Whether the item is sterilized or non-sterile."></Tooltip>
-                        </div>
-                        <span className={styles.error}></span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className={styles.innerMonitorSection}>
-                    <span className={styles.formHead}>Technical Details</span>
-                    <div className={styles.formInnerSection}>
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>
-                          Filtration Efficiency
-                        </label>
-                        <div className={styles.tooltipContainer}>
-                          <input
-                            className={styles.formInput}
-                            type="text"
-                            placeholder="Enter Filtration Efficiency"
-                            // autoComplete="off"
-                            name="filtrationEfficiency"
-                            value={formik?.values?.filtrationEfficiency}
-                            onChange={(e) =>
-                              handleInputChange(
-                                e,
-                                formik.setFieldValue,
-                                4,
-                                "all"
-                              )
-                            }
-                            onBlur={formik?.handleBlur}
-                          />
-                          <Tooltip content="Percentage of particles the mask filters (e.g., 95%, 99%, etc.)"></Tooltip>
-                        </div>
-                        <span className={styles.error}></span>
-                      </div>
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>
-                          Breathability
-                        </label>
-                        <div className={styles.tooltipContainer}>
-                          <input
-                            className={styles.formInput}
-                            type="text"
-                            placeholder="Enter Breathability"
-                            // autoComplete="off"
-                            name="breathability"
-                            value={formik?.values?.breathability}
-                            onChange={(e) =>
-                              handleInputChange(
-                                e,
-                                formik.setFieldValue,
-                                50,
-                                "all"
-                              )
-                            }
-                            onBlur={formik?.handleBlur}
-                          />
-                          <Tooltip content="Breathability rating (e.g., air flow resistance, Inhalation/Exhalation rate)"></Tooltip>
-                        </div>
-                        <span className={styles.error}></span>
-                      </div>
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>Layer Count</label>
-                        <div className={styles.tooltipContainer}>
-                          <input
-                            className={styles.formInput}
-                            type="text"
-                            placeholder="Enter Layer Count"
-                            // autoComplete="off"
-                            name="layerCount"
-                            value={formik?.values?.layerCount}
-                            onChange={(e) =>
-                              handleInputChange(
-                                e,
-                                formik.setFieldValue,
-                                20,
-                                "all"
-                              )
-                            }
-                            onBlur={formik?.handleBlur}
-                          />
-                          <Tooltip content="Number of layers (e.g., 3-ply, 4-ply, 5-ply)."></Tooltip>
-                        </div>
-                        <span className={styles.error}></span>
-                      </div>
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>
-                          Fluid Resistance
-                        </label>
-                        <div className={styles.tooltipContainer}>
-                          <span className={styles.formCheckboxSection}>
-                            <input
-                              type="checkbox"
-                              id="fluidResistance"
-                              checked={
-                                formik?.values?.fluidResistance ||
-                                checked["fluidResistance"] ||
-                                false
-                              }
-                              onChange={(e) => {
-                                handleCheckboxChange(
-                                  "fluidResistance",
-                                  e?.target?.checked
-                                );
-                                formik.setFieldValue(
-                                  "fluidResistance",
-                                  e?.target?.checked
-                                );
-                              }}
-                            />
-
-                            <label
-                              className={styles.checkText}
-                              htmlFor="fluidResistance"
-                            >
-                              Resistance to fluid penetration (e.g., <br /> for
-                              surgical masks)
-                            </label>
-                          </span>
-                          <Tooltip content="Resistance to fluid penetration (e.g., for surgical masks)"></Tooltip>
-                        </div>
-                        <span className={styles.error}></span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </>
-          )}
-          {/* End the Medical Consumables and Disposables */}
-
-          {/* Start the Laboratory Supplies */}
-          {formik?.values?.category?.toLowerCase() ===
-            "LaboratorySupplies"?.toLowerCase() && (
-            <>
-              <div className={styles.section}>
-                <span className={styles.formHead}>Product Identification</span>
-                <div className={styles.formSection}>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Physical State</label>
-                    <div className={styles.tooltipContainer}>
-                      <Chips
-                        value={formik?.values?.physicalState}
-                        placeholder={
-                          value.length === 0 ? "Press enter to add label" : ""
-                        }
-                        name="physicalState"
-                        onBlur={formik?.handleBlur}
-                        onChange={(e) => {
-                          setValue(e.value);
-                          formik.setFieldValue("physicalState", e.value);
-                        }}
-                      />
-                      <Tooltip content="Physical state (e.g., solid, liquid, gas)"></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Hazard Classification
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <Chips
-                        value={formik?.values?.hazardClassification}
-                        placeholder={
-                          value.length === 0 ? "Press enter to add label" : ""
-                        }
-                        name="hazardClassification"
-                        onBlur={formik?.handleBlur}
-                        onChange={(e) => {
-                          setValue(e.value);
-                          formik.setFieldValue("hazardClassification", e.value);
-                        }}
-                      />
-                      <Tooltip content="Physical state (e.g., solid, liquid, gas)"></Tooltip>
-                    </div>
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Shape</label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Shape"
-                        rows="2"
-                        name="shape"
-                        value={formik?.values?.shape}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            2000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Shape of the needle (e.g., 1/2 circle, 3/8 circle)."></Tooltip>
-                    </div>
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Coating</label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Coating"
-                        rows="2"
-                        name="coating"
-                        value={formik?.values?.coating}
-                        onChange={(e) =>
-                          handleInputChange(e, formik.setFieldValue, 50, "all")
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Type of coating (e.g., antimicrobial, silicone)."></Tooltip>
-                    </div>
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Purpose</label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Purpose"
-                        rows="2"
-                        name="purpose"
-                        value={formik?.values?.purpose}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip
-                        content=" Purpose (e.g., COVID-19 detection, blood glucose
-                          monitoring, cholesterol level check,Pain
-                          relief,Prevention of infection.,Cooling and
-                          soothing.,Moisturizing and healing, procedure  or
-                          use case of tool, Relieves symptoms, promotes healing,
-                          or prevents recurrence.)"
-                      ></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>CAS Number</label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter CAS Number"
-                        rows="2"
-                        name="casNumber"
-                        value={formik?.values?.casNumber}
-                        onChange={(e) =>
-                          handleInputChange(e, formik.setFieldValue, 20, "all")
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Chemical Abstracts Service (CAS) number for unique identification."></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Grade</label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Grade"
-                        rows="2"
-                        name="grade"
-                        value={formik?.values?.grade}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Purity or grade (e.g., analytical grade, reagent grade)"></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Concentration</label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Concentration"
-                        rows="2"
-                        name="concentration"
-                        value={formik?.values?.concentration}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip
-                        content="Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
-                          ,Alcohol-based disinfectants are typically 70-90% 
-                          concentration for optimal antimicrobial efficacy. Oxygen
-                          concentration level provided by the device (e.g., 95%)"
-                      ></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-                </div>
-                <span className={styles.formHead}>Technical Details</span>
-                <div className={styles.formSection}>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Connectivity</label>
-                    <div className={styles.tooltipContainer}>
-                      <input
-                        className={styles.formInput}
-                        type="text"
-                        placeholder="Enter Connectivity"
-                        // autoComplete="off"
-                        name="connectivity"
-                        value={formik?.values?.connectivity}
-                        onChange={(e) =>
-                          handleInputChange(e, formik.setFieldValue, 20, "all")
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Connectivity options (e.g., USB, Wi-Fi, HDMI)."></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Magnification Range
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Magnification Range"
-                        rows="2"
-                        name="magnificationRange"
-                        value={formik?.values?.magnificationRange}
-                        onChange={(e) =>
-                          handleInputChange(e, formik.setFieldValue, 20, "all")
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Magnification capabilities (e.g., 40x to 1000x)."></Tooltip>
-                    </div>
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Objective Lenses</label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Objective Lenses"
-                        rows="2"
-                        name="objectiveLenses"
-                        value={formik?.values?.objectiveLenses}
-                        onChange={(e) =>
-                          handleInputChange(e, formik.setFieldValue, 20, "all")
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Number and types of objective lenses (e.g., 4x, 10x, 40x)"></Tooltip>
-                    </div>
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Power Source</label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Power Source"
-                        rows="2"
-                        name="powerSource"
-                        value={formik?.values?.powerSource}
-                        onChange={(e) =>
-                          handleInputChange(e, formik.setFieldValue, 500, "all")
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Power requirements (e.g., battery, AC adapter)."></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Resolution</label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Resolution"
-                        rows="2"
-                        name="resolution"
-                        value={formik?.values?.resolution}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Maximum resolution the microscope can achieve."></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-                </div>
-              </div>
-            </>
-          )}
-          {/* End the Laboratory Supplies */}
-
-          {/* Start the Diagnostic and Monitoring Devices */}
-          {formik?.values?.category?.toLowerCase() ===
-            "DiagnosticAndMonitoringDevices"?.toLowerCase() && (
-            <>
-              <div className={styles.section}>
-                <span className={styles.formHead}>Product Identification</span>
-                <div className={styles.formSection}>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Diagnostic Functions
-                      <span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Diagnostic Functions"
-                        rows="2"
-                        name="diagnosticFunctions"
-                        value={formik?.values?.diagnosticFunctions}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Specific diagnostic tests or functions that the tool performs"></Tooltip>
-                    </div>
-                    {formik.touched.diagnosticFunctions &&
-                      formik.errors.diagnosticFunctions && (
-                        <span className={styles.error}>
-                          {formik.errors.diagnosticFunctions}
-                        </span>
-                      )}
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Flow Rate</label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Flow Rate"
-                        rows="2"
-                        name="flowRate"
-                        value={formik?.values?.flowRate}
-                        onChange={(e) =>
-                          handleInputChange(e, formik.setFieldValue, 20, "all")
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Adjustable flow rate range (e.g., 1-5 LPM, 1-10 LPM)"></Tooltip>
-                    </div>
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Concentration</label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Concentration"
-                        rows="2"
-                        name="concentration"
-                        value={formik?.values?.concentration}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip
-                        content="   Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
-                          ,Alcohol-based disinfectants are typically 70-90%
-                          concentration for optimal antimicrobial efficacy.
-                          Oxygen concentration level provided by the device (e.g.,
-                          95%)"
-                      ></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-                </div>
-                <span className={styles.formHead}>Technical Details</span>
-                <div className={styles.formSection}>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Measurement Range
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <input
-                        className={styles.formInput}
-                        type="text"
-                        placeholder="Enter Measurement Range"
-                        // autoComplete="off"
-                        name="measurementRange"
-                        value={formik?.values?.measurementRange}
-                        onChange={(e) =>
-                          handleInputChange(e, formik.setFieldValue, 20, "all")
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content=" Blood pressure range the monitor can measure (e.g., 0-300 mmHg)."></Tooltip>
-                    </div>
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Noise Level</label>
-                    <div className={styles.tooltipContainer}>
-                      <input
-                        className={styles.formInput}
-                        type="text"
-                        placeholder="Enter Noise Level"
-                        // autoComplete="off"
-                        name="noiseLevel"
-                        value={formik?.values?.noiseLevel}
-                        onChange={(e) =>
-                          handleInputChange(e, formik.setFieldValue, 20, "all")
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Operating noise level (e.g., 40 dB)."></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Usage Rate</label>
-                    <input
-                      className={styles.formInput}
-                      type="text"
-                      placeholder="Enter Usage Rate"
-                      // autoComplete="off"
-                      name="usageRate"
-                      value={formik?.values?.usageRate}
-                      onChange={(e) =>
-                        handleInputChange(e, formik.setFieldValue, 20, "all")
-                      }
-                      onBlur={formik?.handleBlur}
-                    />
-                    <span className={styles.error}></span>
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Maintenance Notes
-                    </label>
-                    <textarea
-                      className={styles.formInput}
-                      placeholder="Enter Maintenance Notes"
-                      rows="2"
-                      name="maintenanceNotes"
-                      value={formik?.values?.maintenanceNotes}
-                      onChange={(e) =>
-                        handleInputChange(e, formik.setFieldValue, 1000, "all")
-                      }
-                      onBlur={formik?.handleBlur}
-                    />
-                    <span className={styles.error}></span>
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Compatible Equipment
-                    </label>
-                    <textarea
-                      className={styles.formInput}
-                      placeholder="Enter Compatible Equipment"
-                      rows="2"
-                      name="compatibleEquipment"
-                      value={formik?.values?.compatibleEquipment}
-                      onChange={(e) =>
-                        handleInputChange(e, formik.setFieldValue, 1000, "all")
-                      }
-                      onBlur={formik?.handleBlur}
-                    />
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Specification
-                      <span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Specification"
-                        rows="2"
-                        name="specification"
-                        value={formik?.values?.specification}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Technical Specification of the tool  (e.g., hardware, software, network diagnostics, etc.)"></Tooltip>
-                    </div>
-                    {formik.touched.specification &&
-                      formik.errors.specification && (
-                        <span className={styles.error}>
-                          {formik.errors.specification}
-                        </span>
-                      )}
-                    <AddProductFileUpload
-                      styles={styles}
-                      productDetails={productDetail}
-                      maxFiles={
-                        4 - (formik?.values?.specificationFile?.length || 0)
-                      }
-                      fieldInputName={"specificationFileNew"}
-                      oldFieldName={"specificationFile"}
-                      existingFiles={formik?.values?.specificationFile}
-                      setFieldValue={formik.setFieldValue}
-                      initialValues={formik?.values}
-                      label=""
-                      tooltip={false}
-                      showLabel={false}
-                      acceptTypes={{
-                        "image/png": [],
-                        "image/jpeg": [],
-                        "image/jpg": [],
-                        "application/pdf": [],
-                      }}
-                      error={
-                        (formik.touched.specificationFile ||
-                          formik.touched.specificationFileNew ||
-                          formik.errors.specificationFile ||
-                          formik.errors.specificationFileNew) && (
-                          <div>
-                            {formik.errors.specificationFile ||
-                              formik.errors.specificationFileNew}
-                          </div>
-                        )
-                      }
-                    />
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Performance Testing Report
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Performance Testing Report"
-                        rows="2"
-                        name="performanceTestingReport"
-                        value={formik?.values?.performanceTestingReport}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip
-                        content="  Results from any internal or external product testing
-                          (e.g.,
-                          nebulizer output, CPAP pressure and airflow
-                          testing)."
-                      ></Tooltip>
-                    </div>
-                    <AddProductFileUpload
-                      styles={styles}
-                      productDetails={productDetail}
-                      maxFiles={
-                        4 -
-                        (formik?.values?.performanceTestingReportFile?.length ||
-                          0)
-                      }
-                      fieldInputName={"performanceTestingReportFileNew"}
-                      oldFieldName={"performanceTestingReportFile"}
-                      existingFiles={
-                        formik?.values?.performanceTestingReportFile
-                      }
-                      setFieldValue={formik.setFieldValue}
-                      initialValues={formik?.values}
-                      label=""
-                      tooltip={false}
-                      showLabel={false}
-                      acceptTypes={{
-                        "image/png": [],
-                        "image/jpeg": [],
-                        "image/jpg": [],
-                        "application/pdf": [],
-                      }}
-                      error={
-                        (formik.touched.performanceTestingReportFile ||
-                          formik.touched.performanceTestingReportFileNew ||
-                          formik.errors.performanceTestingReportFile ||
-                          formik.errors.performanceTestingReportFileNew) && (
-                          <div>
-                            {formik.errors.performanceTestingReportFile ||
-                              formik.errors.performanceTestingReportFileNew}
-                          </div>
-                        )
-                      }
-                    />
-                  </div>
-                </div>
-              </div>
-            </>
-          )}
-          {/* End the Diagnostic and Monitoring Devices */}
-
-          {/* Start the Hospital and Clinic Supplies */}
-          {formik?.values?.category?.toLowerCase() ===
-            "HospitalAndClinicSupplies"?.toLowerCase() && (
-            <>
-              <div className={styles.section}>
-                <span className={styles.formHead}>Product Identification</span>
-                <div className={styles.formSection}>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Thickness</label>
-                    <div className={styles.tooltipContainer}>
-                      <input
-                        className={styles.formInput}
-                        type="text"
-                        placeholder="Enter Thickness"
-                        // autoComplete="off"
-                        name="thickness"
-                        value={formik?.values?.thickness}
-                        onChange={(e) =>
-                          handleInputChange(e, formik.setFieldValue, 20, "all")
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="The thickness of the Item (e.g., in mil or gauge)."></Tooltip>
-                    </div>
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Product Material</label>
-                    <div className={styles.tooltipContainer}>
-                      <input
-                        className={styles.formInput}
-                        type="text"
-                        placeholder="Enter Product Material"
-                        // autoComplete="off"
-                        name="productMaterial"
-                        value={formik?.values?.productMaterial}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Material used (e.g., Latex, Nitrile, Vinyl, Rubber, stainless steel, titanium etc.)."></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Purpose</label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Purpose"
-                        rows="2"
-                        name="purpose"
-                        value={formik?.values?.purpose}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Intended use type (e.g., oily, dry, curly, fine, thick, straight, medical, industrial etc)"></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Chemical Resistance
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Chemical Resistance"
-                        rows="2"
-                        name="chemicalResistance"
-                        value={formik?.values?.chemicalResistance}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Any specific chemical resistance features"></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Powdered</label>
-                    <div className={styles.tooltipContainer}>
-                      <span className={styles.formCheckboxSection}>
-                        <input
-                          type="checkbox"
-                          id="powdered"
-                          checked={
-                            formik?.values?.powdered ||
-                            checked["powdered"] ||
-                            false
-                          }
-                          onChange={(e) => {
-                            handleCheckboxChange(
-                              "powdered",
-                              e?.target?.checked
-                            );
-                            formik.setFieldValue(
-                              "powdered",
-                              e?.target?.checked
-                            );
-                          }}
-                        />
-
-                        <label className={styles.checkText} htmlFor="powdered">
-                          Whether the gloves are powdered <br />
-                          or powder-free.
-                        </label>
-                      </span>
-                      <Tooltip content="Whether the gloves are powdered or powder-free."></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Texture</label>
-                    <div className={styles.tooltipContainer}>
-                      <span className={styles.formCheckboxSection}>
-                        <input
-                          type="checkbox"
-                          id="texture"
-                          checked={
-                            formik?.values?.texture ||
-                            checked["texture"] ||
-                            false
-                          }
-                          onChange={(e) => {
-                            handleCheckboxChange("texture", e?.target?.checked);
-                            formik.setFieldValue("texture", e?.target?.checked);
-                          }}
-                        />
-
-                        <label className={styles.checkText} htmlFor="texture">
-                          Whether the item have texture <br /> or smooth
-                        </label>
-                      </span>
-                      <Tooltip content="Whether the item have texture or smooth"></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-                </div>
-                <div className={styles.innerProductContainer}>
-                  <div className={styles.innerSection}>
-                    <span className={styles.formHead}>Storage & Handling</span>
-                    <div className={styles.productInnerContainer}>
-                      <label className={styles.formLabel}>
-                        Shelf Life/Expiry
-                        {/* <span className={styles?.labelStamp}>*</span> */}
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <input
-                          className={styles.formInput}
-                          type="text"
-                          placeholder="Enter Shelf Life/Expiry"
-                          // autoComplete="off"
-                          name="expiry"
-                          value={formik?.values?.expiry}
-                          onChange={(e) =>
-                            handleInputChange(
-                              e,
-                              formik.setFieldValue,
-                              20,
-                              "all"
-                            )
-                          }
-                          onBlur={formik?.handleBlur}
-                        />
-                        <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
-                      </div>
-                      {/* {formik.touched.expiry && formik.errors.expiry && (
-                        <span className={styles.error}>
-                          {formik.errors.expiry}
-                        </span>
-                      )} */}
-                    </div>
-                  </div>
-
-                  <div className={styles.innerMonitorSection}>
-                    <span className={styles.formHead}>
-                      Monitoring and Adherence
-                    </span>
-                    <div className={styles.formInnerSection}>
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>Sterilized</label>
-                        <div className={styles.tooltipContainer}>
-                          <span className={styles.formCheckboxSection}>
-                            <input
-                              type="checkbox"
-                              id="sterilized"
-                              checked={
-                                formik?.values?.sterilized ||
-                                checked["sterilized"] ||
-                                false
-                              }
-                              onChange={(e) => {
-                                handleCheckboxChange(
-                                  "sterilized",
-                                  e?.target?.checked
-                                );
-                                formik.setFieldValue(
-                                  "sterilized",
-                                  e?.target?.checked
-                                );
-                              }}
-                            />
-
-                            <label
-                              className={styles.checkText}
-                              htmlFor="sterilized"
-                            >
-                              Whether the item is sterilized <br />
-                              or non-sterile.
-                            </label>
-                          </span>
-                          <Tooltip content="Whether the item is sterilized or non-sterile."></Tooltip>
-                        </div>
-                        <span className={styles.error}></span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <span className={styles.formHead}>Technical Details</span>
-                <div className={styles.formSection}>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Adhesiveness</label>
-                    <div className={styles.tooltipContainer}>
-                      <input
-                        className={styles.formInput}
-                        type="text"
-                        placeholder="Enter Adhesiveness"
-                        // autoComplete="off"
-                        name="adhesiveness"
-                        value={formik?.values?.adhesiveness}
-                        onChange={(e) =>
-                          handleInputChange(e, formik.setFieldValue, 50, "all")
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Adhesive or non-adhesive."></Tooltip>
-                    </div>
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Absorbency</label>
-                    <div className={styles.tooltipContainer}>
-                      <input
-                        className={styles.formInput}
-                        type="text"
-                        placeholder="Enter Absorbency"
-                        // autoComplete="off"
-                        name="absorbency"
-                        value={formik?.values?.absorbency}
-                        onChange={(e) =>
-                          handleInputChange(e, formik.setFieldValue, 50, "all")
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Whether the suture is absorbable or non-absorbable."></Tooltip>
-                    </div>
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Elasticity</label>
-                    <div className={styles.tooltipContainer}>
-                      <input
-                        className={styles.formInput}
-                        type="text"
-                        placeholder="Enter Elasticity"
-                        // autoComplete="off"
-                        name="elasticity"
-                        value={formik?.values?.elasticity}
-                        onChange={(e) =>
-                          handleInputChange(e, formik.setFieldValue, 20, "all")
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Stretch for tapes"></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Fluid Resistance</label>
-                    <div className={styles.tooltipContainer}>
-                      <span className={styles.formCheckboxSection}>
-                        <input
-                          type="checkbox"
-                          id="fluidResistance"
-                          checked={
-                            formik?.values?.fluidResistance ||
-                            checked["fluidResistance"] ||
-                            false
-                          }
-                          onChange={(e) => {
-                            handleCheckboxChange(
-                              "fluidResistance",
-                              e?.target?.checked
-                            );
-                            formik.setFieldValue(
-                              "fluidResistance",
-                              e?.target?.checked
-                            );
-                          }}
-                        />
-                        <label
-                          className={styles.checkText}
-                          htmlFor="fluidResistance"
-                        >
-                          Resistance to fluid penetration (e.g., <br /> for
-                          surgical masks)
-                        </label>
-                      </span>
-                      <Tooltip content="Resistance to fluid penetration (e.g., for surgical masks)"></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-                </div>
-              </div>
-            </>
-          )}
-          {/* End the Hospital and Clinic Supplies */}
-
-          {/* Start the Orthopedic Supplies */}
-          {formik?.values?.category?.toLowerCase() ===
-            "OrthopedicSupplies"?.toLowerCase() && (
-            <>
-              <div className={styles.section}>
-                <span className={styles.formHead}>Product Identification</span>
-                <div className={styles.formSection}>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Strength<span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <input
-                        className={styles.formInput}
-                        type="text"
-                        placeholder="Enter Strength"
-                        // autoComplete="off"
-                        name="strength"
-                        value={formik?.values?.strength}
-                        onChange={(e) =>
-                          handleInputChange(e, formik.setFieldValue, 20, "all")
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip
-                        content=" The strength or concentration of the medication (e.g.,
-                           500 mg, 10 mg/mL,Standard or high-strength)."
-                      ></Tooltip>
-                    </div>
-                    {formik.touched.strength && formik.errors.strength && (
-                      <span className={styles.error}>
-                        {formik.errors.strength}
-                      </span>
-                    )}
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Moisture Resistance
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <Select
-                        className={styles.formSelect}
-                        options={moistureOptions}
-                        placeholder="Select Moisture Resistance"
-                        name="moistureResistance"
-                        // Ensure that the value reflects the value from formik or the productDetail state
-                        value={moistureOptions.find(
-                          (option) =>
-                            option?.value === formik?.values?.moistureResistance
-                        )}
-                        onChange={(selectedOption) =>
-                          formik.setFieldValue(
-                            "moistureResistance",
-                            selectedOption?.value
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content=" Whether the item is moisture resistance or not"></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Purpose</label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Purpose"
-                        rows="2"
-                        name="purpose"
-                        value={formik?.values?.purpose}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content=" Intended use type (e.g., oily, dry, curly, fine, thick, straight, medical, industrial etc)"></Tooltip>
-                    </div>
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Target Condition
-                      <span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Target Condition"
-                        rows="2"
-                        name="targetCondition"
-                        value={formik?.values?.targetCondition}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content=" The hair, scalp or skin condition the product is formulated to address"></Tooltip>
-                    </div>
-                    {formik.touched.targetCondition &&
-                      formik.errors.targetCondition && (
-                        <span className={styles.error}>
-                          {formik.errors.targetCondition}
-                        </span>
-                      )}
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Coating</label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Coating"
-                        rows="2"
-                        name="coating"
-                        value={formik?.values?.coating}
-                        onChange={(e) =>
-                          handleInputChange(e, formik.setFieldValue, 100, "all")
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content=" Type of coating (e.g., antimicrobial, silicone)."></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-                </div>
-                <div className={styles.innerProductContainer}>
-                  <div className={styles.innerMonitorSection}>
-                    <span className={styles.formHead}>
-                      Monitoring and Adherence
-                    </span>
-                    <div className={styles.formInnerSection}>
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>Sterilized</label>
-                        <div className={styles.tooltipContainer}>
-                          <span className={styles.formCheckboxSection}>
-                            <input
-                              type="checkbox"
-                              id="sterilized"
-                              checked={
-                                formik?.values?.sterilized ||
-                                checked["sterilized"] ||
-                                false
-                              }
-                              onChange={(e) => {
-                                handleCheckboxChange(
-                                  "sterilized",
-                                  e?.target?.checked
-                                );
-                                formik.setFieldValue(
-                                  "sterilized",
-                                  e?.target?.checked
-                                );
-                              }}
-                            />
-                            <label
-                              className={styles.checkText}
-                              htmlFor="sterilized"
-                            >
-                              Whether the item is sterilized <br /> or
-                              non-sterile.
-                            </label>
-                          </span>
-                          <Tooltip content="Whether the item is sterilized or non-sterile."></Tooltip>
-                        </div>
-                        <span className={styles.error}></span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className={styles.innerMonitorSection}>
-                    <span className={styles.formHead}>Technical Details</span>
-                    <div className={styles.formInnerSection}>
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>Elasticity</label>
-                        <div className={styles.tooltipContainer}>
-                          <input
-                            className={styles.formInput}
-                            type="text"
-                            placeholder="Enter Elasticity"
-                            // autoComplete="off"
-                            name="elasticity"
-                            value={formik?.values?.elasticity}
-                            onChange={(e) =>
-                              handleInputChange(
-                                e,
-                                formik.setFieldValue,
-                                20,
-                                "all"
-                              )
-                            }
-                            onBlur={formik?.handleBlur}
-                          />
-                          <Tooltip content="Stretch for tapes"></Tooltip>
-                        </div>
-                        <span className={styles.error}></span>
-                      </div>
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>Absorbency</label>
-                        <div className={styles.tooltipContainer}>
-                          <input
-                            className={styles.formInput}
-                            type="text"
-                            placeholder="Enter Absorbency"
-                            // autoComplete="off"
-                            name="absorbency"
-                            value={formik?.values?.absorbency}
-                            onChange={(e) =>
-                              handleInputChange(
-                                e,
-                                formik.setFieldValue,
-                                20,
-                                "all"
-                              )
-                            }
-                            onBlur={formik?.handleBlur}
-                          />
-                          <Tooltip content="Whether the suture is absorbable or non-absorbable."></Tooltip>
-                        </div>
-                        <span className={styles.error}></span>
-                      </div>
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>
-                          Breathability
-                        </label>
-                        <div className={styles.tooltipContainer}>
-                          <textarea
-                            className={styles.formInput}
-                            placeholder="Enter Breathability"
-                            rows="2"
-                            name="breathability"
-                            value={formik?.values?.breathability}
-                            onChange={(e) =>
-                              handleInputChange(
-                                e,
-                                formik.setFieldValue,
-                                1000,
-                                "all"
-                              )
-                            }
-                            onBlur={formik?.handleBlur}
-                          />
-                          <Tooltip content="Breathability rating (e.g., air flow resistance, Inhalation/Exhalation rate)"></Tooltip>
-                        </div>
-                      </div>
-
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>
-                          Color Options
-                        </label>
-                        <div className={styles.tooltipContainer}>
-                          <textarea
-                            className={styles.formInput}
-                            placeholder="Enter Color Options"
-                            rows="2"
-                            name="colorOptions"
-                            value={formik?.values?.colorOptions}
-                            onChange={(e) =>
-                              handleInputChange(
-                                e,
-                                formik.setFieldValue,
-                                1000,
-                                "all"
-                              )
-                            }
-                            onBlur={formik?.handleBlur}
-                          />
-                          <Tooltip
-                            content=" Available colors (e.g., black, beige, grey,
-                              tortoiseshell, frame color or lense color
-                              etc)"
-                          ></Tooltip>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </>
-          )}
-          {/* End the Orthopedic Supplies */}
-
-          {/* Start the Dental Products */}
-          {formik?.values?.category?.toLowerCase() ===
-            "DentalProducts"?.toLowerCase() && (
-            <>
-              <div className={styles.section}>
-                <span className={styles.formHead}>Product Identification</span>
-                <div className={styles.formSection}>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Product Material</label>
-                    <div className={styles.tooltipContainer}>
-                      <input
-                        className={styles.formInput}
-                        type="text"
-                        placeholder="Enter Product Material"
-                        // autoComplete="off"
-                        name="productMaterial"
-                        value={formik?.values?.productMaterial}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Material used (e.g., Latex, Nitrile, Vinyl, Rubber, stainless steel, titanium etc.)."></Tooltip>
-                    </div>
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Purpose</label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Purpose"
-                        rows="2"
-                        name="purpose"
-                        value={formik?.values?.purpose}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Intended use type (e.g., oily, dry, curly, fine, thick, straight, medical, industrial etc)"></Tooltip>
-                    </div>
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Target Condition</label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Target Condition"
-                        rows="2"
-                        name="targetCondition"
-                        value={formik?.values?.targetCondition}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip
-                        content="  Purpose (e.g., COVID-19 detection, blood glucose
-                          monitoring, cholesterol level check,Pain
-                          relief,Prevention 
-                          of infection.,Cooling and soothing.,Moisturizing and
-                          healing, procedure or use case of tool, Relieves
-                           symptoms, promotes healing, or prevents
-                          recurrence.)"
-                      ></Tooltip>
-                    </div>
-                    {formik.touched.targetCondition &&
-                      formik.errors.targetCondition && (
-                        <span className={styles.error}>
-                          {formik.errors.targetCondition}
-                        </span>
-                      )}
-                  </div>
-                </div>
-                <div className={styles.innerProductContainer}>
-                  <div className={styles.innerSection}>
-                    <span className={styles.formHead}>Storage & Handling</span>
-                    <div className={styles.productInnerContainer}>
-                      <label className={styles.formLabel}>
-                        Shelf Life/Expiry
-                        {/* <span className={styles?.labelStamp}>*</span> */}
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <input
-                          className={styles.formInput}
-                          type="text"
-                          placeholder="Enter Shelf Life/Expiry"
-                          // autoComplete="off"
-                          name="expiry"
-                          value={formik?.values?.expiry}
-                          onChange={(e) =>
-                            handleInputChange(
-                              e,
-                              formik.setFieldValue,
-                              20,
-                              "all"
-                            )
-                          }
-                          onBlur={formik?.handleBlur}
-                        />
-                        <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
-                      </div>
-                      {/* {formik.touched.expiry && formik.errors.expiry && (
-                        <span className={styles.error}>
-                          {formik.errors.expiry}
-                        </span>
-                      )} */}
-                    </div>
-                  </div>
-
-                  <div className={styles.innerMonitorSection}>
-                    <span className={styles.formHead}>Technical Details</span>
-                    <div className={styles.formInnerSection}>
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>Usage Rate</label>
-
-                        <input
-                          className={styles.formInput}
-                          type="text"
-                          placeholder="Enter Usage Rate"
-                          // autoComplete="off"
-                          name="usageRate"
-                          value={formik?.values?.usageRate}
-                          onChange={(e) =>
-                            handleInputChange(
-                              e,
-                              formik.setFieldValue,
-                              20,
-                              "all"
-                            )
-                          }
-                          onBlur={formik?.handleBlur}
-                        />
-
-                        <span className={styles.error}></span>
-                      </div>
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>
-                          Maintenance Notes
-                        </label>
-
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Maintenance Notes"
-                          rows="2"
-                          name="maintenanceNotes"
-                          value={formik?.values?.maintenanceNotes}
-                          onChange={(e) =>
-                            handleInputChange(
-                              e,
-                              formik.setFieldValue,
-                              1000,
-                              "all"
-                            )
-                          }
-                          onBlur={formik?.handleBlur}
-                        />
-
-                        <span className={styles.error}></span>
-                      </div>
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>
-                          Compatible Equipment
-                        </label>
-
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Compatible Equipment"
-                          rows="2"
-                          name="compatibleEquipment"
-                          value={formik?.values?.compatibleEquipment}
-                          onChange={(e) =>
-                            handleInputChange(
-                              e,
-                              formik.setFieldValue,
-                              1000,
-                              "all"
-                            )
-                          }
-                          onBlur={formik?.handleBlur}
-                        />
-
-                        <span className={styles.error}></span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </>
-          )}
-          {/* End the Dental Products */}
-
-          {/* Start the Eye Care Supplies */}
-          {formik?.values?.category?.toLowerCase() ===
-            "EyeCareSupplies"?.toLowerCase() && (
-            <>
-              <div className={styles.section}>
-                <span className={styles.formHead}>Product Identification</span>
-                <div className={styles.formSection}>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Frame</label>
-
-                    <Select
-                      className={styles.formSelect}
-                      options={frameOptions}
-                      placeholder="Select Frame"
-                      name="frame"
-                      // Ensure that the value reflects the value from formik or the productDetail state
-                      value={frameOptions.find(
-                        (option) => option?.value === formik?.values?.frame
-                      )}
-                      onChange={(selectedOption) =>
-                        formik.setFieldValue("frame", selectedOption?.value)
-                      }
-                      onBlur={formik?.handleBlur}
-                    />
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Lens</label>
-
-                    <Select
-                      className={styles.formSelect}
-                      options={lensOptions}
-                      placeholder="Select Lens"
-                      name="lens"
-                      // Ensure that the value reflects the value from formik or the productDetail state
-                      value={lensOptions.find(
-                        (option) => option?.value === formik?.values?.lens
-                      )}
-                      onChange={(selectedOption) =>
-                        formik.setFieldValue("lens", selectedOption?.value)
-                      }
-                      onBlur={formik?.handleBlur}
-                    />
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Lens Material</label>
-
-                    <Select
-                      className={styles.formSelect}
-                      options={lensmaterialOptions}
-                      placeholder="Select Lens Material"
-                      name="lensMaterial"
-                      // Ensure that the value reflects the value from formik or the productDetail state
-                      value={lensmaterialOptions.find(
-                        (option) =>
-                          option?.value === formik?.values?.lensMaterial
-                      )}
-                      onChange={(selectedOption) =>
-                        formik.setFieldValue(
-                          "lensMaterial",
-                          selectedOption?.value
-                        )
-                      }
-                      onBlur={formik?.handleBlur}
-                    />
-
-                    <span className={styles.error}></span>
-                  </div>
-                </div>
-                <span className={styles.formHead}>Technical Details</span>
-                <div className={styles.formSection}>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Diameter</label>
-
-                    <input
-                      className={styles.formInput}
-                      type="text"
-                      placeholder="Enter Diameter"
-                      // autoComplete="off"
-                      name="diameter"
-                      value={formik?.values?.diameter}
-                      onChange={(e) =>
-                        handleInputChange(e, formik.setFieldValue, 4, "all")
-                      }
-                      onBlur={formik?.handleBlur}
-                    />
-
-                    <span className={styles.error}></span>
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Lens Power</label>
-
-                    <textarea
-                      className={styles.formInput}
-                      placeholder="Enter Lens Power"
-                      rows="2"
-                      name="lensPower"
-                      value={formik?.values?.lensPower}
-                      onChange={(e) =>
-                        handleInputChange(e, formik.setFieldValue, 5, "all")
-                      }
-                      onBlur={formik?.handleBlur}
-                    />
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Base Curve</label>
-
-                    <textarea
-                      className={styles.formInput}
-                      placeholder="Enter Base Curve"
-                      rows="2"
-                      name="baseCurve"
-                      value={formik?.values?.baseCurve}
-                      onChange={(e) =>
-                        handleInputChange(e, formik.setFieldValue, 100, "all")
-                      }
-                      onBlur={formik?.handleBlur}
-                    />
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Color Options</label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Color Options"
-                        rows="2"
-                        name="colorOptions"
-                        value={formik?.values?.colorOptions}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Available colors (e.g., black, beige, grey, tortoiseshell, frame color or lense color etc)"></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-                </div>
-              </div>
-            </>
-          )}
-          {/* End the Eye Care Supplies */}
-
-          {/* Start the Home Healthcare Products */}
-
-          {formik?.values?.category?.toLowerCase() ===
-            "HomeHealthcareProducts"?.toLowerCase() && (
-            <>
-              <div className={styles.section}>
-                <span className={styles.formHead}>Product Identification</span>
-                <div className={styles.formSection}>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Flow Rate</label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Flow Rate"
-                        rows="2"
-                        name="flowRate"
-                        value={formik?.values?.flowRate}
-                        onChange={(e) =>
-                          handleInputChange(e, formik.setFieldValue, 20, "all")
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Adjustable flow rate range (e.g., 1-5 LPM, 1-10 LPM)"></Tooltip>
-                    </div>
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Concentration</label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Concentration"
-                        rows="2"
-                        name="concentration"
-                        value={formik?.values?.concentration}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip
-                        content="Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
-                          ,Alcohol-based disinfectants are typically 70-90% 
-                          concentration for optimal antimicrobial efficacy. Oxygen
-                          concentration level
-                           provided by the device (e.g., 95%)"
-                      ></Tooltip>
-                    </div>
-                  </div>
-                </div>
-                <div className={styles.innerProductContainer}>
-                  <div className={styles.innerSection}>
-                    <span className={styles.formHead}>Storage & Handling</span>
-                    <div className={styles.productInnerContainer}>
-                      <label className={styles.formLabel}>
-                        Shelf Life/Expiry
-                        {/* <span className={styles?.labelStamp}>*</span> */}
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <input
-                          className={styles.formInput}
-                          type="text"
-                          placeholder="Enter Shelf Life/Expiry"
-                          // autoComplete="off"
-                          name="expiry"
-                          value={formik?.values?.expiry}
-                          onChange={(e) =>
-                            handleInputChange(
-                              e,
-                              formik.setFieldValue,
-                              20,
-                              "all"
-                            )
-                          }
-                          onBlur={formik?.handleBlur}
-                        />
-                        <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
-                      </div>
-                      {/* {formik.touched.expiry && formik.errors.expiry && (
-                        <span className={styles.error}>
-                          {formik.errors.expiry}
-                        </span>
-                      )} */}
-                    </div>
-                  </div>
-
-                  <div className={styles.innerSection}>
-                    <span className={styles.formHead}>Technical Details</span>
-                    <div className={styles.formInnerSection}>
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>
-                          Max Weight Capacity
-                        </label>
-                        <div className={styles.tooltipContainer}>
-                          <input
-                            className={styles.formInput}
-                            type="text"
-                            placeholder="Enter Max Weight Capacity"
-                            // autoComplete="off"
-                            name="maxWeightCapacity"
-                            value={formik?.values?.maxWeightCapacity}
-                            onChange={(e) =>
-                              handleInputChange(
-                                e,
-                                formik.setFieldValue,
-                                20,
-                                "all"
-                              )
-                            }
-                            onBlur={formik?.handleBlur}
-                          />
-                          <Tooltip content="The maximum weight capacity that the mobility aid can support (e.g., 250 lbs for a walker)."></Tooltip>
-                        </div>
-                        <span className={styles.error}></span>
-                      </div>
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>Grip Type</label>
-                        <div className={styles.tooltipContainer}>
-                          <input
-                            className={styles.formInput}
-                            type="text"
-                            placeholder="Enter Grip Type"
-                            // autoComplete="off"
-                            name="gripType"
-                            value={formik?.values?.gripType}
-                            onChange={(e) =>
-                              handleInputChange(
-                                e,
-                                formik.setFieldValue,
-                                20,
-                                "text"
-                              )
-                            }
-                            onBlur={formik?.handleBlur}
-                          />
-                          <Tooltip content="Type of grips or handles (e.g., ergonomic, foam, rubberized handles for better comfort)."></Tooltip>
-                        </div>
-                        <span className={styles.error}></span>
-                      </div>
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>Battery Type</label>
-                        <div className={styles.tooltipContainer}>
-                          <input
-                            className={styles.formInput}
-                            type="text"
-                            placeholder="Enter Battery Type"
-                            // autoComplete="off"
-                            name="batteryType"
-                            value={formik?.values?.batteryType}
-                            onChange={(e) =>
-                              handleInputChange(
-                                e,
-                                formik.setFieldValue,
-                                20,
-                                "all"
-                              )
-                            }
-                            onBlur={formik?.handleBlur}
-                          />
-                          <Tooltip content="Type of Battery Installed to Operate the Item"></Tooltip>
-                        </div>
-                        <span className={styles.error}></span>
-                      </div>
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>Battery Size</label>
-                        <div className={styles.tooltipContainer}>
-                          <input
-                            className={styles.formInput}
-                            type="text"
-                            placeholder="Enter Battery Size"
-                            // autoComplete="off"
-                            name="batterySize"
-                            value={formik?.values?.batterySize}
-                            onChange={(e) =>
-                              handleInputChange(
-                                e,
-                                formik.setFieldValue,
-                                20,
-                                "all"
-                              )
-                            }
-                            onBlur={formik?.handleBlur}
-                          />
-                          <Tooltip content="Size of Battery Installed to Operate the Item"></Tooltip>
-                        </div>
-                        <span className={styles.error}></span>
-                      </div>
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>
-                          Color Options
-                        </label>
-                        <div className={styles.tooltipContainer}>
-                          <textarea
-                            className={styles.formInput}
-                            placeholder="Enter Color Options"
-                            rows="2"
-                            name="colorOptions"
-                            value={formik?.values?.colorOptions}
-                            onChange={(e) =>
-                              handleInputChange(
-                                e,
-                                formik.setFieldValue,
-                                1000,
-                                "all"
-                              )
-                            }
-                            onBlur={formik?.handleBlur}
-                          />
-                          <Tooltip content="Available colors (e.g., black, beige, grey, tortoiseshell, frame color or lense color etc)"></Tooltip>
-                        </div>
-                        <span className={styles.error}></span>
-                      </div>
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>Foldability</label>
-                        <div className={styles.tooltipContainer}>
-                          <textarea
-                            className={styles.formInput}
-                            placeholder="Enter Foldability"
-                            rows="2"
-                            name="foldability"
-                            value={formik?.values?.foldability}
-                            onChange={(e) =>
-                              handleInputChange(
-                                e,
-                                formik.setFieldValue,
-                                100,
-                                "all"
-                              )
-                            }
-                            onBlur={formik?.handleBlur}
-                          />
-                          <Tooltip content="Whether the product can be folded for easy storage (e.g., foldable walkers)."></Tooltip>
-                        </div>
-                        <span className={styles.error}></span>
-                      </div>
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>
-                          Locking Mechanism
-                        </label>
-                        <div className={styles.tooltipContainer}>
-                          <textarea
-                            className={styles.formInput}
-                            placeholder="Enter Locking Mechanism"
-                            rows="2"
-                            name="lockingMechanism"
-                            value={formik?.values?.lockingMechanism}
-                            onChange={(e) =>
-                              handleInputChange(
-                                e,
-                                formik.setFieldValue,
-                                1000,
-                                "all"
-                              )
-                            }
-                            onBlur={formik?.handleBlur}
-                          />
-                          <Tooltip content="Details on any locking mechanisms (e.g., locking wheels or adjustable legs on walkers)"></Tooltip>
-                        </div>
-                        <span className={styles.error}></span>
-                      </div>
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>
-                          Type of Support
-                        </label>
-                        <div className={styles.tooltipContainer}>
-                          <textarea
-                            className={styles.formInput}
-                            placeholder="Enter Type of Support"
-                            rows="2"
-                            name="typeOfSupport"
-                            value={formik?.values?.typeOfSupport}
-                            onChange={(e) =>
-                              handleInputChange(
-                                e,
-                                formik.setFieldValue,
-                                1000,
-                                "all"
-                              )
-                            }
-                            onBlur={formik?.handleBlur}
-                          />
-                          <Tooltip
-                            content="  The type of support provided by the aid (e.g.,
-                              two-legged,
-                              four-legged walker, or wall-mounted grab
-                              bar)."
-                          ></Tooltip>
-                        </div>
-                        <span className={styles.error}></span>
-                      </div>
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>
-                          Performance Testing Report
-                        </label>
-                        <div className={styles.tooltipContainer}>
-                          <textarea
-                            className={styles.formInput}
-                            placeholder="Enter Performance Testing Report"
-                            rows="2"
-                            name="performanceTestingReport"
-                            value={formik?.values?.performanceTestingReport}
-                            onChange={(e) =>
-                              handleInputChange(
-                                e,
-                                formik.setFieldValue,
-                                1000,
-                                "all"
-                              )
-                            }
-                            onBlur={formik?.handleBlur}
-                          />
-                          <Tooltip
-                            content="  Results from any internal or external product
-                              testing (e.g.,
-                              nebulizer output, CPAP pressure and airflow
-                              testing)."
-                          ></Tooltip>
-                        </div>
-                        <AddProductFileUpload
-                          styles={styles}
-                          productDetails={productDetail}
-                          maxFiles={
-                            4 -
-                            (formik?.values?.performanceTestingReportFile
-                              ?.length || 0)
-                          }
-                          fieldInputName={"performanceTestingReportFileNew"}
-                          oldFieldName={"performanceTestingReportFile"}
-                          existingFiles={
-                            formik?.values?.performanceTestingReportFile
-                          }
-                          setFieldValue={formik.setFieldValue}
-                          initialValues={formik?.values}
-                          label=""
-                          tooltip={false}
-                          showLabel={false}
-                          acceptTypes={{
-                            "image/png": [],
-                            "image/jpeg": [],
-                            "image/jpg": [],
-                            "application/pdf": [],
-                          }}
-                          error={
-                            (formik.touched.performanceTestingReportFile ||
-                              formik.touched.performanceTestingReportFileNew ||
-                              formik.errors.performanceTestingReportFile ||
-                              formik.errors
-                                .performanceTestingReportFileNew) && (
-                              <div>
-                                {formik.errors.performanceTestingReportFile ||
-                                  formik.errors.performanceTestingReportFileNew}
-                              </div>
-                            )
-                          }
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </>
-          )}
-          {/* End the Home Healthcare Products */}
-
-          {/* Start the Alternative Medicines */}
-          {formik?.values?.category?.toLowerCase() ===
-            "AlternativeMedicines"?.toLowerCase() && (
-            <>
-              <div className={styles.section}>
-                <span className={styles.formHead}>Product Identification</span>
-                <div className={styles.formSection}>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Composition/Ingredients
-                      <span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Composition/Ingredients"
-                        rows="2"
-                        name="composition"
-                        value={formik?.values?.composition}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Description of the active ingredients and components of the vaccine."></Tooltip>
-                    </div>
-                    {formik.touched.composition &&
-                      formik.errors.composition && (
-                        <span className={styles.error}>
-                          {formik.errors.composition}
-                        </span>
-                      )}
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Purpose</label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Purpose"
-                        rows="2"
-                        name="purpose"
-                        value={formik?.values?.purpose}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip
-                        content="  Purpose (e.g., COVID-19 detection, blood glucose
-                          monitoring, cholesterol level check,Pain
-                          relief,Prevention of infection.,Cooling
-                          and soothing.,Moisturizing and healing, procedure
-                          or use case of tool, Relieves symptoms, promotes
-                          healing, or prevents recurrence.)"
-                      ></Tooltip>
-                    </div>
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Health Claims</label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Health Claims"
-                        rows="2"
-                        name="healthClaims"
-                        value={formik?.values?.healthClaims}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content=" Verified by clinical trials or regulatory agencies."></Tooltip>
-                    </div>
-                    <AddProductFileUpload
-                      styles={styles}
-                      productDetails={productDetail}
-                      maxFiles={
-                        4 - (formik?.values?.healthClaimsFile?.length || 0)
-                      }
-                      fieldInputName={"healthClaimsFileNew"}
-                      oldFieldName={"healthClaimsFile"}
-                      existingFiles={formik?.values?.healthClaimsFile}
-                      setFieldValue={formik.setFieldValue}
-                      initialValues={formik?.values}
-                      label=""
-                      tooltip={false}
-                      showLabel={false}
-                      acceptTypes={{
-                        "image/png": [],
-                        "image/jpeg": [],
-                        "image/jpg": [],
-                        "application/pdf": [],
-                      }}
-                      error={
-                        (formik.touched.healthClaimsFile ||
-                          formik.touched.healthClaimsFileNew ||
-                          formik.errors.healthClaimsFile ||
-                          formik.errors.healthClaimsFileNew) && (
-                          <div>
-                            {formik.errors.healthClaimsFile ||
-                              formik.errors.healthClaimsFileNew}
-                          </div>
-                        )
-                      }
-                    />
-                  </div>
-                </div>
-                <div className={styles.innerProductContainer}>
-                  <div className={styles.innerSection}>
-                    <span className={styles.formHead}>Storage & Handling</span>
-                    <div className={styles.productInnerContainer}>
-                      <label className={styles.formLabel}>
-                        Shelf Life/Expiry
-                        {/* <span className={styles?.labelStamp}>*</span> */}
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <input
-                          className={styles.formInput}
-                          type="text"
-                          placeholder="Enter Shelf Life/Expiry"
-                          // autoComplete="off"
-                          name="expiry"
-                          value={formik?.values?.expiry}
-                          onChange={(e) =>
-                            handleInputChange(
-                              e,
-                              formik.setFieldValue,
-                              20,
-                              "all"
-                            )
-                          }
-                          onBlur={formik?.handleBlur}
-                        />
-                        <Tooltip content=" Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
-                      </div>
-                      {/* {formik.touched.expiry && formik.errors.expiry && (
-                        <span className={styles.error}>
-                          {formik.errors.expiry}
-                        </span>
-                      )} */}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </>
-          )}
-          {/* End the Alternative Medicines */}
-
-          {/* Start the Emergency and First Aid Supplies */}
-          {formik?.values?.category?.toLowerCase() ===
-            "EmergencyAndFirstAidSupplies"?.toLowerCase() && (
-            <>
-              <div className={styles.section}>
-                <span className={styles.formHead}>Product Identification</span>
-                <div className={styles.formSection}>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Composition/Ingredients
-                      <span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Composition/Ingredients"
-                        rows="2"
-                        name="composition"
-                        value={formik?.values?.composition}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Description of the active ingredients and components of the vaccine."></Tooltip>
-                    </div>
-                    {formik.touched.composition &&
-                      formik.errors.composition && (
-                        <span className={styles.error}>
-                          {formik.errors.composition}
-                        </span>
-                      )}
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Product Longevity
-                      <span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Product Longevity"
-                        rows="2"
-                        name="productLongevity"
-                        value={formik?.values?.productLongevity}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Expected lifespan of the product (e.g., single-use vs. reusable items)."></Tooltip>
-                    </div>
-                    {formik.touched.productLongevity &&
-                      formik.errors.productLongevity && (
-                        <span className={styles.error}>
-                          {formik.errors.productLongevity}
-                        </span>
-                      )}
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Foldability
-                      <span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Foldability"
-                        rows="2"
-                        name="foldability"
-                        value={formik?.values?.foldability}
-                        onChange={(e) =>
-                          handleInputChange(e, formik.setFieldValue, 100, "all")
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Whether the product can be folded for easy storage (e.g., foldable walkers)."></Tooltip>
-                    </div>
-                    {formik.touched.foldability &&
-                      formik.errors.foldability && (
-                        <span className={styles.error}>
-                          {formik.errors.foldability}
-                        </span>
-                      )}
-                  </div>
-                </div>
-                <div className={styles.innerProductContainer}>
-                  <div className={styles.innerSection}>
-                    <span className={styles.formHead}>Storage & Handling</span>
-                    <div className={styles.productInnerContainer}>
-                      <label className={styles.formLabel}>
-                        Shelf Life/Expiry
-                        {/* <span className={styles?.labelStamp}>*</span> */}
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <input
-                          className={styles.formInput}
-                          type="text"
-                          placeholder="Enter Shelf Life/Expiry"
-                          // autoComplete="off"
-                          name="expiry"
-                          value={formik?.values?.expiry}
-                          onChange={(e) =>
-                            handleInputChange(
-                              e,
-                              formik.setFieldValue,
-                              20,
-                              "all"
-                            )
-                          }
-                          onBlur={formik?.handleBlur}
-                        />
-                        <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
-                      </div>
-                      {/* {formik.touched.expiry && formik.errors.expiry && (
-                        <span className={styles.error}>
-                          {formik.errors.expiry}
-                        </span>
-                      )} */}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </>
-          )}
-
-          {/* End the Emergency and First Aid Supplies */}
-
-          {/* Start the Disinfection and Hygiene Supplies */}
-          {formik?.values?.category?.toLowerCase() ===
-            "DisinfectionAndHygieneSupplies"?.toLowerCase() && (
-            <>
-              <div className={styles.section}>
-                <span className={styles.formHead}>Product Identification</span>
-                <div className={styles.formSection}>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Composition/Ingredients
-                      <span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Composition/Ingredients"
-                        rows="2"
-                        name="composition"
-                        value={formik?.values?.composition}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Description of the active ingredients and components of the vaccine."></Tooltip>
-                    </div>
-                    {formik.touched.composition &&
-                      formik.errors.composition && (
-                        <span className={styles.error}>
-                          {formik.errors.composition}
-                        </span>
-                      )}
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Concentration</label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Concentration"
-                        rows="2"
-                        name="concentration"
-                        value={formik?.values?.concentration}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip
-                        content=" Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
-                          ,Alcohol-based disinfectants are typically 70-90%
-                          concentration  for optimal antimicrobial efficacy.
-                          Oxygen concentration level provided by the device (e.g.,
-                          95%)"
-                      ></Tooltip>
-                    </div>
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Formulation</label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Formulation"
-                        rows="2"
-                        name="formulation"
-                        value={formik?.values?.formulation}
-                        onChange={(e) =>
-                          handleInputChange(e, formik.setFieldValue, 100, "all")
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content=" The type of formulation (e.g., gel, cream, lotion, serum, mask, foam etc)."></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Fragrance</label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Fragrance"
-                        rows="2"
-                        name="fragrance"
-                        value={formik?.values?.fragrance}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content=" Whether the product contains fragrance or is fragrance-free."></Tooltip>
-                    </div>
-                    <span className={styles.error}></span>
-                  </div>
-                </div>
-                <div className={styles.innerProductContainer}>
-                  <div className={styles.innerSection}>
-                    <span className={styles.formHead}>Storage & Handling</span>
-                    <div className={styles.productInnerContainer}>
-                      <label className={styles.formLabel}>
-                        Shelf Life/Expiry
-                        {/* <span className={styles?.labelStamp}>*</span> */}
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <input
-                          className={styles.formInput}
-                          type="text"
-                          placeholder="Enter Shelf Life/Expiry"
-                          // autoComplete="off"
-                          name="expiry"
-                          value={formik?.values?.expiry}
-                          onChange={(e) =>
-                            handleInputChange(
-                              e,
-                              formik.setFieldValue,
-                              20,
-                              "all"
-                            )
-                          }
-                          onBlur={formik?.handleBlur}
-                        />
-                        <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
-                      </div>
-                      {/* {formik.touched.expiry && formik.errors.expiry && (
-                        <span className={styles.error}>
-                          {formik.errors.expiry}
-                        </span>
-                      )} */}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </>
-          )}
-          {/* End the Disinfection and Hygiene Supplies */}
-
-          {/* Start the Nutrition and Dietary Products */}
-          {formik?.values?.category?.toLowerCase() ===
-            "NutritionAndDietaryProducts"?.toLowerCase() && (
-            <>
-              <div className={styles.section}>
-                <span className={styles.formHead}>Product Identification</span>
-                <div className={styles.formSection}>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Dairy Free<span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <Select
-                        className={styles.formSelect}
-                        options={dairyfeeOptions}
-                        placeholder="Select Dairy Free"
-                        name="dairyFree"
-                        // Ensure that the value reflects the value from formik or the productDetail state
-                        value={dairyfeeOptions?.find(
-                          (option) =>
-                            option?.value === formik?.values?.dairyFree
-                        )}
-                        onChange={(selectedOption) =>
-                          formik.setFieldValue(
-                            "dairyFree",
-                            selectedOption?.value
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Is the product dairy free?"></Tooltip>
-                    </div>
-                    {formik.touched.dairyFree && formik.errors.dairyFree && (
-                      <span className={styles.error}>
-                        {formik.errors.dairyFree}
-                      </span>
-                    )}
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Flavor Options
-                      <span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Flavor Options"
-                        rows="2"
-                        name="flavorOptions"
-                        value={formik?.values?.flavorOptions}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip
-                        content=" Protein powders often come in a wide variety of flavors
-                          like 
-                          chocolate, vanilla, strawberry, cookies & cream, etc."
-                      ></Tooltip>
-                    </div>
-                    {formik.touched.flavorOptions &&
-                      formik.errors.flavorOptions && (
-                        <span className={styles.error}>
-                          {formik.errors.flavorOptions}
-                        </span>
-                      )}
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Amino Acid Profile
-                      <span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Amino Acid Profile"
-                        rows="2"
-                        name="aminoAcidProfile"
-                        value={formik?.values?.aminoAcidProfile}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Full spectrum or specific amino acids like BCAAs (Branched-Chain Amino Acids)."></Tooltip>
-                    </div>
-                    {formik.touched.aminoAcidProfile &&
-                      formik.errors.aminoAcidProfile && (
-                        <span className={styles.error}>
-                          {formik.errors.aminoAcidProfile}
-                        </span>
-                      )}
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Fat Content
-                      <span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Fat Content"
-                        rows="2"
-                        name="fatContent"
-                        value={formik?.values?.fatContent}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Varies based on type (e.g., whey isolate vs. concentrate)"></Tooltip>
-                    </div>
-                    {formik.touched.fatContent && formik.errors.fatContent && (
-                      <span className={styles.error}>
-                        {formik.errors.fatContent}
-                      </span>
-                    )}
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Health Benefit
-                      <span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Health Benefit"
-                        rows="2"
-                        name="healthBenefit"
-                        value={formik?.values?.healthBenefit}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Info about the health benefits (e.g., “Boosts immunity”, “Supports joint health”)"></Tooltip>
-                    </div>
-                    {formik.touched.healthBenefit &&
-                      formik.errors.healthBenefit && (
-                        <span className={styles.error}>
-                          {formik.errors.healthBenefit}
-                        </span>
-                      )}
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Purpose</label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Purpose"
-                        rows="2"
-                        name="purpose"
-                        value={formik?.values?.purpose}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip
-                        content=" Purpose (e.g., COVID-19 detection, blood glucose
-                          monitoring, cholesterol level check,Pain
-                          relief,Prevention of infection.,Cooling and soothing.,
-                          
-                          Moisturizing and healing, procedure or use case of tool,
-                          Relieves symptoms, promotes healing, or prevents
-                          recurrence.)"
-                      ></Tooltip>
-                    </div>
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Composition/Ingredients
-                      <span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Composition/Ingredients"
-                        rows="2"
-                        name="composition"
-                        value={formik?.values?.composition}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content="Description of the active ingredients and components of the vaccine."></Tooltip>
-                    </div>
-                    {formik.touched.composition &&
-                      formik.errors.composition && (
-                        <span className={styles.error}>
-                          {formik.errors.composition}
-                        </span>
-                      )}
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Additives & Sweeteners
-                      <span className={styles?.labelStamp}>*</span>
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Additives & Sweeteners"
-                        rows="2"
-                        name="additivesNSweeteners"
-                        value={formik?.values?.additivesNSweeteners}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip
-                        content=" Some proteins contain artificial sweeteners (e.g.,
-                          sucralose, aspartame),
-                          while others use natural sweeteners (e.g.,
-                          stevia, monk fruit)."
-                      ></Tooltip>
-                    </div>
-                    {formik.touched.additivesNSweeteners &&
-                      formik.errors.additivesNSweeteners && (
-                        <span className={styles.error}>
-                          {formik.errors.additivesNSweeteners}
-                        </span>
-                      )}
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Vegan</label>
-                    <div className={styles.tooltipContainer}>
-                      <span className={styles.formCheckboxSection}>
-                        <input
-                          type="checkbox"
-                          id="vegan"
-                          name="vegan"
-                          onBlur={formik?.handleBlur}
-                          checked={
-                            formik?.values?.vegan || checked["vegan"] || false
-                          }
-                          onChange={(e) => {
-                            handleCheckboxChange("vegan", e?.target?.checked);
-                            formik.setFieldValue("vegan", e?.target?.checked);
-                          }}
-                        />
-                        <label className={styles.checkText} htmlFor="vegan">
-                          Whether the product is vegan (i.e. <br />, no
-                          animal-derived ingredients).
-                        </label>
-                      </span>
-                      <Tooltip content=" Description of the active and/or inactive ingredients and components."></Tooltip>
-                    </div>
-                  </div>
-                </div>
-                <div className={styles.innerProductContainer}>
-                  <div className={styles.innerSection}>
-                    <span className={styles.formHead}>Storage & Handling</span>
-                    <div className={styles.productInnerContainer}>
-                      <label className={styles.formLabel}>
-                        Shelf Life/Expiry
-                        {/* <span className={styles?.labelStamp}>*</span> */}
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        <input
-                          className={styles.formInput}
-                          type="text"
-                          placeholder="Enter Shelf Life/Expiry"
-                          // autoComplete="off"
-                          name="expiry"
-                          value={formik?.values?.expiry}
-                          onChange={(e) =>
-                            handleInputChange(
-                              e,
-                              formik.setFieldValue,
-                              20,
-                              "all"
-                            )
-                          }
-                          onBlur={formik?.handleBlur}
-                        />
-                        <Tooltip content=" Expected shelf life of the item under proper storage conditions or Expiry date."></Tooltip>
-                      </div>
-                      {/* {formik.touched.expiry && formik.errors.expiry && (
-                        <span className={styles.error}>
-                          {formik.errors.expiry}
-                        </span>
-                      )} */}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </>
-          )}
-
-          {/* End the Nutrition and Dietary Products */}
-
-          {/* Start the Healthcare IT Solutions */}
-          {formik?.values?.category?.toLowerCase() ===
-            "HealthcareITSolutions"?.toLowerCase() && (
-            <>
-              <div className={styles.section}>
-                <span className={styles.formHead}>Product Identification</span>
-                <div className={styles.formSection}>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Scalability Info
-                      {/* <span className={styles?.labelStamp}>*</span> */}
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      <textarea
-                        className={styles.formInput}
-                        placeholder="Enter Scalability Info"
-                        rows="2"
-                        name="scalabilityInfo"
-                        value={formik?.values?.scalabilityInfo}
-                        onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            1000,
-                            "all"
-                          )
-                        }
-                        onBlur={formik?.handleBlur}
-                      />
-                      <Tooltip content=" Easily adjustable storage to accommodate growing data volumes."></Tooltip>
-                    </div>
-                    {/* {formik.touched.scalabilityInfo &&
-                      formik.errors.scalabilityInfo && (
-                        <span className={styles.error}>
-                          {formik.errors.scalabilityInfo}
-                        </span>
-                      )} */}
-                  </div>
-                </div>
-                <div className={styles.innerProductContainer}>
-                  <div className={styles.innerSection}>
-                    <span className={styles.formHead}>
-                      Additional Information
-                    </span>
-                    <div className={styles.formInnerSection}>
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>
-                          License
-                          {/* <span className={styles?.labelStamp}>*</span> */}
-                        </label>
-                        <div className={styles.tooltipContainer}>
-                          <textarea
-                            className={styles.formInput}
-                            placeholder="Enter License"
-                            rows="2"
-                            name="license"
-                            value={formik?.values?.license}
-                            onChange={(e) =>
-                              handleInputChange(
-                                e,
-                                formik.setFieldValue,
-                                50,
-                                "all"
-                              )
-                            }
-                            onBlur={formik?.handleBlur}
-                          />
-                          <Tooltip content=" License Terms"></Tooltip>
-                        </div>
-                        {/* {formik.touched.license && formik.errors.license && (
-                          <span className={styles.error}>
-                            {formik.errors.license}
-                          </span>
-                        )} */}
-                      </div>
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>
-                          Add-Ons
-                          {/* <span className={styles?.labelStamp}>*</span> */}
-                        </label>
-                        <div className={styles.tooltipContainer}>
-                          <textarea
-                            className={styles.formInput}
-                            placeholder="Enter Add-Ons"
-                            rows="2"
-                            name="addOns"
-                            value={formik?.values?.addOns}
-                            onChange={(e) =>
-                              handleInputChange(
-                                e,
-                                formik.setFieldValue,
-                                1000,
-                                "all"
-                              )
-                            }
-                            onBlur={formik?.handleBlur}
-                          />
-                          <Tooltip content="White-label solutions for branding. ,Custom integrations or API usage."></Tooltip>
-                        </div>
-                        {/* {formik.touched.addOns && formik.errors.addOns && (
-                          <span className={styles.error}>
-                            {formik.errors.addOns}
-                          </span>
-                        )} */}
-                      </div>
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>
-                          User Access
-                          {/* <span className={styles?.labelStamp}>*</span> */}
-                        </label>
-                        <div className={styles.tooltipContainer}>
-                          <textarea
-                            className={styles.formInput}
-                            placeholder="Enter User Access"
-                            rows="2"
-                            name="userAccess"
-                            value={formik?.values?.userAccess}
-                            onChange={(e) =>
-                              handleInputChange(
-                                e,
-                                formik.setFieldValue,
-                                1000,
-                                "all"
-                              )
-                            }
-                            onBlur={formik?.handleBlur}
-                          />
-                          <Tooltip content="Patients Easy-to-use apps for booking and attending consultations."></Tooltip>
-                        </div>
-                        {/* {formik.touched.userAccess &&
-                          formik.errors.userAccess && (
-                            <span className={styles.error}>
-                              {formik.errors.userAccess}
-                            </span>
-                          )} */}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className={styles.innerMonitorSection}>
-                    <span className={styles.formHead}>Technical Details</span>
-                    <div className={styles.formInnerSection}>
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>
-                          Key Features
-                          {/* <span className={styles?.labelStamp}>*</span> */}
-                        </label>
-                        <div className={styles.tooltipContainer}>
-                          <textarea
-                            className={styles.formInput}
-                            placeholder="Enter Key Features"
-                            rows="2"
-                            name="keyFeatures"
-                            value={formik?.values?.keyFeatures}
-                            onChange={(e) =>
-                              handleInputChange(
-                                e,
-                                formik.setFieldValue,
-                                1000,
-                                "all"
-                              )
-                            }
-                            onBlur={formik?.handleBlur}
-                          />
-                          <Tooltip
-                            content="  Remote monitoring of vital signs (e.g., heart rate,
-                              blood pressure, glucose levels).
-                              Real-time data transmission to healthcare providers
-                              or mobile apps."
-                          ></Tooltip>
-                        </div>
-                        {/* {formik.touched.keyFeatures &&
-                          formik.errors.keyFeatures && (
-                            <span className={styles.error}>
-                              {formik.errors.keyFeatures}
-                            </span>
-                          )} */}
-                      </div>
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>
-                          Core Functionalities
-                          {/* <span className={styles?.labelStamp}>*</span> */}
-                        </label>
-                        <div className={styles.tooltipContainer}>
-                          <textarea
-                            className={styles.formInput}
-                            placeholder="Enter Core Functionalities"
-                            rows="2"
-                            name="coreFunctionalities"
-                            value={formik?.values?.coreFunctionalities}
-                            onChange={(e) =>
-                              handleInputChange(
-                                e,
-                                formik.setFieldValue,
-                                1000,
-                                "all"
-                              )
-                            }
-                            onBlur={formik?.handleBlur}
-                          />
-                          <Tooltip content="Continuous or on-demand monitoring (e.g., ECG, blood oxygen levels, heart rate)."></Tooltip>
-                        </div>
-                        {/* {formik.touched.coreFunctionalities &&
-                          formik.errors.coreFunctionalities && (
-                            <span className={styles.error}>
-                              {formik.errors.coreFunctionalities}
-                            </span>
-                          )} */}
-                      </div>
-                      <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>
-                          Interoperability
-                          {/* <span className={styles?.labelStamp}>*</span> */}
-                        </label>
-                        <div className={styles.tooltipContainer}>
-                          <textarea
-                            className={styles.formInput}
-                            placeholder="Enter Interoperability"
-                            rows="2"
-                            name="interoperability"
-                            value={formik?.values?.interoperability}
-                            onChange={(e) =>
-                              handleInputChange(
-                                e,
-                                formik.setFieldValue,
-                                1000,
-                                "all"
-                              )
-                            }
-                            onBlur={formik?.handleBlur}
-                          />
-                          <Tooltip content="Adheres to HL7/FHIR standards for healthcare data exchange."></Tooltip>
-                        </div>
-                        {/* {formik.touched.interoperability &&
-                          formik.errors.interoperability && (
-                            <span className={styles.error}>
-                              {formik.errors.interoperability}
-                            </span>
-                          )} */}
-                        <AddProductFileUpload
-                          styles={styles}
-                          productDetails={productDetail}
-                          maxFiles={
-                            4 -
-                            (formik?.values?.interoperabilityFile?.length || 0)
-                          }
-                          fieldInputName={"interoperabilityFileNew"}
-                          oldFieldName={"interoperabilityFile"}
-                          existingFiles={formik?.values?.interoperabilityFile}
-                          setFieldValue={formik.setFieldValue}
-                          initialValues={formik?.values}
-                          label=""
-                          tooltip={false}
-                          showLabel={false}
-                          acceptTypes={{
-                            "image/png": [],
-                            "image/jpeg": [],
-                            "image/jpg": [],
-                            "application/pdf": [],
-                          }}
-                          error={
-                            (formik.touched.interoperabilityFile ||
-                              formik.touched.interoperabilityFileNew ||
-                              formik.errors.interoperabilityFile ||
-                              formik.errors.interoperabilityFileNew) && (
-                              <div>
-                                {formik.errors.interoperabilityFile ||
-                                  formik.errors.interoperabilityFileNew}
-                              </div>
-                            )
-                          }
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </>
-          )}
-          {/* End the Healthcare IT Solutions */}
-
-          {/* Start the Inventory */}
-          <div className={styles.section}>
-            <span className={styles.formHead}>Inventory</span>
-            <div className={styles.formSection}>
-              <div className={styles.productContainer}>
-                <label className={styles.formLabel}>SKU</label>
-                <div className={styles.tooltipContainer}>
-                  <input
-                    className={styles.formInput}
-                    type="text"
-                    placeholder="Enter SKU"
-                    // autoComplete="off"
-                    name="sku"
-                    value={formik?.values?.sku}
-                    onChange={(e) =>
-                      handleInputChange(
-                        e,
-                        formik.setFieldValue,
-                        20,
-                        "all",
-                        ["sku"],
-                        "-"
-                      )
-                    }
-                    onBlur={formik?.handleBlur}
-                  />
-                  <Tooltip content="Stock-keeping unit for inventory management"></Tooltip>
-                </div>
-                {formik.touched.sku && formik.errors.sku && (
-                  <span className={styles.error}>{formik.errors.sku}</span>
-                )}
-              </div>
-              <div className={styles.productContainer}>
-                <label className={styles.formLabel}>Date of Manufacture</label>
-                <div className={styles.tooltipContainer}>
-                  <DatePicker
-                    className={styles.formDate}
-                    clearIcon={null}
-                    format="dd/MM/yyyy"
-                    placeholder="dd/MM/yyyy"
-                    name="date"
-                    maxDate={new Date()}
-                    value={parseDate(formik.values.date)}
-                    onChange={(date) => {
-                      formik.setFieldValue("date", date); // This updates Formik's value
-                    }}
-                    onBlur={formik?.handleBlur} // Adds the blur event to track when the field is blurred
-                    onKeyDown={(e) => {
-                      e.preventDefault();
-                    }}
-                  />
-                  <Tooltip content="The date when the item was assembled or manufactured. if applicable for in stock"></Tooltip>
-                </div>
-                {formik.touched.date && formik.errors.date && (
-                  <span className={styles.error}>{formik.errors.date}</span>
-                )}
-              </div>
-              <div className={styles.productContainer}>
-                <label className={styles.formLabel}>
-                  Stock<span className={styles?.labelStamp}>*</span>
-                </label>
-                <div className={styles.tooltipContainer}>
-                  <Select
-                    className={styles.formSelect}
-                    options={stockOptions}
-                    placeholder="Select Stock"
-                    name="stock"
-                    // Ensure that the value reflects the value from formik or the productDetail state
-                    value={stockOptions.find(
-                      (option) => option?.value === formik?.values?.stock
-                    )}
-                    onBlur={formik?.handleBlur}
-                    onChange={(selectedOption) =>
-                      formik.setFieldValue("stock", selectedOption?.value)
-                    }
-                  />
-                  <Tooltip content="If the product is in stock or out of stock or On-demand"></Tooltip>
-                </div>
-                {formik.touched.stock && formik.errors.stock && (
-                  <span className={styles.error}>{formik.errors.stock}</span>
-                )}
-              </div>
-              <div className={styles.productContainer}>
-                <label className={styles.formLabel}>
+              {/* <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>
                   Stocked in Countries
-                  {/* <span className={styles?.labelStamp}>*</span> */}
+                  
                 </label>
                 <MultiSelectDropdown
                   options={countries}
                   placeholderButtonLabel="Select Countries"
                   name="countries"
-                  value={formik.values?.countries.map((country) => ({
+                  value={formik?.values?.countries.map((country) => ({
                     label: country,
                     value: country,
                   }))}
@@ -6909,7 +1191,7 @@ const EditAddProduct = ({ placeholder }) => {
                     //     value: option,
                     //   })) || []
                     // );
-                    formik.setFieldValue("countries", selectedValues); // Update Formik value with the selected country values
+                    formik?.setFieldValue("countries", selectedValues); // Update Formik value with the selected country values
                     // if (selectedValues?.length == 0) {
                     //   setStockedInDetails([
                     //     {
@@ -6922,138 +1204,616 @@ const EditAddProduct = ({ placeholder }) => {
                     // }
                   }}
                 />
-                {formik.touched.countries && formik.errors.countries && (
-                  <span className={styles.error}>
-                    {formik.errors.countries}
+                {formik?.touched?.countries && formik?.errors?.countries && (
+                  <span className={styles?.error}>
+                    {formik?.errors?.countries}
                   </span>
                 )}
+              </div> */}
+
+              <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>
+                  Tags
+                  <span className={styles?.labelStamp}>*</span>
+                </label>
+                <input
+                  className={styles?.formInput}
+                  type="text"
+                  placeholder="Enter Tags"
+                  // autoComplete="off"
+                  name="tags"
+                  value={formik?.values?.tags}
+                  onChange={(e) =>
+                    handleInputChange(e, formik?.setFieldValue, 75, "all")
+                  }
+                  onBlur={formik?.handleBlur}
+                  // error={errors?.tags}
+                />
+
+                {formik?.touched?.tags && formik?.errors?.tags && (
+                  <span className={styles?.error}>{formik?.errors?.tags}</span>
+                )}
+              </div>
+              <div className={styles?.productTextContainer}>
+                <label className={styles?.formLabel}>
+                  Product Description
+                  <span className={styles?.labelStamp}>*</span>
+                </label>
+                <textarea
+                  className={styles.formInput}
+                  type="text"
+                  name="description"
+                  rows={5}
+                  placeholder="Enter Description"
+                  value={formik?.values.description}
+                  onChange={formik?.handleChange}
+                  onBlur={() => formik?.handleBlur}
+                />
+
+                <span className={styles?.error}></span>
               </div>
             </div>
+          </div>
 
-            <div className={styles.formStockContainer}>
-              <div className={styles.formHeadSection}>
-                <span className={styles.formHead}>Stocked In Details</span>
-                <span
-                  className={styles.formAddButton}
-                  onClick={() =>
-                    formik.setFieldValue("stockedInDetails", [
-                      ...formik?.values?.stockedInDetails,
-                      {
-                        country: "",
-                        quantity: "",
-                        type: "Box",
-                        placeholder: "Enter Box Quantity",
-                      },
+          {/* Start manufacturer details */}
+          <div className={styles?.section}>
+            <span className={styles?.formHead}>Manufacturer Details</span>
+            <div className={styles?.formSection}>
+              <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>
+                  Manufacturer Name
+                  {/* <span className={styles?.labelStamp}>*</span> */}
+                </label>
+                <input
+                  className={styles?.formInput}
+                  type="text"
+                  placeholder="Enter Manufacturer Name"
+                  // autoComplete="off"
+                  name="manufacturer"
+                  value={formik?.values?.manufacturer}
+                  onBlur={formik?.handleBlur}
+                  // onChange={(e) => {
+                  //   formik?.setFieldValue("manufacturer", e.target.value);
+                  // }}
+                  onChange={(e) =>
+                    handleInputChange(e, formik?.setFieldValue, 75, "all", [
+                      "manufacturer",
                     ])
+                  }
+                />
+                {/* {formik?.touched?.manufacturer && formik?.errors?.manufacturer && (
+                  <span className={styles?.error}>
+                    {formik?.errors?.manufacturer}
+                  </span>
+                )} */}
+              </div>
+
+              <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>
+                  Manufacturer Country of Origin
+                  {/* <span className={styles?.labelStamp}>*</span> */}
+                </label>
+                <Select
+                  name="countryOfOrigin"
+                  options={countries}
+                  placeholder="Select Country of Origin"
+                  value={
+                    countries.find(
+                      (option) =>
+                        option.label === formik?.values?.countryOfOrigin
+                    ) || null
+                  }
+                  onBlur={formik?.handleBlur}
+                  onChange={(selectedOption) => {
+                    formik?.setFieldValue(
+                      "countryOfOrigin",
+                      selectedOption?.label
+                    );
+                  }}
+                />
+
+                {/* {formik?.touched?.countryOfOrigin &&
+                  formik?.errors?.countryOfOrigin && (
+                    <span className={styles?.error}>
+                      {formik?.errors?.countryOfOrigin}
+                    </span>
+                  )} */}
+              </div>
+
+              <div className={styles?.productTextContainer}>
+                <label className={styles?.formLabel}>
+                  About Manufacturer
+                  <span className={styles?.labelStamp}>*</span>
+                </label>
+                <textarea
+                  className={styles?.formInput}
+                  type="text"
+                  placeholder="Enter About Manufacturer"
+                  value={formik?.values?.aboutManufacturer}
+                  name="aboutManufacturer"
+                  onBlur={formik?.handleBlur}
+                  onChange={(e) =>
+                    handleInputChange(e, formik?.setFieldValue, 500, "all")
+                  }
+                />
+                {formik?.touched?.aboutManufacturer &&
+                  formik?.errors?.aboutManufacturer && (
+                    <span className={styles?.error}>
+                      {formik?.errors?.aboutManufacturer}
+                    </span>
+                  )}
+              </div>
+            </div>
+          </div>
+
+          {/* End manufacturer details */}
+
+          {/* Start the Compliances and certificate */}
+          <div className={styles?.section}>
+            <div className={styles?.formHeadSection}>
+              <span className={styles?.formHead}>Add Other Details</span>
+              <span
+                className={styles?.formAddButton}
+                onClick={() => {
+                  // Add new file and date pair to the array
+                  // formik?.values?.categoryDetails?.length < 4 &&
+                  formik?.setFieldValue("categoryDetails", [
+                    ...formik?.values?.categoryDetails,
+                    {
+                      fieldValue: "",
+                      name: "",
+                      type: "",
+                    },
+                  ]);
+                }}
+              >
+                Add More
+              </span>
+            </div>
+
+            {/* {formik?.values?.categoryDetails?.length > 0 ? (
+              formik?.values?.categoryDetails?.map((ele, index) => (
+                <div
+                  key={`certification_${index}`}
+                  className={styles?.formSection}
+                >
+                  <div className={styles?.productContainer}>
+                    <Field name={`categoryDetails.${index}.fieldValue`}>
+                      {({ field }) => (
+                        <EditComplianceNCertification
+                          fieldInputName={`categoryDetails.${index}.fieldValue`}
+                          setFieldValue={formik?.setFieldValue}
+                          initialValues={formik?.values}
+                          label="Parameter Description"
+                          // Pass the selected file here
+                          selectedFile={
+                            typeof ele?.file == "string"
+                              ? [ele?.file]
+                              : ele?.file
+                          }
+                          preview={ele?.preview}
+                          fileIndex={index}
+                          isEdit={true}
+                        />
+                      )}
+                    </Field>
+                    <span className={styles?.error}>
+                      {formik?.touched?.categoryDetails?.[index]?.fieldValue &&
+                        formik?.errors?.categoryDetails?.[index]?.fieldValue}
+                    </span>
+                  </div>
+
+                  {formik?.values?.categoryDetails?.length > 1 && (
+                    <div
+                      className={styles?.formCloseSection}
+                      onClick={() => {
+                        // Clear form values before removing the row
+                        formik?.setFieldValue(
+                          `categoryDetails.${index}.fieldValue`,
+                          ""
+                        );
+                        formik?.setFieldValue(
+                          `categoryDetails.${index}.name`,
+                          ""
+                        );
+                        formik?.setFieldValue(
+                          `categoryDetails.${index}.type`,
+                          ""
+                        );
+                        formik?.setFieldValue(
+                          `categoryDetails.${index}.preview`,
+                          false
+                        );
+
+                        // Remove the row from the array
+                        const updatedList =
+                          formik?.values?.categoryDetails.filter(
+                            (_, elindex) => elindex !== index
+                          );
+                        const updatedList2 =
+                          formik?.values?.categoryDetailsFileNew.filter(
+                            (_, elindex) => elindex !== index
+                          );
+                        formik?.setFieldValue("categoryDetails", updatedList);
+                        formik?.setFieldValue("categoryDetailsFile", []);
+                        formik?.setFieldValue(
+                          "categoryDetailsFileNew",
+                          updatedList2
+                        );
+                      }}
+                    >
+                      <span className={styles?.formclose}>
+                        <CloseIcon className={styles?.icon} />
+                      </span>
+                    </div>
+                  )}
+                </div>
+              )) */}
+            {formik?.values?.categoryDetails?.length > 0 ? (
+              formik?.values?.categoryDetails?.map((section, index) => {
+                // Get category options
+                const categoryOptions =
+                  categoriesData
+                    ?.find((cat) => cat?.schema === formik?.values?.category)
+                    ?.options?.map((option) => ({
+                      ...option,
+                      label: option?.label,
+                      value: option?.name,
+                    })) || [];
+
+                // Match the selected option by value (not label)
+                const selectedOption = categoryOptions.find(
+                  (opt) => opt.value === section.name
+                );
+                return (
+                  <div
+                    key={`categoryDetails_${index}`}
+                    className={styles?.stockedContainer2}
+                  >
+                    <div className={styles?.stockedSection}>
+                      <div className={styles?.StockedDiv}>
+                        <label className={styles?.formLabel}>
+                          Parameter Name
+                          <span className={styles?.labelStamp}>*</span>
+                        </label>
+                        <Select
+                          className={styles?.formSelect}
+                          value={selectedOption || null}
+                          onChange={(selected) =>
+                            handlecategoryDetailsNameChange(
+                              index,
+                              selected,
+                              formik?.setFieldValue
+                            )
+                          }
+                          options={
+                            categoriesData
+                              ?.find(
+                                (cat) => cat?.schema == formik?.values?.category
+                              )
+                              ?.options?.map((option) => ({
+                                ...option,
+                                label: option?.label,
+                                value: option?.name,
+                              })) || []
+                          }
+                          placeholder="Select Parameter Name"
+                          name={`categoryDetails.${index}.name`}
+                          onBlur={() =>
+                            formik?.setFieldTouched(
+                              `categoryDetails.${index}.name`,
+                              true
+                            )
+                          }
+                        />
+                        {formik?.touched?.categoryDetails?.[index]?.name &&
+                          formik?.errors?.categoryDetails?.[index]?.name && (
+                            <span span className={styles?.error}>
+                              {formik?.errors?.categoryDetails[index].name}
+                            </span>
+                          )}
+                      </div>
+                      {section?.name ? (
+                        <div className={styles?.StockedDivQuantity}>
+                          <label className={styles?.formLabel}>
+                            Parameter Description
+                            <span className={styles?.labelStamp}>*</span>
+                          </label>
+                          <div className={styles?.quantitySelector}>
+                            <div className={styles?.inputGroup}>
+                              {section?.type == "text" ? (
+                                <input
+                                  type="text"
+                                  name={`categoryDetails.${index}.fieldValue`}
+                                  onChange={(e) =>
+                                    handlecategoryDetailsFieldValueChange(
+                                      index,
+                                      e,
+                                      formik?.setFieldValue
+                                    )
+                                  }
+                                  value={section.fieldValue}
+                                  placeholder={section?.placeholder}
+                                  className={styles?.inputStocked}
+                                  onBlur={() =>
+                                    formik?.setFieldTouched(
+                                      `categoryDetails.${index}.fieldValue`,
+                                      true
+                                    )
+                                  }
+                                />
+                              ) : section?.type == "textarea" ? (
+                                <textarea
+                                  className={styles?.inputStocked}
+                                  type="text"
+                                  placeholder={section?.placeholder}
+                                  // autoComplete="off"
+                                  name={`categoryDetails.${index}.fieldValue`}
+                                  value={section?.fieldValue}
+                                  onChange={(e) =>
+                                    handlecategoryDetailsFieldValueChange(
+                                      index,
+                                      e,
+                                      formik?.setFieldValue
+                                    )
+                                  }
+                                  onBlur={() =>
+                                    formik?.setFieldTouched(
+                                      `categoryDetails.${index}.fieldValue`,
+                                      true
+                                    )
+                                  }
+                                />
+                              ) : section?.type == "dropdown" ? (
+                                <Select
+                                  className={styles?.formSelect}
+                                  options={section?.optionsDD}
+                                  placeholder={section?.placeholder}
+                                  name={`categoryDetails.${index}.fieldValue`}
+                                  onBlur={formik?.handleBlur}
+                                  onChange={(selectedOption) =>
+                                    formik?.setFieldValue(
+                                      `categoryDetails.${index}.fieldValue`,
+                                      selectedOption.value
+                                    )
+                                  }
+                                />
+                              ) : section?.type == "checkbox" ? (
+                                <div className={styles?.radioGroup}>
+                                  {["true", "false"].map((option) => (
+                                    <label key={option}>
+                                      <input
+                                        type="radio"
+                                        name={`categoryDetails.${index}.fieldValue`}
+                                        value={option} // <-- This must be the option value, not section.fieldValue
+                                        checked={section.fieldValue === option} // checked if value matches
+                                        onChange={(e) =>
+                                          formik?.setFieldValue(
+                                            `categoryDetails.${index}.fieldValue`,
+                                            e.target.value
+                                          )
+                                        }
+                                      />
+                                      <span>
+                                        {option === "true" ? "Yes" : "No"}
+                                      </span>
+                                    </label>
+                                  ))}
+                                </div>
+                              ) : (
+                                section?.type == "file" && (
+                                  <Field
+                                    name={`categoryDetails.${index}.fieldValue`}
+                                  >
+                                    {({ field }) => (
+                                      <EditCategoryDetails
+                                        fieldInputName={`categoryDetails.${index}.fieldValue`}
+                                        setFieldValue={formik?.setFieldValue}
+                                        initialValues={formik?.values}
+                                        selectedFile={section?.fieldValue}
+                                        preview={true}
+                                        fileIndex={index}
+                                        isEdit={true}
+                                      />
+                                    )}
+                                  </Field>
+                                )
+                              )}
+                            </div>
+                          </div>
+                          {
+                            <span span className={styles?.error}>
+                              {formik?.touched?.categoryDetails &&
+                                formik?.errors?.categoryDetails?.[index]
+                                  ?.fieldValue}
+                            </span>
+                            // )
+                          }
+                        </div>
+                      ) : (
+                        <div className={styles?.StockedDivQuantity}>
+                          <label className={styles?.formLabel}>
+                            Parameter Description
+                            <span className={styles?.labelStamp}>*</span>
+                          </label>
+                          <div className={styles?.quantitySelector}>
+                            <div className={styles?.inputGroup}>
+                              <input
+                                type="text"
+                                value={section.fieldValue}
+                                placeholder={
+                                  "Please select parameter name first"
+                                }
+                                disabled={true}
+                                className={styles?.inputStocked}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                    <div
+                      className={styles?.formclosebutton}
+                      onClick={() =>
+                        removecategoryDetailsFormSection(
+                          index,
+                          formik?.setFieldValue,
+                          formik?.values
+                        )
+                      }
+                    >
+                      <CloseIcon className={styles?.iconClose} />
+                    </div>
+                  </div>
+                );
+              })
+            ) : (
+              <div>No Other Details added</div>
+            )}
+          </div>
+
+          {/* End the compliances and certificate */}
+
+          {/* Start the Inventory */}
+          <div className={styles?.section}>
+            <div className={styles?.Stocksection}>
+              <div className={styles?.formHeadSection}>
+                <span className={styles?.formHead}> Stocked in Details</span>
+                <span
+                  className={styles?.formAddButton}
+                  onClick={() =>
+                    addStockedInSection(formik?.setFieldValue, formik?.values)
                   }
                 >
                   Add More
                 </span>
               </div>
-
-              {/* {countries.map((country) => ({
-                label: country,
-                value: country,
-              }))?.length > 0 ? ( */}
-              {formik?.values?.stockedInDetails?.map((stock, index) => (
-                <div key={index} className={styles.formSection}>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Country where Stock Trades
-                      <span className={styles.labelStamp}>*</span>
-                    </label>
-                    <Select
-                      className={styles.formSelect}
-                      options={countries} // Map countries to the correct format
-                      placeholder="Select Country where Stock Trades"
-                      value={countries.find(
-                        (option) => option.label == stock?.country
-                      )} // Find the selected country
-                      onBlur={formik?.handleBlur}
-                      onChange={(option) =>
-                        formik.setFieldValue(
-                          `stockedInDetails.${index}.country`,
-                          option?.label
-                        )
-                      }
-                      name={`stockedInDetails.${index}.country`}
-                      // isDisabled={
-                      //   countries.map((country) => ({
-                      //     label: country,
-                      //     value: country,
-                      //   }))?.length == 0
-                      // }
-                    />
-                    <span className={styles.error}>
-                      {formik.touched.stockedInDetails &&
-                        formik.errors.stockedInDetails?.[index]?.country}
-                    </span>
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Stock Quantity</label>
-                    <div className={styles.productQuantityContainer}>
-                      <div className={styles.quantitySection}>
-                        <input
-                          name={`stockedInDetails.${index}.quantity`}
-                          className={styles.quantityInput}
-                          placeholder={stock.placeholder}
-                          type="number"
-                          value={
-                            formik?.values?.stockedInDetails[index]?.quantity ||
-                            ""
-                          }
-                          onChange={formik.handleChange}
-                        />
+              {formik?.values?.stockedInDetails.map((section, index) => (
+                <div
+                  key={`stocked_${index}`}
+                  className={styles?.stockedContainer}
+                >
+                  <div className={styles?.stockedSection}>
+                    <div className={styles?.StockedDiv}>
+                      <label className={styles?.formLabel}>
+                        Stocked in Country
+                        <span className={styles?.labelStamp}>*</span>
+                      </label>
+                      <Select
+                        className={styles?.formSelect}
+                        value={countries.find(
+                          (option) => option.label === section.country
+                        )}
+                        onChange={(selected) =>
+                          handleStockedInCountryChange(
+                            index,
+                            selected,
+                            formik?.setFieldValue
+                          )
+                        }
+                        options={countries}
+                        placeholder="Select Stocked in Country"
+                        name={`stockedInDetails.${index}.country`}
+                        onBlur={() =>
+                          formik?.setFieldTouched(
+                            `stockedInDetails.${index}.country`,
+                            true
+                          )
+                        }
+                      />
+                    </div>
+                    <div className={styles?.StockedDivQuantity}>
+                      <label className={styles?.formLabel}>
+                        Stocked in Quantity
+                        <span className={styles?.labelStamp}>*</span>
+                      </label>
+                      <div className={styles?.quantitySelector}>
+                        <div className={styles?.inputGroup}>
+                          <input
+                            type="text"
+                            name={`stockedInDetails.${index}.quantity`}
+                            onChange={(e) =>
+                              handleStockedInputChange(
+                                index,
+                                e,
+                                formik?.setFieldValue
+                              )
+                            }
+                            value={section.quantity}
+                            placeholder={`Enter ${
+                              section.unitType || "Box"
+                            } Quantity`}
+                            className={styles?.inputStocked}
+                            onBlur={() =>
+                              formik?.setFieldTouched(
+                                `stockedInDetails.${index}.quantity`,
+                                true
+                              )
+                            }
+                          />
+                          <button
+                            className={`${styles?.optionButton} ${
+                              section.unitType === "Box" ? styles?.selected : ""
+                            }`}
+                          >
+                            {section.unitType || "Box"}
+                          </button>
+                        </div>
+                        <div className={styles?.radioGroup}>
+                          {["Box", "Strip", "Pack", "Unit"].map((type) => (
+                            <label key={type}>
+                              <input
+                                type="radio"
+                                name={`stockedInDetails[${index}].unitType`}
+                                value={type}
+                                checked={
+                                  section.unitType === type ||
+                                  (!section.unitType && type === "Box")
+                                }
+                                onChange={() =>
+                                  handlePackageSelection(
+                                    index,
+                                    type,
+                                    formik?.setFieldValue
+                                  )
+                                }
+                              />
+                              <span>{type}</span>
+                            </label>
+                          ))}
+                        </div>
                       </div>
                     </div>
-                    <span className={styles.error}>
-                      {formik.touched.stockedInDetails?.[index]?.quantity &&
-                        formik.errors.stockedInDetails?.[index]?.quantity}
-                    </span>
                   </div>
-
-                  {formik?.values?.stockedInDetails?.length > 1 && (
+                  {formik?.values?.stockedInDetails.length > 1 && (
                     <div
-                      className={styles.formCloseSection}
-                      onClick={() => {
-                        const updatedList =
-                          formik?.values?.stockedInDetails.filter(
-                            (_, elindex) => elindex !== index
-                          );
-                        formik.setFieldValue("stockedInDetails", updatedList);
-                      }}
+                      className={styles?.formclosebutton}
+                      onClick={() =>
+                        removeStockedInFormSection(
+                          index,
+                          formik?.setFieldValue,
+                          formik?.values
+                        )
+                      }
                     >
-                      <span className={styles.formclose}>
-                        <CloseIcon className={styles.icon} />
-                      </span>
+                      <CloseIcon className={styles?.iconClose} />
                     </div>
                   )}
                 </div>
               ))}
-              {/* ) : (
-                <div className={styles.formStockContainer}>
-                  <div className={styles.formHeadSection}>
-                    <label className={styles.formLabel}>
-                      Please select Stocked in Countries to add stocked In
-                      details
-                    </label>
-                  </div>
-                </div>
-              )} */}
             </div>
           </div>
 
           {/* End the Inventory */}
 
           {/* Start the Product Pricing */}
-          <div className={styles.section}>
-            <div className={styles.formHeadSection}>
-              <span className={styles.formHead}>Product Pricing</span>
+          <div className={styles?.section}>
+            <div className={styles?.formHeadSection}>
+              <span className={styles?.formHead}>Product Pricing</span>
               <span
-                className={styles.formAddButton}
+                className={styles?.formAddButton}
                 onClick={() => {
-                  formik.setFieldValue("productPricingDetails", [
+                  formik?.setFieldValue("productPricingDetails", [
                     ...formik?.values?.productPricingDetails,
                     {
                       // quantity: "",
@@ -7076,193 +1836,93 @@ const EditAddProduct = ({ placeholder }) => {
                     (stock, index) => (
                       <div
                         key={`product_${index}`}
-                        className={styles.formSection}
+                        className={styles?.formSection}
                       >
-                        <div className={styles.productContainer}>
-                          <label className={styles.formLabel}>
-                            Quantity
-                            <span className={styles?.labelStamp}>*</span>
-                          </label>
-
-                          {/* <div className={styles.weightContainer}>
-                            <div className={styles.weightSection}>
-                              <div className={styles.tooltipContainer}>
-                                <input
-                                  className={styles.formInput}
-                                  type="text"
-                                  placeholder="Quantity From"
-                                  // autoComplete="off"
-                                  name={`productPricingDetails.${index}.quantityFrom`}
-                                  value={
-                                    formik?.values.productPricingDetails[index]
-                                      ?.quantityFrom
-                                  }
-                                  onChange={(e) =>
-                                    formik?.setFieldValue(
-                                      `productPricingDetails.${index}.quantityFrom`,
-                                      e.target.value.replace(/\D/g, "") // Allow only numbers
-                                    )
-                                  }
-                                  onBlur={formik?.handleBlur}
-                                />
-                              </div>
-                            </div>
-                            <div className={styles.unitSection}>
-                              <input
-                                className={styles.formInput}
-                                type="text"
-                                placeholder="Quantity From"
-                                // autoComplete="off"
-                                name={`productPricingDetails.${index}.quantityTo`}
-                                value={
-                                  formik?.values.productPricingDetails[index]
-                                    ?.quantityTo
-                                }
-                                onChange={(e) =>
-                                  formik?.setFieldValue(
-                                    `productPricingDetails.${index}.quantityTo`,
-                                    e.target.value.replace(/\D/g, "") // Allow only numbers
-                                  )
-                                }
-                                onBlur={formik?.handleBlur}
-                              />
-                            </div>
-                          </div> */}
-<div className={styles.weightContainer}>
-                      {/* <div className={styles.weightSection}>
-                        <div className={styles.tooltipContainer}>
-                          <Select
-                            className={styles.formSelect}
-                            options={quantityOptions}
-                            placeholder="Select Quantity"
-                            onChange={(selectedOption) => {
-                              setFieldValue(
-                                `productPricingDetails.${index}.quantity`,
-                                selectedOption?.value
-                              );
-                            }}
-                          />
- 
-                          <input
-                            className={styles.formInput}
-                            type="text"
-                            placeholder="Quantity From"
-                            autoComplete="off"
-                            name={`productPricingDetails.${index}.quantity`}
-                            value={
-                              values.productPricingDetails[index]?.quantity
-                            }
-                            onChange={(e) =>
-                              setFieldValue(
-                                `productPricingDetails.${index}.quantity`,
-                                e.target.value.replace(/\D/g, "") // Allow only numbers
-                              )
-                            }
-                            onBlur={handleBlur}
-                          />
-                        </div>
-                        <span className={styles.error}>
-                          {touched.productPricingDetails?.[index]?.quantity &&
-                            errors.productPricingDetails?.[index]?.quantity}
-                        </span>
-                      </div> */}
-                       <div className={styles.weightSection}>
-                        <div className={styles.tooltipContainer}>
-                          <input
-                            className={styles.formInput}
-                            type="text"
-                            placeholder="Quantity From"
-                            // autoComplete="off"
-                            name={`productPricingDetails.${index}.quantityFrom`}
-                            value={
-                              formik?.values.productPricingDetails[index]?.quantityFrom
-                            }
-                            onChange={(e) =>
-                              formik?.setFieldValue(
-                                `productPricingDetails.${index}.quantityFrom`,
-                                e.target.value.replace(/\D/g, "") // Allow only numbers
-                              )
-                            }
-                            onBlur={formik?.handleBlur}
-                          />
-                        </div>
-                        <span className={styles.error}>
-                          {formik?.touched.productPricingDetails?.[index]?.quantityFrom &&
-                            formik?.errors.productPricingDetails?.[index]?.quantityFrom}
-                        </span>
+                         <div className={styles.productContainer2}>
+                    <div className={styles.productContainer3}>
+                      <label className={styles.formLabel}>
+                        Quantity From
+                        <span className={styles.labelStamp}>*</span>
+                      </label>
+                      <div className={styles.tooltipContainer}>
+                        <Field
+                          name={`productPricingDetails.${index}.quantityFrom`}
+                          type="text"
+                          placeholder="Enter Quantity From"
+                          className={styles.formInput}
+                          onBlur={formik?.handleBlur}
+                          onChange={(e) =>
+                            formik?.setFieldValue(
+                              `productPricingDetails.${index}.quantityFrom`,
+                              e.target.value.replace(/\D/g, "") // Allow only numbers
+                            )
+                          }
+                        />
                       </div>
-                      <div className={styles.weightSection}>
-                        <div className={styles.tooltipContainer}>
-                          <input
-                            className={styles.formInput}
-                            type="text"
-                            placeholder="Quantity To"
-                            // autoComplete="off"
-                            name={`productPricingDetails.${index}.quantityTo`}
-                            value={
-                              formik?.values.productPricingDetails[index]?.quantityTo
-                            }
-                            onChange={(e) =>
-                              formik?.setFieldValue(
-                                `productPricingDetails.${index}.quantityTo`,
-                                e.target.value.replace(/\D/g, "") // Allow only numbers
-                              )
-                            }
-                            onBlur={formik?.handleBlur}
-                          />
-                        </div>
-                        <span className={styles.error}>
-                          {formik?.touched.productPricingDetails?.[index]?.quantityTo &&
-                            formik?.errors.productPricingDetails?.[index]?.quantityTo}
-                        </span>
-                      </div>
+                      <span className={styles.error}>
+                        {formik?.touched.productPricingDetails?.[index]?.quantityFrom &&
+                          formik?.errors.productPricingDetails?.[index]?.quantityFrom}
+                      </span>
                     </div>
-                          {/* <span className={styles.error}>
-                            {formik.touched.productPricingDetails?.[index]
-                              ?.quantityFrom &&
-                              formik.errors.productPricingDetails?.[index]
-                                ?.quantityFrom}
-                          </span>
-                          <span className={styles.error}>
-                            {formik.touched.productPricingDetails?.[index]
-                              ?.quantityTo &&
-                              formik.errors.productPricingDetails?.[index]
-                                ?.quantityTo}
-                          </span> */}
-                        </div>
+                    <div className={styles.productContainer3}>
+                      <label className={styles.formLabel}>
+                        Quantity To
+                        <span className={styles.labelStamp}>*</span>
+                      </label>
+                      <div className={styles.tooltipContainer}>
+                        <Field
+                          name={`productPricingDetails.${index}.quantityTo`}
+                          type="text"
+                          placeholder="Enter Quantity To"
+                          className={styles.formInput}
+                          onBlur={formik?.handleBlur}
+                          onChange={(e) =>
+                            formik?.setFieldValue(
+                              `productPricingDetails.${index}.quantityTo`,
+                              e.target.value.replace(/\D/g, "") // Allow only numbers
+                            )
+                          }
+                        />
+                      </div>
+                      <span className={styles.error}>
+                        {formik?.touched.productPricingDetails?.[index]?.quantityTo &&
+                          formik?.errors.productPricingDetails?.[index]?.quantityTo}
+                      </span>
+                    </div>
+                  </div>
 
-                        <div className={styles.productContainer}>
-                          <label className={styles.formLabel}>
-                            Cost Per Product
+                        <div className={styles?.productContainer}>
+                          <label className={styles?.formLabel}>
+                            Unit Price
                             <span className={styles?.labelStamp}>*</span>
                           </label>
-                          <div className={styles.tooltipContainer}>
+                          <div className={styles?.tooltipContainer}>
                             <Field
                               name={`productPricingDetails.${index}.price`}
                               type="text"
-                              placeholder="Enter Cost Per Product in USD"
-                              className={styles.formInput}
+                              placeholder="Enter Unit Price in USD"
+                              className={styles?.formInput}
+                              onChange={formik?.handleChange}
                             />
                             <Tooltip content="The cost of the medication per unit (MRP) in Dollar"></Tooltip>
                           </div>
-                          <span className={styles.error}>
-                            {formik.touched.productPricingDetails?.[index]
+                          <span className={styles?.error}>
+                            {formik?.touched?.productPricingDetails?.[index]
                               ?.price &&
-                              formik.errors.productPricingDetails?.[index]
+                              formik?.errors?.productPricingDetails?.[index]
                                 ?.price}
                           </span>
                         </div>
-
-                        <div className={styles.productContainer}>
-                          <label className={styles.formLabel}>
+                        <div className={styles?.productContainer}>
+                          <label className={styles?.formLabel}>
                             Est. Shipping Time
-                            {/* <span className={styles?.labelStamp}>*</span> */}
+                            <span className={styles?.labelStamp}>*</span>
                           </label>
                           <Field
                             name={`productPricingDetails.${index}.deliveryTime`}
                             type="text"
                             placeholder="Enter Est. Shipping Time in days"
-                            className={styles.formInput}
+                            className={styles?.formInput}
                             onChange={(e) => {
                               // Allow only alphanumeric characters, spaces, hyphens
                               const value = e.target.value.replace(
@@ -7275,21 +1935,21 @@ const EditAddProduct = ({ placeholder }) => {
                               );
                             }}
                           />
-                          <span className={styles.error}>
-                            {formik.touched.productPricingDetails?.[index]
+                          <span className={styles?.error}>
+                            {formik?.touched?.productPricingDetails?.[index]
                               ?.deliveryTime &&
-                              formik.errors.productPricingDetails?.[index]
+                              formik?.errors?.productPricingDetails?.[index]
                                 ?.deliveryTime}
                           </span>
                         </div>
 
                         {formik?.values?.productPricingDetails?.length > 1 && (
                           <div
-                            className={styles.formCloseSection}
+                            className={styles?.formCloseSection}
                             onClick={() => arrayHelpers.remove(index)}
                           >
-                            <span className={styles.formclose}>
-                              <CloseIcon className={styles.icon} />
+                            <span className={styles?.formclose}>
+                              <CloseIcon className={styles?.icon} />
                             </span>
                           </div>
                         )}
@@ -7303,14 +1963,14 @@ const EditAddProduct = ({ placeholder }) => {
 
           {/* End the Product Pricing */}
 
-          {/* Start the Compliances and certificate 222222222 */}
-          <div className={styles.section}>
-            <div className={styles.formHeadSection}>
-              <span className={styles.formHead}>
+          {/* Start the Compliances and certificate */}
+          <div className={styles?.section}>
+            <div className={styles?.formHeadSection}>
+              <span className={styles?.formHead}>
                 Compliances & Certification
               </span>
               <span
-                className={styles.formAddButton}
+                className={styles?.formAddButton}
                 onClick={() => {
                   // Add new file and date pair to the array
                   formik?.values?.cNCFileNDate?.length < 4 &&
@@ -7331,10 +1991,10 @@ const EditAddProduct = ({ placeholder }) => {
               formik?.values?.cNCFileNDate?.map((ele, index) => (
                 <div
                   key={`certification_${index}`}
-                  className={styles.formSection}
+                  className={styles?.formSection}
                 >
                   {/* File Upload Section */}
-                  <div className={styles.productContainer}>
+                  <div className={styles?.productContainer}>
                     <Field name={`cNCFileNDate.${index}.file`}>
                       {({ field }) => (
                         <EditComplianceNCertification
@@ -7359,18 +2019,20 @@ const EditAddProduct = ({ placeholder }) => {
                         />
                       )}
                     </Field>
-                    <span className={styles.error}>
-                      {formik?.touched.cNCFileNDate?.[index]?.file &&
-                        formik?.errors.cNCFileNDate?.[index]?.file}
+                    <span className={styles?.error}>
+                      {formik?.touched?.cNCFileNDate?.[index]?.file &&
+                        formik?.errors?.cNCFileNDate?.[index]?.file}
                     </span>
                   </div>
 
                   {/* Date of Expiry Section */}
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Date of Expiry</label>
-                    <div className={styles.tooltipContainer}>
+                  <div className={styles?.productContainer}>
+                    <label className={styles?.formLabel}>Date of Expiry</label>
+                    <div className={styles?.tooltipContainer}>
+                      {/* Date Mask Input */}
+
                       <DatePicker
-                        className={styles.formDate}
+                        className={styles?.formDate}
                         clearIcon={null}
                         format="dd/MM/yyyy"
                         placeholder="dd/MM/yyyy"
@@ -7394,28 +2056,30 @@ const EditAddProduct = ({ placeholder }) => {
                         }}
                       />
                       <span
-                        className={styles.infoTooltip}
+                        className={styles?.infoTooltip}
                         data-tooltip-id="sku-tooltip"
                         data-tooltip-content="The cost of the medication per unit (MRP) in Dollar"
                       >
                         <img
                           src={Information}
-                          className={styles.iconTooltip}
+                          className={styles?.iconTooltip}
                           alt="information"
                         />
                       </span>
+                      {/* <Tooltip className={styles?.tooltipSec} id="sku-tooltip" /> */}
                     </div>
-                    <span className={styles.error}>
-                      {formik?.touched.cNCFileNDate?.[index]?.date &&
-                        formik?.errors.cNCFileNDate?.[index]?.date}
+                    <span className={styles?.error}>
+                      {formik?.touched?.cNCFileNDate?.[index]?.date &&
+                        formik?.errors?.cNCFileNDate?.[index]?.date}
                     </span>
                   </div>
 
                   {/* Remove Section */}
                   {formik?.values?.cNCFileNDate?.length > 1 && (
                     <div
-                      className={styles.formCloseSection}
+                      className={styles?.formCloseSection}
                       onClick={() => {
+                        // Clear form values before removing the row
                         formik?.setFieldValue(`cNCFileNDate.${index}.file`, []);
                         formik?.setFieldValue(`cNCFileNDate.${index}.date`, "");
                         formik?.setFieldValue(
@@ -7439,8 +2103,8 @@ const EditAddProduct = ({ placeholder }) => {
                         );
                       }}
                     >
-                      <span className={styles.formclose}>
-                        <CloseIcon className={styles.icon} />
+                      <span className={styles?.formclose}>
+                        <CloseIcon className={styles?.icon} />
                       </span>
                     </div>
                   )}
@@ -7451,24 +2115,24 @@ const EditAddProduct = ({ placeholder }) => {
             )}
           </div>
 
-          {/* End the compliances and certificate 222222222 */}
+          {/* End the compliances and certificate */}
 
-          {/* Start the Health & Safety */}
-          <div className={styles.section}>
-            <span className={styles.formHead}>Health & Safety</span>
-            <div className={styles.formSection}>
-              <div className={styles.productContainer}>
+          {/* Start Product document*/}
+          <div className={styles?.section}>
+            <span className={styles?.formHead}>Product Documents</span>
+            <div className={styles?.formSection}>
+              <div className={styles?.productContainer}>
                 <AddProductFileUpload
                   styles={styles}
                   productDetails={productDetail}
-                  maxFiles={4 - (formik?.values?.safetyDatasheet?.length || 0)}
-                  fieldInputName={"safetyDatasheetNew"}
-                  oldFieldName={"safetyDatasheet"}
-                  existingFiles={formik?.values?.safetyDatasheet}
-                  setFieldValue={formik.setFieldValue}
+                  maxFiles={4 - (formik?.values?.catalogue?.length || 0)}
+                  fieldInputName={"catalogueNew"}
+                  oldFieldName={"catalogue"}
+                  existingFiles={formik?.values?.catalogue}
+                  setFieldValue={formik?.setFieldValue}
                   initialValues={formik?.values}
-                  label="Safety Datasheet"
-                  tooltip="Specific safety information, instructions or precautions related to product"
+                  label="Product Catalogue"
+                  // tooltip="Specific safety information, instructions or precautions related to product"
                   acceptTypes={{
                     "image/png": [],
                     "image/jpeg": [],
@@ -7476,32 +2140,32 @@ const EditAddProduct = ({ placeholder }) => {
                     "application/pdf": [],
                   }}
                   error={
-                    (formik.touched.safetyDatasheet ||
-                      formik.touched.safetyDatasheetNew ||
-                      formik.errors.safetyDatasheet ||
-                      formik.errors.safetyDatasheetNew) && (
+                    (formik?.touched?.catalogue ||
+                      formik?.touched?.catalogueNew ||
+                      formik?.errors?.catalogue ||
+                      formik?.errors?.catalogueNew) && (
                       <div>
-                        {formik.errors.safetyDatasheet ||
-                          formik.errors.safetyDatasheetNew}
+                        {formik?.errors?.catalogue ||
+                          formik?.errors?.catalogueNew}
                       </div>
                     )
                   }
                 />
               </div>
-              <div className={styles.productContainer}>
+              <div className={styles?.productContainer}>
                 <AddProductFileUpload
                   styles={styles}
                   productDetails={productDetail}
                   maxFiles={
-                    4 - (formik?.values?.healthHazardRating?.length || 0)
+                    4 - (formik?.values?.specificationSheet?.length || 0)
                   }
-                  fieldInputName={"healthHazardRatingNew"}
-                  oldFieldName={"healthHazardRating"}
-                  existingFiles={formik?.values?.healthHazardRating}
-                  setFieldValue={formik.setFieldValue}
+                  fieldInputName={"specificationSheetNew"}
+                  oldFieldName={"specificationSheet"}
+                  existingFiles={formik?.values?.specificationSheet}
+                  setFieldValue={formik?.setFieldValue}
                   initialValues={formik?.values}
-                  label="Health Hazard Rating"
-                  tooltip="Health Hazard Rating Document"
+                  label="Specification Sheet"
+                  // tooltip="Health Hazard Rating Document"
                   acceptTypes={{
                     "image/png": [],
                     "image/jpeg": [],
@@ -7509,46 +2173,13 @@ const EditAddProduct = ({ placeholder }) => {
                     "application/pdf": [],
                   }}
                   error={
-                    (formik.touched.healthHazardRating ||
-                      formik.touched.healthHazardRatingNew ||
-                      formik.errors.healthHazardRating ||
-                      formik.errors.healthHazardRatingNew) && (
+                    (formik?.touched?.specificationSheet ||
+                      formik?.touched?.specificationSheetNew ||
+                      formik?.errors?.specificationSheet ||
+                      formik?.errors?.specificationSheetNew) && (
                       <div>
-                        {formik.errors.healthHazardRating ||
-                          formik.errors.healthHazardRatingNew}
-                      </div>
-                    )
-                  }
-                />
-              </div>
-              <div className={styles.productContainer}>
-                <AddProductFileUpload
-                  styles={styles}
-                  productDetails={productDetail}
-                  maxFiles={
-                    4 - (formik?.values?.environmentalImpact?.length || 0)
-                  }
-                  fieldInputName={"environmentalImpactNew"}
-                  oldFieldName={"environmentalImpact"}
-                  existingFiles={formik?.values?.environmentalImpact}
-                  setFieldValue={formik.setFieldValue}
-                  initialValues={formik?.values}
-                  label="Environmental Impact"
-                  tooltip="Environment Impact Rating Document"
-                  acceptTypes={{
-                    "image/png": [],
-                    "image/jpeg": [],
-                    "image/jpg": [],
-                    "application/pdf": [],
-                  }}
-                  error={
-                    (formik.touched.environmentalImpact ||
-                      formik.touched.environmentalImpactNew ||
-                      formik.errors.environmentalImpact ||
-                      formik.errors.environmentalImpactNew) && (
-                      <div>
-                        {formik.errors.environmentalImpact ||
-                          formik.errors.environmentalImpactNew}
+                        {formik?.errors?.specificationSheet ||
+                          formik?.errors?.specificationSheetNew}
                       </div>
                     )
                   }
@@ -7557,28 +2188,27 @@ const EditAddProduct = ({ placeholder }) => {
             </div>
           </div>
 
-          {/* End the Health & Safety */}
-
+          {/* End Product document*/}
           {/* Start the Additional Information */}
-          <div className={styles.additionalSection}>
-            <span className={styles.formHead}>Additional Information</span>
-            <div className={styles.formSection}>
-              <div className={styles.productContainer}>
-                <label className={styles.formLabel}>Warranty</label>
+          <div className={styles?.additionalSection}>
+            <span className={styles?.formHead}>Additional Information</span>
+            <div className={styles?.formSection}>
+              <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>Warranty</label>
                 <input
-                  className={styles.formInput}
+                  className={styles?.formInput}
                   type="text"
                   placeholder="Enter Warranty"
                   // autoComplete="off"
                   name="warranty"
                   value={formik?.values?.warranty}
                   onChange={(e) =>
-                    handleInputChange(e, formik.setFieldValue, 20, "all")
+                    handleInputChange(e, formik?.setFieldValue, 20, "all")
                   }
                   onBlur={formik?.handleBlur}
                 />
               </div>
-              <div className={styles.productContainer}>
+              <div className={styles?.productContainer}>
                 <AddProductFileUpload
                   styles={styles}
                   productDetails={productDetail}
@@ -7586,7 +2216,7 @@ const EditAddProduct = ({ placeholder }) => {
                   fieldInputName={"guidelinesFileNew"}
                   oldFieldName={"guidelinesFile"}
                   existingFiles={formik?.values?.guidelinesFile}
-                  setFieldValue={formik.setFieldValue}
+                  setFieldValue={formik?.setFieldValue}
                   initialValues={formik?.values}
                   label="User Guidelines"
                   tooltip="Specific information, instructions related to product."
@@ -7597,31 +2227,31 @@ const EditAddProduct = ({ placeholder }) => {
                     "application/pdf": [],
                   }}
                   error={
-                    (formik.touched.guidelinesFile ||
-                      formik.touched.guidelinesFileNew ||
-                      formik.errors.guidelinesFile ||
-                      formik.errors.guidelinesFileNew) && (
+                    (formik?.touched?.guidelinesFile ||
+                      formik?.touched?.guidelinesFileNew ||
+                      formik?.errors?.guidelinesFile ||
+                      formik?.errors?.guidelinesFileNew) && (
                       <div>
-                        {formik.errors.guidelinesFile ||
-                          formik.errors.guidelinesFileNew}
+                        {formik?.errors?.guidelinesFile ||
+                          formik?.errors?.guidelinesFileNew}
                       </div>
                     )
                   }
                 />
               </div>
               {/* )} */}
-              <div className={styles.productContainer}>
-                <label className={styles.formLabel}>Other Information</label>
-                <div className={styles.tooltipContainer}>
-                  <input
-                    className={styles.formInput}
+              <div className={styles?.productContainer}>
+                <label className={styles?.formLabel}>Other Information</label>
+                <div className={styles?.tooltipContainer}>
+                  <textarea
+                    className={styles?.formTextarea}
                     type="text"
                     placeholder="Enter Other Information"
                     // autoComplete="off"
                     name="other"
                     value={formik?.values?.other}
                     onChange={(e) =>
-                      handleInputChange(e, formik.setFieldValue, 100, "all")
+                      handleInputChange(e, formik?.setFieldValue, 100, "all")
                     }
                     onBlur={formik?.handleBlur}
                   />
@@ -7636,18 +2266,289 @@ const EditAddProduct = ({ placeholder }) => {
           </div>
 
           {/* End the Additional Information */}
+          {/* Start image upload container */}
+          <div className={styles?.additionalSection}>
+            <span className={styles?.formHead}>Upload Product Image</span>
+            <div className={styles?.formSection}>
+              <div className={styles?.ImageproductContainer}>
+                <AddProductFileUpload
+                  styles={styles}
+                  productDetails={productDetail}
+                  maxFiles={1 - (formik?.values?.imageFront?.length || 0)}
+                  fieldInputName={"imageFrontNew"}
+                  oldFieldName={"imageFront"}
+                  existingFiles={formik?.values?.imageFront}
+                  setFieldValue={formik?.setFieldValue}
+                  initialValues={formik?.values}
+                  label="Front Image"
+                  tooltip={false}
+                  showLabel={false}
+                  acceptTypes={{
+                    "image/png": [],
+                    "image/jpeg": [],
+                    "image/jpg": [],
+                    "application/pdf": [],
+                  }}
+                  error={
+                    (formik?.touched?.imageFront ||
+                      formik?.touched?.imageFrontNew ||
+                      formik?.errors?.imageFront ||
+                      formik?.errors?.imageFrontNew) && (
+                      <div>
+                        {formik?.errors?.imageFront ||
+                          formik?.errors?.imageFrontNew}
+                      </div>
+                    )
+                  }
+                />
+                <AddProductFileUpload
+                  styles={styles}
+                  productDetails={productDetail}
+                  maxFiles={1 - (formik?.values?.imageBack?.length || 0)}
+                  fieldInputName={"imageBackNew"}
+                  oldFieldName={"imageBack"}
+                  existingFiles={formik?.values?.imageBack}
+                  setFieldValue={formik?.setFieldValue}
+                  initialValues={formik?.values}
+                  label="Back Image"
+                  tooltip={false}
+                  showLabel={false}
+                  acceptTypes={{
+                    "image/png": [],
+                    "image/jpeg": [],
+                    "image/jpg": [],
+                    "application/pdf": [],
+                  }}
+                  error={
+                    (formik?.touched?.imageBack ||
+                      formik?.touched?.imageBackNew ||
+                      formik?.errors?.imageBack ||
+                      formik?.errors?.imageBackNew) && (
+                      <div>
+                        {formik?.errors?.imageBack ||
+                          formik?.errors?.imageBackNew}
+                      </div>
+                    )
+                  }
+                />
+                <AddProductFileUpload
+                  styles={styles}
+                  productDetails={productDetail}
+                  maxFiles={1 - (formik?.values?.imageSide?.length || 0)}
+                  fieldInputName={"imageSideNew"}
+                  oldFieldName={"imageSide"}
+                  existingFiles={formik?.values?.imageSide}
+                  setFieldValue={formik?.setFieldValue}
+                  initialValues={formik?.values}
+                  label="Side Image"
+                  tooltip={false}
+                  showLabel={false}
+                  acceptTypes={{
+                    "image/png": [],
+                    "image/jpeg": [],
+                    "image/jpg": [],
+                    "application/pdf": [],
+                  }}
+                  error={
+                    (formik?.touched?.imageSide ||
+                      formik?.touched?.imageSideNew ||
+                      formik?.errors?.imageSide ||
+                      formik?.errors?.imageSideNew) && (
+                      <div>
+                        {formik?.errors?.imageSide ||
+                          formik?.errors?.imageSideNew}
+                      </div>
+                    )
+                  }
+                />
+                <AddProductFileUpload
+                  styles={styles}
+                  productDetails={productDetail}
+                  maxFiles={1 - (formik?.values?.imageClosure?.length || 0)}
+                  fieldInputName={"imageClosureNew"}
+                  oldFieldName={"imageClosure"}
+                  existingFiles={formik?.values?.imageClosure}
+                  setFieldValue={formik?.setFieldValue}
+                  initialValues={formik?.values}
+                  label="Close up Image"
+                  tooltip={false}
+                  showLabel={false}
+                  acceptTypes={{
+                    "image/png": [],
+                    "image/jpeg": [],
+                    "image/jpg": [],
+                    "application/pdf": [],
+                  }}
+                  error={
+                    (formik?.touched?.imageClosure ||
+                      formik?.touched?.imageClosureNew ||
+                      formik?.errors?.imageClosure ||
+                      formik?.errors?.imageClosureNew) && (
+                      <div>
+                        {formik?.errors?.imageClosure ||
+                          formik?.errors?.imageClosureNew}
+                      </div>
+                    )
+                  }
+                />
+              </div>
+              <div className={styles?.productContainer}>
+                {formik?.values?.market === "secondary" && (
+                  <AddProductFileUpload
+                    styles={styles}
+                    productDetails={productDetail}
+                    maxFiles={
+                      1 - (formik?.values?.purchaseInvoiceFile?.length || 0)
+                    }
+                    fieldInputName={"purchaseInvoiceFileNew"}
+                    oldFieldName={"purchaseInvoiceFile"}
+                    existingFiles={formik?.values?.purchaseInvoiceFile}
+                    setFieldValue={formik?.setFieldValue}
+                    initialValues={formik?.values}
+                    label="Purchase Invoice"
+                    tooltip={false}
+                    acceptTypes={{
+                      "application/pdf": [],
+                    }}
+                    // maxFiles={1}
+                    error={
+                      (formik?.touched?.purchaseInvoiceFile ||
+                        formik?.touched?.purchaseInvoiceFileNew ||
+                        formik?.errors?.purchaseInvoiceFile ||
+                        formik?.errors?.purchaseInvoiceFileNew) && (
+                        <div>
+                          {formik?.errors?.purchaseInvoiceFile ||
+                            formik?.errors?.purchaseInvoiceFileNew}
+                        </div>
+                      )
+                    }
+                  />
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* End image upload container */}
+
+          {/* Start the Add FAQs */}
+          <div className={styles?.section}>
+            {/* {inventoryStockedCountries?.length > 0 ? ( */}
+            <div className={styles?.Stocksection}>
+              <div className={styles?.formHeadSection}>
+                <span className={styles?.formHead}>Add FAQs</span>
+                <span
+                  className={styles?.formAddButton}
+                  onClick={() => addFAQs(formik?.setFieldValue, formik?.values)}
+                >
+                  Add More
+                </span>
+              </div>
+              {formik?.values?.faqs?.map((section, index) => {
+                return (
+                  <div
+                    key={`faqs_${index}`}
+                    className={styles?.stockedContainer2}
+                  >
+                    <div className={styles?.stockedSection2}>
+                      <div className={styles?.StockedDiv2}>
+                        <label className={styles?.formLabel}>
+                          Question
+                          <span className={styles?.labelStamp}>*</span>
+                        </label>
+                        <input
+                          type="text"
+                          name={`faqs.${index}.ques`}
+                          onChange={(e) =>
+                            handleFaqsQuesChange(
+                              index,
+                              e,
+                              formik?.setFieldValue
+                            )
+                          }
+                          value={section.ques}
+                          placeholder={"Enter Question"}
+                          className={styles?.inputStocked}
+                          onBlur={() =>
+                            formik?.setFieldTouched(`faqs.${index}.ques`, true)
+                          }
+                        />
+                        {formik?.touched?.faqs?.[index]?.ques &&
+                          formik?.errors?.faqs?.[index]?.ques && (
+                            <span span className={styles?.error}>
+                              {formik?.errors?.faqs[index].ques}
+                            </span>
+                          )}
+                      </div>
+                      <div className={styles?.StockedDiv2}>
+                        <label className={styles?.formLabel}>
+                          Answer
+                          <span className={styles?.labelStamp}>*</span>
+                        </label>
+                        <div className={styles?.quantitySelector}>
+                          <div className={styles?.inputGroup2}>
+                            <textarea
+                              className={styles?.inputStocked}
+                              type="text"
+                              placeholder={"Enter Answer"}
+                              // autoComplete="off"
+                              name={`faqs.${index}.ans`}
+                              value={section?.ans}
+                              onChange={(e) =>
+                                handleFaqsAnsChange(
+                                  index,
+                                  e,
+                                  formik?.setFieldValue
+                                )
+                              }
+                              onBlur={() =>
+                                formik?.setFieldTouched(
+                                  `faqs.${index}.ans`,
+                                  true
+                                )
+                              }
+                            />
+                          </div>
+                        </div>
+                        {
+                          <span span className={styles?.error}>
+                            {formik?.touched?.faqs &&
+                              formik?.errors?.faqs?.[index]?.ans}
+                          </span>
+                          // )
+                        }
+                      </div>
+                    </div>
+                    <div
+                      className={styles?.formclosebutton2}
+                      onClick={() =>
+                        removeFaqFormSection(
+                          index,
+                          formik?.setFieldValue,
+                          formik?.values
+                        )
+                      }
+                    >
+                      <CloseIcon className={styles?.iconClose} />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          {/* End the Add FAQs */}
 
           {/* Start button section */}
-          <div className={styles.buttonContainer}>
-            <button className={styles.buttonCancel} onClick={handleCancel}>
-              Cancel
-            </button>
+          <div className={styles?.buttonContainer}>
             <button
-              className={styles.buttonSubmit}
+              className={styles?.buttonSubmit}
               type="submit"
               disabled={loading}
             >
               {loading ? <div className="loading-spinner"></div> : "Submit"}
+            </button>
+
+            <button className={styles?.buttonCancel} onClick={handleCancel}>
+              Cancel
             </button>
           </div>
 
