@@ -333,7 +333,7 @@ const AddProduct = ({ placeholder }) => {
  
   // Handlers for FAQs
   const addFAQs = (setFieldValue, values) => {
-    setFieldValue("faqs", [...values.faqs, { ques: "", ans: "", type: "Box" }]);
+    setFieldValue("faqs", [...values.faqs, { ques: "", ans: "" }]);
   };
  
   const handleFaqsQuesChange = (index, e, setFieldValue) => {
@@ -496,16 +496,27 @@ const AddProduct = ({ placeholder }) => {
             );
           }
  
+          // const faqsUpdated = JSON.stringify(
+          //   values?.faqs?.map((section) => ({
+          //     ques: section?.ques || "",
+          //     ans: section?.ans || "",
+          //   })) || []
+          // );
+          const faqsFiltered = values?.faqs?.filter(
+            (section) => section?.ques?.trim() || section?.ans?.trim()
+          ) || [];
+          
           const faqsUpdated = JSON.stringify(
-            values?.faqs?.map((section) => ({
+            faqsFiltered.map((section) => ({
               ques: section?.ques || "",
               ans: section?.ans || "",
-            })) || []
+            }))
           );
           formData.append("cNCFileNDate", cNCFileNDateUpdated);
           categoryDetailsUpdated?.length > 0 &&
             formData.append("categoryDetails", categoryDetailsUpdated);
-          values?.faqs?.length > 0 && formData.append("faqs", faqsUpdated);
+          // values?.faqs?.length > 0 && formData.append("faqs", faqsUpdated);
+          formData.append("faqs", faqsUpdated.length > 0 ? faqsUpdated : JSON.stringify([]));
           formData.append(
             "tags",
             values?.tags?.includes(",")
@@ -520,7 +531,6 @@ const AddProduct = ({ placeholder }) => {
             }
             setLoading(false);
           });
-          setLoading(false);
         }}
       >
         {({
@@ -1138,7 +1148,7 @@ const AddProduct = ({ placeholder }) => {
                             <div className={styles.StockedDiv}>
                               <label className={styles.formLabel}>
                                 Parameter Name
-                                <span className={styles.labelStamp}>*</span>
+                                {/* <span className={styles.labelStamp}>*</span> */}
                               </label>
                               <Select
                                 className={styles.formSelect}
@@ -1181,7 +1191,7 @@ const AddProduct = ({ placeholder }) => {
                               <div className={styles.StockedDivQuantity}>
                                 <label className={styles.formLabel}>
                                   Parameter Description
-                                  <span className={styles.labelStamp}>*</span>
+                                  {/* <span className={styles.labelStamp}>*</span> */}
                                 </label>
                                 <div className={styles.quantitySelector}>
                                   <div className={styles.inputGroup}>
@@ -2184,7 +2194,7 @@ const AddProduct = ({ placeholder }) => {
                           <div className={styles.StockedDiv2}>
                             <label className={styles.formLabel}>
                               Question
-                              <span className={styles.labelStamp}>*</span>
+                              {/* <span className={styles.labelStamp}>*</span> */}
                             </label>
                             <input
                               type="text"
@@ -2209,7 +2219,7 @@ const AddProduct = ({ placeholder }) => {
                           <div className={styles.StockedDiv2}>
                             <label className={styles.formLabel}>
                               Answer
-                              <span className={styles.labelStamp}>*</span>
+                              {/* <span className={styles.labelStamp}>*</span> */}
                             </label>
                             <div className={styles.quantitySelector}>
                               <div className={styles.inputGroup2}>

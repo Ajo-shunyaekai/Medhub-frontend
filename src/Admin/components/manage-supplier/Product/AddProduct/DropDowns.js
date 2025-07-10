@@ -498,12 +498,12 @@ export const addProductValidationSchema = Yup.object({
       fieldValue: Yup.mixed().required("Parameter description is required."),
     })
   ),
-  faqs: Yup.array().of(
-    Yup.object({
-      ques: Yup.string().required("Question is required."),
-      ans: Yup.string().required("Answer is required."),
-    })
-  ),
+  // faqs: Yup.array().of(
+  //   Yup.object({
+  //     ques: Yup.string().required("Question is required."),
+  //     ans: Yup.string().required("Answer is required."),
+  //   })
+  // ),
   // .min(1, "At least one product is required."), // Optional: You can enforce at least one item in the array
   productPricingDetails: Yup.array()
     .of(
@@ -1480,18 +1480,18 @@ export const editProductValidationSchema = Yup.object({
       // type: Yup.string().required("Type is required."),
     })
   ),
-  categoryDetails: Yup.array().of(
-    Yup.object({
-      name: Yup.string().required("Parameter name is required."),
-      fieldValue: Yup.mixed().required("Parameter description is required."),
-    })
-  ),
-  faqs: Yup.array().of(
-    Yup.object({
-      ques: Yup.string().required("Question is required."),
-      ans: Yup.string().required("Answer is required."),
-    })
-  ),
+  // categoryDetails: Yup.array().of(
+  //   Yup.object({
+  //     name: Yup.string().required("Parameter name is required."),
+  //     fieldValue: Yup.mixed().required("Parameter description is required."),
+  //   })
+  // ),
+  // faqs: Yup.array().of(
+  //   Yup.object({
+  //     ques: Yup.string().required("Question is required."),
+  //     ans: Yup.string().required("Answer is required."),
+  //   })
+  // ),
   //   .min(1, "At least one product is required."), // Optional: You can enforce at least one item in the array
   productPricingDetails: Yup.array()
     .of(

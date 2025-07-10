@@ -519,7 +519,6 @@ const AddProduct = ({ placeholder }) => {
             }
             setLoading(false);
           });
-          setLoading(false);
         }}
       >
         {({

@@ -129,8 +129,18 @@ const EditAddProduct = ({ placeholder }) => {
           quantity: section?.quantity || "",
         }))
       );
+      // const faqsUpdated = JSON.stringify(
+      //   values?.faqs?.map((section) => ({
+      //     ques: section?.ques || "",
+      //     ans: section?.ans || "",
+      //   }))
+      // );
+      const faqsFiltered = values?.faqs?.filter(
+        (section) => section?.ques?.trim() || section?.ans?.trim()
+      ) || [];
+      
       const faqsUpdated = JSON.stringify(
-        values?.faqs?.map((section) => ({
+        faqsFiltered.map((section) => ({
           ques: section?.ques || "",
           ans: section?.ans || "",
         }))
@@ -173,7 +183,8 @@ const EditAddProduct = ({ placeholder }) => {
       );
 
       formData.append("stockedInDetails", stockedInDetailsUpdated);
-      formData.append("faqs", faqsUpdated);
+      // formData.append("faqs", faqsUpdated);
+      formData.append("faqs", faqsUpdated.length > 0 ? faqsUpdated : JSON.stringify([]));
       formData.append("productPricingDetails", productPricingDetailsUpdated);
       formData.append(
         "cNCFileNDate",
@@ -618,7 +629,7 @@ const EditAddProduct = ({ placeholder }) => {
   const addFAQs = (setFieldValue, values) => {
     setFieldValue("faqs", [
       ...values?.faqs,
-      { ques: "", ans: "", type: "Box" },
+      { ques: "", ans: "" },
     ]);
   };
 
@@ -1349,7 +1360,16 @@ const EditAddProduct = ({ placeholder }) => {
           {/* Start the Compliances and certificate */}
           <div className={styles?.section}>
             <div className={styles?.formHeadSection}>
-              <span className={styles?.formHead}>Add Other Details</span>
+              <span className={styles?.formHead}>
+                 Add Other Details
+                {formik?.values?.category &&
+                  (() => {
+                    const matchedCategory = categoryOptions.find(
+                      (opt) => opt.value === formik.values.category
+                    );
+                    return matchedCategory ? ` of ${matchedCategory.label}` : "";
+                  })()}
+                </span>
               <span
                 className={styles?.formAddButton}
                 onClick={() => {
@@ -1472,7 +1492,7 @@ const EditAddProduct = ({ placeholder }) => {
                       <div className={styles?.StockedDiv}>
                         <label className={styles?.formLabel}>
                           Parameter Name
-                          <span className={styles?.labelStamp}>*</span>
+                          {/* <span className={styles?.labelStamp}>*</span> */}
                         </label>
                         <Select
                           className={styles?.formSelect}
@@ -1515,7 +1535,7 @@ const EditAddProduct = ({ placeholder }) => {
                         <div className={styles?.StockedDivQuantity}>
                           <label className={styles?.formLabel}>
                             Parameter Description
-                            <span className={styles?.labelStamp}>*</span>
+                            {/* <span className={styles?.labelStamp}>*</span> */}
                           </label>
                           <div className={styles?.quantitySelector}>
                             <div className={styles?.inputGroup}>
@@ -1632,7 +1652,7 @@ const EditAddProduct = ({ placeholder }) => {
                         <div className={styles?.StockedDivQuantity}>
                           <label className={styles?.formLabel}>
                             Parameter Description
-                            <span className={styles?.labelStamp}>*</span>
+                            {/* <span className={styles?.labelStamp}>*</span> */}
                           </label>
                           <div className={styles?.quantitySelector}>
                             <div className={styles?.inputGroup}>
@@ -2451,7 +2471,7 @@ const EditAddProduct = ({ placeholder }) => {
                       <div className={styles?.StockedDiv2}>
                         <label className={styles?.formLabel}>
                           Question
-                          <span className={styles?.labelStamp}>*</span>
+                          {/* <span className={styles?.labelStamp}>*</span> */}
                         </label>
                         <input
                           type="text"
@@ -2480,7 +2500,7 @@ const EditAddProduct = ({ placeholder }) => {
                       <div className={styles?.StockedDiv2}>
                         <label className={styles?.formLabel}>
                           Answer
-                          <span className={styles?.labelStamp}>*</span>
+                          {/* <span className={styles?.labelStamp}>*</span> */}
                         </label>
                         <div className={styles?.quantitySelector}>
                           <div className={styles?.inputGroup2}>
