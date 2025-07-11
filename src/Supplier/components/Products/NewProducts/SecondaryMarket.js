@@ -89,7 +89,7 @@ const SecondaryMarket = ({
                   <div className={styles.cardInnerContainer}>
                     <span className={styles.cardHead}>Sub Category</span>
                     <span className={styles.cardText}>
-                      {product?.[product?.category]?.subCategory || "N/A"}
+                      {product?.[product?.category]?.subCategory || product?.subCategory || "N/A"}
                     </span>
                   </div>
                   <div className={styles.cardInnerContainer}>
