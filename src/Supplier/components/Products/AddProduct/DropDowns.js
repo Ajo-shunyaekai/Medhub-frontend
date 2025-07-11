@@ -774,6 +774,9 @@ export const addProductValidationSchema = Yup.object({
           "OT Tables",
           "Endoscopy",
           "Ultrasonic Devices",
+          "Nerve Stimulator",
+          "Air Treatment",
+          "Waste Management"
         ],
         "Invalid Subcategory"
       ),
@@ -1773,6 +1776,9 @@ export const editProductValidationSchema = Yup.object({
           "OT Tables",
           "Endoscopy",
           "Ultrasonic Devices",
+          "Nerve Stimulator",
+          "Air Treatment",
+          "Waste Management"
         ],
         "Invalid Subcategory"
       ),
