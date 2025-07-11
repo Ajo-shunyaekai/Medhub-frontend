@@ -401,6 +401,7 @@ const AddProduct = ({ placeholder }) => {
                   if (item instanceof File) {
                     formData.append(key, item); // appends the file
                   } else {
+                    console.log('key',key,item)
                     formData.append(key, item); // appends non-file array items
                   }
                 });
@@ -537,13 +538,13 @@ const AddProduct = ({ placeholder }) => {
             formData.append("categoryDetails", categoryDetailsUpdated);
           // values?.faqs?.length > 0 && formData.append("faqs", faqsUpdated);
           formData.append("faqs", faqsUpdated.length > 0 ? faqsUpdated : JSON.stringify([]));
-          formData.append(
-            "tags",
-            values?.tags?.includes(",")
-              ? values?.tags?.split(",")
-              : values?.tags
-          );
- 
+          // formData.append(
+          //   "tags",
+          //   values?.tags?.includes(",")
+          //     ? values?.tags?.split(",")
+          //     : values?.tags
+          // );
+
           dispatch(addProduct(formData)).then((response) => {
             if (response?.meta.requestStatus === "fulfilled") {
               if(supplierId) {
@@ -2066,7 +2067,7 @@ const AddProduct = ({ placeholder }) => {
                     acceptTypes={{
                       "application/pdf": [],
                     }}
-                    maxFiles={4}
+                    maxFiles={1}
                     error={
                       touched.guidelinesFile && errors.guidelinesFile
                         ? errors.guidelinesFile

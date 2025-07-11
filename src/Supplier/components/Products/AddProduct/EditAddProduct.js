@@ -133,6 +133,7 @@ const EditAddProduct = ({ placeholder }) => {
         values?.stockedInDetails?.map((section) => ({
           country: section?.country || "",
           quantity: section?.quantity || "",
+          type: section?.type || "",
         }))
       );
       // const faqsUpdated = JSON.stringify(
@@ -566,7 +567,7 @@ const EditAddProduct = ({ placeholder }) => {
   const addStockedInSection = (setFieldValue, values) => {
     setFieldValue("stockedInDetails", [
       ...values?.stockedInDetails,
-      { country: "", quantity: "", unitType: "Box" },
+      { country: "", quantity: "", type: "Box" },
     ]);
   };
 
@@ -579,8 +580,9 @@ const EditAddProduct = ({ placeholder }) => {
     setFieldValue(`stockedInDetails[${index}].quantity`, value);
   };
 
-  const handlePackageSelection = (index, unitType, setFieldValue) => {
-    setFieldValue(`stockedInDetails[${index}].unitType`, unitType);
+  const handlePackageSelection = (index, type, setFieldValue) => {
+    console.log('type',type)
+    setFieldValue(`stockedInDetails[${index}].type`, type);
   };
 
   const removeStockedInFormSection = (index, setFieldValue, values) => {
@@ -1726,6 +1728,7 @@ const EditAddProduct = ({ placeholder }) => {
                   key={`stocked_${index}`}
                   className={styles?.stockedContainer}
                 >
+                  {console.log('stockedInDetails',stockedInDetails)}
                   <div className={styles?.stockedSection}>
                     <div className={styles?.StockedDiv}>
                       <label className={styles?.formLabel}>
@@ -1774,7 +1777,7 @@ const EditAddProduct = ({ placeholder }) => {
                             }
                             value={section.quantity}
                             placeholder={`Enter ${
-                              section.unitType || "Box"
+                              section.type || "Box"
                             } Quantity`}
                             className={styles?.inputStocked}
                             onBlur={() =>
@@ -1786,10 +1789,10 @@ const EditAddProduct = ({ placeholder }) => {
                           />
                           <button
                             className={`${styles?.optionButton} ${
-                              section.unitType === "Box" ? styles?.selected : ""
+                              section.type === "Box" ? styles?.selected : ""
                             }`}
                           >
-                            {section.unitType || "Box"}
+                            {section.type || "Box"}
                           </button>
                         </div>
                         <div className={styles?.radioGroup}>
@@ -1797,11 +1800,11 @@ const EditAddProduct = ({ placeholder }) => {
                             <label key={type}>
                               <input
                                 type="radio"
-                                name={`stockedInDetails[${index}].unitType`}
+                                name={`stockedInDetails[${index}].type`}
                                 value={type}
                                 checked={
-                                  section.unitType === type ||
-                                  (!section.unitType && type === "Box")
+                                  section.type === type ||
+                                  (!section.type && type === "Box")
                                 }
                                 onChange={() =>
                                   handlePackageSelection(
@@ -2152,13 +2155,14 @@ const EditAddProduct = ({ placeholder }) => {
 
           {/* Start Product document*/}
           <div className={styles?.section}>
+            {console.log('ormik?.values?.catalogue?.length',formik?.values?.catalogue?.length)}
             <span className={styles?.formHead}>Product Documents</span>
             <div className={styles?.formSection}>
               <div className={styles?.productContainer}>
                 <AddProductFileUpload
                   styles={styles}
                   productDetails={productDetail}
-                  maxFiles={4 - (formik?.values?.catalogue?.length || 0)}
+                  maxFiles={1 - (formik?.values?.catalogue?.length || 0)}
                   fieldInputName={"catalogueNew"}
                   oldFieldName={"catalogue"}
                   existingFiles={formik?.values?.catalogue}
@@ -2167,9 +2171,6 @@ const EditAddProduct = ({ placeholder }) => {
                   label="Product Catalogue"
                   // tooltip="Specific safety information, instructions or precautions related to product"
                   acceptTypes={{
-                    "image/png": [],
-                    "image/jpeg": [],
-                    "image/jpg": [],
                     "application/pdf": [],
                   }}
                   error={
@@ -2190,7 +2191,7 @@ const EditAddProduct = ({ placeholder }) => {
                   styles={styles}
                   productDetails={productDetail}
                   maxFiles={
-                    4 - (formik?.values?.specificationSheet?.length || 0)
+                    1 - (formik?.values?.specificationSheet?.length || 0)
                   }
                   fieldInputName={"specificationSheetNew"}
                   oldFieldName={"specificationSheet"}
@@ -2200,9 +2201,6 @@ const EditAddProduct = ({ placeholder }) => {
                   label="Specification Sheet"
                   // tooltip="Health Hazard Rating Document"
                   acceptTypes={{
-                    "image/png": [],
-                    "image/jpeg": [],
-                    "image/jpg": [],
                     "application/pdf": [],
                   }}
                   error={
@@ -2245,7 +2243,7 @@ const EditAddProduct = ({ placeholder }) => {
                 <AddProductFileUpload
                   styles={styles}
                   productDetails={productDetail}
-                  maxFiles={4 - (formik?.values?.guidelinesFile?.length || 0)}
+                  maxFiles={1 - (formik?.values?.guidelinesFile?.length || 0)}
                   fieldInputName={"guidelinesFileNew"}
                   oldFieldName={"guidelinesFile"}
                   existingFiles={formik?.values?.guidelinesFile}
@@ -2254,9 +2252,6 @@ const EditAddProduct = ({ placeholder }) => {
                   label="User Guidelines"
                   tooltip="Specific information, instructions related to product."
                   acceptTypes={{
-                    "image/png": [],
-                    "image/jpeg": [],
-                    "image/jpg": [],
                     "application/pdf": [],
                   }}
                   error={
@@ -2319,8 +2314,6 @@ const EditAddProduct = ({ placeholder }) => {
                   acceptTypes={{
                     "image/png": [],
                     "image/jpeg": [],
-                    "image/jpg": [],
-                    "application/pdf": [],
                   }}
                   error={
                     (formik?.touched?.imageFront ||
@@ -2349,8 +2342,6 @@ const EditAddProduct = ({ placeholder }) => {
                   acceptTypes={{
                     "image/png": [],
                     "image/jpeg": [],
-                    "image/jpg": [],
-                    "application/pdf": [],
                   }}
                   error={
                     (formik?.touched?.imageBack ||
@@ -2379,8 +2370,6 @@ const EditAddProduct = ({ placeholder }) => {
                   acceptTypes={{
                     "image/png": [],
                     "image/jpeg": [],
-                    "image/jpg": [],
-                    "application/pdf": [],
                   }}
                   error={
                     (formik?.touched?.imageSide ||
@@ -2409,8 +2398,6 @@ const EditAddProduct = ({ placeholder }) => {
                   acceptTypes={{
                     "image/png": [],
                     "image/jpeg": [],
-                    "image/jpg": [],
-                    "application/pdf": [],
                   }}
                   error={
                     (formik?.touched?.imageClosure ||
