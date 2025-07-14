@@ -184,6 +184,15 @@
     width: 100%;
 }
 
+.toolTip {
+    max-width: 40rem;
+    cursor: pointer;
+    z-index: 20;
+    max-height: 40rem;
+    white-space: normal;
+    word-wrap: break-word;
+  }
+
 .innerInventorySection {
     display: flex;
     flex-direction: column;

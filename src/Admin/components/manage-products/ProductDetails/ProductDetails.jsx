@@ -8,6 +8,8 @@ import RenderProductFiles from "../../../../Buyer/components/Buy/Details/RenderF
 import { fetchProductDetail } from "../../../../redux/reducers/productSlice";
 import moment from "moment";
 import Accordion from "react-bootstrap/Accordion";
+import { Tooltip } from 'react-tooltip';
+import 'react-tooltip/dist/react-tooltip.css'
 
 const toTitleCase = (str) => {
   return str
@@ -412,6 +414,27 @@ const ProductDetails = () => {
                     </span>
                   </div>
                 ))}
+
+            {productDetail?.general?.buyersPreferredFrom && (
+                <div className={styles.medicinesSection}>
+                  <span className={styles.medicineHead}>Buyers Prefered From</span>
+                  <span className={styles.medicineText}>
+                    {/* {productDetail?.general?.buyersPreferredFrom} */}
+                    {productDetail.general.buyersPreferredFrom.length <= 25 ? (
+                        productDetail.general.buyersPreferredFrom.join(", ")
+                      ) : (
+                        <>
+                          {productDetail.general.buyersPreferredFrom.slice(0, 25).join(", ")}
+                          <span>{' ... '}</span>
+                          <span id="supplier-tooltip" style={{ textDecoration: 'underline'}}>{'view more'}</span>
+                          <Tooltip anchorId="supplier-tooltip" place="bottom" className={styles.toolTip} delayHide={500}
+                            content={productDetail.general.buyersPreferredFrom.slice(25, ).join(', ')}
+                          />
+                        </>
+                      )}
+                  </span>
+                </div>
+              )}
 
               {/* {productDetail?.storage && (
                 <div className={styles.medicinesSection}>
