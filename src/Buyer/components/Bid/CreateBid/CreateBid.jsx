@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./createBid.module.css";
 import "../../../../Supplier/components/Products/AddProduct/addproduct.css";
 import "../../../../Supplier/components/SharedComponents/Signup/signup.css";
-import { Form, Formik } from "formik";
+import { Field, Form, Formik } from "formik";
 import CloseIcon from "@mui/icons-material/Close";
 import DatePicker from "react-date-picker";
 import { toast } from "react-toastify";
@@ -12,16 +12,19 @@ import {
   bidTypeOptions,
   bidValidationSchema,
   countryOptions,
+  docReqOptions,
   initialValues,
   openForOptions,
   stateOptions,
 } from "../helper";
-import { AddProductFileUpload } from "../../../../utils/helper";
 import { categoriesData } from "../../../../utils/Category";
 import Select, { components } from "react-select";
 import countryList from "react-select-country-list";
 import CreatableSelect from "react-select/creatable";
 import { useNavigate } from "react-router-dom";
+import DocumentUpload from "../FileUpload";
+import { addBid } from "../../../../redux/reducers/bidSlice";
+import { useDispatch } from "react-redux";
 
 const getDropdownButtonLabel = ({ placeholderButtonLabel, value }) => {
   if (value && value.length) {
@@ -53,6 +56,7 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
 
 const CreateBid = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [countries, setCountries] = useState([]);
 
@@ -110,13 +114,91 @@ const CreateBid = () => {
 
       <Formik
         initialValues={initialValues}
-        // validationSchema={bidValidationSchema}
-        onSubmit={(vals) => {
-          setLoading(true);
-          setTimeout(() => {
-            toast.success("Bid created successfully.");
-            navigate(-1);
-          }, 1000);
+        validationSchema={bidValidationSchema}
+        onSubmit={(values) => {
+          try {
+            setLoading(true);
+            // Create a new FormData object
+            const formData = new FormData();
+
+            // Append fields as usual
+            Object.keys(values).forEach((key) => {
+              const value = values[key];
+              if (key != "documents" || key != "additionalDetails") {
+                if (Array.isArray(value)) {
+                  // Append array items under the same key
+                  value.forEach((item, index) => {
+                    // If it's a file, append it with its index (to ensure uniqueness)
+                    if (item instanceof File) {
+                      formData.append(key, item); // appends the file
+                    } else {
+                      formData.append(key, item); // appends non-file array items
+                    }
+                  });
+                } else {
+                  formData.append(key, value); // Append regular fields
+                }
+              }
+            });
+
+            const documentsUpdated = JSON.stringify(
+              values?.documents?.map((section) => ({
+                name: section?.name || "",
+                document: section?.document?.[0] || "",
+              })) || [
+                {
+                  name: "",
+                  document: "",
+                },
+              ]
+            );
+            const documentsUpdated2 = values?.documents?.map((section) => ({
+              name: section?.name || "",
+              document: section?.document?.[0] || "",
+            })) || [
+              {
+                name: "",
+                document: "",
+              },
+            ];
+
+            if (
+              JSON.stringify(values?.bidDocs) !=
+              JSON.stringify(documentsUpdated2?.map((file) => file?.document))
+            ) {
+              // fisetFieldValue("bidDocs", []);
+              documentsUpdated2?.forEach((file) =>
+                formData.append("bidDocs", file?.document)
+              );
+            }
+
+            const additionalDetailsUpdated = JSON.stringify(
+              values?.additionalDetails?.map((section) => ({
+                ...section,
+                fromCountries:
+                  section?.fromCountries?.length > 0
+                    ? section?.fromCountries?.map((country) => country?.label)
+                    : [] || [],
+              }))
+            );
+
+            formData.append("documents", documentsUpdated);
+            formData.append("userId", localStorage?.getItem("_id"));
+            formData.append("additionalDetails", additionalDetailsUpdated);
+            formData.append("userType", "Buyer");
+            // formData.append("status", "Active");
+
+            dispatch(addBid(formData)).then((response) => {
+              if (response?.meta.requestStatus === "fulfilled") {
+                setLoading(false);
+                navigate(-1);
+              }
+            });
+          } catch (error) {
+            toast.error(error);
+          } finally {
+            setLoading(false);
+          }
         }}
       >
         {({
@@ -131,6 +213,8 @@ const CreateBid = () => {
           <Form className={styles.form}>
             {/* ---------- General Info ---------- */}
             <div className={styles.section}>
+              {console.log("ERRORS ", errors)}
+              {console.log("values ", values)}
               <span className={styles.formHead}>General Information</span>
               <div className={styles.formSection}>
                 <div className={styles.productContainer}>
@@ -242,10 +326,9 @@ const CreateBid = () => {
                             </label>
                             <input
                               className={styles.formInput}
+                              name={`additionalDetails.${index}.name`}
                               value={section.name}
-                              placeholder={`Enter ${
-                                section.type || "Item"
-                              } Name`}
+                              placeholder={`Enter Document Name`}
                               onChange={(e) =>
                                 handleChangeFormSectionDetails(
                                   index,
@@ -257,6 +340,7 @@ const CreateBid = () => {
                                 )
                               }
                             />
+
                             {touched?.documents?.[index]?.name &&
                               errors?.documents?.[index]?.name && (
                                 <span className={styles.error}>
@@ -266,35 +350,57 @@ const CreateBid = () => {
                           </div>
 
                           {/* ----- Document File ------ */}
+                          {/* File Upload Section */}
                           <div className={styles.productContainer}>
-                            <AddProductFileUpload
-                              styles={styles}
-                              fieldInputName={"documents"}
-                              setFieldValue={setFieldValue}
-                              initialValues={values}
-                              label="Upload Document"
-                              tooltip={false}
-                              acceptTypes={{
-                                "application/pdf": [],
-                              }}
-                              maxFiles={1}
-                              error={
-                                touched?.documents && errors?.documents
-                                  ? errors?.documents
-                                  : null
-                              }
-                            />
+                            <Field name={`documents.${index}.document`}>
+                              {({ field }) => (
+                                <DocumentUpload
+                                  fieldInputName={`documents.${index}.document`}
+                                  setFieldValue={setFieldValue}
+                                  name={`documents.${index}.document`}
+                                  initialValues={values}
+                                  label="Upload Document"
+                                  selectedFile={section?.document}
+                                  preview={section?.preview}
+                                  fileIndex={index}
+                                  isEdit={false}
+                                />
+                              )}
+                            </Field>
+
+                            {touched?.documents?.[index]?.document &&
+                              errors?.documents?.[index]?.document && (
+                                <span className={styles.error}>
+                                  {errors?.documents[index].document}
+                                </span>
+                              )}
                           </div>
                         </div>
 
                         {/* ---- Remove Section Button ---- */}
-                        <div
-                          className={styles.formclosebutton}
-                          onClick={() =>
-                            removeFormSection(index, setFieldValue, values)
-                          }
-                        >
-                          <CloseIcon className={styles.iconClose} />
+                        <div className={styles.formclosebutton}>
+                          <CloseIcon
+                            className={styles.iconClose}
+                            onClick={() => {
+                              // Clear form values before removing the row
+                              setFieldValue(`documents.${index}.document`, {});
+                              setFieldValue(`documents.${index}.name`, "");
+                              setFieldValue(
+                                `documents.${index}.preview`,
+                                false
+                              );
+
+                              // Remove the row from the array
+                              const updatedList = values.documents.filter(
+                                (_, elindex) => elindex !== index
+                              );
+                              const updatedList2 = values.bidDocs.filter(
+                                (_, elindex) => elindex !== index
+                              );
+                              setFieldValue("documents", updatedList);
+                              setFieldValue("bidDocs", updatedList2);
+                            }}
+                          />
                         </div>
                       </div>
                       {values?.documents?.length > 1 &&
@@ -777,6 +883,83 @@ const CreateBid = () => {
                               )}
                           </div>
 
+                          {/* ----- Certification Required ------ */}
+                          <div className={styles.productContainer}>
+                            <label className={styles.formLabel}>
+                              Select Certification Required
+                              <span className={styles.labelStamp}>*</span>
+                            </label>
+                            <Select
+                              className={styles.formSelect}
+                              options={docReqOptions}
+                              value={
+                                docReqOptions.find(
+                                  (o) => o.value === section.docReq
+                                ) || null
+                              }
+                              onChange={(opt) =>
+                                handleChangeFormSectionDetails(
+                                  index,
+                                  "docReq",
+                                  setFieldValue,
+                                  values,
+                                  opt?.value || "",
+                                  "additionalDetails"
+                                )
+                              }
+                              name={`additionalDetails.${index}.docReq`}
+                              onBlur={() =>
+                                setFieldTouched(
+                                  `additionalDetails.${index}.docReq`,
+                                  true
+                                )
+                              }
+                            />
+                            {touched?.additionalDetails?.[index]?.docReq &&
+                              errors?.additionalDetails?.[index]?.docReq && (
+                                <span className={styles.error}>
+                                  {errors?.additionalDetails[index].docReq}
+                                </span>
+                              )}
+                          </div>
+
+                          {/* ----- Certification Name ------ */}
+                          {section?.docReq == "Yes" && (
+                            <div className={styles.productContainer}>
+                              <label className={styles.formLabel}>
+                                Certification Name
+                                <span className={styles.labelStamp2}>*</span>
+                              </label>
+                              <input
+                                className={styles.formInput}
+                                name={`additionalDetails.${index}.certificateName`}
+                                value={section.certificateName}
+                                placeholder={`Add comma(,) to add multiple Certification Name`}
+                                onChange={(e) =>
+                                  handleChangeFormSectionDetails(
+                                    index,
+                                    "certificateName",
+                                    setFieldValue,
+                                    values,
+                                    e.target.value,
+                                    "additionalDetails"
+                                  )
+                                }
+                              />
+                              {touched?.additionalDetails?.[index]
+                                ?.certificateName &&
+                                errors?.additionalDetails?.[index]
+                                  ?.certificateName && (
+                                  <span className={styles.error}>
+                                    {
+                                      errors?.additionalDetails[index]
+                                        .certificateName
+                                    }
+                                  </span>
+                                )}
+                            </div>
+                          )}
+
                           {/* ----- Quantity Required ------ */}
                           <div className={styles.productContainer}>
                             <label className={styles.formLabel}>
@@ -793,7 +976,7 @@ const CreateBid = () => {
                                   "quantity",
                                   setFieldValue,
                                   values,
-                                  e.target.value,
+                                  e.target.value.replace(/\D/g, ""), // Allow only numbers
                                   "additionalDetails"
                                 )
                               }
@@ -822,7 +1005,7 @@ const CreateBid = () => {
                                   "targetPrice",
                                   setFieldValue,
                                   values,
-                                  e.target.value,
+                                  e.target.value.replace(/\D/g, ""), // Allow only numbers
                                   "additionalDetails"
                                 )
                               }
@@ -858,7 +1041,7 @@ const CreateBid = () => {
                                   "delivery",
                                   setFieldValue,
                                   values,
-                                  e.target.value,
+                                  e.target.value.replace(/\D/g, ""), // Allow only numbers
                                   "additionalDetails"
                                 )
                               }
@@ -872,7 +1055,7 @@ const CreateBid = () => {
                           </div>
 
                           {/* ----- Product / Service Description ------ */}
-                          <div className={styles.productTextContainer}>
+                          <div className={styles.productTextContainer2}>
                             <label className={styles.formLabel}>
                               {section.type || "Item"} Description
                               <span className={styles.labelStamp}>*</span>
@@ -916,18 +1099,18 @@ const CreateBid = () => {
                         </div>
 
                         {/* ---- Remove Section Button ---- */}
-                        <div
-                          className={styles.formclosebutton}
-                          onClick={() =>
-                            removeFormSection(
-                              index,
-                              setFieldValue,
-                              values,
-                              "additionalDetails"
-                            )
-                          }
-                        >
-                          <CloseIcon className={styles.iconClose} />
+                        <div className={styles.formclosebutton}>
+                          <CloseIcon
+                            className={styles.iconClose}
+                            onClick={() =>
+                              removeFormSection(
+                                index,
+                                setFieldValue,
+                                values,
+                                "additionalDetails"
+                              )
+                            }
+                          />
                         </div>
                       </div>
                       {values?.additionalDetails?.length > 1 &&

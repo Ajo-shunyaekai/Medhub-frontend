@@ -16,6 +16,25 @@ export const bidValidationSchema = Yup.object().shape({
     .min(10, "Description must be at least 10 characters"),
 
   // documents is excluded
+  documents: Yup.array()
+    .of(
+      Yup.object().shape({
+        name: Yup.string().required("Document name is required"),
+        document: Yup.array()
+          .min(1, "At least one document must be added")
+          .max(1, "You can upload up to 1 image.")
+          .of(
+            Yup.mixed()
+              .required("A file is required.")
+              .test(
+                "fileSize",
+                "File too large",
+                (value) => value && value.size <= 1024 * 1024 * 5
+              ) // Max 5MB
+          ),
+      })
+    )
+    .min(1, "At least one item must be added"),
 
   additionalDetails: Yup.array()
     .of(
@@ -62,6 +81,18 @@ export const bidValidationSchema = Yup.object().shape({
 
         openFor: Yup.string().required("Open for field is required"),
 
+        docReq: Yup.string().required(
+          "Certification Required field is required"
+        ),
+
+        certificateName: Yup.string().when("docReq", {
+          is: "Yes",
+          then: Yup.string().required(
+            "Certificate name is required"
+          ),
+          otherwise: Yup.string().notRequired(),
+        }),
+
         fromCountries: Yup.array()
           .min(1, "At least one country must be selected")
           .required("From countries is required"),
@@ -73,15 +104,20 @@ export const bidValidationSchema = Yup.object().shape({
     )
     .min(1, "At least one item must be added"),
 
-  status: Yup.string().required("Status is required"),
+  // status: Yup.string().required("Status is required"),
 
-  userId: Yup.string().required("User ID is required"),
+  // userId: Yup.string().required("User ID is required"),
 });
 
 export const bidTypeOptions = [
   { label: "Product", value: "Product" },
   { label: "Service", value: "Service" },
 ]?.sort((a, b) => a?.label?.localeCompare(b?.label));
+
+export const docReqOptions = [
+  { label: "Yes", value: "Yes" },
+  { label: "No", value: "No" },
+]?.sort((a, b) => b?.label?.localeCompare(a?.label));
 
 export const openForOptions = [
   { label: "Manufacturer", value: "Manufacturer" },
@@ -109,6 +145,7 @@ export const initialValues = {
   startDate: undefined,
   endDate: undefined,
   description: undefined,
+  bidDocs:[],
   documents: [
     {
       name: undefined,
@@ -128,6 +165,8 @@ export const initialValues = {
       targetPrice: undefined,
       country: undefined,
       selectedCountry: undefined,
+      docReq: undefined,
+      certificateName: undefined, // ✅ Must be present
       state: undefined,
       openFor: undefined,
       fromCountries: [],
@@ -135,5 +174,4 @@ export const initialValues = {
     },
   ],
   status: "Active",
-  userId: undefined,
 };

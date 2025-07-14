@@ -5,20 +5,22 @@ import { toast } from "react-toastify";
 
 const initialState = {
   bids: [],
-  bidCount : 0,
+  bidCount: 0,
   loading: false,
   error: null,
   bidData: {},
   updatedbid: {},
-  bidToUpdate: {}
+  bidToUpdate: {},
 };
 
 export const fetchBidList = createAsyncThunk(
   "bid/fetchBidList",
   async (values, { rejectWithValue }) => {
     try {
-      const response = await apiRequests.postRequest('bid/get-bid-list', {buyer_id: values})
-      return response?.bids; 
+      const response = await apiRequests.postRequest("bid/get-bid-list", {
+        buyer_id: values,
+      });
+      return response?.bids;
     } catch (error) {
       // Log and pass the error
       return rejectWithValue(error?.response?.data || error.message);
@@ -30,8 +32,10 @@ export const fetchBidById = createAsyncThunk(
   "bid/fetchBidById",
   async (values, { rejectWithValue }) => {
     try {
-      const response = await apiRequests.getRequest(`bid/get-bid/${values?.id}`,)
-      return response?.bid
+      const response = await apiRequests.getRequest(
+        `bid/get-bid/${values?.id}`
+      );
+      return response?.bid;
     } catch (error) {
       // Log and pass the error
       return rejectWithValue(error?.response?.data || error.message);
@@ -43,8 +47,8 @@ export const fetchbidDataRedux = createAsyncThunk(
   "medicine/fetchbidDataRedux",
   async (url, { rejectWithValue }) => {
     try {
-      const response = await apiRequests.getRequest(url)
-      return response.result 
+      const response = await apiRequests.getRequest(url);
+      return response.result;
     } catch (error) {
       // Log and pass the error
       return rejectWithValue(error?.response?.data || error.message);
@@ -52,21 +56,18 @@ export const fetchbidDataRedux = createAsyncThunk(
   }
 );
 
-export const createbid = createAsyncThunk(
-  "bid/createbid",
+export const addBid = createAsyncThunk(
+  "bid/addBid",
   async (values, { rejectWithValue }) => {
     try {
-      const response = await apiRequests?.postRequest(
-        `bid/add-bid`,
-        { ...values?.obj }
-      );
+      const response = await apiRequests?.postRequestWithFile(`bid/add`, values);
       if (response?.code !== 200) {
         toast(response?.message, { type: "error" });
         return rejectWithValue(response?.message || "Unknown error");
       }
       const { data, message } = await response;
-      toast.success(message)
-      
+      toast.success(message);
+
       return data;
       // return rejectWithValue(response?.data?.err);
     } catch (error) {
@@ -82,15 +83,15 @@ export const editbid = createAsyncThunk(
     try {
       const response = await apiRequests?.postRequest(
         `bid/edit-bid/${values?.obj?.id}`,
-        { ...values?.obj, }
+        { ...values?.obj }
       );
       if (response?.code !== 200) {
         toast(response?.message, { type: "error" });
         return rejectWithValue(response?.message || "Unknown error");
       }
       const { data, message } = await response;
-      toast.success(message)
-      
+      toast.success(message);
+
       return data;
       // return rejectWithValue(response?.data?.err);
     } catch (error) {
@@ -106,14 +107,14 @@ export const deletebid = createAsyncThunk(
     try {
       const response = await apiRequests?.postRequest(
         `bid/delete-bid/${values?.id}`,
-        { ...values?.obj, }
+        { ...values?.obj }
       );
       if (response?.code !== 200) {
         toast(response?.message, { type: "error" });
         return rejectWithValue(response?.message || "Unknown error");
       }
       const { data, message } = await response;
-      toast.success(message)
+      toast.success(message);
       return data;
     } catch (error) {
       return rejectWithValue(error?.response?.data || "Unknown error");
@@ -133,7 +134,6 @@ export const bidSlice = createSlice({
     updatebid: (state, action) => {
       state.updatedbid = action.payload;
     },
-   
   },
   extraReducers: (builder) => {
     builder
@@ -180,7 +180,7 @@ export const bidSlice = createSlice({
       .addCase(fetchbidDataRedux.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      })
+      });
   },
 });
 
