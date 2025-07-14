@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import styles from '../../../assets/style/secondsidebar.module.css'
+import styles from "../../../assets/style/secondsidebar.module.css";
 import { BiPurchaseTagAlt } from "react-icons/bi";
 import OnGoingOrder from "./OnGoingOrder";
 import PurchasedOrder from "../PurchasedOrder/PurchasedOrder";
@@ -110,26 +110,21 @@ const InquiryPurchaseOrder = () => {
         <Loader />
       ) : (
         <div className={styles.container}>
-        <div className={styles.header}>
-          <div className={styles.title}>
-            Enquiry & Purchased Orders
+          <div className={styles.header}>
+            <div className={styles.title}>Enquiry & Purchased Orders</div>
           </div>
-        </div>
-        <div className={styles.content}>
-        <div className={styles.sidebar}>
-        <div
-  onClick={() => handleLinkClick("ongoing")}
-  className={
-    activeLink === "ongoing"
-      ? `${styles.active} ${styles.tab}`
-      : styles.tab
-  }
->
-               <BiPurchaseTagAlt
-                 className={styles.icon}
-                />
-                 <div className={styles.text}>Ongoing Enquiries</div>
-                
+          <div className={styles.content}>
+            <div className={styles.sidebar}>
+              <div
+                onClick={() => handleLinkClick("ongoing")}
+                className={
+                  activeLink === "ongoing"
+                    ? `${styles.active} ${styles.tab}`
+                    : styles.tab
+                }
+              >
+                <BiPurchaseTagAlt className={styles.icon} />
+                <div className={styles.text}>Ongoing Enquiries</div>
               </div>
               <div
                 onClick={() => handleLinkClick("purchased")}
@@ -139,37 +134,34 @@ const InquiryPurchaseOrder = () => {
                     : styles.tab
                 }
               >
-                <BiPurchaseTagAlt
-                 className={styles.icon}
-                />
-                 <div className={styles.text}>Purchased Orders</div>
-               
+                <BiPurchaseTagAlt className={styles.icon} />
+                <div className={styles.text}>Purchased Orders</div>
               </div>
             </div>
             <div className={styles.main}>
-                {activeLink === "ongoing" && (
-                  <OnGoingOrder
-                    inquiryList={inquiryList}
-                    totalInquiries={totalInquiries}
-                    currentPage={currentPage}
-                    inquiryPerPage={inquiryPerPage}
-                    handlePageChange={handlePageChange}
-                    activeLink={activeLink}
-                  />
-                )}
-                {activeLink === "purchased" && (
-                  <PurchasedOrder
-                    poList={poList}
-                    totalPoList={totalPoList}
-                    currentPage={currentPage}
-                    inquiryPerPage={inquiryPerPage}
-                    handlePageChange={handlePageChange}
-                    activeLink={activeLink}
-                  />
-                )}
-              </div>
+              {activeLink === "ongoing" && (
+                <OnGoingOrder
+                  inquiryList={inquiryList}
+                  totalInquiries={totalInquiries}
+                  currentPage={currentPage}
+                  inquiryPerPage={inquiryPerPage}
+                  handlePageChange={handlePageChange}
+                  activeLink={activeLink}
+                />
+              )}
+              {activeLink === "purchased" && (
+                <PurchasedOrder
+                  poList={poList}
+                  totalPoList={totalPoList}
+                  currentPage={currentPage}
+                  inquiryPerPage={inquiryPerPage}
+                  handlePageChange={handlePageChange}
+                  activeLink={activeLink}
+                />
+              )}
             </div>
           </div>
+        </div>
       )}
     </>
   );

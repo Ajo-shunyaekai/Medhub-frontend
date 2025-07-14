@@ -843,6 +843,7 @@
 .stockedSection {
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   position: relative;
 }
@@ -995,7 +996,6 @@
   padding: 4px 8px;
   border-radius: 4px;
   display: flex;
-  align-items: center;
   font-weight: 500;
   cursor: pointer !important;
 }

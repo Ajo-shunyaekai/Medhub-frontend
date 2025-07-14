@@ -26,6 +26,9 @@ import { Outlet } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import moment from "moment";
 import { logoutUser } from '../../../../redux/reducers/userDataSlice';
+import HandshakeIcon from '@mui/icons-material/Handshake';
+import GavelIcon from '@mui/icons-material/Gavel';
+import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
 
 
 const Sidebar = ({ children, dragWindow,
@@ -173,6 +176,10 @@ const Sidebar = ({ children, dragWindow,
             <Link to="/buyer/buy" className={styles.sidebar_text} activeclassname={styles.active}>
                 <div className={styles.icon}><LocalMallOutlinedIcon style={{ color: '#14bae4', fontSize: '20px' }} /></div>
                 <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Buy</div>
+            </Link>
+            <Link to="/buyer/bid" className={styles.sidebar_text} activeclassname={styles.active}>
+                <div className={styles.icon}><LocalOfferOutlinedIcon style={{ color: '#ff7f50', fontSize: '20px' }} /></div>
+                <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Bid</div>
             </Link>
 
             <Box sx={{ width: 250 }} role="presentation" >
@@ -463,8 +470,12 @@ const Sidebar = ({ children, dragWindow,
                             <div className={styles.icon}><LocalMallOutlinedIcon style={{ color: '#14bae4', fontSize: '20px' }} /></div>
                             <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Buy</div>
                         </Link>
+                        <Link to="/buyer/bid" className={styles.sidebar_text} activeclassname={styles.active}>
+                            <div className={styles.icon}><LocalOfferOutlinedIcon style={{ color: '#ff7f50', fontSize: '20px' }} /></div>
+                            <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Bid</div>
+                        </Link>
                         <Link to="/buyer/enquiry" className={`${styles.sidebar_text} ${styles.desktop_order_btn}`} activeclassname={styles.active}>
-                            <div className={styles.icon}><ManageSearchIcon style={{ color: '#20c997', fontSize: '20px' }} /></div>
+                            <div className={styles.icon}><ManageSearchIcon style={{ color: '#5c6bc0', fontSize: '20px' }} /></div>
                             <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Enquiry</div>
                         </Link>
                         <Link to="/buyer/order/active-orders" className={`${styles.sidebar_text} ${styles.desktop_order_btn}`} activeclassname={styles.active}>

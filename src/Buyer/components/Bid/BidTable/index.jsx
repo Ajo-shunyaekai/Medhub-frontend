@@ -1,0 +1,199 @@
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import styles from "../../../assets/style/secondsidebar.module.css";
+import { BiPurchaseTagAlt } from "react-icons/bi";
+import { postRequestWithToken } from "../../../../api/Requests";
+import Loader from "../../SharedComponents/Loader/Loader";
+import { toast } from "react-toastify";
+import { apiRequests } from "../../../../api";
+import MainTable from "./BidTable";
+
+const BidTable = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const [loading, setLoading] = useState(true);
+  const [bidList, setBidList] = useState([]);
+  const [totalBids, setTotalBids] = useState();
+  const [currentPage, setCurrentPage] = useState(1);
+  const bidPerPage = 8;
+
+  const getActiveLinkFromPath = (path) => {
+    switch (path) {
+      case "/buyer/bid":
+        return "active";
+      case "/buyer/bid/active":
+        return "active";
+      case "/buyer/bid/completed":
+        return "completed";
+      case "/buyer/bid/cancelled":
+        return "cancelled";
+      default:
+        return "active";
+    }
+  };
+
+  const activeLink = getActiveLinkFromPath(location.pathname);
+
+  const handleLinkClick = (link) => {
+    setCurrentPage(1);
+    switch (link) {
+      case "active":
+        navigate("/buyer/bid");
+        break;
+      case "completed":
+        navigate("/buyer/bid/completed");
+        break;
+      case "cancelled":
+        navigate("/buyer/bid/cancelled");
+        break;
+      default:
+        navigate("/buyer/bid");
+    }
+  };
+
+  const dummyBids = [
+    {
+      _id: "BID20250701",
+      bidId: "BID20250701",
+      start: "2025-07-01 10:00 AM",
+      end: "2025-07-05 05:00 PM",
+      status: "Active",
+    },
+    {
+      _id: "BID20250628",
+      bidId: "BID20250628",
+      start: "2025-06-28 09:30 AM",
+      end: "2025-07-02 04:00 PM",
+      status: "Completed",
+    },
+    {
+      _id: "BID20250620",
+      bidId: "BID20250620",
+      start: "2025-06-20 11:00 AM",
+      end: "2025-06-25 03:00 PM",
+      status: "Cancelled",
+    },
+    {
+      _id: "BID20250703",
+      bidId: "BID20250703",
+      start: "2025-07-03 08:00 AM",
+      end: "2025-07-08 06:00 PM",
+      status: "Active",
+    },
+    {
+      _id: "BID20250615",
+      bidId: "BID20250615",
+      start: "2025-06-15 10:30 AM",
+      end: "2025-06-20 05:00 PM",
+      status: "Completed",
+    },
+  ];
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const fetchData = async () => {
+    const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
+    if (!buyerIdLocalStorage) {
+      localStorage?.clear();
+      navigate("/buyer/login");
+      return;
+    }
+    const status = activeLink?.toLowerCase();
+    const obj = {
+      buyer_id: buyerIdLocalStorage,
+      status: status,
+      pageNo: currentPage,
+      pageSize: bidPerPage,
+      usertype: "Buyer",
+    };
+
+    try {
+      const response = await apiRequests.getRequest(
+        `enquiry/get-bid-list?pageNo=${currentPage}&pageSize=${bidPerPage}&status=${status}`
+      );
+      if (response?.code === 200) {
+        setBidList(response.result.data);
+        setTotalBids(response.result.totalItems);
+      }
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [activeLink, currentPage]);
+
+  return (
+    <>
+      {loading ? (
+        <Loader />
+      ) : (
+        <div className={styles.container}>
+          <div className={styles.header}>
+            <div className={styles.title}>Bids</div>
+            <button
+              onClick={() => navigate("/buyer/bid/create-bid")}
+              className={styles.bulkButton}
+            >
+              Create Bid
+            </button>
+          </div>
+          <div className={styles.content}>
+            <div className={styles.sidebar}>
+              <div
+                onClick={() => handleLinkClick("active")}
+                className={
+                  activeLink === "active"
+                    ? `${styles.active} ${styles.tab}`
+                    : styles.tab
+                }
+              >
+                <BiPurchaseTagAlt className={styles.icon} />
+                <div className={styles.text}>Active Bids</div>
+              </div>
+              <div
+                onClick={() => handleLinkClick("completed")}
+                className={
+                  activeLink === "completed"
+                    ? `${styles.active} ${styles.tab}`
+                    : styles.tab
+                }
+              >
+                <BiPurchaseTagAlt className={styles.icon} />
+                <div className={styles.text}>Completed Bids</div>
+              </div>
+              <div
+                onClick={() => handleLinkClick("cancelled")}
+                className={
+                  activeLink === "cancelled"
+                    ? `${styles.active} ${styles.tab}`
+                    : styles.tab
+                }
+              >
+                <BiPurchaseTagAlt className={styles.icon} />
+                <div className={styles.text}>Cancelled Bids</div>
+              </div>
+            </div>
+            <div className={styles.main}>
+              <MainTable
+                bidList={dummyBids}
+                totalBids={dummyBids?.length}
+                currentPage={currentPage}
+                bidPerPage={bidPerPage}
+                handlePageChange={handlePageChange}
+                activeLink={activeLink}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
+
+export default BidTable;

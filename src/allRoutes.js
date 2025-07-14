@@ -108,6 +108,34 @@ export const buyerNestedRoutes = [
     ],
   },
   {
+    path: "bid",
+    component: lazy(() => import("./Buyer/components/Bid/BidTable")),
+    children: [
+      {
+        path: "active",
+        component: lazy(() => import("./Buyer/components/Bid/BidTable")),
+      },
+      {
+        path: "completed",
+        component: lazy(() => import("./Buyer/components/Bid/BidTable")),
+      },
+      {
+        path: "cancelled",
+        component: lazy(() => import("./Buyer/components/Bid/BidTable")),
+      },
+    ],
+  },
+  {
+    path: "bid/:id",
+    component: lazy(() =>
+      import("./Buyer/components/Bid/BidDetails/BidDetails")
+    ),
+  },
+  {
+    path: "bid/create-bid",
+    component: lazy(() => import("./Buyer/components/Bid/CreateBid/CreateBid")),
+  },
+  {
     path: "product-details/:id",
     component: lazy(() =>
       import("./Buyer/components/Buy/Details/ProductDetails")
