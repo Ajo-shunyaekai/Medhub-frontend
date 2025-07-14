@@ -188,13 +188,19 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 49%;
+  width: 65%;
 }
 .descriptionContainer {
   display: flex;
   flex-direction: column;
   gap: 10px;
   width: 100%;
+}
+.productTextContainer2 {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 98%;
 }
 
 .productInnerContainer {
@@ -335,9 +341,9 @@
   padding: 12px !important;
   position: relative !important;
   width: 100% !important;
-  height: 80px !important;
+  height: 48px !important;
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
   justify-content: center;
   cursor: pointer !important;
   align-items: center;
@@ -356,6 +362,7 @@
 
 .uploadText {
   font-size: 0.825rem;
+  color: #99a0ac;
   cursor: pointer !important;
 }
 

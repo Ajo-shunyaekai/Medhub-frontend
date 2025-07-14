@@ -1779,7 +1779,7 @@ const AddProduct = ({ placeholder }) => {
                           onBlur={handleBlur}
                           onChange={(e) =>
                             setFieldValue(
-                              `productPricingDetails.${index}.quantityTo`,
+                              `productPricingDetails.${index}.quantityFrom`,
                               e.target.value.replace(/\D/g, "") // Allow only numbers
                             )
                           }
