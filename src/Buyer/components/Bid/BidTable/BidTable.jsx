@@ -1,0 +1,125 @@
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import DataTable from "react-data-table-component";
+import moment from "moment-timezone";
+import PaginationComponent from "../../SharedComponents/Pagination/pagination";
+import styles from "../../../assets/style/table.module.css";
+
+const BidTable = ({
+  bidList,
+  totalBids,
+  currentPage,
+  bidPerPage,
+  handlePageChange,
+}) => {
+  const columns = [
+    {
+      name: "Bid ID",
+      selector: (row) => row?.bidId,
+      sortable: true,
+    },
+    {
+      name: "Bid Start Date",
+      selector: (row) => moment(row?.start)?.format("DD/MM/YYYY"),
+      sortable: true,
+    },
+    {
+      name: "Bid End Date",
+      selector: (row) => moment(row?.end)?.format("DD/MM/YYYY"),
+      sortable: true,
+    },
+    {
+      name: "Status",
+      selector: (row) => row?.status,
+      sortable: true,
+      width: "200px",
+    },
+    {
+      name: "Total Bids",
+      selector: (row) => Number(row?.totalBids || 0),
+      sortable: true,
+      width: "200px",
+    },
+    {
+      name: "Action",
+      cell: (row) => (
+        <div className={styles.buttonContainer}>
+          <Link to={`/buyer/bid/${row?._id}`} title="View Details">
+            <div className={styles.activeBtn}>
+              <RemoveRedEyeOutlinedIcon className={styles["table-icon"]} />
+            </div>
+          </Link>
+        </div>
+      ),
+      ignoreRowClick: true,
+      allowOverflow: true,
+      button: true,
+    },
+  ];
+
+  return (
+    <div className={styles.container}>
+      <style>
+        {`
+          .rdt_Table {
+            border: none;
+            background-color: unset !important;
+          }
+          .rdt_TableRow {
+            background-color: #ffffff !important;
+            border-bottom: none !important;
+          }
+          .rdt_TableHeadRow {
+            background-color: #f9f9fa;
+            color: #5e676f;
+            font-size: 0.825rem;
+            font-weight: 500;
+            border-bottom: none !important;
+          }
+          .rdt_TableBody {
+            gap: 10px !important;
+          }
+          .rdt_TableCol {
+            color: #5e676f !important;
+            font-size: 0.825rem;
+            font-weight: 500 !important;
+          }
+          .rdt_TableCell {
+            color: #99a0ac;
+            font-size: 0.825rem;
+          
+          }
+          .rdt_TableCellStatus { 
+            color: #99a0ac;
+            font-size: 0.825rem;
+          }
+        `}
+      </style>
+      <div className={styles.tableMainContainer}>
+        <DataTable
+          columns={columns}
+          data={bidList}
+          noDataComponent={
+            <div className={styles["no-data"]}>No Data Available</div>
+          }
+          persistTableHead
+          pagination={false}
+          responsive
+        />
+        {bidList?.length > 0 && (
+          <PaginationComponent
+            activePage={currentPage}
+            itemsCountPerPage={bidPerPage}
+            totalItemsCount={totalBids}
+            pageRangeDisplayed={8}
+            onChange={handlePageChange}
+          />
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default BidTable;

@@ -9,6 +9,7 @@ import orderReducer from "./reducers/orderSlice";
 import inquiryReducer from "./reducers/inquirySlice";
 import medicineReducer from "./reducers/medicineSlice";
 import adminReducer from "./reducers/adminSlice";
+import bidReducer from "./reducers/bidSlice";
 import addressReducer from "./reducers/addressSlice";
 import productReducer from "./reducers/productSlice";
 import listReducer from "./reducers/listSlice";
@@ -17,6 +18,7 @@ import subscriptionReducer from "./reducers/subscriptionSlice";
 const rootReducer = combineReducers({
   userReducer,
   addressReducer,
+  bidReducer,
   subscriptionReducer,
   adminReducer,
   invoiceReducer,
