@@ -13,6 +13,7 @@ const PaginationComponent = ({
     pageRangeDisplayed,
     onChange,
 }) => {
+
     return (
         <div className={styles.paginationContainer}>    
             <Pagination

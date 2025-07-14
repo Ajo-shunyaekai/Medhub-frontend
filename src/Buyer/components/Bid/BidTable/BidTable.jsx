@@ -14,20 +14,21 @@ const BidTable = ({
   bidPerPage,
   handlePageChange,
 }) => {
+
   const columns = [
     {
       name: "Bid ID",
-      selector: (row) => row?.bidId,
+      selector: (row) => row?.bid_id,
       sortable: true,
     },
     {
       name: "Bid Start Date",
-      selector: (row) => moment(row?.start)?.format("DD/MM/YYYY"),
+      selector: (row) => moment(row?.general?.startDate)?.format("DD/MM/YYYY"),
       sortable: true,
     },
     {
       name: "Bid End Date",
-      selector: (row) => moment(row?.end)?.format("DD/MM/YYYY"),
+      selector: (row) => moment(row?.general?.endDate)?.format("DD/MM/YYYY"),
       sortable: true,
     },
     {
@@ -113,7 +114,7 @@ const BidTable = ({
             activePage={currentPage}
             itemsCountPerPage={bidPerPage}
             totalItemsCount={totalBids}
-            pageRangeDisplayed={8}
+            pageRangeDisplayed={10}
             onChange={handlePageChange}
           />
         )}

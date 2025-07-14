@@ -7,16 +7,18 @@ import Loader from "../../SharedComponents/Loader/Loader";
 import { toast } from "react-toastify";
 import { apiRequests } from "../../../../api";
 import MainTable from "./BidTable";
+import { useDispatch, useSelector } from "react-redux";
 
 const BidTable = () => {
   const location = useLocation();
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
+  const { bidData } = useSelector((state) => state.bidReducer);
   const [loading, setLoading] = useState(true);
   const [bidList, setBidList] = useState([]);
   const [totalBids, setTotalBids] = useState();
   const [currentPage, setCurrentPage] = useState(1);
-  const bidPerPage = 8;
+  const bidPerPage = 10;
 
   const getActiveLinkFromPath = (path) => {
     switch (path) {
@@ -95,15 +97,15 @@ const BidTable = () => {
   };
 
   const fetchData = async () => {
-    const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
-    if (!buyerIdLocalStorage) {
+    const buyerId = localStorage?.getItem("_id");
+    if (!buyerId) {
       localStorage?.clear();
       navigate("/buyer/login");
       return;
     }
     const status = activeLink?.toLowerCase();
     const obj = {
-      buyer_id: buyerIdLocalStorage,
+      buyer_id: buyerId,
       status: status,
       pageNo: currentPage,
       pageSize: bidPerPage,
@@ -112,11 +114,11 @@ const BidTable = () => {
 
     try {
       const response = await apiRequests.getRequest(
-        `enquiry/get-bid-list?pageNo=${currentPage}&pageSize=${bidPerPage}&status=${status}`
+        `bid?userId=${buyerId}&pageNo=${currentPage}&pageSize=${bidPerPage}&status=${status}`
       );
       if (response?.code === 200) {
-        setBidList(response.result.data);
-        setTotalBids(response.result.totalItems);
+        setBidList(response.data?.bids);
+        setTotalBids(response.data?.totalItems);
       }
     } catch (error) {
     } finally {
@@ -181,8 +183,8 @@ const BidTable = () => {
             </div>
             <div className={styles.main}>
               <MainTable
-                bidList={dummyBids}
-                totalBids={dummyBids?.length}
+                bidList={bidList}
+                totalBids={totalBids}
                 currentPage={currentPage}
                 bidPerPage={bidPerPage}
                 handlePageChange={handlePageChange}

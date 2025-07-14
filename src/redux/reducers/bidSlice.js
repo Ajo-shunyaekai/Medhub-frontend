@@ -30,12 +30,13 @@ export const fetchBidList = createAsyncThunk(
 
 export const fetchBidById = createAsyncThunk(
   "bid/fetchBidById",
-  async (values, { rejectWithValue }) => {
+  async (url, { rejectWithValue }) => {
     try {
-      const response = await apiRequests.getRequest(
-        `bid/get-bid/${values?.id}`
+      const response = await apiRequests.postRequest(
+        // `bid/${values?.bidId}`
+        url
       );
-      return response?.bid;
+      return response?.data;
     } catch (error) {
       // Log and pass the error
       return rejectWithValue(error?.response?.data || error.message);

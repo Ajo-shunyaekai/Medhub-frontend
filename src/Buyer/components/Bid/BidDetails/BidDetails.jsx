@@ -1,13 +1,23 @@
 import React from 'react'
 import styles from './bidDetails.module.css'
 import { useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from "react-redux";
+import { useState, useEffect } from "react";
 import RenderProductFiles from '../../Buy/Details/RenderFiles';
+import { fetchBidById } from '../../../../redux/reducers/bidSlice';
+import moment from "moment";
  
 const BidDetails = () => {
  
   const {id} = useParams();
-  
-  
+  const dispatch = useDispatch();
+  const { bidToUpdate } = useSelector((state) => state?.bidReducer || {});
+
+   useEffect(() => {
+      if (id) {
+        dispatch(fetchBidById(`bid/${id}`));
+      }
+    }, [id]);
  
   return (
     <div className={styles.container}>
@@ -18,7 +28,7 @@ const BidDetails = () => {
           <div className={styles.mainUpparContainer}>
             <div className={styles.InnerContainer}>
               <span className={styles.medicineName}>
-               Bid ID : {id}
+               Bid ID : {bidToUpdate?.bid_id}
               </span>
     {/*           <Link
                 to={`/supplier/edit-product/${id}`}
@@ -51,13 +61,17 @@ const BidDetails = () => {
                       <div className={styles.medicinesSection}>
                         <span className={styles.medicineHead}>Bid Starting Date</span>
                         <span className={styles.medicineText}>
-                            03-08-2025
+                            {moment(bidToUpdate?.general?.startDate || new Date()).format(
+                                              "DD/MM/YYYY"
+                                            )}
                         </span> 
                       </div>
                       <div className={styles.medicinesSection}>
                         <span className={styles.medicineHead}>Bid Ending Date</span>
                         <span className={styles.medicineText}>
-                            03-09-2025
+                        {moment(bidToUpdate?.general?.endDate || new Date()).format(
+                                              "DD/MM/YYYY"
+                                            )}
                         </span> 
                       </div>
                     </div>
@@ -67,7 +81,7 @@ const BidDetails = () => {
                       <div className={styles.medicinesSection}>
                         <span className={styles.medicineHead}>Bidding Description</span>
                         <span className={styles.medicineText}>
-                            This section provides historical reference information on the countries with which the United States has had diplomatic relations. The articles in this section are listed below. An asterisk indicates former countries, previously recognized by the United States, that have been dissolved or superseded by other states.
+                            {bidToUpdate?.general?.description}
                         </span>
                       </div>
                     </div>
@@ -78,6 +92,7 @@ const BidDetails = () => {
  
  
           {/* Product Information */}
+          {bidToUpdate?.additionalDetails?.map((item, index) => (
           <div className={styles.mainContainer}>
             <div className={styles.headingSecContainer}>
               <span className={styles.innerHead}>Product Information</span>
@@ -88,13 +103,13 @@ const BidDetails = () => {
                       <div className={styles.medicinesSection}>
                         <span className={styles.medicineHead}>Bid Type</span>
                         <span className={styles.medicineText}>
-                          Product
+                         {item.type}
                         </span> 
                       </div>
                       <div className={styles.medicinesSection}>
                         <span className={styles.medicineHead}>Item Name</span>
                         <span className={styles.medicineText}>
-                            Paracetamol
+                           {item.name}
                         </span> 
                       </div>
                     </div>
@@ -107,13 +122,13 @@ const BidDetails = () => {
                   <div className={styles.medicinesSection}>
                     <span className={styles.medicineHead}>Item Category</span>
                     <span className={styles.medicineText}>
-                        Alternative Medicines
+                        {item.category}
                     </span> 
                   </div>
                   <div className={styles.medicinesSection}>
                     <span className={styles.medicineHead}>Item Sub Category</span>
                     <span className={styles.medicineText}>
-                        Ayurvedic
+                        {item.subCategory}
                     </span> 
                   </div>
                 </div>
@@ -127,13 +142,13 @@ const BidDetails = () => {
                   <div className={styles.medicinesSection}>
                     <span className={styles.medicineHead}>UPC (Universal Product Code)</span>
                     <span className={styles.medicineText}>
-                        PARA120
+                        {item.upc}
                     </span> 
                   </div>
                   <div className={styles.medicinesSection}>
                     <span className={styles.medicineHead}>Brand Name</span>
                     <span className={styles.medicineText}>
-                        Cipla
+                        {item.brand}
                     </span> 
                   </div>
                 </div>
@@ -147,13 +162,13 @@ const BidDetails = () => {
                   <div className={styles.medicinesSection}>
                     <span className={styles.medicineHead}>Open For</span>
                     <span className={styles.medicineText}>
-                        Manufacturer
+                        {item.openFor}
                     </span> 
                   </div>
                   <div className={styles.medicinesSection}>
                     <span className={styles.medicineHead}>From Countries</span>
                     <span className={styles.medicineText}>
-                        Afghanistan
+                        {item.fromCountries?.join(", ")}
                     </span> 
                   </div>
                 </div>
@@ -167,13 +182,13 @@ const BidDetails = () => {
                   <div className={styles.medicinesSection}>
                     <span className={styles.medicineHead}>Country of Destination</span>
                     <span className={styles.medicineText}>
-                        Afghanistan
+                        {item.country}
                     </span> 
                   </div>
                   <div className={styles.medicinesSection}>
                     <span className={styles.medicineHead}>State of Destination</span>
                     <span className={styles.medicineText}>
-                        Afghanistan
+                       {item.state}
                     </span> 
                   </div>
                 </div>
@@ -187,13 +202,13 @@ const BidDetails = () => {
                   <div className={styles.medicinesSection}>
                     <span className={styles.medicineHead}>Quantity Required</span>
                     <span className={styles.medicineText}>
-                        10
+                        {item.quantity}
                     </span> 
                   </div>
                   <div className={styles.medicinesSection}>
                     <span className={styles.medicineHead}>Target Price</span>
                     <span className={styles.medicineText}>
-                        500
+                        {item.targetPrice} USD
                     </span> 
                   </div>
                 </div>
@@ -207,57 +222,56 @@ const BidDetails = () => {
                   <div className={styles.medicinesSection}>
                     <span className={styles.medicineHead}>Expected Delivery duration</span>
                     <span className={styles.medicineText}>
-                        10
+                        {item.targetPrice}
                     </span> 
                   </div>
                   <div className={styles.medicinesSection}>
                     <span className={styles.medicineHead}>Item Description</span>
                     <span className={styles.medicineText}>
-                        quantityFromquantityFromquantityFrom
+                        {item.description}
                     </span> 
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          ))}
         </div>
  
                   {/* Document */}
           <div className={styles.mainContainer}>
             <span className={styles.innerHead}>Bid Documents</span>
             <div className={styles.innerComplianceSection}>
-              <div className={styles.additionalUploadSection}>
+            {bidToUpdate?.general?.documents?.map((item, index) => {
+              return (
+                <div className={styles.additionalUploadSection} key={item?._id || index}>
+                  <div className={styles.additionalImageSection}>
+                    <RenderProductFiles files={[item?.document]} />
+                  </div>
+                  <span className={styles.medicineHead}>{item?.name}</span>
+                </div>
+              );
+            })}
+
+             
+              {/* <div className={styles.additionalUploadSection}>
                 <span className={styles.medicineHead}>Product Catalogue</span>
                 <div className={styles.additionalImageSection}>
-                    {/* <RenderProductFiles
-                      files={productDetail?.documents?.catalogue}
-                    /> */}
+                    
                   </div>
-              </div>
-              <div className={styles.additionalUploadSection}>
+              </div> */}
+              {/* <div className={styles.additionalUploadSection}>
                 <span className={styles.medicineHead}>Product Catalogue</span>
                 <div className={styles.additionalImageSection}>
-                    {/* <RenderProductFiles
-                      files={productDetail?.documents?.catalogue}
-                    /> */}
+
                   </div>
-              </div>
-              <div className={styles.additionalUploadSection}>
+              </div> */}
+              {/* <div className={styles.additionalUploadSection}>
                 <span className={styles.medicineHead}>Product Catalogue</span>
                 <div className={styles.additionalImageSection}>
-                    {/* <RenderProductFiles
-                      files={productDetail?.documents?.catalogue}
-                    /> */}
+                    
                   </div>
-              </div>
-              <div className={styles.additionalUploadSection}>
-                <span className={styles.medicineHead}>Product Catalogue</span>
-                <div className={styles.additionalImageSection}>
-                    {/* <RenderProductFiles
-                      files={productDetail?.documents?.catalogue}
-                    /> */}
-                  </div>
-              </div>
+              </div> */}
             </div>
           </div>
  
