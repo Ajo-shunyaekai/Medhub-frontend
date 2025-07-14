@@ -207,6 +207,7 @@ export const initialValues = {
   unit: "",
   unit_tax: "",
   tags: "",
+  buyersPreferredFrom: [],
   packageType: "",
   packageMaterial: "",
   packageMaterialIfOther: "",
@@ -392,6 +393,12 @@ export const addProductValidationSchema = Yup.object({
     "Minimum Order Quantity is required."
   ),
   tags: Yup.mixed().required("Tags are required."),
+  // buyersPreferredFrom: Yup.array().of(Yup.string().required("Buyers Prefered From is required.")),
+  buyersPreferredFrom: Yup.array()
+  .of(Yup.string())
+  .min(1, "Buyers Preferred From is required.")
+  .required("Buyers Preferred From is required."),
+
   model: Yup.string()
     .required("Part/Model Number is required.")
     .matches(
@@ -1369,6 +1376,12 @@ export const editProductValidationSchema = Yup.object({
     "Minimum Order Quantity is required."
   ),
   tags: Yup.mixed().required("Tags are required."),
+  // buyersPreferredFrom: Yup.array().of(Yup.string().required("Buyers Prefered From is required.")),
+  buyersPreferredFrom: Yup.array()
+  .of(Yup.string())
+  .min(1, "Buyers Preferred From is required.")
+  .required("Buyers Preferred From is required."),
+
   model: Yup.string()
     .required("Part/Model Number is required.")
     .matches(

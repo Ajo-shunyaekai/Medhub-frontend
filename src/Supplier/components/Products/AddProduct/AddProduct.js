@@ -73,6 +73,85 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
   );
 };
  
+
+const MultiSelectWithSelectAllOption = ({ children, ...props }) => {
+  const { data, selectProps } = props;
+
+  const isSelectAll = data.value === "Select All";
+  const allOptions = selectProps.options.filter(
+    (opt) => opt.value !== "Select All"
+  );
+  const selectedOptions = selectProps.value || [];
+
+  const isAllSelected =
+    selectedOptions.length === allOptions.length &&
+    allOptions.every((opt) =>
+      selectedOptions.some((selected) => selected.value === opt.value)
+    );
+
+  const isChecked = isSelectAll ? isAllSelected : props.isSelected;
+
+  return (
+    <components.Option {...props}>
+      <input type="checkbox" checked={isChecked} readOnly />
+      <label style={{ marginLeft: 8 }}>{children}</label>
+    </components.Option>
+  );
+};
+
+
+const MultiSelectWithSelectAllDropdown = ({
+  options,
+  value,
+  setFieldValue,
+  fieldName,
+}) => {
+  const isAllSelected = value?.length === options.length;
+
+  const handleChange = (selectedOptions) => {
+    const isSelectAllClicked = selectedOptions?.some(
+      (option) => option.value === "Select All"
+    );
+
+    if (isSelectAllClicked) {
+      if (isAllSelected) {
+        setFieldValue(fieldName, []);
+      } else {
+        const allValues = options.map((opt) => opt.value);
+        setFieldValue(fieldName, allValues);
+      }
+    } else {
+      const selectedValues = selectedOptions
+        ?.filter((opt) => opt.value !== "Select All")
+        .map((opt) => opt.value);
+      setFieldValue(fieldName, selectedValues);
+    }
+  };
+
+  const selectedOptionObjects = options.filter((opt) =>
+    value?.includes(opt.value)
+  );
+
+  const fullOptions = [
+    { label: "Select All", value: "Select All" },
+    ...options,
+  ];
+
+  return (
+    <Select
+      options={fullOptions}
+      isMulti
+      closeMenuOnSelect={false}
+      hideSelectedOptions={false}
+      components={{ Option: MultiSelectWithSelectAllOption }}
+      onChange={handleChange}
+      value={selectedOptionObjects}
+    />
+  );
+};
+
+
+
 const AddProduct = ({ placeholder }) => {
   const defaultValues = "Speak to the supplier for more info";
   const editorRef = useRef(null);
@@ -192,8 +271,15 @@ const AddProduct = ({ placeholder }) => {
   //   [placeholder]
   // );
  
+  // useEffect(() => {
+  //   const countryOptions = countryList().getData();
+  //   setCountries(countryOptions);
+  // }, []);
   useEffect(() => {
-    const countryOptions = countryList().getData();
+    const countryOptions = countryList().getData().map((c) => ({
+      label: c.label,
+      value: c.label,
+    }));
     setCountries(countryOptions);
   }, []);
   const categoryOptions = categoryArrays?.map((cat) => {
@@ -401,7 +487,6 @@ const AddProduct = ({ placeholder }) => {
                   if (item instanceof File) {
                     formData.append(key, item); // appends the file
                   } else {
-                    console.log('key',key,item)
                     formData.append(key, item); // appends non-file array items
                   }
                 });
@@ -768,6 +853,13 @@ const AddProduct = ({ placeholder }) => {
                         }}
                         onBlur={handleBlur} // Optional: add this if the component has a blur event
                       />
+
+                    {/* <MultiSelectWithSelectAllDropdown
+                             options={countries}
+                             value={values.countryAvailable}
+                             setFieldValue={setFieldValue}
+                             fieldName="countryAvailable"
+                            /> */}
  
                       {touched.countryAvailable && errors.countryAvailable && (
                         <span className={styles.error}>
@@ -979,6 +1071,39 @@ const AddProduct = ({ placeholder }) => {
                   </div>
                 </div>
                 <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Buyers Preferred From
+                      <span className={styles.labelStamp}>*</span>
+                    </label>
+ 
+                      {/* <MultiSelectDropdown
+                        options={countries}
+                        placeholderButtonLabel="Select Countries"
+                        name="countryAvailable"
+                        onChange={(selectedOptions) => {
+                          // Ensure we map selected options correctly
+                          const selectedValues = selectedOptions
+                            ? selectedOptions.map((option) => option.label)
+                            : [];
+                          setFieldValue("countryAvailable", selectedValues); // Update Formik value with the selected country values
+                        }}
+                        onBlur={handleBlur} // Optional: add this if the component has a blur event
+                      /> */}
+
+                         <MultiSelectWithSelectAllDropdown
+                             options={countries}
+                             value={values.buyersPreferredFrom}
+                             setFieldValue={setFieldValue}
+                             fieldName="buyersPreferredFrom"
+                          />
+ 
+                      {touched.buyersPreferredFrom && errors.buyersPreferredFrom && (
+                        <span className={styles.error}>
+                          {errors.buyersPreferredFrom}
+                        </span>
+                      )}
+                    </div>
+                <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Tags
                     <span className={styles.labelStamp}>*</span>
@@ -1000,6 +1125,8 @@ const AddProduct = ({ placeholder }) => {
                     <span className={styles.error}>{errors.tags}</span>
                   )}
                 </div>
+
+                
                 <div className={styles.productTextContainer}>
                   <label className={styles.formLabel}>
                     Product Description

@@ -35,7 +35,7 @@ const isImageExtension = (fileName) => {
 const RenderProductFiles = ({ files }) => {
   const [open, setOpen] = useState(false);
   const [pdfToPreview, setPdfToPreview] = useState(null);
-  console.log('pdfToPreview',pdfToPreview)
+  
   const baseUrl = process.env.REACT_APP_SERVER_URL?.endsWith("/")
     ? process.env.REACT_APP_SERVER_URL
     : `${process.env.REACT_APP_SERVER_URL}/`;

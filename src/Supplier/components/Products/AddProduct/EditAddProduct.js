@@ -71,6 +71,81 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
   );
 };
 
+const MultiSelectWithSelectAllOption = ({ children, ...props }) => {
+  const { data, selectProps } = props;
+
+  const isSelectAll = data.value === "Select All";
+  const allOptions = selectProps.options.filter(
+    (opt) => opt.value !== "Select All"
+  );
+  const selectedOptions = selectProps.value || [];
+
+  const isAllSelected =
+    selectedOptions.length === allOptions.length &&
+    allOptions.every((opt) =>
+      selectedOptions.some((selected) => selected.value === opt.value)
+    );
+
+  const isChecked = isSelectAll ? isAllSelected : props.isSelected;
+
+  return (
+    <components.Option {...props}>
+      <input type="checkbox" checked={isChecked} readOnly />
+      <label style={{ marginLeft: 8 }}>{children}</label>
+    </components.Option>
+  );
+};
+
+const MultiSelectWithSelectAllDropdown = ({
+  options,
+  value,
+  setFieldValue,
+  fieldName,
+}) => {
+  const isAllSelected = value?.length === options.length;
+
+  const handleChange = (selectedOptions) => {
+    const isSelectAllClicked = selectedOptions?.some(
+      (option) => option.value === "Select All"
+    );
+
+    if (isSelectAllClicked) {
+      if (isAllSelected) {
+        setFieldValue(fieldName, []);
+      } else {
+        const allValues = options.map((opt) => opt.value);
+        setFieldValue(fieldName, allValues);
+      }
+    } else {
+      const selectedValues = selectedOptions
+        ?.filter((opt) => opt.value !== "Select All")
+        .map((opt) => opt.value);
+      setFieldValue(fieldName, selectedValues);
+    }
+  };
+
+  const selectedOptionObjects = options.filter((opt) =>
+    value?.includes(opt.value)
+  );
+
+  const fullOptions = [
+    { label: "Select All", value: "Select All" },
+    ...options,
+  ];
+
+  return (
+    <Select
+      options={fullOptions}
+      isMulti
+      closeMenuOnSelect={false}
+      hideSelectedOptions={false}
+      components={{ Option: MultiSelectWithSelectAllOption }}
+      onChange={handleChange}
+      value={selectedOptionObjects}
+    />
+  );
+};
+
 // End Image Container Section
 const EditAddProduct = ({ placeholder }) => {
   const { id, supplierId } = useParams();
@@ -341,10 +416,19 @@ const EditAddProduct = ({ placeholder }) => {
   //   [formik?.values?.description]
   // );
 
+  // useEffect(() => {
+  //   const countryOptions = countryList().getData();
+  //   setCountries(countryOptions);
+  // }, []);
+
   useEffect(() => {
-    const countryOptions = countryList().getData();
+    const countryOptions = countryList().getData().map((c) => ({
+      label: c.label,
+      value: c.label,
+    }));
     setCountries(countryOptions);
   }, []);
+  
   const categoryOptions = categoryArrays?.map((cat) => {
     return {
       value: cat.schema,
@@ -429,6 +513,7 @@ const EditAddProduct = ({ placeholder }) => {
           general?.tags?.length > 1
             ? general?.tags?.join(", ")
             : general?.tags || "",
+        buyersPreferredFrom: general?.buyersPreferredFrom || [],    
         manufacturer: general?.manufacturer || "",
         aboutManufacturer: general?.aboutManufacturer || "",
         countryOfOrigin: general?.countryOfOrigin || "",
@@ -581,7 +666,6 @@ const EditAddProduct = ({ placeholder }) => {
   };
 
   const handlePackageSelection = (index, type, setFieldValue) => {
-    console.log('type',type)
     setFieldValue(`stockedInDetails[${index}].type`, type);
   };
 
@@ -690,7 +774,6 @@ const EditAddProduct = ({ placeholder }) => {
             if (Object.keys(formik?.errors).length === 0) {
               formik?.handleSubmit();
             } else {
-              console.log('formik?.errors',formik?.errors)
               toast.error("Please fill the required fields correctly.");
             }
           }}
@@ -980,6 +1063,13 @@ const EditAddProduct = ({ placeholder }) => {
                       onBlur={formik?.handleBlur} // Optional: add this if the component has a blur event
                     />
 
+                          {/* <MultiSelectWithSelectAllDropdown
+                             options={countries}
+                             value={formik?.values.countryAvailable}
+                             setFieldValue={formik?.setFieldValue}
+                             fieldName="countryAvailable"
+                            /> */}
+
                     {formik?.touched?.countryAvailable &&
                       formik?.errors?.countryAvailable && (
                         <span className={styles?.error}>
@@ -1237,6 +1327,40 @@ const EditAddProduct = ({ placeholder }) => {
                 )}
               </div> */}
 
+              <div className={styles.productContainer}>
+                      <label className={styles.formLabel}>
+                        Buyers Preferred From
+                        <span className={styles.labelStamp}>*</span>
+                      </label>
+ 
+                      {/* <MultiSelectDropdown
+                        options={countries}
+                        placeholderButtonLabel="Select Countries"
+                        name="countryAvailable"
+                        onChange={(selectedOptions) => {
+                          // Ensure we map selected options correctly
+                          const selectedValues = selectedOptions
+                            ? selectedOptions.map((option) => option.label)
+                            : [];
+                          setFieldValue("countryAvailable", selectedValues); // Update Formik value with the selected country values
+                        }}
+                        onBlur={handleBlur} // Optional: add this if the component has a blur event
+                      /> */}
+
+                            <MultiSelectWithSelectAllDropdown
+                             options={countries}
+                             value={formik?.values.buyersPreferredFrom}
+                             setFieldValue={formik?.setFieldValue}
+                             fieldName="buyersPreferredFrom"
+                            />
+ 
+                      {formik?.touched.buyersPreferredFrom && formik?.errors.buyersPreferredFrom && (
+                        <span className={styles.error}>
+                          {formik?.errors.buyersPreferredFrom}
+                        </span>
+                      )}
+              </div>
+
               <div className={styles?.productContainer}>
                 <label className={styles?.formLabel}>
                   Tags
@@ -1260,6 +1384,8 @@ const EditAddProduct = ({ placeholder }) => {
                   <span className={styles?.error}>{formik?.errors?.tags}</span>
                 )}
               </div>
+
+              
               <div className={styles?.productTextContainer}>
                 <label className={styles?.formLabel}>
                   Product Description
@@ -1728,7 +1854,6 @@ const EditAddProduct = ({ placeholder }) => {
                   key={`stocked_${index}`}
                   className={styles?.stockedContainer}
                 >
-                  {console.log('stockedInDetails',stockedInDetails)}
                   <div className={styles?.stockedSection}>
                     <div className={styles?.StockedDiv}>
                       <label className={styles?.formLabel}>
@@ -2155,7 +2280,6 @@ const EditAddProduct = ({ placeholder }) => {
 
           {/* Start Product document*/}
           <div className={styles?.section}>
-            {console.log('ormik?.values?.catalogue?.length',formik?.values?.catalogue?.length)}
             <span className={styles?.formHead}>Product Documents</span>
             <div className={styles?.formSection}>
               <div className={styles?.productContainer}>

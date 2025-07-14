@@ -17,6 +17,12 @@ const productValidationSchema = Yup.object({
   model: Yup.string().required("Part/Model Number is required."),
   minimumPurchaseUnit:  Yup.string().required("Minimum Order Quantity is required."),
   tags: Yup.string().required("Tags are required."),
+  // buyersPreferredFrom: Yup.array().of(Yup.string().required("Buyers Prefered From is required.")),
+  buyersPreferredFrom: Yup.array()
+  .of(Yup.string())
+  .min(1, "Buyers Preferred From is required.")
+  .required("Buyers Preferred From is required."),
+
   image: Yup.array()
     .max(4, "You can upload up to 4 images.")
     .of(
@@ -221,6 +227,7 @@ const productValidationSchema = Yup.object({
     is: "secondary",
     then: Yup.string().required("Condition is required."),
   }),
+  
   // minimumPurchaseUnit: Yup.string().when("market", {
   //   is: "secondary",
   //   then: Yup.string().required("Minimum Purchase Unit is required."),
