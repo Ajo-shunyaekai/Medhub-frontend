@@ -402,7 +402,8 @@ const SearchProductDetails = () => {
                   </span>
                 </div>
               )}
-              {productDetail?.[productDetail?.category]?.anotherCategory && (
+              {(productDetail?.[productDetail?.category]?.anotherCategory ||
+                productDetail?.anotherCategory) && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>
                     Product Sub Category(Level3)

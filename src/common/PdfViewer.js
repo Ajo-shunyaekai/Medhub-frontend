@@ -11,7 +11,6 @@ GlobalWorkerOptions.workerSrc = `${process.env.PUBLIC_URL}/pdf.worker.min.js`;
 
 const PdfViewerModal = ({ isOpen, onClose, fileUrl }) => {
   const [numPages, setNumPages] = useState(null);
-
   const onDocumentLoadSuccess = ({ numPages }) => {
     setNumPages(numPages);
   };

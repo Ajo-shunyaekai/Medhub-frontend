@@ -55,7 +55,7 @@
     position: fixed;
     width: 100%;
     max-width: 82%;
-    z-index: 99999999;
+    /* z-index: 99999999; */
 }
 .mainManufacturerContainer{
     background-color: #fff;
@@ -183,6 +183,15 @@
     gap: 10px;
     width: 100%;
 }
+
+.toolTip {
+    max-width: 40rem;
+    cursor: pointer;
+    z-index: 20;
+    max-height: 40rem;
+    white-space: normal;
+    word-wrap: break-word;
+  }
 
 .innerInventorySection {
     display: flex;

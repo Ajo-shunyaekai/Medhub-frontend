@@ -11,6 +11,9 @@ import CloseIcon from "../../../assets/images/Icon.svg";
 import moment from "moment";
 import { borderBottom } from "@mui/system";
 import Accordion from "react-bootstrap/Accordion";
+import PdfViewerModal from "../../../../common/PdfViewer";
+import { Tooltip } from 'react-tooltip';
+import 'react-tooltip/dist/react-tooltip.css'
 
 Modal.setAppElement("#root");
 
@@ -28,14 +31,24 @@ const ProductDetails = () => {
   const dispatch = useDispatch();
   const { productDetail } = useSelector((state) => state?.productReducer || {});
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [pdfToPreview, setPdfToPreview] = useState(null);
   const pdfFile =
     productDetail?.secondaryMarketDetails?.purchaseInvoiceFile?.[0] ||
     productDetail?.data?.[0]?.secondaryMarketDetails?.purchaseInvoiceFile?.[0];
+  // const pdfUrl = pdfFile
+  //   ? pdfFile?.startsWith("http")
+  //     ? pdfFile
+  //     : `${process.env.REACT_APP_SERVER_URL}/uploads/products/${pdfFile}`
+  //   : "https://morth.nic.in/sites/default/files/dd12-13_0.pdf";
+
   const pdfUrl = pdfFile
-    ? pdfFile?.startsWith("http")
-      ? pdfFile
-      : `${process.env.REACT_APP_SERVER_URL}/uploads/products/${pdfFile}`
-    : "https://morth.nic.in/sites/default/files/dd12-13_0.pdf";
+  ? (() => {
+      const filename = pdfFile?.split("/")?.pop();
+      return `${process.env.REACT_APP_SERVER_URL.replace(/\/$/, "")}/pdf-proxy/${filename}`;
+    })()
+  : "https://morth.nic.in/sites/default/files/dd12-13_0.pdf";
+
 
   useEffect(() => {
     if (id) {
@@ -70,10 +83,17 @@ const ProductDetails = () => {
   };
   const openPurchaseInvoice = () => {
     if (pdfFile) {
-      window.open(pdfUrl, "_blank");
+      // window.open(pdfUrl, "_blank");
+      setPdfToPreview(pdfUrl);
+      setOpen(true);
     } else {
       alert("No purchase invoice file available.");
     }
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setPdfToPreview(null);
   };
 
   // For new image thumbnail
@@ -246,8 +266,8 @@ const ProductDetails = () => {
                 </div>
               )}
               {/* {productDetail?.[productDetail?.category]?.anotherCategory && ( */}
-              {productDetail?.[productDetail?.category]?.anotherCategory ||
-                (productDetail?.anotherCategory && (
+              {(productDetail?.[productDetail?.category]?.anotherCategory ||
+                productDetail?.anotherCategory) && (
                   <div className={styles.medicinesSection}>
                     <span className={styles.medicineHead}>
                       Product Sub Category(Level3)
@@ -258,7 +278,7 @@ const ProductDetails = () => {
                         ?.anotherCategory || productDetail?.anotherCategory}
                     </span>
                   </div>
-                ))}
+                )}
               {productDetail?.general?.form && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Type/Form</span>
@@ -347,8 +367,8 @@ const ProductDetails = () => {
             </div>
             <div className={styles.mainSection}>
               {/* {productDetail?.[productDetail?.category]?.subCategory && ( */}
-              {productDetail?.[productDetail?.category]?.subCategory ||
-                (productDetail?.subCategory && (
+              {(productDetail?.[productDetail?.category]?.subCategory ||
+                productDetail?.subCategory) && (
                   <div className={styles.medicinesSection}>
                     <span className={styles.medicineHead}>
                       Product Sub Category
@@ -359,7 +379,7 @@ const ProductDetails = () => {
                         productDetail?.subCategory}
                     </span>
                   </div>
-                ))}
+                )}
               {productDetail?.general?.model && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Part/Model Number</span>
@@ -424,6 +444,27 @@ const ProductDetails = () => {
                     </span>
                   </div>
                 ))}
+
+              {productDetail?.general?.buyersPreferredFrom && (
+                <div className={styles.medicinesSection}>
+                  <span className={styles.medicineHead}>Buyers Preferred From</span>
+                  <span className={styles.medicineText}>
+                    {/* {productDetail?.general?.buyersPreferredFrom?.join(", ")} */}
+                    {productDetail.general.buyersPreferredFrom.length <= 25 ? (
+                        productDetail.general.buyersPreferredFrom.join(", ")
+                      ) : (
+                        <>
+                          {productDetail.general.buyersPreferredFrom.slice(0, 25).join(", ")}
+                          <span>{' ... '}</span>
+                          <span id="supplier-tooltip" style={{ textDecoration: 'underline'}}>{'view more'}</span>
+                          <Tooltip anchorId="supplier-tooltip" place="bottom" className={styles.toolTip} delayHide={500}
+                            content={productDetail.general.buyersPreferredFrom.slice(25, ).join(', ')}
+                          />
+                        </>
+                      )}
+                  </span>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -894,7 +935,12 @@ const ProductDetails = () => {
                         className={styles.complianceSection}
                         key={item._id || index}
                       >
-                        <RenderProductFiles files={item.file} />
+                        <RenderProductFiles 
+                        // files={item.file} 
+                        files={
+                          Array.isArray(item.file) ? item.file : [item.file]
+                        }
+                        />
                         <span className={styles.medicineContent}>
                           {formatDate(item.date)}
                         </span>
@@ -1081,7 +1127,7 @@ const ProductDetails = () => {
         {/* End Manufacturer section */}
 
         {/* Modal for PDF Preview */}
-        <Modal
+        {/* <Modal
           isOpen={modalIsOpen}
           onRequestClose={() => setModalIsOpen(false)}
           contentLabel="Purchase Invoice"
@@ -1095,7 +1141,6 @@ const ProductDetails = () => {
             <img className={styles.closeImg} src={CloseIcon} alt="closeIcon" />
           </div>
 
-          {/* PDF display with loading and error handling */}
           {pdfFile ? (
             <iframe
               src={pdfUrl}
@@ -1108,7 +1153,9 @@ const ProductDetails = () => {
           ) : (
             <p>Loading PDF or file not found...</p>
           )}
-        </Modal>
+        </Modal> */}
+
+        <PdfViewerModal isOpen={open} onClose={handleClose} fileUrl={pdfToPreview} />
       </div>
     </div>
   );
