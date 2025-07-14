@@ -1,5 +1,5 @@
 // components/common/PdfViewerModal.js
-import React from 'react';
+import React, { useState } from 'react';
 import Modal from 'react-modal';
 import { Document, Page } from 'react-pdf';
 import { GlobalWorkerOptions } from 'pdfjs-dist/build/pdf';
@@ -10,6 +10,11 @@ import CloseIcon from '@mui/icons-material/Close';
 GlobalWorkerOptions.workerSrc = `${process.env.PUBLIC_URL}/pdf.worker.min.js`;
 
 const PdfViewerModal = ({ isOpen, onClose, fileUrl }) => {
+  const [numPages, setNumPages] = useState(null);
+
+  const onDocumentLoadSuccess = ({ numPages }) => {
+    setNumPages(numPages);
+  };
   return (
     <Modal
       isOpen={isOpen}
@@ -36,10 +41,18 @@ const PdfViewerModal = ({ isOpen, onClose, fileUrl }) => {
                       </span>
         <Document
           file={{ url: fileUrl, withCredentials: false }}
+          onLoadSuccess={onDocumentLoadSuccess}
           onLoadError={(err) => console.error("PDF Load Error:", err)}
           onSourceError={(err) => console.error("PDF Source Error:", err)}
         >
-          <Page pageNumber={1} width={480} />
+          {/* <Page pageNumber={1} width={480} /> */}
+          {Array.from(new Array(numPages), (el, index) => (
+            <Page
+              key={`page_${index + 1}`}
+              pageNumber={index + 1}
+              width={480}
+            />
+          ))}
         </Document>
         </>
       ) : (

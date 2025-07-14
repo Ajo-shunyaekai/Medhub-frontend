@@ -281,14 +281,20 @@ export const useFileUpload = (
               oldFieldName == "imageFront" ||
               oldFieldName == "imageBack" ||
               oldFieldName == "imageSide" ||
-              oldFieldName == "imageClosure"
+              oldFieldName == "imageClosure" || 
+              oldFieldName == "catalogue" || 
+              oldFieldName == "specificationSheet" || 
+              oldFieldName == "guidelinesFile" 
                 ? 1
                 : maxFiles
             } ${
               (oldFieldName == "imageFront" ||
               oldFieldName == "imageBack" ||
               oldFieldName == "imageSide" ||
-              oldFieldName == "imageClosure"
+              oldFieldName == "imageClosure" || 
+              oldFieldName == "catalogue" || 
+              oldFieldName == "specificationSheet" || 
+              oldFieldName == "guidelinesFile" 
                 ? 1
                 : maxFiles) != 1
                 ? "files"

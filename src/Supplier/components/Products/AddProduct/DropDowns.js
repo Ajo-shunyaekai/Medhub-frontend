@@ -111,7 +111,6 @@ export const strengthOptions = [
   { value: "per mL", label: "per mL" },
   { value: "per vial", label: "per vial" },
   { value: "per ampoule", label: "per ampoule" },
-  { value: "per mL", label: "per mL" },
   { value: "% concentration", label: "% concentration" },
   { value: "mg/g", label: "mg/g" },
 ]?.sort((a, b) => a?.label?.localeCompare(b?.label));
@@ -208,6 +207,7 @@ export const initialValues = {
   unit: "",
   unit_tax: "",
   tags: "",
+  buyersPreferredFrom: [],
   packageType: "",
   packageMaterial: "",
   packageMaterialIfOther: "",
@@ -393,6 +393,12 @@ export const addProductValidationSchema = Yup.object({
     "Minimum Order Quantity is required."
   ),
   tags: Yup.mixed().required("Tags are required."),
+  // buyersPreferredFrom: Yup.array().of(Yup.string().required("Buyers Prefered From is required.")),
+  buyersPreferredFrom: Yup.array()
+  .of(Yup.string())
+  .min(1, "Buyers Preferred From is required.")
+  .required("Buyers Preferred From is required."),
+
   model: Yup.string()
     .required("Part/Model Number is required.")
     .matches(
@@ -505,18 +511,18 @@ export const addProductValidationSchema = Yup.object({
       // type: Yup.string().required("Type is required."),
     })
   ),
-  categoryDetails: Yup.array().of(
-    Yup.object({
-      name: Yup.string().required("Parameter name is required."),
-      fieldValue: Yup.mixed().required("Parameter description is required."),
-    })
-  ),
-  faqs: Yup.array().of(
-    Yup.object({
-      ques: Yup.string().required("Question is required."),
-      ans: Yup.string().required("Answer is required."),
-    })
-  ),
+  // categoryDetails: Yup.array().of(
+  //   Yup.object({
+  //     name: Yup.string().required("Parameter name is required."),
+  //     fieldValue: Yup.mixed().required("Parameter description is required."),
+  //   })
+  // ),
+  // faqs: Yup.array().of(
+  //   Yup.object({
+  //     ques: Yup.string().required("Question is required."),
+  //     ans: Yup.string().required("Answer is required."),
+  //   })
+  // ),
   // .min(1, "At least one product is required."), // Optional: You can enforce at least one item in the array
   productPricingDetails: Yup.array()
     .of(
@@ -775,6 +781,9 @@ export const addProductValidationSchema = Yup.object({
           "OT Tables",
           "Endoscopy",
           "Ultrasonic Devices",
+          "Nerve Stimulator",
+          "Air Treatment",
+          "Waste Management"
         ],
         "Invalid Subcategory"
       ),
@@ -832,6 +841,13 @@ export const addProductValidationSchema = Yup.object({
       is: "MedicalConsumablesAndDisposables",
       then: Yup.string().oneOf(
         [
+          "ECG Electrode",
+          "ECG Consumables",
+          "Ultrasound Consumables",
+          "CTG Paper",
+          "Infusion Pressure Bag",
+          "Connecting Cable",
+          "PFT Mouthpiece",
           "Bandages, Gauze, & Wound Dressings",
           "Gloves, Masks, & Protective gear",
           "Sterilization Products",
@@ -1360,6 +1376,12 @@ export const editProductValidationSchema = Yup.object({
     "Minimum Order Quantity is required."
   ),
   tags: Yup.mixed().required("Tags are required."),
+  // buyersPreferredFrom: Yup.array().of(Yup.string().required("Buyers Prefered From is required.")),
+  buyersPreferredFrom: Yup.array()
+  .of(Yup.string())
+  .min(1, "Buyers Preferred From is required.")
+  .required("Buyers Preferred From is required."),
+
   model: Yup.string()
     .required("Part/Model Number is required.")
     .matches(
@@ -1486,18 +1508,18 @@ export const editProductValidationSchema = Yup.object({
       // type: Yup.string().required("Type is required."),
     })
   ),
-  categoryDetails: Yup.array().of(
-    Yup.object({
-      name: Yup.string().required("Parameter name is required."),
-      fieldValue: Yup.mixed().required("Parameter description is required."),
-    })
-  ),
-  faqs: Yup.array().of(
-    Yup.object({
-      ques: Yup.string().required("Question is required."),
-      ans: Yup.string().required("Answer is required."),
-    })
-  ),
+  // categoryDetails: Yup.array().of(
+  //   Yup.object({
+  //     name: Yup.string().required("Parameter name is required."),
+  //     fieldValue: Yup.mixed().required("Parameter description is required."),
+  //   })
+  // ),
+  // faqs: Yup.array().of(
+  //   Yup.object({
+  //     ques: Yup.string().required("Question is required."),
+  //     ans: Yup.string().required("Answer is required."),
+  //   })
+  // ),
   //   .min(1, "At least one product is required."), // Optional: You can enforce at least one item in the array
   productPricingDetails: Yup.array()
     .of(
@@ -1767,6 +1789,9 @@ export const editProductValidationSchema = Yup.object({
           "OT Tables",
           "Endoscopy",
           "Ultrasonic Devices",
+          "Nerve Stimulator",
+          "Air Treatment",
+          "Waste Management"
         ],
         "Invalid Subcategory"
       ),
@@ -1824,6 +1849,13 @@ export const editProductValidationSchema = Yup.object({
       is: "MedicalConsumablesAndDisposables",
       then: Yup.string().oneOf(
         [
+          "ECG Electrode",
+          "ECG Consumables",
+          "Ultrasound Consumables",
+          "CTG Paper",
+          "Infusion Pressure Bag",
+          "Connecting Cable",
+          "PFT Mouthpiece",
           "Bandages, Gauze, & Wound Dressings",
           "Gloves, Masks, & Protective gear",
           "Sterilization Products",

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import "../../../assets/style/react-input-phone.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import RichTextEditor from "./ProductDescriptionEditor";
 import Select, { components } from "react-select";
 import countryList from "react-select-country-list";
@@ -72,12 +72,92 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
     />
   );
 };
+ 
+
+const MultiSelectWithSelectAllOption = ({ children, ...props }) => {
+  const { data, selectProps } = props;
+
+  const isSelectAll = data.value === "Select All";
+  const allOptions = selectProps.options.filter(
+    (opt) => opt.value !== "Select All"
+  );
+  const selectedOptions = selectProps.value || [];
+
+  const isAllSelected =
+    selectedOptions.length === allOptions.length &&
+    allOptions.every((opt) =>
+      selectedOptions.some((selected) => selected.value === opt.value)
+    );
+
+  const isChecked = isSelectAll ? isAllSelected : props.isSelected;
+
+  return (
+    <components.Option {...props}>
+      <input type="checkbox" checked={isChecked} readOnly />
+      <label style={{ marginLeft: 8 }}>{children}</label>
+    </components.Option>
+  );
+};
+
+
+const MultiSelectWithSelectAllDropdown = ({
+  options,
+  value,
+  setFieldValue,
+  fieldName,
+}) => {
+  const isAllSelected = value?.length === options.length;
+
+  const handleChange = (selectedOptions) => {
+    const isSelectAllClicked = selectedOptions?.some(
+      (option) => option.value === "Select All"
+    );
+
+    if (isSelectAllClicked) {
+      if (isAllSelected) {
+        setFieldValue(fieldName, []);
+      } else {
+        const allValues = options.map((opt) => opt.value);
+        setFieldValue(fieldName, allValues);
+      }
+    } else {
+      const selectedValues = selectedOptions
+        ?.filter((opt) => opt.value !== "Select All")
+        .map((opt) => opt.value);
+      setFieldValue(fieldName, selectedValues);
+    }
+  };
+
+  const selectedOptionObjects = options.filter((opt) =>
+    value?.includes(opt.value)
+  );
+
+  const fullOptions = [
+    { label: "Select All", value: "Select All" },
+    ...options,
+  ];
+
+  return (
+    <Select
+      options={fullOptions}
+      isMulti
+      closeMenuOnSelect={false}
+      hideSelectedOptions={false}
+      components={{ Option: MultiSelectWithSelectAllOption }}
+      onChange={handleChange}
+      value={selectedOptionObjects}
+    />
+  );
+};
+
+
 
 const AddProduct = ({ placeholder }) => {
   const defaultValues = "Speak to the supplier for more info";
   const editorRef = useRef(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { supplierId } = useParams();
   const [loading, setLoading] = useState(false);
   const productValidationSchema = addProductValidationSchema;
   const [productType, setProductType] = useState(null);
@@ -190,9 +270,16 @@ const AddProduct = ({ placeholder }) => {
   //   }),
   //   [placeholder]
   // );
-
+ 
+  // useEffect(() => {
+  //   const countryOptions = countryList().getData();
+  //   setCountries(countryOptions);
+  // }, []);
   useEffect(() => {
-    const countryOptions = countryList().getData();
+    const countryOptions = countryList().getData().map((c) => ({
+      label: c.label,
+      value: c.label,
+    }));
     setCountries(countryOptions);
   }, []);
   const categoryOptions = categoryArrays?.map((cat) => {
@@ -238,19 +325,33 @@ const AddProduct = ({ placeholder }) => {
   const handleBulkUpload = () => {
     if (selectedFile) {
       const bulkFormData = new FormData();
-      bulkFormData.append("supplier_id", localStorage?.getItem("_id"));
+      if(supplierId) {
+        bulkFormData.append("supplier_id", supplierId);
+      } else {
+        bulkFormData.append("supplier_id", localStorage?.getItem("_id"));
+      }
       bulkFormData.append("csvfile", selectedFile);
 
       dispatch(previewBulkProducts(bulkFormData)).then((response) => {
         if (response?.meta.requestStatus === "fulfilled") {
-          navigate("/supplier/preview-file");
+          if(supplierId) {
+            navigate(`/admin/supplier/${supplierId}/preview-file`);
+          } else {
+            navigate("/supplier/preview-file");
+          }
+          
         }
       });
     }
   };
 
   const handleCancel = () => {
-    navigate("/supplier/product");
+    if(supplierId) {
+      navigate(`/admin/supplier/${supplierId}/products/new`);
+    } else {
+      navigate("/supplier/product")
+    }
+    ;
   };
 
   // Handlers for Stocked in Details
@@ -333,7 +434,7 @@ const AddProduct = ({ placeholder }) => {
 
   // Handlers for FAQs
   const addFAQs = (setFieldValue, values) => {
-    setFieldValue("faqs", [...values.faqs, { ques: "", ans: "", type: "Box" }]);
+    setFieldValue("faqs", [...values.faqs, { ques: "", ans: "" }]);
   };
 
   const handleFaqsQuesChange = (index, e, setFieldValue) => {
@@ -394,8 +495,13 @@ const AddProduct = ({ placeholder }) => {
               }
             }
           });
-          formData.append("supplier_id", localStorage?.getItem("_id"));
-
+          if(supplierId) {
+            formData.append("supplier_id", supplierId);
+          } else {
+            formData.append("supplier_id", localStorage?.getItem("_id"));
+          }
+          // formData.append("supplier_id", localStorage?.getItem("_id"));
+ 
           const stockedInDetailsUpdated = JSON.stringify(
             values?.stockedInDetails?.map((section) => ({
               country: section?.country || "",
@@ -495,32 +601,46 @@ const AddProduct = ({ placeholder }) => {
               formData.append("categoryDetailsFile", file?.fieldValue)
             );
           }
-
+ 
+          // const faqsUpdated = JSON.stringify(
+          //   values?.faqs?.map((section) => ({
+          //     ques: section?.ques || "",
+          //     ans: section?.ans || "",
+          //   })) || []
+          // );
+          const faqsFiltered = values?.faqs?.filter(
+            (section) => section?.ques?.trim() || section?.ans?.trim()
+          ) || [];
+          
           const faqsUpdated = JSON.stringify(
-            values?.faqs?.map((section) => ({
+            faqsFiltered.map((section) => ({
               ques: section?.ques || "",
               ans: section?.ans || "",
-            })) || []
+            }))
           );
           formData.append("cNCFileNDate", cNCFileNDateUpdated);
           categoryDetailsUpdated?.length > 0 &&
             formData.append("categoryDetails", categoryDetailsUpdated);
-          values?.faqs?.length > 0 && formData.append("faqs", faqsUpdated);
-          formData.append(
-            "tags",
-            values?.tags?.includes(",")
-              ? values?.tags?.split(",")
-              : values?.tags
-          );
+          // values?.faqs?.length > 0 && formData.append("faqs", faqsUpdated);
+          formData.append("faqs", faqsUpdated.length > 0 ? faqsUpdated : JSON.stringify([]));
+          // formData.append(
+          //   "tags",
+          //   values?.tags?.includes(",")
+          //     ? values?.tags?.split(",")
+          //     : values?.tags
+          // );
 
           dispatch(addProduct(formData)).then((response) => {
             if (response?.meta.requestStatus === "fulfilled") {
-              navigate("/supplier/product"); // Change this to your desired route
+              if(supplierId) {
+                navigate(`/admin/supplier/${supplierId}/products/new`);
+              } else {
+                navigate("/supplier/product");
+              }
               setLoading(false);
             }
             setLoading(false);
           });
-          setLoading(false);
         }}
       >
         {({
@@ -734,6 +854,13 @@ const AddProduct = ({ placeholder }) => {
                         onBlur={handleBlur} // Optional: add this if the component has a blur event
                       />
 
+                    {/* <MultiSelectWithSelectAllDropdown
+                             options={countries}
+                             value={values.countryAvailable}
+                             setFieldValue={setFieldValue}
+                             fieldName="countryAvailable"
+                            /> */}
+ 
                       {touched.countryAvailable && errors.countryAvailable && (
                         <span className={styles.error}>
                           {errors.countryAvailable}
@@ -944,6 +1071,39 @@ const AddProduct = ({ placeholder }) => {
                   </div>
                 </div>
                 <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Buyers Preferred From
+                      <span className={styles.labelStamp}>*</span>
+                    </label>
+ 
+                      {/* <MultiSelectDropdown
+                        options={countries}
+                        placeholderButtonLabel="Select Countries"
+                        name="countryAvailable"
+                        onChange={(selectedOptions) => {
+                          // Ensure we map selected options correctly
+                          const selectedValues = selectedOptions
+                            ? selectedOptions.map((option) => option.label)
+                            : [];
+                          setFieldValue("countryAvailable", selectedValues); // Update Formik value with the selected country values
+                        }}
+                        onBlur={handleBlur} // Optional: add this if the component has a blur event
+                      /> */}
+
+                         <MultiSelectWithSelectAllDropdown
+                             options={countries}
+                             value={values.buyersPreferredFrom}
+                             setFieldValue={setFieldValue}
+                             fieldName="buyersPreferredFrom"
+                          />
+ 
+                      {touched.buyersPreferredFrom && errors.buyersPreferredFrom && (
+                        <span className={styles.error}>
+                          {errors.buyersPreferredFrom}
+                        </span>
+                      )}
+                    </div>
+                <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Tags
                     <span className={styles.labelStamp}>*</span>
@@ -965,6 +1125,8 @@ const AddProduct = ({ placeholder }) => {
                     <span className={styles.error}>{errors.tags}</span>
                   )}
                 </div>
+
+                
                 <div className={styles.productTextContainer}>
                   <label className={styles.formLabel}>
                     Product Description
@@ -1138,7 +1300,7 @@ const AddProduct = ({ placeholder }) => {
                             <div className={styles.StockedDiv}>
                               <label className={styles.formLabel}>
                                 Parameter Name
-                                <span className={styles.labelStamp}>*</span>
+                                {/* <span className={styles.labelStamp}>*</span> */}
                               </label>
                               <Select
                                 className={styles.formSelect}
@@ -1181,7 +1343,7 @@ const AddProduct = ({ placeholder }) => {
                               <div className={styles.StockedDivQuantity}>
                                 <label className={styles.formLabel}>
                                   Parameter Description
-                                  <span className={styles.labelStamp}>*</span>
+                                  {/* <span className={styles.labelStamp}>*</span> */}
                                 </label>
                                 <div className={styles.quantitySelector}>
                                   <div className={styles.inputGroup}>
@@ -1300,7 +1462,7 @@ const AddProduct = ({ placeholder }) => {
                               <div className={styles.StockedDivQuantity}>
                                 <label className={styles.formLabel}>
                                   Parameter Description
-                                  <span className={styles.labelStamp}>*</span>
+                                  {/* <span className={styles.labelStamp}>*</span> */}
                                 </label>
                                 <div className={styles.quantitySelector}>
                                   <div className={styles.inputGroup}>
@@ -2032,7 +2194,7 @@ const AddProduct = ({ placeholder }) => {
                     acceptTypes={{
                       "application/pdf": [],
                     }}
-                    maxFiles={4}
+                    maxFiles={1}
                     error={
                       touched.guidelinesFile && errors.guidelinesFile
                         ? errors.guidelinesFile
@@ -2184,7 +2346,7 @@ const AddProduct = ({ placeholder }) => {
                           <div className={styles.StockedDiv2}>
                             <label className={styles.formLabel}>
                               Question
-                              <span className={styles.labelStamp}>*</span>
+                              {/* <span className={styles.labelStamp}>*</span> */}
                             </label>
                             <input
                               type="text"
@@ -2209,7 +2371,7 @@ const AddProduct = ({ placeholder }) => {
                           <div className={styles.StockedDiv2}>
                             <label className={styles.formLabel}>
                               Answer
-                              <span className={styles.labelStamp}>*</span>
+                              {/* <span className={styles.labelStamp}>*</span> */}
                             </label>
                             <div className={styles.quantitySelector}>
                               <div className={styles.inputGroup2}>

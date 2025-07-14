@@ -24,7 +24,7 @@ const formatDate = (dateString) => {
 
 // Helper function to get subcategory dynamically for any category
 const getSubCategory = (medicine) => {
-  return medicine[medicine.category]?.subCategory || "N/A";
+  return medicine[medicine.category]?.subCategory || medicine?.subCategory || "N/A";
 };
 
 const ProductList = ({

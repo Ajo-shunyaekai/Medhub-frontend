@@ -164,21 +164,21 @@
   gap: 10px;
   width: 24.1%;
 }
-
+ 
 .productContainer2 {
   display: flex;
   /* flex-direction: column; */
   gap: 10px;
   width: 24.1%;
 }
-
+ 
 .productContainer3 {
   display: flex;
   flex-direction: column;
   gap: 10px;
   width: 47.5%;
 }
-
+ 
 .ImageproductContainer {
   display: flex;
   gap: 10px;
