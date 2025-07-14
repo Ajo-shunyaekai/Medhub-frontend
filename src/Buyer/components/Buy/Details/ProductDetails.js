@@ -23,6 +23,7 @@ import { updateInquiryCartCount } from "../../../../redux/reducers/inquirySlice"
 import { postRequestWithToken } from "../../../../api/Requests";
 import Loader from "../../SharedComponents/Loader/Loader";
 import Accordion from "react-bootstrap/Accordion";
+import PdfViewerModal from "../../../../common/PdfViewer";
 
 Modal.setAppElement("#root");
 
@@ -54,15 +55,24 @@ const ProductDetails = () => {
   const dispatch = useDispatch();
   const { productDetail } = useSelector((state) => state?.productReducer || {});
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [loading, setLoading] = useState(true); // Initialize loading as true
+  const [loading, setLoading] = useState(true); 
+  const [open, setOpen] = useState(false);
+  const [pdfToPreview, setPdfToPreview] = useState(null);
   const pdfFile =
     productDetail?.secondaryMarketDetails?.purchaseInvoiceFile?.[0] ||
     productDetail?.data?.[0]?.secondaryMarketDetails?.purchaseInvoiceFile?.[0];
+  // const pdfUrl = pdfFile
+  //   ? pdfFile?.startsWith("http")
+  //     ? pdfFile
+  //     : `${process.env.REACT_APP_SERVER_URL}/uploads/products/${pdfFile}`
+  //   : "https://morth.nic.in/sites/default/files/dd12-13_0.pdf";
+
   const pdfUrl = pdfFile
-    ? pdfFile?.startsWith("http")
-      ? pdfFile
-      : `${process.env.REACT_APP_SERVER_URL}/Uploads/products/${pdfFile}`
-    : "https://morth.nic.in/sites/default/files/dd12-13_0.pdf";
+  ? (() => {
+      const filename = pdfFile?.split("/")?.pop();
+      return `${process.env.REACT_APP_SERVER_URL.replace(/\/$/, "")}/pdf-proxy/${filename}`;
+    })()
+  : "https://morth.nic.in/sites/default/files/dd12-13_0.pdf";
 
   const fallbackImageUrl =
     "https://medhub.shunyaekai.com/uploads/fallbackImage.jpg";
@@ -240,8 +250,19 @@ const ProductDetails = () => {
   }, [id]);
 
   // Function to open PDF in a new window
-  const openInvoiceInNewWindow = () => {
-    window.open(pdfUrl, "_blank");
+  const openPurchaseInvoice = () => {
+    if (pdfFile) {
+      // window.open(pdfUrl, "_blank");
+      setPdfToPreview(pdfUrl);
+      setOpen(true);
+    } else {
+      alert("No purchase invoice file available.");
+    }
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setPdfToPreview(null);
   };
 
   // For new image thumbnail
@@ -371,7 +392,7 @@ const ProductDetails = () => {
                 <div className={styles.mainPurchaseSection}>
                   <button
                     className={styles.PurcahseButton}
-                    onClick={openInvoiceInNewWindow} // Updated to open in new window
+                    onClick={openPurchaseInvoice} // Updated to open in new window
                   >
                     View Purchase Invoice
                   </button>
@@ -555,6 +576,15 @@ const ProductDetails = () => {
                   <span className={styles.medicineHead}>Total Quantity</span>
                   <span className={styles.medicineText}>
                     {productDetail?.general?.quantity}
+                  </span>
+                </div>
+              )}
+
+             {productDetail?.general?.buyersPreferredFrom && (
+                <div className={styles.medicinesSection}>
+                  <span className={styles.medicineHead}>Buyers Preferred From</span>
+                  <span className={styles.medicineText}>
+                    {productDetail?.general?.buyersPreferredFrom}
                   </span>
                 </div>
               )}
@@ -1357,6 +1387,8 @@ const ProductDetails = () => {
           heading="Similar Products"
         />
       </div>
+
+      <PdfViewerModal isOpen={open} onClose={handleClose} fileUrl={pdfToPreview} />
     </div>
   );
 };
