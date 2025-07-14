@@ -62,13 +62,13 @@
   gap: 10px;
   position: sticky;
   top: 0%;
-  z-index: 999999;
+  z-index: 10;
 }
 .mainFixedContainer {
   position: fixed;
   width: 100%;
   max-width: 82%;
-  z-index: 99999999;
+  /* z-index: 99999999; */
 }
 .mainManufacturerContainer {
   margin-bottom: 20rem;
@@ -189,6 +189,15 @@
   flex-direction: column;
   gap: 10px;
   width: 100%;
+}
+
+.toolTip {
+  max-width: 40rem;
+  cursor: pointer;
+  z-index: 20;
+  max-height: 40rem;
+  white-space: normal;
+  word-wrap: break-word;
 }
 
 .innerInventorySection {
