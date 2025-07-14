@@ -24,6 +24,8 @@ import { postRequestWithToken } from "../../../../api/Requests";
 import Loader from "../../SharedComponents/Loader/Loader";
 import Accordion from "react-bootstrap/Accordion";
 import PdfViewerModal from "../../../../common/PdfViewer";
+import { Tooltip } from 'react-tooltip';
+import 'react-tooltip/dist/react-tooltip.css'
 
 Modal.setAppElement("#root");
 
@@ -584,7 +586,19 @@ const ProductDetails = () => {
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Buyers Preferred From</span>
                   <span className={styles.medicineText}>
-                    {productDetail?.general?.buyersPreferredFrom}
+                    {/* {productDetail?.general?.buyersPreferredFrom} */}
+                    {productDetail.general.buyersPreferredFrom.length <= 25 ? (
+                      productDetail.general.buyersPreferredFrom.join(", ")
+                    ) : (
+                      <>
+                        {productDetail.general.buyersPreferredFrom.slice(0, 25).join(", ")}
+                        <span>{' ... '}</span>
+                        <span id="buyer-tooltip" style={{ textDecoration: 'underline'}}>{'view more'}</span>
+                        <Tooltip anchorId="buyer-tooltip" place="bottom" className={styles.toolTip} delayHide={500}
+                          content={productDetail.general.buyersPreferredFrom.slice(25, ).join(', ')}
+                        />
+                      </>
+                    )}
                   </span>
                 </div>
               )}

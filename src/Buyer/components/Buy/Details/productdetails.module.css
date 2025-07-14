@@ -125,7 +125,7 @@ img {
   gap: 10px;
   position: sticky;
   top: 0;
-  z-index: 1000; /* Keeps it above other elements */
+  z-index: 10;
 }
 
 .ProductMainContainer2 {
@@ -138,7 +138,7 @@ img {
   gap: 10px;
   position: sticky;
   top: 0;
-  z-index: 1000; /* Keeps it above other elements */
+  /* z-index: 1000; */
 }
 
 .container {
@@ -187,14 +187,14 @@ img {
   flex-direction: column;
   gap: 10px;
   position: relative; /* Prevents unintended overlap */
-  z-index: 1;
+  /* z-index: 1; */
 }
 
 .mainFixedContainer {
   position: fixed;
   width: 100%;
   max-width: 82%;
-  z-index: 99999999;
+  /* z-index: 99999999; */
 }
 
 .mainManufacturerContainer {
@@ -319,6 +319,15 @@ img {
 .medicineDescriptionContent img {
   width: 180px;
   height: auto;
+}
+
+.toolTip {
+  max-width: 40rem;
+  cursor: pointer;
+  z-index: 20;
+  max-height: 40rem;
+  white-space: normal;
+  word-wrap: break-word;
 }
 
 .innerMainSection {
