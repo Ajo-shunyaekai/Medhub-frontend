@@ -372,6 +372,9 @@ const CreateBid = () => {
                                   preview={section?.preview}
                                   fileIndex={index}
                                   isEdit={false}
+                                  acceptTypes={{
+                                    "application/pdf": [],
+                                  }}
                                 />
                               )}
                             </Field>

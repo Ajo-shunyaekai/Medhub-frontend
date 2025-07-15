@@ -162,7 +162,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 24.1%;
+  width: 32%;
 }
  
 .productContainer2 {
@@ -200,7 +200,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 98%;
+  width: calc(96% + 20px);
 }
  
 .productInnerContainer {
@@ -282,7 +282,7 @@
 .compliancesContainer {
   /* display: flex; */
   /* flex-direction: column; */
-  /* gap: 10px; */
+  /* gap: 0px 0px 10px 0px; */
   width: 100%;
 }
  
@@ -499,6 +499,7 @@
 }
  
 .previewContainer {
+  margin-top: 6px;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -718,6 +719,11 @@
   .productContainer {
     width: 32%;
   }
+ 
+  .productTextContainer {
+    width: calc(64% +10px);
+  }
+ 
   .formCloseSection {
     top: 58%;
     right: -23px;
