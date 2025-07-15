@@ -82,8 +82,8 @@ const useFileUpload = (
   return { filesMerged, getRootProps, getInputProps, isDragActive, removeFile };
 };
 
-// ComplianceNCertification Component
-const ComplianceNCertification = ({
+// DocumentUpload Component
+const DocumentUpload = ({
   setFieldValue,
   fieldInputName,
   initialValues,
@@ -95,7 +95,7 @@ const ComplianceNCertification = ({
   selectedFile,
   fileIndex,
 }) => {
-  const tooltipId = `tooltip-${label.replace(/\s+/g, "-")?.toLowerCase()}`;
+  const tooltipId = `tooltip-${label?.replace(/\s+/g, "-")?.toLowerCase()}`;
   const tooltipContent = tooltip || "Default tooltip text";
 
   // Call the useFileUpload hook with acceptTypes and maxFiles
@@ -118,7 +118,7 @@ const ComplianceNCertification = ({
 
   return (
     <div className={styles.compliancesContainer}>
-      {showLabel && <label className={styles.formLabel}>{label}</label>}
+      {/* {showLabel && <label className={styles.formLabel}>{label}</label>} */}
       <div className={styles.tooltipContainer}>
         <div {...fileUpload?.getRootProps({ className: styles.uploadBox })}>
           <input {...fileUpload?.getInputProps()} />
@@ -194,4 +194,4 @@ const ComplianceNCertification = ({
   );
 };
 
-export default ComplianceNCertification;
+export default DocumentUpload;
