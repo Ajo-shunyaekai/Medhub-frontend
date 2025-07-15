@@ -1030,7 +1030,7 @@ const CreateBid = () => {
                               )}
                           </div>
  
-                          {/* ----- Expected Delivery duration ------ */}
+                          {/* ----- Expected Delivery Duration ------ */}
                           <div className={styles.productContainer}>
                             <label className={styles.formLabel}>
                               Expected Delivery Duration
@@ -1143,11 +1143,7 @@ const CreateBid = () => {
               >
                 {loading ? <div className="loading-spinner"></div> : "Submit"}
               </button>
-              <button
-                className={styles.buttonCancel}
-                type="button"
-                onClick={handleCancel}
-              >
+              <button className={styles.buttonCancel} onClick={handleCancel}>
                 Cancel
               </button>
             </div>
