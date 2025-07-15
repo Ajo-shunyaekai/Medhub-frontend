@@ -105,6 +105,10 @@ const CreateBid = () => {
     setCountries(options);
   }, []);
 
+  const handleCancel = () => {
+    navigate('/buyer/bid')
+  }
+
   /** ---------- RENDER -------------- */
   return (
     <div className={styles.container}>
@@ -1135,7 +1139,7 @@ const CreateBid = () => {
               <button
                 className={styles.buttonCancel}
                 type="button"
-                onClick={() => {}}
+                onClick={handleCancel}
               >
                 Cancel
               </button>

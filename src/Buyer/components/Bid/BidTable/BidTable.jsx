@@ -33,7 +33,9 @@ const BidTable = ({
     },
     {
       name: "Status",
-      selector: (row) => row?.status,
+      selector: (row) => row?.status
+                        ? row.status.charAt(0).toUpperCase() + row.status.slice(1)
+                        : "",
       sortable: true,
       width: "200px",
     },
