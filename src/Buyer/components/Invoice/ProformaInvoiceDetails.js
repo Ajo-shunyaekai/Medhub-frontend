@@ -174,8 +174,7 @@ function ProformaDetailsPage() {
               lineHeight: "24px",
               color: "#5E676F",
               backgroundColor: "#FFFFFF",
-              boxShadow:
-                "0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d",
+              boxShadow: "0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d",
             }}
           >
             <div
@@ -313,7 +312,7 @@ function ProformaDetailsPage() {
                                 <p
                                   style={{
                                     fontSize: "13px",
-                                   color: "#5e676f",
+                                    color: "#5e676f",
                                   }}
                                 >
                                   {orderDetails.supplier_email}
@@ -363,7 +362,10 @@ function ProformaDetailsPage() {
                             </div>
                             {orderDetails?.buyer_mobile && (
                               <td
-                                style={{ display: "flex", justifyContent: "end" }}
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "end",
+                                }}
                               >
                                 <p
                                   style={{
@@ -377,12 +379,15 @@ function ProformaDetailsPage() {
                             )}
                             {orderDetails?.buyer_email && (
                               <td
-                                style={{ display: "flex", justifyContent: "end" }}
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "end",
+                                }}
                               >
                                 <p
                                   style={{
                                     fontSize: "13px",
-                                   color: "#5e676f",
+                                    color: "#5e676f",
                                   }}
                                 >
                                   {orderDetails.buyer_email}
@@ -500,7 +505,10 @@ function ProformaDetailsPage() {
                                             ? item.medicine_name
                                             : ""}{" "}
                                           {item?.medicine_details?.strength &&
-                                            `(${item.medicine_details.strength || "150mg"})`}
+                                            `(${
+                                              item.medicine_details.strength ||
+                                              "150mg"
+                                            })`}
                                         </p>
                                       )}
                                     </td>
@@ -679,8 +687,7 @@ function ProformaDetailsPage() {
                                         <p
                                           style={{
                                             fontSize: "14px",
-                                            
-                                            color: "#5e676f",
+                                            color: "#99a0ac",
                                           }}
                                         >
                                           {bankDetails.bank_name}
@@ -701,6 +708,7 @@ function ProformaDetailsPage() {
                                             fontSize: "14px",
                                             fontWeight: "500",
                                             width: "100px",
+                                            color: "#99a0ac",
                                           }}
                                         >
                                           Account No :
@@ -708,7 +716,7 @@ function ProformaDetailsPage() {
                                         <p
                                           style={{
                                             fontSize: "14px",
-                                            color: "#5e676f",
+                                            color: "#99a0ac",
                                           }}
                                         >
                                           {bankDetails.account_number}
@@ -729,6 +737,7 @@ function ProformaDetailsPage() {
                                             fontSize: "14px",
                                             fontWeight: "500",
                                             width: "100px",
+                                            color: "#99a0ac",
                                           }}
                                         >
                                           Sort Code :
@@ -736,7 +745,7 @@ function ProformaDetailsPage() {
                                         <p
                                           style={{
                                             fontSize: "14px",
-                                           color: "#5e676f",
+                                            color: "#99a0ac",
                                           }}
                                         >
                                           {bankDetails.sort_code}
@@ -779,7 +788,8 @@ function ProformaDetailsPage() {
                                                 width: "100px",
                                               }}
                                             >
-                                              {orderDetails.deposit_requested} USD
+                                              {orderDetails.deposit_requested}{" "}
+                                              USD
                                             </p>
                                           </tr>
                                         )}
@@ -856,38 +866,37 @@ function ProformaDetailsPage() {
                       <div
                         style={{
                           fontSize: "13px",
-                         color: "#5e676f",
+                          color: "#99a0ac",
                           lineHeight: "20px",
                           marginTop: "4px",
                         }}
                       >
-                        {orderDetails?.enquiry?.payment_terms?.length > 0 ? (
-                          orderDetails.enquiry.payment_terms.map((data, i) => (
-                            data && (
-                              <p
-                                key={i}
-                                style={{
-                                  position: "relative",
-                                  paddingLeft: "20px",
-                                }}
-                              >
-                                <span
-                                  style={{
-                                    position: "absolute",
-                                    left: "0",
-                                    top: "0",
-                                    fontSize: "22px",
-                                  }}
-                                >
-                                  •
-                                </span>
-                                {data || "50% advance"}
-                              </p>
+                        {orderDetails?.enquiry?.payment_terms?.length > 0
+                          ? orderDetails.enquiry.payment_terms.map(
+                              (data, i) =>
+                                data && (
+                                  <p
+                                    key={i}
+                                    style={{
+                                      position: "relative",
+                                      paddingLeft: "20px",
+                                    }}
+                                  >
+                                    <span
+                                      style={{
+                                        position: "absolute",
+                                        left: "0",
+                                        top: "0",
+                                        fontSize: "22px",
+                                      }}
+                                    >
+                                      •
+                                    </span>
+                                    {data || "50% advance"}
+                                  </p>
+                                )
                             )
-                          ))
-                        ) : (
-                          ""
-                        )}
+                          : ""}
                       </div>
                     </td>
                   </tr>

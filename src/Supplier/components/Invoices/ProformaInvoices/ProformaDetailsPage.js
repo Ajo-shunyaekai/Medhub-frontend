@@ -278,7 +278,7 @@ function ProformaDetailsPage() {
                               <div
                                 style={{
                                   fontSize: "13px",
-                                   color: "#555555",
+                                  color: "#555555",
                                 }}
                               >
                                 <p>{supplierAddressLine1}</p>
@@ -295,7 +295,7 @@ function ProformaDetailsPage() {
                                 <p
                                   style={{
                                     fontSize: "13px",
-                                   color: "#555555",
+                                    color: "#555555",
                                   }}
                                 >
                                   {orderDetails.supplier_mobile}
@@ -364,12 +364,15 @@ function ProformaDetailsPage() {
                             )}
                             {orderDetails?.buyer_mobile && (
                               <td
-                                style={{ display: "flex", justifyContent: "end" }}
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "end",
+                                }}
                               >
                                 <p
                                   style={{
                                     fontSize: "13px",
-                                   color: "#555555",
+                                    color: "#555555",
                                   }}
                                 >
                                   {orderDetails.buyer_mobile}
@@ -378,7 +381,10 @@ function ProformaDetailsPage() {
                             )}
                             {orderDetails?.buyer_email && (
                               <td
-                                style={{ display: "flex", justifyContent: "end" }}
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "end",
+                                }}
                               >
                                 <p
                                   style={{
@@ -678,6 +684,7 @@ function ProformaDetailsPage() {
                                           <p
                                             style={{
                                               fontSize: "14px",
+                                              color: "#99a0ac",
                                             }}
                                           >
                                             {bankDetails.bankName}
@@ -705,7 +712,7 @@ function ProformaDetailsPage() {
                                           <p
                                             style={{
                                               fontSize: "14px",
-                                              color: "#555555",
+                                              color: "#99a0ac",
                                             }}
                                           >
                                             {bankDetails.accountNo}
@@ -733,7 +740,7 @@ function ProformaDetailsPage() {
                                           <p
                                             style={{
                                               fontSize: "14px",
-                                              color: "#555555",
+                                              color: "#99a0ac",
                                             }}
                                           >
                                             {bankDetails.sortCode}
@@ -854,7 +861,7 @@ function ProformaDetailsPage() {
                         <div
                           style={{
                             fontSize: "13px",
-                           color: "#555555",
+                            color: "#99a0ac",
                             lineHeight: "20px",
                             marginTop: "4px",
                           }}
