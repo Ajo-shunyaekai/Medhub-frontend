@@ -16,7 +16,7 @@ const MySuppliers = () => {
   const [mySuppliers, setMySuppliers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState();
-  const [viewMode, setViewMode] = useState('list'); // Default to 'list'
+  const [viewMode, setViewMode] = useState("list"); // Default to 'list'
   const itemsPerPage = 4;
 
   const handlePageChange = (pageNumber) => {
@@ -56,7 +56,7 @@ const MySuppliers = () => {
         <div className={styles.container}>
           <div className={styles.section}>
             <span className={styles.mainHead}>My Supplier</span>
- <SupplierCard
+            <SupplierCard
               mySuppliers={mySuppliers}
               loading={loading}
               currentPage={currentPage}

@@ -59,7 +59,7 @@ function BuyerProformaDetails() {
   const grandTotal = totalAmount + totalTaxAmount;
 
   const handleDownload = () => {
-     setDownloadLoader(true);
+    setDownloadLoader(true);
     const element = document.getElementById("invoice-content");
     const options = {
       margin: 0.5,
@@ -69,7 +69,9 @@ function BuyerProformaDetails() {
       jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
     };
     html2pdf().from(element).set(options).save();
-    setTimeout(()=>{ setDownloadLoader(false) },2000);
+    setTimeout(() => {
+      setDownloadLoader(false);
+    }, 2000);
   };
 
   // Function to format address in two lines
@@ -84,20 +86,17 @@ function BuyerProformaDetails() {
       country,
       pincode,
     } = address;
-    const line1Parts = [
-      company_reg_address,
-      locality,
-      land_mark,
-    ].filter(Boolean);
+    const line1Parts = [company_reg_address, locality, land_mark].filter(
+      Boolean
+    );
     const line2Parts = [city, state, country, pincode].filter(Boolean);
-    return [
-      line1Parts.join(", "),
-      line2Parts.join(", "),
-    ];
+    return [line1Parts.join(", "), line2Parts.join(", ")];
   };
 
   const buyerAddress = formatAddress(orderDetails?.buyer_registered_address);
-  const supplierAddress = formatAddress(orderDetails?.supplier_registered_address);
+  const supplierAddress = formatAddress(
+    orderDetails?.supplier_registered_address
+  );
 
   return (
     <div className="invoice-template-design">
@@ -107,7 +106,7 @@ function BuyerProformaDetails() {
             Download
           </div> */}
           <Button onClick={handleDownload} loading={downloadLoader}>
-              Download
+            Download
           </Button>
         </div>
         <div id="invoice-content">
@@ -468,7 +467,8 @@ function BuyerProformaDetails() {
                                           fontSize: "13px",
                                         }}
                                       >
-                                        {item?.counter_price || item?.target_price}{" "}
+                                        {item?.counter_price ||
+                                          item?.target_price}{" "}
                                         USD
                                       </p>
                                     </td>
@@ -604,6 +604,7 @@ function BuyerProformaDetails() {
                                           style={{
                                             fontSize: "14px",
                                             fontWeight: "500",
+                                            color: "#99a0ac",
                                           }}
                                         >
                                           {orderDetails?.bank_name}
@@ -630,6 +631,7 @@ function BuyerProformaDetails() {
                                           style={{
                                             fontSize: "14px",
                                             fontWeight: "500",
+                                            color: "#99a0ac",
                                           }}
                                         >
                                           {orderDetails?.account_number}
@@ -749,30 +751,32 @@ function BuyerProformaDetails() {
                           fontWeight: "500",
                           lineHeight: "20px",
                           marginTop: "4px",
-                          color: "#616161",
+                          color: "#99a0ac",
                         }}
                       >
-                        {orderDetails?.enquiry?.payment_terms?.map((data, i) => (
-                          <p
-                            style={{
-                              position: "relative",
-                              paddingLeft: "20px",
-                            }}
-                            key={i}
-                          >
-                            <span
+                        {orderDetails?.enquiry?.payment_terms?.map(
+                          (data, i) => (
+                            <p
                               style={{
-                                position: "absolute",
-                                left: "0",
-                                top: "0",
-                                fontSize: "22px",
+                                position: "relative",
+                                paddingLeft: "20px",
                               }}
+                              key={i}
                             >
-                              •
-                            </span>
-                            {data}
-                          </p>
-                        ))}
+                              <span
+                                style={{
+                                  position: "absolute",
+                                  left: "0",
+                                  top: "0",
+                                  fontSize: "22px",
+                                }}
+                              >
+                                •
+                              </span>
+                              {data}
+                            </p>
+                          )
+                        )}
                       </div>
                     </td>
                   </tr>
