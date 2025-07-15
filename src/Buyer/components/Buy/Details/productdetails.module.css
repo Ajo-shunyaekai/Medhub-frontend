@@ -714,7 +714,7 @@ img {
 }
 
 .formclose {
-   box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
   padding: 4px 8px;
   font-size: 13px;
   border-radius: 4px;
@@ -1002,7 +1002,7 @@ img {
   font-weight: 500 !important;
 }
 
-.faq-cover{
+.faq-cover {
   font-size: 0.825rem;
   color: #99a0ac;
 }
@@ -1019,7 +1019,7 @@ img {
   font-size: 0.825rem !important;
   font-weight: 500 !important;
   color: #5e676f !important;
-} 
+}
 
 /*
 .modalOverlay {
@@ -1126,7 +1126,7 @@ img {
   color: #000;
 }
   */
- 
+
 .imageContainer2 {
   width: 40%;
   padding: 10px;
@@ -1140,7 +1140,7 @@ img {
   justify-content: center;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
- 
+
 .thumbnailRow2 {
   /* display: flex; */
   /* gap: 10px; */
@@ -1158,7 +1158,7 @@ img {
   width: 60%;
   flex-wrap: wrap;
 }
- 
+
 .thumbnail {
   display: flex;
   gap: 16px;
@@ -1170,7 +1170,7 @@ img {
   width: 80px;
   height: 80px;
 }
- 
+
 .thumbnailImage2 {
   width: 60px;
   height: 60px;
@@ -1180,7 +1180,7 @@ img {
   cursor: pointer;
   transition: border 0.2s ease;
 }
- 
+
 .thumbnailImage2:hover {
   border-color: #007bff;
 }
@@ -1193,4 +1193,36 @@ img {
   cursor: pointer;
   transition: border 0.2s ease;
   border-color: #007bff;
+}
+
+.additionalUploadSection34 {
+  /* flex: 0 0 calc((100% - 40px) / 3);
+  max-width: calc((100% - 40px) / 3); */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.medicineHead34 {
+  font-size: 0.825rem;
+  font-weight: 500;
+  width: 250px;
+  color: #5e676f;
+}
+
+.additionalImageSection34 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.medicineContent34 {
+  font-size: 0.825rem;
+  color: #99a0ac;
+  font-weight: 500;
+  word-wrap: break-word;
+  white-space: normal;
+  overflow-wrap: break-word;
+  width: 100%;
 }

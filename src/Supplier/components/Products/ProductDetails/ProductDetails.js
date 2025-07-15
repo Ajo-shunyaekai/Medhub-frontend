@@ -12,8 +12,8 @@ import moment from "moment";
 import { borderBottom } from "@mui/system";
 import Accordion from "react-bootstrap/Accordion";
 import PdfViewerModal from "../../../../common/PdfViewer";
-import { Tooltip } from 'react-tooltip';
-import 'react-tooltip/dist/react-tooltip.css'
+import { Tooltip } from "react-tooltip";
+import "react-tooltip/dist/react-tooltip.css";
 
 Modal.setAppElement("#root");
 
@@ -43,12 +43,14 @@ const ProductDetails = () => {
   //   : "https://morth.nic.in/sites/default/files/dd12-13_0.pdf";
 
   const pdfUrl = pdfFile
-  ? (() => {
-      const filename = pdfFile?.split("/")?.pop();
-      return `${process.env.REACT_APP_SERVER_URL.replace(/\/$/, "")}/pdf-proxy/${filename}`;
-    })()
-  : "https://morth.nic.in/sites/default/files/dd12-13_0.pdf";
-
+    ? (() => {
+        const filename = pdfFile?.split("/")?.pop();
+        return `${process.env.REACT_APP_SERVER_URL.replace(
+          /\/$/,
+          ""
+        )}/pdf-proxy/${filename}`;
+      })()
+    : "https://morth.nic.in/sites/default/files/dd12-13_0.pdf";
 
   useEffect(() => {
     if (id) {
@@ -268,17 +270,17 @@ const ProductDetails = () => {
               {/* {productDetail?.[productDetail?.category]?.anotherCategory && ( */}
               {(productDetail?.[productDetail?.category]?.anotherCategory ||
                 productDetail?.anotherCategory) && (
-                  <div className={styles.medicinesSection}>
-                    <span className={styles.medicineHead}>
-                      Product Sub Category(Level3)
-                    </span>
-                    <span className={styles.medicineText}>
-                      {/* {productDetail?.[productDetail?.category]?.anotherCategory}{" "} */}
-                      {productDetail?.[productDetail?.category]
-                        ?.anotherCategory || productDetail?.anotherCategory}
-                    </span>
-                  </div>
-                )}
+                <div className={styles.medicinesSection}>
+                  <span className={styles.medicineHead}>
+                    Product Sub Category(Level3)
+                  </span>
+                  <span className={styles.medicineText}>
+                    {/* {productDetail?.[productDetail?.category]?.anotherCategory}{" "} */}
+                    {productDetail?.[productDetail?.category]
+                      ?.anotherCategory || productDetail?.anotherCategory}
+                  </span>
+                </div>
+              )}
               {productDetail?.general?.form && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Type/Form</span>
@@ -369,17 +371,17 @@ const ProductDetails = () => {
               {/* {productDetail?.[productDetail?.category]?.subCategory && ( */}
               {(productDetail?.[productDetail?.category]?.subCategory ||
                 productDetail?.subCategory) && (
-                  <div className={styles.medicinesSection}>
-                    <span className={styles.medicineHead}>
-                      Product Sub Category
-                    </span>
-                    <span className={styles.medicineText}>
-                      {/* {productDetail?.[productDetail?.category]?.subCategory}{" "} */}
-                      {productDetail?.[productDetail?.category]?.subCategory ||
-                        productDetail?.subCategory}
-                    </span>
-                  </div>
-                )}
+                <div className={styles.medicinesSection}>
+                  <span className={styles.medicineHead}>
+                    Product Sub Category
+                  </span>
+                  <span className={styles.medicineText}>
+                    {/* {productDetail?.[productDetail?.category]?.subCategory}{" "} */}
+                    {productDetail?.[productDetail?.category]?.subCategory ||
+                      productDetail?.subCategory}
+                  </span>
+                </div>
+              )}
               {productDetail?.general?.model && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Part/Model Number</span>
@@ -447,21 +449,36 @@ const ProductDetails = () => {
 
               {productDetail?.general?.buyersPreferredFrom && (
                 <div className={styles.medicinesSection}>
-                  <span className={styles.medicineHead}>Buyers Preferred From</span>
+                  <span className={styles.medicineHead}>
+                    Buyers Preferred From
+                  </span>
                   <span className={styles.medicineText}>
                     {/* {productDetail?.general?.buyersPreferredFrom?.join(", ")} */}
                     {productDetail.general.buyersPreferredFrom.length <= 25 ? (
-                        productDetail.general.buyersPreferredFrom.join(", ")
-                      ) : (
-                        <>
-                          {productDetail.general.buyersPreferredFrom.slice(0, 25).join(", ")}
-                          <span>{' ... '}</span>
-                          <span id="supplier-tooltip" style={{ textDecoration: 'underline'}}>{'view more'}</span>
-                          <Tooltip anchorId="supplier-tooltip" place="bottom" className={styles.toolTip} delayHide={500}
-                            content={productDetail.general.buyersPreferredFrom.slice(25, ).join(', ')}
-                          />
-                        </>
-                      )}
+                      productDetail.general.buyersPreferredFrom.join(", ")
+                    ) : (
+                      <>
+                        {productDetail.general.buyersPreferredFrom
+                          .slice(0, 25)
+                          .join(", ")}
+                        <span>{" ... "}</span>
+                        <span
+                          id="supplier-tooltip"
+                          style={{ textDecoration: "underline" }}
+                        >
+                          {"view more"}
+                        </span>
+                        <Tooltip
+                          anchorId="supplier-tooltip"
+                          place="bottom"
+                          className={styles.toolTip}
+                          delayHide={500}
+                          content={productDetail.general.buyersPreferredFrom
+                            .slice(25)
+                            .join(", ")}
+                        />
+                      </>
+                    )}
                   </span>
                 </div>
               )}
@@ -535,28 +552,54 @@ const ProductDetails = () => {
                 : ""}
             </span>
             <div className={styles.innerComplianceSection}>
-              {productDetail?.categoryDetails?.map((item, index) => (
-                <div className={styles.additionalUploadSection}>
-                  <span className={styles.medicineHead}>
-                    {toTitleCase(item?.name)}
-                  </span>
-                  <div className={styles.additionalImageSection}>
-                    {/* {productDetail?.categoryDetails?.map((item, index) => ( */}
-                    <div
-                      className={styles.complianceSection}
-                      key={item._id || index}
-                    >
-                      {item?.type == "file" ? (
-                        <RenderProductFiles files={[item.fieldValue]} />
-                      ) : (
-                        <span className={styles.medicineContent}>
-                          {item.fieldValue}
-                        </span>
-                      )}
+              {productDetail?.categoryDetails
+                ?.filter((item) => item?.type != "textarea")
+                ?.map((item, index) => (
+                  <div className={styles.additionalUploadSection}>
+                    <span className={styles.medicineHead}>
+                      {toTitleCase(item?.name)}
+                    </span>
+                    <div className={styles.additionalImageSection}>
+                      {/* {productDetail?.categoryDetails?.map((item, index) => ( */}
+                      <div
+                        className={styles.complianceSection}
+                        key={item._id || index}
+                      >
+                        {item?.type == "file" ? (
+                          <RenderProductFiles files={[item.fieldValue]} />
+                        ) : (
+                          <span className={styles.medicineContent}>
+                            {item.fieldValue}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              {productDetail?.categoryDetails
+                ?.filter((item) => item?.type == "textarea")
+                ?.map((item, index) => (
+                  <div className={styles.additionalUploadSection34}>
+                    <span className={styles.medicineHead34}>
+                      {toTitleCase(item?.name)}
+                    </span>
+                    <div className={styles.additionalImageSection34}>
+                      {/* {productDetail?.categoryDetails?.map((item, index) => ( */}
+                      <div
+                        className={styles.complianceSection34}
+                        key={item._id || index}
+                      >
+                        {item?.type == "file" ? (
+                          <RenderProductFiles files={[item.fieldValue]} />
+                        ) : (
+                          <span className={styles.medicineContent34}>
+                            {item.fieldValue}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
             </div>
             <div
               className={styles.innerComplianceSection}
@@ -935,11 +978,11 @@ const ProductDetails = () => {
                         className={styles.complianceSection}
                         key={item._id || index}
                       >
-                        <RenderProductFiles 
-                        // files={item.file} 
-                        files={
-                          Array.isArray(item.file) ? item.file : [item.file]
-                        }
+                        <RenderProductFiles
+                          // files={item.file}
+                          files={
+                            Array.isArray(item.file) ? item.file : [item.file]
+                          }
                         />
                         <span className={styles.medicineContent}>
                           {formatDate(item.date)}
@@ -1155,7 +1198,11 @@ const ProductDetails = () => {
           )}
         </Modal> */}
 
-        <PdfViewerModal isOpen={open} onClose={handleClose} fileUrl={pdfToPreview} />
+        <PdfViewerModal
+          isOpen={open}
+          onClose={handleClose}
+          fileUrl={pdfToPreview}
+        />
       </div>
     </div>
   );
