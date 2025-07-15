@@ -189,7 +189,13 @@ function ProformaDetailsPage() {
                       <p style={{ fontSize: "15px", fontWeight: "500" }}>
                         Invoice Number :{" "}
                       </p>
-                      <p style={{ fontSize: "15px", fontWeight: "500" }}>
+                      <p
+                        style={{
+                          fontSize: "15px",
+                          fontWeight: "500",
+                          color: "#99a0ac",
+                        }}
+                      >
                          {orderDetails.invoice_no}
                       </p>
                     </td>
@@ -199,7 +205,13 @@ function ProformaDetailsPage() {
                       <p style={{ fontSize: "15px", fontWeight: "500" }}>
                         Invoice Date :{" "}
                       </p>
-                      <p style={{ fontSize: "15px", fontWeight: "500" }}>
+                      <p
+                        style={{
+                          fontSize: "15px",
+                          fontWeight: "500",
+                          color: "#99a0ac",
+                        }}
+                      >
                          {orderDetails.invoice_date}
                       </p>
                     </td>
@@ -209,7 +221,13 @@ function ProformaDetailsPage() {
                       <p style={{ fontSize: "15px", fontWeight: "500" }}>
                         Payment Due date :{" "}
                       </p>
-                      <p style={{ fontSize: "15px", fontWeight: "500" }}>
+                      <p
+                        style={{
+                          fontSize: "15px",
+                          fontWeight: "500",
+                          color: "#99a0ac",
+                        }}
+                      >
                          {orderDetails.payment_due_date}
                       </p>
                     </td>
