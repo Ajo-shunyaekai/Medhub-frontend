@@ -140,15 +140,15 @@ function BuyerProformaDetails() {
                     <p style={{ fontSize: "16px", fontWeight: "500" }}>
                       Invoice Number :{" "}
                     </p>
-                    <p style={{ fontSize: "16px", fontWeight: "500" }}>
+                    <p style={{ fontSize: "14px", fontWeight: "500", color:"#99a0ac" }}>
                       &nbsp;{orderDetails?.invoice_no}
                     </p>
                   </td>
                   <td style={{ display: "flex", justifyContent: "end" }}>
-                    <p style={{ fontSize: "16px", fontWeight: "500" }}>
+                    <p style={{ fontSize: "14px", fontWeight: "500" }}>
                       Payment Due date :{" "}
                     </p>
-                    <p style={{ fontSize: "16px", fontWeight: "500" }}>
+                    <p style={{ fontSize: "14px", fontWeight: "500", color:"#99a0ac" }}>
                       &nbsp;{orderDetails?.payment_due_date}
                     </p>
                   </td>
@@ -159,10 +159,10 @@ function BuyerProformaDetails() {
                       paddingBottom: "10px",
                     }}
                   >
-                    <p style={{ fontSize: "15px", fontWeight: "500" }}>
+                    <p style={{ fontSize: "14px", fontWeight: "500" }}>
                       Invoice Generated Date :{" "}
                     </p>
-                    <p style={{ fontSize: "15px", fontWeight: "500" }}>
+                    <p style={{ fontSize: "14px", fontWeight: "500", color:"#99a0ac" }}>
                       &nbsp;{orderDetails?.invoice_date}
                     </p>
                   </td>

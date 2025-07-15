@@ -137,7 +137,7 @@ function ProformaInvoiceDetails() {
                     <p style={{ fontSize: "16px", fontWeight: "500" }}>
                       Invoice Number :{" "}
                     </p>
-                    <p style={{ fontSize: "16px", fontWeight: "500" }}>
+                    <p style={{ fontSize: "16px", fontWeight: "500", color:"#99a0ac" }}>
                       &nbsp;{orderDetails?.invoice_no}
                     </p>
                   </td>
@@ -145,7 +145,7 @@ function ProformaInvoiceDetails() {
                     <p style={{ fontSize: "16px", fontWeight: "500" }}>
                       Payment Due date :{" "}
                     </p>
-                    <p style={{ fontSize: "16px", fontWeight: "500" }}>
+                    <p style={{ fontSize: "16px", fontWeight: "500", color:"#99a0ac" }}>
                       &nbsp;{orderDetails?.payment_due_date}
                     </p>
                   </td>
