@@ -536,10 +536,10 @@ export const addProductValidationSchema = Yup.object({
           .positive("Cost Per Price must be greater than 0")
           .test(
             "decimal-places",
-            "Price can have up to 3 decimal places only.",
+            "Price can have up to 6 decimal places only.",
             (value) => {
               if (value === undefined || value === null) return true; // Skip validation if empty
-              return /^\d+(\.\d{1,3})?$/.test(value.toString()); // Allows up to 3 decimals
+              return /^\d+(\.\d{1,6})?$/.test(value.toString()); // Allows up to 3 decimals
             }
           ),
         // totalPrice: Yup.number()
