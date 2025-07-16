@@ -89,7 +89,7 @@ const BuyProduct = ({
             const { category, subCategory, level3Category, countries = [] } = filterCategory || {};
             const response = await dispatch(
               fetchProductsList({
-                url: `product?market=${marketType}&page_no=${currentPage}&page_size=${itemsPerPage}&search_key=${
+                url: `product?buyer_id=${buyerId}&market=${marketType}&page_no=${currentPage}&page_size=${itemsPerPage}&search_key=${
                   searchKey || ""
                 }&category=${encodeURIComponent(
                   category || ""
