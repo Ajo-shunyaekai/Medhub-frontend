@@ -34,6 +34,22 @@
   margin-bottom: 8px;
 }
 
+.innerHead2 {
+  color: #5e676f;
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.innerHead3 {
+  color: #5e676f;
+  font-size: 18px;
+  font-weight: 500;
+  margin: 16px 8px 8px 8px;
+  /* margin-top: 16px;
+  margin-bottom: 8px; */
+}
+
 .section {
   display: flex;
   flex-direction: column;
@@ -91,8 +107,24 @@
   display: flex;
   gap: 20px;
 }
+.innerSection2 {
+  width: 100%;
+  display: flex;
+  gap: 20px;
+}
 
 .InnerContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  /* gap: 20px; */
+  align-items: start;
+  /* background-color: #fff;
+    border-radius: 4px;
+ 
+    padding: 26px 30px; */
+}
+.InnerContainer2 {
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -133,6 +165,13 @@
   width: 100%;
 }
 
+.mainSection2 {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
 .medicinesSection {
   display: flex;
   align-items: baseline;
@@ -140,16 +179,27 @@
   width: 45%;
 }
 
+.medicinesSection2 {
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  /* gap: 10px; */
+  width: 100%;
+}
+
 .medicineHead {
   font-size: 0.825rem;
   font-weight: 500;
-  width: 35%;
+  width: 50%;
   color: #5e676f;
 }
 
 .medicineHead2 {
   font-size: 0.825rem;
   font-weight: 500;
+  width: 100%;
+  color: #5e676f;
+  margin-bottom: 10px;
 }
 
 .medicineHeadings {
@@ -159,7 +209,17 @@
 }
 
 .medicineText {
-  width: 65%;
+  width: 50%;
+  font-size: 0.825rem;
+  color: #99a0ac;
+  /* font-weight: 500; */
+  word-wrap: break-word;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+.medicineText2 {
+  width: 100%;
   font-size: 0.825rem;
   color: #99a0ac;
   /* font-weight: 500; */
@@ -699,4 +759,13 @@
   color: #5e676f !important;
   font-weight: 500;
   font-size: 0.825rem;
+}
+
+.stockedContainer3 {
+  width: 100%;
+  gap: 10px;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  padding: 2px 0px;
+  box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.1) !important; /* Only bottom shadow */
 }

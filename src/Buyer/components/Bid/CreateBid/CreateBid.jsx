@@ -25,21 +25,21 @@ import { useNavigate } from "react-router-dom";
 import DocumentUpload from "../FileUpload";
 import { addBid } from "../../../../redux/reducers/bidSlice";
 import { useDispatch } from "react-redux";
- 
+
 const getDropdownButtonLabel = ({ placeholderButtonLabel, value }) => {
   if (value && value.length) {
     return value.map((country) => country.label).join(", ");
   }
   return placeholderButtonLabel;
 };
- 
+
 const MultiSelectOption = ({ children, ...props }) => (
   <components.Option {...props}>
     <input type="checkbox" checked={props.isSelected} onChange={() => null} />{" "}
     <label>{children}</label>
   </components.Option>
 );
- 
+
 const MultiSelectDropdown = ({ options, value, onChange }) => {
   return (
     <Select
@@ -53,18 +53,18 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
     />
   );
 };
- 
+
 const CreateBid = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [countries, setCountries] = useState([]);
- 
+
   /** ---------- CATEGORY + SUBCATEGORY STATE -------------- */
   const [categoryOptions, setCategoryOptions] = useState(
     categoriesData?.map((c) => ({ label: c.name, value: c.name })) || []
   );
- 
+
   const [subcategoryMap, setSubcategoryMap] = useState(() => {
     const map = {};
     categoriesData?.forEach((c) => {
@@ -72,19 +72,19 @@ const CreateBid = () => {
     });
     return map;
   });
- 
+
   /** ---------- HELPERS -------------- */
   const getSubCategories = (categoryName) =>
     (subcategoryMap[categoryName] || []).map((s) => ({
       value: s,
       label: s,
     }));
- 
+
   const removeFormSection = (index, setFieldValue, values, sectionName) => {
     const updated = values[sectionName].filter((_, i) => i !== index);
     setFieldValue(sectionName, updated);
   };
- 
+
   const handleChangeFormSectionDetails = (
     idx,
     key,
@@ -97,25 +97,25 @@ const CreateBid = () => {
     cloned[idx][key] = newVal;
     setFieldValue(sectionName, cloned);
   };
- 
+
   /** ---------- UseEffects -------------- */
- 
+
   useEffect(() => {
     const options = countryList().getData();
     setCountries(options);
   }, []);
- 
+
   const handleCancel = () => {
     navigate("/buyer/bid");
   };
- 
+
   /** ---------- RENDER -------------- */
   return (
     <div className={styles.container}>
       <div className={styles.headContainer}>
         <span className={styles.heading}>Create Bid</span>
       </div>
- 
+
       <Formik
         initialValues={initialValues}
         validationSchema={bidValidationSchema}
@@ -124,7 +124,7 @@ const CreateBid = () => {
             setLoading(true);
             // Create a new FormData object
             const formData = new FormData();
- 
+
             // Append fields as usual
             Object.keys(values).forEach((key) => {
               const value = values[key];
@@ -144,7 +144,7 @@ const CreateBid = () => {
                 }
               }
             });
- 
+
             const documentsUpdated = JSON.stringify(
               values?.documents?.map((section) => ({
                 name: section?.name || "",
@@ -165,7 +165,7 @@ const CreateBid = () => {
                 document: "",
               },
             ];
- 
+
             if (
               JSON.stringify(values?.bidDocs) !=
               JSON.stringify(documentsUpdated2?.map((file) => file?.document))
@@ -175,7 +175,7 @@ const CreateBid = () => {
                 formData.append("bidDocs", file?.document)
               );
             }
- 
+
             const additionalDetailsUpdated = JSON.stringify(
               values?.additionalDetails?.map((section) => ({
                 ...section,
@@ -185,13 +185,13 @@ const CreateBid = () => {
                     : [] || [],
               }))
             );
- 
+
             formData.append("documents", documentsUpdated);
             formData.append("userId", localStorage?.getItem("_id"));
             formData.append("additionalDetails", additionalDetailsUpdated);
             formData.append("userType", "Buyer");
             // formData.append("status", "Active");
- 
+
             dispatch(addBid(formData)).then((response) => {
               if (response?.meta.requestStatus === "fulfilled") {
                 setLoading(false);
@@ -292,7 +292,7 @@ const CreateBid = () => {
                 </div>
               </div>
             </div>
- 
+
             {/* ---------- Requirement Documents ---------- */}
             <div className={styles.section}>
               <div className={styles.Stocksection}>
@@ -313,7 +313,7 @@ const CreateBid = () => {
                     Add More
                   </span>
                 </div>
- 
+
                 {values.documents.map((section, index) => {
                   return (
                     <>
@@ -344,7 +344,7 @@ const CreateBid = () => {
                                 )
                               }
                             />
- 
+
                             {touched?.documents?.[index]?.name &&
                               errors?.documents?.[index]?.name && (
                                 <span className={styles.error}>
@@ -352,7 +352,7 @@ const CreateBid = () => {
                                 </span>
                               )}
                           </div>
- 
+
                           {/* ----- Document File ------ */}
                           {/* File Upload Section */}
                           <div className={styles.productContainer}>
@@ -378,7 +378,7 @@ const CreateBid = () => {
                                 />
                               )}
                             </Field>
- 
+
                             {touched?.documents?.[index]?.document &&
                               errors?.documents?.[index]?.document && (
                                 <span className={styles.error}>
@@ -387,7 +387,7 @@ const CreateBid = () => {
                               )}
                           </div>
                         </div>
- 
+
                         {/* ---- Remove Section Button ---- */}
                         <div className={styles.formclosebutton}>
                           <CloseIcon
@@ -400,7 +400,7 @@ const CreateBid = () => {
                                 `documents.${index}.preview`,
                                 false
                               );
- 
+
                               // Remove the row from the array
                               const updatedList = values.documents.filter(
                                 (_, elindex) => elindex !== index
@@ -423,7 +423,7 @@ const CreateBid = () => {
                 })}
               </div>
             </div>
- 
+
             {/* ---------- Add Products / Services ---------- */}
             <div className={styles.section}>
               <div className={styles.Stocksection}>
@@ -459,10 +459,10 @@ const CreateBid = () => {
                     Add More
                   </span>
                 </div>
- 
+
                 {values.additionalDetails.map((section, index) => {
                   const subCategoryOptions = getSubCategories(section.category);
- 
+
                   return (
                     <>
                       <div
@@ -509,7 +509,7 @@ const CreateBid = () => {
                                 </span>
                               )}
                           </div>
- 
+
                           {/* ----- Product / Service Name ------ */}
                           <div className={styles.productContainer}>
                             <label className={styles.formLabel}>
@@ -540,7 +540,7 @@ const CreateBid = () => {
                                 </span>
                               )}
                           </div>
- 
+
                           {/* ----- Product / Service CATEGORY (Creatable) ------ */}
                           <div className={styles.productContainer}>
                             <label className={styles.formLabel}>
@@ -600,7 +600,7 @@ const CreateBid = () => {
                                 </span>
                               )}
                           </div>
- 
+
                           {/* ----- Product / Service Sub Category (Creatable) ------ */}
                           <div className={styles.productContainer}>
                             <label className={styles.formLabel}>
@@ -640,7 +640,7 @@ const CreateBid = () => {
                                         };
                                   });
                                 }
- 
+
                                 handleChangeFormSectionDetails(
                                   index,
                                   "subCategory",
@@ -661,7 +661,7 @@ const CreateBid = () => {
                                 </span>
                               )}
                           </div>
- 
+
                           {/* ----- UPC (Universal Product Code) ------ */}
                           <div className={styles.productContainer}>
                             <label className={styles.formLabel}>
@@ -692,7 +692,7 @@ const CreateBid = () => {
                                 </span>
                               )}
                           </div>
- 
+
                           {/* ----- Brand Name ------ */}
                           <div className={styles.productContainer}>
                             <label className={styles.formLabel}>
@@ -721,7 +721,7 @@ const CreateBid = () => {
                                 </span>
                               )}
                           </div>
- 
+
                           {/* ----- Open For ------ */}
                           <div className={styles.productContainer}>
                             <label className={styles.formLabel}>
@@ -761,7 +761,7 @@ const CreateBid = () => {
                                 </span>
                               )}
                           </div>
- 
+
                           {/* ----- From Countries ------ */}
                           <div className={styles.productContainer}>
                             <label className={styles.formLabel}>
@@ -805,7 +805,7 @@ const CreateBid = () => {
                                 </span>
                               )}
                           </div>
- 
+
                           {/* ----- Country of Destination ------ */}
                           <div className={styles.productContainer}>
                             <label className={styles.formLabel}>
@@ -853,7 +853,7 @@ const CreateBid = () => {
                                 </span>
                               )}
                           </div>
- 
+
                           {/* ----- State of Destination ------ */}
                           <div className={styles.productContainer}>
                             <label className={styles.formLabel}>
@@ -893,7 +893,7 @@ const CreateBid = () => {
                                 </span>
                               )}
                           </div>
- 
+
                           {/* ----- Certification Required ------ */}
                           <div className={styles.productContainer}>
                             <label className={styles.formLabel}>
@@ -933,7 +933,7 @@ const CreateBid = () => {
                                 </span>
                               )}
                           </div>
- 
+
                           {/* ----- Certification Name ------ */}
                           {section?.docReq == "Yes" && (
                             <div className={styles.productContainer}>
@@ -970,7 +970,7 @@ const CreateBid = () => {
                                 )}
                             </div>
                           )}
- 
+
                           {/* ----- Quantity Required ------ */}
                           <div className={styles.productContainer}>
                             <label className={styles.formLabel}>
@@ -999,7 +999,7 @@ const CreateBid = () => {
                                 </span>
                               )}
                           </div>
- 
+
                           {/* ----- Target Price ------ */}
                           <div className={styles.productContainer}>
                             <label className={styles.formLabel}>
@@ -1029,7 +1029,7 @@ const CreateBid = () => {
                                 </span>
                               )}
                           </div>
- 
+
                           {/* ----- Expected Delivery Duration ------ */}
                           <div className={styles.productContainer}>
                             <label className={styles.formLabel}>
@@ -1064,7 +1064,7 @@ const CreateBid = () => {
                                 </span>
                               )}
                           </div>
- 
+
                           {/* ----- Product / Service Description ------ */}
                           <div className={styles.productTextContainer2}>
                             <label className={styles.formLabel}>
@@ -1108,7 +1108,7 @@ const CreateBid = () => {
                               )}
                           </div>
                         </div>
- 
+
                         {/* ---- Remove Section Button ---- */}
                         <div className={styles.formclosebutton}>
                           <CloseIcon
@@ -1133,7 +1133,7 @@ const CreateBid = () => {
                 })}
               </div>
             </div>
- 
+
             {/* ---------- Buttons ---------- */}
             <div className={styles.buttonContainer}>
               <button
@@ -1153,5 +1153,5 @@ const CreateBid = () => {
     </div>
   );
 };
- 
+
 export default CreateBid;
