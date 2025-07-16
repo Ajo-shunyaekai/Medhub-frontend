@@ -10,10 +10,10 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
   margin: auto;
-  margin-bottom: 20rem !important;
+  margin-bottom: 9rem !important;
 }
 .tableMainContainer {
-  margin-bottom: 20rem;
+  margin-bottom: 9rem;
   display: flex;
   flex-direction: column;
   gap: 20px;
