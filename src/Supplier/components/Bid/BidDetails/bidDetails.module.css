@@ -45,7 +45,8 @@
   color: #5e676f;
   font-size: 18px;
   font-weight: 500;
-  margin: 16px 8px 8px 8px;
+  /* margin: 16px 8px 8px 8px; */
+  padding:  30px 26px 16px 26px;
   /* margin-top: 16px;
   margin-bottom: 8px; */
 }
@@ -208,14 +209,6 @@
 }
 
 .medicineHead2 {
-  font-size: 0.825rem;
-  font-weight: 500;
-  width: 100%;
-  color: #5e676f;
-  margin-bottom: 6px;
-}
-
-.medicineHead24 {
   font-size: 0.825rem;
   font-weight: 500;
   width: 100%;
@@ -549,7 +542,6 @@
   width: 50%;
   gap: 10px;
 }
-
 
 .additionalUploadSection {
   flex: 0 0 calc((100% - 40px) / 3);

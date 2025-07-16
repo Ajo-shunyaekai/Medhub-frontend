@@ -3,9 +3,10 @@ import styles from "./bidDetails.module.css";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import RenderProductFiles from "../../Buy/Details/RenderFiles";
+// import RenderProductFiles from "../../Buy/Details/RenderFiles";
 import { fetchBidById } from "../../../../redux/reducers/bidSlice";
 import moment from "moment";
+import RenderProductFiles from "../../../../Buyer/components/Buy/Details/RenderFiles";
 
 const BidDetails = () => {
   const { id } = useParams();
@@ -18,6 +19,29 @@ const BidDetails = () => {
     }
   }, [id]);
 
+  const getTimeRemaining = (endDate, endTime = "00:00") => {
+    if (!endDate) return "";
+
+    // Combine end date and time (time is expected in "HH:mm" format)
+    const combinedEnd = moment(`${endDate}T${endTime}`, "YYYY-MM-DDTHH:mm");
+
+    const now = moment();
+    const duration = moment.duration(combinedEnd.diff(now));
+
+    if (duration.asMilliseconds() <= 0) return "Expired";
+
+    const days = Math.floor(duration.asDays());
+    const hours = duration.hours();
+    const minutes = duration.minutes();
+
+    const parts = [];
+    if (days > 0) parts.push(`${days} Day${days !== 1 ? "s" : ""}`);
+    if (hours > 0) parts.push(`${hours} Hour${hours !== 1 ? "s" : ""}`);
+    if (minutes > 0) parts.push(`${minutes} Min${minutes !== 1 ? "s" : ""}`);
+
+    return parts.join(" ");
+  };
+
   return (
     <div className={styles.container}>
       <span className={styles.heading}>Bid Details</span>
@@ -29,12 +53,6 @@ const BidDetails = () => {
             <span className={styles.medicineName}>
               Bid ID : {bidToUpdate?.bid_id}
             </span>
-            {/*           <Link
-                to={`/supplier/edit-product/${id}`}
-                className={styles.editButton}
-              >
-                Edit
-              </Link> */}
 
             {bidToUpdate?.status && (
               <div className={styles.bidStatusCont}>
@@ -50,39 +68,29 @@ const BidDetails = () => {
 
         {/* Bid detail General Information Section */}
         <div className={styles.mainContainer}>
-          <div className={styles.headingSecContainer}>
-            <span className={styles.innerHead}>General Information</span>{" "}
-            {/*          {productDetail?.updatedAt && (
-                  <span className={styles.medicineHead2}>
-                    (Last Modified Date:{" "}
-                    {moment(productDetail?.updatedAt || new Date()).format(
-                      "DD/MM/YYYY"
-                    )}
-                    )
-                  </span>
-                )} */}
-          </div>
-          <div className={styles.innerSection}>
-            <div className={styles.mainSection}>
-              {/* Bid starting Date */}
-              <div className={styles.InnerContainer}>
-                <div className={styles.medicinesSection}>
-                  <span className={styles.medicineHead}>Bid Starting Date</span>
-                  <span className={styles.medicineText}>
-                    {moment(
-                      bidToUpdate?.general?.startDate || new Date()
-                    ).format("DD/MM/YYYY")}
-                  </span>
-                </div>
-                <div className={styles.medicinesSection}>
-                  <span className={styles.medicineHead}>Bid Ending Date</span>
-                  <span className={styles.medicineText}>
-                    {moment(bidToUpdate?.general?.endDate || new Date()).format(
-                      "DD/MM/YYYY"
-                    )}
-                  </span>
-                </div>
-              </div>
+          <span className={styles.innerHead}>General Information</span>
+          <div className={styles.innerComplianceSection}>
+            <div className={styles.additionalUploadSection3}>
+              <span className={styles.medicineHead3}>Bid Starting Date</span>
+              <span className={styles.medicineText3}>
+                {moment(bidToUpdate?.general?.startDate || new Date()).format(
+                  "DD/MM/YYYY"
+                )}
+              </span>
+            </div>
+            <div className={styles.additionalUploadSection3}>
+              <span className={styles.medicineHead3}>Bid End Date</span>
+              <span className={styles.medicineText3}>
+                {moment(bidToUpdate?.general?.endDate || new Date()).format(
+                  "DD/MM/YYYY"
+                )}
+              </span>
+            </div>
+            <div className={styles.additionalUploadSection3}>
+              <span className={styles.medicineHead3}>Time Remaining</span>
+              <span className={styles.medicineText3}>
+                {getTimeRemaining(bidToUpdate?.general?.startDate)}
+              </span>
             </div>
           </div>
         </div>
@@ -141,9 +149,9 @@ const BidDetails = () => {
                 <span className={styles.innerHead2}>
                   {index + 1}
                   {". "}
-                  {item?.type?.charAt(0)?.toUpperCase() +
-                    item?.type?.slice(1)}{" "}
-                  Information
+                  {item?.type?.charAt(0)?.toUpperCase() + item?.type?.slice(1)}
+                  {" - "}
+                  {item?.name}
                 </span>
               </div>
               <div className={styles.innerSection}>
@@ -289,7 +297,7 @@ const BidDetails = () => {
                 <div className={styles.mainSection2}>
                   <div className={styles.InnerContainer2}>
                     <div className={styles.medicinesSection2}>
-                      <span className={styles.medicineHead2}>
+                      <span className={styles.medicineHead24}>
                         {item?.type || "Item"} Description
                       </span>
                       <span className={styles.medicineText2}>

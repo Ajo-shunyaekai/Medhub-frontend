@@ -475,6 +475,40 @@ export const supplierNestedRoutes = [
     ],
   },
   {
+    path: "bid",
+    component: lazy(() => import("./Supplier/components/Bid/BidTable")),
+    children: [
+      {
+        path: "active",
+        component: lazy(() => import("./Supplier/components/Bid/BidTable")),
+      },
+      {
+        path: "completed",
+        component: lazy(() => import("./Supplier/components/Bid/BidTable")),
+      },
+      {
+        path: "cancelled",
+        component: lazy(() => import("./Supplier/components/Bid/BidTable")),
+      },
+    ],
+  },
+  {
+    path: "bid/:id",
+    component: lazy(() =>
+      import("./Supplier/components/Bid/BidDetails/BidDetails")
+    ),
+  },
+  {
+    path: "bid-product-details/:id",
+    component: lazy(() =>
+      import("./Supplier/components/Bid/BidDetails/BidProductDetails")
+    ),
+  },
+  {
+    path: "bid/create-bid",
+    component: lazy(() => import("./Supplier/components/Bid/CreateBid/CreateBid")),
+  },
+  {
     path: "enquiry-request-list",
     component: lazy(() =>
       import("./Supplier/components/Dashboard/DashboardList/InquiryRequestList")
@@ -1356,7 +1390,7 @@ export const adminNestedRoutes = [
     path: "supplier/:supplierId/add-product",
     component: lazy(() =>
       // import("./Admin/components/manage-supplier/Product/AddProduct/AddProduct")
-    import("./Supplier/components/Products/AddProduct/AddProduct")
+      import("./Supplier/components/Products/AddProduct/AddProduct")
     ),
   },
   {
