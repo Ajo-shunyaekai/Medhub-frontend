@@ -504,7 +504,7 @@ const SupplierDetailsNew = () => {
           </Modal>
         </div>
 
-        <div className="buyer-details-container">
+        <div className="buyer-details-container2">
           {/* Rest of your JSX content */}
           {user?.accessControl?.supplier?.requests?.edit &&
             supplierDetails?.account_status == 0 && (

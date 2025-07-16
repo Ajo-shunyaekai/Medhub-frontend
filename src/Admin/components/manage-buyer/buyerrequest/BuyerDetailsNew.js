@@ -515,7 +515,7 @@ const BuyerDetailsNew = () => {
           </Modal>
         </div>
 
-        <div className="buyer-details-container">
+        <div className="buyer-details-container2">
           {user?.accessControl?.buyer?.requests?.edit &&
             buyerDetails?.account_status == 0 && (
               <div className="buyer-details-button-containers">

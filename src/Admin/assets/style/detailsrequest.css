@@ -9,6 +9,18 @@
     margin: auto;
 }
 
+.buyer-details-container2 {
+    width: 100%;
+    /* height: 100vh; */
+    overflow-x: scroll;
+    max-width: 98%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+    /* margin: auto; */
+    /* margin-bottom: 5rem; */
+}
+
 .buyer-details-container::-webkit-scrollbar {
     display: none;
 }
@@ -647,7 +659,7 @@ color:#5e676f;
 
 .buyer-details-button-containers {
     margin-top: 20px;
-    margin-bottom: 12rem;
+    margin-bottom: 5rem;
     display: flex;
     justify-content: center;
     gap: 2rem;
