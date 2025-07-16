@@ -12,11 +12,11 @@ import moment from "moment";
 import { borderBottom } from "@mui/system";
 import Accordion from "react-bootstrap/Accordion";
 import PdfViewerModal from "../../../../common/PdfViewer";
-import { Tooltip } from 'react-tooltip';
-import 'react-tooltip/dist/react-tooltip.css'
-
+import { Tooltip } from "react-tooltip";
+import "react-tooltip/dist/react-tooltip.css";
+ 
 Modal.setAppElement("#root");
-
+ 
 const toTitleCase = (str) => {
   return str
     .replace(/([a-z])([A-Z])/g, "$1 $2") // add space between camelCase words
@@ -25,7 +25,7 @@ const toTitleCase = (str) => {
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join(" ");
 };
-
+ 
 const ProductDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -41,42 +41,44 @@ const ProductDetails = () => {
   //     ? pdfFile
   //     : `${process.env.REACT_APP_SERVER_URL}/uploads/products/${pdfFile}`
   //   : "https://morth.nic.in/sites/default/files/dd12-13_0.pdf";
-
+ 
   const pdfUrl = pdfFile
-  ? (() => {
-      const filename = pdfFile?.split("/")?.pop();
-      return `${process.env.REACT_APP_SERVER_URL.replace(/\/$/, "")}/pdf-proxy/${filename}`;
-    })()
-  : "https://morth.nic.in/sites/default/files/dd12-13_0.pdf";
-
-
+    ? (() => {
+        const filename = pdfFile?.split("/")?.pop();
+        return `${process.env.REACT_APP_SERVER_URL.replace(
+          /\/$/,
+          ""
+        )}/pdf-proxy/${filename}`;
+      })()
+    : "https://morth.nic.in/sites/default/files/dd12-13_0.pdf";
+ 
   useEffect(() => {
     if (id) {
       dispatch(fetchProductDetail(`product/${id}`));
     }
   }, [id]);
-
+ 
   const getCategoryData = (property) => {
     if (!productDetail?.category) return null;
     return productDetail[productDetail.category]?.[property];
   };
-
+ 
   const formatDate = (dateString) => {
     if (!dateString) return ""; // Handle empty or undefined dates
-
+ 
     const dateObj = new Date(dateString);
     if (isNaN(dateObj)) return ""; // Handle invalid dates
-
+ 
     const day = String(dateObj.getDate()).padStart(2, "0");
     const month = String(dateObj.getMonth() + 1).padStart(2, "0"); // Months are 0-based
     const year = dateObj.getFullYear();
-
+ 
     return `${day}-${month}-${year}`;
   };
-
+ 
   const fallbackImageUrl =
     "https://medhub.shunyaekai.com/uploads/fallbackImage.jpg";
-
+ 
   // Utility to check if URL ends with image extension
   const isImageExtension = (fileName) => {
     return /\.(png|jpe?g|gif|bmp|webp)$/i.test(fileName);
@@ -90,35 +92,35 @@ const ProductDetails = () => {
       alert("No purchase invoice file available.");
     }
   };
-
+ 
   const handleClose = () => {
     setOpen(false);
     setPdfToPreview(null);
   };
-
+ 
   // For new image thumbnail
   const baseUrl = process.env.REACT_APP_SERVER_URL?.endsWith("/")
     ? process.env.REACT_APP_SERVER_URL
     : `${process.env.REACT_APP_SERVER_URL}/`;
-
+ 
   const getFullImageUrl = (img) =>
     img?.startsWith("http") ? img : `${baseUrl}uploads/products/${img}`;
-
+ 
   const imageArray = Array.isArray(productDetail?.general?.image)
     ? productDetail.general.image
     : Object.values(productDetail?.general?.image || {}).flat();
-
+ 
   const [selectedImage, setSelectedImage] = useState(() =>
     imageArray.length > 0 ? getFullImageUrl(imageArray[0]) : fallbackImageUrl
   );
-
+ 
   // Update main image if productDetail changes
   useEffect(() => {
     if (imageArray.length > 0) {
       setSelectedImage(getFullImageUrl(imageArray[0]));
     }
   }, [productDetail?.general?.image]);
-
+ 
   return (
     <div className={styles.container}>
       <span className={styles.heading}>Product Details</span>
@@ -136,7 +138,7 @@ const ProductDetails = () => {
             </Link>
           </div>
         </div>
-
+ 
         {/* Start Secondar Market section */}
         {(productDetail?.secondaryMarketDetails?.purchasedOn ||
           productDetail?.secondaryMarketDetails?.countryAvailable?.length > 0 ||
@@ -205,7 +207,7 @@ const ProductDetails = () => {
                       </span>
                     </div>
                   )}
-
+ 
                   {/* {productDetail?.secondaryMarketDetails
                     ?.minimumPurchaseUnit && (
                     <div className={styles.medicinesSection}>
@@ -222,7 +224,7 @@ const ProductDetails = () => {
                   )} */}
                 </div>
               )}
-
+ 
               {productDetail?.secondaryMarketDetails?.purchaseInvoiceFile
                 ?.length > 0 && (
                 <div className={styles.mainPurchaseSection}>
@@ -237,7 +239,7 @@ const ProductDetails = () => {
             </div>
           </div>
         )}
-
+ 
         {/* End Secondar Market section */}
         {/* Start general information section */}
         <div className={styles.mainContainer}>
@@ -268,17 +270,17 @@ const ProductDetails = () => {
               {/* {productDetail?.[productDetail?.category]?.anotherCategory && ( */}
               {(productDetail?.[productDetail?.category]?.anotherCategory ||
                 productDetail?.anotherCategory) && (
-                  <div className={styles.medicinesSection}>
-                    <span className={styles.medicineHead}>
-                      Product Sub Category(Level3)
-                    </span>
-                    <span className={styles.medicineText}>
-                      {/* {productDetail?.[productDetail?.category]?.anotherCategory}{" "} */}
-                      {productDetail?.[productDetail?.category]
-                        ?.anotherCategory || productDetail?.anotherCategory}
-                    </span>
-                  </div>
-                )}
+                <div className={styles.medicinesSection}>
+                  <span className={styles.medicineHead}>
+                    Product Sub Category(Level3)
+                  </span>
+                  <span className={styles.medicineText}>
+                    {/* {productDetail?.[productDetail?.category]?.anotherCategory}{" "} */}
+                    {productDetail?.[productDetail?.category]
+                      ?.anotherCategory || productDetail?.anotherCategory}
+                  </span>
+                </div>
+              )}
               {productDetail?.general?.form && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Type/Form</span>
@@ -341,7 +343,7 @@ const ProductDetails = () => {
                   </span>
                 </div>
               )} */}
-
+ 
               {/* {productDetail?.general?.packageType && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>
@@ -369,17 +371,17 @@ const ProductDetails = () => {
               {/* {productDetail?.[productDetail?.category]?.subCategory && ( */}
               {(productDetail?.[productDetail?.category]?.subCategory ||
                 productDetail?.subCategory) && (
-                  <div className={styles.medicinesSection}>
-                    <span className={styles.medicineHead}>
-                      Product Sub Category
-                    </span>
-                    <span className={styles.medicineText}>
-                      {/* {productDetail?.[productDetail?.category]?.subCategory}{" "} */}
-                      {productDetail?.[productDetail?.category]?.subCategory ||
-                        productDetail?.subCategory}
-                    </span>
-                  </div>
-                )}
+                <div className={styles.medicinesSection}>
+                  <span className={styles.medicineHead}>
+                    Product Sub Category
+                  </span>
+                  <span className={styles.medicineText}>
+                    {/* {productDetail?.[productDetail?.category]?.subCategory}{" "} */}
+                    {productDetail?.[productDetail?.category]?.subCategory ||
+                      productDetail?.subCategory}
+                  </span>
+                </div>
+              )}
               {productDetail?.general?.model && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Part/Model Number</span>
@@ -444,31 +446,46 @@ const ProductDetails = () => {
                     </span>
                   </div>
                 ))}
-
+ 
               {productDetail?.general?.buyersPreferredFrom && (
                 <div className={styles.medicinesSection}>
-                  <span className={styles.medicineHead}>Buyers Preferred From</span>
+                  <span className={styles.medicineHead}>
+                    Buyers Preferred From
+                  </span>
                   <span className={styles.medicineText}>
                     {/* {productDetail?.general?.buyersPreferredFrom?.join(", ")} */}
                     {productDetail.general.buyersPreferredFrom.length <= 25 ? (
-                        productDetail.general.buyersPreferredFrom.join(", ")
-                      ) : (
-                        <>
-                          {productDetail.general.buyersPreferredFrom.slice(0, 25).join(", ")}
-                          <span>{' ... '}</span>
-                          <span id="supplier-tooltip" style={{ textDecoration: 'underline'}}>{'view more'}</span>
-                          <Tooltip anchorId="supplier-tooltip" place="bottom" className={styles.toolTip} delayHide={500}
-                            content={productDetail.general.buyersPreferredFrom.slice(25, ).join(', ')}
-                          />
-                        </>
-                      )}
+                      productDetail.general.buyersPreferredFrom.join(", ")
+                    ) : (
+                      <>
+                        {productDetail.general.buyersPreferredFrom
+                          .slice(0, 25)
+                          .join(", ")}
+                        <span>{" ... "}</span>
+                        <span
+                          id="supplier-tooltip"
+                          style={{ textDecoration: "underline" }}
+                        >
+                          {"view more"}
+                        </span>
+                        <Tooltip
+                          anchorId="supplier-tooltip"
+                          place="bottom"
+                          className={styles.toolTip}
+                          delayHide={500}
+                          content={productDetail.general.buyersPreferredFrom
+                            .slice(25)
+                            .join(", ")}
+                        />
+                      </>
+                    )}
                   </span>
                 </div>
               )}
             </div>
           </div>
         </div>
-
+ 
         {/* End general information section */}
         {/* Start Short description */}
         {/* {productDetail?.general?.aboutManufacturer && (
@@ -482,7 +499,7 @@ const ProductDetails = () => {
           </div>
         )} */}
         {/* End the Short description */}
-
+ 
         {/* Start product description */}
         {productDetail?.general?.description && (
           <div className={styles.mainContainer}>
@@ -498,7 +515,7 @@ const ProductDetails = () => {
           </div>
         )}
         {/* End the product description */}
-
+ 
         <div className={styles.mainContainer}>
           <span className={styles.innerHead}>Manufacturer Details</span>
           <div className={styles.manufacturerMainContainer}>
@@ -515,11 +532,24 @@ const ProductDetails = () => {
                   {productDetail?.general?.countryOfOrigin || "N/A"}
                 </span>
               </div>
-              <div className={styles.manufacturersection}>
+              {/* <div className={styles.manufacturersection}>
                 <span className={styles.medicineHead}>About Manufacturer</span>
                 <span className={styles.medicineText}>
                   {productDetail?.general?.aboutManufacturer || "N/A"}
                 </span>
+              </div> */}
+              <div className={styles.additionalUploadSection34}>
+                <span className={styles.medicineHead34}>
+                  About Manufacturer
+                </span>
+                <div className={styles.additionalImageSection34}>
+                  {/* {productDetail?.categoryDetails?.map((item, index) => ( */}
+                  <div className={styles.complianceSection34}>
+                    <span className={styles.medicineContent34}>
+                      {productDetail?.general?.aboutManufacturer || "N/A"}
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -535,28 +565,54 @@ const ProductDetails = () => {
                 : ""}
             </span>
             <div className={styles.innerComplianceSection}>
-              {productDetail?.categoryDetails?.map((item, index) => (
-                <div className={styles.additionalUploadSection}>
-                  <span className={styles.medicineHead}>
-                    {toTitleCase(item?.name)}
-                  </span>
-                  <div className={styles.additionalImageSection}>
-                    {/* {productDetail?.categoryDetails?.map((item, index) => ( */}
-                    <div
-                      className={styles.complianceSection}
-                      key={item._id || index}
-                    >
-                      {item?.type == "file" ? (
-                        <RenderProductFiles files={[item.fieldValue]} />
-                      ) : (
-                        <span className={styles.medicineContent}>
-                          {item.fieldValue}
-                        </span>
-                      )}
+              {productDetail?.categoryDetails
+                ?.filter((item) => item?.type != "textarea")
+                ?.map((item, index) => (
+                  <div className={styles.additionalUploadSection}>
+                    <span className={styles.medicineHead}>
+                      {toTitleCase(item?.name)}
+                    </span>
+                    <div className={styles.additionalImageSection}>
+                      {/* {productDetail?.categoryDetails?.map((item, index) => ( */}
+                      <div
+                        className={styles.complianceSection}
+                        key={item._id || index}
+                      >
+                        {item?.type == "file" ? (
+                          <RenderProductFiles files={[item.fieldValue]} />
+                        ) : (
+                          <span className={styles.medicineContent}>
+                            {item.fieldValue}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              {productDetail?.categoryDetails
+                ?.filter((item) => item?.type == "textarea")
+                ?.map((item, index) => (
+                  <div className={styles.additionalUploadSection34}>
+                    <span className={styles.medicineHead34}>
+                      {toTitleCase(item?.name)}
+                    </span>
+                    <div className={styles.additionalImageSection34}>
+                      {/* {productDetail?.categoryDetails?.map((item, index) => ( */}
+                      <div
+                        className={styles.complianceSection34}
+                        key={item._id || index}
+                      >
+                        {item?.type == "file" ? (
+                          <RenderProductFiles files={[item.fieldValue]} />
+                        ) : (
+                          <span className={styles.medicineContent34}>
+                            {item.fieldValue}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
             </div>
             <div
               className={styles.innerComplianceSection}
@@ -564,7 +620,7 @@ const ProductDetails = () => {
             ></div>
           </div>
         )}
-
+ 
         {/* {productDetail?.general?.image &&
           (Array.isArray(productDetail.general.image)
             ? // Render if image is an array
@@ -577,13 +633,13 @@ const ProductDetails = () => {
                         process.env.REACT_APP_SERVER_URL?.endsWith("/")
                           ? process.env.REACT_APP_SERVER_URL
                           : `${process.env.REACT_APP_SERVER_URL}/`;
-
+ 
                       const imgUrl = img?.startsWith("http")
                         ? img
                         : `${baseUrl}uploads/products/${img}`;
-
+ 
                       const isImageFile = isImageExtension(imgUrl);
-
+ 
                       return (
                         <div className={styles.imageContainer} key={index}>
                           <img
@@ -639,7 +695,7 @@ const ProductDetails = () => {
                 </div>
               </div>
             ))} */}
-
+ 
         {/* New way of displaying product */}
         {/* {imageArray.length > 0 && (
           <div className={styles.mainContainer}>
@@ -666,7 +722,7 @@ const ProductDetails = () => {
                 {imageArray.map((img, index) => {
                   const imgUrl = getFullImageUrl(img);
                   const isImageFile = isImageExtension(imgUrl);
-
+ 
                   return (
                     <img
                       key={index}
@@ -687,9 +743,9 @@ const ProductDetails = () => {
             </div>
           </div>
         )} */}
-
+ 
         {/* End product image section */}
-
+ 
         {/* New way of displaying product */}
         {imageArray.length > 0 && (
           <div className={styles.mainContainer}>
@@ -714,7 +770,7 @@ const ProductDetails = () => {
                 {imageArray.map((img, index) => {
                   const imgUrl = getFullImageUrl(img);
                   const isImageFile = isImageExtension(imgUrl);
-
+ 
                   return (
                     <div className={styles.thumbnail}>
                       <img
@@ -750,9 +806,9 @@ const ProductDetails = () => {
             </div>
           </div>
         )}
-
+ 
         {/* End product image section */}
-
+ 
         {/* Start Inventory & Packaging section */}
         {(productDetail?.inventoryDetails?.stockedInDetails?.length > 0 ||
           productDetail?.inventoryDetails?.sku ||
@@ -797,7 +853,7 @@ const ProductDetails = () => {
                       </div>
                     )}
                   </div>
-
+ 
                   <div className={styles.mainSection}>
                     {productDetail?.inventoryDetails?.stock && (
                       <div className={styles.medicinesSection}>
@@ -831,7 +887,7 @@ const ProductDetails = () => {
                       </span>
                       <span className={styles.medicineHeadings}>Quantity</span>
                     </div>
-
+ 
                     {productDetail?.inventoryDetails?.stockedInDetails?.map(
                       (ele) => (
                         <div className={styles.medicinesSection}>
@@ -851,7 +907,7 @@ const ProductDetails = () => {
           </div>
         )}
         {/* End Inventory & Packaging section */}
-
+ 
         {/* Start the product inventory section */}
         {productDetail?.inventoryDetails?.inventoryList?.length > 0 && (
           <div className={styles.mainContainer}>
@@ -935,11 +991,11 @@ const ProductDetails = () => {
                         className={styles.complianceSection}
                         key={item._id || index}
                       >
-                        <RenderProductFiles 
-                        // files={item.file} 
-                        files={
-                          Array.isArray(item.file) ? item.file : [item.file]
-                        }
+                        <RenderProductFiles
+                          // files={item.file}
+                          files={
+                            Array.isArray(item.file) ? item.file : [item.file]
+                          }
                         />
                         <span className={styles.medicineContent}>
                           {formatDate(item.date)}
@@ -993,7 +1049,7 @@ const ProductDetails = () => {
           </div>
         )}
         {/* End Compliance & Certification Health & Safety */}
-
+ 
         {/* Start Additional information */}
         {(productDetail?.additional?.other ||
           productDetail?.additional?.warranty ||
@@ -1023,7 +1079,7 @@ const ProductDetails = () => {
                   )}
                 </div>
               )}
-
+ 
               {productDetail?.additional?.guidelinesFile?.length > 0 && (
                 <div className={styles.additionalUploadSection}>
                   <div className={styles.additionalUploadSection}>
@@ -1039,9 +1095,9 @@ const ProductDetails = () => {
             </div>
           </div>
         )}
-
+ 
         {/* End Additional information */}
-
+ 
         {/* start of Product documents */}
         {(productDetail?.documents?.catalogue?.length > 0 ||
           productDetail?.documents?.specification?.length > 0) && (
@@ -1121,11 +1177,11 @@ const ProductDetails = () => {
           </>
         )}
         {/* Start Manufacturer section */}
-
+ 
         <div className={styles.mainManufacturerContainer}></div>
-
+ 
         {/* End Manufacturer section */}
-
+ 
         {/* Modal for PDF Preview */}
         {/* <Modal
           isOpen={modalIsOpen}
@@ -1140,7 +1196,7 @@ const ProductDetails = () => {
           >
             <img className={styles.closeImg} src={CloseIcon} alt="closeIcon" />
           </div>
-
+ 
           {pdfFile ? (
             <iframe
               src={pdfUrl}
@@ -1154,11 +1210,15 @@ const ProductDetails = () => {
             <p>Loading PDF or file not found...</p>
           )}
         </Modal> */}
-
-        <PdfViewerModal isOpen={open} onClose={handleClose} fileUrl={pdfToPreview} />
+ 
+        <PdfViewerModal
+          isOpen={open}
+          onClose={handleClose}
+          fileUrl={pdfToPreview}
+        />
       </div>
     </div>
   );
 };
-
+ 
 export default ProductDetails;
