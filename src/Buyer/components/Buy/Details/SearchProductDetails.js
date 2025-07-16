@@ -1,5 +1,5 @@
 import styles from "./productdetails.module.css";
-import { Link, useParams, useLocation } from "react-router-dom";
+import { Link, useParams, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchProductDetail,
@@ -17,6 +17,7 @@ Modal.setAppElement("#root");
 const SearchProductDetails = () => {
   const { id } = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
   const searchValue = location.state?.searchValue;
   const dispatch = useDispatch();
   const { productDetail, supplierProductList } = useSelector(
@@ -67,8 +68,18 @@ const SearchProductDetails = () => {
   // Update filtered data when productDetail changes
 
   useEffect(() => {
+    const buyerId =
+    localStorage?.getItem("buyer_id") ||
+    localStorage?.getItem("buyer_id");
+  if (!buyerId) {
+    localStorage?.clear();
+    navigate("/buyer/login");
+    return;
+  }
     const fetchData = async () => {
       const query = [];
+
+      query.push(`buyer_id=${buyerId}`);
 
       if (searchValue)
         query.push(`search_value=${encodeURIComponent(searchValue)}`);
@@ -409,7 +420,7 @@ const SearchProductDetails = () => {
                     Product Sub Category(Level3)
                   </span>
                   <span className={styles.medicineText}>
-                    {productDetail?.[productDetail?.category]?.anotherCategory}
+                    {productDetail?.[productDetail?.category]?.anotherCategory || productDetail?.anotherCategory}
                   </span>
                 </div>
               )}

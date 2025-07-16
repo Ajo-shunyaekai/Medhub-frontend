@@ -97,7 +97,7 @@ const Product = () => {
       const marketType = activeButton === "newproduct" ? "new" : "secondary";
       const response = await dispatch(
         fetchProductsList({
-          url: `product?market=${marketType}&supplier_id=${supplier_id}&page_no=${currentPage}&page_size=${itemsPerPage}`,
+          url: `product?market=${marketType}&supplier_id=${supplier_id}&page_no=${currentPage}&page_size=${itemsPerPage}&showDuplicate=false`,
           // obj: { countries: ["India"] },
         })
       );

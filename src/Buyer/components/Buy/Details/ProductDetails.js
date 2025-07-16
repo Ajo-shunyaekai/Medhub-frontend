@@ -115,12 +115,20 @@ const ProductDetails = () => {
   }, [id, dispatch]);
 
   useEffect(() => {
+    const buyerId =
+    localStorage?.getItem("buyer_id") ||
+    localStorage?.getItem("buyer_id");
+  if (!buyerId) {
+    localStorage?.clear();
+    navigate("/buyer/login");
+    return;
+  }
     const fetchData = async () => {
       try {
         setLoading(true); // Set loading true before fetching
         const response = await dispatch(
           fetchOtherSupplierProductsList(
-            `product/get-other-products/${id}?page_no=${currentPage}&page_size=${itemsPerPage}&search_key=${
+            `product/get-other-products/${id}?buyer_id=${buyerId}&page_no=${currentPage}&page_size=${itemsPerPage}&search_key=${
               searchKey || ""
             }`
           )
@@ -421,14 +429,14 @@ const ProductDetails = () => {
                 </div>
               )}
               {/* {productDetail?.[productDetail?.category]?.anotherCategory && ( */}
-              {productDetail?.anotherCategory && (
+              {(productDetail?.[productDetail?.category]?.anotherCategory ||
+                productDetail?.anotherCategory) && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>
                     Product Sub Category(Level3)
                   </span>
                   <span className={styles.medicineText}>
-                    {/* {productDetail?.[productDetail?.category]?.anotherCategory}{" "} */}
-                    {productDetail?.anotherCategory}
+                  {productDetail?.[productDetail?.category]?.anotherCategory || productDetail?.anotherCategory}
                   </span>
                 </div>
               )}
@@ -508,15 +516,15 @@ const ProductDetails = () => {
               )} */}
             </div>
             <div className={styles.mainSection}>
-              {/* {productDetail?.[productDetail?.category]?.subCategory && ( */}
-              {productDetail?.subCategory && (
+            {(productDetail?.[productDetail?.category]?.subCategory ||
+                productDetail?.subCategory) && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>
                     Product Sub Category
                   </span>
                   <span className={styles.medicineText}>
-                    {/* {productDetail?.[productDetail?.category]?.subCategory}{" "} */}
-                    {productDetail?.subCategory}
+                  {productDetail?.[productDetail?.category]?.subCategory ||
+                        productDetail?.subCategory}
                   </span>
                 </div>
               )}
