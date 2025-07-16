@@ -24,8 +24,8 @@ import { postRequestWithToken } from "../../../../api/Requests";
 import Loader from "../../SharedComponents/Loader/Loader";
 import Accordion from "react-bootstrap/Accordion";
 import PdfViewerModal from "../../../../common/PdfViewer";
-import { Tooltip } from 'react-tooltip';
-import 'react-tooltip/dist/react-tooltip.css'
+import { Tooltip } from "react-tooltip";
+import "react-tooltip/dist/react-tooltip.css";
 
 Modal.setAppElement("#root");
 
@@ -57,7 +57,7 @@ const ProductDetails = () => {
   const dispatch = useDispatch();
   const { productDetail } = useSelector((state) => state?.productReducer || {});
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [pdfToPreview, setPdfToPreview] = useState(null);
   const pdfFile =
@@ -70,11 +70,14 @@ const ProductDetails = () => {
   //   : "https://morth.nic.in/sites/default/files/dd12-13_0.pdf";
 
   const pdfUrl = pdfFile
-  ? (() => {
-      const filename = pdfFile?.split("/")?.pop();
-      return `${process.env.REACT_APP_SERVER_URL.replace(/\/$/, "")}/pdf-proxy/${filename}`;
-    })()
-  : "https://morth.nic.in/sites/default/files/dd12-13_0.pdf";
+    ? (() => {
+        const filename = pdfFile?.split("/")?.pop();
+        return `${process.env.REACT_APP_SERVER_URL.replace(
+          /\/$/,
+          ""
+        )}/pdf-proxy/${filename}`;
+      })()
+    : "https://morth.nic.in/sites/default/files/dd12-13_0.pdf";
 
   const fallbackImageUrl =
     "https://medhub.shunyaekai.com/uploads/fallbackImage.jpg";
@@ -590,20 +593,35 @@ const ProductDetails = () => {
                 </div>
               )}
 
-             {productDetail?.general?.buyersPreferredFrom && (
+              {productDetail?.general?.buyersPreferredFrom && (
                 <div className={styles.medicinesSection}>
-                  <span className={styles.medicineHead}>Buyers Preferred From</span>
+                  <span className={styles.medicineHead}>
+                    Buyers Preferred From
+                  </span>
                   <span className={styles.medicineText}>
                     {/* {productDetail?.general?.buyersPreferredFrom} */}
                     {productDetail.general.buyersPreferredFrom.length <= 25 ? (
                       productDetail.general.buyersPreferredFrom.join(", ")
                     ) : (
                       <>
-                        {productDetail.general.buyersPreferredFrom.slice(0, 25).join(", ")}
-                        <span>{' ... '}</span>
-                        <span id="buyer-tooltip" style={{ textDecoration: 'underline'}}>{'view more'}</span>
-                        <Tooltip anchorId="buyer-tooltip" place="bottom" className={styles.toolTip} delayHide={500}
-                          content={productDetail.general.buyersPreferredFrom.slice(25, ).join(', ')}
+                        {productDetail.general.buyersPreferredFrom
+                          .slice(0, 25)
+                          .join(", ")}
+                        <span>{" ... "}</span>
+                        <span
+                          id="buyer-tooltip"
+                          style={{ textDecoration: "underline" }}
+                        >
+                          {"view more"}
+                        </span>
+                        <Tooltip
+                          anchorId="buyer-tooltip"
+                          place="bottom"
+                          className={styles.toolTip}
+                          delayHide={500}
+                          content={productDetail.general.buyersPreferredFrom
+                            .slice(25)
+                            .join(", ")}
                         />
                       </>
                     )}
@@ -717,28 +735,54 @@ const ProductDetails = () => {
                 : ""}
             </span>
             <div className={styles.innerComplianceSection}>
-              {productDetail?.categoryDetails?.map((item, index) => (
-                <div className={styles.additionalUploadSection}>
-                  <span className={styles.medicineHead}>
-                    {toTitleCase(item?.name)}
-                  </span>
-                  <div className={styles.additionalImageSection}>
-                    {/* {productDetail?.categoryDetails?.map((item, index) => ( */}
-                    <div
-                      className={styles.complianceSection}
-                      key={item._id || index}
-                    >
-                      {item?.type == "file" ? (
-                        <RenderProductFiles files={[item.fieldValue]} />
-                      ) : (
-                        <span className={styles.medicineContent}>
-                          {item.fieldValue}
-                        </span>
-                      )}
+              {productDetail?.categoryDetails
+                ?.filter((item) => item?.type != "textarea")
+                ?.map((item, index) => (
+                  <div className={styles.additionalUploadSection}>
+                    <span className={styles.medicineHead}>
+                      {toTitleCase(item?.name)}
+                    </span>
+                    <div className={styles.additionalImageSection}>
+                      {/* {productDetail?.categoryDetails?.map((item, index) => ( */}
+                      <div
+                        className={styles.complianceSection}
+                        key={item._id || index}
+                      >
+                        {item?.type == "file" ? (
+                          <RenderProductFiles files={[item.fieldValue]} />
+                        ) : (
+                          <span className={styles.medicineContent}>
+                            {item.fieldValue}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              {productDetail?.categoryDetails
+                ?.filter((item) => item?.type == "textarea")
+                ?.map((item, index) => (
+                  <div className={styles.additionalUploadSection34}>
+                    <span className={styles.medicineHead34}>
+                      {toTitleCase(item?.name)}
+                    </span>
+                    <div className={styles.additionalImageSection34}>
+                      {/* {productDetail?.categoryDetails?.map((item, index) => ( */}
+                      <div
+                        className={styles.complianceSection34}
+                        key={item._id || index}
+                      >
+                        {item?.type == "file" ? (
+                          <RenderProductFiles files={[item.fieldValue]} />
+                        ) : (
+                          <span className={styles.medicineContent34}>
+                            {item.fieldValue}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
             </div>
             <div
               className={styles.innerComplianceSection}
@@ -879,7 +923,7 @@ const ProductDetails = () => {
             </div>
           )
         )} */}
-        
+
         {/* New way of displaying product */}
         {imageArray.length > 0 && (
           <div className={styles.mainContainer}>
@@ -1410,7 +1454,11 @@ const ProductDetails = () => {
         />
       </div>
 
-      <PdfViewerModal isOpen={open} onClose={handleClose} fileUrl={pdfToPreview} />
+      <PdfViewerModal
+        isOpen={open}
+        onClose={handleClose}
+        fileUrl={pdfToPreview}
+      />
     </div>
   );
 };

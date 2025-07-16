@@ -672,3 +672,35 @@
   border-top-left-radius: var(--bs-accordion-inner-border-radius);
   border-top-right-radius: var(--bs-accordion-inner-border-radius);
 }
+
+.additionalUploadSection34 {
+  /* flex: 0 0 calc((100% - 40px) / 3);
+  max-width: calc((100% - 40px) / 3); */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.medicineHead34 {
+  font-size: 0.825rem;
+  font-weight: 500;
+  width: 250px;
+  color: #5e676f;
+}
+
+.additionalImageSection34 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.medicineContent34 {
+  font-size: 0.825rem;
+  color: #99a0ac;
+  font-weight: 500;
+  word-wrap: break-word;
+  white-space: normal;
+  overflow-wrap: break-word;
+  width: 100%;
+}
