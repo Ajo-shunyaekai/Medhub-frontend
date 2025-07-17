@@ -17,6 +17,7 @@ import {
   renderFiles,
 } from "../../../../utils/helper";
 import { useSelector } from "react-redux";
+import RenderFiles from '../../../../Buyer/components/Buy/Details/RenderFiles'
 
 const SupplierDetailsNew = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -449,10 +450,11 @@ const SupplierDetailsNew = () => {
                     Medical Practitioner Document
                   </div>
                   <div className="buyer-details-company-img-container">
-                    {renderFiles(
+                    {/* {renderFiles(
                       supplierDetails?.medical_certificate,
                       "medical_practitioner_image"
-                    )}
+                    )} */}
+                     <RenderFiles files={supplierDetails?.medical_certificate} />
                   </div>
                 </div>
               )}
@@ -462,7 +464,8 @@ const SupplierDetailsNew = () => {
                   Trade License
                 </div>
                 <div className="buyer-details-company-img-container">
-                  {renderFiles(supplierDetails?.license_image, "license_image")}
+                  {/* {renderFiles(supplierDetails?.license_image, "license_image")} */}
+                  <RenderFiles files={supplierDetails?.license_image} />
                 </div>
               </div>
               {/* Certificate */}
@@ -471,7 +474,7 @@ const SupplierDetailsNew = () => {
                   Certificate
                 </div>
                 <div className="buyer-details-company-img-container">
-                  {renderFiles(
+                  {/* {renderFiles(
                     supplierDetails?.certificateFileNDate?.length > 0
                       ? supplierDetails?.certificateFileNDate?.map(
                         (ele, index) => ({
@@ -484,7 +487,13 @@ const SupplierDetailsNew = () => {
                       : supplierDetails?.certificate_image,
                     "certificate_image",
                     supplierDetails?.certificateFileNDate?.length > 0
-                  )}
+                  )} */}
+                  {supplierDetails?.certificateFileNDate?.map((ele, index) => (
+                    <div key={index}>
+                      <RenderFiles files={[ele?.file || supplierDetails?.certificate_image?.[index]]} />
+                      {ele?.date && <p>{moment(ele?.date).format("DD MMM YYYY")}</p>}
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
