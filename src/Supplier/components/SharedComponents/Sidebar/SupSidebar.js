@@ -181,10 +181,10 @@ const SupSidebar = ({ children, dragWindow,
                 <div className={styles.icon}><LocalMallOutlinedIcon style={{ color: '#14bae4' }} /></div>
                 <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Products</div>
             </Link>
-            {/* <Link to="/supplier/bid" className={styles.sidebar_text} activeclassname={styles.active}>
+            <Link to="/supplier/bid" className={styles.sidebar_text} activeclassname={styles.active}>
                 <div className={styles.icon}><LocalMallOutlinedIcon style={{ color: '#ff7f50' }} /></div>
                 <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Bids</div>
-            </Link> */}
+            </Link>
  
             <Box sx={{ width: 200 }} role="presentation" >
                 <div className={styles.mobile_order_btn}>
@@ -456,10 +456,10 @@ const SupSidebar = ({ children, dragWindow,
                             <div className={styles.icon}><LocalMallOutlinedIcon style={{ color: '#14bae4', fontSize: '22px' }} /></div>
                             <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Products</div>
                         </Link>
-                        {/* <Link to="/supplier/bid" className={`${styles.sidebar_text} ${styles.desktop_order_btn}`} activeclassname={styles.active}>
+                        <Link to="/supplier/bid" className={`${styles.sidebar_text} ${styles.desktop_order_btn}`} activeclassname={styles.active}>
                             <div className={styles.icon}><LocalMallOutlinedIcon style={{ color: '#ff7f50', fontSize: '22px' }} /></div>
                             <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Bids</div>
-                        </Link> */}
+                        </Link>
  
                         <Link to="/supplier/enquiry-purchase-orders" className={`${styles.sidebar_text} ${styles.desktop_order_btn}`} activeclassname={styles.active}>
                             <div className={styles.icon}><ManageSearchIcon style={{ color: '#20c997', fontSize: '22px' }} /></div>
