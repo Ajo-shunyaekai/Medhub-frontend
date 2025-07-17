@@ -271,27 +271,9 @@ const CreateBid = () => {
                     <span className={styles.error}>{errors?.endDate}</span>
                   )}
                 </div>
-                <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>
-                    Bid Start Time
-                    <span className={styles.labelStamp}>*</span>
-                  </label>
-                  <input
-                    className={styles.formInput}
-                    type="time"
-                    name={`time`}
-                    value={values?.time}
-                    placeholder={`Enter Bid Start Time`}
-                    onChange={(e) => setFieldValue("time", e?.target?.value)}
-                  />
-
-                  {touched?.time && errors?.time && (
-                    <span className={styles.error}>{errors?.time}</span>
-                  )}
-                </div>
               </div>
               <div className={styles.formSection}>
-                <div className={styles.productTextContainer2}>
+                <div className={styles.productTextContainer}>
                   <label className={styles.formLabel}>
                     Bid Description<span className={styles.labelStamp}>*</span>
                   </label>
@@ -357,7 +339,7 @@ const CreateBid = () => {
                                   "name",
                                   setFieldValue,
                                   values,
-                                  e?.target?.value,
+                                  e.target.value,
                                   "documents"
                                 )
                               }
@@ -546,7 +528,7 @@ const CreateBid = () => {
                                   "name",
                                   setFieldValue,
                                   values,
-                                  e?.target?.value,
+                                  e.target.value,
                                   "additionalDetails"
                                 )
                               }
@@ -684,15 +666,7 @@ const CreateBid = () => {
                           <div className={styles.productContainer}>
                             <label className={styles.formLabel}>
                               UPC (Universal Product Code)
-                              <span
-                                className={
-                                  section?.type == "Product"
-                                    ? styles.labelStamp
-                                    : styles.labelStamp2
-                                }
-                              >
-                                *
-                              </span>
+                              <span className={styles.labelStamp}>*</span>
                             </label>
                             <input
                               className={styles.formInput}
@@ -706,7 +680,7 @@ const CreateBid = () => {
                                   "upc",
                                   setFieldValue,
                                   values,
-                                  e?.target?.value,
+                                  e.target.value,
                                   "additionalDetails"
                                 )
                               }
@@ -723,15 +697,7 @@ const CreateBid = () => {
                           <div className={styles.productContainer}>
                             <label className={styles.formLabel}>
                               Brand Name
-                              <span
-                                className={
-                                  section?.type == "Product"
-                                    ? styles.labelStamp
-                                    : styles.labelStamp2
-                                }
-                              >
-                                *
-                              </span>
+                              <span className={styles.labelStamp}>*</span>
                             </label>
                             <input
                               className={styles.formInput}
@@ -743,7 +709,7 @@ const CreateBid = () => {
                                   "brand",
                                   setFieldValue,
                                   values,
-                                  e?.target?.value,
+                                  e.target.value,
                                   "additionalDetails"
                                 )
                               }
@@ -986,7 +952,7 @@ const CreateBid = () => {
                                     "certificateName",
                                     setFieldValue,
                                     values,
-                                    e?.target?.value,
+                                    e.target.value,
                                     "additionalDetails"
                                   )
                                 }
@@ -1021,7 +987,7 @@ const CreateBid = () => {
                                   "quantity",
                                   setFieldValue,
                                   values,
-                                  e?.target?.value.replace(/\D/g, ""), // Allow only numbers
+                                  e.target.value.replace(/\D/g, ""), // Allow only numbers
                                   "additionalDetails"
                                 )
                               }
@@ -1050,7 +1016,7 @@ const CreateBid = () => {
                                   "targetPrice",
                                   setFieldValue,
                                   values,
-                                  e?.target?.value.replace(/\D/g, ""), // Allow only numbers
+                                  e.target.value.replace(/\D/g, ""), // Allow only numbers
                                   "additionalDetails"
                                 )
                               }
@@ -1086,7 +1052,7 @@ const CreateBid = () => {
                                   "delivery",
                                   setFieldValue,
                                   values,
-                                  e?.target?.value.replace(/\D/g, ""), // Allow only numbers
+                                  e.target.value.replace(/\D/g, ""), // Allow only numbers
                                   "additionalDetails"
                                 )
                               }

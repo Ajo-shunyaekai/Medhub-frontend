@@ -30,7 +30,7 @@ const AdmSidebar = ({
   handleClick,
 }) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [isDropOpen, setIsDropOpen] = useState(false);
   const [isSellerOpen, setIsSellerOpen] = useState(false);
   const [isManageOpen, setIsManageOpen] = useState(false);
@@ -96,8 +96,8 @@ const AdmSidebar = ({
   const profileRef = useRef(null);
   const NotificationDropdown = () => {
     setIsNotificationOpen(!isNotificationOpen);
-    setIsProfileOpen(false); 
-    handleClick(); 
+    setIsProfileOpen(false);
+    handleClick();
   };
 
   const ProfileDropdown = () => {
@@ -165,14 +165,14 @@ const AdmSidebar = ({
     setOpen(newOpen);
   };
 
-  const handleSignout = async() => {
+  const handleSignout = async () => {
     setIsProfileOpen(!isProfileOpen);
-    const response = await  dispatch(logoutUser({}));
-    if(response.meta.requestStatus === "fulfilled") {
-    setTimeout(() => {
-      localStorage?.clear();
-      navigate("/admin/login");
-    }, 500);
+    const response = await dispatch(logoutUser({}));
+    if (response.meta.requestStatus === "fulfilled") {
+      setTimeout(() => {
+        localStorage?.clear();
+        navigate("/admin/login");
+      }, 500);
     }
   };
 
@@ -187,7 +187,7 @@ const AdmSidebar = ({
         activeclassname={styles.active}
       >
         <div className={styles.icon}>
-          <HomeOutlinedIcon style={{ color: "#282f86",  fontSize: "22px" }} />
+          <HomeOutlinedIcon style={{ color: "#282f86", fontSize: "22px" }} />
         </div>
         <div
           style={{ display: isOpen ? "block" : "none" }}
@@ -202,9 +202,9 @@ const AdmSidebar = ({
           <div className={styles.sidebar_text} onClick={toggleAccordion}>
             <div className={styles.icon}>
               {" "}
-              <TocOutlinedIcon style={{ color: "#31c971",  fontSize: "22px" }} />
+              <TocOutlinedIcon style={{ color: "#31c971", fontSize: "22px" }} />
             </div>
-            <div >Orders</div>
+            <div>Orders</div>
           </div>
           {isDropdown && (
             <div className={styles.accordion_content}>
@@ -243,7 +243,7 @@ const AdmSidebar = ({
               onClick={toggleSellerDropdown}
             >
               <LocalMallOutlinedIcon
-                style={{ color: "#14bae4",  fontSize: "22px" }}
+                style={{ color: "#14bae4", fontSize: "22px" }}
               />
               <div
                 className={styles.dropdownText}
@@ -251,11 +251,13 @@ const AdmSidebar = ({
               >
                 Manage Supplier
                 {isIconOpen ? (
-                   <KeyboardArrowUpOutlinedIcon style={{ color: "#212121", cursor:"pointer" }} /> 
+                  <KeyboardArrowUpOutlinedIcon
+                    style={{ color: "#212121", cursor: "pointer" }}
+                  />
                 ) : (
-                   <KeyboardArrowDownOutlinedIcon
-                      style={{ color: "#212121", cursor:"pointer" }}
-                    />
+                  <KeyboardArrowDownOutlinedIcon
+                    style={{ color: "#212121", cursor: "pointer" }}
+                  />
                 )}
               </div>
             </div>
@@ -266,9 +268,8 @@ const AdmSidebar = ({
                   className={styles.sidebar_text}
                   activeclassname={styles.active}
                 >
-                   <FiberManualRecordIcon className={styles.icons}/>
-                 
-               
+                  <FiberManualRecordIcon className={styles.icons} />
+
                   <div className={styles.sidebar_text}>Supplier Requests</div>
                 </Link>
                 <Link
@@ -276,9 +277,8 @@ const AdmSidebar = ({
                   className={styles.sidebar_text}
                   activeclassname={styles.active}
                 >
-                   <FiberManualRecordIcon className={styles.icons}/>
-                  
-             
+                  <FiberManualRecordIcon className={styles.icons} />
+
                   <div className={styles.sidebar_text}>Approved Supplier</div>
                 </Link>
                 <Link
@@ -286,9 +286,8 @@ const AdmSidebar = ({
                   className={styles.sidebar_text}
                   activeclassname={styles.active}
                 >
-                   <FiberManualRecordIcon className={styles.icons}/>
-                   
-               
+                  <FiberManualRecordIcon className={styles.icons} />
+
                   <div className={styles.sidebar_text}>Rejected Supplier </div>
                 </Link>
 
@@ -297,9 +296,8 @@ const AdmSidebar = ({
                   className={styles.sidebar_text}
                   activeclassname={styles.active}
                 >
-                   <FiberManualRecordIcon className={styles.icons}/>
-                  
-          
+                  <FiberManualRecordIcon className={styles.icons} />
+
                   <div className={styles.sidebar_text}>
                     Supplier Transaction
                   </div>
@@ -309,9 +307,8 @@ const AdmSidebar = ({
                   className={styles.sidebar_text}
                   activeclassname={styles.active}
                 >
-                   <FiberManualRecordIcon className={styles.icons}/>
-                  
-            
+                  <FiberManualRecordIcon className={styles.icons} />
+
                   <div className={styles.sidebar_text}>Support</div>
                 </Link>
                 <Link
@@ -319,9 +316,8 @@ const AdmSidebar = ({
                   className={styles.sidebar_text}
                   activeclassname={styles.active}
                 >
-                   <FiberManualRecordIcon className={styles.icons}/>
-                  
-           
+                  <FiberManualRecordIcon className={styles.icons} />
+
                   <div className={styles.sidebar_text}>Invoices </div>
                 </Link>
               </div>
@@ -331,7 +327,7 @@ const AdmSidebar = ({
           <div className={styles.dropdown}>
             <div className={styles.dropdownToggle} onClick={toggleDropdown}>
               <LocalShippingOutlinedIcon
-                style={{ color: "#31c971",  fontSize: "22px" }}
+                style={{ color: "#31c971", fontSize: "22px" }}
               />
               <div
                 className={styles.dropdownText}
@@ -339,11 +335,13 @@ const AdmSidebar = ({
               >
                 Manage Buyer
                 {isBuyerIconOpen ? (
-                   <KeyboardArrowUpOutlinedIcon style={{ color: "#212121", cursor:"pointer" }} />
+                  <KeyboardArrowUpOutlinedIcon
+                    style={{ color: "#212121", cursor: "pointer" }}
+                  />
                 ) : (
-                   <KeyboardArrowDownOutlinedIcon
-                      style={{ color: "#212121", cursor:"pointer" }}
-                    /> 
+                  <KeyboardArrowDownOutlinedIcon
+                    style={{ color: "#212121", cursor: "pointer" }}
+                  />
                 )}
               </div>
             </div>
@@ -354,9 +352,8 @@ const AdmSidebar = ({
                   className={styles.sidebar_text}
                   activeclassname={styles.active}
                 >
-                   <FiberManualRecordIcon className={styles.icons}/>
-                    
-             
+                  <FiberManualRecordIcon className={styles.icons} />
+
                   <div className={styles.sidebar_text}>Buyer Requests</div>
                 </Link>
                 <Link
@@ -364,9 +361,8 @@ const AdmSidebar = ({
                   className={styles.sidebar_text}
                   activeclassname={styles.active}
                 >
-                   <FiberManualRecordIcon className={styles.icons}/>
-                   
-           
+                  <FiberManualRecordIcon className={styles.icons} />
+
                   <div className={styles.sidebar_text}>Approved Buyer</div>
                 </Link>
                 <Link
@@ -374,9 +370,8 @@ const AdmSidebar = ({
                   className={styles.sidebar_text}
                   activeclassname={styles.active}
                 >
-                   <FiberManualRecordIcon className={styles.icons}/>
-                   
-              
+                  <FiberManualRecordIcon className={styles.icons} />
+
                   <div className={styles.sidebar_text}>Rejected Buyer </div>
                 </Link>
                 <Link
@@ -384,9 +379,8 @@ const AdmSidebar = ({
                   className={styles.sidebar_text}
                   activeclassname={styles.active}
                 >
-                   <FiberManualRecordIcon className={styles.icons}/>
-                    
-           
+                  <FiberManualRecordIcon className={styles.icons} />
+
                   <div className={styles.sidebar_text}>Buyer Transaction</div>
                 </Link>
                 <Link
@@ -394,9 +388,8 @@ const AdmSidebar = ({
                   className={styles.sidebar_text}
                   activeclassname={styles.active}
                 >
-                   <FiberManualRecordIcon className={styles.icons}/>
-                 
-              
+                  <FiberManualRecordIcon className={styles.icons} />
+
                   <div className={styles.sidebar_text}>Support</div>
                 </Link>
                 <Link
@@ -404,9 +397,8 @@ const AdmSidebar = ({
                   className={styles.sidebar_text}
                   activeclassname={styles.active}
                 >
-                   <FiberManualRecordIcon className={styles.icons}/>
-                   
-             
+                  <FiberManualRecordIcon className={styles.icons} />
+
                   <div className={styles.sidebar_text}>Invoices </div>
                 </Link>
               </div>
@@ -418,7 +410,7 @@ const AdmSidebar = ({
               onClick={toggleManageDropdown}
             >
               <DescriptionOutlinedIcon
-                style={{ color: "#f4c414",  fontSize: "22px" }}
+                style={{ color: "#f4c414", fontSize: "22px" }}
               />
               <div
                 className={styles.dropdownText}
@@ -427,11 +419,13 @@ const AdmSidebar = ({
                 Manage Products{" "}
               </div>
               {isProductIconOpen ? (
-                 <KeyboardArrowUpOutlinedIcon style={{ color: "#212121", cursor:"pointer" }} /> 
+                <KeyboardArrowUpOutlinedIcon
+                  style={{ color: "#212121", cursor: "pointer" }}
+                />
               ) : (
-                 <KeyboardArrowDownOutlinedIcon
-                      style={{ color: "#212121", cursor:"pointer" }}
-                    /> 
+                <KeyboardArrowDownOutlinedIcon
+                  style={{ color: "#212121", cursor: "pointer" }}
+                />
               )}
             </div>
             {isOpen && isManageOpen && (
@@ -441,9 +435,8 @@ const AdmSidebar = ({
                   className={styles.sidebar_text}
                   activeclassname={styles.active}
                 >
-                   <FiberManualRecordIcon className={styles.icons}/>
-                   
-              
+                  <FiberManualRecordIcon className={styles.icons} />
+
                   <div className={styles.sidebar_text}>Products</div>
                 </Link>
               </div>
@@ -496,130 +489,123 @@ const AdmSidebar = ({
             <Link to="/admin">
               <img src={DeliverLogo} alt="Deliver Logo" />
             </Link>
-            
           </div>
 
-          <div className={styles.nav_search_container}>     
-              <div className={styles.notificationSection} ref={notificationRef}>
-                <Badge
-                  badgeContent={count > 9 ? "9+" : count}
-                  color="secondary"
-                >
-                  <NotificationsNoneOutlinedIcon
-                    className={styles.nav_icon_color}
-                    onClick={NotificationDropdown}
-                  />
-                </Badge>
-                {isNotificationOpen && (
-                  <div className={styles.noti_container}>
-                    <div className={styles.noti_wrapper}>
-                      <div className={styles.noti_top_wrapper}>
-                        {notificationList && notificationList.length > 0 ? (
-                          notificationList.slice(0, 5).map((data, i) => {
-                            const words = data?.message?.split(" ");
-                            const heading = words.slice(0, 2).join(" "); 
-                            const content = words.slice(2).join(" ");
-
-                            return (
-                              <div
-                                key={data.notification_id}
-                                className={styles.noti_profile_wrapper}
-                                onClick={() =>
-                                  handleNavigation(
-                                    data.notification_id,
-                                    data.event,
-                                    data.event_id,
-                                    data.link_id
-                                  )
-                                }
-                              >
-                                <div className={styles.noti_profile_text}>
+          <div className={styles.nav_search_container}>
+            <div className={styles.notificationSection} ref={notificationRef}>
+              <Badge badgeContent={count > 9 ? "9+" : count} color="secondary">
+                <NotificationsNoneOutlinedIcon
+                  className={styles.nav_icon_color}
+                  onClick={NotificationDropdown}
+                />
+              </Badge>
+              {isNotificationOpen && (
+                <div className={styles.noti_container}>
+                  <div className={styles.noti_wrapper}>
+                    <div className={styles.noti_top_wrapper}>
+                      {notificationList && notificationList.length > 0 ? (
+                        notificationList.slice(0, 5).map((data, i) => {
+                          const words = data?.message?.split(" ");
+                          const heading = words.slice(0, 2).join(" ");
+                          const content = words.slice(2).join(" ");
+                          return (
+                            <div
+                              className={styles.noti_profile_wrapper}
+                              onClick={() =>
+                                handleNavigation(
+                                  data?.notification_id,
+                                  data?.event,
+                                  data?.event_id,
+                                  data?.link_id
+                                )
+                              }
+                              key={i}
+                            >
+                              <div className={styles.noti_profile_text}>
+                                <div className={styles.noti_profile_section}>
                                   <span className={styles.noti_heading}>
                                     {heading}
                                   </span>
-                                  <span className={styles.noti_head_content}>
-                                    {content.length > 100
-                                      ? `${content.slice(0, 100)}...`
-                                      : content}
+                                  <span className={styles.noti_content}>
+                                    {content}
                                   </span>
-                                  <span className={styles.noti_profile}>
-                                    {" "}
-                                    {moment(data.createdAt).fromNow()}
+                                  <span className={styles.noti_time}>
+                                    {moment(data?.createdAt).fromNow()}
                                   </span>
                                 </div>
                               </div>
-                            );
-                          })
-                        ) : (
-                          // Error message if no notifications exist
-                          <div className={styles.error_message}>
-                            <p>No notifications available</p>
-                          </div>
-                        )}
-                      </div>
-                      {notificationList && notificationList.length > 0 && (
-                        <div className={styles.noti_bottom_wrapper}>
-                          <div className={styles.noti_see_all_num}>
-                            {notificationList.length} Notifications
-                          </div>
-                          <div
-                            className={styles.noti_see_all_btn}
-                            onClick={handleNotificationNavigate}
-                          >
-                            See all
-                          </div>
+                            </div>
+                          );
+                        })
+                      ) : (
+                        <div className={styles.noti_error}>
+                          No notifications available
                         </div>
                       )}
                     </div>
-                  </div>
-                )}
-              </div>
-              <div className={styles.notificationSection} ref={profileRef}>
-                <AccountCircleOutlinedIcon
-                  className={styles.nav_icon_color}
-                  onClick={ProfileDropdown}
-                />
-                {isProfileOpen && (
-                  <div className={styles.profile_dropdown}>
-                    {/* Profile content goes here */}
-                    <div className={styles.profile_wrapper}>
-                      <div className={styles.profile_text}>
-                        <Link
-                          to="#"
-                          onClick={() => setIsProfileOpen(false)} // Close dropdown on click
+                    {notificationList && notificationList.length > 0 && (
+                      <div className={styles.noti_bottom_wrapper}>
+                        <div className={styles.noti_see_all_num}>
+                          {notificationList.length} Notifications
+                        </div>
+                        <div
+                          className={styles.noti_see_all_btn}
+                          onClick={handleNotificationNavigate}
                         >
-                          {localStorage?.email || "admin@gmail.com"}
-                        </Link>
-                      </div>
-                      <div className={styles.profile_wrapper_mid}>
-                        <div>
-                          <Link
-                            to="/admin/profile"
-                            onClick={() => setIsProfileOpen(false)} // Close dropdown on click
-                          >
-                            <div className={styles.profile_text}>Profile</div>
-                          </Link>
+                          See all
                         </div>
                       </div>
-
-                      <div
-                        className={styles.profile_sign_out}
-                        onClick={() => {
-                          handleSignout();
-                          setIsProfileOpen(false); // Close dropdown on signout
-                        }}
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+            <div className={styles.notificationSection} ref={profileRef}>
+              <AccountCircleOutlinedIcon
+                className={styles.nav_icon_color}
+                onClick={ProfileDropdown}
+              />
+              {isProfileOpen && (
+                <div className={styles.profile_dropdown}>
+                  {/* Profile content goes here */}
+                  <div className={styles.profile_wrapper}>
+                    <div className={styles.profile_text}>
+                      <Link
+                        to="#"
+                        onClick={() => setIsProfileOpen(false)} // Close dropdown on click
                       >
-                        Sign out
+                        {localStorage?.email || "admin@gmail.com"}
+                      </Link>
+                    </div>
+                    <div className={styles.profile_wrapper_mid}>
+                      <div>
+                        <Link
+                          to="/admin/profile"
+                          onClick={() => setIsProfileOpen(false)} // Close dropdown on click
+                        >
+                          <div className={styles.profile_text}>Profile</div>
+                        </Link>
                       </div>
                     </div>
+
+                    <div
+                      className={styles.profile_sign_out}
+                      onClick={() => {
+                        handleSignout();
+                        setIsProfileOpen(false); // Close dropdown on signout
+                      }}
+                    >
+                      Sign out
+                    </div>
                   </div>
-                )}
-                <MenuOutlinedIcon
-                  className={styles.nav_icon_color_two_3}
-                  onClick={toggleDrawer(true)}
-                />
-              </div>
+                </div>
+              )}
+              <MenuOutlinedIcon
+                className={styles.nav_icon_color_two_3}
+                onClick={toggleDrawer(true)}
+              />
             </div>
+          </div>
         </div>
         {isSearchVisible && (
           <div className={`${styles.nav_search} ${styles.nav_search_two}`}>
@@ -647,7 +633,7 @@ const AdmSidebar = ({
             >
               <div className={styles.icon}>
                 <HomeOutlinedIcon
-                  style={{ color: "#282f86",  fontSize: "22px" }}
+                  style={{ color: "#282f86", fontSize: "22px" }}
                 />
               </div>
               <div
@@ -706,13 +692,13 @@ const AdmSidebar = ({
               )}
             </div>
             {/* =========================== */}
-            <div className={styles.dropdown} >
+            <div className={styles.dropdown}>
               <div
                 className={styles.dropdownToggle}
                 onClick={toggleSellerDropdown}
               >
                 <LocalMallOutlinedIcon
-                  style={{ color: "#14bae4",  fontSize: "22px" }}
+                  style={{ color: "#14bae4", fontSize: "22px" }}
                 />
                 <div
                   className={styles.dropdownText}
@@ -720,12 +706,13 @@ const AdmSidebar = ({
                 >
                   Manage Supplier
                   {isIconOpen ? (
-                     <KeyboardArrowUpOutlinedIcon style={{ color: "#212121", cursor:"pointer" }} /> 
-                  ) : (
-                     <KeyboardArrowDownOutlinedIcon
-                      style={{ color: "#212121", cursor:"pointer" }}
+                    <KeyboardArrowUpOutlinedIcon
+                      style={{ color: "#212121", cursor: "pointer" }}
                     />
-                     
+                  ) : (
+                    <KeyboardArrowDownOutlinedIcon
+                      style={{ color: "#212121", cursor: "pointer" }}
+                    />
                   )}
                 </div>
               </div>
@@ -736,7 +723,7 @@ const AdmSidebar = ({
                     className={styles.sidebar_text}
                     activeclassname={styles.active}
                   >
-                     <FiberManualRecordIcon className={styles.icons}/>
+                    <FiberManualRecordIcon className={styles.icons} />
                     <div className={styles.sidebar_text}>Supplier Requests</div>
                   </Link>
                   <Link
@@ -744,9 +731,8 @@ const AdmSidebar = ({
                     className={styles.sidebar_text}
                     activeclassname={styles.active}
                   >
-                     <FiberManualRecordIcon className={styles.icons}/>
-                    
-                    
+                    <FiberManualRecordIcon className={styles.icons} />
+
                     <div className={styles.sidebar_text}>Approved Supplier</div>
                   </Link>
                   <Link
@@ -754,9 +740,8 @@ const AdmSidebar = ({
                     className={styles.sidebar_text}
                     activeclassname={styles.active}
                   >
-                     <FiberManualRecordIcon className={styles.icons}/>
-                      
-                   
+                    <FiberManualRecordIcon className={styles.icons} />
+
                     <div className={styles.sidebar_text}>
                       Rejected Supplier{" "}
                     </div>
@@ -766,9 +751,8 @@ const AdmSidebar = ({
                     className={styles.sidebar_text}
                     activeclassname={styles.active}
                   >
-                     <FiberManualRecordIcon className={styles.icons}/>
-                     
-                 
+                    <FiberManualRecordIcon className={styles.icons} />
+
                     <div className={styles.sidebar_text}>
                       Supplier Transaction
                     </div>
@@ -778,9 +762,8 @@ const AdmSidebar = ({
                     className={styles.sidebar_text}
                     activeclassname={styles.active}
                   >
-                     <FiberManualRecordIcon className={styles.icons}/>
-                     
-                   
+                    <FiberManualRecordIcon className={styles.icons} />
+
                     <div className={styles.sidebar_text}>Enquiry</div>
                   </Link>
                   <Link
@@ -788,9 +771,8 @@ const AdmSidebar = ({
                     className={styles.sidebar_text}
                     activeclassname={styles.active}
                   >
-                     <FiberManualRecordIcon className={styles.icons}/>
-                    
-                  
+                    <FiberManualRecordIcon className={styles.icons} />
+
                     <div className={styles.sidebar_text}>Order</div>
                   </Link>
                   <Link
@@ -798,9 +780,8 @@ const AdmSidebar = ({
                     className={styles.sidebar_text}
                     activeclassname={styles.active}
                   >
-                     <FiberManualRecordIcon className={styles.icons}/>
-                     
-                    
+                    <FiberManualRecordIcon className={styles.icons} />
+
                     <div className={styles.sidebar_text}>Invoices </div>
                   </Link>
                   <Link
@@ -808,9 +789,8 @@ const AdmSidebar = ({
                     className={styles.sidebar_text}
                     activeclassname={styles.active}
                   >
-                     <FiberManualRecordIcon className={styles.icons}/>
-                     
-                  
+                    <FiberManualRecordIcon className={styles.icons} />
+
                     <div className={styles.sidebar_text}>Support</div>
                   </Link>
                 </div>
@@ -820,7 +800,7 @@ const AdmSidebar = ({
             <div className={styles.dropdown}>
               <div className={styles.dropdownToggle} onClick={toggleDropdown}>
                 <LocalShippingOutlinedIcon
-                  style={{ color: "#31c971",  fontSize: "22px" }}
+                  style={{ color: "#31c971", fontSize: "22px" }}
                 />
                 <div
                   className={styles.dropdownText}
@@ -828,12 +808,13 @@ const AdmSidebar = ({
                 >
                   Manage Buyer
                   {isBuyerIconOpen ? (
-                     <KeyboardArrowUpOutlinedIcon style={{ color: "#212121", cursor:"pointer" }} />
-                  ) : (
-                     <KeyboardArrowDownOutlinedIcon
-                      style={{ color: "#212121", cursor:"pointer" }}
+                    <KeyboardArrowUpOutlinedIcon
+                      style={{ color: "#212121", cursor: "pointer" }}
                     />
-                     
+                  ) : (
+                    <KeyboardArrowDownOutlinedIcon
+                      style={{ color: "#212121", cursor: "pointer" }}
+                    />
                   )}
                 </div>
               </div>
@@ -844,9 +825,8 @@ const AdmSidebar = ({
                     className={styles.sidebar_text}
                     activeclassname={styles.active}
                   >
-                     <FiberManualRecordIcon className={styles.icons}/>
-                     
-                  
+                    <FiberManualRecordIcon className={styles.icons} />
+
                     <div className={styles.sidebar_text}>Buyer Requests</div>
                   </Link>
                   <Link
@@ -854,9 +834,8 @@ const AdmSidebar = ({
                     className={styles.sidebar_text}
                     activeclassname={styles.active}
                   >
-                     <FiberManualRecordIcon className={styles.icons}/>
-                     
-                  
+                    <FiberManualRecordIcon className={styles.icons} />
+
                     <div className={styles.sidebar_text}>Approved Buyer</div>
                   </Link>
                   <Link
@@ -864,9 +843,8 @@ const AdmSidebar = ({
                     className={styles.sidebar_text}
                     activeclassname={styles.active}
                   >
-                     <FiberManualRecordIcon className={styles.icons}/>
-                     
-                   
+                    <FiberManualRecordIcon className={styles.icons} />
+
                     <div className={styles.sidebar_text}>Rejected Buyer </div>
                   </Link>
                   <Link
@@ -874,9 +852,8 @@ const AdmSidebar = ({
                     className={styles.sidebar_text}
                     activeclassname={styles.active}
                   >
-                     <FiberManualRecordIcon className={styles.icons}/>
-                     
-                  
+                    <FiberManualRecordIcon className={styles.icons} />
+
                     <div className={styles.sidebar_text}>Buyer Transaction</div>
                   </Link>
                   <Link
@@ -884,9 +861,8 @@ const AdmSidebar = ({
                     className={styles.sidebar_text}
                     activeclassname={styles.active}
                   >
-                     <FiberManualRecordIcon className={styles.icons}/>
-                    
-                   
+                    <FiberManualRecordIcon className={styles.icons} />
+
                     <div className={styles.sidebar_text}>Enquiry</div>
                   </Link>
                   <Link
@@ -894,9 +870,8 @@ const AdmSidebar = ({
                     className={styles.sidebar_text}
                     activeclassname={styles.active}
                   >
-                     <FiberManualRecordIcon className={styles.icons}/>
-                     
-                  
+                    <FiberManualRecordIcon className={styles.icons} />
+
                     <div className={styles.sidebar_text}>Order</div>
                   </Link>
                   <Link
@@ -904,9 +879,8 @@ const AdmSidebar = ({
                     className={styles.sidebar_text}
                     activeclassname={styles.active}
                   >
-                     <FiberManualRecordIcon className={styles.icons}/>
-                      
-                
+                    <FiberManualRecordIcon className={styles.icons} />
+
                     <div className={styles.sidebar_text}>Invoices </div>
                   </Link>
                   <Link
@@ -914,9 +888,8 @@ const AdmSidebar = ({
                     className={styles.sidebar_text}
                     activeclassname={styles.active}
                   >
-                     <FiberManualRecordIcon className={styles.icons}/>
-                    
-                
+                    <FiberManualRecordIcon className={styles.icons} />
+
                     <div className={styles.sidebar_text}>Support</div>
                   </Link>
                 </div>
@@ -930,7 +903,7 @@ const AdmSidebar = ({
                 onClick={toggleManageDropdown}
               >
                 <DescriptionOutlinedIcon
-                  style={{ color: "#f4c414",  fontSize: "22px" }}
+                  style={{ color: "#f4c414", fontSize: "22px" }}
                 />
                 <div
                   className={styles.dropdownText}
@@ -938,39 +911,38 @@ const AdmSidebar = ({
                 >
                   Manage Products
                   {isProductIconOpen ? (
-                     <KeyboardArrowUpOutlinedIcon style={{ color: "#212121", cursor:"pointer" }} /> 
-                  ) : (
-                     <KeyboardArrowDownOutlinedIcon
-                      style={{ color: "#212121", cursor:"pointer" }}
+                    <KeyboardArrowUpOutlinedIcon
+                      style={{ color: "#212121", cursor: "pointer" }}
                     />
-                     
+                  ) : (
+                    <KeyboardArrowDownOutlinedIcon
+                      style={{ color: "#212121", cursor: "pointer" }}
+                    />
                   )}
                 </div>
               </div>
               {isOpen && isManageOpen && (
                 <div className={styles.dropdownContent}>
-                  
                   <Link
                     to="/admin/products/new"
                     className={styles.sidebar_text}
                     activeclassname={styles.active}
                   >
-                     <FiberManualRecordIcon className={styles.icons}/>
-                     
-              
+                    <FiberManualRecordIcon className={styles.icons} />
+
                     <div className={styles.sidebar_text}>Products</div>
                   </Link>
-                  
                 </div>
               )}
             </div>
-
-           
           </div>
         ) : (
           ""
         )}
-        <div className={styles.mainContainer} style={{ marginTop: isSearchVisible ? "30px" : "0" }}>
+        <div
+          className={styles.mainContainer}
+          style={{ marginTop: isSearchVisible ? "30px" : "0" }}
+        >
           <Outlet />
         </div>
       </div>

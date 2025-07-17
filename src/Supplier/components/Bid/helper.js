@@ -6,8 +6,6 @@ export const bidValidationSchema = Yup.object().shape({
     .required("Start date is required")
     .typeError("Start date must be a valid date"),
 
-  time: Yup.string().required("Start time is required"),
-
   endDate: Yup.date()
     .required("End date is required")
     .typeError("End date must be a valid date")
@@ -55,21 +53,13 @@ export const bidValidationSchema = Yup.object().shape({
           .required("Item description is required")
           .min(5, "Description must be at least 5 characters"),
 
-        upc: Yup.string().when("type", {
-          is: "Product",
-          then: Yup.string()
-            .required("UPC is required for products")
-            .min(3, "UPC must be at least 3 characters"),
-          otherwise: Yup.string().notRequired(),
-        }),
+        upc: Yup.string()
+          .required("UPC is required")
+          .min(3, "UPC must be at least 3 characters"),
 
-        brand: Yup.string().when("type", {
-          is: "Product",
-          then: Yup.string()
-            .required("Brand name is required for products")
-            .min(2, "Brand must be at least 2 characters"),
-          otherwise: Yup.string().notRequired(),
-        }),
+        brand: Yup.string()
+          .required("Brand is required")
+          .min(2, "Brand must be at least 2 characters"),
 
         quantity: Yup.number()
           .typeError("Quantity must be a number")
@@ -97,7 +87,9 @@ export const bidValidationSchema = Yup.object().shape({
 
         certificateName: Yup.string().when("docReq", {
           is: "Yes",
-          then: Yup.string().required("Certificate name is required"),
+          then: Yup.string().required(
+            "Certificate name is required"
+          ),
           otherwise: Yup.string().notRequired(),
         }),
 
@@ -151,10 +143,9 @@ export const stateOptions = (selectedCountry) =>
 
 export const initialValues = {
   startDate: undefined,
-  time: undefined,
   endDate: undefined,
   description: undefined,
-  bidDocs: [],
+  bidDocs:[],
   documents: [
     {
       name: undefined,
