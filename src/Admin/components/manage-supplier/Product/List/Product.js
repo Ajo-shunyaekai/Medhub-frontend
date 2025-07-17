@@ -105,7 +105,7 @@ const Product = () => {
       const marketType = activeButton === "new" ? "new" : "secondary";
       const response = await dispatch(
         fetchProductsList({
-          url: `product?market=${marketType}&supplier_id=${supplierId}&page_no=${currentPage}&page_size=${itemsPerPage}`,
+          url: `product?market=${marketType}&supplier_id=${supplierId}&page_no=${currentPage}&page_size=${itemsPerPage}&showDuplicate=false`,
         })
       );
       if (response.meta.requestStatus === "fulfilled") {

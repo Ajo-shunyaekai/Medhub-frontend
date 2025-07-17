@@ -22,6 +22,7 @@ import {
 } from "../../../../redux/reducers/productSlice";
 import ComplianceNCertification from "./ComplianceNCertification";
 import moment from "moment";
+import { toast } from "react-toastify";
 import {
   Options,
   packagingUnits,
@@ -629,7 +630,7 @@ const AddProduct = ({ placeholder }) => {
           //     ? values?.tags?.split(",")
           //     : values?.tags
           // );
-
+          
           dispatch(addProduct(formData)).then((response) => {
             if (response?.meta.requestStatus === "fulfilled") {
               if(supplierId) {
@@ -649,6 +650,7 @@ const AddProduct = ({ placeholder }) => {
           handleBlur,
           handleSubmit,
           setFieldValue,
+          validateForm,
           setFieldTouched,
           touched,
           errors,
@@ -2423,8 +2425,40 @@ const AddProduct = ({ placeholder }) => {
             <div className={styles.buttonContainer}>
               <button
                 className={styles.buttonSubmit}
-                type="submit"
+                type="button"
                 disabled={loading}
+                onClick={async () => {
+                  const validationErrors = await validateForm(values);
+              
+                  // Touch all fields so errors show up
+                  Object.keys(validationErrors).forEach((key) => {
+                    setFieldTouched(key, true, true);
+                  });
+              
+                  // Also touch nested array fields
+                  if (validationErrors.stockedInDetails) {
+                    validationErrors.stockedInDetails.forEach((section, index) => {
+                      Object.keys(section || {}).forEach((field) => {
+                        setFieldTouched(`stockedInDetails.${index}.${field}`, true, true);
+                      });
+                    });
+                  }
+
+                  if(validationErrors.productPricingDetails) {
+                    validationErrors.productPricingDetails.forEach((section, index) => {
+                      Object.keys(section || {}).forEach((field) => {
+                        setFieldTouched(`productPricingDetails.${index}.${field}`, true, true);
+                      });
+                    });
+                  }
+              
+                  if (Object.keys(validationErrors).length > 0) {
+                    toast.error("Please fill the required fields correctly.");
+                    return;
+                  }
+              
+                  handleSubmit(); // only submits if validation passed
+                }}
               >
                 {loading ? <div className="loading-spinner"></div> : "Submit"}
               </button>

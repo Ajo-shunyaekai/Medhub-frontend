@@ -5,15 +5,8 @@ import styles from './productdetails.module.css'
 import PDFIcon from '../../../assets/images/pdf.png';
 import DocxIcon from '../../../assets/images/doc.png'
 import CloseIcon from '@mui/icons-material/Close';
-// import { Modal } from "react-responsive-modal";
-// import "react-responsive-modal/styles.css";
-// import Modal from 'react-modal';
-// import { Document, Page, pdfjs } from 'react-pdf';
-// import 'react-pdf/dist/esm/Page/AnnotationLayer.css'; // optional but improves rendering
-// import 'react-pdf/dist/esm/Page/TextLayer.css';
 import PdfViewerModal from '../../../../common/PdfViewer.js'
-
-// pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+import PdfThumbnail from '../../../../common/PdfThumbnail.js'
  
 const extractFileName = (url) => {
   return url?.split("/")?.pop();
@@ -26,11 +19,6 @@ const isImageExtension = (fileName) => {
   return /\.(png|jpe?g|gif|bmp|webp)$/i.test(fileName);
 };
 
-
-// const isImageExtension = (fileName) =>
-//   /\.(png|jpe?g|gif|bmp|webp)$/i.test(fileName);
-// const isPdf = (fileName) => fileName?.toLowerCase()?.endsWith(".pdf");
-// const isDocx = (fileName) => fileName?.toLowerCase()?.endsWith(".docx");
 
 const RenderProductFiles = ({ files }) => {
   const [open, setOpen] = useState(false);
@@ -77,18 +65,31 @@ const RenderProductFiles = ({ files }) => {
           );
         }
 
+        // if (isPdf(fileUrl)) {
+        //   return (
+        //     <div
+        //       key={index}
+        //       className={styles.pdfLink}
+        //       onClick={() => handleOpenPdf(fileUrl)}
+        //       style={{ cursor: "pointer" }}
+        //     >
+        //       <img src={PDFIcon} alt="PDF" className={styles.uploadImage} />
+        //     </div>
+        //   );
+        // }
+
         if (isPdf(fileUrl)) {
           return (
-            <div
+            <PdfThumbnail
               key={index}
-              className={styles.pdfLink}
+              fileUrl={fileUrl}
               onClick={() => handleOpenPdf(fileUrl)}
-              style={{ cursor: "pointer" }}
-            >
-              <img src={PDFIcon} alt="PDF" className={styles.uploadImage} />
-            </div>
+              className={styles.uploadImage}
+              fallbackImageUrl={fallbackImageUrl}
+            />
           );
         }
+        
 
         if (isDocx(fileUrl)) {
           return (
@@ -114,77 +115,9 @@ const RenderProductFiles = ({ files }) => {
         );
       })}
 
-
       {/* PDF Modal using react-modal */}
-      {/* <Modal
-        isOpen={open}
-        onRequestClose={handleClose}
-        contentLabel="PDF Viewer"
-        style={{
-          content: {
-            width: '550px',
-            height: '650px',
-            margin: 'auto',
-            overflow: 'auto',
-          },
-        }}
-      >
-        
-        <span onClick={handleClose} style={{ float: 'right' }}>
-                        <CloseIcon style={{ float: 'right' }} />
-                      </span>
-        {pdfToPreview ? (
-          <Document
-            file={{ url: pdfToPreview, withCredentials: false }}
-            onLoadError={(err) => console.error("PDF Load Error:", err)}
-            onSourceError={(err) => console.error("PDF Source Error:", err)}
-          >
-            <Page pageNumber={1} width={480} />
-          </Document>
-        ) : (
-          <p>Loading...</p>
-        )}
-      </Modal> */}
       <PdfViewerModal isOpen={open} onClose={handleClose} fileUrl={pdfToPreview} />
 
-      {/* Optional Modal for pdf viewer */}
-      {/* {open && (
-          
-        <div className={styles.modalOverlay}>
-              <div className={styles.modalContent}>
-                <div className={styles.modalHeadContainer}>
-                  <div className={styles.modalTitle}>{'PDF Viewer'}</div>
-                  <button className={styles.closeButton} onClick={handleClose}>×</button>
-                </div>
-                <div className={styles.fileInputWrapper}>
-                  <label className={styles.formLabel}>{title} File (CSV)</label>
-                  <div className={styles.modalInnerSection}>
-                    {pdfToPreview ? (
-                      <iframe
-                        src={pdfToPreview}
-                        className={styles.pdfIframe}
-                        width={`100%`}
-                        height={`100vh`}
-                        title="Purchase Invoice"
-                        accessKey=""
-                        onError={() =>
-                          alert("Failed to load PDF. Please check the file path.")
-                        }
-                      />
-                    ) : (
-                      <p>Loading PDF or file not found...</p>
-                    )}
-                  </div>
-                  {error && <p className={styles.errorText}>{error}</p>}
-                </div>
-                <div className={styles.modalButtonContainer}>
-                   <button className={styles.buttonSubmit} onClick={handleUploadClick}>{title}</button>
-                  <button className={styles.buttonCancel} onClick={onClose}>Cancel</button>
-                 
-                </div>
-              </div>
-            </div>
-        )} */}
     </>
   );
 };
