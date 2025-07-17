@@ -281,20 +281,20 @@ export const useFileUpload = (
               oldFieldName == "imageFront" ||
               oldFieldName == "imageBack" ||
               oldFieldName == "imageSide" ||
-              oldFieldName == "imageClosure" || 
-              oldFieldName == "catalogue" || 
-              oldFieldName == "specificationSheet" || 
-              oldFieldName == "guidelinesFile" 
+              oldFieldName == "imageClosure" ||
+              oldFieldName == "catalogue" ||
+              oldFieldName == "specificationSheet" ||
+              oldFieldName == "guidelinesFile"
                 ? 1
                 : maxFiles
             } ${
               (oldFieldName == "imageFront" ||
               oldFieldName == "imageBack" ||
               oldFieldName == "imageSide" ||
-              oldFieldName == "imageClosure" || 
-              oldFieldName == "catalogue" || 
-              oldFieldName == "specificationSheet" || 
-              oldFieldName == "guidelinesFile" 
+              oldFieldName == "imageClosure" ||
+              oldFieldName == "catalogue" ||
+              oldFieldName == "specificationSheet" ||
+              oldFieldName == "guidelinesFile"
                 ? 1
                 : maxFiles) != 1
                 ? "files"
@@ -382,6 +382,7 @@ export const AddProductFileUpload = ({
   oldFieldName,
   existingFiles,
   label,
+  label2,
   error,
   tooltip,
   showLabel = true,
@@ -417,7 +418,12 @@ export const AddProductFileUpload = ({
           {label}
           {label === "Purchase Invoice" && (
             <span className={styles.labelStamp}>*</span>
-          )}
+          )}{" "}
+          {
+            <label className={styles.formLabelSmall}>
+              (max file size- 5MB)
+            </label>
+          }
         </label>
       )}
       <div className={styles.tooltipContainer}>

@@ -1,95 +1,69 @@
 // ProductList.jsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import PaginationComponent from "../../SharedComponents/Pagination/Pagination";
 import styles from "../../../assets/style/table.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchBidById } from "../../../../redux/reducers/bidSlice";
 
 const ProductList = ({}) => {
-  const dummyBids = [
-    {
-      _id: "BID20250701",
-      productId: "BID20250701",
-      name: "TEST ABC1",
-      category: "TEST ABC1",
-      totalBids: 10,
-      status: "Active",
-    },
-    {
-      _id: "BID20250628",
-      productId: "BID20250628",
-      name: "TEST ABC1",
-      category: "TEST ABC1",
-      totalBids: 10,
-      status: "Completed",
-    },
-    {
-      _id: "BID20250620",
-      productId: "BID20250620",
-      name: "TEST ABC1",
-      category: "TEST ABC1",
-      totalBids: 10,
-      status: "Cancelled",
-    },
-    {
-      _id: "BID20250703",
-      productId: "BID20250703",
-      name: "TEST ABC1",
-      category: "TEST ABC1",
-      totalBids: 10,
-      status: "Active",
-    },
-    {
-      _id: "BID20250615",
-      productId: "BID20250615",
-      name: "TEST ABC1",
-      category: "TEST ABC1",
-      totalBids: 10,
-      status: "Completed",
-    },
-  ];
+  const { id, itemId } = useParams();
+  const dispatch = useDispatch();
+  const { bidDetails } = useSelector((state) => state?.bidReducer || {});
+
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchBidById(`bid/${id}`));
+    }
+  }, [id]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const bidsPerPage = 5;
 
   const columns = [
+    // {
+    //   name: "Id",
+    //   selector: (row) =>
+    //     (row?.type == "Product" ? "PDT" : "SRV") + " - " + row?.itemId,
+    //   sortable: true,
+    // },
     {
-      name: "Product/Service Id",
-      selector: (row) => row?.productId,
-      sortable: true,
-    },
-    {
-      name: "Product/Service Name",
+      name: "Name",
       selector: (row) => row?.name,
       sortable: true,
     },
     {
-      name: "Product/Service Category",
+      name: "Type",
+      selector: (row) => row?.type,
+      sortable: true,
+    },
+    {
+      name: "Category",
       selector: (row) => row?.category,
       sortable: true,
     },
     {
-      name: "Total Bids",
-      selector: (row) => row?.totalBids,
+      name: "Open For",
+      selector: (row) => row?.openFor,
       sortable: true,
     },
     {
-      name: "Status",
-      selector: (row) => row?.invoice_status,
+      name: "Quantity Required",
+      selector: (row) => row?.quantity,
       sortable: true,
-      cell: (row) => (
-        <span>
-          {row?.invoice_status?.charAt(0)?.toUpperCase() +
-            row.invoice_status?.slice(1)}
-        </span>
-      ),
+    },
+    {
+      name: "Total Bids",
+      selector: (row) => Number(row?.totalBids|| 0),
+      sortable: true,
     },
     {
       name: "Action",
       cell: (row) => (
         <Link
-          to={`/supplier/bid-product-details/${row?.invoice_id}`}
+          to={`/supplier/bid/${id}/${row?.type?.toLowerCase()}/${row?.itemId}`}
           title="View Details"
         >
           <div className={styles.activeBtn}>
@@ -105,7 +79,10 @@ const ProductList = ({}) => {
 
   const indexOfLastProduct = currentPage * bidsPerPage;
   const indexOfFirstOrder = indexOfLastProduct - bidsPerPage;
-  const currentOrders = dummyBids?.slice(indexOfFirstOrder, indexOfLastProduct);
+  const currentOrders = bidDetails?.additionalDetails?.slice(
+    indexOfFirstOrder,
+    indexOfLastProduct
+  );
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -162,11 +139,11 @@ const ProductList = ({}) => {
         pagination={false}
         responsive
       />
-      {dummyBids?.length > 0 ? (
+      {bidDetails?.additionalDetails?.length > 0 ? (
         <PaginationComponent
           activePage={currentPage}
           itemsCountPerPage={bidsPerPage}
-          totalItemsCount={dummyBids?.length}
+          totalItemsCount={bidDetails?.additionalDetails?.length}
           pageRangeDisplayed={5}
           onChange={handlePageChange}
         />

@@ -3,7 +3,6 @@ import styles from "./bidDetails.module.css";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-// import RenderProductFiles from "../../Buy/Details/RenderFiles";
 import { fetchBidById } from "../../../../redux/reducers/bidSlice";
 import moment from "moment";
 import RenderProductFiles from "../../../../Buyer/components/Buy/Details/RenderFiles";
@@ -11,7 +10,7 @@ import RenderProductFiles from "../../../../Buyer/components/Buy/Details/RenderF
 const BidDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { bidToUpdate } = useSelector((state) => state?.bidReducer || {});
+  const { bidDetails } = useSelector((state) => state?.bidReducer || {});
 
   useEffect(() => {
     if (id) {
@@ -51,15 +50,15 @@ const BidDetails = () => {
         <div className={styles.mainUpparContainer}>
           <div className={styles.InnerContainer}>
             <span className={styles.medicineName}>
-              Bid ID : {bidToUpdate?.bid_id}
+              Bid ID : {bidDetails?.bid_id}
             </span>
 
-            {bidToUpdate?.status && (
+            {bidDetails?.status && (
               <div className={styles.bidStatusCont}>
                 <div className={styles?.bidStatusHead}>Bid Status</div>
                 <div className={styles?.bidStatusText}>
-                  {bidToUpdate.status.charAt(0).toUpperCase() +
-                    bidToUpdate.status.slice(1)}
+                  {bidDetails.status.charAt(0).toUpperCase() +
+                    bidDetails.status.slice(1)}
                 </div>
               </div>
             )}
@@ -73,7 +72,7 @@ const BidDetails = () => {
             <div className={styles.additionalUploadSection3}>
               <span className={styles.medicineHead3}>Bid Starting Date</span>
               <span className={styles.medicineText3}>
-                {moment(bidToUpdate?.general?.startDate || new Date()).format(
+                {moment(bidDetails?.general?.startDate || new Date()).format(
                   "DD/MM/YYYY"
                 )}
               </span>
@@ -81,7 +80,7 @@ const BidDetails = () => {
             <div className={styles.additionalUploadSection3}>
               <span className={styles.medicineHead3}>Bid End Date</span>
               <span className={styles.medicineText3}>
-                {moment(bidToUpdate?.general?.endDate || new Date()).format(
+                {moment(bidDetails?.general?.endDate || new Date()).format(
                   "DD/MM/YYYY"
                 )}
               </span>
@@ -89,7 +88,7 @@ const BidDetails = () => {
             <div className={styles.additionalUploadSection3}>
               <span className={styles.medicineHead3}>Time Remaining</span>
               <span className={styles.medicineText3}>
-                {getTimeRemaining(bidToUpdate?.general?.startDate)}
+                {getTimeRemaining(bidDetails?.general?.startDate)}
               </span>
             </div>
           </div>
@@ -105,7 +104,7 @@ const BidDetails = () => {
                         Bid Description
                       </span>
                       <span className={styles.medicineText2}>
-                        {bidToUpdate?.general?.description}
+                        {bidDetails?.general?.description}
                       </span>
                     </div>
                   </div>
@@ -119,7 +118,7 @@ const BidDetails = () => {
         <div className={styles.mainContainer}>
           <span className={styles.innerHead}>Requirement Documents</span>
           <div className={styles.innerComplianceSection}>
-            {bidToUpdate?.general?.documents?.map((item, index) => {
+            {bidDetails?.general?.documents?.map((item, index) => {
               return (
                 <div
                   className={styles.additionalUploadSection}
@@ -136,12 +135,12 @@ const BidDetails = () => {
         </div>
 
         {/* Product Information */}
-        {bidToUpdate?.additionalDetails?.length > 0 && (
+        {bidDetails?.additionalDetails?.length > 0 && (
           <>
             <span className={styles.innerHead3}>Bid Item Details</span>
           </>
         )}
-        {bidToUpdate?.additionalDetails?.map((item, index) => (
+        {bidDetails?.additionalDetails?.map((item, index) => (
           <div className={styles.mainContainer}>
             {/* <span className={styles.innerHead}>Bid Item Details</span> */}
             <>

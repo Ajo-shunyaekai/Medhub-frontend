@@ -8,7 +8,7 @@ const initialState = {
   bidCount: 0,
   loading: false,
   error: null,
-  bidData: {},
+  bidDetails: {},
   updatedbid: {},
   bidToUpdate: {},
 };
@@ -155,7 +155,7 @@ export const bidSlice = createSlice({
       })
       .addCase(fetchBidById.fulfilled, (state, action) => {
         state.loading = false;
-        state.bidToUpdate = action?.payload;
+        state.bidDetails = action?.payload;
       })
       .addCase(fetchBidById.rejected, (state, action) => {
         state.loading = false;

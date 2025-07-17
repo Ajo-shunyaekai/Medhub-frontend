@@ -1,110 +1,145 @@
-import React from "react";
-import styles from "./bidDetails.module.css";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useState, useEffect } from "react";
-// import RenderProductFiles from "../../Buy/Details/RenderFiles";
-import { fetchBidById } from "../../../../redux/reducers/bidSlice";
 import moment from "moment";
-import RenderProductFiles from "../../../../Buyer/components/Buy/Details/RenderFiles";
+import styles from "./bidProductDetails.module.css";
+import { fetchBidById } from "../../../../redux/reducers/bidSlice";
 import ProductList from "./ProductList";
 
 const BidDetails = () => {
-  const { id } = useParams();
+  const { id, itemId } = useParams();
   const dispatch = useDispatch();
-  const { bidToUpdate } = useSelector((state) => state?.bidReducer || {});
+
+  const { bidDetails } = useSelector((state) => state?.bidReducer || {});
+  const [itemDetails, setItemDetails] = useState({});
+  const [fieldsArray, setFieldsArray] = useState([]);
+
+  const getFieldName = (name) => {
+    switch (name) {
+      case "type":
+        return "Bid Type";
+      case "category":
+        return "Category";
+      case "subCategory":
+        return "Sub Category";
+      case "name":
+        return "Name";
+      case "description":
+        return "Description";
+      case "upc":
+        return "UPC (Universal Product Code)";
+      case "brand":
+        return "Brand Name";
+      case "quantity":
+        return "Quantity Required";
+      case "targetPrice":
+        return "Target Price";
+      case "country":
+        return "Country of Destination";
+      case "state":
+        return "State of Destination";
+      case "docReq":
+        return "Certification Required";
+      case "certificateName":
+        return "Certification Name";
+      case "openFor":
+        return "Open For";
+      case "fromCountries":
+        return "From Countries";
+      case "delivery":
+        return "Expected Delivery Duration";
+      default:
+        return name;
+    }
+  };
 
   useEffect(() => {
     if (id) {
       dispatch(fetchBidById(`bid/${id}`));
     }
-  }, [id]);
+  }, [id, dispatch]);
 
-  const getTimeRemaining = (endDate, endTime = "00:00") => {
-    if (!endDate) return "";
+  useEffect(() => {
+    if (bidDetails?.additionalDetails?.length && itemId) {
+      const foundItem = bidDetails.additionalDetails.find(
+        (item) => item?.itemId?.toString() === itemId?.toString()
+      );
+      setItemDetails(foundItem || {});
+    }
+  }, [bidDetails, itemId]);
 
-    // Combine end date and time (time is expected in "HH:mm" format)
-    const combinedEnd = moment(`${endDate}T${endTime}`, "YYYY-MM-DDTHH:mm");
-
-    const now = moment();
-    const duration = moment.duration(combinedEnd.diff(now));
-
-    if (duration.asMilliseconds() <= 0) return "Expired";
-
-    const days = Math.floor(duration.asDays());
-    const hours = duration.hours();
-    const minutes = duration.minutes();
-
-    const parts = [];
-    if (days > 0) parts.push(`${days} Day${days !== 1 ? "s" : ""}`);
-    if (hours > 0) parts.push(`${hours} Hour${hours !== 1 ? "s" : ""}`);
-    if (minutes > 0) parts.push(`${minutes} Min${minutes !== 1 ? "s" : ""}`);
-
-    return parts.join(" ");
-  };
+  useEffect(() => {
+    const details = Object.entries(itemDetails);
+    setFieldsArray(details || []);
+  }, [itemDetails]);
 
   return (
     <div className={styles.container}>
-      <span className={styles.heading}>Bid Details</span>
+      <span className={styles.heading}>
+        Bid {itemDetails?.type ? itemDetails.type : "Item"} Details
+      </span>
 
-      {/* Bid detail header section */}
+      {/* Header */}
       <div className={styles.section}>
         <div className={styles.mainUpparContainer}>
           <div className={styles.InnerContainer}>
             <span className={styles.medicineName}>
-              Bid ID : {bidToUpdate?.bid_id}
+              Bid {itemDetails?.type ? itemDetails?.type : "Item"} ID :{" "}
+              {bidDetails?.bid_id} -{" "}
+              {itemDetails?.type
+                ? itemDetails.type === "Product"
+                  ? "PDT"
+                  : "SRV"
+                : "ITEM"}
+              -{itemDetails?.itemId}
             </span>
-
-            {bidToUpdate?.status && (
-              <div className={styles.bidStatusCont}>
-                <div className={styles?.bidStatusHead}>Bid Status</div>
-                <div className={styles?.bidStatusText}>
-                  {bidToUpdate.status.charAt(0).toUpperCase() +
-                    bidToUpdate.status.slice(1)}
-                </div>
-              </div>
-            )}
           </div>
         </div>
 
-        {/* Bid detail General Information Section */}
+        {/* Dynamic General Info from fieldsArray */}
         <div className={styles.mainContainer}>
-          <div className={styles.headingSecContainer}>
-            <span className={styles.innerHead}>General Information</span>{" "}
-            {/*          {productDetail?.updatedAt && (
-                  <span className={styles.medicineHead2}>
-                    (Last Modified Date:{" "}
-                    {moment(productDetail?.updatedAt || new Date()).format(
-                      "DD/MM/YYYY"
-                    )}
-                    )
-                  </span>
-                )} */}
-          </div>
+          {/* <div className={styles.headingSecContainer}>
+            <span className={styles.innerHead}>General Information</span>
+          </div> */}
+
           <div className={styles.innerSection}>
             <div className={styles.mainSection}>
-              {/* Bid starting Date */}
-              <div className={styles.InnerContainer}>
-                <div className={styles.medicinesSection}>
-                  <span className={styles.medicineHead}>Bid Starting Date</span>
-                  <span className={styles.medicineText}>
-                    {moment(
-                      bidToUpdate?.general?.startDate || new Date()
-                    ).format("DD/MM/YYYY")}
-                  </span>
-                </div>
-                <div className={styles.medicinesSection}>
-                  <span className={styles.medicineHead}>Bid Ending Date</span>
-                  <span className={styles.medicineText}>
-                    {moment(bidToUpdate?.general?.endDate || new Date()).format(
-                      "DD/MM/YYYY"
-                    )}
-                  </span>
-                </div>
+              <div
+                className={`${styles.InnerContainer} ${styles.generalInfoSection}`}
+              >
+                {fieldsArray.map(([key, value]) => {
+                  if (
+                    key === "_id" ||
+                    key === "itemId" ||
+                    key === "description"
+                  )
+                    return null;
+
+                  return (
+                    <div
+                      className={`${styles.medicinesSection} ${styles.generalInfoField}`}
+                      key={key}
+                    >
+                      <span className={styles.generalInfoLabel}>
+                        {getFieldName(key)}
+                      </span>
+                      <span className={styles.generalInfoValue}>
+                        {Array.isArray(value)
+                          ? value.join(", ")
+                          : key == "delivery" ||
+                            key == "Expected Delivery Duration"
+                          ? String(value) + " Days"
+                          : String(value)}
+                      </span>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>
         </div>
+
+        {/* Description */}
         <div className={styles.mainContainer}>
           <div className={styles.innerSection}>
             <div className={styles.mainSection}>
@@ -113,10 +148,10 @@ const BidDetails = () => {
                   <div className={styles.InnerContainer2}>
                     <div className={styles.medicinesSection2}>
                       <span className={styles.medicineHead2}>
-                        Bid Description
+                        {itemDetails?.type}{" "}Description
                       </span>
                       <span className={styles.medicineText2}>
-                        {bidToUpdate?.general?.description}
+                        {itemDetails?.description || "N/A"}
                       </span>
                     </div>
                   </div>
@@ -126,12 +161,8 @@ const BidDetails = () => {
           </div>
         </div>
 
-        {/* Product Information */}
-        {/* {bidToUpdate?.additionalDetails?.length > 0 && ( */}
-        <>
-          <span className={styles.innerHead3}>Supplier</span>
-        </>
-        {/* )} */}
+        {/* Product List */}
+        <span className={styles.innerHead3}>Supplier</span>
         <ProductList />
       </div>
 
