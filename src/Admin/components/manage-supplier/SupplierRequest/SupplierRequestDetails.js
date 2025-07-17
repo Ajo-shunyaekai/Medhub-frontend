@@ -16,6 +16,8 @@ import {
   extractLast13WithExtension,
   renderFiles,
 } from "../../../../utils/helper";
+import RenderFiles from '../../../../Buyer/components/Buy/Details/RenderFiles'
+
 const SupplierRequestDetails = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [supplierDetails, setSupplierDetails] = useState();
@@ -393,10 +395,11 @@ const SupplierRequestDetails = () => {
                     Medical Practitioner Document
                   </div>
                   <div className="buyer-details-company-img-container">
-                    {renderFiles(
+                    {/* {renderFiles(
                       supplierDetails?.medical_certificate,
                       "medical_practitioner_image"
-                    )}
+                    )} */}
+                    <RenderFiles files={supplierDetails?.medical_certificate} />
                   </div>
                 </div>
               )}

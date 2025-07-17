@@ -72,7 +72,7 @@ useEffect(() => {
 
     const response = await dispatch(
       fetchProductsList({
-        url: `product?market=${marketType}&page_no=${currentPage}&page_size=${listPerPage}`,
+        url: `product?market=${marketType}&page_no=${currentPage}&page_size=${listPerPage}&showDuplicate=false`,
         // obj: { countries: ["India"] },
         
   })

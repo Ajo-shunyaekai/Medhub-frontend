@@ -14,6 +14,8 @@ import {
   extractLast13WithExtension,
   renderFiles,
 } from "../../../../utils/helper";
+import RenderFiles from '../../../../Buyer/components/Buy/Details/RenderFiles'
+
 const SupplierDetails = () => {
   const { supplierId } = useParams();
   const navigate = useNavigate();
@@ -431,10 +433,11 @@ const SupplierDetails = () => {
                     Medical Practitioner Document
                   </div>
                   <div className="buyer-details-company-img-container">
-                    {renderFiles(
+                    {/* {renderFiles(
                       supplierDetails?.medical_certificate,
                       "medical_practitioner_image"
-                    )}
+                    )} */}
+                    <RenderFiles files={supplierDetails?.medical_certificate} />
                   </div>
                 </div>
               )}
@@ -444,7 +447,8 @@ const SupplierDetails = () => {
                   Trade License
                 </div>
                 <div className="buyer-details-company-img-container">
-                  {renderFiles(supplierDetails?.license_image, "license_image")}
+                  {/* {renderFiles(supplierDetails?.license_image, "license_image")} */}
+                  <RenderFiles files={supplierDetails?.license_image} />
                 </div>
               </div>
 
@@ -454,7 +458,7 @@ const SupplierDetails = () => {
                   Certificate
                 </div>
                 <div className="buyer-details-company-img-container">
-                  {renderFiles(
+                  {/* {renderFiles(
                     supplierDetails?.certificateFileNDate?.length > 0
                       ? supplierDetails?.certificateFileNDate?.map(
                           (ele, index) => ({
@@ -467,7 +471,15 @@ const SupplierDetails = () => {
                       : supplierDetails?.certificate_image,
                     "certificate_image",
                     supplierDetails?.certificateFileNDate?.length > 0
-                  )}
+                  )} */}
+
+                {supplierDetails?.certificateFileNDate?.map((ele, index) => (
+                  <div key={index}>
+                    <RenderFiles files={[ele?.file || supplierDetails?.certificate_image?.[index]]} />
+                    {ele?.date && <p>{ele.date}</p>}
+                  </div>
+                ))}
+
                 </div>
               </div>
             </div>
