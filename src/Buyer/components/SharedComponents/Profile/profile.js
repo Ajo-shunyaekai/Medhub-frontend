@@ -14,6 +14,7 @@ import {
   renderFiles,
   renderFiles2,
 } from "../../../../utils/helper";
+import RenderFiles from '../../../components/Buy/Details/RenderFiles'
 
 // Utility function to check if a value is valid (not null, undefined, or empty)
 const isValid = (value) => {
@@ -468,10 +469,15 @@ const Profile = () => {
                 <div className={styles.documentInnerSection}>
                   <div className={styles.documentDocName}>{ele?.headings}</div>
                   <div className={styles.documentDocContent}>
-                    {renderFiles2(user?.[ele?.keyword], ele?.headings, styles)}
+                    {/* {renderFiles2(user?.[ele?.keyword], ele?.headings, styles)}
                     {ele?.headings == "Certificate" &&
                       user?.certificateFileNDate?.[index]?.date && (
                         <p>{user?.certificateFileNDate?.[index]?.date}</p>
+                      )} */}
+                      <RenderFiles files={user?.[ele?.keyword]} />
+                      {ele?.headings === "Certificate" &&
+                        user?.certificateFileNDate?.[index]?.date && (
+                          <p>{user?.certificateFileNDate?.[index]?.date}</p>
                       )}
                   </div>
                 </div>
