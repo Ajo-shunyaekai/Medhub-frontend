@@ -416,12 +416,12 @@ export const addProductValidationSchema = Yup.object({
           (value) => value && value.size <= 1024 * 1024 * 5
         ) // Max 5MB
     ),
-  form: Yup.string()
-    // .required("Product Type/Form is required.")
-    .matches(
-      /^[a-zA-Z0-9\s]+$/,
-      "Product Type/Form must be alphanumeric (letters, numbers, and spaces only)."
-    ),
+  // form: Yup.string()
+  //   // .required("Product Type/Form is required.")
+  //   .matches(
+  //     /^[a-zA-Z0-9\s]+$/,
+  //     "Product Type/Form must be alphanumeric (letters, numbers, and spaces only)."
+  //   ),
   // quantity: Yup.number().required("Product Quantity is required."),
 
   // volumn: Yup.string().required("Product Size/Volumn is required."),
@@ -1403,16 +1403,16 @@ export const editProductValidationSchema = Yup.object({
           (value) => value && value.size <= 1024 * 1024 * 5 // Max 5MB
         )
     ),
-  form: Yup.string()
-    // .required("Product Type/Form is required.")
-    .matches(
-      /^[a-zA-Z0-9\s]+$/,
-      "Product Type/Form must be alphanumeric (letters, numbers, and spaces only)."
-    ),
+  // form: Yup.string()
+  //   // .required("Product Type/Form is required.")
+  //   .matches(
+  //     /^[a-zA-Z0-9\s]+$/,
+  //     "Product Type/Form must be alphanumeric (letters, numbers, and spaces only)."
+  //   ),
   // quantity: Yup.number().required("Product Quantity is required."),
-  weight: Yup.number()
-    .typeError("Product Weight must be a number.")
-    .positive("Product Weight must be greater than 0"),
+  // weight: Yup.number()
+  //   .typeError("Product Weight must be a number.")
+  //   .positive("Product Weight must be greater than 0"),
   // .required("Product Weight is required."),
   // unit: Yup.string().required("Product Weight Unit is required."),
   unit_tax: Yup.number()
