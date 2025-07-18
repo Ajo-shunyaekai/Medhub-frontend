@@ -45,9 +45,8 @@
   color: #5e676f;
   font-size: 18px;
   font-weight: 500;
-  margin: 16px 8px 8px 8px;
-  /* margin-top: 16px;
-  margin-bottom: 8px; */
+  padding:  30px 26px 0px 26px;
+  margin-bottom: -10px;
 }
 
 .section {

@@ -162,7 +162,7 @@ const BidDetails = () => {
         </div>
 
         {/* Product List */}
-        <span className={styles.innerHead3}>Supplier</span>
+        <span className={styles.innerHead3}>Supplier List</span>
         <ProductList />
       </div>
 
