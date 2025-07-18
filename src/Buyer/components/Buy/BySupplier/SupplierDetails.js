@@ -6,24 +6,29 @@ import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../../../../api/Requests';
 import SupplySecondaryList from './SupplySecondaryList';
 import { apiRequests } from "../../../../api/index";
-
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProductsList } from '../../../../redux/reducers/productSlice';
+import { Tooltip } from "react-tooltip";
+import "react-tooltip/dist/react-tooltip.css";
+ 
 const SupplierDetails = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { supplierId } = useParams();
-
+  const dispatch = useDispatch();
+  const { products } = useSelector((state) => state.productReducer);
   const [activeTab, setActiveTab] = useState('');
   const [supplier, setSupplier] = useState();
   const [buyerSupplierOrder, setBuyerSupplierOrder] = useState([]);
   const [totalOrders, setTotalOrders] = useState();
   const [currentOrderPage, setCurrentOrderPage] = useState(1);
   const ordersPerPage = 10;
-
+ 
   const [productList, setProductList] = useState([]);
   const [totalProducts, setTotalProducts] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 4;
-
+ 
   const getActiveButtonFromPath = (path) => {
     if (path.includes('/products')) {
       return 'products';
@@ -35,9 +40,9 @@ const SupplierDetails = () => {
       return 'products';
     }
   };
-
+ 
   const activeButton = getActiveButtonFromPath(location.pathname);
-
+ 
   const handleButtonClick = (button) => {
     switch (button) {
       case 'products':
@@ -59,27 +64,27 @@ const SupplierDetails = () => {
         setActiveTab('products');
     }
   };
-
+ 
   const handleProductPageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-
+ 
   const handleOrderPageChange = (pageNumber) => {
     setCurrentOrderPage(pageNumber);
   };
-
+ 
   // supplier-details
   useEffect(() => {
     const getSupplierDeatils = async () => {
       const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
       const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
-
+ 
       if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
         localStorage?.clear();
         navigate("/buyer/login");
         return;
       }
-
+ 
       const obj = {
         supplier_id: supplierId,
         buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
@@ -92,10 +97,10 @@ const SupplierDetails = () => {
         setSupplier(response?.result);
       } catch (error) { }
     };
-
+ 
     getSupplierDeatils();
   }, []);
-
+ 
   useEffect(() => {
     const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
     const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
@@ -104,9 +109,9 @@ const SupplierDetails = () => {
       navigate("/buyer/login");
       return;
     }
-
+ 
     const medicineType = activeButton === 'products' ? 'new' : activeButton === 'secondary' ? 'secondary' : '';
-
+ 
     const obj = {
       supplier_id: supplierId,
       buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
@@ -114,7 +119,7 @@ const SupplierDetails = () => {
       pageNo: currentPage,
       medicine_type: medicineType,
     };
-
+ 
     postRequestWithToken('buyer/supplier-product-list', obj, async (response) => {
       if (response?.code === 200) {
         setProductList(response.result.data);
@@ -122,7 +127,20 @@ const SupplierDetails = () => {
       } else {
       }
     });
-
+ 
+      // const fetchData = async () => {
+      //       const marketType = activeButton === "products" ? "new" : "secondary";
+      //       const response = await dispatch(
+      //         fetchProductsList({
+      //           url: `product?market=${marketType}&supplier_id=${supplier?._id}&buyer_id=${buyer_id}&page_no=${currentPage}&page_size=${productsPerPage}&showDuplicate=false`,
+      //           // obj: { countries: ["India"] },
+      //         })
+      //       );
+      //       if (response.meta.requestStatus === "fulfilled") {
+      //         setTotalProducts(response.payload?.totalItems);
+      //         // setLoading(false);
+      //       }
+      // };
     const fetchBuyerSupplierOrder = () => {
       const obj = {
         buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
@@ -131,7 +149,7 @@ const SupplierDetails = () => {
         pageNo: currentOrderPage,
         order_type: '',
       };
-
+ 
       postRequestWithToken('buyer/buyer-supplier-orders', obj, async (response) => {
         if (response?.code === 200) {
           setBuyerSupplierOrder(response.result);
@@ -140,15 +158,16 @@ const SupplierDetails = () => {
         }
       });
     };
+    // fetchData()
     fetchBuyerSupplierOrder();
   }, [currentPage, activeTab, currentOrderPage]);
-
+ 
   return (
     <div className={styles.container}>
       {supplier?.supplier_id && (
         <span className={styles.heading}>Supplier ID: {supplier.supplier_id}</span>
       )}
-
+ 
       <div className={styles.section}>
         <div className={styles.leftCard}>
           {(supplier?.supplier_name || supplier?.supplier_type) && (
@@ -167,7 +186,7 @@ const SupplierDetails = () => {
                     {supplier.websiteAddress}
                   </a>
                 )}
-
+ 
                 {supplier?.supplier_type && (
                   <span className={styles.typeHead}>{supplier.supplier_type}</span>
                 )}
@@ -183,7 +202,7 @@ const SupplierDetails = () => {
              </div>
             </div>
           )}
-
+ 
           {supplier?.description && (
             <div className={styles.innerContainer}>
               <div className={styles.cardContainer}>
@@ -192,7 +211,7 @@ const SupplierDetails = () => {
               </div>
             </div>
           )}
-
+ 
           {/* {(supplier?.supplier_address ||
             supplier?.registeredAddress?.locality ||
             supplier?.registeredAddress?.land_mark ||
@@ -253,7 +272,7 @@ const SupplierDetails = () => {
                 )}
               </div>
             )} */}
-
+ 
           {(
             supplier?.supplier_mobile ||
             supplier?.registration_no ||
@@ -265,10 +284,10 @@ const SupplierDetails = () => {
             supplier?.categories ||
             supplier?.license_no ||
             supplier?.license_expiry_date ||
-
+ 
   supplier?.yrFounded ||
             supplier?.annualTurnover ||
-
+ 
             supplier?.tags ||
             supplier?.contact_person_name ||
             supplier?.contact_person_email ||
@@ -322,7 +341,7 @@ const SupplierDetails = () => {
                     <span className={styles.cardContent}>{supplier.license_expiry_date}</span>
                   </div>
                 )}
-
+ 
                   {supplier?.yrFounded && (
                   <div className={styles.cardMainContainer}>
                     <span className={styles.cardHead}>Year Company Founded</span>
@@ -356,7 +375,31 @@ const SupplierDetails = () => {
                  {supplier?.categories?.length > 0 && (
                   <div className={styles.cardMainContainer}>
                     <span className={styles.cardHead}>Trading Categories</span>
-                    <span className={styles.cardContent}>{supplier.categories.join(', ')}</span>
+                    <span className={styles.cardContent}>{supplier.categories.length < 6 ?
+                    (supplier.categories.slice(0, 5).join(', '))
+                    :
+                    (
+                      <>
+                        {(window.innerWidth < 1380? supplier.categories.slice(0,4): supplier.categories.slice(0,5)).join(",")}
+                        <span>{" ... "}</span>
+                        <span
+                          id="buyer-tooltip"
+                          style={{ textDecoration: "underline" , color:'#0075ce'}}
+                        >
+                          {"view more"}
+                        </span>
+                        <Tooltip
+                          anchorId="buyer-tooltip"
+                          place="bottom-end"
+                          className={styles.toolTip}
+                          delayHide={500}
+                          content={
+                            supplier.categories.join(",")
+                          }
+                        />
+                      </>
+                    )}
+                    </span>
                   </div>
                 )}
                 {/* {supplier?.contact_person_name && (
@@ -388,7 +431,7 @@ const SupplierDetails = () => {
               </div>
             )}
         </div>
-
+ 
         <div className={styles.rightCard}>
           <div className={styles.rightContainer}>
             <Link className={styles.rightSection} to={`/buyer/supplier-active/${supplierId}`}>
@@ -450,5 +493,5 @@ const SupplierDetails = () => {
     </div>
   );
 };
-
+ 
 export default SupplierDetails;
