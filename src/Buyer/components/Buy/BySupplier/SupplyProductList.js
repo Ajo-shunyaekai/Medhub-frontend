@@ -48,21 +48,32 @@ const SupplyProductList = ({
             const serverUrl = process.env.REACT_APP_SERVER_URL;
             let imageSrc = ProductImage; // default fallback image
 
+            // if (imageName) {
+            //   const imageUrl = imageName?.startsWith("http")
+            //     ? imageName
+            //     : `${serverUrl}uploads/products/${imageName}`;
+            //   if (isValidHttpUrl(imageName) && isImageExtension(imageName)) {
+            //     imageSrc = imageName;
+            //   } else if (isImageExtension(imageName)) {
+            //     imageSrc = imageUrl;
+            //   }
+            // }
+
             if (imageName) {
-              const imageUrl = imageName?.startsWith("http")
+              imageSrc = imageName.startsWith("http")
                 ? imageName
                 : `${serverUrl}uploads/products/${imageName}`;
-              if (isValidHttpUrl(imageName) && isImageExtension(imageName)) {
-                imageSrc = imageName;
-              } else if (isImageExtension(imageName)) {
-                imageSrc = imageUrl;
-              }
             }
 
             // const firstImage = Array.isArray(product?.general?.image)
             //   ? product.general?.image[0]
             //   : null;
             const linkTo = `/buyer/product-details/${product._id}`;
+
+            const costPerProduct =
+            product?.inventoryDetails?.[0]?.inventoryList?.price || "N/A";
+            const stockedIn = product?.inventoryDetails?.[0]?.stockedInDetails[0]?.country ||
+              "N/A";
 
             return (
               <div key={product.id} className={styles.productCont}>
@@ -91,25 +102,24 @@ const SupplyProductList = ({
                         <div className={styles.infoSection}>
                           <div className={styles.label}>Category</div>
                           <div className={styles.value}>
-                            {formatCategory(product?.category)}
+                            {/* {formatCategory(product?.category)} */}
+                            {product?.category
+                        ?.replace(/([a-z])([A-Z])/g, "$1 $2")
+                        ?.replace(/\b\w/g, (char) => char.toUpperCase())}
                           </div>
                         </div>
                         <div className={styles.infoSection}>
                           <div className={styles.label}>Sub Category</div>
                           <div className={styles.value}>
-                            {product?.categoryObject.subCategory}
+                            {/* {product?.categoryObject.subCategory} */}
+                            {product?.[product?.category]?.subCategory || product?.subCategory ||  "N/A"}
                           </div>
                         </div>
+                       
                         <div className={styles.infoSection}>
-                          <div className={styles.label}>Total Quantity</div>
+                          <div className={styles.label}>Stocked In Countries</div>
                           <div className={styles.value}>
-                            {product.general?.quantity}
-                          </div>
-                        </div>
-                        <div className={styles.infoSection}>
-                          <div className={styles.label}>Stock Status</div>
-                          <div className={styles.value}>
-                            {product.inventoryDetails[0]?.stock}
+                           {stockedIn}
                           </div>
                         </div>
                       </div>

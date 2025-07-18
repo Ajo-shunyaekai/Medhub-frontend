@@ -207,7 +207,7 @@ const Sidebar = ({
           Buy
         </div>
       </Link>
-      <Link
+      {/* <Link
         to="/buyer/bid"
         className={styles.sidebar_text}
         activeclassname={styles.active}
@@ -223,7 +223,7 @@ const Sidebar = ({
         >
           Bid
         </div>
-      </Link>
+      </Link> */}
 
       <Box sx={{ width: 250 }} role="presentation">
         <div className={styles.mobile_order_btn}>
@@ -617,7 +617,7 @@ const Sidebar = ({
                 Buy
               </div>
             </Link>
-            <Link
+            {/* <Link
               to="/buyer/bid"
               className={styles.sidebar_text}
               activeclassname={styles.active}
@@ -633,7 +633,7 @@ const Sidebar = ({
               >
                 Bid
               </div>
-            </Link>
+            </Link> */}
             <Link
               to="/buyer/enquiry"
               className={`${styles.sidebar_text} ${styles.desktop_order_btn}`}

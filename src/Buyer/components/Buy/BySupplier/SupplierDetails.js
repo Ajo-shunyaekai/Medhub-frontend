@@ -123,6 +123,19 @@ const SupplierDetails = () => {
       }
     });
 
+      //const fetchData = async () => {
+      //       const marketType = activeButton === "products" ? "new" : "secondary";
+      //       const response = await dispatch(
+      //         fetchProductsList({
+      //           url: `product?market=${marketType}&supplier_id=${supplier_id}&buyer_id=${buyer_id}&page_no=${currentPage}&page_size=${productsPerPage}&showDuplicate=false`,
+      //           // obj: { countries: ["India"] },
+      //         })
+      //       );
+      //       if (response.meta.requestStatus === "fulfilled") {
+      //         setTotalProducts(response.payload?.totalItems);
+      //         // setLoading(false);
+      //       }
+      // };
     const fetchBuyerSupplierOrder = () => {
       const obj = {
         buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
