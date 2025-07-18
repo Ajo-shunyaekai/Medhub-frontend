@@ -450,7 +450,7 @@ export const AddProductFileUpload = ({
       </div>
       {error && <span className={styles.error}>{error}</span>}
       <div className={styles.filePreviewContainer}>
-        {fileUpload?.filesMerged?.map((file, index) => {
+        {/* {fileUpload?.filesMerged?.map((file, index) => {
           const isString = typeof file === "string";
           const fileName = isString
             ? extractLast13WithExtension(file)
@@ -513,7 +513,67 @@ export const AddProductFileUpload = ({
               </button>
             </div>
           );
-        })}
+        })} */}
+
+{fileUpload?.filesMerged?.map((file, index) => {
+  const isString = typeof file === "string";
+  const fileName = isString
+    ? extractLast13WithExtension(file)
+    : file?.name;
+
+  const fallbackImage =
+    "https://medhub.shunyaekai.com/uploads/fallbackImage.jpg";
+
+  const isValidUrl = (url) => {
+    try {
+      const parsed = new URL(url);
+      return parsed.protocol === "http:" || parsed.protocol === "https:";
+    } catch {
+      return false;
+    }
+  };
+
+  let imageSrc = "";
+  if (isString) {
+    imageSrc = isValidUrl(file)
+      ? file
+      : `${process.env.REACT_APP_SERVER_URL}uploads/products/${file}`;
+  } else {
+    imageSrc = URL.createObjectURL(file);
+  }
+
+  const isPdf = fileName?.toLowerCase()?.endsWith(".pdf");
+
+  return (
+    <div key={index} className={styles.filePreview}>
+      {isPdf ? (
+        <FiFileText size={25} className={styles.fileIcon} />
+      ) : (
+        <img
+          src={imageSrc}
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = fallbackImage;
+          }}
+          alt={fileName}
+          className={styles.previewImage}
+        />
+      )}
+      <p className={styles.fileName}>{fileName}</p>
+      <button
+        type="button"
+        className={styles.removeButton}
+        onClick={(event) =>
+          fileUpload?.removeFile(index, event, isString ? "old" : "new")
+        }
+        title={`Remove ${isPdf ? "PDF" : "file"}`}
+      >
+        <FiX size={15} className={styles.removeIcon} />
+      </button>
+    </div>
+  );
+})}
+
       </div>
     </div>
   );
