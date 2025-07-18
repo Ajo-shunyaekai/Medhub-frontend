@@ -229,6 +229,12 @@
   font-weight: 500;
 }
 
+.formLabelSmall {
+  color: #99a0ac;
+  font-size: 0.7rem;
+  font-weight: 500;
+}
+
 .formInput {
   outline: none !important;
   border: none !important;

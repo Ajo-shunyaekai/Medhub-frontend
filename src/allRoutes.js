@@ -499,7 +499,7 @@ export const supplierNestedRoutes = [
     ),
   },
   {
-    path: "bid-product-details/:id",
+    path: "bid/:id/:type/:itemId",
     component: lazy(() =>
       import("./Supplier/components/Bid/BidDetails/BidProductDetails")
     ),

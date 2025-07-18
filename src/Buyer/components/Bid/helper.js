@@ -55,21 +55,21 @@ export const bidValidationSchema = Yup.object().shape({
           .required("Item description is required")
           .min(5, "Description must be at least 5 characters"),
 
-        upc: Yup.string().when("type", {
-          is: "Product",
-          then: Yup.string()
-            .required("UPC is required for products")
-            .min(3, "UPC must be at least 3 characters"),
-          otherwise: Yup.string().notRequired(),
-        }),
+        // upc: Yup.string().when("type", {
+        //   is: "Product",
+        //   then: Yup.string()
+        //     .required("UPC is required for products")
+        //     .min(3, "UPC must be at least 3 characters"),
+        //   otherwise: Yup.string().notRequired(),
+        // }),
 
-        brand: Yup.string().when("type", {
-          is: "Product",
-          then: Yup.string()
-            .required("Brand name is required for products")
-            .min(2, "Brand must be at least 2 characters"),
-          otherwise: Yup.string().notRequired(),
-        }),
+        // brand: Yup.string().when("type", {
+        //   is: "Product",
+        //   then: Yup.string()
+        //     .required("Brand name is required for products")
+        //     .min(2, "Brand must be at least 2 characters"),
+        //   otherwise: Yup.string().notRequired(),
+        // }),
 
         quantity: Yup.number()
           .typeError("Quantity must be a number")

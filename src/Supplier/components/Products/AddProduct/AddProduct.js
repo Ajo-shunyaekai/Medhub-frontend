@@ -2128,6 +2128,7 @@ const AddProduct = ({ placeholder }) => {
                     setFieldValue={setFieldValue}
                     initialValues={values}
                     label="Product Catalogue"
+                    label2="(max file size- 5MB)"
                     tooltip={false}
                     acceptTypes={{
                       "application/pdf": [],
@@ -2147,6 +2148,7 @@ const AddProduct = ({ placeholder }) => {
                     setFieldValue={setFieldValue}
                     initialValues={values}
                     label="Specification Sheet"
+                    label2="(max file size- 5MB)"
                     tooltip={false}
                     acceptTypes={{
                       "application/pdf": [],
@@ -2192,6 +2194,7 @@ const AddProduct = ({ placeholder }) => {
                     setFieldValue={setFieldValue}
                     initialValues={values}
                     label="User Guidelines"
+                    label2="(max file size- 5MB)"
                     tooltip={false}
                     acceptTypes={{
                       "application/pdf": [],
@@ -2244,6 +2247,7 @@ const AddProduct = ({ placeholder }) => {
                     setFieldValue={setFieldValue}
                     initialValues={values}
                     label="Front Image"
+                    label2="(max file size- 5MB)"
                     tooltip={false}
                     acceptTypes={{ "image/jpeg": [], "image/png": [] }}
                     maxFiles={1}
@@ -2259,6 +2263,7 @@ const AddProduct = ({ placeholder }) => {
                     setFieldValue={setFieldValue}
                     initialValues={values}
                     label="Back Image"
+                    label2="(max file size- 5MB)"
                     tooltip={false}
                     acceptTypes={{ "image/jpeg": [], "image/png": [] }}
                     maxFiles={1}
@@ -2274,6 +2279,7 @@ const AddProduct = ({ placeholder }) => {
                     setFieldValue={setFieldValue}
                     initialValues={values}
                     label="Side Image"
+                    label2="(max file size- 5MB)"
                     tooltip={false}
                     acceptTypes={{ "image/jpeg": [], "image/png": [] }}
                     maxFiles={1}
@@ -2289,6 +2295,7 @@ const AddProduct = ({ placeholder }) => {
                     setFieldValue={setFieldValue}
                     initialValues={values}
                     label="Close Up Image"
+                    label2="(max file size- 5MB)"
                     tooltip={false}
                     acceptTypes={{ "image/jpeg": [], "image/png": [] }}
                     maxFiles={1}
@@ -2307,6 +2314,7 @@ const AddProduct = ({ placeholder }) => {
                       setFieldValue={setFieldValue}
                       initialValues={values}
                       label="Purchase Invoice"
+                      label2="(max file size- 5MB)"
                       tooltip={false}
                       acceptTypes={{
                         "application/pdf": [],

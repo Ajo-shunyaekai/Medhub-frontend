@@ -217,8 +217,6 @@ const CreateBid = () => {
           <Form className={styles.form}>
             {/* ---------- General Info ---------- */}
             <div className={styles.section}>
-              {console.log("ERRORS ", errors)}
-              {console.log("values ", values)}
               <span className={styles.formHead}>General Information</span>
               <div className={styles.formSection}>
                 <div className={styles.productContainer}>
