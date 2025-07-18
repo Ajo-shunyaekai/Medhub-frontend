@@ -2070,7 +2070,7 @@ const EditAddProduct = ({ placeholder }) => {
                           </div>
                           <span className={styles?.error}>
                             {formik?.touched?.productPricingDetails?.[index]
-                              ?.price &&
+                              ?.price ||
                               formik?.errors?.productPricingDetails?.[index]
                                 ?.price}
                           </span>
@@ -2098,8 +2098,9 @@ const EditAddProduct = ({ placeholder }) => {
                             }}
                           />
                           <span className={styles?.error}>
-                            {formik?.touched?.productPricingDetails?.[index]
-                              ?.deliveryTime &&
+                            {
+                            formik?.touched?.productPricingDetails?.[index]
+                              ?.deliveryTime ||
                               formik?.errors?.productPricingDetails?.[index]
                                 ?.deliveryTime}
                           </span>
