@@ -774,6 +774,7 @@ const EditAddProduct = ({ placeholder }) => {
             if (Object.keys(formik?.errors).length === 0) {
               formik?.handleSubmit();
             } else {
+              console.log("formik?.errors",formik?.errors)
               toast.error("Please fill the required fields correctly.");
             }
           }}
@@ -1414,7 +1415,7 @@ const EditAddProduct = ({ placeholder }) => {
               <div className={styles?.productContainer}>
                 <label className={styles?.formLabel}>
                   Manufacturer Name
-                  {/* <span className={styles?.labelStamp}>*</span> */}
+                  <span className={styles?.labelStamp}>*</span>
                 </label>
                 <input
                   className={styles?.formInput}
@@ -1433,17 +1434,17 @@ const EditAddProduct = ({ placeholder }) => {
                     ])
                   }
                 />
-                {/* {formik?.touched?.manufacturer && formik?.errors?.manufacturer && (
+                {formik?.touched?.manufacturer && formik?.errors?.manufacturer && (
                   <span className={styles?.error}>
                     {formik?.errors?.manufacturer}
                   </span>
-                )} */}
+                )}
               </div>
 
               <div className={styles?.productContainer}>
                 <label className={styles?.formLabel}>
                   Manufacturer Country of Origin
-                  {/* <span className={styles?.labelStamp}>*</span> */}
+                  <span className={styles?.labelStamp}>*</span>
                 </label>
                 <Select
                   name="countryOfOrigin"
@@ -1464,12 +1465,12 @@ const EditAddProduct = ({ placeholder }) => {
                   }}
                 />
 
-                {/* {formik?.touched?.countryOfOrigin &&
+                {formik?.touched?.countryOfOrigin &&
                   formik?.errors?.countryOfOrigin && (
                     <span className={styles?.error}>
                       {formik?.errors?.countryOfOrigin}
                     </span>
-                  )} */}
+                  )}
               </div>
 
               <div className={styles?.productTextContainer}>
