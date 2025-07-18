@@ -753,11 +753,12 @@ const ProductDetails = () => {
               <div className={styles.imageContainer2}>
                 <img
                   className={styles.imageSection}
-                  src={
-                    isImageExtension(selectedImage)
-                      ? selectedImage
-                      : fallbackImageUrl
-                  }
+                  // src={
+                  //   isImageExtension(selectedImage)
+                  //     ? selectedImage
+                  //     : fallbackImageUrl
+                  // }
+                  src={selectedImage ? selectedImage :  fallbackImageUrl}
                   alt="Main Product Image"
                   onError={(e) => {
                     e.target.onerror = null;
@@ -777,7 +778,8 @@ const ProductDetails = () => {
                         className={`${styles.thumbnailImage2} ${
                           selectedImage === imgUrl ? styles.activeThumbnail : ""
                         }`}
-                        src={isImageFile ? imgUrl : fallbackImageUrl}
+                        // src={isImageFile ? imgUrl : fallbackImageUrl}
+                        src={imgUrl ? imgUrl : fallbackImageUrl}
                         alt={`Thumbnail ${index}`}
                         onClick={() => setSelectedImage(imgUrl)}
                         onError={(e) => {

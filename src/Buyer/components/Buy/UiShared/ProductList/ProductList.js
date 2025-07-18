@@ -61,15 +61,20 @@ const ProductList = ({
             const serverUrl = process.env.REACT_APP_SERVER_URL;
             let imageSrc = ProductImage; // default fallback image
 
+            // if (imageName) {
+            //   const imageUrl = imageName?.startsWith("http")
+            //     ? imageName
+            //     : `${serverUrl}uploads/products/${imageName}`;
+            //   if (isValidHttpUrl(imageName) && isImageExtension(imageName)) {
+            //     imageSrc = imageName;
+            //   } else if (isImageExtension(imageName)) {
+            //     imageSrc = imageUrl;
+            //   }
+            // }
             if (imageName) {
-              const imageUrl = imageName?.startsWith("http")
+              imageSrc = imageName.startsWith("http")
                 ? imageName
                 : `${serverUrl}uploads/products/${imageName}`;
-              if (isValidHttpUrl(imageName) && isImageExtension(imageName)) {
-                imageSrc = imageName;
-              } else if (isImageExtension(imageName)) {
-                imageSrc = imageUrl;
-              }
             }
 
             return (
