@@ -1519,7 +1519,7 @@ export const logisticsNestedRoutes = [
 
 export const subscriptionRoutesConfig = [
   {
-    path: "/subscription/:userType/:userId/select-plan",
+    path: "/subscription/:userId/:userType/select-plan",
     component: lazy(() => import("./SubscriptionPlan/SubscriptionPage")),
   },
   {

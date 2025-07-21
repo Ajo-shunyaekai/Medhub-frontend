@@ -19,6 +19,12 @@ const PaymentSuccessful = () => {
     (state) => state?.subscriptionReducer
   );
 
+  useEffect(() => {
+    userId &&
+      userType &&
+      dispatch(fetchUserData({ id: userId, type: userType }));
+  }, [userId, userType]);
+  
   // Access the query params from the URL using window?.location?.search
   const queryParams = new URLSearchParams(window?.location?.search);
   const sessionId = queryParams?.get("session_id");
@@ -44,7 +50,6 @@ const PaymentSuccessful = () => {
         });
     });
   };
-
 
   // Function to send the payment email (send PDF to backend API)
   const sendPaymentEmail = async (pdfBlob) => {

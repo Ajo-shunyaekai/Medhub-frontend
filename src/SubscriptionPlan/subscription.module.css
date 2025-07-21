@@ -8,13 +8,12 @@
   -ms-overflow-style: none;
   display: flex;
   justify-content: center;
-     
 }
- 
+
 .container::-webkit-scrollbar {
   display: none;
 }
- 
+
 .containerInner {
   display: flex;
   flex-direction: column;
@@ -23,24 +22,24 @@
   justify-content: center;
   margin-top: 3rem;
 }
- 
+
 .section {
   width: 100%;
   max-width: 80%;
   display: flex;
   flex-direction: column;
 }
- 
+
 .logoSection {
   text-align: center;
   padding: 30px 0px 0px;
 }
- 
+
 .logo {
   width: 360px;
   height: auto;
 }
- 
+
 .headContainer {
   display: flex;
   flex-direction: column;
@@ -48,19 +47,19 @@
   align-items: center;
   gap: 20px;
 }
- 
+
 .heading {
   font-size: 32px;
   font-weight: 500;
-    color: #282F86;
+  color: #282f86;
 }
- 
+
 .text {
   text-align: center;
   font-size: 18px;
   font-weight: 500;
 }
- 
+
 .CardContainer {
   width: 100%;
   display: flex;
@@ -68,7 +67,7 @@
   gap: 20px;
   margin-bottom: 4rem;
 }
- 
+
 .card {
   border: 2px solid transparent; /* Default border */
   transition: border-color 0.3s ease-in-out;
@@ -82,39 +81,40 @@
   justify-content: space-between;
   row-gap: 30px;
   border-radius: 50px;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
 }
-.subscriptionContainer{
+.subscriptionContainer {
   display: flex;
-      flex-direction: column;
-      row-gap: 30px;
+  flex-direction: column;
+  row-gap: 30px;
 }
 .activeCard {
-    border: 2px solid #282F86 !important;
-    box-shadow: 5px 10px 15px #282F86 !important;
+  border: 2px solid #282f86 !important;
+  box-shadow: 5px 10px 15px #282f86 !important;
 }
 .cardListSection {
   display: flex;
   justify-content: space-between;
   gap: 20px;
 }
- 
+
 .cardHead {
   display: flex;
   flex-direction: column;
 }
- 
+
 .cardMonthly {
   font-size: 26px;
   font-weight: 500;
-    color: #282F86;
+  color: #282f86;
 }
- 
+
 .cardManu {
   font-size: 0.825rem;
   font-weight: 500;
 }
- 
+
 .cardList {
   display: flex;
   flex-direction: column;
@@ -122,39 +122,39 @@
   margin-bottom: 0px !important;
   padding-left: 1rem !important;
 }
- 
+
 .cardListText {
   font-size: 16px;
   font-weight: 500;
 }
- 
+
 .cardContent {
   font-size: 18px;
   font-weight: 500;
 }
- 
+
 .cardSec {
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
- 
+
 .cardMonth {
   display: block;
   font-size: 0.825rem;
-    color: #282F86;
+  color: #282f86;
   margin-top: 20px;
 }
- 
+
 .cardMoney {
   font-size: 30px;
   font-weight: 500;
   display: flex;
 }
- 
+
 .button {
- background: linear-gradient(to left, #00dcff, #0075ce);
+  background: linear-gradient(to left, #00dcff, #0075ce);
   border-radius: 20px;
   color: #fff;
   column-gap: 8px;
@@ -168,13 +168,13 @@
   letter-spacing: 1px;
   margin-top: 10px;
 }
- 
+
 @media screen and (max-width: 1140px) {
   .section {
     max-width: 94%;
   }
 }
- 
+
 @media screen and (max-width: 991px) {
   .CardContainer {
     flex-direction: column;
@@ -193,7 +193,7 @@
     display: none;
   }
 }
- 
+
 @media screen and (max-width: 500px) {
   .heading {
     font-size: 22px;
@@ -236,7 +236,7 @@
     flex-direction: column;
   }
 }
- 
+
 @media screen and (max-width: 400px) {
   .cardMonthly {
     font-size: 16px;
@@ -252,10 +252,10 @@
     padding: 20px 26px;
   }
 }
- 
+
 /* ------------------------------------------------------------------------------------------------------- */
 /* ------------------------------------------------------------------------------------------------------- */
- 
+
 .container1 {
   background-color: #f9f9fa;
   width: 100%;
@@ -266,13 +266,12 @@
   -ms-overflow-style: none;
   display: flex;
   justify-content: center;
-   
 }
- 
+
 .container1::-webkit-scrollbar {
   display: none;
 }
- 
+
 .section1 {
   width: 100%;
   display: flex;
@@ -281,17 +280,17 @@
   align-items: center;
   row-gap: 30px;
 }
- 
+
 .logoSection1 {
   text-align: center;
   padding: 30px 0px 0px;
 }
- 
+
 .logo1 {
   width: 360px;
   height: auto;
 }
- 
+
 .card1 {
   border: 2px solid transparent;
   transition: border-color 0.3sease -in-out;
@@ -308,18 +307,18 @@
   align-items: center;
   text-align: center;
 }
- 
+
 .cardHeading1 {
   font-size: 26px;
   font-weight: 500;
   color: #282f86;
 }
- 
+
 .cardContent1 {
   font-size: 18px;
   font-weight: 500;
 }
- 
+
 @media screen and (max-width: 767px) {
   .card1 {
     width: 100%;
@@ -328,7 +327,7 @@
     width: 92%;
   }
 }
- 
+
 @media screen and (max-width: 575px) {
   .card1 {
     padding: 24px;
