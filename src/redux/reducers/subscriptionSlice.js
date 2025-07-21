@@ -55,8 +55,8 @@ export const createSubscriptionSession = createAsyncThunk(
         obj,
       });
 
-      if (response?.data) {
-        window.location.href = response?.data?.url;
+      if (response?.data?.url) {
+        window.location.href = response.data.url;
       }
     } catch (error) {
       // Log and pass the error
