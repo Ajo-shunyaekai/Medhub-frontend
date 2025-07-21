@@ -46,7 +46,6 @@ const SupplyProductList = ({
       <div className={styles.mainCardsContainer}>
         {productsData && productsData.length > 0 ? (
           productsData.map((product, i) => {
-            console.log(product);
             const firstViewKey = Object.keys(product.general.image || {})[0];
             const imageName = product?.general?.image?.[0] || product.general.image?.[firstViewKey]?.[0];
             const serverUrl = process.env.REACT_APP_SERVER_URL;
