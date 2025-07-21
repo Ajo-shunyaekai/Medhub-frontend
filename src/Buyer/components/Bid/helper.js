@@ -6,7 +6,8 @@ export const bidValidationSchema = Yup.object().shape({
     .required("Start date is required")
     .typeError("Start date must be a valid date"),
 
-  time: Yup.string().required("Start time is required"),
+  startTime: Yup.string().required("Start time is required"),
+  endTime: Yup.string().required("End time is required"),
 
   endDate: Yup.date()
     .required("End date is required")
@@ -137,7 +138,7 @@ export const countryOptions = Country.getAllCountries()
   .map((country) => ({
     label: country.name,
     value: country.name,
-    isoCode: country.isoCode, // ✅ include isoCode here
+    isoCode: country.isoCode, // include isoCode here
   }))
   ?.sort((a, b) => a?.label?.localeCompare(b?.label));
 
@@ -151,7 +152,8 @@ export const stateOptions = (selectedCountry) =>
 
 export const initialValues = {
   startDate: undefined,
-  time: undefined,
+  startTime: undefined,
+  endTime: undefined,
   endDate: undefined,
   description: undefined,
   bidDocs: [],
@@ -175,12 +177,12 @@ export const initialValues = {
       country: undefined,
       selectedCountry: undefined,
       docReq: undefined,
-      certificateName: undefined, // ✅ Must be present
+      certificateName: undefined, 
       state: undefined,
       openFor: undefined,
       fromCountries: [],
       delivery: undefined,
     },
   ],
-  status: "Active",
+  // status: "Active",
 };

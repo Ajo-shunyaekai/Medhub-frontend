@@ -114,7 +114,7 @@ const BidTable = () => {
 
     try {
       const response = await apiRequests.getRequest(
-        `bid?userId=${buyerId}&pageNo=${currentPage}&pageSize=${bidPerPage}&status=${status}`
+        `bid?userId=${buyerId}&page_no=${currentPage}&page_size=${bidPerPage}&status=${status}`
       );
       if (response?.code === 200) {
         setBidList(response.data?.bids);
