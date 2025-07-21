@@ -190,7 +190,7 @@ const Sidebar = ({
         </div>
       </Link>
 
-      <Link
+      {/* <Link
         to="/buyer/buy"
         className={styles.sidebar_text}
         activeclassname={styles.active}
@@ -206,7 +206,7 @@ const Sidebar = ({
         >
           Buy
         </div>
-      </Link>
+      </Link> */}
       <Link
         to="/buyer/bid"
         className={styles.sidebar_text}
