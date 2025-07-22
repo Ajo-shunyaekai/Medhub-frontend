@@ -1,0 +1,336 @@
+body::first-letter {
+  background-color: #f9f9fa !important;
+  color: #5e676f;
+  font-family: 'Ubuntu', sans-serif;
+  user-select: none !important;
+  text-transform: uppercase !important;
+}
+
+.dashboardContainer {
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+  width: 100%;
+  max-width: 98%;
+  height: 100vh;
+  overflow-x: scroll;
+  background-attachment: fixed;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  margin: auto;
+}
+
+.dashboardContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.pageTitle {
+  color:#5e676f;
+  font-size: 20px;
+  font-weight: 500;
+  margin-top: 10px;
+}
+
+.navButton {
+  width: 100%;
+  margin-top: -14px;
+}
+
+.button {
+  background-color: #f5f5f6;
+  font-size: 0.825rem;
+  border-color: transparent;
+  color: #5e676f;
+  text-align: center;
+  padding: 10px 20px;
+  border-radius: 4px;
+  width: 120px;
+   
+  font-weight: 500;
+  cursor: pointer !important;
+}
+
+.button:hover {
+  background-color: #e1e1e4;
+  border-color: #dadade;
+  cursor: pointer !important;
+}
+
+/* style the cart section */
+.wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: start;
+  gap: 10px;
+}
+
+.leftAside {
+  display: flex;
+  justify-content: start;
+  flex-direction: column;
+  gap: 10px;
+  width: 70%;
+}
+
+.orderSection {
+  width: 100%;
+  display: flex;
+  justify-content: start;
+  gap: 10px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 70%;
+}
+
+.ordersRow {
+  width: 100%;
+  background-color: white;
+  padding: 24px 12px;
+  border-color: transparent;
+   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  border-radius: 4px;
+}
+
+.order {
+  display: flex;
+  flex-direction: column;
+  row-gap: 6px;
+  cursor: pointer !important;
+}
+
+.orderHeading {
+        color: #99a0ac;
+    font-size: 0.825rem;
+}
+
+.totalorders {
+    color: #5e676f;
+    font-size: 0.825rem;
+    font-weight: 500;
+}
+
+.invoiceRow {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 10px;
+}
+
+.card {
+  background-color: white;
+  width: 50% !important;
+  padding: 28px 20px;
+  border-color: transparent;
+   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+  display: flex;
+  flex-direction: column;
+  border-radius: 4px;
+  row-gap: 12px;
+  cursor: pointer !important;
+}
+
+.cardHeading {
+    color: #5e676f !important;
+    font-size: 0.825rem;
+}
+
+.totalInvoice {
+    font-size: 0.825rem;
+    color: #448bff;
+    font-weight: 500;
+}
+
+.rightAside {
+  width: 30%;
+  background-color: white;
+   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+  text-align: center;
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+
+.asideHeading {
+    color: #99a0ac;
+    font-size: 0.825rem;
+}
+
+.performaSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 10px;
+  width: 100%;
+}
+
+.performaCard {
+  width: 50%;
+  background-color: white;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important; 
+  border-radius: 4px;
+  padding: 25px 16px 6px 16px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 3px;
+}
+
+.performaCardCount {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.performaCardCounts {
+  color: #5e676f;
+     font-size: 0.825rem;
+}
+
+.performaCardHeading {
+    font-size: 0.825rem;
+  color: #99a0ac !important;
+}
+
+.mapSection {
+  background-color: white;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important; 
+  border-radius: 4px;
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 8px;
+  padding: 6px 12px;
+}
+
+.mapHeading {
+  color:#99a0ac;
+  font-size: 0.825rem;
+}
+
+.countryName {
+  margin-top: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  column-gap: 42px;
+  text-align: center;
+}
+
+.countryTitle {
+  color:#3b71ca;;
+  font-weight: 550;
+  font-size: 0.825rem;
+}
+
+.countrySection {
+  display: flex;
+  flex-direction: column;
+  row-gap: 4px;
+}
+
+.countryPrice {
+    color: #99a0ac;
+    font-size: 0.825rem;
+}
+
+/* start the progress bar code */
+.pink-progress-bar {
+  width: 72%;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+/* Style the circular bar */
+.circular-bar-container {
+  position: relative !important;
+  width: 120px !important;
+  height: 120px !important;
+}
+
+.circularProcess {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.dashbaord-uppar-circular-bar {
+  width: 120px;
+  height: 120px;
+}
+
+.CircularProgressbar .CircularProgressbar-text {
+   
+}
+
+#chart-line-2 {
+  width: 150px !important;
+  height: 40px !important;
+}
+
+#search-engine-chart {
+  width: 130px !important;
+  height: 40px !important;
+}
+
+#directly-chart {
+  width: 140px !important;
+  height: 32px !important;
+}
+
+/* start the media query section */
+@media screen and (max-width: 1250px) {
+  .wrapper {
+    flex-direction: column;
+  }
+  .leftAside {
+    width: 100%;
+  }
+  .mapSection {
+    width: 100%;
+    margin-bottom: 20rem;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .orderSection {
+    flex-direction: column;
+  }
+  .section {
+    width: 100%;
+  }
+  .rightAside {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .invoiceRow {
+    flex-direction: column;
+  }
+  .card {
+    width: 100% !important;
+  }
+  .performaSection {
+    flex-direction: column;
+  }
+  .performaCard {
+    width: 100%;
+  }
+  .ordersRow {
+    flex-wrap: wrap;
+  }
+  .order {
+    width: 48%;
+  }
+}

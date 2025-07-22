@@ -1,5 +1,5 @@
 import { lazy } from "react";
-
+ 
 // Lazy imports using array
 export const buyerRoutesConfig = [
   {
@@ -41,7 +41,7 @@ export const buyerRoutesConfig = [
     ),
   },
 ];
-
+ 
 export const buyerNestedRoutes = [
   {
     index: true,
@@ -218,7 +218,7 @@ export const buyerNestedRoutes = [
       },
     ],
   },
-
+ 
   {
     path: "create-po/:inquiryId",
     component: lazy(() =>
@@ -309,7 +309,7 @@ export const buyerNestedRoutes = [
       import("./Buyer/components/Subscription/SubscriptionInvoiceDetails")
     ),
   },
-
+ 
   {
     path: "invoice",
     component: lazy(() => import("./Buyer/components/Invoice/index")),
@@ -419,7 +419,7 @@ export const buyerNestedRoutes = [
     ),
   },
 ];
-
+ 
 export const supplierRoutesConfig = [
   {
     path: "/supplier/login",
@@ -454,7 +454,7 @@ export const supplierRoutesConfig = [
     ),
   },
 ];
-
+ 
 export const supplierNestedRoutes = [
   {
     index: true,
@@ -514,6 +514,20 @@ export const supplierNestedRoutes = [
     path: "bid/create-bid",
     component: lazy(() => import("./Supplier/components/Bid/CreateBid/CreateBid")),
   },
+  // {
+  //   path: "enquiry-request-list",
+  //   component: lazy(() =>
+  //     import("./Supplier/components/Dashboard/DashboardList/InquiryRequestList")
+  //   ),
+  // },
+  // {
+  //   path: "purchased-orders-list",
+  //   component: lazy(() =>
+  //     import(
+  //       "./Supplier/components/Dashboard/DashboardList/PurchasedOrdersList"
+  //     )
+  //   ),
+  // },
   {
     path: "enquiry-request-list",
     component: lazy(() =>
@@ -806,7 +820,7 @@ export const supplierNestedRoutes = [
     ),
   },
 ];
-
+ 
 export const adminRoutesConfig = [
   {
     path: "/admin/login",
@@ -821,7 +835,7 @@ export const adminRoutesConfig = [
     ),
   },
 ];
-
+ 
 export const adminNestedRoutes = [
   {
     index: true,
@@ -1396,7 +1410,7 @@ export const adminNestedRoutes = [
     path: "supplier/:supplierId/add-product",
     component: lazy(() =>
       // import("./Admin/components/manage-supplier/Product/AddProduct/AddProduct")
-      import("./Supplier/components/Products/AddProduct/AddProduct")
+    import("./Supplier/components/Products/AddProduct/AddProduct")
     ),
   },
   {
@@ -1406,126 +1420,126 @@ export const adminNestedRoutes = [
     ),
   },
 ];
-
-export const logisticsRoutesConfig = [
-  {
-    path: "/logistics/login",
-    component: lazy(() => import("./LogisticsPanel/components/Login/Login")),
-  },
-  {
-    path: "/logistics/forgot-password",
-    component: lazy(() =>
-      import("./LogisticsPanel/components/ForgotPassword/ForgotPassword")
-    ),
-  },
-  {
-    path: "/logistics/sign-up",
-    component: lazy(() => import("./LogisticsPanel/components/Signup/Signup")),
-  },
-  {
-    path: "*",
-    component: lazy(() =>
-      import("./Buyer/components/SharedComponents/Error/Error")
-    ),
-  },
-];
-
-export const logisticsNestedRoutes = [
-  {
-    index: true,
-    component: lazy(() =>
-      import("./LogisticsPanel/components/Dashboard/NewDashboard")
-    ),
-  },
-  {
-    path: "order",
-    component: lazy(() =>
-      import("./LogisticsPanel/components/Orders/NewOrder")
-    ),
-  },
-  {
-    path: "logistics-details/:requestId",
-    component: lazy(() =>
-      import(
-        "./LogisticsPanel/components/Orders/NewOrderDetails/NewOrderDetails"
-      )
-    ),
-  },
-  {
-    path: "pickup-order",
-    component: lazy(() =>
-      import(
-        "./LogisticsPanel/components/PickupOrders/NewPickupOrder/NewPickupOrder"
-      )
-    ),
-  },
-  {
-    path: "pickup-order-details/:requestId",
-    component: lazy(() =>
-      import(
-        "./LogisticsPanel/components/PickupOrders/NewPickupOrderDetails/NewPickupOrderDetails"
-      )
-    ),
-  },
-  {
-    path: "add-inventory",
-    component: lazy(() =>
-      import("./LogisticsPanel/components/Inventory/AddInventory/InventoryForm")
-    ),
-  },
-  {
-    path: "inventory-list",
-    component: lazy(() =>
-      import(
-        "./LogisticsPanel/components/Inventory/NewInventoryList/NewInventoryList"
-      )
-    ),
-  },
-  {
-    path: "add-vehicle",
-    component: lazy(() =>
-      import("./LogisticsPanel/components/Vehicle/NewAddVehicle/NewAddVehicle")
-    ),
-  },
-  {
-    path: "vehicle-list",
-    component: lazy(() =>
-      import(
-        "./LogisticsPanel/components/Vehicle/NewVehicleList/NewVehicleList"
-      )
-    ),
-  },
-  {
-    path: "shipment",
-    component: lazy(() =>
-      import("./LogisticsPanel/components/Shipment/NewShipment")
-    ),
-  },
-  {
-    path: "tracking",
-    component: lazy(() =>
-      import(
-        "./LogisticsPanel/components/Tracking/NewTrackingForm/NewTrackingForm"
-      )
-    ),
-  },
-  {
-    path: "profile",
-    component: lazy(() =>
-      import("./LogisticsPanel//components/SharedComponents/Profile/Profile")
-    ),
-  },
-  {
-    path: "*",
-    component: lazy(() =>
-      import("./Buyer/components/SharedComponents/Error/Error")
-    ),
-  },
-];
-
+ 
+// export const logisticsRoutesConfig = [
+//   {
+//     path: "/logistics/login",
+//     component: lazy(() => import("./Logistics/Components/SharedComponents/Login/Login")),
+//   },
+//   {
+//     path: "/logistics/forgot-password",
+//     component: lazy(() =>
+//       import("./LogisticsPanel/components/ForgotPassword/ForgotPassword")
+//     ),
+//   },
+//   {
+//     path: "/logistics/sign-up",
+//     component: lazy(() => import("./LogisticsPanel/components/Signup/Signup")),
+//   },
+//   {
+//     path: "*",
+//     component: lazy(() =>
+//       import("./Buyer/components/SharedComponents/Error/Error")
+//     ),
+//   },
+// ];
+ 
+// export const logisticsNestedRoutes = [
+//   {
+//     index: true,
+//     component: lazy(() =>
+//       import("./LogisticsPanel/components/Dashboard/NewDashboard")
+//     ),
+//   },
+//   {
+//     path: "order",
+//     component: lazy(() =>
+//       import("./LogisticsPanel/components/Orders/NewOrder")
+//     ),
+//   },
+//   {
+//     path: "logistics-details/:requestId",
+//     component: lazy(() =>
+//       import(
+//         "./LogisticsPanel/components/Orders/NewOrderDetails/NewOrderDetails"
+//       )
+//     ),
+//   },
+//   {
+//     path: "pickup-order",
+//     component: lazy(() =>
+//       import(
+//         "./LogisticsPanel/components/PickupOrders/NewPickupOrder/NewPickupOrder"
+//       )
+//     ),
+//   },
+//   {
+//     path: "pickup-order-details/:requestId",
+//     component: lazy(() =>
+//       import(
+//         "./LogisticsPanel/components/PickupOrders/NewPickupOrderDetails/NewPickupOrderDetails"
+//       )
+//     ),
+//   },
+//   {
+//     path: "add-inventory",
+//     component: lazy(() =>
+//       import("./LogisticsPanel/components/Inventory/AddInventory/InventoryForm")
+//     ),
+//   },
+//   {
+//     path: "inventory-list",
+//     component: lazy(() =>
+//       import(
+//         "./LogisticsPanel/components/Inventory/NewInventoryList/NewInventoryList"
+//       )
+//     ),
+//   },
+//   {
+//     path: "add-vehicle",
+//     component: lazy(() =>
+//       import("./LogisticsPanel/components/Vehicle/NewAddVehicle/NewAddVehicle")
+//     ),
+//   },
+//   {
+//     path: "vehicle-list",
+//     component: lazy(() =>
+//       import(
+//         "./LogisticsPanel/components/Vehicle/NewVehicleList/NewVehicleList"
+//       )
+//     ),
+//   },
+//   {
+//     path: "shipment",
+//     component: lazy(() =>
+//       import("./LogisticsPanel/components/Shipment/NewShipment")
+//     ),
+//   },
+//   {
+//     path: "tracking",
+//     component: lazy(() =>
+//       import(
+//         "./LogisticsPanel/components/Tracking/NewTrackingForm/NewTrackingForm"
+//       )
+//     ),
+//   },
+//   {
+//     path: "profile",
+//     component: lazy(() =>
+//       import("./LogisticsPanel//components/SharedComponents/Profile/Profile")
+//     ),
+//   },
+//   {
+//     path: "*",
+//     component: lazy(() =>
+//       import("./Buyer/components/SharedComponents/Error/Error")
+//     ),
+//   },
+// ];
+ 
 export const subscriptionRoutesConfig = [
   {
-    path: "/subscription/:userId/:userType/select-plan",
+    path: "/subscription/:userType/:userId/select-plan",
     component: lazy(() => import("./SubscriptionPlan/SubscriptionPage")),
   },
   {
@@ -1540,6 +1554,88 @@ export const subscriptionRoutesConfig = [
     path: "*",
     component: lazy(() =>
       import("./Buyer/components/SharedComponents/Error/Error")
+    ),
+  },
+];
+ 
+ 
+//new logistic routes
+export const newLogisticRoutesConfig = [
+  {
+    path: "/logistic/login",
+    component: lazy(() => import("./Logistics/Components/SharedComponents/Login/LoginLayout")),
+  },
+  {
+    path: "/logistic/forgot-password",
+    component: lazy(() => import("./Logistics/Components/SharedComponents/Login/LoginLayout")),
+  },
+  // {
+  //   path: "*",
+  //   component: lazy(() =>
+  //     import("./Buyer/components/SharedComponents/Error/Error")
+  //   ),
+  // },
+];
+ 
+export const newLogisticNestedRoutes = [
+  {
+    index: true,
+    component: lazy(() => import("./Logistics/Components/Dashboard/LogisticsDashboard")),
+  },
+ 
+  //order
+  {
+    path: "order",
+    component: lazy(() => import("./Logistics/Components/Orders/Order")),
+    children: [
+      {
+        path: "active",
+        component: lazy(() =>
+          import("./Logistics/Components/Orders/ActiveOrder/ActiveOrder")
+        ),
+      },
+      {
+        path: "completed",
+        component: lazy(() =>
+          import("./Logistics/Components/Orders/CompletedOrder/CompletedOrder")
+        ),
+      },
+      {
+        path: "pending",
+        component: lazy(()=>import("./Logistics/Components/Orders/PendingOrder/PendingOrder")),
+      }
+    ],
+  },
+ 
+  //order-details
+  {
+    path: "active-orders-details/:logisticsId",
+    component: lazy(() =>
+      import("./Logistics/Components/Orders/ActiveOrderDetails/ActiveOrderDetails")
+    ),
+  },
+ 
+  //profile
+  {
+    path: "profile/:id",
+    component: lazy(() =>
+      import("./Logistics/Components/Profile/Profile")
+    ),
+  },
+  {
+    path: "edit-profile/:id",
+    component: lazy(() =>
+      import("./Logistics/Components/Profile/EditProfile")
+    ),
+  },
+ 
+  //notification-list
+  {
+    path: "notification-list",
+    component: lazy(() =>
+      import(
+        "./Logistics/Components/SharedComponents/Notification/NotificationList"
+      )
     ),
   },
 ];
