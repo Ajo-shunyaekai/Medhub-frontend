@@ -14,6 +14,15 @@ export const bidValidationSchema = Yup.object().shape({
     .typeError("End date must be a valid date")
     .min(Yup.ref("startDate"), "End date cannot be before start date"),
 
+  country: Yup.string().required("Destination country is required"),  
+  state: Yup.string().required("Destination state is required"),
+  fromCountries: Yup.array()
+      .min(1, "At least one country must be selected")
+      .required("From countries is required"),
+  selectedCountry: Yup.string().required(
+    "Selected country code is required"
+  ),    
+
   description: Yup.string()
     .required("Bid description is required")
     .min(10, "Description must be at least 10 characters"),
@@ -82,13 +91,12 @@ export const bidValidationSchema = Yup.object().shape({
           .required("Target price is required")
           .positive("Price must be positive"),
 
-        country: Yup.string().required("Destination country is required"),
+        // country: Yup.string().required("Destination country is required"),
 
-        selectedCountry: Yup.string().required(
-          "Selected country code is required"
-        ),
+        // selectedCountry: Yup.string().required(
+        //   "Selected country code is required"
+        // ),
 
-        state: Yup.string().required("Destination state is required"),
 
         openFor: Yup.string().required("Open for field is required"),
 
@@ -101,10 +109,6 @@ export const bidValidationSchema = Yup.object().shape({
           then: Yup.string().required("Certificate name is required"),
           otherwise: Yup.string().notRequired(),
         }),
-
-        fromCountries: Yup.array()
-          .min(1, "At least one country must be selected")
-          .required("From countries is required"),
 
         delivery: Yup.string()
           .required("Delivery details are required")
@@ -155,6 +159,9 @@ export const initialValues = {
   startTime: undefined,
   endTime: undefined,
   endDate: undefined,
+  fromCountries: [],
+  country: undefined,
+  state: undefined,
   description: undefined,
   bidDocs: [],
   documents: [
@@ -174,14 +181,14 @@ export const initialValues = {
       brand: undefined,
       quantity: undefined,
       targetPrice: undefined,
-      country: undefined,
       selectedCountry: undefined,
       docReq: undefined,
       certificateName: undefined, 
-      state: undefined,
       openFor: undefined,
-      fromCountries: [],
       delivery: undefined,
+      // country: undefined,
+      // state: undefined,
+      // fromCountries: [],
     },
   ],
   // status: "Active",

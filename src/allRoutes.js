@@ -1539,7 +1539,8 @@ export const adminNestedRoutes = [
  
 export const subscriptionRoutesConfig = [
   {
-    path: "/subscription/:userType/:userId/select-plan",
+    // path: "/subscription/:userType/:userId/select-plan",
+    path: "/subscription/:userId/:userType/select-plan",
     component: lazy(() => import("./SubscriptionPlan/SubscriptionPage")),
   },
   {

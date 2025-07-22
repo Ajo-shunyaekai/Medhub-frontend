@@ -93,6 +93,24 @@ const BidDetails = () => {
                 {getTimeRemaining(bidDetails?.general?.startDate)}
               </span>
             </div>
+            <div className={styles.additionalUploadSection3}>
+              <span className={styles.medicineHead3}>From Countries</span>
+              <span className={styles.medicineText3}>
+                {bidDetails?.general?.fromCountries?.join(", ") || "N/A"}
+              </span>
+            </div>
+            <div className={styles.additionalUploadSection3}>
+              <span className={styles.medicineHead3}>Country of Destination</span>
+              <span className={styles.medicineText3}>
+                {bidDetails?.general?.country || "N/A"}
+              </span>
+            </div>
+            <div className={styles.additionalUploadSection3}>
+              <span className={styles.medicineHead3}>State of Destination</span>
+              <span className={styles.medicineText3}>
+                {bidDetails?.general?.state || "N/A"}
+              </span>
+            </div>
           </div>
         </div>
         <div className={styles.mainContainer}>

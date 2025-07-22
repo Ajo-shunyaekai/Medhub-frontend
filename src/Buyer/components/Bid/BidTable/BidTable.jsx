@@ -22,6 +22,14 @@ const BidTable = ({
       sortable: true,
     },
     {
+      name: "Status",
+      selector: (row) => row?.status
+                        ? row.status.charAt(0).toUpperCase() + row.status.slice(1)
+                        : "",
+      sortable: true,
+      width: "200px",
+    },
+    {
       name: "Bid Start Date",
       selector: (row) => moment(row?.general?.startDate)?.format("DD/MM/YYYY"),
       sortable: true,
@@ -32,12 +40,9 @@ const BidTable = ({
       sortable: true,
     },
     {
-      name: "Status",
-      selector: (row) => row?.status
-                        ? row.status.charAt(0).toUpperCase() + row.status.slice(1)
-                        : "",
+      name: "Time Remaining",
+      selector: (row) => moment(row?.general?.endDate)?.format("DD/MM/YYYY"),
       sortable: true,
-      width: "200px",
     },
     {
       name: "Total Bids",
@@ -45,6 +50,8 @@ const BidTable = ({
       sortable: true,
       width: "200px",
     },
+   
+   
     {
       name: "Action",
       cell: (row) => (

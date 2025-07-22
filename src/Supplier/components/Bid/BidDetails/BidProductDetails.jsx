@@ -34,18 +34,18 @@ const BidDetails = () => {
         return "Quantity Required";
       case "targetPrice":
         return "Target Price";
-      case "country":
-        return "Country of Destination";
-      case "state":
-        return "State of Destination";
+      // case "country":
+      //   return "Country of Destination";
+      // case "state":
+      //   return "State of Destination";
       case "docReq":
         return "Certification Required";
       case "certificateName":
         return "Certification Name";
       case "openFor":
         return "Open For";
-      case "fromCountries":
-        return "From Countries";
+      // case "fromCountries":
+      //   return "From Countries";
       case "delivery":
         return "Expected Delivery Duration";
       default:

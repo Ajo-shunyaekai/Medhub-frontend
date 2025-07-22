@@ -132,8 +132,11 @@ const CreateBid = () => {
                 if (Array.isArray(value)) {
                   // Append array items under the same key
                   value.forEach((item, index) => {
+                    if (typeof item === "object" && item !== null && item.label) {
+                      formData.append(key, item.label);
+                    } 
                     // If it's a file, append it with its index (to ensure uniqueness)
-                    if (item instanceof File) {
+                    else if (item instanceof File) {
                       formData.append(key, item); // appends the file
                     } else {
                       formData.append(key, item); // appends non-file array items
@@ -179,10 +182,10 @@ const CreateBid = () => {
             const additionalDetailsUpdated = JSON.stringify(
               values?.additionalDetails?.map((section) => ({
                 ...section,
-                fromCountries:
-                  section?.fromCountries?.length > 0
-                    ? section?.fromCountries?.map((country) => country?.label)
-                    : [] || [],
+                // fromCountries:
+                //   section?.fromCountries?.length > 0
+                //     ? section?.fromCountries?.map((country) => country?.label)
+                //     : [] || [],
               }))
             );
 
@@ -264,6 +267,7 @@ const CreateBid = () => {
                       e.preventDefault();
                     }}
                   />
+                  {console.log('erros', errors)}
                   {touched?.endDate && errors?.endDate && (
                     <span className={styles.error}>{errors?.endDate}</span>
                   )}
@@ -281,7 +285,7 @@ const CreateBid = () => {
                     placeholder={`Enter Bid Start Time`}
                     onChange={(e) => setFieldValue("startTime", e?.target?.value)}
                   />
-{console.log('startTime',values?.startTime)}
+
                   {touched?.startTime && errors?.startTime && (
                     <span className={styles.error}>{errors?.startTime}</span>
                   )}
@@ -305,6 +309,101 @@ const CreateBid = () => {
                     <span className={styles.error}>{errors?.endTime}</span>
                   )}
                 </div>
+                <div className={styles.productContainer}>
+                  <label className={styles.formLabel}>
+                    From Countries
+                    <span className={styles.labelStamp}>*</span>
+                  </label>
+                  {countries.length > 0 && (
+                    <MultiSelectDropdown
+                      className={`${styles.customMultiSelect} ${styles.signupFormsSectionsSelect}`}
+                      options={countries}
+                      value={values.fromCountries}
+                      // onBlur={() =>
+                      //   setFieldTouched(
+                      //     // `additionalDetails.${index}.fromCountries`,
+                      //     "fromCountries",
+                      //     true
+                      //   )
+                      // }
+                      onBlur={() => setFieldTouched("fromCountries", true)}
+                      // onChange={(opt) =>
+                      //   handleChangeFormSectionDetails(
+                      //     // index,
+                      //     "fromCountries",
+                      //     setFieldValue,
+                      //     values,
+                      //     opt,
+                      //     "additionalDetails"
+                      //   )
+                      // }
+                      onChange={(opt) => setFieldValue("fromCountries", opt)}
+                      getDropdownButtonLabel={getDropdownButtonLabel}
+                      style={{ width: "100%!important" }}
+                    />
+                  )}
+                  {touched?.fromCountries && errors?.fromCountries && (
+                    <span className={styles.error}>{errors?.fromCountries}</span>
+                  )}
+                  {/* {touched?.additionalDetails?.[index]
+                    ?.fromCountries &&
+                    errors?.additionalDetails?.[index]
+                      ?.fromCountries && (
+                      <span className={styles.error}>
+                        {
+                          errors?.additionalDetails[index]
+                            .fromCountries
+                        }
+                      </span>
+                    )} */}
+                </div>
+                {/* ----- Country of Destination ------ */}
+                <div className={styles.productContainer}>
+                <label className={styles.formLabel}>
+                  Country of Destination
+                  <span className={styles.labelStamp}>*</span>
+                </label>
+                <Select
+                  className={styles.formSelect}
+                  options={countryOptions}
+                  value={
+                    countryOptions.find((o) => o.value === values.country) || null
+                  }
+                  onChange={(opt) => {
+                    setFieldValue("country", opt?.value || "");
+                    setFieldValue("selectedCountry", opt?.isoCode || "");
+                  }}
+                  name="country"
+                  onBlur={() => setFieldTouched("country", true)}
+                />
+                {touched?.country && errors?.country && (
+                  <span className={styles.error}>{errors.country}</span>
+                )}
+              </div>
+              {/* ----- State of Destination ------ */}
+              <div className={styles.productContainer}>
+                  <label className={styles.formLabel}>
+                    State of Destination
+                    <span className={styles.labelStamp}>*</span>
+                  </label>
+                  <Select
+                    className={styles.formSelect}
+                    options={stateOptions(values.selectedCountry)} 
+                    value={
+                      stateOptions(values.selectedCountry)?.find(
+                        (o) => o.value === values.state
+                      ) || null
+                    }
+                    onChange={(opt) => setFieldValue("state", opt?.value || "")}
+                    name="state"
+                    onBlur={() => setFieldTouched("state", true)}
+                  />
+                  {touched?.state && errors?.state && (
+                    <span className={styles.error}>{errors.state}</span>
+                  )}
+                </div>
+
+
               </div>
               <div className={styles.formSection}>
                 <div className={styles.productTextContainer2}>
@@ -813,7 +912,7 @@ const CreateBid = () => {
                           </div>
 
                           {/* ----- From Countries ------ */}
-                          <div className={styles.productContainer}>
+                          {/* <div className={styles.productContainer}>
                             <label className={styles.formLabel}>
                               From Countries
                               <span className={styles.labelStamp}>*</span>
@@ -854,10 +953,10 @@ const CreateBid = () => {
                                   }
                                 </span>
                               )}
-                          </div>
+                          </div> */}
 
                           {/* ----- Country of Destination ------ */}
-                          <div className={styles.productContainer}>
+                          {/* <div className={styles.productContainer}>
                             <label className={styles.formLabel}>
                               Country of Destination
                               <span className={styles.labelStamp}>*</span>
@@ -902,10 +1001,10 @@ const CreateBid = () => {
                                   {errors?.additionalDetails[index].country}
                                 </span>
                               )}
-                          </div>
+                          </div> */}
 
                           {/* ----- State of Destination ------ */}
-                          <div className={styles.productContainer}>
+                          {/* <div className={styles.productContainer}>
                             <label className={styles.formLabel}>
                               State of Destination
                               <span className={styles.labelStamp}>*</span>
@@ -942,7 +1041,7 @@ const CreateBid = () => {
                                   {errors?.additionalDetails[index].state}
                                 </span>
                               )}
-                          </div>
+                          </div> */}
 
                           {/* ----- Certification Required ------ */}
                           <div className={styles.productContainer}>
