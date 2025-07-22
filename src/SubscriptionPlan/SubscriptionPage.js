@@ -8,7 +8,8 @@ import {
   fetchCurrentSubscription,
   fetchUserData,
 } from "../redux/reducers/subscriptionSlice";
-import axios from "axios";
+import InvoicePDF from "./SubscriptionInvoice/InvoicePDF";
+import { pdf } from "@react-pdf/renderer";
 
 const SubscriptionPage = () => {
   const dispatch = useDispatch();
@@ -25,7 +26,6 @@ const SubscriptionPage = () => {
       price: 129,
       pkg: "Monthly Subscription",
       duration: "month",
-      features: ["feature 1", "feature 2"],
       bgColor: "#37d1dd",
     },
     {
@@ -33,7 +33,6 @@ const SubscriptionPage = () => {
       price: 1188,
       pkg: "Yearly Subscription",
       duration: "year",
-      features: ["feature 1", "feature 2"],
       bgColor: "#d137dd",
     },
   ];
@@ -42,32 +41,71 @@ const SubscriptionPage = () => {
     setActivePlan(plan);
   };
 
-  const handlePayment = async (duration, pkg, email) => {
+  const handlePayment = async (pdfBlob, duration, pkg, email, invoiceData) => {
+    const formData = new FormData();
+    formData.append("plan_name", pkg);
+    formData.append("duration", duration);
+    formData.append("email", email);
+    formData.append("userType", userType);
+    formData.append("userId", userId || user?._id);
+    formData.append("invoice_pdf", pdfBlob, "Invoice.pdf"); // Ensure the filename is set here
+
+    // Append invoice data (you can either send it as individual fields or as a JSON string)
+    // formData.append("invoice_data", JSON.stringify(invoiceData)); // Sending invoiceData as a JSON string
+    for (const key in invoiceData) {
+      if (Object.prototype.hasOwnProperty.call(invoiceData, key)) {
+        const element = invoiceData[key];
+        formData.append(key, element);
+      }
+    }
+
+    dispatch(createSubscriptionSession(formData));
+
     dispatch(
       createSubscriptionSession({
         plan_name: pkg,
         duration,
-        email: email, // need to make it dynamic according to the user
+        email,
         userType,
         userId: userId || user?._id,
       })
     );
   };
 
+  const generatePDF = (duration, pkg, email, invoiceData) => {
+    const invoiceComponent = (
+      <InvoicePDF
+        title="Invoice"
+        subscriptionDetails={invoiceData}
+        user={user}
+      />
+    );
+
+    return new Promise((resolve, reject) => {
+      pdf(invoiceComponent)
+        .toBlob()
+        .then((pdfBlob) => {
+          resolve({ pdfBlob, duration, pkg, email, invoiceData });
+        })
+        .catch(reject);
+    });
+  };
+
   useEffect(() => {
-    userId &&
-      userType &&
+    if (userId && userType) {
       dispatch(fetchUserData({ id: userId, type: userType }));
+    }
   }, [userId, userType]);
 
   useEffect(() => {
-    user?.currentSubscription &&
+    if (user?.currentSubscription) {
       dispatch(
         fetchCurrentSubscription({
           id: user?.currentSubscription,
           type: userType,
         })
       );
+    }
   }, [user?.currentSubscription]);
 
   return (
@@ -107,7 +145,7 @@ const SubscriptionPage = () => {
                             Monthly Subscription
                           </span>
                           <span className={styles.cardManu}>
-                            Billed Manually
+                            Billed Monthly
                           </span>
                         </div>
                         <span className={styles.cardMoney}>
@@ -274,13 +312,38 @@ const SubscriptionPage = () => {
                   <div className={styles.subscriptionContainer}>
                     <div
                       className={styles.button}
-                      onClick={() =>
-                        handlePayment(
-                          subscriptionPlans?.[0]?.duration,
-                          subscriptionPlans?.[0]?.type,
-                          user?.contact_person_email || user?.email
-                        )
-                      }
+                      onClick={() => {
+                        const duration = subscriptionPlans?.[0]?.duration;
+                        const pkg = subscriptionPlans?.[0]?.type;
+                        const email = user?.contact_person_email || user?.email;
+                        const selectedPlan = subscriptionPlans.find(
+                          (p) => p.pkg === pkg
+                        );
+                        const invoiceData = {
+                          name: pkg,
+                          amount: selectedPlan?.price || 0,
+                          subscriptionStartDate: new Date(),
+                          invoiceNumber:
+                            "INV-" + Math.floor(Math.random() * 1000000),
+                        };
+
+                        console.log("cleced 1", user);
+
+                        generatePDF(duration, pkg, email, invoiceData)
+                          .then(({ pdfBlob }) => {
+                            console.log("cleced 2");
+                            handlePayment(
+                              pdfBlob,
+                              duration,
+                              pkg,
+                              user?.contact_person_email || user?.email,
+                              invoiceData
+                            );
+                          })
+                          .catch((error) => {
+                            console.error("Error generating PDF:", error);
+                          });
+                      }}
                     >
                       Purchase Now
                     </div>
@@ -332,13 +395,45 @@ const SubscriptionPage = () => {
                   <div className={styles.subscriptionContainer}>
                     <div
                       className={styles.button}
-                      onClick={() =>
-                        handlePayment(
-                          subscriptionPlans?.[1]?.duration,
-                          subscriptionPlans?.[1]?.type,
-                          user?.contact_person_email || user?.email
-                        )
-                      }
+                      // onClick={() =>
+                      //   generatePDF(
+                      //     subscriptionPlans?.[1]?.duration,
+                      //     subscriptionPlans?.[1]?.type,
+                      //     user?.contact_person_email || user?.email
+                      //   )
+                      // }
+                      onClick={() => {
+                        const duration = subscriptionPlans?.[1]?.duration;
+                        const pkg = subscriptionPlans?.[1]?.type;
+                        const email = user?.contact_person_email || user?.email;
+                        const selectedPlan = subscriptionPlans.find(
+                          (p) => p.pkg === pkg
+                        );
+                        const invoiceData = {
+                          name: pkg,
+                          amount: selectedPlan?.price || 0,
+                          subscriptionStartDate: new Date(),
+                          invoiceNumber:
+                            "INV-" + Math.floor(Math.random() * 1000000),
+                        };
+
+                        console.log("cleced 1", user);
+
+                        generatePDF(duration, pkg, email, invoiceData)
+                          .then(({ pdfBlob }) => {
+                            console.log("cleced 2");
+                            handlePayment(
+                              pdfBlob,
+                              duration,
+                              pkg,
+                              user?.contact_person_email || user?.email,
+                              invoiceData
+                            );
+                          })
+                          .catch((error) => {
+                            console.error("Error generating PDF:", error);
+                          });
+                      }}
                     >
                       Purchase Now
                     </div>
