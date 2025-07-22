@@ -136,6 +136,12 @@ export const buyerNestedRoutes = [
     component: lazy(() => import("./Buyer/components/Bid/CreateBid/CreateBid")),
   },
   {
+    path: "bid/:id/:type/:itemId",
+    component: lazy(() =>
+      import("./Buyer/components/Bid/BidDetails/BidProductDetails")
+    ),
+  },
+  {
     path: "product-details/:id",
     component: lazy(() =>
       import("./Buyer/components/Buy/Details/ProductDetails")

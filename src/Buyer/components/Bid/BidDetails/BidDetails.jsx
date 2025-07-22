@@ -3,9 +3,11 @@ import styles from "./bidDetails.module.css";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
+// import RenderProductFiles from "../../Buy/Details/RenderFiles";
 import { fetchBidById } from "../../../../redux/reducers/bidSlice";
 import moment from "moment";
 import RenderProductFiles from "../../../../Buyer/components/Buy/Details/RenderFiles";
+import ProductList from "./ProductList";
 
 const BidDetails = () => {
   const { id } = useParams();
@@ -19,6 +21,7 @@ const BidDetails = () => {
   }, [id]);
 
   const getTimeRemaining = (endDate, endTime = "00:00") => {
+    
     if (!endDate) return "";
 
     // Combine end date and time (time is expected in "HH:mm" format)
@@ -40,90 +43,6 @@ const BidDetails = () => {
 
     return parts.join(" ");
   };
-
-  //only to diaplay start time remaining
-  const getTimeUntilStart = (startDateStr, startTime = "00:00") => {
-    if (!startDateStr) return "";
-  
-    // Parse startDate string to Date object
-    const dateObj = new Date(startDateStr);
-    const [hours, minutes] = startTime.split(":").map(Number);
-  
-    // Set hours and minutes to match startTime
-    dateObj.setHours(hours);
-    dateObj.setMinutes(minutes);
-    dateObj.setSeconds(0);
-    dateObj.setMilliseconds(0);
-  
-    const start = moment(dateObj);
-    const now = moment();
-  
-    const duration = moment.duration(start.diff(now));
-  
-    if (duration.asMilliseconds() <= 0) return "Started";
-  
-    const days = Math.floor(duration.asDays());
-    const hoursLeft = duration.hours();
-    const minutesLeft = duration.minutes();
-  
-    const parts = [];
-    if (days > 0) parts.push(`${days} Day${days !== 1 ? "s" : ""}`);
-    if (hoursLeft > 0) parts.push(`${hoursLeft} Hr${hoursLeft !== 1 ? "s" : ""}`);
-    if (minutesLeft > 0) parts.push(`${minutesLeft} Min${minutesLeft !== 1 ? "s" : ""}`);
-  
-    return parts.join(", ");
-  };
-
-  const getTimeRemainingStatus = (startDateStr, startTime = "00:00", endDateStr, endTime = "00:00") => {
-    if (!startDateStr || !endDateStr) return "";
-  
-    // Convert start time
-    const startDate = new Date(startDateStr);
-    const [startHr, startMin] = startTime.split(":").map(Number);
-    startDate.setHours(startHr);
-    startDate.setMinutes(startMin);
-    startDate.setSeconds(0);
-    startDate.setMilliseconds(0);
-    const startMoment = moment(startDate);
-  
-    // Convert end time
-    const endDate = new Date(endDateStr);
-    const [endHr, endMin] = endTime.split(":").map(Number);
-    endDate.setHours(endHr);
-    endDate.setMinutes(endMin);
-    endDate.setSeconds(0);
-    endDate.setMilliseconds(0);
-    const endMoment = moment(endDate);
-  
-    const now = moment();
-  
-    if (now.isBefore(startMoment)) {
-      const duration = moment.duration(startMoment.diff(now));
-      return `${formatDuration(duration)}`;
-    } else if (now.isBefore(endMoment)) {
-      const duration = moment.duration(endMoment.diff(now));
-      return `${formatDuration(duration)}`;
-    } else {
-      return "Expired";
-    }
-  };
-  
-  // Helper to format duration
-  const formatDuration = (duration) => {
-    const days = Math.floor(duration.asDays());
-    const hours = duration.hours();
-    const minutes = duration.minutes();
-  
-    const parts = [];
-    if (days > 0) parts.push(`${days} Day${days !== 1 ? "s" : ""}`);
-    if (hours > 0) parts.push(`${hours} Hr${hours !== 1 ? "s" : ""}`);
-    if (minutes > 0) parts.push(`${minutes} Min${minutes !== 1 ? "s" : ""}`);
-  
-    return parts.length > 0 ? parts.join(", ") : "Less than 1 Min";
-  };
-  
-  
-  
 
   return (
     <div className={styles.container}>
@@ -172,14 +91,7 @@ const BidDetails = () => {
             <div className={styles.additionalUploadSection3}>
               <span className={styles.medicineHead3}>Time Remaining</span>
               <span className={styles.medicineText3}>
-                {/* {getTimeRemaining(bidDetails?.general?.startDate)} */}
-                {/* {getTimeUntilStart(bidDetails?.general?.startDate, bidDetails?.general?.startTime)} */}
-                {getTimeRemainingStatus(
-                  bidDetails?.general?.startDate,
-                  bidDetails?.general?.startTime,
-                  bidDetails?.general?.endDate,
-                  bidDetails?.general?.endTime
-                )}
+                {getTimeRemaining(bidDetails?.general?.startDate)}
               </span>
             </div>
           </div>
@@ -228,178 +140,10 @@ const BidDetails = () => {
         {/* Product Information */}
         {bidDetails?.additionalDetails?.length > 0 && (
           <>
-            <span className={styles.innerHead3}>Bid Item Details</span>
+            <span className={styles.innerHead3}>Bid Products/Services</span>
           </>
         )}
-        {bidDetails?.additionalDetails?.map((item, index) => (
-          <div className={styles.mainContainer}>
-            {/* <span className={styles.innerHead}>Bid Item Details</span> */}
-            <>
-              <div className={styles.headingSecContainer}>
-                <span className={styles.innerHead2}>
-                  {index + 1}
-                  {". "}
-                  {item?.type?.charAt(0)?.toUpperCase() + item?.type?.slice(1)}
-                  {" - "}
-                  {item?.name}
-                </span>
-              </div>
-              <div className={styles.innerSection}>
-                <div className={styles.mainSection}>
-                  <div className={styles.InnerContainer}>
-                    <div className={styles.medicinesSection}>
-                      <span className={styles.medicineHead}>Bid Type</span>
-                      <span className={styles.medicineText}>{item.type}</span>
-                    </div>
-                    <div className={styles.medicinesSection}>
-                      <span className={styles.medicineHead}>
-                        {item?.type || "Item"} Name
-                      </span>
-                      <span className={styles.medicineText}>{item.name}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {/* category & sub category */}
-              <div className={styles.innerSection}>
-                <div className={styles.mainSection}>
-                  <div className={styles.InnerContainer}>
-                    <div className={styles.medicinesSection}>
-                      <span className={styles.medicineHead}>
-                        {item?.type || "Item"} Category
-                      </span>
-                      <span className={styles.medicineText}>
-                        {item.category}
-                      </span>
-                    </div>
-                    <div className={styles.medicinesSection}>
-                      <span className={styles.medicineHead}>
-                        {item?.type || "Item"} Sub Category
-                      </span>
-                      <span className={styles.medicineText}>
-                        {item.subCategory}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* UPC & Brand Name */}
-              <div className={styles.innerSection}>
-                <div className={styles.mainSection}>
-                  <div className={styles.InnerContainer}>
-                    <div className={styles.medicinesSection}>
-                      <span className={styles.medicineHead}>
-                        UPC (Universal Product Code)
-                      </span>
-                      <span className={styles.medicineText}>{item.upc || 'N/A'}</span>
-                    </div>
-                    <div className={styles.medicinesSection}>
-                      <span className={styles.medicineHead}>Brand Name</span>
-                      <span className={styles.medicineText}>{item.brand || 'N/A'}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Open for & From Countries */}
-              <div className={styles.innerSection}>
-                <div className={styles.mainSection}>
-                  <div className={styles.InnerContainer}>
-                    <div className={styles.medicinesSection}>
-                      <span className={styles.medicineHead}>Open For</span>
-                      <span className={styles.medicineText}>
-                        {item.openFor}
-                      </span>
-                    </div>
-                    <div className={styles.medicinesSection}>
-                      <span className={styles.medicineHead}>
-                        From Countries
-                      </span>
-                      <span className={styles.medicineText}>
-                        {item.fromCountries?.join(", ")}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* country of destination & state of destination */}
-              <div className={styles.innerSection}>
-                <div className={styles.mainSection}>
-                  <div className={styles.InnerContainer}>
-                    <div className={styles.medicinesSection}>
-                      <span className={styles.medicineHead}>
-                        Country of Destination
-                      </span>
-                      <span className={styles.medicineText}>
-                        {item.country}
-                      </span>
-                    </div>
-                    <div className={styles.medicinesSection}>
-                      <span className={styles.medicineHead}>
-                        State of Destination
-                      </span>
-                      <span className={styles.medicineText}>{item.state}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* quantity required and target price */}
-              <div className={styles.innerSection}>
-                <div className={styles.mainSection}>
-                  <div className={styles.InnerContainer}>
-                    <div className={styles.medicinesSection}>
-                      <span className={styles.medicineHead}>
-                        Quantity Required
-                      </span>
-                      <span className={styles.medicineText}>
-                        {item.quantity}
-                      </span>
-                    </div>
-                    <div className={styles.medicinesSection}>
-                      <span className={styles.medicineHead}>Target Price</span>
-                      <span className={styles.medicineText}>
-                        {item.targetPrice} USD
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Expected delievery duration & {item?.type || "Item" }Description */}
-              <div className={styles.innerSection}>
-                <div className={styles.mainSection}>
-                  <div className={styles.InnerContainer}>
-                    <div className={styles.medicinesSection}>
-                      <span className={styles.medicineHead}>
-                        Expected Delivery Duration
-                      </span>
-                      <span className={styles.medicineText}>
-                        {item.targetPrice}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className={styles.innerSection2}>
-                <div className={styles.mainSection2}>
-                  <div className={styles.InnerContainer2}>
-                    <div className={styles.medicinesSection2}>
-                      <span className={styles.medicineHead24}>
-                        {item?.type || "Item"} Description
-                      </span>
-                      <span className={styles.medicineText2}>
-                        {item.description}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </>
-          </div>
-        ))}
+        <ProductList/>
       </div>
 
       <div className={styles.bottomMargin}></div>

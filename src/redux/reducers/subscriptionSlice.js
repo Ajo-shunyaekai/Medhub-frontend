@@ -49,11 +49,16 @@ export const createSubscriptionSession = createAsyncThunk(
   "subscription/createSubscriptionSession",
   async (obj, { rejectWithValue }) => {
     try {
-      const response = await apiRequests?.getRequest2({
-        url: `${process.env.REACT_APP_API_URL}subscription/create-subscription`,
-        userType: obj?.userType,
-        obj,
-      });
+      const response = await apiRequests?.postRequestWithFile(
+        `${process.env.REACT_APP_API_URL}subscription/create-subscription`,
+        obj
+        // userType: obj?.userType,
+      );
+      // const response = await apiRequests?.getRequest2({
+      //   url: `${process.env.REACT_APP_API_URL}subscription/create-subscription`,
+      //   userType: obj?.userType,
+      //   obj,
+      // });
 
       if (response?.data?.url) {
         window.location.href = response.data.url;

@@ -97,20 +97,12 @@ const InvoicePDF = ({ user, subscriptionDetails }) => (
           </View>
           <View style={styles.rightSection}>
             <Text style={styles.title}>INVOICE</Text>
-            <Text style={styles.titleText}>
+            {/* <Text style={styles.titleText}>
               Payment ID:{" "}
               {subscriptionDetails?.paymentMethodId
                 ?.replace("pm_", "PAY")
                 ?.slice(0, 8)}
-            </Text>
-          </View>
-        </View>
-        <View style={styles.header}>
-          <View style={styles.leftTextContainer}>
-            <Text style={styles.infoText}>Bill To:</Text>
-            <Text style={styles.infoText}>{user?.buyer_name || ""}</Text>
-          </View>
-          <View style={styles.rightTextContainer}>
+            </Text> */}
             <Text style={styles.infoText}>
               Invoice Date:{" "}
               {moment(subscriptionDetails?.subscriptionStartDate).format(
@@ -120,6 +112,19 @@ const InvoicePDF = ({ user, subscriptionDetails }) => (
             <Text style={styles.infoText}>
               Invoice No.: {subscriptionDetails?.invoiceNumber}
             </Text>
+          </View>
+        </View>
+        <View style={styles.header}>
+          <View style={styles.leftTextContainer}>
+            <Text style={styles.infoText}>Bill To:</Text>
+            <Text style={styles.infoText}>
+              {user?.buyer_name || user?.supplier_name || ""}
+            </Text>
+          </View>
+          <View style={styles.rightTextContainer}>
+            {/* <Text style={styles.infoText}>
+              Paid Via:{" "}Card
+            </Text> */}
           </View>
         </View>
         <View style={styles.table}>
