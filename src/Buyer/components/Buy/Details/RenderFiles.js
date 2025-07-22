@@ -53,7 +53,7 @@ const RenderProductFiles = ({ files }) => {
         const filename = file?.split("/")?.pop(); // ensures just the filename
         const fileUrl = `${process.env.REACT_APP_SERVER_URL.replace(/\/$/, "")}/pdf-proxy/${filename}`;
 
-        // if (isImageExtension(fileUrl)) {
+        if (isImageExtension(fileUrl)) {
           return (
             <img
               key={index}
@@ -63,7 +63,7 @@ const RenderProductFiles = ({ files }) => {
               onError={(e) => (e.target.src = fallbackImageUrl)}
             />
           );
-        // }
+        }
 
         // if (isPdf(fileUrl)) {
         //   return (

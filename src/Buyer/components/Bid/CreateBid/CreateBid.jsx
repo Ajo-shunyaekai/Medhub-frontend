@@ -190,7 +190,6 @@ const CreateBid = () => {
             formData.append("userId", localStorage?.getItem("_id"));
             formData.append("additionalDetails", additionalDetailsUpdated);
             formData.append("userType", "Buyer");
-            // formData.append("status", "Active");
 
             dispatch(addBid(formData)).then((response) => {
               if (response?.meta.requestStatus === "fulfilled") {
@@ -277,14 +276,33 @@ const CreateBid = () => {
                   <input
                     className={styles.formInput}
                     type="time"
-                    name={`time`}
-                    value={values?.time}
+                    name={`startTime`}
+                    value={values?.startTime}
                     placeholder={`Enter Bid Start Time`}
-                    onChange={(e) => setFieldValue("time", e?.target?.value)}
+                    onChange={(e) => setFieldValue("startTime", e?.target?.value)}
+                  />
+{console.log('startTime',values?.startTime)}
+                  {touched?.startTime && errors?.startTime && (
+                    <span className={styles.error}>{errors?.startTime}</span>
+                  )}
+                </div>
+                <div className={styles.productContainer}>
+                  <label className={styles.formLabel}>
+                    Bid End Time
+                    <span className={styles.labelStamp}>*</span>
+                  </label>
+                  {console.log('endTime',values?.endTime)}
+                  <input
+                    className={styles.formInput}
+                    type="time"
+                    name={`endTime`}
+                    value={values?.endTime}
+                    placeholder={`Enter Bid End Time`}
+                    onChange={(e) => setFieldValue("endTime", e?.target?.value)}
                   />
 
-                  {touched?.time && errors?.time && (
-                    <span className={styles.error}>{errors?.time}</span>
+                  {touched?.endTime && errors?.endTime && (
+                    <span className={styles.error}>{errors?.endTime}</span>
                   )}
                 </div>
               </div>

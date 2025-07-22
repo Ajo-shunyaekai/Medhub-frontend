@@ -41,6 +41,90 @@ const BidDetails = () => {
     return parts.join(" ");
   };
 
+  //only to diaplay start time remaining
+  const getTimeUntilStart = (startDateStr, startTime = "00:00") => {
+    if (!startDateStr) return "";
+  
+    // Parse startDate string to Date object
+    const dateObj = new Date(startDateStr);
+    const [hours, minutes] = startTime.split(":").map(Number);
+  
+    // Set hours and minutes to match startTime
+    dateObj.setHours(hours);
+    dateObj.setMinutes(minutes);
+    dateObj.setSeconds(0);
+    dateObj.setMilliseconds(0);
+  
+    const start = moment(dateObj);
+    const now = moment();
+  
+    const duration = moment.duration(start.diff(now));
+  
+    if (duration.asMilliseconds() <= 0) return "Started";
+  
+    const days = Math.floor(duration.asDays());
+    const hoursLeft = duration.hours();
+    const minutesLeft = duration.minutes();
+  
+    const parts = [];
+    if (days > 0) parts.push(`${days} Day${days !== 1 ? "s" : ""}`);
+    if (hoursLeft > 0) parts.push(`${hoursLeft} Hr${hoursLeft !== 1 ? "s" : ""}`);
+    if (minutesLeft > 0) parts.push(`${minutesLeft} Min${minutesLeft !== 1 ? "s" : ""}`);
+  
+    return parts.join(", ");
+  };
+
+  const getTimeRemainingStatus = (startDateStr, startTime = "00:00", endDateStr, endTime = "00:00") => {
+    if (!startDateStr || !endDateStr) return "";
+  
+    // Convert start time
+    const startDate = new Date(startDateStr);
+    const [startHr, startMin] = startTime.split(":").map(Number);
+    startDate.setHours(startHr);
+    startDate.setMinutes(startMin);
+    startDate.setSeconds(0);
+    startDate.setMilliseconds(0);
+    const startMoment = moment(startDate);
+  
+    // Convert end time
+    const endDate = new Date(endDateStr);
+    const [endHr, endMin] = endTime.split(":").map(Number);
+    endDate.setHours(endHr);
+    endDate.setMinutes(endMin);
+    endDate.setSeconds(0);
+    endDate.setMilliseconds(0);
+    const endMoment = moment(endDate);
+  
+    const now = moment();
+  
+    if (now.isBefore(startMoment)) {
+      const duration = moment.duration(startMoment.diff(now));
+      return `${formatDuration(duration)}`;
+    } else if (now.isBefore(endMoment)) {
+      const duration = moment.duration(endMoment.diff(now));
+      return `${formatDuration(duration)}`;
+    } else {
+      return "Expired";
+    }
+  };
+  
+  // Helper to format duration
+  const formatDuration = (duration) => {
+    const days = Math.floor(duration.asDays());
+    const hours = duration.hours();
+    const minutes = duration.minutes();
+  
+    const parts = [];
+    if (days > 0) parts.push(`${days} Day${days !== 1 ? "s" : ""}`);
+    if (hours > 0) parts.push(`${hours} Hr${hours !== 1 ? "s" : ""}`);
+    if (minutes > 0) parts.push(`${minutes} Min${minutes !== 1 ? "s" : ""}`);
+  
+    return parts.length > 0 ? parts.join(", ") : "Less than 1 Min";
+  };
+  
+  
+  
+
   return (
     <div className={styles.container}>
       <span className={styles.heading}>Bid Details</span>
@@ -88,7 +172,14 @@ const BidDetails = () => {
             <div className={styles.additionalUploadSection3}>
               <span className={styles.medicineHead3}>Time Remaining</span>
               <span className={styles.medicineText3}>
-                {getTimeRemaining(bidDetails?.general?.startDate)}
+                {/* {getTimeRemaining(bidDetails?.general?.startDate)} */}
+                {/* {getTimeUntilStart(bidDetails?.general?.startDate, bidDetails?.general?.startTime)} */}
+                {getTimeRemainingStatus(
+                  bidDetails?.general?.startDate,
+                  bidDetails?.general?.startTime,
+                  bidDetails?.general?.endDate,
+                  bidDetails?.general?.endTime
+                )}
               </span>
             </div>
           </div>
@@ -201,11 +292,11 @@ const BidDetails = () => {
                       <span className={styles.medicineHead}>
                         UPC (Universal Product Code)
                       </span>
-                      <span className={styles.medicineText}>{item.upc}</span>
+                      <span className={styles.medicineText}>{item.upc || 'N/A'}</span>
                     </div>
                     <div className={styles.medicinesSection}>
                       <span className={styles.medicineHead}>Brand Name</span>
-                      <span className={styles.medicineText}>{item.brand}</span>
+                      <span className={styles.medicineText}>{item.brand || 'N/A'}</span>
                     </div>
                   </div>
                 </div>
