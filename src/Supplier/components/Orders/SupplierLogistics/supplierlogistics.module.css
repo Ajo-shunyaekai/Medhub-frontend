@@ -8,12 +8,12 @@
     row-gap: 20px;
     scrollbar-width: none;
 }
-
+ 
 .logisticsHeading {
     font-size: 20px;
       font-weight: 500;
 }
-
+ 
 .inner-container {
     display: flex;
     flex-wrap: wrap;
@@ -25,29 +25,29 @@
     font-size: 18px;
     font-weight: 500;
 }
-
+ 
 .checkboxSection {
     display: flex;
     align-items: center;
 }
-
+ 
 .checkboxInput {
     margin-right: 8px;
     cursor: pointer !important;;
 }
-
+ 
 .checkboxLabel {
     font-size: 0.825rem;
        color: #99a0ac;
     cursor: pointer !important;;
 }
-
+ 
 .formLogistics {
     display: flex;
     flex-direction: column;
     gap: 26px;
 }
-
+ 
 .formInnerClass {
     background-color: #fff;
     border-radius: 4px;
@@ -58,7 +58,7 @@
     gap: 20px;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
 }
-
+ 
 .logisticesInputSection {
     display: flex;
     flex-direction: column;
@@ -77,17 +77,21 @@
     font-size: 0.825rem;
     font-weight: 500;
 }
-
+ 
+/* update later */
 .formInput {
     background-color: #fff !important;
     border: none !important;
+    outline: none !important;
     border-radius: 4px !important;
- 
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+    color: #5e565f !important;
     font-size: 14px !important;
     outline: none !important;
-    padding: 10px !important;
+    padding: 10.4px !important;
+    font-size: 0.825rem;
 }
-
+ 
 .formMaterialContainer {
     background-color: #fff;
     border-radius: 4px;
@@ -97,42 +101,60 @@
     gap: 20px;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
 }
-
+ 
 .logisticesDimensionSection {
     display: flex;
     flex-direction: column;
     row-gap: 8px;
     width: 42%;
 }
-
+ 
 .dimensionSections {
+    width: 100%;
     display: flex;
     gap: 16px;
 }
-
+ 
 .formDimensions {
     background-color: #fff !important;
     border: none !important;
     border-radius: 4px !important;
- 
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+    color: #5e565f !important;
     font-size: 14px !important;
     outline: none !important;
     padding: 10px !important;
-    width: 40% !important;
+    width: 100% !important;
 }
-
+ 
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.errorMessage{
+    font-size: 12px;
+    color: red;
+    margin-top: -6px;
+}
+.errorMessage2{
+    font-size: 12px;
+    color: red;
+    margin-top: 0px;
+}
+ 
 .headBillSection {
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-
+ 
 .innerBillHead {
     font-size: 18px;
     font-weight: 500;
 }
-
+ 
 .innerAddButton {
    background: linear-gradient(to left, #00dcff, #0075ce);
     border-radius: 4px;
@@ -145,24 +167,24 @@
     padding: 6px 16px;
     margin-right: 18px;
 }
-
+ 
 /* Style the address container */
 .labelstamp {
     color:#212121;
 }
-
+ 
 .addressContainer {
     display: flex;
     flex-direction: column;
     row-gap: 16px;
 }
-
+ 
 .radioInnerContainer {
     display: flex;
     gap: 20px;
     align-items: center;
 }
-
+ 
 .radioGroup {
     display: flex;
     align-items: center;
@@ -171,11 +193,11 @@
  
     padding: 10px 14px;
 }
-
+ 
 .radioInput {
     cursor: pointer !important;;
 }
-
+ 
 .removeButton {
     display: flex;
     justify-content: end;
@@ -187,7 +209,7 @@
     transform: translateY(-50%);
     cursor: pointer !important; 
 }
-
+ 
 .removeButtons {
     display: flex;
     justify-content: end;
@@ -199,7 +221,7 @@
     transform: translateY(-50%);
     cursor: pointer !important; 
 }
-
+ 
 .crossButton {
  
     padding: 2px 8px;
@@ -210,9 +232,9 @@
     font-weight: 500;
     cursor: pointer !important;
 }
-
+ 
 /* END THE ADDRESS CONTAINER */
-
+ 
 .logistic-Button-Section {
     display: flex;
     width: 100%;
@@ -221,7 +243,7 @@
     margin-top: 30px;
     margin-bottom:30rem;
 }
-
+ 
 .logistic-cancel {
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
     background-color: #ffffff;
@@ -235,7 +257,7 @@
     font-size: 0.825rem;
     cursor: pointer !important;;
 }
-
+ 
 .logistic-submit {
     border: none !important;
     outline: none !important;
@@ -249,19 +271,19 @@ background: linear-gradient(to left, #00dcff, #0075ce);
     font-size: 0.825rem;
     cursor: pointer !important;;
 }
-
+ 
 /* style the drop details card */
 .logisticsCardContainer {
     width: 100%;
     display: flex;
     gap: 20px;
 }
-
+ 
 .logisticsMainHeading {
     font-size: 18px;
     font-weight: 500;
 }
-
+ 
 .adresssCardContainer {
     width: 50%;
     height: 200px;
@@ -273,19 +295,19 @@ background: linear-gradient(to left, #00dcff, #0075ce);
     gap: 6px;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
 }
-
+ 
 .nameContainer {
     display: flex;
     gap: 14px;
     align-items: center;
 }
-
+ 
 .addressText {
     font-size: 0.825rem;
        color: #99a0ac;
     cursor: pointer !important;;
 }
-
+ 
 .typeAdresss {
     background-color: #f5f5f6;
     font-size: 10px;
@@ -298,23 +320,23 @@ background: linear-gradient(to left, #00dcff, #0075ce);
       font-weight: 500;
     cursor: pointer !important;;
 }
-
+ 
 .transportInnerSection {
     display: flex;
     flex-direction: column;
     row-gap: 6px;
 }
-
+ 
 .transportHead {
     font-size: 0.825rem;
     font-weight: 500;
 }
-
+ 
 .transportText {
     font-size: 0.825rem;
        color: #99a0ac;
 }
-
+ 
 /* End the drop details card */
 /* style the supplier add address conatiner */
 .innerHeadSection{
@@ -365,8 +387,8 @@ background: linear-gradient(to left, #00dcff, #0075ce);
     display: flex;
     gap: 20px;
 }
-
-
+ 
+ 
 /* End the pickup address container */
 /* style the logistics card section */
 .pickupContainer{
@@ -427,7 +449,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
       font-weight: 500;
     cursor: pointer !important;
 }
-
+ 
 /* end the logistics card section */
 /* Style the address container */
 .logisticAddressContainer{
@@ -467,7 +489,7 @@ margin-top: 2px;
     gap: 10px;
     align-items: center;
 }
-
+ 
 .logisticsAddressButton {
    background: linear-gradient(to left, #00dcff, #0075ce);
     border-radius: 4px;
@@ -491,9 +513,9 @@ margin-top: 2px;
     cursor: pointer !important;
     height: 26px;
 }
-
+ 
 /* End the address container */
-
+ 
 @media screen and (max-width: 1350px) {
     .logisticsAddressSection {
         width: 48.2%;

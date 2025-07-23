@@ -10,7 +10,7 @@ import * as Yup from "yup";
 import styles from "./logistics.module.css";
 import { addAddress } from "../../../../../redux/reducers/addressSlice";
 import { toast } from "react-toastify";
-
+ 
 const AddNewAddress = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ const AddNewAddress = () => {
   const handleChange = (e) => {
     setAddressType(e.target.value);
   };
-
+ 
   const formik = useFormik({
     initialValues: {
       fullName: "",
@@ -52,7 +52,7 @@ const AddNewAddress = () => {
         .test("is-valid-phone", "Invalid phone number", (value) => {
           try {
             const phoneNumber = parsePhoneNumber(value);
-
+ 
             // Validate phone number and return true if it's valid, false if not
             return phoneNumber && phoneNumber.isValid();
           } catch (error) {
@@ -101,25 +101,25 @@ const AddNewAddress = () => {
       }
     },
   });
-
+ 
   const handleCountryChange = (selectedOption) => {
     setSelectedCountry(selectedOption);
     setSelectedState(null);
     setSelectedCity(null);
     formik.setFieldValue("country", selectedOption);
   };
-
+ 
   const handleStateChange = (selectedOption) => {
     setSelectedState(selectedOption);
     setSelectedCity(null);
     formik.setFieldValue("state", selectedOption);
   };
-
+ 
   const handleCityChange = (selectedOption) => {
     setSelectedCity(selectedOption);
     formik.setFieldValue("city", selectedOption);
   };
-
+ 
   const handlePhoneChange = (name, value) => {
     try {
       const phoneNumber = parsePhoneNumber(value);
@@ -136,11 +136,11 @@ const AddNewAddress = () => {
       formik.setFieldError(name, "Invalid phone number");
     }
   };
-
+ 
   const handleExtraServicesChange = (event) => {
     const { value, checked } = event.target;
     const currentServices = formik.values.extraServices;
-
+ 
     if (checked) {
       formik.setFieldValue("extraServices", [...currentServices, value]);
     } else {
@@ -150,11 +150,11 @@ const AddNewAddress = () => {
       );
     }
   };
-
+ 
   return (
     <div className={styles.container}>
       <div className={styles.logisticsHeading}>Add New Address</div>
-
+ 
       <form
         className={styles.formLogistics}
         onSubmit={(e) => {
@@ -184,7 +184,7 @@ const AddNewAddress = () => {
               <label className={styles.formLabel}>
                 Full Name<span className={styles.labelstamp}>*</span>
               </label>
-
+ 
               <input
                 className={styles.formInput}
                 type="text"
@@ -361,7 +361,7 @@ const AddNewAddress = () => {
               />
             </div>
           </div>
-
+ 
           <div className={styles.addressContainer}>
             <div className={styles.innerHeading}>
               Type of Address<span className={styles.labelstamp}>*</span>
@@ -409,5 +409,5 @@ const AddNewAddress = () => {
     </div>
   );
 };
-
+ 
 export default AddNewAddress;

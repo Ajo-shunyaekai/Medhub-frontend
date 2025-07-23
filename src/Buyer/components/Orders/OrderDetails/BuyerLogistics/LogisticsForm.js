@@ -16,7 +16,7 @@ import Loader from "../../../../components/SharedComponents/Loader/Loader";
 import { fetchAddressListRedux } from "../../../../../redux/reducers/addressSlice";
 import { bookLogistics } from "../../../../../redux/reducers/orderSlice";
 import { apiRequests } from "../../../../../api";
-
+ 
 const LogisticsForm = ({socket}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ const LogisticsForm = ({socket}) => {
   const { address, updatedAddress } = useSelector(
     (state) => state?.addressReducer
   );
-
+ 
   const buyerIdSessionStorage = localStorage?.getItem('buyer_id');
   const buyerIdLocalStorage = localStorage?.getItem('buyer_id');
   const [orderDetails, setOrderDetails] = useState()
@@ -34,7 +34,7 @@ const LogisticsForm = ({socket}) => {
   const [selectedState, setSelectedState] = useState(null);
   const [selectedCity, setSelectedCity] = useState(null);
   const [isRegAddressChecked, setIsRegAddressChecked] = useState(false);
-
+ 
   const formik = useFormik({
     initialValues: {
       fullName: "",
@@ -123,7 +123,7 @@ const LogisticsForm = ({socket}) => {
           };
         }
         const response = await dispatch(bookLogistics({ obj: apiPayload }));
-
+ 
         if (response.meta.requestStatus === "fulfilled") {
           setLoading(false)
           socket.emit('bookLogistics', {
@@ -133,7 +133,7 @@ const LogisticsForm = ({socket}) => {
             message    : `Drop details submitted for ${orderId}`,
             link       : process.env.REACT_APP_PUBLIC_URL
         });
-
+ 
           setTimeout(() => {
             navigate(`/buyer/order-details/${orderId}`);
           }, 500);
@@ -145,25 +145,25 @@ const LogisticsForm = ({socket}) => {
       }
     },
   });
-
+ 
   const handleCountryChange = (selectedOption) => {
     setSelectedCountry(selectedOption);
     setSelectedState(null);
     setSelectedCity(null);
     formik.setFieldValue("country", selectedOption);
   };
-
+ 
   const handleStateChange = (selectedOption) => {
     setSelectedState(selectedOption);
     setSelectedCity(null);
     formik.setFieldValue("state", selectedOption);
   };
-
+ 
   const handleCityChange = (selectedOption) => {
     setSelectedCity(selectedOption);
     formik.setFieldValue("city", selectedOption);
   };
-
+ 
   const handlePhoneChange = (name, value) => {
     try {
       const phoneNumber = parsePhoneNumber(value);
@@ -180,11 +180,11 @@ const LogisticsForm = ({socket}) => {
       formik.setFieldError(name, "Invalid phone number");
     }
   };
-
+ 
   const handleExtraServicesChange = (event) => {
     const { value, checked } = event.target;
     const currentServices = formik.values.extraServices;
-
+ 
     if (checked) {
       formik.setFieldValue("extraServices", [...currentServices, value]);
     } else {
@@ -194,7 +194,7 @@ const LogisticsForm = ({socket}) => {
       );
     }
   };
-
+ 
   const resetForminlValues = (address) => {
     const initialCountryValue = address?.[0]?.country
       ? {
@@ -204,7 +204,7 @@ const LogisticsForm = ({socket}) => {
           label: address?.[0]?.country,
         }
       : null;
-
+ 
     const initialStateValue = address?.[0]?.state
       ? {
           value: State.getStatesOfCountry(
@@ -213,7 +213,7 @@ const LogisticsForm = ({socket}) => {
           label: address?.[0]?.state,
         }
       : null;
-
+ 
     const initialCityValue = address?.[0]?.city
       ? {
           value: City.getCitiesOfState(
@@ -239,12 +239,12 @@ const LogisticsForm = ({socket}) => {
       extraServices: address.extraServices || [],
       useRegisteredAddress: true,
     });
-
+ 
     setSelectedCountry(initialCountryValue);
     setSelectedState(initialStateValue);
     setSelectedCity(initialCityValue);
   };
-
+ 
   const handlSameAsRegisteredAddress = async (event) => {
     const isChecked = event.target.checked;
     setIsRegAddressChecked(!isRegAddressChecked);
@@ -268,7 +268,7 @@ const LogisticsForm = ({socket}) => {
           extraServices: [],
           useRegisteredAddress: true,
         });
-
+ 
         setSelectedCountry(null);
         setSelectedState(null);
         setSelectedCity(null);
@@ -279,7 +279,7 @@ const LogisticsForm = ({socket}) => {
       // setIsLoading(false);
     }
   };
-
+ 
   const fetchData = async () => {
           if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
               localStorage?.clear();
@@ -302,11 +302,11 @@ const LogisticsForm = ({socket}) => {
       useEffect(() => {
           fetchData()
       }, [navigate, orderId]);
-
+ 
   useEffect(() => {
     dispatch(fetchAddressListRedux(buyerId));
   }, [dispatch]);
-
+ 
   useEffect(() => {
     if (updatedAddress && Object.values(updatedAddress).length > 0) {
       setDisplayAddress(updatedAddress);
@@ -316,15 +316,15 @@ const LogisticsForm = ({socket}) => {
       setDisplayAddress({});
     }
   }, [updatedAddress, address]);
-
+ 
   const handleCancel = () => {
     navigate(`/buyer/order-details/${orderId}`);
   }
-
+ 
   return (
     <div className={styles.container}>
       <div className={styles.logisticsHeading}>Book Logistics</div>
-
+ 
       <form
         className={styles.formLogistics}
      
@@ -349,7 +349,7 @@ const LogisticsForm = ({socket}) => {
             toast.error("Please select a mode of transport");
             return;
           }
-
+ 
           if (address?.length > 1) {
           
             formik.handleSubmit();
@@ -384,7 +384,7 @@ const LogisticsForm = ({socket}) => {
                 <label className={styles.formLabel}>
                   Full Name<span className={styles.labelstamp}>*</span>
                 </label>
-
+ 
                 <input
                   className={styles.formInput}
                   type="text"
@@ -639,13 +639,13 @@ const LogisticsForm = ({socket}) => {
             </div>
           </div>
         ) : null}
-
+ 
         <div className={styles.formInnerClass}>
           <div className={styles.addressContainer}>
             <div className={styles.innerHeading}>
               Mode of Transport<span className={styles.labelstamp}>*</span>
             </div>
-
+ 
             <div className={styles.radioInnerContainer} >
               {[
                 {
@@ -699,7 +699,7 @@ const LogisticsForm = ({socket}) => {
           </div>
           <div className={styles.addressContainer}>
             <div className={styles.innerHeading}>Extra Services</div>
-
+ 
             <div className={styles.radioInnerContainer}>
               {[
                 { value: "Door to Door", label: "Door to Door" },
@@ -746,7 +746,7 @@ const LogisticsForm = ({socket}) => {
             ) : (
                 'Request Supplier for Further Details'
             )}
-
+ 
           </button>
           <div className={styles["logistic-cancel"]} onClick={handleCancel}>Cancel</div>
         </div>
@@ -754,5 +754,5 @@ const LogisticsForm = ({socket}) => {
     </div>
   );
 };
-
+ 
 export default LogisticsForm;

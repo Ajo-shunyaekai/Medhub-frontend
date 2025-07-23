@@ -12,7 +12,7 @@ import "react-international-phone/style.css";
 import "../../SharedComponents/Signup/signup.css";
 import { addAddress } from "../../../../redux/reducers/addressSlice";
 import { toast } from "react-toastify";
-
+ 
 const SupplierAddAddress = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -21,11 +21,11 @@ const SupplierAddAddress = () => {
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
   const [selectedCity, setSelectedCity] = useState(null);
-
+ 
   const handleChange = (e) => {
     setAddressType(e.target.value);
   };
-
+ 
   const formik = useFormik({
     initialValues: {
       fullName: "",
@@ -95,25 +95,25 @@ const SupplierAddAddress = () => {
       }
     },
   });
-
+ 
   const handleCountryChange = (selectedOption) => {
     setSelectedCountry(selectedOption);
     setSelectedState(null);
     setSelectedCity(null);
     formik.setFieldValue("country", selectedOption);
   };
-
+ 
   const handleStateChange = (selectedOption) => {
     setSelectedState(selectedOption);
     setSelectedCity(null);
     formik.setFieldValue("state", selectedOption);
   };
-
+ 
   const handleCityChange = (selectedOption) => {
     setSelectedCity(selectedOption);
     formik.setFieldValue("city", selectedOption);
   };
-
+ 
   const handlePhoneChange = (name, value) => {
     try {
       const phoneNumber = parsePhoneNumber(value);
@@ -149,7 +149,7 @@ const SupplierAddAddress = () => {
             pincode: true,
             addressType: true,
           });
-
+ 
           if (Object.keys(formik.errors).length === 0) {
             formik.handleSubmit();
           } else {
@@ -163,7 +163,7 @@ const SupplierAddAddress = () => {
               <label className={styles.formLabel}>
                 Full Name<span className={styles.labelstamp}>*</span>
               </label>
-
+ 
               <input
                 className={styles.formInput}
                 type="text"
@@ -175,7 +175,7 @@ const SupplierAddAddress = () => {
                 onBlur={formik.handleBlur}
               />
               {formik.touched.fullName && formik.errors.fullName && (
-                <span className={styles.error_message_formik}>
+                <span className={styles.errorMessage}>
                   {formik.errors.fullName}
                 </span>
               )}
@@ -196,7 +196,7 @@ const SupplierAddAddress = () => {
                 onBlur={formik.handleBlur}
               />
               {formik.touched.mobileNumber && formik.errors.mobileNumber && (
-                <span className={styles.error_message_formik}>
+                <span className={styles.errorMessage}>
                   {formik.errors.mobileNumber}
                 </span>
               )}
@@ -218,7 +218,7 @@ const SupplierAddAddress = () => {
               />
               {formik.touched.companyAddress &&
                 formik.errors.companyAddress && (
-                  <span className={styles.error_message_formik}>
+                  <span className={styles.errorMessage}>
                     {formik.errors.companyAddress}
                   </span>
                 )}
@@ -238,7 +238,7 @@ const SupplierAddAddress = () => {
                 onBlur={formik.handleBlur}
               />
               {formik.touched.locality && formik.errors.locality && (
-                <span className={styles.error_message_formik}>
+                <span className={styles.errorMessage}>
                   {formik.errors.locality}
                 </span>
               )}
@@ -275,7 +275,7 @@ const SupplierAddAddress = () => {
                 onBlur={formik.handleBlur}
               />
               {formik.touched.country && formik.errors.country && (
-                <span className={styles.error_message_formik}>
+                <span className={styles.errorMessage}>
                   {formik.errors.country}
                 </span>
               )}
@@ -301,7 +301,7 @@ const SupplierAddAddress = () => {
                 placeholder="Select State"
               />
               {formik.errors.state && (
-                <span className={styles.error_message_formik}>
+                <span className={styles.errorMessage}>
                   {formik.errors.state}
                 </span>
               )}
@@ -341,7 +341,7 @@ const SupplierAddAddress = () => {
               />
             </div>
           </div>
-
+ 
           <div className={styles.addressContainer}>
             <div className={styles.innerHeading}>
               Type of Address<span className={styles.labelstamp}>*</span>
@@ -369,7 +369,7 @@ const SupplierAddAddress = () => {
                 </div>
               ))}
               {formik.touched.addressType && formik.errors.addressType && (
-                <span className={styles.error_message_formik}>
+                <span className={styles.errorMessage}>
                   {formik.errors.addressType}
                 </span>
               )}
@@ -390,5 +390,5 @@ const SupplierAddAddress = () => {
     </div>
   );
 };
-
+ 
 export default SupplierAddAddress;

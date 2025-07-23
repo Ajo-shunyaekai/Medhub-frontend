@@ -73,8 +73,8 @@ const BidDetails = () => {
           <span className={styles.innerHead}>General Information</span>
           <div className={styles.innerComplianceSection}>
             <div className={styles.additionalUploadSection3}>
-              <span className={styles.medicineHead3}>Bid Starting Date</span>
-              <span className={styles.medicineText3}>
+              <span className={styles.medicineHead5}>Bid Starting Date</span>
+              <span className={styles.medicineText4}>
                 {moment(bidDetails?.general?.startDate || new Date()).format(
                   "DD/MM/YYYY"
                 )}
@@ -95,13 +95,7 @@ const BidDetails = () => {
               </span>
             </div>
             <div className={styles.additionalUploadSection3}>
-              <span className={styles.medicineHead3}>From Countries</span>
-              <span className={styles.medicineText3}>
-                {bidDetails?.general?.fromCountries?.join(", ") || "N/A"}
-              </span>
-            </div>
-            <div className={styles.additionalUploadSection3}>
-              <span className={styles.medicineHead3}>Country of Destination</span>
+              <span className={styles.medicineHead4}>Country of Destination</span>
               <span className={styles.medicineText3}>
                 {bidDetails?.general?.country || "N/A"}
               </span>
@@ -112,6 +106,13 @@ const BidDetails = () => {
                 {bidDetails?.general?.state || "N/A"}
               </span>
             </div>
+            <div className={styles.additionalUploadSection3}>
+              <span className={styles.medicineHead3}>From Countries</span>
+              <span className={styles.medicineText3}>
+                {bidDetails?.general?.fromCountries?.join(", ") || "N/A"}
+              </span>
+            </div>
+            
           </div>
         </div>
         <div className={styles.mainContainer}>

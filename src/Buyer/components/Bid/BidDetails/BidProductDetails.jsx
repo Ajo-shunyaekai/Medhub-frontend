@@ -111,7 +111,9 @@ const BidDetails = () => {
                   if (
                     key === "_id" ||
                     key === "itemId" ||
-                    key === "description"
+                    key === "description" || 
+                    key === "country"|| 
+                    key === "fromCountries" || key === "state"
                   )
                     return null;
 

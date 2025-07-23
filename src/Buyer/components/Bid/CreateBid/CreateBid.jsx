@@ -683,7 +683,8 @@ const CreateBid = () => {
                             <CreatableSelect
                               className={styles.formSelect}
                               options={categoryOptions}
-                              placeholder="Select or Create Category"
+                              // placeholder="Select or Create Category"
+                              placeholder="Select from list or type a custom category"
                               value={
                                 categoryOptions.find(
                                   (o) => o.value === section.category
@@ -742,7 +743,8 @@ const CreateBid = () => {
                             </label>
                             <CreatableSelect
                               className={styles.formSelect}
-                              placeholder="Select or Create Sub Category"
+                              // placeholder="Select or Create Sub Category"
+                              placeholder="Select from list or type a custom sub category"
                               options={subCategoryOptions}
                               value={
                                 section.subCategory

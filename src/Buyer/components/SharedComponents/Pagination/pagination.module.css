@@ -3,6 +3,12 @@
   align-items: center;
   gap: 10px;
 }
+.paginationContainerTwo{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
 .pagiTotal{
     font-size: 0.825rem;
 }

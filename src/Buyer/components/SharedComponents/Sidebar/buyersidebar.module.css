@@ -1,7 +1,7 @@
 body{
    
 }
-
+ 
 .nav_container {
   width: 100%;
   background-color: #f9f9fa;
@@ -9,14 +9,14 @@ body{
   position: fixed;
   z-index: 1;
 }
-
+ 
 .nav_wrapper {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
 }
-
+ 
 .nav_img {
   width: 250px;
   padding: 5px;
@@ -27,31 +27,31 @@ body{
   background-color: #f9f9fa;
   gap: 1rem;
 }
-
+ 
 .nav_img img {
   width: 170px;
   /* padding-left: 5px; */
 }
-
+ 
 .nav_icon_color {
   color: #99a0ac;
   font-size: 22px !important;
    cursor: pointer !important;;
 }
-
+ 
 .nav_icon_color_two {
   color: #99a0ac;
   font-size: 22px !important;
    cursor: pointer !important;;
 }
-
+ 
 .nav_notifi_right .nav_icon_color_two {
   display: none !important;
   color: #99a0ac;
   font-size: 22px !important;
    cursor: pointer !important;;
 }
-
+ 
 .nav_icon_color_two_3 {
   color: #99a0ac;
   font-size: 22px !important;
@@ -88,14 +88,14 @@ flex-direction: column;
   justify-content: end;
   align-items: center;
 }
-
+ 
 .nav_search {
   display: none;
   justify-content: start;
   align-items: center;
   width: 300px;
 }
-
+ 
 .product_search_input {
   width: 100%;
   padding: 8px 5px;
@@ -105,11 +105,11 @@ flex-direction: column;
   color: grey;
   background-color: #f9f9fa;
 }
-
+ 
 .product_search_input::placeholder {
   color: #99a0ac;
 }
-
+ 
 .nav_notifi_right {
   display: flex;
   justify-content: center;
@@ -117,7 +117,7 @@ flex-direction: column;
   gap: 1rem;
   padding-right: 1.5rem;
 }
-
+ 
 .noti_container {
   background-color: white;
   position: absolute;
@@ -127,7 +127,7 @@ flex-direction: column;
   border-radius: 5px;
   box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
 }
-
+ 
 .noti_top_wrapper {
   height: 250px;
   overflow-y: scroll;
@@ -144,7 +144,7 @@ flex-direction: column;
 .noti_top_wrapper::-webkit-scrollbar {
   display: none;
 }
-
+ 
 .noti_profile_wrapper {
   display: flex;
   justify-content: space-around;
@@ -205,22 +205,22 @@ font-size: 0.825rem;
    cursor: pointer !important;;
   border-top: 1px solid rgba(160, 175, 185, 0.15);
 }
-
+ 
 .noti_see_all_num {
   color:#5e676f;
   font-size: 0.825rem;
 }
-
+ 
 .noti_see_all_btn {
   color: #005ef7;
   font-size: 0.825rem;
   cursor: pointer !important;
 }
-
+ 
 .noti_see_all_btn:hover {
   color: #005ef7;
 }
-
+ 
 .profile_dropdown {
   background-color: white;
   position: absolute;
@@ -232,7 +232,7 @@ font-size: 0.825rem;
   box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em,
     rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
 }
-
+ 
 .profile_wrapper a {
   list-style: none;
   text-decoration: none;
@@ -240,7 +240,7 @@ color: #5e676f;
   width: 100%;
   max-width: 90%;
 }
-
+ 
 .profile_text {
   text-transform: capitalize;
   font-size: 0.825rem;
@@ -248,21 +248,21 @@ color: #5e676f;
   padding: 8px 14px;
 color: #5e676f;
 }
-
+ 
 .profile_text:hover {
   background-color: rgba(135, 150, 165, 0.1);
 }
-
+ 
 .invoice_container {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-
+ 
 .invoice_container:hover {
   background-color: rgba(135, 150, 165, 0.1);
 }
-
+ 
 .total_invoice {
   color: #fff;
   border: none;
@@ -275,18 +275,18 @@ color: #5e676f;
   align-items: center;
   border-radius: 50%;
 }
-
+ 
 .profile_sign_out {
   color:#5e676f;
   padding: 8px 14px;
  font-size: 0.825rem;
    cursor: pointer !important;;
 }
-
+ 
 .profile_sign_out:hover {
   background-color: rgba(135, 150, 165, 0.1);
 }
-
+ 
 .sidebar_container {
   display: flex;
   width: 100%;
@@ -297,13 +297,13 @@ color: #5e676f;
 /* Start the sidebar section */
 main {
   width: 100%;
-  max-width: 98%;
+  max-width: calc(100% - 200px);
   height: 100vh;
   padding: 10px 20px;
   background-color: #f9f9fa;
   transition: transform 0.3sease;
 }
-
+ 
 .sidebar {
   background: #f5f5f6;
   color: #fff;
@@ -316,19 +316,19 @@ main {
   z-index: 4;
   /* border: 2px solid red; */
 }
-
+ 
 .top_section {
   display: flex;
   align-items: center;
   padding: 20px 15px;
 }
-
+ 
 .bars {
   display: flex;
   font-size: 25px;
   margin-left: 50px;
 }
-
+ 
 .sidebar_text {
   width: 180px;
   font-size: 14px;
@@ -341,18 +341,18 @@ main {
   margin: 10px 10px 5px 16px;
   border-radius: 5px;
 }
-
+ 
 .sidebar_text:hover {
   color: #005ef7;
   /* background-color: #e1e1e4;
   padding: 0px 0px 0px 6px !important; */
 }
-
+ 
 .sidebar_text.active {
   background: lightskyblue;
   color: #000;
 }
-
+ 
 .accordion_content {
   display: flex;
   flex-direction: column;
@@ -360,11 +360,11 @@ main {
   align-items: start;
   width: 180px;
 }
-
+ 
 .desktop_order_btn {
   display: flex;
 }
-
+ 
 .mobile_order_btn {
   display: none;
 }
@@ -373,13 +373,13 @@ main {
   width: 20px !important;
   height: 20px !important;
 }
-
+ 
 /* Media quries start from here */
 @media screen and (max-width: 1350px) {
   /* .mobile_order_btn {
         display: block;
     } */
-
+ 
   /* .desktop_order_btn {
         display: none;
     } */
@@ -387,7 +387,7 @@ main {
     width: 180px;
   }
 }
-
+ 
 @media screen and (max-width: 1200px) {
   main {
     max-width: 83%;
@@ -396,71 +396,71 @@ main {
     width: 140px;
   }
 }
-
+ 
 @media screen and (max-width: 992px) {
   .nav_img .bar_icon {
     display: none;
   }
-
+ 
   .sidebar {
     position: fixed;
     top: 0px;
     display: none !important;
   }
-
+ 
   .nav_icon_color_two_3 {
     display: block !important;
   }
-
+ 
   .nav_img {
     width: 180px;
   }
-
+ 
   main {
     max-width: 100%;
     transition: none;
   }
-
+ 
   .nav_container {
     z-index: 2;
   }
-
+ 
   .mobile_order_btn {
     display: block;
   }
-
+ 
   .desktop_order_btn {
     display: none;
   }
 }
-
+ 
 @media screen and (max-width: 768px) {
   .nav_wrapper {
     width: 100%;
     padding: 5px 0px;
   }
-
+ 
   .nav_search {
     padding: 0px 1rem;
   }
-
+ 
   .nav_notifi_right {
     padding-right: 0px;
   }
-
+ 
   .nav_search_container {
     justify-content: end;
   }
-
+ 
   .nav_search_one {
     display: none;
   }
-
+ 
   .nav_notifi_right .nav_icon_color_two {
     display: block;
   }
 }
-
+ 
 @media screen and (max-width: 500px) {
   .nav_search {
     width: 80vw;

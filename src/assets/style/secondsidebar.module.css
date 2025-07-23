@@ -27,14 +27,14 @@
   font-weight: 500;
   color: #5e676f;
 }
-
+ 
 .content {
   display: flex;
   justify-content: start;
   align-items: start;
   gap: 20px;
 }
-
+ 
 .sidebar {
   width: 180px;
   display: flex;
@@ -61,7 +61,7 @@
   cursor: pointer !important;
 }
 .main {
-  width: 100%;
+  width: calc(100% - 200px);
   height: 100vh;
   overflow-x: scroll;
   background-attachment: fixed;
@@ -71,11 +71,11 @@
 .main::-webkit-scrollbar {
   display: none;
 }
-
+ 
 .active {
   color: #448bff;
 }
-
+ 
 .bulkButton {
   border: none !important;
   outline: none !important;

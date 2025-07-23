@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { parsePhoneNumber, isValidPhoneNumber } from "libphonenumber-js";
 import { fetchAddressById, editAddress } from "../../../../redux/reducers/addressSlice";
-
+ 
 const SupplierEditAddress = () => {
      const dispatch = useDispatch();
       const navigate = useNavigate();
@@ -20,16 +20,16 @@ const SupplierEditAddress = () => {
       const { addressToUpdate } = useSelector(
         (state) => state?.addressReducer
       );
-
+ 
     const [addressType, setAddressType] = useState("");
     const [selectedCountry, setSelectedCountry] = useState(null);
     const [selectedState, setSelectedState] = useState(null);
     const [selectedCity, setSelectedCity] = useState(null);
-
+ 
     const handleChange = (e) => {
         setAddressType(e.target.value);
     };
-
+ 
       const formik = useFormik({
         initialValues: {
           fullName: "",
@@ -234,7 +234,7 @@ const SupplierEditAddress = () => {
                     <div className={styles['inner-container']}>
                         <div className={styles.logisticesInputSection}>
                             <label className={styles.formLabel}>Full Name<span className={styles.labelstamp}>*</span></label>
-
+ 
                             <input
                                 className={styles.formInput}
                                 type="text"
@@ -245,11 +245,11 @@ const SupplierEditAddress = () => {
                                 onChange={formik.handleChange}
                               />
                               {formik.errors.fullName && (
-                                <span className={styles.error_message_formik}>
+                                <span className={styles.errorMessage}>
                                   {formik.errors.fullName}
                                 </span>
                               )}
-
+ 
                         </div>
                         <div className={styles.logisticesInputSection}>
                             <label className={styles.formLabel}>Mobile Number<span className={styles.labelstamp}>*</span></label>
@@ -270,7 +270,7 @@ const SupplierEditAddress = () => {
                 }}
               />
               {formik.errors.mobileNumber && (
-                <span className={styles.error_message_formik}>
+                <span className={styles.errorMessage}>
                   {formik.errors.mobileNumber}
                 </span>
               )}
@@ -287,7 +287,7 @@ const SupplierEditAddress = () => {
                                 onChange={formik.handleChange}
                               />
                               {formik.errors.companyAddress && (
-                                <span className={styles.error_message_formik}>
+                                <span className={styles.errorMessage}>
                                   {formik.errors.companyAddress}
                                 </span>
                               )}
@@ -304,7 +304,7 @@ const SupplierEditAddress = () => {
                                 onChange={formik.handleChange}
                               />
                               {formik.errors.locality && (
-                                <span className={styles.error_message_formik}>
+                                <span className={styles.errorMessage}>
                                   {formik.errors.locality}
                                 </span>
                               )}
@@ -337,7 +337,7 @@ const SupplierEditAddress = () => {
                 onChange={handleCountryChange}
               />
               {formik.errors.country && (
-                <span className={styles.error_message_formik}>
+                <span className={styles.errorMessage}>
                   {formik.errors.country}
                 </span>
               )}
@@ -398,7 +398,7 @@ const SupplierEditAddress = () => {
                             />
                         </div>
                     </div>
-
+ 
                     <div className={styles.addressContainer}>
                         <div className={styles.innerHeading}>Type of Address<span className={styles.labelstamp}>*</span></div>
                         <div className={styles.radioInnerContainer}>
@@ -423,7 +423,7 @@ const SupplierEditAddress = () => {
                 </div>
               ))}
               {formik.errors.addressType && (
-                <span className={styles.error_message_formik}>
+                <span className={styles.errorMessage}>
                   {formik.errors.addressType}
                 </span>
               )}
@@ -440,5 +440,5 @@ const SupplierEditAddress = () => {
         </div>
     )
 }
-
+ 
 export default SupplierEditAddress

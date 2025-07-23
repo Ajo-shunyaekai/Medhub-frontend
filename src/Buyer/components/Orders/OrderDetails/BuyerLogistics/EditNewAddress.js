@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { parsePhoneNumber, isValidPhoneNumber } from "libphonenumber-js";
 import { fetchAddressById, editAddress } from "../../../../../redux/reducers/addressSlice";
-
+ 
 const EditNewAddress = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ const EditNewAddress = () => {
   const handleChange = (e) => {
     setAddressType(e.target.value);
   };
-
+ 
   const formik = useFormik({
     initialValues: {
       fullName: "",
@@ -75,7 +75,7 @@ const EditNewAddress = () => {
     onSubmit: async (values) => {
       try {
         let apiPayload;
-
+ 
         
           apiPayload = {
             addressId,
@@ -107,25 +107,25 @@ const EditNewAddress = () => {
       }
     },
   });
-
+ 
   const handleCountryChange = (selectedOption) => {
     setSelectedCountry(selectedOption);
     setSelectedState(null);
     setSelectedCity(null);
     formik.setFieldValue("country", selectedOption);
   };
-
+ 
   const handleStateChange = (selectedOption) => {
     setSelectedState(selectedOption);
     setSelectedCity(null);
     formik.setFieldValue("state", selectedOption);
   };
-
+ 
   const handleCityChange = (selectedOption) => {
     setSelectedCity(selectedOption);
     formik.setFieldValue("city", selectedOption);
   };
-
+ 
   const handlePhoneChange = (name, value) => {
     try {
       const phoneNumber = parsePhoneNumber(value);
@@ -142,10 +142,10 @@ const EditNewAddress = () => {
       formik.setFieldError(name, "Invalid phone number");
     }
   };
-
+ 
   const resetFormValues = (addressData) => {
     if (!addressData) return;
-
+ 
     // Find and set initial country
     const countryOption = Country.getAllCountries().find(
       (country) => country.name === addressData.country
@@ -155,7 +155,7 @@ const EditNewAddress = () => {
       label: addressData.country
     } : null;
     setSelectedCountry(initialCountry);
-
+ 
     // Find and set initial state
     if (initialCountry) {
       const stateOption = State.getStatesOfCountry(initialCountry.value).find(
@@ -166,7 +166,7 @@ const EditNewAddress = () => {
         label: addressData.state
       } : null;
       setSelectedState(initialState);
-
+ 
       // Find and set initial city
       if (initialState) {
         const cityOption = City.getCitiesOfState(
@@ -180,7 +180,7 @@ const EditNewAddress = () => {
         setSelectedCity(initialCity);
       }
     }
-
+ 
     // Set formik values
     formik.setValues({
       fullName: addressData.full_name || "",
@@ -200,29 +200,29 @@ const EditNewAddress = () => {
     
     setAddressType(addressData.type || addressData.address_type || "");
   };
-
+ 
   useEffect(() => {
     if (buyerId && addressId) {
       dispatch(fetchAddressById({ userId: buyerId, addressId }));
     }
   }, [buyerId, addressId, dispatch]);
-
+ 
   // Set form values when addressToUpdate changes
   useEffect(() => {
     if (addressToUpdate && Object.keys(addressToUpdate).length > 0) {
       resetFormValues(addressToUpdate);
     }
   }, [addressToUpdate]);
-
+ 
   return (
     <div className={styles.container}>
       <div className={styles.logisticsHeading}>Edit Address</div>
-
+ 
       <form
         className={styles.formLogistics}
         onSubmit={(e) => {
           e.preventDefault();
-
+ 
           if (Object.keys(formik.errors).length === 0) {
             formik.handleSubmit();
           } else {
@@ -236,7 +236,7 @@ const EditNewAddress = () => {
               <label className={styles.formLabel}>
                 Full Name<span className={styles.labelstamp}>*</span>
               </label>
-
+ 
               <input
                 className={styles.formInput}
                 type="text"
@@ -256,7 +256,7 @@ const EditNewAddress = () => {
               <label className={styles.formLabel}>
                 Mobile Number<span className={styles.labelstamp}>*</span>
               </label>
-
+ 
               <PhoneInput
                 className="signup-form-section-phone-input"
                defaultCountry={
@@ -408,7 +408,7 @@ const EditNewAddress = () => {
               />
             </div>
           </div>
-
+ 
           <div className={styles.addressContainer}>
             <div className={styles.innerHeading}>
               Type of Address<span className={styles.labelstamp}>*</span>
@@ -449,11 +449,11 @@ const EditNewAddress = () => {
           >
             Save Address
           </button>
-          <div className={styles["logistic-cancel"]}>Cancel</div>
+          <div onClick={()=>{navigate(-1);}} className={styles["logistic-cancel"]} style={{cursor:"pointer"}}>Cancel</div>
         </div>
       </form>
     </div>
   );
 };
-
+ 
 export default EditNewAddress;

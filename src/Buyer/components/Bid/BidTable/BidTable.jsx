@@ -3,9 +3,36 @@ import { Link, useNavigate } from "react-router-dom";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import DataTable from "react-data-table-component";
-import moment from "moment-timezone";
+import moment from "moment";
 import PaginationComponent from "../../SharedComponents/Pagination/pagination";
 import styles from "../../../assets/style/table.module.css";
+
+
+const getTimeRemaining = (startDate, startTime = "00:00", endDate, endTime = "00:00") => {
+  if (!startDate || !endDate) return "";
+
+  const start = moment(`${moment(startDate).format("YYYY-MM-DD")}T${startTime}`, "YYYY-MM-DDTHH:mm");
+  const end = moment(`${moment(endDate).format("YYYY-MM-DD")}T${endTime}`, "YYYY-MM-DDTHH:mm");
+  const now = moment();
+
+  if (now.isBefore(start)) {
+    return "Not Started";
+  }
+
+  if (now.isAfter(end)) {
+    return "Expired";
+  }
+
+  const duration = moment.duration(end.diff(now));
+
+  const days = Math.floor(duration.asDays());
+  const hours = duration.hours();
+  const minutes = duration.minutes();
+
+  if (days > 0) return `${days} day${days !== 1 ? "s" : ""}`;
+  if (hours > 0) return `${hours} hr${hours !== 1 ? "s" : ""}`;
+  return `${minutes} min${minutes !== 1 ? "s" : ""}`;
+};
 
 const BidTable = ({
   bidList,
@@ -27,7 +54,7 @@ const BidTable = ({
                         ? row.status.charAt(0).toUpperCase() + row.status.slice(1)
                         : "",
       sortable: true,
-      width: "200px",
+      // width: "200px",
     },
     {
       name: "Bid Start Date",
@@ -39,16 +66,42 @@ const BidTable = ({
       selector: (row) => moment(row?.general?.endDate)?.format("DD/MM/YYYY"),
       sortable: true,
     },
+    // {
+    //   name: "Time Remaining",
+    //   // selector: (row) => getTimeRemaining(row?.general?.endDate, row?.general?.endTime || "00:00"),
+    //   cell: (row) => {
+    //     console.log("row date & time:", row?.general?.endDate, row?.general?.endTime);
+    //     return <span>{getTimeRemaining(row?.general?.endDate, row?.general?.endTime || "00:00")}</span>;
+    //   },
+    //   sortable: true,
+    // },
     {
       name: "Time Remaining",
-      selector: (row) => moment(row?.general?.endDate)?.format("DD/MM/YYYY"),
-      sortable: true,
+      cell: (row) => {
+        const startDate = row?.general?.startDate;
+        const startTime = row?.general?.startTime || "00:00"; // if you have it
+        const endDate = row?.general?.endDate;
+        const endTime = row?.general?.endTime || "00:00";
+    
+        return (
+          <span>
+            {getTimeRemaining(startDate, startTime, endDate, endTime)}
+          </span>
+        );
+      },
+      sortable: false,
     },
+    
+    // {
+    //   name: "Participated",
+    //   selector: (row) => row?.participated,
+    //   sortable: true,
+    // },
     {
       name: "Total Bids",
       selector: (row) => Number(row?.totalBids || 0),
       sortable: true,
-      width: "200px",
+      // width: "200px",
     },
    
    

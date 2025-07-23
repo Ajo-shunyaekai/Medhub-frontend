@@ -22,7 +22,7 @@ import {
   submitPickupDetails,
 } from "../../../../redux/reducers/orderSlice";
 import { apiRequests } from "../../../../api";
-
+ 
 const SupplierLogistics = ({socket}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -31,7 +31,7 @@ const SupplierLogistics = ({socket}) => {
     (state) => state?.addressReducer
   );
   const { orderData } = useSelector((state) => state?.orderReducer);
-
+ 
   const [loading, setLoading] = useState(false);
   const [orderDetails, setOrderDetails] = useState()
   const [displayAddress, setDisplayAddress] = useState(address?.[0] || {});
@@ -41,7 +41,7 @@ const SupplierLogistics = ({socket}) => {
   const [shrunkContainers, setShrunkContainers] = useState([]);
   const [isRegAddressChecked, setIsRegAddressChecked] = useState(false);
   const [products, setProducts] = useState([]);
-
+ 
   const formik = useFormik({
     initialValues: {
       fullName: "",
@@ -123,7 +123,7 @@ const SupplierLogistics = ({socket}) => {
             .integer("Must be a whole number"),
         })
       ),
-
+ 
       packages: Yup.array().of(
         Yup.object().shape({
           weight: Yup.number()
@@ -235,11 +235,11 @@ const SupplierLogistics = ({socket}) => {
             },
           };
         }
-
+ 
         const response = await dispatch(
           submitPickupDetails({ obj: apiPayload })
         );
-
+ 
         if (response.meta.requestStatus === "fulfilled") {
           setLoading(false)
           socket.emit('shipmentDetailsSubmitted', {
@@ -260,7 +260,7 @@ const SupplierLogistics = ({socket}) => {
       }
     },
   });
-
+ 
   const handleAddContainer = () => {
     formik.setFieldValue("billsOfMaterial", [
       ...formik.values.billsOfMaterial,
@@ -272,13 +272,13 @@ const SupplierLogistics = ({socket}) => {
       },
     ]);
   };
-
+ 
   const handleRemoveContainer = (index) => {
     const newBills = [...formik.values.billsOfMaterial];
     newBills.splice(index, 1);
     formik.setFieldValue("billsOfMaterial", newBills);
   };
-
+ 
   const [packages, setPackages] = useState([
     {
       id: 1,
@@ -287,7 +287,7 @@ const SupplierLogistics = ({socket}) => {
       volume: "",
     },
   ]);
-
+ 
   const addPackage = () => {
     formik.setFieldValue("packages", [
       ...formik.values.packages,
@@ -299,7 +299,7 @@ const SupplierLogistics = ({socket}) => {
       },
     ]);
   };
-
+ 
   // Function to remove a package
   const removePackage = (id) => {
     formik.setFieldValue(
@@ -307,7 +307,7 @@ const SupplierLogistics = ({socket}) => {
       formik.values.packages.filter((pkg) => pkg.id !== id)
     );
   };
-
+ 
   // Handle weight and volume input change
   const handleInputChange = (id, field, value) => {
     const updatedPackages = formik.values.packages.map((pkg) =>
@@ -315,9 +315,9 @@ const SupplierLogistics = ({socket}) => {
     );
     formik.setFieldValue("packages", updatedPackages);
   };
-
-
-
+ 
+ 
+ 
   const handleDimensionChange = (id, dimension, value) => {
     const updatedPackages = formik.values.packages.map((pkg) => {
       if (pkg.id === id) {
@@ -326,7 +326,7 @@ const SupplierLogistics = ({socket}) => {
           ...pkg.dimensions,
           [dimension]: value,
         };
-
+ 
         let volume = "";
         if (
           newDimensions.length &&
@@ -342,7 +342,7 @@ const SupplierLogistics = ({socket}) => {
             parseFloat(newDimensions.height)
           ).toFixed(2);
         }
-
+ 
         return {
           ...pkg,
           dimensions: newDimensions,
@@ -351,11 +351,11 @@ const SupplierLogistics = ({socket}) => {
       }
       return pkg;
     });
-
+ 
  
     formik.setFieldValue("packages", updatedPackages);
   };
-
+ 
   const quantityOptions = [
     { value: "08:00 AM - 10:00 AM", label: "08:00 AM - 10:00 AM" },
     { value: "10:00 AM  - 12:00 AM", label: "10:00 AM  - 12:00 AM" },
@@ -365,10 +365,10 @@ const SupplierLogistics = ({socket}) => {
     { value: "06:00 PM - 08:00 PM", label: "06:00 PM - 08:00 PM" },
     { value: "08:00 PM - 10:00 PM", label: "08:00 PM - 10:00 PM" },
   ];
-
+ 
   const productOptions = useMemo(() => {
     if (!orderData?.items) return [];
-
+ 
     return orderData.items.map((item) => ({
       value: item.product_id,
       label: item.medicine_name,
@@ -376,25 +376,25 @@ const SupplierLogistics = ({socket}) => {
       strength: item.strength,
     }));
   }, [orderData]);
-
+ 
   const handleCountryChange = (selectedOption) => {
     setSelectedCountry(selectedOption);
     setSelectedState(null);
     setSelectedCity(null);
     formik.setFieldValue("country", selectedOption);
   };
-
+ 
   const handleStateChange = (selectedOption) => {
     setSelectedState(selectedOption);
     setSelectedCity(null);
     formik.setFieldValue("state", selectedOption);
   };
-
+ 
   const handleCityChange = (selectedOption) => {
     setSelectedCity(selectedOption);
     formik.setFieldValue("city", selectedOption);
   };
-
+ 
   const handlePhoneChange = (name, value) => {
     try {
       const phoneNumber = parsePhoneNumber(value);
@@ -411,7 +411,7 @@ const SupplierLogistics = ({socket}) => {
       formik.setFieldError(name, "Invalid phone number");
     }
   };
-
+ 
   const resetForminlValues = (address) => {
     const initialCountryValue = address?.[0]?.country
       ? {
@@ -421,7 +421,7 @@ const SupplierLogistics = ({socket}) => {
           label: address?.[0]?.country,
         }
       : null;
-
+ 
     const initialStateValue = address?.[0]?.state
       ? {
           value: State.getStatesOfCountry(
@@ -430,7 +430,7 @@ const SupplierLogistics = ({socket}) => {
           label: address?.[0]?.state,
         }
       : null;
-
+ 
     const initialCityValue = address?.[0]?.city
       ? {
           value: City.getCitiesOfState(
@@ -456,12 +456,12 @@ const SupplierLogistics = ({socket}) => {
       extraServices: address.extraServices || [],
       useRegisteredAddress: true,
     });
-
+ 
     setSelectedCountry(initialCountryValue);
     setSelectedState(initialStateValue);
     setSelectedCity(initialCityValue);
   };
-
+ 
   const handlSameAsRegisteredAddress = async (event) => {
     const isChecked = event.target.checked;
     setIsRegAddressChecked(!isRegAddressChecked);
@@ -485,7 +485,7 @@ const SupplierLogistics = ({socket}) => {
           extraServices: [],
           useRegisteredAddress: true,
         });
-
+ 
         setSelectedCountry(null);
         setSelectedState(null);
         setSelectedCity(null);
@@ -496,7 +496,7 @@ const SupplierLogistics = ({socket}) => {
     
     }
   };
-
+ 
   useEffect(() => {
     dispatch(fetchAddressListRedux(supplierId));
     dispatch(fetchOrderById({ id: orderId }));
@@ -507,7 +507,7 @@ const SupplierLogistics = ({socket}) => {
       }))
     );
   }, [dispatch]);
-
+ 
   useEffect(() => {
     if (updatedAddress && Object.values(updatedAddress)?.length > 0) {
       setDisplayAddress(updatedAddress);
@@ -517,7 +517,7 @@ const SupplierLogistics = ({socket}) => {
       setDisplayAddress({});
     }
   }, [updatedAddress, address]);
-
+ 
   const fetchData = async () => {
           const supplierIdSessionStorage = localStorage?.getItem("supplier_id");
           const supplierIdLocalStorage = localStorage?.getItem("supplier_id");
@@ -544,16 +544,16 @@ const SupplierLogistics = ({socket}) => {
       useEffect(() => {
           fetchData()
       }, [orderId]);
-
-
+ 
+ 
   const getSelectedProductDetails = (productId) => {
     return orderData?.items?.find((item) => item.product_id === productId);
   };
-
+ 
   const handleCancel = () => {
-    navigate(`/supplier/active-orders-details/${orderId}`);
+    navigate(-1);
   }
-
+ 
   return (
     <div className={styles.container}>
       <div className={styles.logisticsHeading}>Book Logistics</div>
@@ -607,7 +607,7 @@ const SupplierLogistics = ({socket}) => {
             </div>
           </div>
         )}
-
+ 
       {orderData?.buyer_logistics_data &&
         Object.keys(orderData?.buyer_logistics_data).length > 0 &&
         address?.length > 1 && (
@@ -652,7 +652,7 @@ const SupplierLogistics = ({socket}) => {
                  </div>
                </div>
               )}
-
+ 
              
             </div>
             <div className={styles.adresssCardContainer}>
@@ -680,7 +680,7 @@ const SupplierLogistics = ({socket}) => {
             </div>
           </div>
         )}
-
+ 
       <form
         className={styles.formLogistics}
         onSubmit={(e) => {
@@ -718,7 +718,7 @@ const SupplierLogistics = ({socket}) => {
               timeSlot: true,
             },
           });
-
+ 
           if (address?.length > 1) {
             formik.handleSubmit();
           } else {
@@ -751,7 +751,7 @@ const SupplierLogistics = ({socket}) => {
                 <label className={styles.formLabel}>
                   Full Name<span className={styles.labelstamp}>*</span>
                 </label>
-
+ 
                 <input
                   className={styles.formInput}
                   type="text"
@@ -941,7 +941,7 @@ const SupplierLogistics = ({socket}) => {
                 <div className={styles.innerHeading}>
                   Type of Address<span className={styles.labelstamp}>*</span>
                 </div>
-
+ 
                 <div className={styles.radioInnerContainer}>
                   {[
                     { value: "Warehouse", label: "Ware House" },
@@ -984,10 +984,10 @@ const SupplierLogistics = ({socket}) => {
               Add More
             </span>
           </div>
-
+ 
           {formik.values.billsOfMaterial.map((bill, index) => {
             const selectedProduct = getSelectedProductDetails(bill.productId);
-
+ 
             return (
               <div
                 className={`${styles["inner-container"]} ${
@@ -999,7 +999,7 @@ const SupplierLogistics = ({socket}) => {
                   <label className={styles.formLabel}>
                     Product Name<span className={styles.labelstamp}>*</span>
                   </label>
-
+ 
                   <Select
                     options={productOptions}
                     value={productOptions.find(
@@ -1030,7 +1030,7 @@ const SupplierLogistics = ({socket}) => {
                     onBlur={formik.handleBlur}
                     placeholder="Select the Product"
                   />
-
+ 
                   {formik.touched.billsOfMaterial?.[index]?.productName &&
                     formik.errors.billsOfMaterial?.[index]?.productName && (
                       <div className={styles.errorMessage}>
@@ -1038,7 +1038,7 @@ const SupplierLogistics = ({socket}) => {
                       </div>
                     )}
                 </div>
-
+ 
                 <div className={styles.logisticInputSection}>
                   <label className={styles.formLabel}>
                     Quantity<span className={styles.labelstamp}>*</span>
@@ -1059,7 +1059,7 @@ const SupplierLogistics = ({socket}) => {
                       </div>
                     )}
                 </div>
-
+ 
                 <div className={styles.logisticInputSection}>
                   <label className={styles.formLabel}>
                     No. of Packages<span className={styles.labelstamp}>*</span>
@@ -1086,7 +1086,7 @@ const SupplierLogistics = ({socket}) => {
                       </div>
                     )}
                 </div>
-
+ 
                 {formik.values.billsOfMaterial.length > 1 && (
                   <div
                     className={styles.removeButtons}
@@ -1098,7 +1098,7 @@ const SupplierLogistics = ({socket}) => {
               </div>
             );
           })}
-
+ 
           <div className={styles.headBillSection}>
             <div className={styles.innerBillHead}>Package Details</div>
             <span className={styles.innerAddButton} onClick={addPackage}>
@@ -1124,35 +1124,38 @@ const SupplierLogistics = ({socket}) => {
                 />
                 {formik.touched.packages?.[index]?.weight &&
                   formik.errors.packages?.[index]?.weight && (
-                    <span className="error-text">
+                    <span className={styles.errorMessage}>
                       {formik.errors.packages[index].weight}
                     </span>
                   )}
               </div>
-
+ 
               <div className={styles.logisticesDimensionSection}>
                 <label className={styles.formLabel}>
                   Package Dimensions<span className={styles.labelstamp}>*</span>
                 </label>
                 <div className={styles.dimensionSections}>
-                  <input
-                    className={styles.formDimensions}
-                    type="text"
-                    placeholder="Enter Length"
-                    autoComplete="off"
-                    value={pkg.dimensions.length}
-                    onChange={(e) =>
-                      handleDimensionChange(pkg.id, "length", e.target.value)
-                    }
-                    onBlur={formik.handleBlur}
-                  />
-                  {formik.touched.packages?.[index]?.dimensions?.length &&
-                    formik.errors.packages?.[index]?.dimensions?.length && (
-                      <span className="error-text">
-                        {formik.errors.packages[index].dimensions.length}
-                      </span>
-                    )}
-                  <input
+                  <div className={styles.inputGroup}>
+                      <input
+                      className={styles.formDimensions}
+                      type="text"
+                      placeholder="Enter Length"
+                      autoComplete="off"
+                      value={pkg.dimensions.length}
+                      onChange={(e) =>
+                        handleDimensionChange(pkg.id, "length", e.target.value)
+                      }
+                      onBlur={formik.handleBlur}
+                    />
+                    {formik.touched.packages?.[index]?.dimensions?.length &&
+                      formik.errors.packages?.[index]?.dimensions?.length && (
+                        <span className={styles.errorMessage2}>
+                          {formik.errors.packages[index].dimensions.length}
+                        </span>
+                      )}
+                  </div>
+                  <div className={styles.inputGroup}>
+                    <input
                     className={styles.formDimensions}
                     type="text"
                     placeholder="Enter Width"
@@ -1165,30 +1168,33 @@ const SupplierLogistics = ({socket}) => {
                   />
                   {formik.touched.packages?.[index]?.dimensions?.width &&
                     formik.errors.packages?.[index]?.dimensions?.width && (
-                      <span className="error-text">
+                      <span className={styles.errorMessage2}>
                         {formik.errors.packages[index].dimensions.width}
                       </span>
                     )}
-                  <input
-                    className={styles.formDimensions}
-                    type="text"
-                    placeholder="Enter Height"
-                    autoComplete="off"
-                    value={pkg.dimensions.height}
-                    onChange={(e) =>
-                      handleDimensionChange(pkg.id, "height", e.target.value)
-                    }
-                    onBlur={formik.handleBlur}
-                  />
-                  {formik.touched.packages?.[index]?.dimensions?.height &&
-                    formik.errors.packages?.[index]?.dimensions?.height && (
-                      <span className="error-text">
-                        {formik.errors.packages[index].dimensions.height}
-                      </span>
-                    )}
+                  </div>
+                  <div className={styles.inputGroup}>
+                      <input
+                      className={styles.formDimensions}
+                      type="text"
+                      placeholder="Enter Height"
+                      autoComplete="off"
+                      value={pkg.dimensions.height}
+                      onChange={(e) =>
+                        handleDimensionChange(pkg.id, "height", e.target.value)
+                      }
+                      onBlur={formik.handleBlur}
+                    />
+                    {formik.touched.packages?.[index]?.dimensions?.height &&
+                      formik.errors.packages?.[index]?.dimensions?.height && (
+                        <span className={styles.errorMessage2}>
+                          {formik.errors.packages[index].dimensions.height}
+                        </span>
+                      )}
+                  </div>
                 </div>
               </div>
-
+ 
               <div className={styles.logisticesInputSection}>
                 <label className={styles.formLabel}>
                   Volume<span className={styles.labelstamp}>*</span>
@@ -1207,12 +1213,12 @@ const SupplierLogistics = ({socket}) => {
                 />
                 {formik.touched.packages?.[index]?.volume &&
                   formik.errors.packages?.[index]?.volume && (
-                    <span className="error-text">
+                    <span className={styles.errorMessage}>
                       {formik.errors.packages[index].volume}
                     </span>
                   )}
               </div>
-
+ 
               {formik.values.packages.length > 1 && (
                 <div
                   className={styles.removeButton}
@@ -1246,7 +1252,7 @@ const SupplierLogistics = ({socket}) => {
               />
               {formik.touched.pickupSlot?.date &&
                 formik.errors.pickupSlot?.date && (
-                  <div className={styles.error}>
+                  <div className={styles.errorMessage}>
                     {formik.errors.pickupSlot.date}
                   </div>
                 )}
@@ -1269,7 +1275,7 @@ const SupplierLogistics = ({socket}) => {
               />
               {formik.touched.pickupSlot?.timeSlot &&
                 formik.errors.pickupSlot?.timeSlot && (
-                  <div className={styles.error}>
+                  <div className={styles.errorMessage}>
                     {formik.errors.pickupSlot.timeSlot}
                   </div>
                 )}
@@ -1294,5 +1300,5 @@ const SupplierLogistics = ({socket}) => {
     // Start the pickup details container
   );
 };
-
+ 
 export default SupplierLogistics;
