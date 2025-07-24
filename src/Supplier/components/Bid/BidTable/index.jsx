@@ -8,7 +8,9 @@ import { toast } from "react-toastify";
 import { apiRequests } from "../../../../api";
 import MainTable from "./BidTable";
 import { useDispatch, useSelector } from "react-redux";
-
+import { FaAngleDown, FaAngleUp } from 'react-icons/fa';
+import Style from'./bidTable.module.css'
+ 
 const BidTable = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -19,7 +21,11 @@ const BidTable = () => {
   const [totalBids, setTotalBids] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const bidPerPage = 10;
-
+ 
+  /* filter - dropdown */
+  const [openDropdown, setOpenDropdown] = useState(false);
+  const [isParticipated, setIsParticipated] = useState("");
+ 
   const getActiveLinkFromPath = (path) => {
     switch (path) {
       case "/supplier/bid":
@@ -34,9 +40,9 @@ const BidTable = () => {
         return "active";
     }
   };
-
+ 
   const activeLink = getActiveLinkFromPath(location.pathname);
-
+ 
   const handleLinkClick = (link) => {
     setCurrentPage(1);
     switch (link) {
@@ -53,7 +59,7 @@ const BidTable = () => {
         navigate("/supplier/bid");
     }
   };
-
+ 
   const dummyBids = [
     {
       _id: "BID20250701",
@@ -91,11 +97,11 @@ const BidTable = () => {
       status: "Completed",
     },
   ];
-
+ 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-
+ 
   const fetchData = async () => {
     // const supplierId = localStorage?.getItem("_id");
     // if (!supplierId) {
@@ -111,10 +117,10 @@ const BidTable = () => {
       pageSize: bidPerPage,
       usertype: "Buyer",
     };
-
+ 
     try {
       const response = await apiRequests.getRequest(
-        `bid?&pageNo=${currentPage}&pageSize=${bidPerPage}&status=${status}`
+        `bid?&page_no=${currentPage}&page_size=${bidPerPage}&status=${status}`
         // `bid?userId=${buyerId}&pageNo=${currentPage}&pageSize=${bidPerPage}&status=${status}`
       );
       if (response?.code === 200) {
@@ -126,26 +132,50 @@ const BidTable = () => {
       setLoading(false);
     }
   };
-
+ 
   useEffect(() => {
     fetchData();
   }, [activeLink, currentPage]);
-
+ 
   return (
     <>
       {loading ? (
         <Loader />
       ) : (
         <div className={styles.container}>
-          <div className={styles.header}>
-            <div className={styles.title}>Bids</div>
-            {/* <button
-              onClick={() => navigate("/supplier/bid/create-bid")}
-              className={styles.bulkButton}
-            >
-              Create Bid
-            </button> */}
+          {/* header -> Bids, Filter-Tab, Create Bid */}
+          <div className={Style.header}>
+            <div className={Style.title}>Bids</div>
+            
+            {/* filter tab */}
+            <div className={Style.filterContainer} /* ref={dropdownRef} */>
+              <ul className={Style.filterSection}>
+                  <li
+                      className={Style.filterLiSection}
+                      onClick={() => setOpenDropdown(!openDropdown)/* toggleDropdown('gmpApprovals') */}
+                  >
+                      Participated {isParticipated?"-":""}{" "}{isParticipated} {openDropdown === true/* 'gmpApprovals' */ ? <FaAngleUp /> : <FaAngleDown />}
+                      {openDropdown === true/* 'gmpApprovals' */ && (
+                          <ul className={Style.filterInnerSection}>
+                              <li onClick={() => {setOpenDropdown(false);setIsParticipated("Yes");}}>Yes</li>
+                              <li onClick={() =>{setOpenDropdown(false); setIsParticipated("No")}}>No</li>
+                          </ul>
+                      )}
+                  </li>
+              </ul>
+                {/* Show reset button only when filters are applied */}
+              {isParticipated && (
+                <button 
+                    className={Style.resetButton}
+                    onClick={()=>{setOpenDropdown(false);setIsParticipated("");}}
+                >
+                    Reset Filters
+                </button>
+              )} 
+            </div>
+ 
           </div>
+ 
           <div className={styles.content}>
             <div className={styles.sidebar}>
               <div
@@ -182,7 +212,10 @@ const BidTable = () => {
                 <div className={styles.text}>Cancelled Bids</div>
               </div>
             </div>
+ 
+ 
             <div className={styles.main}>
+ 
               <MainTable
                 bidList={bidList}
                 totalBids={totalBids}
@@ -198,5 +231,5 @@ const BidTable = () => {
     </>
   );
 };
-
+ 
 export default BidTable;

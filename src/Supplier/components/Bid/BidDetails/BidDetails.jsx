@@ -8,6 +8,7 @@ import { fetchBidById } from "../../../../redux/reducers/bidSlice";
 import moment from "moment";
 import RenderProductFiles from "../../../../Buyer/components/Buy/Details/RenderFiles";
 import ProductList from "./ProductList";
+import { getTimeRemaining } from "../helper";
 
 const BidDetails = () => {
   const { id } = useParams();
@@ -20,28 +21,6 @@ const BidDetails = () => {
     }
   }, [id]);
 
-  const getTimeRemaining = (endDate, endTime = "00:00") => {
-    if (!endDate) return "";
-
-    // Combine end date and time (time is expected in "HH:mm" format)
-    const combinedEnd = moment(`${endDate}T${endTime}`, "YYYY-MM-DDTHH:mm");
-
-    const now = moment();
-    const duration = moment.duration(combinedEnd.diff(now));
-
-    if (duration.asMilliseconds() <= 0) return "Expired";
-
-    const days = Math.floor(duration.asDays());
-    const hours = duration.hours();
-    const minutes = duration.minutes();
-
-    const parts = [];
-    if (days > 0) parts.push(`${days} Day${days !== 1 ? "s" : ""}`);
-    if (hours > 0) parts.push(`${hours} Hour${hours !== 1 ? "s" : ""}`);
-    if (minutes > 0) parts.push(`${minutes} Min${minutes !== 1 ? "s" : ""}`);
-
-    return parts.join(" ");
-  };
 
   return (
     <div className={styles.container}>
@@ -90,7 +69,10 @@ const BidDetails = () => {
             <div className={styles.additionalUploadSection3}>
               <span className={styles.medicineHead3}>Time Remaining</span>
               <span className={styles.medicineText3}>
-                {getTimeRemaining(bidDetails?.general?.startDate)}
+                {
+                  getTimeRemaining(bidDetails?.general?.startDate, bidDetails?.general?.startTime, 
+                  bidDetails?.general?.endDate, bidDetails?.general?.endTime  
+                )}
               </span>
             </div>
             <div className={styles.additionalUploadSection3}>

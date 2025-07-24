@@ -6,33 +6,7 @@ import DataTable from "react-data-table-component";
 import moment from "moment";
 import PaginationComponent from "../../SharedComponents/Pagination/pagination";
 import styles from "../../../assets/style/table.module.css";
-
-
-const getTimeRemaining = (startDate, startTime = "00:00", endDate, endTime = "00:00") => {
-  if (!startDate || !endDate) return "";
-
-  const start = moment(`${moment(startDate).format("YYYY-MM-DD")}T${startTime}`, "YYYY-MM-DDTHH:mm");
-  const end = moment(`${moment(endDate).format("YYYY-MM-DD")}T${endTime}`, "YYYY-MM-DDTHH:mm");
-  const now = moment();
-
-  if (now.isBefore(start)) {
-    return "Not Started";
-  }
-
-  if (now.isAfter(end)) {
-    return "Expired";
-  }
-
-  const duration = moment.duration(end.diff(now));
-
-  const days = Math.floor(duration.asDays());
-  const hours = duration.hours();
-  const minutes = duration.minutes();
-
-  if (days > 0) return `${days} day${days !== 1 ? "s" : ""}`;
-  if (hours > 0) return `${hours} hr${hours !== 1 ? "s" : ""}`;
-  return `${minutes} min${minutes !== 1 ? "s" : ""}`;
-};
+import { getTimeRemaining } from "../helper";
 
 const BidTable = ({
   bidList,

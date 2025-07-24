@@ -1,0 +1,110 @@
+ul {
+    text-decoration: none !important;
+    list-style: none !important;
+}
+ 
+/* Style the filter section */
+.filterContainer {
+    width: 100%;
+    /* margin: 0 auto; */
+    margin-right: 10px;
+    background: linear-gradient(to left, #00dcff, #0075ce);
+    color: #fff;
+    padding: 10px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    border-radius: 4px;
+    z-index: 10;    
+}
+ 
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; 
+  gap: 20px;
+}
+ 
+.title { 
+  width: 200px;  
+  padding-top: 5px;
+  font-size: 20px;
+  font-weight: 500;
+  color: #5e676f;
+}
+ 
+.bulkButton {
+  width: 10%;
+  border: none !important;
+  outline: none !important;
+  align-items: center;
+  background: linear-gradient(to left, #00dcff, #0075ce);
+  border-radius: 4px;
+  color: #fff;
+  column-gap: 8px;
+  cursor: pointer !important;
+  display: flex;
+  font-size: 0.825rem;
+  margin-right: 18px;
+  padding: 12px 16px;
+}
+ 
+.filterSection {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0px !important;
+    gap: 6rem;
+    padding-left: 0px !important;
+    width: 100%;
+}
+ 
+.filterLiSection {
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer !important;
+}
+ 
+.resetButton {
+    width: fit-content;
+    border: 1px solid #d3d3d3 !important;
+    border-radius: 4px;
+    cursor: pointer !important;
+    display: flex;
+    background-color: transparent;
+    color: #fff;
+    font-size: 0.825rem;
+    font-weight: 500;
+    justify-content: center;
+    padding: 0;
+    width: 100px;
+}
+ 
+.filterInnerSection {
+    background-color: #fff;
+    border-radius: 2px;
+    color:#5e676f;
+    display: flex;
+    flex-direction: column;
+    font-size: 0.825rem;
+    padding: 14px;
+    padding-left: 14px !important;
+    position: absolute;
+    row-gap: 12px;
+    top: 90%;
+    left: 38%;
+    width: 200px;
+    height: 100px;
+    cursor: pointer !important;
+    overflow: scroll;
+    text-align: center;
+}
+ 
+.filterInnerSection::-webkit-scrollbar {
+    display: none;
+}
+ 
+.filterInnerSection li,
+.filterLiSection svg {
+    cursor: pointer !important;
+}
