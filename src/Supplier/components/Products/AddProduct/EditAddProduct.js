@@ -774,7 +774,6 @@ const EditAddProduct = ({ placeholder }) => {
             if (Object.keys(formik?.errors).length === 0) {
               formik?.handleSubmit();
             } else {
-              console.log("formik?.errors",formik?.errors)
               toast.error("Please fill the required fields correctly.");
             }
           }}
