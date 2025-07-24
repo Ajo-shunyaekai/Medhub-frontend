@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import DataTable from "react-data-table-component";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
@@ -8,28 +8,104 @@ import { apiRequests } from "../../../../api";
 import PaginationComponent from '../../shared-components/Pagination/Pagination';
 import styles from '../../../assets/style/table.module.css';
 import Button from "../../shared-components/UiElements/Button/Button";
-
+import Search from '../../shared-components/SearchComponent/Search'
+ 
 const RejectedSuppliers = () => {
   const navigate = useNavigate();
   const location = useLocation();
-
+ 
   const queryParams = new URLSearchParams(location.search);
   const filterValue = queryParams.get("filterValue");
-
+ 
   const adminIdSessionStorage = localStorage?.getItem("admin_id");
   const adminIdLocalStorage = localStorage?.getItem("admin_id");
-
+ 
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [downloadLoader, setDownloadLoader] = useState(false);
-  const [sellerList, setSellerList] = useState([]);
-  const [totalSellers, setTotalSellers] = useState(0);
+  const [sellerRequestList, setSellerRequestList] = useState([]);
+  const [totalRequests, setTotalRequests] = useState(0);
   const listPerPage = 8;
-
+ 
+  /* search-bar */
+  const [inputValue, setInputValue] = useState('');
+  const [searchKey, setSearchKey] = useState('');
+  
+ 
+  const searchTimeoutRef = useRef(null);
+ 
+  const handleKeyDown = (e) => {
+      if (e.key === 'Enter') {
+          if (searchTimeoutRef.current) {
+              clearTimeout(searchTimeoutRef.current);
+          }
+          setSearchKey(inputValue);
+          setCurrentPage(1);
+      }
+  };
+  
+ 
+  const handleInputChange = (e) => {
+      setInputValue(e.target.value);
+      if (searchTimeoutRef.current) {
+          clearTimeout(searchTimeoutRef.current);
+      }
+      searchTimeoutRef.current = setTimeout(() => {
+          setSearchKey(e.target.value);
+          setCurrentPage(1);
+      }, 500);
+  };
+  
+  const handleProductSearch = (clearData) => {
+      if (searchTimeoutRef.current) {
+          clearTimeout(searchTimeoutRef.current);
+      }
+ 
+      const trimmedValue = inputValue.trim();
+      setSearchKey(clearData ? "" : trimmedValue);
+      setCurrentPage(1);
+      console.log(trimmedValue); // log inputValue, not stale searchKey
+      fetchSellerRequests(clearData ? "" : trimmedValue);
+  };
+  
+  const fetchSellerRequests = (searchKey = '') => {
+      const obj = {
+          admin_id: adminIdSessionStorage || adminIdLocalStorage,
+          filterKey: 'pending',
+          filterValue: filterValue,
+          pageNo: currentPage,
+          pageSize: listPerPage,
+          searchKey: searchKey
+      };
+ 
+      console.log("Sending API with payload:", obj);
+      setLoading(true);
+ 
+      postRequestWithToken('admin/get-supplier-reg-req-list', obj, (response) => {
+          if (response?.code === 200) {
+              setSellerRequestList(response.result.data);
+              setTotalRequests(response.result.totalItems);
+              console.log("response: ", response);
+          } else {
+              console.error('Error fetching supplier requests:', response.message);
+          }
+          setLoading(false);
+      });
+  };
+ 
+  useEffect(() => {
+      if (!adminIdSessionStorage && !adminIdLocalStorage) {
+          localStorage?.clear();
+          navigate('/admin/login');
+          return;
+      }
+      fetchSellerRequests();
+  }, [currentPage,  adminIdSessionStorage, adminIdLocalStorage, filterValue, navigate]);
+ 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-
+ 
   const handleDownload = async () => {
     setDownloadLoader(true);
     const obj = {
@@ -41,41 +117,8 @@ const RejectedSuppliers = () => {
     }
     setTimeout(()=>{ setDownloadLoader(false) },2000);
   };
-
-  useEffect(() => {
-    const fetchSupplierList = async () => {
-      if (!adminIdSessionStorage && !adminIdLocalStorage) {
-        localStorage?.clear();
-        navigate("/admin/login");
-        return;
-      }
-
-      const obj = {
-        admin_id: adminIdSessionStorage || adminIdLocalStorage,
-        filterKey: "rejected",
-        filterValue: filterValue,
-        pageNo: currentPage,
-        pageSize: listPerPage,
-      };
-
-      setLoading(true);
-      const response = await apiRequests.getRequest(
-        `supplier/get-all-suppliers-list?filterKey=rejected&filterValue=${filterValue}&pageNo=${currentPage}&pageSize=${listPerPage}`
-      );
-
-      if (response?.code === 200) {
-        setSellerList(response.result.data || []);
-        setTotalSellers(response.result.totalItems || 0);
-      } else {
-        setSellerList([]);
-        setTotalSellers(0);
-      }
-      setLoading(false);
-    };
-
-    fetchSupplierList();
-  }, [currentPage, filterValue, adminIdSessionStorage, adminIdLocalStorage, navigate]);
-
+ 
+ 
   // Define columns for DataTable
   const columns = [
     {
@@ -134,7 +177,7 @@ const RejectedSuppliers = () => {
       button: true,
     },
   ];
-
+ 
   return (
     <div className={`${styles.container} auth`}>
       <style>
@@ -188,19 +231,31 @@ const RejectedSuppliers = () => {
                 Download
             </Button>
           </header>
+ 
+          {/* Search-Section */}
+          <Search
+              setInputValue={setInputValue}
+              inputValue={inputValue}
+              handleInputChange={handleInputChange}
+              setSearchKey={setSearchKey}
+              handleProductSearch={handleProductSearch}
+              handleKeyDown={handleKeyDown}
+              placeholder='Search Suppliers'
+          />
+ 
           <DataTable
             columns={columns}
-            data={sellerList}
+            data={sellerRequestList}
             pagination={false} // Disable built-in pagination
             noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
             persistTableHead
             responsive
           />
-          {sellerList.length > 0 && (
+          {sellerRequestList.length > 0 && (
             <PaginationComponent
               activePage={currentPage}
               itemsCountPerPage={listPerPage}
-              totalItemsCount={totalSellers}
+              totalItemsCount={totalRequests}
               pageRangeDisplayed={8}
               onChange={handlePageChange}
             />
@@ -210,5 +265,5 @@ const RejectedSuppliers = () => {
     </div>
   );
 };
-
+ 
 export default RejectedSuppliers;

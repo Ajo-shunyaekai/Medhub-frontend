@@ -30,6 +30,7 @@ import { parsePhoneNumber, isValidPhoneNumber } from "libphonenumber-js";
 import { fetchOtherUserData } from "../../../../redux/reducers/userDataSlice";
 import { editProfileDetails } from "../../../../redux/reducers/adminSlice";
 import { toast } from "react-toastify";
+import RenderFiles from '../../../../Buyer/components/Buy/Details/RenderFiles'
 
 // MultiSelectOption Component
 const MultiSelectOption = ({ children, ...props }) => (
@@ -1485,6 +1486,9 @@ const EditProfileDetails = () => {
                       preview={ele.preview}
                       fileIndex={index}
                       isEdit={false}
+                      acceptTypes={{
+                        "application/pdf": [],
+                      }}
                     />
                   )}
                 </Field>
@@ -1620,8 +1624,8 @@ const EditProfileDetails = () => {
                 acceptTypes={{
                   "image/png": [],
                   "image/jpeg": [],
-                  "image/jpg": [],
-                  "application/pdf": [],
+                  // "image/jpg": [],
+                  // "application/pdf": [],
                 }}
               />
 
@@ -1644,9 +1648,9 @@ const EditProfileDetails = () => {
                 initialValues={formik?.values}
                 label="Upload Trade License"
                 acceptTypes={{
-                  "image/png": [],
-                  "image/jpeg": [],
-                  "image/jpg": [],
+                  // "image/png": [],
+                  // "image/jpeg": [],
+                  // "image/jpg": [],
                   "application/pdf": [],
                 }}
               />
@@ -1676,9 +1680,9 @@ const EditProfileDetails = () => {
                   initialValues={formik?.values}
                   label="Upload Medical Practitioner Certificate"
                   acceptTypes={{
-                    "image/png": [],
-                    "image/jpeg": [],
-                    "image/jpg": [],
+                    // "image/png": [],
+                    // "image/jpeg": [],
+                    // "image/jpg": [],
                     "application/pdf": [],
                   }}
                 />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import DataTable from 'react-data-table-component';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
@@ -8,12 +8,14 @@ import moment from 'moment/moment';
 import PaginationComponent from '../../shared-components/Pagination/Pagination';
 import styles from '../../../assets/style/table.module.css';
 import Button from "../../shared-components/UiElements/Button/Button";
+import Search from '../../shared-components/SearchComponent/Search'
  
 const SellerRequest = () => {
     const navigate = useNavigate();
     const location = useLocation();
  
     const queryParams = new URLSearchParams(location.search);
+    console.log(queryParams);
     const filterValue = queryParams.get('filterValue');
  
     const adminIdSessionStorage = localStorage?.getItem("admin_id");
@@ -24,11 +26,82 @@ const SellerRequest = () => {
     const [sellerRequestList, setSellerRequestList] = useState([]);
     const [totalRequests, setTotalRequests] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
-    const listPerPage = 8; 
+    const listPerPage = 8;
+ 
+    /* search-bar */
+    const [inputValue, setInputValue] = useState('');
+    const [searchKey, setSearchKey] = useState('');
+ 
+    const searchTimeoutRef = useRef(null);
+ 
+ 
+    const handleInputChange = (e,) => {
+        setInputValue(e.target.value);
+        if (searchTimeoutRef.current) {
+            clearTimeout(searchTimeoutRef.current);
+        }
+        searchTimeoutRef.current = setTimeout(() => {
+            setSearchKey(e.target.value);
+            setCurrentPage(1);
+        }, 500);
+    };
+ 
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            if (searchTimeoutRef.current) {
+                clearTimeout(searchTimeoutRef.current);
+            }
+            setSearchKey(inputValue);
+            setCurrentPage(1);
+        }
+    };
  
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
+ 
+ 
+ 
+    const handleProductSearch = (clearData) => {
+        if (searchTimeoutRef.current) {
+            clearTimeout(searchTimeoutRef.current);
+        }
+ 
+        const trimmedValue = inputValue.trim();
+        setSearchKey(clearData ? "" : trimmedValue);
+        setCurrentPage(1);
+        console.log(trimmedValue); // log inputValue, not stale searchKey
+        fetchSellerRequests(clearData ? "" : trimmedValue);
+    };
+ 
+ 
+ 
+    const fetchSellerRequests = (searchKey = '') => {
+        const obj = {
+            admin_id: adminIdSessionStorage || adminIdLocalStorage,
+            filterKey: 'pending',
+            filterValue: filterValue,
+            pageNo: currentPage,
+            pageSize: listPerPage,
+            searchKey: searchKey
+        };
+ 
+        console.log("Sending API with payload:", obj);
+        setLoading(true);
+ 
+        postRequestWithToken('admin/get-supplier-reg-req-list', obj, (response) => {
+            if (response?.code === 200) {
+                setSellerRequestList(response.result.data);
+                setTotalRequests(response.result.totalItems);
+                console.log("response: ", response);
+            } else {
+                console.error('Error fetching supplier requests:', response.message);
+            }
+            setLoading(false);
+        });
+    };
+ 
+ 
  
     useEffect(() => {
         if (!adminIdSessionStorage && !adminIdLocalStorage) {
@@ -36,26 +109,8 @@ const SellerRequest = () => {
             navigate('/admin/login');
             return;
         }
- 
-        const obj = {
-            admin_id: adminIdSessionStorage || adminIdLocalStorage,
-            filterKey: 'pending',
-            filterValue: filterValue,
-            pageNo: currentPage,
-            pageSize: listPerPage, 
-            // searchKey: 'Rob'
-        };
- 
-        postRequestWithToken('admin/get-supplier-reg-req-list', obj, async (response) => {
-            if (response?.code === 200) {
-                setSellerRequestList(response.result.data);
-                setTotalRequests(response.result.totalItems);
-            } else {
-                console.error('Error fetching supplier requests:', response.message);
-            }
-            setLoading(false);
-        });
-    }, [currentPage, adminIdSessionStorage, adminIdLocalStorage, filterValue, navigate]);
+        fetchSellerRequests();
+    }, [currentPage,  adminIdSessionStorage, adminIdLocalStorage, filterValue, navigate]);
  
     const handleDownload = async () => {
         setDownloadLoader(true);
@@ -63,7 +118,7 @@ const SellerRequest = () => {
         if (!result?.success) {
             console.error('Error downloading CSV');
         }
-        setTimeout(()=>{ setDownloadLoader(false) },2000);
+        setTimeout(() => { setDownloadLoader(false) }, 2000);
     };
  
     const columns = [
@@ -163,12 +218,24 @@ const SellerRequest = () => {
                             Download
                         </Button>
                     </header>
+ 
+                    {/* Search-Section */}
+                    <Search
+                        setInputValue={setInputValue}
+                        inputValue={inputValue}
+                        handleInputChange={handleInputChange}
+                        setSearchKey={setSearchKey}
+                        handleProductSearch={handleProductSearch}
+                        handleKeyDown={handleKeyDown}
+                        placeholder='Search Suppliers'
+                    />
+ 
                     <DataTable
                         columns={columns}
                         data={sellerRequestList}
                         noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
                         persistTableHead
-                        pagination={false} 
+                        pagination={false}
                         responsive
                     />
                     {sellerRequestList.length > 0 && (

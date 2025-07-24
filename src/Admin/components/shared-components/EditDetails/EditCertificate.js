@@ -2,6 +2,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { FiUploadCloud, FiFileText, FiX } from "react-icons/fi";
 import styles from "./edit.module.css";
+import PDFIcon from '../../../assets/Images/pdf-icon.svg';
+
 
 // useFileUpload Hook
 const useFileUpload = (
@@ -232,7 +234,8 @@ const EditCertificate = ({
                     className={styles.previewImage}
                   />
                 ) : isPdf ? (
-                  <FiFileText size={25} className={styles.fileIcon} />
+                  // <FiFileText size={25} className={styles.fileIcon} />
+                  <img src={PDFIcon} alt="PDF" className={styles.fileIcon} />
                 ) : null}
                 <p className={styles.fileName}>
                   {typeof file === "string"

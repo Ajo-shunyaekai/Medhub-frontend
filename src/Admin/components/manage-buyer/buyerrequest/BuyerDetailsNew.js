@@ -504,7 +504,8 @@ const BuyerDetailsNew = () => {
                   {buyerDetails?.certificateFileNDate?.map((ele, index) => (
                     <div key={index}>
                       <RenderFiles files={[ele?.file || buyerDetails?.certificate_image?.[index]]} />
-                      {ele?.date && <p>{moment(ele?.date).format("DD MMM YYYY")}</p>}
+                      {/* {ele?.date && <p>{moment(ele?.date).format("DD MMM YYYY")}</p>} */}
+                      {ele?.date && <p>{ele?.date}</p>}
                     </div>
                   ))}
                 </div>

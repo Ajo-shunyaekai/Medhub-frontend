@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import DataTable from 'react-data-table-component';
 import PaginationComponent from '../../shared-components/Pagination/Pagination';
@@ -8,42 +8,74 @@ import { postReqCSVDownload, postRequestWithToken } from '../../../api/Requests'
 import Loader from '../../shared-components/Loader/Loader';
 import moment from 'moment/moment';
 import Button from "../../shared-components/UiElements/Button/Button";
-
+import Search from '../../shared-components/SearchComponent/Search';
+ 
 const BuyerRequest = () => {
     const navigate = useNavigate();
     const location = useLocation();
-
+ 
     const queryParams = new URLSearchParams(location.search);
     const filterValue = queryParams.get('filterValue');
-
+ 
     const adminIdSessionStorage = localStorage?.getItem("admin_id");
     const adminIdLocalStorage = localStorage?.getItem("admin_id");
-
+ 
     const [loading, setLoading] = useState(true);
     const [downloadLoader, setDownloadLoader] = useState(false);
     const [buyerRequestList, setBuyerRequestList] = useState([]);
     const [totalRequests, setTotalRequests] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const listPerPage = 8;
-
-    const handlePageChange = (pageNumber) => {
-        setCurrentPage(pageNumber);
-    };
-
-    useEffect(() => {
-        if (!adminIdSessionStorage && !adminIdLocalStorage) {
-            localStorage?.clear();
-            navigate("/admin/login");
-            return;
+ 
+    /* search-bar */
+    const [inputValue, setInputValue] = useState('');
+    const [searchKey, setSearchKey] = useState('');
+ 
+    const searchTimeoutRef = useRef(null);
+    
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            if (searchTimeoutRef.current) {
+                clearTimeout(searchTimeoutRef.current);
+            }
+            setSearchKey(inputValue);
+            setCurrentPage(1);
         }
+    };
+ 
+    const handleInputChange = (e) => {
+      setInputValue(e.target.value);
+      if (searchTimeoutRef.current) {
+          clearTimeout(searchTimeoutRef.current);
+      }
+      searchTimeoutRef.current = setTimeout(() => {
+          setSearchKey(e.target.value);
+          setCurrentPage(1);
+      }, 500);
+    };
+ 
+    const handleProductSearch = (clearData) => {
+      if (searchTimeoutRef.current) {
+          clearTimeout(searchTimeoutRef.current);
+      }
+ 
+      const trimmedValue = inputValue.trim();
+      setSearchKey(clearData ? "" : trimmedValue);
+      setCurrentPage(1);
+      console.log(trimmedValue); // log inputValue, not stale searchKey
+      fetchSellerRequests(clearData ? "" : trimmedValue);
+    };
+ 
+    const fetchSellerRequests = (searchKey = '') => {
         const obj = {
             admin_id: adminIdSessionStorage || adminIdLocalStorage,
             filterKey: 'pending',
             filterValue: filterValue,
             pageNo: currentPage,
             pageSize: listPerPage,
+            searchKey: searchKey
         };
-
+ 
         postRequestWithToken('admin/get-buyer-reg-req-list', obj, async (response) => {
             if (response?.code === 200) {
                 setBuyerRequestList(response.result.data);
@@ -51,8 +83,21 @@ const BuyerRequest = () => {
             }
             setLoading(false);
         });
-    }, [currentPage, adminIdSessionStorage, adminIdLocalStorage, filterValue, navigate]);
-
+    };
+ 
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+ 
+    useEffect(() => {
+        if (!adminIdSessionStorage && !adminIdLocalStorage) {
+            localStorage?.clear();
+            navigate('/admin/login');
+            return;
+        }
+        fetchSellerRequests();
+    }, [currentPage,  adminIdSessionStorage, adminIdLocalStorage, filterValue, navigate]);
+ 
     const handleDownload = async () => {
         setDownloadLoader(true);
         const result = await postReqCSVDownload('admin/get-buyer-list-csv', {}, 'buyer_requests_list.csv');
@@ -61,7 +106,7 @@ const BuyerRequest = () => {
         }
         setTimeout(()=>{ setDownloadLoader(false) },2000);
     };
-
+ 
     const columns = [
         {
             name: 'Date',
@@ -104,7 +149,7 @@ const BuyerRequest = () => {
             ),
         },
     ];
-
+ 
     return (
         <section className={styles.container}>
             <style>
@@ -159,7 +204,18 @@ const BuyerRequest = () => {
                             Download
                         </Button>
                     </header>
-
+ 
+                    {/* Search-Section */}
+                    <Search
+                        setInputValue={setInputValue}
+                        inputValue={inputValue}
+                        handleInputChange={handleInputChange}
+                        setSearchKey={setSearchKey}
+                        handleProductSearch={handleProductSearch}
+                        handleKeyDown={handleKeyDown}
+                        placeholder='Search Buyers'
+                    />
+ 
                     <DataTable
                         columns={columns}
                         data={buyerRequestList}
@@ -182,5 +238,5 @@ const BuyerRequest = () => {
         </section>
     );
 };
-
+ 
 export default BuyerRequest;

@@ -8,6 +8,7 @@ import PDFIcon from "../assets/images/pdf.png";
 GlobalWorkerOptions.workerSrc = `${process.env.PUBLIC_URL}/pdf.worker.min.js`;
 
 const PdfThumbnail = ({ fileUrl, onClick, className }) => {
+  console.log('fileUrl',fileUrl)
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
 
@@ -80,7 +81,7 @@ const PdfThumbnail = ({ fileUrl, onClick, className }) => {
       )}
 
       <Document
-        file={{ url: fileUrl, withCredentials: false }}
+        file={{ url: fileUrl }}
         onLoadSuccess={onDocumentLoadSuccess}
         onLoadError={onDocumentLoadError}
         loading=""

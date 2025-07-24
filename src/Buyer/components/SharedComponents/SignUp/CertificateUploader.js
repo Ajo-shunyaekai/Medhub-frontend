@@ -94,12 +94,12 @@ const useFileUpload = (
 
   const defaultAccept = {
     "application/pdf": [],
-    "application/msword": [],
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-      [],
-    "image/png": [],
-    "image/jpeg": [],
-    "image/jpg": [],
+    // "application/msword": [],
+    // "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+    //   [],
+    // "image/png": [],
+    // "image/jpeg": [],
+    // "image/jpg": [],
   };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({

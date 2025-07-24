@@ -1603,7 +1603,7 @@ const SignUp = ({ socket }) => {
                         reset={resetUploaders}
                         allowMultiple={true}
                         showTooltip={true}
-                        tooltipMessage="Only PDF and Docx formats are allowed."
+                        tooltipMessage="Only PDF format is allowed."
                       />
                       {errors.licenseImage && (
                         <div className={styles.signupErrors}>
