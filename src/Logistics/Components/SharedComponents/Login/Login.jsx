@@ -91,7 +91,6 @@ const Login = ({socket}) => {
             }
             try {
                 const response = await apiRequests?.postRequest(`auth/login`, obj)
-                console.log("response in logistic login: ",response);
                 if(response?.code !== 200){
                     toast(response.message, { type: "error" });
                 }else{
@@ -119,14 +118,12 @@ const Login = ({socket}) => {
                     if ('Notification' in window) {
                         if (Notification.permission === 'granted') {
                             // If permission is already granted, register the user directly
-                            console.log('response?.data.partner_id',response?.data.partner_id)
                             const userId = response?.data.partner_id;
                             socket.emit('registerPartner', userId);
                         } else if (Notification.permission !== 'denied') {
                             // Request permission if not already denied
                             const permission = await Notification.requestPermission();
                             if (permission === 'granted') {
-                                console.log('response?.data.partner_id',response?.data.partner_id)
                                 const userId = response.data.partner_id;
                                 socket.emit("registerPartner", userId);
                             }

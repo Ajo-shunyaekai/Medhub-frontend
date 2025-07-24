@@ -206,7 +206,6 @@ const EditFile = ({
       {fileUpload?.filesMerged?.length > 0 && (
         <div className={styles.previewContainer}>
           {fileUpload?.filesMerged?.map((file, index) => {
-          {console.log('file',file)}
             // const isString = typeof file == "string";
             // const fileName = isString
             //   ? file?.startsWith("http")
@@ -231,7 +230,6 @@ const EditFile = ({
             const isImage = ["jpeg", "png", "jpg", "gif", "bmp"].includes(
               fileExtension
             );
-            console.log('isImage',isImage)
             const isPdf = fileExtension === "pdf";
 
             return (

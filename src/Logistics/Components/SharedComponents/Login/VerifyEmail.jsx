@@ -59,7 +59,6 @@ const VerifyEmail = ({step, setStep}) => {
             dispatch(setEmailToResetPassword(email));
             try {
                 const response = await apiRequests?.postRequest(`auth/verify-email`, obj);
-                console.log("response from forgot-password: ",response);
                 if (response?.code !== 200) {
                 toast.error(response?.message);
                 setLoading(false);

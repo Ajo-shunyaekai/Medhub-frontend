@@ -16,8 +16,6 @@ import { toast } from "react-toastify";
 
 const EditProfile = () => {
 
-    console.log("test");
-
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { id } = useParams();

@@ -64,7 +64,6 @@ const RejectedSuppliers = () => {
       const trimmedValue = inputValue.trim();
       setSearchKey(clearData ? "" : trimmedValue);
       setCurrentPage(1);
-      console.log(trimmedValue); // log inputValue, not stale searchKey
       fetchSellerRequests(clearData ? "" : trimmedValue);
   };
   
@@ -79,14 +78,12 @@ const RejectedSuppliers = () => {
           status: 2,
       };
  
-      console.log("Sending API with payload:", obj);
       setLoading(true);
  
       postRequestWithToken('admin/get-supplier-reg-req-list', obj, (response) => {
           if (response?.code === 200) {
               setSellerRequestList(response.result.data);
               setTotalRequests(response.result.totalItems);
-              console.log("response: ", response);
           } else {
               console.error('Error fetching supplier requests:', response.message);
           }

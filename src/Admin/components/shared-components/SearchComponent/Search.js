@@ -4,7 +4,6 @@ import styles from './search.module.css'
 import { FaTimes } from 'react-icons/fa';
  
 const Search = ({ inputValue, setInputValue, handleInputChange, handleProductSearch, handleKeyDown, placeholder, setSearchKey }) => {
-    console.log(inputValue);
     return (
         <div className={styles.searchContainer}>
             <input

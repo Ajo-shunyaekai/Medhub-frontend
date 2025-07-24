@@ -62,7 +62,6 @@ const BuyerRequest = () => {
       const trimmedValue = inputValue.trim();
       setSearchKey(clearData ? "" : trimmedValue);
       setCurrentPage(1);
-      console.log(trimmedValue); // log inputValue, not stale searchKey
       fetchSellerRequests(clearData ? "" : trimmedValue);
     };
  

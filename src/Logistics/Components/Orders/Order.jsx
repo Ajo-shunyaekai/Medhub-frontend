@@ -93,7 +93,6 @@ const Order = () => {
  
     try {
         const response = await apiRequests.getRequest(`logistics/get-logistics-request-list?status=${activeLink}&pageNo=${currentPage}&pageSize=${ordersPerPage}`);
-        console.log(response);
         if (response?.code === 200) {
             setOrderList(response.result.data)
             setTotalOrders(response.result.totalItems)

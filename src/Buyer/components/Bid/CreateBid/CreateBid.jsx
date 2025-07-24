@@ -267,7 +267,6 @@ const CreateBid = () => {
                       e.preventDefault();
                     }}
                   />
-                  {console.log('erros', errors)}
                   {touched?.endDate && errors?.endDate && (
                     <span className={styles.error}>{errors?.endDate}</span>
                   )}
@@ -295,7 +294,6 @@ const CreateBid = () => {
                     Bid End Time
                     <span className={styles.labelStamp}>*</span>
                   </label>
-                  {console.log('endTime',values?.endTime)}
                   <input
                     className={styles.formInput}
                     type="time"

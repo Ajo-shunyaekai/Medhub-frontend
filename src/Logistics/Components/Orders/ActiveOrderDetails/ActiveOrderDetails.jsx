@@ -38,7 +38,6 @@ const ActiveOrderDetails = ({socket}) => {
         };
         try {
             const response = await apiRequests.getRequest(`logistics/get-logistics-details/${logisticsId}`, obj);
-            console.log(response);
             if (response?.code === 200) {
                 setOrderDetails(response.result);
             }
