@@ -208,7 +208,7 @@ export const getTimeRemaining = (startDate, startTime = "00:00", endDate, endTim
   }
 
   if (now.isAfter(end)) {
-    return "Expired";
+    return "Ended";
   }
 
   const duration = moment.duration(end.diff(now));
