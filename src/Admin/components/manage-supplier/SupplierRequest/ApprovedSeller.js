@@ -79,7 +79,8 @@ const ApprovedSeller = () => {
             filterValue: filterValue,
             pageNo: currentPage,
             pageSize: listPerPage,
-            searchKey: searchKey
+            searchKey: searchKey,
+            status: 1,
         };
  
         console.log("Sending API with payload:", obj);

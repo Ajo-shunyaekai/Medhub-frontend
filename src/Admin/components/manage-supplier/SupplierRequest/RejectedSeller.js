@@ -75,7 +75,8 @@ const RejectedSuppliers = () => {
           filterValue: filterValue,
           pageNo: currentPage,
           pageSize: listPerPage,
-          searchKey: searchKey
+          searchKey: searchKey,
+          status: 2,
       };
  
       console.log("Sending API with payload:", obj);

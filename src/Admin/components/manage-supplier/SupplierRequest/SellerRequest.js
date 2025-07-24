@@ -83,7 +83,8 @@ const SellerRequest = () => {
             filterValue: filterValue,
             pageNo: currentPage,
             pageSize: listPerPage,
-            searchKey: searchKey
+            searchKey: searchKey,
+            status: 0
         };
  
         console.log("Sending API with payload:", obj);
