@@ -20,9 +20,9 @@ const PaymentSuccessful = () => {
   );
 
   useEffect(() => {
-    userId &&
-      userType &&
-      dispatch(fetchUserData({ id: userId, type: userType }));
+    // userId &&
+    //   userType &&
+    //   dispatch(fetchUserData({ id: userId, type: userType }));
   }, [userId, userType]);
   
   // Access the query params from the URL using window?.location?.search
@@ -67,15 +67,15 @@ const PaymentSuccessful = () => {
       formData.append("userId", user?._id);
       formData.append("invoice_pdf", pdfBlob, "Invoice.pdf"); // Append the PDF Blob to FormData
 
-      dispatch(
-        sendSubscriptionPaymentEmail({
-          session_id: sessionId,
-          email: user?.contact_person_email, // need to make it dynamic according to the user
-          userType,
-          userId,
-          formData,
-        })
-      );
+      // dispatch(
+      //   sendSubscriptionPaymentEmail({
+      //     session_id: sessionId,
+      //     email: user?.contact_person_email, // need to make it dynamic according to the user
+      //     userType,
+      //     userId,
+      //     formData,
+      //   })
+      // );
     } catch (error) {
       console.error("Error saving payment:", error);
     }
@@ -83,21 +83,21 @@ const PaymentSuccessful = () => {
 
   useEffect(() => {
     if (sessionId && user?.contact_person_email) {
-      dispatch(
-        saveSubscriptionPayment({
-          session_id: sessionId,
-          email: user?.contact_person_email, // need to make it dynamic according to the user
-          userType,
-          userId,
-        })
-      );
+      // dispatch(
+      //   saveSubscriptionPayment({
+      //     session_id: sessionId,
+      //     email: user?.contact_person_email, // need to make it dynamic according to the user
+      //     userType,
+      //     userId,
+      //   })
+      // );
     }
   }, [sessionId, user]);
 
   useEffect(() => {
-    userId &&
-      userType &&
-      dispatch(fetchUserData({ id: userId, type: userType }));
+    // userId &&
+      // userType &&
+      // dispatch(fetchUserData({ id: userId, type: userType }));
   }, [userId, userType, dispatch]);
 
   useEffect(() => {
