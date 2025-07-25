@@ -87,8 +87,8 @@ ul {
     display: flex;
     flex-direction: column;
     font-size: 0.825rem;
-    padding: 14px;
-    padding-left: 14px !important;
+    padding: 14px 0;
+    /* padding-left: 14px !important; */
     position: absolute;
     row-gap: 12px;
     top: 90%;
@@ -97,8 +97,25 @@ ul {
     height: 100px;
     cursor: pointer !important;
     overflow: scroll;
-    text-align: center;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
 }
+ 
+.yesList{
+    border-bottom: 1px solid #ccc !important;
+    padding-bottom: 10px;
+}
+ 
+ 
+.filterInnerSection li{
+    padding-left: 14px;
+}
+ 
+.filterInnerSection li:hover { 
+  border-radius: 4px; 
+  color: #3b71ca;
+}
+ 
+ 
  
 .filterInnerSection::-webkit-scrollbar {
     display: none;
@@ -107,4 +124,16 @@ ul {
 .filterInnerSection li,
 .filterLiSection svg {
     cursor: pointer !important;
+}
+ 
+.main {
+  width: calc(100% - 200px);
+  height: 100vh;
+  overflow-x: scroll;
+  background-attachment: fixed;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.main::-webkit-scrollbar {
+  display: none;
 }

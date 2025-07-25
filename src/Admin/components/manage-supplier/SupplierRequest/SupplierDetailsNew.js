@@ -18,7 +18,7 @@ import {
 } from "../../../../utils/helper";
 import { useSelector } from "react-redux";
 import RenderFiles from '../../../../Buyer/components/Buy/Details/RenderFiles'
-
+ 
 const SupplierDetailsNew = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [supplierDetails, setSupplierDetails] = useState();
@@ -33,25 +33,25 @@ const SupplierDetailsNew = () => {
   const [salesPersonName, setSalesPersonName] = useState("");
   const [isEditable, setIsEditable] = useState(false);
   const { user } = useSelector((state) => state.userReducer);
-
-
+ 
+ 
   const handleEditClick = () => {
     setIsEditable(true);
   };
-
+ 
   const handleChange = (e) => {
     setSalesPersonName(e.target.value);
   };
-
+ 
   const openModal = (url) => {
     window.open(url, "_blank");
   };
-
+ 
   const closeModal = () => {
     setOpen(false);
     setPdfUrl(null);
   };
-
+ 
   useEffect(() => {
     const getSupplierdetails = async () => {
       if (!adminIdSessionStorage && !adminIdLocalStorage) {
@@ -59,7 +59,7 @@ const SupplierDetailsNew = () => {
         navigate("/admin/login");
         return;
       }
-
+ 
       const obj = {
         admin_id: adminIdSessionStorage || adminIdLocalStorage,
         supplier_id: supplierId,
@@ -78,7 +78,7 @@ const SupplierDetailsNew = () => {
     };
     getSupplierdetails();
   }, [adminIdSessionStorage, adminIdLocalStorage, supplierId, navigate]);
-
+ 
   const handleRejectClick = () => {
     setIsModalOpen(true);
   };
@@ -95,13 +95,13 @@ const SupplierDetailsNew = () => {
       });
       return;
     }
-
+ 
     if (action === "accept") {
       setLoading(true);
     } else if (action === "reject") {
       setRejectLoading(true);
     }
-
+ 
     postRequestWithToken(
       "admin/accept-reject-supplier-registration",
       obj,
@@ -120,7 +120,7 @@ const SupplierDetailsNew = () => {
       }
     );
   };
-
+ 
   return (
     <div className="buyer-details-container">
       <div className="buyer-details-inner-conatiner">
@@ -365,7 +365,7 @@ const SupplierDetailsNew = () => {
                   {supplierDetails?.categories?.join(", ")}
                 </div>
               </div>
-
+ 
               
               
             </div>
@@ -389,7 +389,7 @@ const SupplierDetailsNew = () => {
               </div>
              
               {/* Conditionally render License No. */}
-
+ 
               {/* Conditionally render License Expiry Date */}
               {supplierDetails?.license_expiry_date && (
                 <div className="buyer-details-inner-section">
@@ -401,7 +401,7 @@ const SupplierDetailsNew = () => {
                   </div>
                 </div>
               )}
-
+ 
               <div className="buyer-details-inner-section">
                 <div className="buyer-details-inner-head">
                   Contact Person Name :
@@ -429,7 +429,7 @@ const SupplierDetailsNew = () => {
                   {supplierDetails?.contact_person_mobile_no}
                 </div>
               </div>
-
+ 
               <div className="buyer-details-inner-section">
                 <div className="buyer-details-inner-head">
                   Country of Operation :
@@ -499,7 +499,7 @@ const SupplierDetailsNew = () => {
               </div>
             </div>
           </div>
-
+ 
           {/* Modal for PDF viewing */}
           <Modal open={open} onClose={closeModal} center>
             {pdfUrl ? (
@@ -513,7 +513,7 @@ const SupplierDetailsNew = () => {
             )}
           </Modal>
         </div>
-
+ 
         <div className="buyer-details-container2">
           {/* Rest of your JSX content */}
           {user?.accessControl?.supplier?.requests?.edit &&
@@ -540,14 +540,16 @@ const SupplierDetailsNew = () => {
                 </div>
               </div>
             )}
-
+ 
           {user?.accessControl?.supplier?.requests?.edit &&
             supplierDetails?.account_status == 0 &&
             isModalOpen && <SupplierCustomModal onClose={closeModal} />}
         </div>
+ 
+        <div className="bottomMargin"></div>
       </div>
     </div>
   );
 };
-
+ 
 export default SupplierDetailsNew;

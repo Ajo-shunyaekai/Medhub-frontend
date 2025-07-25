@@ -17,7 +17,7 @@ import {
 } from "../../../../utils/helper";
 import { useSelector } from "react-redux";
 import RenderFiles from '../../../../Buyer/components/Buy/Details/RenderFiles'
-
+ 
 const BuyerDetailsNew = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { buyerId } = useParams();
@@ -29,28 +29,28 @@ const BuyerDetailsNew = () => {
   const [salesPersonName, setSalesPersonName] = useState("");
   const [isEditable, setIsEditable] = useState(false);
   const { user } = useSelector((state) => state.userReducer);
-
+ 
   const handleEditClick = () => {
     setIsEditable(true);
   };
-
+ 
   const handleChange = (e) => {
     setSalesPersonName(e.target.value);
   };
-
+ 
   const openModal = (url) => {
     window.open(url, "_blank");
   };
-
+ 
   const closeModal = () => {
     setOpen(false);
     setPdfUrl(null);
   };
-
+ 
   const [loading, setLoading] = useState(false);
   const [rejectLoading, setRejectLoading] = useState(false);
   const [buyerDetails, setBuyerDetails] = useState();
-
+ 
   useEffect(() => {
     const getBuyerDetails = async () => {
       if (!adminIdSessionStorage && !adminIdLocalStorage) {
@@ -62,7 +62,7 @@ const BuyerDetailsNew = () => {
         admin_id: adminIdSessionStorage || adminIdLocalStorage,
         buyer_id: buyerId,
       };
-
+ 
       try {
         const response = await apiRequests.getRequest(
           `buyer/get-specific-buyer-details/${buyerId}`,
@@ -77,7 +77,7 @@ const BuyerDetailsNew = () => {
     };
     getBuyerDetails();
   }, []);
-
+ 
   const handleAcceptReject = (action) => {
     const obj = {
       admin_id: adminIdSessionStorage || adminIdLocalStorage,
@@ -96,7 +96,7 @@ const BuyerDetailsNew = () => {
     } else if (action === "reject") {
       setRejectLoading(true);
     }
-
+ 
     postRequestWithToken(
       "admin/accept-reject-buyer-registration",
       obj,
@@ -329,10 +329,10 @@ const BuyerDetailsNew = () => {
                     {buyerDetails.license_no}
                   </div>
                 </div>
-
-
+ 
+ 
               )}
-
+ 
                {buyerDetails?.yrFounded && (
                 <div className="buyer-details-inner-section">
                   <div className="buyer-details-inner-head">
@@ -342,8 +342,8 @@ const BuyerDetailsNew = () => {
                     {buyerDetails.yrFounded}
                   </div>
                 </div>
-
-
+ 
+ 
               )}
               <div className="buyer-details-inner-section">
                 <div className="buyer-details-inner-head">
@@ -361,8 +361,8 @@ const BuyerDetailsNew = () => {
                   {buyerDetails?.country_of_origin}
                 </div>
               </div>
-
-
+ 
+ 
               <div className="buyer-details-inner-section">
                 <div className="buyer-details-inner-head">Interested In :</div>
                 <div className="buyer-details-inner-text">
@@ -395,8 +395,8 @@ const BuyerDetailsNew = () => {
                   {buyerDetails?.activity_code || "-"}
                 </div>
               </div>
-
-
+ 
+ 
               {buyerDetails?.annualTurnover && (
                 <div className="buyer-details-inner-section">
                   <div className="buyer-details-inner-head">
@@ -407,7 +407,7 @@ const BuyerDetailsNew = () => {
                   </div>
                 </div>
               )}
-
+ 
               {buyerDetails?.license_expiry_date && (
                 <div className="buyer-details-inner-section">
                   <div className="buyer-details-inner-head">
@@ -443,7 +443,7 @@ const BuyerDetailsNew = () => {
                   {buyerDetails?.contact_person_mobile}
                 </div>
               </div>
-
+ 
               <div className="buyer-details-inner-section">
                 <div className="buyer-details-inner-head">
                   Country of Operation :
@@ -500,7 +500,7 @@ const BuyerDetailsNew = () => {
                     "certificate_images",
                     buyerDetails?.certificateFileNDate?.length > 0
                   )} */}
-
+ 
                   {buyerDetails?.certificateFileNDate?.map((ele, index) => (
                     <div key={index}>
                       <RenderFiles files={[ele?.file || buyerDetails?.certificate_image?.[index]]} />
@@ -525,7 +525,7 @@ const BuyerDetailsNew = () => {
             )}
           </Modal>
         </div>
-
+ 
         <div className="buyer-details-container2">
           {user?.accessControl?.buyer?.requests?.edit &&
             buyerDetails?.account_status == 0 && (
@@ -555,9 +555,11 @@ const BuyerDetailsNew = () => {
             <BuyerCustomModal onClose={closeModal} />
           )} */}
         </div>
+ 
+        <div className="bottomMargin"></div>
       </div>
     </div>
   );
 };
-
+ 
 export default BuyerDetailsNew;

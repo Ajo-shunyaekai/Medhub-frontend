@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "../../../assets/style/secondsidebar.module.css";
 import { BiPurchaseTagAlt } from "react-icons/bi";
@@ -25,6 +25,21 @@ const BidTable = () => {
   /* filter - dropdown */
   const [openDropdown, setOpenDropdown] = useState(false);
   const [isParticipated, setIsParticipated] = useState("");
+ 
+  const dropdownRef = useRef(null);
+ 
+  const handleClickOutside = (event) => {
+    if(dropdownRef.current && !dropdownRef.current.contains(event.target)){
+      setOpenDropdown(false);
+    }
+  }
+ 
+  useEffect(()=>{
+    document.addEventListener("mousedown",handleClickOutside);
+    return ()=>{
+      document.removeEventListener("mousedown",handleClickOutside);
+    }
+  },[]);
  
   const getActiveLinkFromPath = (path) => {
     switch (path) {
@@ -148,7 +163,7 @@ const BidTable = () => {
             <div className={Style.title}>Bids</div>
             
             {/* filter tab */}
-            <div className={Style.filterContainer} /* ref={dropdownRef} */>
+            <div ref={dropdownRef} className={Style.filterContainer} >
               <ul className={Style.filterSection}>
                   <li
                       className={Style.filterLiSection}
@@ -157,7 +172,7 @@ const BidTable = () => {
                       Participated {isParticipated?"-":""}{" "}{isParticipated} {openDropdown === true/* 'gmpApprovals' */ ? <FaAngleUp /> : <FaAngleDown />}
                       {openDropdown === true/* 'gmpApprovals' */ && (
                           <ul className={Style.filterInnerSection}>
-                              <li onClick={() => {setOpenDropdown(false);setIsParticipated("Yes");}}>Yes</li>
+                              <li className={Style.yesList} onClick={() => {setOpenDropdown(false);setIsParticipated("Yes");}}>Yes</li>
                               <li onClick={() =>{setOpenDropdown(false); setIsParticipated("No")}}>No</li>
                           </ul>
                       )}
@@ -215,7 +230,6 @@ const BidTable = () => {
  
  
             <div className={styles.main}>
- 
               <MainTable
                 bidList={bidList}
                 totalBids={totalBids}
