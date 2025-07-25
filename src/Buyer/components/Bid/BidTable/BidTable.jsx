@@ -44,7 +44,6 @@ const BidTable = ({
     //   name: "Time Remaining",
     //   // selector: (row) => getTimeRemaining(row?.general?.endDate, row?.general?.endTime || "00:00"),
     //   cell: (row) => {
-    //     console.log("row date & time:", row?.general?.endDate, row?.general?.endTime);
     //     return <span>{getTimeRemaining(row?.general?.endDate, row?.general?.endTime || "00:00")}</span>;
     //   },
     //   sortable: true,

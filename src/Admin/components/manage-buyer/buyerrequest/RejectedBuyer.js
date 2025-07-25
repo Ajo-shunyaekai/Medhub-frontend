@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import DataTable from 'react-data-table-component';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
@@ -7,39 +7,73 @@ import Loader from '../../shared-components/Loader/Loader';
 import PaginationComponent from '../../shared-components/Pagination/Pagination';
 import styles from '../../../assets/style/table.module.css';
 import Button from "../../shared-components/UiElements/Button/Button";
-
+import Search from '../../shared-components/SearchComponent/Search';
+ 
 const RejectedBuyer = () => {
     const navigate = useNavigate();
     const location = useLocation();
-
+ 
     const queryParams = new URLSearchParams(location.search);
     const filterValue = queryParams.get('filterValue');
-
+ 
     const adminIdSessionStorage = localStorage?.getItem("admin_id");
     const adminIdLocalStorage = localStorage?.getItem("admin_id");
-
+ 
     const [loading, setLoading] = useState(true);
     const [downloadLoader, setDownloadLoader] = useState(false);
     const [buyerList, setBuyerList] = useState([]);
     const [totalBuyers, setTotalBuyers] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const listPerPage = 8;
-
-    useEffect(() => {
-        if (!adminIdSessionStorage && !adminIdLocalStorage) {
-            localStorage?.clear();
-            navigate("/admin/login");
-            return;
+ 
+    /* search-bar */
+    const [inputValue, setInputValue] = useState('');
+    const [searchKey, setSearchKey] = useState('');
+ 
+    const searchTimeoutRef = useRef(null);
+    
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            if (searchTimeoutRef.current) {
+                clearTimeout(searchTimeoutRef.current);
+            }
+            setSearchKey(inputValue);
+            setCurrentPage(1);
         }
-
+    };
+ 
+    const handleInputChange = (e) => {
+      setInputValue(e.target.value);
+      if (searchTimeoutRef.current) {
+          clearTimeout(searchTimeoutRef.current);
+      }
+      searchTimeoutRef.current = setTimeout(() => {
+          setSearchKey(e.target.value);
+          setCurrentPage(1);
+      }, 500);
+    };
+ 
+    const handleProductSearch = (clearData) => {
+      if (searchTimeoutRef.current) {
+          clearTimeout(searchTimeoutRef.current);
+      }
+ 
+      const trimmedValue = inputValue.trim();
+      setSearchKey(clearData ? "" : trimmedValue);
+      setCurrentPage(1);
+      fetchSellerRequests(clearData ? "" : trimmedValue);
+    };
+ 
+    const fetchSellerRequests = (searchKey = '') => {
         const obj = {
             admin_id: adminIdSessionStorage || adminIdLocalStorage,
             filterKey: 'rejected',
             filterValue: filterValue,
             pageNo: currentPage,
             pageSize: listPerPage,
+            searchKey: searchKey
         };
-
+ 
         postRequestWithToken('admin/get-buyer-list', obj, async (response) => {
             if (response?.code === 200) {
                 setBuyerList(response.result.data);
@@ -47,19 +81,31 @@ const RejectedBuyer = () => {
             }
             setLoading(false);
         });
+    };
+ 
+    
+ 
+    useEffect(() => {
+        if (!adminIdSessionStorage && !adminIdLocalStorage) {
+            localStorage?.clear();
+            navigate("/admin/login");
+            return;
+        }
+ 
+        fetchSellerRequests();
     }, [currentPage, adminIdSessionStorage, adminIdLocalStorage, filterValue, navigate]);
-
+ 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
-
+ 
     const handleDownload = async () => {
         setDownloadLoader(true);
         const obj = { filterKey: 'rejected' };
         await postReqCSVDownload('admin/get-buyer-list-csv', obj, 'rejected_buyers_list.csv');
         setTimeout(()=>{ setDownloadLoader(false) },2000);
     };
-
+ 
     const columns = [
         {
             name: 'Buyer ID',
@@ -110,7 +156,7 @@ const RejectedBuyer = () => {
             ),
         },
     ];
-
+ 
     return (
         <div className={styles.container}>
             <style>
@@ -165,7 +211,18 @@ const RejectedBuyer = () => {
                             Download
                         </Button>
                     </header>
-
+ 
+                    {/* Search-Section */}
+                    <Search
+                        setInputValue={setInputValue}
+                        inputValue={inputValue}
+                        handleInputChange={handleInputChange}
+                        setSearchKey={setSearchKey}
+                        handleProductSearch={handleProductSearch}
+                        handleKeyDown={handleKeyDown}
+                        placeholder='Search Buyers'
+                    />
+ 
                     <DataTable
                         columns={columns}
                         data={buyerList}
@@ -174,7 +231,7 @@ const RejectedBuyer = () => {
                         pagination={false}
                         responsive
                     />
-
+ 
                     {/* Conditionally render PaginationComponent */}
                     {totalBuyers > 0 && (
                         <PaginationComponent
@@ -190,5 +247,5 @@ const RejectedBuyer = () => {
         </div>
     );
 };
-
+ 
 export default RejectedBuyer;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import DataTable from 'react-data-table-component';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
@@ -8,29 +8,95 @@ import { apiRequests } from '../../../../api';
 import PaginationComponent from '../../shared-components/Pagination/Pagination';
 import styles from '../../../assets/style/table.module.css';
 import Button from "../../shared-components/UiElements/Button/Button";
-
+import Search from '../../shared-components/SearchComponent/Search'
+ 
 const ApprovedSeller = () => {
     const navigate = useNavigate();
     const location = useLocation();
-
+ 
     const queryParams = new URLSearchParams(location.search);
     const filterValue = queryParams.get('filterValue');
-
+ 
     const adminIdSessionStorage = localStorage?.getItem('admin_id');
     const adminIdLocalStorage = localStorage?.getItem('admin_id');
-
+ 
     const [currentPage, setCurrentPage] = useState(1);
     const listPerPage = 8;
-
+ 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
-
+ 
     const [loading, setLoading] = useState(true);
     const [downloadLoader, setDownloadLoader] = useState(false);
-    const [sellerList, setSellerList] = useState([]);
-    const [totalSellers, setTotalSellers] = useState(0);
-
+    const [sellerRequestList, setSellerRequestList] = useState([]);
+    const [totalRequests, setTotalRequests] = useState(0);
+ 
+    /* search-bar */
+    const [inputValue, setInputValue] = useState('');
+    const [searchKey, setSearchKey] = useState('');
+    
+ 
+    const searchTimeoutRef = useRef(null);
+ 
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            if (searchTimeoutRef.current) {
+                clearTimeout(searchTimeoutRef.current);
+            }
+            setSearchKey(inputValue);
+            setCurrentPage(1);
+        }
+    };
+ 
+    const handleInputChange = (e) => {
+        setInputValue(e.target.value);
+        if (searchTimeoutRef.current) {
+            clearTimeout(searchTimeoutRef.current);
+        }
+        searchTimeoutRef.current = setTimeout(() => {
+            setSearchKey(e.target.value);
+            setCurrentPage(1);
+        }, 500);
+    };
+ 
+    const handleProductSearch = (clearData) => {
+        if (searchTimeoutRef.current) {
+            clearTimeout(searchTimeoutRef.current);
+        }
+ 
+        const trimmedValue = inputValue.trim();
+        setSearchKey(clearData ? "" : trimmedValue);
+        setCurrentPage(1);
+        fetchSellerRequests(clearData ? "" : trimmedValue);
+    };
+ 
+    const fetchSellerRequests = (searchKey = '') => {
+        const obj = {
+            admin_id: adminIdSessionStorage || adminIdLocalStorage,
+            filterKey: 'pending',
+            filterValue: filterValue,
+            pageNo: currentPage,
+            pageSize: listPerPage,
+            searchKey: searchKey,
+            status: 1,
+        };
+ 
+        setLoading(true);
+ 
+        postRequestWithToken('admin/get-supplier-reg-req-list', obj, (response) => {
+            if (response?.code === 200) {
+                setSellerRequestList(response.result.data);
+                setTotalRequests(response.result.totalItems);
+            } else {
+                console.error('Error fetching supplier requests:', response.message);
+            }
+            setLoading(false);
+        });
+    };
+    
+    
+ 
     const handleDownload = async () => {
         setDownloadLoader(true);
         const obj = {
@@ -42,31 +108,16 @@ const ApprovedSeller = () => {
         }
         setTimeout(()=>{ setDownloadLoader(false) },2000);
     };
-
+ 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                if (!adminIdSessionStorage && !adminIdLocalStorage) {
-                    localStorage?.clear();
-                    navigate("/admin/login");
-                    return;
-                }
-                const response = await apiRequests.getRequest(
-                    `supplier/get-all-suppliers-list?filterKey=accepted&filterValue=${filterValue}&pageNo=${currentPage}&pageSize=${listPerPage}`
-                );
-                if (response?.code === 200) {
-                    setSellerList(response.result.data);
-                    setTotalSellers(response.result.totalItems);
-                }
-            } catch (error) {
-                console.error('Error fetching supplier list:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchData();
-    }, [currentPage, filterValue, adminIdSessionStorage, adminIdLocalStorage, navigate]);
-
+        if (!adminIdSessionStorage && !adminIdLocalStorage) {
+            localStorage?.clear();
+            navigate('/admin/login');
+            return;
+        }
+        fetchSellerRequests();
+    }, [currentPage,  adminIdSessionStorage, adminIdLocalStorage, filterValue, navigate]);
+ 
     const columns = [
         {
             name: 'Supplier ID',
@@ -131,7 +182,7 @@ const ApprovedSeller = () => {
             center: true,
         },
     ];
-
+ 
     return (
         <div className={styles.container}>
             <style>
@@ -186,20 +237,32 @@ const ApprovedSeller = () => {
                             Download
                         </Button>
                     </header>
+ 
+                    {/* Search-Section */}
+                    <Search
+                        setInputValue={setInputValue}
+                        inputValue={inputValue}
+                        handleInputChange={handleInputChange}
+                        setSearchKey={setSearchKey}
+                        handleProductSearch={handleProductSearch}
+                        handleKeyDown={handleKeyDown}
+                        placeholder='Search Suppliers'
+                    />
+ 
                     <DataTable
                         columns={columns}
-                        data={sellerList}
+                        data={sellerRequestList}
                         persistTableHead
                         noDataComponent={<div className={styles['no-data']}>No Data Available</div>}
                         pagination={false}
                         responsive
                     />
                   
-                    {sellerList.length > 0 && (
+                    {sellerRequestList.length > 0 && (
                         <PaginationComponent
                             activePage={currentPage}
                             itemsCountPerPage={listPerPage}
-                            totalItemsCount={totalSellers}
+                            totalItemsCount={totalRequests}
                             pageRangeDisplayed={8}
                             onChange={handlePageChange}
                         />
@@ -209,5 +272,5 @@ const ApprovedSeller = () => {
         </div>
     );
 };
-
+ 
 export default ApprovedSeller;

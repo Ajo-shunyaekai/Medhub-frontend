@@ -461,7 +461,7 @@ const SupplierDetailsNew = () => {
               {/* Trade License */}
               <div className="buyer-details-card-container">
                 <div className="buyer-details-company-logo-heading">
-                  Trade License
+                  Trade Licensee
                 </div>
                 <div className="buyer-details-company-img-container">
                   {/* {renderFiles(supplierDetails?.license_image, "license_image")} */}
@@ -491,7 +491,8 @@ const SupplierDetailsNew = () => {
                   {supplierDetails?.certificateFileNDate?.map((ele, index) => (
                     <div key={index}>
                       <RenderFiles files={[ele?.file || supplierDetails?.certificate_image?.[index]]} />
-                      {ele?.date && <p>{moment(ele?.date).format("DD MMM YYYY")}</p>}
+                       {/* {ele?.date && <p>{moment(ele?.date).format("DD MMM YYYY")}</p>} */}
+                       {ele?.date && <p>{ele?.date}</p>}
                     </div>
                   ))}
                 </div>

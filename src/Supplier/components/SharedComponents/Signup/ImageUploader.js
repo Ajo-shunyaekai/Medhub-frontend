@@ -46,12 +46,12 @@ const ImageUploader = ({
             }
         } else {
             validFiles = files.filter(file => {
-                const isValidType = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'].includes(file?.type);
+                const isValidType = ['application/pdf', ].includes(file?.type);
                 const isValidSize = file.size <= 5 * 1024 * 1024;
                 return isValidType && isValidSize;
             });
             if (validFiles.length !== files.length) {
-                setErrorMessage('Invalid files. Only PDF/DOCX, max 5MB.');
+                setErrorMessage('Invalid file. Only PDF allowed, max 5MB.');
                 return;
             }
         }
@@ -149,7 +149,7 @@ const ImageUploader = ({
                 </div>
                 <input
                     type="file"
-                    accept={imageType === 'logo' ? 'image/png, image/jpeg' : 'application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document'}
+                    accept={imageType === 'logo' ? 'image/png, image/jpeg' : 'application/pdf'}
                     onChange={handleImageUpload}
                     style={{ display: 'none' }}
                     ref={fileInputRef}

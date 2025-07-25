@@ -2,6 +2,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { FiUploadCloud, FiFileText, FiX } from "react-icons/fi";
 import styles from "./edit.module.css";
+import PDFIcon from '../../../assets/Images/pdf-icon.svg';
+import RenderFiles from '../../../../Buyer/components/Buy/Details/RenderFiles'
 
 // useFileUpload Hook
 const useFileUpload = (
@@ -204,13 +206,23 @@ const EditFile = ({
       {fileUpload?.filesMerged?.length > 0 && (
         <div className={styles.previewContainer}>
           {fileUpload?.filesMerged?.map((file, index) => {
-          
-            const isString = typeof file == "string";
-            const fileName = isString
-              ? file?.startsWith("http")
-                ? file?.replaceAll(process.env.REACT_APP_AWS_BUCKET_URL, "")
-                : file
-              : file?.name;
+            // const isString = typeof file == "string";
+            // const fileName = isString
+            //   ? file?.startsWith("http")
+            //     ? file?.replaceAll(process.env.REACT_APP_AWS_BUCKET_URL, "")
+            //     : file
+            //   : file?.name;
+            const isString = typeof file === "string";
+            let fileName = "";
+
+            if (isString) {
+            fileName = file.startsWith("http")
+                ? file.replaceAll(process.env.REACT_APP_AWS_BUCKET_URL, "")
+                : file;
+            } else {
+            fileName = file?.name;
+            }
+
             const fileExtension = isString
               ? file?.split(".")?.pop()?.toLowerCase()
               : fileName?.split(".")?.pop()?.toLowerCase();
@@ -231,18 +243,28 @@ const EditFile = ({
                           : `${process.env.REACT_APP_SERVER_URL}uploads/${filePath}/${file}`
                         : URL.createObjectURL(file)
                     }
+                    // alt={
+                    //   file?.startsWith("http")
+                    //     ? file?.replaceAll(
+                    //         process.env.REACT_APP_AWS_BUCKET_URL,
+                    //         ""
+                    //       )
+                    //     : file?.name
+                    // }
                     alt={
-                      file?.startsWith("http")
-                        ? file?.replaceAll(
-                            process.env.REACT_APP_AWS_BUCKET_URL,
-                            ""
-                          )
-                        : file?.name
-                    }
+                        isString
+                          ? file.startsWith("http")
+                            ? file.replaceAll(process.env.REACT_APP_AWS_BUCKET_URL, "")
+                            : file
+                          : file?.name
+                      }
+                      
                     className={styles.previewImage}
                   />
                 ) : isPdf ? (
-                  <FiFileText size={25} className={styles.fileIcon} />
+                //   <FiFileText size={25} className={styles.fileIcon} />
+                <img src={PDFIcon} alt="PDF" className={styles.fileIcon} />
+                // <RenderFiles files={file} />
                 ) : null}
                 <p className={styles.fileName}>{fileName}</p>
                 <button

@@ -80,7 +80,7 @@ const PdfThumbnail = ({ fileUrl, onClick, className }) => {
       )}
 
       <Document
-        file={{ url: fileUrl, withCredentials: false }}
+        file={{ url: fileUrl }}
         onLoadSuccess={onDocumentLoadSuccess}
         onLoadError={onDocumentLoadError}
         loading=""
