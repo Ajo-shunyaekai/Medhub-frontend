@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { lazy, useEffect, useState } from "react";
 import styles from "./subscription.module.css";
 import MedhubLogo from "./assets/navibluelogo.svg";
 import { useNavigate, useParams } from "react-router-dom";
@@ -10,12 +10,15 @@ import {
 } from "../redux/reducers/subscriptionSlice";
 import InvoicePDF from "./SubscriptionInvoice/InvoicePDF";
 import { pdf } from "@react-pdf/renderer";
+const Loader = lazy(() =>
+  import("../Buyer/components/SharedComponents/Loader/Loader")
+);
 
 const SubscriptionPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userType, userId } = useParams();
-  const { user, subscribedPlanDetails } = useSelector(
+  const { user, subscribedPlanDetails, loading } = useSelector(
     (state) => state?.subscriptionReducer
   );
   const [activePlan, setActivePlan] = useState(null);
@@ -61,15 +64,15 @@ const SubscriptionPage = () => {
 
     dispatch(createSubscriptionSession(formData));
 
-    dispatch(
-      createSubscriptionSession({
-        plan_name: pkg,
-        duration,
-        email,
-        userType,
-        userId: userId || user?._id,
-      })
-    );
+    // dispatch(
+    //   createSubscriptionSession({
+    //     plan_name: pkg,
+    //     duration,
+    //     email,
+    //     userType,
+    //     userId: userId || user?._id,
+    //   })
+    // );
   };
 
   const generatePDF = (duration, pkg, email, invoiceData) => {
@@ -110,7 +113,9 @@ const SubscriptionPage = () => {
 
   return (
     <>
-      {user?.currentSubscription ? (
+      {loading ? (
+        <Loader />
+      ) : user?.currentSubscription ? (
         <div className={styles.container}>
           <div className={styles.section}>
             <div className={styles.logoSection}>
@@ -120,7 +125,7 @@ const SubscriptionPage = () => {
               <div className={styles.headContainer}>
                 <span className={styles.heading}>
                   You are already subscribed to "
-                  {subscribedPlanDetails?.subscriptionDetails?.name}"
+                  {subscribedPlanDetails?.productName}"
                 </span>
                 <span className={styles.text}>
                   Experience the full power of Medhub Global with simple,
@@ -130,7 +135,7 @@ const SubscriptionPage = () => {
                 </span>
               </div>
               <div className={styles.CardContainer}>
-                {subscribedPlanDetails?.subscriptionDetails?.name ==
+                {subscribedPlanDetails?.productName ==
                 "Monthly Subscription" ? (
                   <div
                     className={`${styles.card} ${
