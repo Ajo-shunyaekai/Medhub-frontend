@@ -49,15 +49,37 @@ const ApprovedSeller = () => {
         }
     };
  
+    // const handleInputChange = (e) => {
+    //     setInputValue(e.target.value);
+    //     if (searchTimeoutRef.current) {
+    //         clearTimeout(searchTimeoutRef.current);
+    //     }
+    //     searchTimeoutRef.current = setTimeout(() => {
+    //         setSearchKey(e.target.value);
+    //         setCurrentPage(1);
+    //     }, 500);
+    // };
+
     const handleInputChange = (e) => {
-        setInputValue(e.target.value);
+        const value = e.target.value;
+        setInputValue(value);
+    
         if (searchTimeoutRef.current) {
             clearTimeout(searchTimeoutRef.current);
         }
-        searchTimeoutRef.current = setTimeout(() => {
-            setSearchKey(e.target.value);
+    
+        if (value.trim() === '') {
+            // Input cleared, trigger API immediately
+            setSearchKey('');
             setCurrentPage(1);
-        }, 500);
+            fetchSellerRequests('');
+        } else {
+            searchTimeoutRef.current = setTimeout(() => {
+                setSearchKey(value.trim());
+                setCurrentPage(1);
+                // fetchSellerRequests(value.trim());
+            }, 500);
+        }
     };
  
     const handleProductSearch = (clearData) => {

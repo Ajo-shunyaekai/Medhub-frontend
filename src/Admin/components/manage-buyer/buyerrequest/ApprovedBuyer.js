@@ -42,15 +42,37 @@ const ApprovedBuyer = () => {
         }
     };
  
+    // const handleInputChange = (e) => {
+    //   setInputValue(e.target.value);
+    //   if (searchTimeoutRef.current) {
+    //       clearTimeout(searchTimeoutRef.current);
+    //   }
+    //   searchTimeoutRef.current = setTimeout(() => {
+    //       setSearchKey(e.target.value);
+    //       setCurrentPage(1);
+    //   }, 500);
+    // };
+
     const handleInputChange = (e) => {
-      setInputValue(e.target.value);
-      if (searchTimeoutRef.current) {
-          clearTimeout(searchTimeoutRef.current);
-      }
-      searchTimeoutRef.current = setTimeout(() => {
-          setSearchKey(e.target.value);
-          setCurrentPage(1);
-      }, 500);
+        const value = e.target.value;
+        setInputValue(value);
+    
+        if (searchTimeoutRef.current) {
+            clearTimeout(searchTimeoutRef.current);
+        }
+    
+        if (value.trim() === '') {
+            // Input cleared, trigger API immediately
+            setSearchKey('');
+            setCurrentPage(1);
+            fetchBuyerRequests('');
+        } else {
+            searchTimeoutRef.current = setTimeout(() => {
+                setSearchKey(value.trim());
+                setCurrentPage(1);
+                // fetchBuyerRequests(value.trim());
+            }, 500);
+        }
     };
  
     const handleProductSearch = (clearData) => {
@@ -61,10 +83,10 @@ const ApprovedBuyer = () => {
       const trimmedValue = inputValue.trim();
       setSearchKey(clearData ? "" : trimmedValue);
       setCurrentPage(1);
-      fetchSellerRequests(clearData ? "" : trimmedValue);
+      fetchBuyerRequests(clearData ? "" : trimmedValue);
     };
  
-    const fetchSellerRequests = (searchKey = '') => {
+    const fetchBuyerRequests = (searchKey = '') => {
         const obj = {
             admin_id: adminIdSessionStorage || adminIdLocalStorage,
             filterKey: 'accepted',
@@ -90,7 +112,7 @@ const ApprovedBuyer = () => {
             return;
         }
  
-        fetchSellerRequests();
+        fetchBuyerRequests();
     }, [currentPage, filterValue, adminIdSessionStorage, adminIdLocalStorage, navigate]);
  
     const handleDownload = async () => {
