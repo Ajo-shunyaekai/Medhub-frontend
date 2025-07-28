@@ -391,6 +391,7 @@ color:#5e676f;
     gap: 20px;
 }
  
+ 
 .buyer-details-name {
     text-align: center;
     font-size: 24px;
@@ -460,9 +461,23 @@ color:#5e676f;
 .buyer-details-inner-head {
     font-size: 0.825rem;
     font-weight: 500;
-    min-width: 240px;
+    min-width: 210px;
     color:#5e676f;
 }
+.newHead {
+    font-size: 0.825rem;
+    font-weight: 500;
+    min-width: 100px;
+    color:#5e676f;
+}
+ 
+.newSection{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+ 
  
 .buyer-details-company-img-container {
     display: flex;
@@ -481,9 +496,38 @@ color:#5e676f;
  
 .buyer-details-inner-text {
     font-size: 0.825rem;
-     color:#5e676f;
+    color:#5e676f;
     text-align: end;
     display: -webkit-box;
+    line-height: 16px;
+}
+.newText {
+    font-size: 0.825rem;
+    color:#5e676f;
+    text-align: end;
+    display: flex;
+    justify-content: flex-end;
+    line-height: 16px;
+    min-width: 120px;
+}
+.buyer-details-inner-text-second {
+    font-size: 0.825rem;
+    color:#5e676f;
+    text-align: end;
+    display: -webkit-box;
+    line-height: 16px;
+}
+.buyer-details-inner-head-second {
+    font-size: 0.825rem;
+    font-weight: 500;
+    min-width: 100px;
+    color:#5e676f;
+}
+.buyer-details-inner-section-second {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
 }
  
 .buyer-details-card-container-contents {
@@ -698,6 +742,41 @@ color:#5e676f;
     padding: 6px 22px;
 }
  
+.buyer-details-inner-head-second{
+    min-width: 150px;
+}
+ 
+.view-more{
+    text-decoration: underline;
+    color: #0075ce;
+}
+.lineChange{
+    display: hidden;
+}
+@media screen and (max-width: 1200px){
+    .buyers-details-section{
+        padding: 28px 16px;
+    }
+    .buyer-details-account-container-section{
+        padding: 28px 16px;
+    }
+    .buyer-details-uppar-main-containers{
+        padding: 28px 16px;
+    }
+    .buyer-details-company-type-section{
+        padding: 28px 16px;
+    }
+    .buyer-details-bank-section{
+        padding: 28px 16px;
+    }
+    .newSection{
+        gap: 10px;
+    }
+    .buyer-details-uppar-card-inner-section{
+        padding: 28px 16px;
+    }
+}
+ 
 /* start the media query */
 @media screen and (max-width: 1420px) {
     .buyer-details-container {
@@ -768,7 +847,7 @@ color:#5e676f;
 .bottomMargin{
     margin-bottom: 20rem;
 }
-
+ 
 .toolTipNew {
     max-width: 30rem;
     max-height: 40rem;
