@@ -36,6 +36,18 @@ const SupplierDetailsNew = () => {
   const [isEditable, setIsEditable] = useState(false);
   const { user } = useSelector((state) => state.userReducer);
  
+  /* handling inner width as per view port */
+  const [handleScreeenWidth, setHandleScreenWidth] = useState(window.innerWidth);
+ 
+  useEffect(()=>{
+    const handleResize = () => setHandleScreenWidth(window.innerWidth);
+ 
+    window.addEventListener("resize", handleResize);
+    return window.removeEventListener("resize",handleResize);
+  },[])
+ 
+  const shouldLineBreak = (handleScreeenWidth >= 992 && handleScreeenWidth <= 1080) || (handleScreeenWidth >= 1130 && handleScreeenWidth <= 1220);
+ 
  
   const handleEditClick = () => {
     setIsEditable(true);
@@ -203,8 +215,8 @@ const SupplierDetailsNew = () => {
                 </div>
                 <div className="buyer-details-uppar-right-container-section">
                   <div className="buyer-details-account-container-section">
-                    <div className="buyer-details-inner-section">
-                      <div className="buyer-details-inner-head">
+                    <div className="newSection">
+                      <div className="buyer-details-inner-head-second">
                         Account Status :
                       </div>
                       <div
@@ -225,8 +237,8 @@ const SupplierDetailsNew = () => {
                             : "Inactive"}
                       </div>
                     </div>
-                    <div className="buyer-details-inner-section">
-                      <div className="buyer-details-inner-head">
+                    <div className="newSection">
+                      <div className="buyer-details-inner-head-second">
                         Account Creation Date :
                       </div>
                       <div className="buyer-details-inner-text">
@@ -235,8 +247,8 @@ const SupplierDetailsNew = () => {
                         )}
                       </div>
                     </div>
-                    <div className="buyer-details-inner-section">
-                      <div className="buyer-details-inner-head">
+                    <div className="newSection">
+                      <div className="buyer-details-inner-head-second">
                         Company Type:
                       </div>
                       <div className="buyer-details-inner-text">
@@ -371,8 +383,9 @@ const SupplierDetailsNew = () => {
                       <>
                        {window.innerWidth < 1380 ? supplierDetails?.categories.slice(0,4).join(','): supplierDetails?.categories.slice(0,4).join(',')}
                        <span>{"..."}</span>
+                       {shouldLineBreak && <br/>}
                        <span 
-                       style={{textDecoration: "underline" , color:'#0075ce'}}
+                       className="view-more"
                        id="admin-supplier">View More</span>
                        <Tooltip
                         anchorId="admin-supplier"
@@ -391,74 +404,71 @@ const SupplierDetailsNew = () => {
               
             </div>
             <div className="buyer-details-inner-left-section">
-            {supplierDetails?.annualTurnover && (
-            <div className="buyer-details-inner-section">
-                <div className="buyer-details-inner-head">Annual Turnover :</div>
-                <div className="buyer-details-inner-text">
-                  {supplierDetails?.annualTurnover ? `${supplierDetails?.annualTurnover} USD` : '-'}
-                </div>
-              </div>
-            )}
-              
-              <div className="buyer-details-inner-section">
-                <div className="buyer-details-inner-head">
-                  Business/Trade Activity Code :
-                </div>
-                <div className="buyer-details-inner-text">
-                  {supplierDetails?.activity_code || "-"}
-                </div>
-              </div>
-             
-              {/* Conditionally render License No. */}
- 
-              {/* Conditionally render License Expiry Date */}
-              {supplierDetails?.license_expiry_date && (
-                <div className="buyer-details-inner-section">
-                  <div className="buyer-details-inner-head">
-                    License Expiry Date :
+                {supplierDetails?.annualTurnover && (
+                <div className="newSection">
+                    <div className="newHead">Annual Turnover :</div>
+                    <div className="newText">
+                      {supplierDetails?.annualTurnover ? `${supplierDetails?.annualTurnover} USD` : '-'}
+                    </div>
                   </div>
-                  <div className="buyer-details-inner-text">
-                    {supplierDetails?.license_expiry_date}
+                )}
+                
+                <div className="newSection">
+                  <div className="newHead">
+                    Business/Trade Activity Code :
+                  </div>
+                  <div className="newText">
+                    {supplierDetails?.activity_code || "-"}
                   </div>
                 </div>
-              )}
- 
-              <div className="buyer-details-inner-section">
-                <div className="buyer-details-inner-head">
-                  Contact Person Name :
+                {/* Conditionally render License Expiry Date */}
+                {supplierDetails?.license_expiry_date && (
+                  <div className="newSection">
+                    <div className="newHead">
+                      License Expiry Date :
+                    </div>
+                    <div className="newText">
+                      {supplierDetails?.license_expiry_date}
+                    </div>
+                  </div>
+                )}
+  
+                <div className="newSection">
+                  <div className="newHead">
+                    Contact Person Name :
+                  </div>
+                  <div className="newText">
+                    {supplierDetails?.contact_person_name}
+                  </div>
                 </div>
-                <div className="buyer-details-inner-text">
-                  {supplierDetails?.contact_person_name}
+                <div className="newSection">
+                  <div className="newHead">Designation :</div>
+                  <div className="newText">
+                    {supplierDetails?.designation}
+                  </div>
                 </div>
-              </div>
-              <div className="buyer-details-inner-section">
-                <div className="buyer-details-inner-head">Designation :</div>
-                <div className="buyer-details-inner-text">
-                  {supplierDetails?.designation}
+                <div className="newSection">
+                  <div className="newHead">Email ID :</div>
+                  <div className="newText">
+                    {supplierDetails?.contact_person_email}
+                  </div>
                 </div>
-              </div>
-              <div className="buyer-details-inner-section">
-                <div className="buyer-details-inner-head">Email ID :</div>
-                <div className="buyer-details-inner-text">
-                  {supplierDetails?.contact_person_email}
+                <div className="newSection">
+                  <div className="newHead">Mobile No. :</div>
+                  <div className="newText">
+                    {supplierDetails?.contact_person_country_code}{" "}
+                    {supplierDetails?.contact_person_mobile_no}
+                  </div>
                 </div>
-              </div>
-              <div className="buyer-details-inner-section">
-                <div className="buyer-details-inner-head">Mobile No. :</div>
-                <div className="buyer-details-inner-text">
-                  {supplierDetails?.contact_person_country_code}{" "}
-                  {supplierDetails?.contact_person_mobile_no}
+  
+                <div className="newSection">
+                  <div className="newHead">
+                    Country of Operation :
+                  </div>
+                  <div className="newText">
+                    {supplierDetails?.country_of_operation?.join(", ")}
+                  </div>
                 </div>
-              </div>
- 
-              <div className="buyer-details-inner-section">
-                <div className="buyer-details-inner-head">
-                  Country of Operation :
-                </div>
-                <div className="buyer-details-inner-text">
-                  {supplierDetails?.country_of_operation?.join(", ")}
-                </div>
-              </div>
             </div>
           </div>
         </div>
