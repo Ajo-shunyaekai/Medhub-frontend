@@ -1,109 +1,107 @@
-.container{
-    background-color: #f9f9fa;
-    width: 100%;
-    height: 100vh;
-    overflow: scroll;
-    background-attachment: fixed;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    display: flex
-;
-    justify-content: center;
-     
+.container {
+  background-color: #f9f9fa;
+  width: 100%;
+  height: 100vh;
+  overflow: scroll;
+  background-attachment: fixed;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  display: flex;
+  justify-content: center;
 }
-.container::-webkit-scrollbar{
-    display: none;
+.container::-webkit-scrollbar {
+  display: none;
 }
-.paymentCard{
-    display: flex;
-        flex-direction: column;
-        text-align: center;
-        align-items: center;
-        justify-content: center;
+.paymentCard {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
 }
-.Card{
-    transition: border-color 0.3s ease-in-out;
-    cursor: pointer;
-    width: 700px;
-    border-radius: 4px;
-    background: linear-gradient(to left, #f5f5f7, #e1f2ff);
-    padding: 60px 40px;
-    display: flex;
-    flex-direction: column;
-    row-gap: 12px;
-    border-radius: 50px;
-    /* border: 2px solid #282F86 !important; */
-    box-shadow: 5px 10px 15px #282F86 !important;
+.Card {
+  transition: border-color 0.3s ease-in-out;
+  cursor: pointer;
+  width: 700px;
+  border-radius: 4px;
+  background: linear-gradient(to left, #f5f5f7, #e1f2ff);
+  padding: 60px 40px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+  border-radius: 50px;
+  /* border: 2px solid #282F86 !important; */
+  box-shadow: 5px 10px 15px #282f86 !important;
 }
-.successIcon{
-    display: flex
-;
-    justify-content: center;
-    align-items: center;
+.successIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.success{
-    width: 120px;
-    height: auto;
+.success {
+  width: 120px;
+  height: auto;
 }
-.heading{
-    font-size: 32px;
-    font-weight: 500;
-    color: #282F86;
+.heading {
+  font-size: 32px;
+  /* font-weight: 500; */
+  color: #282f86;
 }
-.subHeading{
-    font-size: 18px;
-    font-weight: 500;
+.subHeading {
+  font-size: 18px;
+  color: #5e676f;
+  /* font-weight: 500; */
 }
-.content{
-    font-size: 15px;
-    font-weight: 500;
+.content {
+  font-size: 15px;
+  color: #5e676f;
+  /* font-weight: 500; */
 }
-.Button{
-    width: 100%;
+.Button {
+  width: 100%;
 }
-.homeButton{
-   background: linear-gradient(to left, #00dcff, #0075ce);
-    border-radius: 20px;
-    color: #fff;
-    column-gap: 8px;
-    cursor: pointer !important;
-    display: flex
-;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    padding: 6px 16px;
-    font-weight: 500;
-    letter-spacing: 1px;
-    margin-top: 10px;
+.homeButton {
+  background: linear-gradient(to left, #00dcff, #0075ce);
+  border-radius: 20px;
+  color: #fff;
+  column-gap: 8px;
+  cursor: pointer !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  padding: 6px 16px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  margin-top: 10px;
 }
 @media screen and (max-width: 767px) {
-    .Card{
-      width:100%;
-      max-width: 94%;
-      margin: auto;
-    }
+  .Card {
+    width: 100%;
+    max-width: 94%;
+    margin: auto;
+  }
 }
 
 @media screen and (max-width: 500px) {
-    .heading{
-        font-size: 28px;
-    }
-    .success{
-        width: 100px;
-    }
-    .subHeading{
-        font-size: 16px;
-    }
-    .Card{
-        padding: 50px 34px;
-    }
-    .content{
-        font-size: 0.825rem;
-    }
+  .heading {
+    font-size: 28px;
+  }
+  .success {
+    width: 100px;
+  }
+  .subHeading {
+    font-size: 16px;
+  }
+  .Card {
+    padding: 50px 34px;
+  }
+  .content {
+    font-size: 0.825rem;
+  }
 }
 @media screen and (max-width: 380px) {
-    .heading{
-        font-size: 24px;
-    }
+  .heading {
+    font-size: 24px;
+  }
 }
