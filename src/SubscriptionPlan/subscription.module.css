@@ -50,14 +50,15 @@
 
 .heading {
   font-size: 32px;
-  font-weight: 500;
+  /* font-weight: 500; */
   color: #282f86;
 }
 
 .text {
   text-align: center;
   font-size: 18px;
-  font-weight: 500;
+  color: #5e676f;
+  /* font-weight: 500; */
 }
 
 .CardContainer {
@@ -106,31 +107,31 @@
 
 .cardMonthly {
   font-size: 26px;
-  font-weight: 500;
+  /* font-weight: 500; */
   color: #282f86;
 }
 
 .cardManu {
   font-size: 0.825rem;
-  font-weight: 500;
+  color: #5e676f;
 }
 
 .cardList {
   display: flex;
   flex-direction: column;
-  row-gap: 26px;
+  row-gap: 16px;
   margin-bottom: 0px !important;
   padding-left: 1rem !important;
 }
 
 .cardListText {
   font-size: 16px;
-  font-weight: 500;
+  color: #5e676f;
 }
 
 .cardContent {
-  font-size: 18px;
-  font-weight: 500;
+  font-size: 16px;
+  color: #5e676f;
 }
 
 .cardSec {
@@ -149,7 +150,8 @@
 
 .cardMoney {
   font-size: 30px;
-  font-weight: 500;
+  color: #5e676f;
+  /* font-weight: 500; */
   display: flex;
 }
 
@@ -310,7 +312,7 @@
 
 .cardHeading1 {
   font-size: 26px;
-  font-weight: 500;
+  /* font-weight: 500; */
   color: #282f86;
 }
 
