@@ -1,100 +1,93 @@
-import React, { useState } from "react";
-import { Document, Page } from "react-pdf";
-import { GlobalWorkerOptions } from "pdfjs-dist/build/pdf";
-import "react-pdf/dist/esm/Page/AnnotationLayer.css";
-import "react-pdf/dist/esm/Page/TextLayer.css";
-import PDFIcon from "../assets/images/pdf.png";
+import React, { useEffect, useRef, useState } from "react";
+import * as pdfjs from "pdfjs-dist";
+import PDFIcon from "../assets/images/pdf.png"; // fallback icon
 
-GlobalWorkerOptions.workerSrc = `${process.env.PUBLIC_URL}/pdf.worker.min.js`;
+pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`;
 
-const PdfThumbnail = ({ fileUrl, onClick, className }) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [hasError, setHasError] = useState(false);
+const PDFThumbnail = ({ fileUrl, width = 80, onClick }) => {
+  const canvasRef = useRef(null);
+  const [loaded, setLoaded] = useState(false);
+  const [error, setError] = useState(false);
 
-  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+  useEffect(() => {
+    const renderThumbnail = async () => {
+      try {
+        const loadingTask = pdfjs.getDocument(fileUrl);
+        const pdf = await loadingTask.promise;
+        const page = await pdf.getPage(1);
 
-  if (isSafari || hasError) {
+        const viewport = page.getViewport({ scale: 1 });
+        const canvas = canvasRef.current;
+        const context = canvas.getContext("2d");
+
+        const scale = width / viewport.width;
+        const scaledViewport = page.getViewport({ scale });
+
+        canvas.width = scaledViewport.width;
+        canvas.height = scaledViewport.height;
+
+        await page.render({ canvasContext: context, viewport: scaledViewport }).promise;
+        setLoaded(true);
+      } catch (err) {
+        console.error("Thumbnail render error:", err);
+        setError(true);
+      }
+    };
+
+    if (fileUrl) {
+      setLoaded(false);
+      setError(false);
+      renderThumbnail();
+    }
+  }, [fileUrl, width]);
+
+  if (error) {
     return (
       <img
         src={PDFIcon}
         alt="PDF"
-        onClick={onClick}
-        className={className}
         style={{
-          width: 90,
-          height: 100,
+          width,
+          height: (width * 1.3),
           objectFit: "contain",
-          cursor: "pointer",
+          borderRadius: 4,
+          boxShadow: "0 0 5px rgba(0,0,0,0.2)",
         }}
       />
     );
   }
 
-  const onDocumentLoadSuccess = () => {
-    setIsLoading(false);
-    setHasError(false);
-  };
-
-  const onDocumentLoadError = (error) => {
-    console.error("PDF thumbnail load error:", error);
-    setIsLoading(false);
-    setHasError(true);
-  };
-
-  const onPageLoadError = (error) => {
-    console.error("PDF page load error:", error);
-    setHasError(true);
-  };
-
   return (
     <div
       onClick={onClick}
-      className={className}
       style={{
-        width: 60,
-        height: 70,
-        overflow: "hidden",
+        width,
+        height: (width * 1.3),
         position: "relative",
+        borderRadius: 4,
+        boxShadow: "0 0 5px rgba(0,0,0,0.2)",
+        backgroundColor: "#f5f5f5",
         cursor: "pointer",
-        boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)", // ✅ Box shadow added here
-        borderRadius: "4px", // Optional: adds a subtle rounded corner
       }}
     >
-      {isLoading && (
+      {!loaded && (
         <div
           style={{
             position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
+            inset: 0,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            backgroundColor: "#f0f0f0",
-            fontSize: "10px",
+            fontSize: 10,
+            color: "#666",
           }}
         >
           Loading...
         </div>
       )}
-
-      <Document
-        file={{ url: fileUrl }}
-        onLoadSuccess={onDocumentLoadSuccess}
-        onLoadError={onDocumentLoadError}
-        loading=""
-      >
-        <Page
-          pageNumber={1}
-          width={50}
-          onLoadError={onPageLoadError}
-          renderTextLayer={false}
-          renderAnnotationLayer={false}
-        />
-      </Document>
+      <canvas ref={canvasRef} style={{ display: loaded ? "block" : "none" }} />
     </div>
   );
 };
 
-export default PdfThumbnail;
+export default PDFThumbnail;

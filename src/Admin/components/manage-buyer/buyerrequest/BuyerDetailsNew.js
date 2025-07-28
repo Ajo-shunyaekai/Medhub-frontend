@@ -366,7 +366,25 @@ const BuyerDetailsNew = () => {
               <div className="buyer-details-inner-section">
                 <div className="buyer-details-inner-head">Interested In :</div>
                 <div className="buyer-details-inner-text">
-                  {buyerDetails?.interested_in?.join(", ")}
+                  {buyerDetails?.interested_in.length < 6? buyerDetails?.interested_in.slice(0,buyerDetails?.interested_in.length).join(',')
+                  :
+                  <>
+                   {
+                    window.innerWidth < 1380 ? buyerDetails?.interested_in.slice(0,4).join(","): buyerDetails?.interested_in.slice(0,5).join(',')
+                   }
+                   <span>{"..."}</span>
+                   <span id="admin_buyer"
+                    style={{ textDecoration: "underline" , color:'#0075ce'}}
+                   >View More</span>
+                   <ReactTooltip
+                    anchorId="admin_buyer"
+                    place="bottom-start"
+                    delayHide={500}
+                    className="toolTipNew"
+                    content={buyerDetails?.interested_in.join(',')}
+                   />
+                  </> 
+                  }
                 </div>
               </div>
             </div>

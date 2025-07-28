@@ -34,9 +34,11 @@ import RenderFiles from '../../../../Buyer/components/Buy/Details/RenderFiles'
 
 // MultiSelectOption Component
 const MultiSelectOption = ({ children, ...props }) => (
-  <components.Option {...props}>
-    <input type="checkbox" checked={props.isSelected} onChange={() => null} />{" "}
-    <label>{children}</label>
+  <components.Option {...props} >
+    <div style={{display:"flex" , width:"100%", gap:"8px", lineHeight:"16px"}}>
+      <input type="checkbox" checked={props.isSelected} onChange={() => null} />{" "}
+      <label style={{width:"100%"}}>{children}</label>
+    </div>
   </components.Option>
 );
 

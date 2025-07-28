@@ -375,12 +375,12 @@ const SupplierDetails = () => {
                  {supplier?.categories?.length > 0 && (
                   <div className={styles.cardMainContainer}>
                     <span className={styles.cardHead}>Trading Categories</span>
-                    <span className={styles.cardContent}>{supplier.categories.length < 6 ?
-                    (supplier.categories.slice(0, 5).join(', '))
+                    <span className={styles.cardContent}>{supplier?.categories?.length < 6 ?
+                    (supplier?.categories?.slice(0, supplier?.categories?.length).join(', '))
                     :
                     (
                       <>
-                        {(window.innerWidth < 1380? supplier.categories.slice(0,4): supplier.categories.slice(0,5)).join(",")}
+                        {(window.innerWidth < 1380? supplier?.categories?.slice(0,4).join(', '): supplier?.categories?.slice(0,5)).join(",")}
                         <span>{" ... "}</span>
                         <span
                           id="buyer-tooltip"
@@ -390,11 +390,11 @@ const SupplierDetails = () => {
                         </span>
                         <Tooltip
                           anchorId="buyer-tooltip"
-                          place="bottom-end"
+                          place="bottom-start"
                           className={styles.toolTip}
                           delayHide={500}
                           content={
-                            supplier.categories.join(",")
+                            supplier?.categories?.join(",")
                           }
                         />
                       </>

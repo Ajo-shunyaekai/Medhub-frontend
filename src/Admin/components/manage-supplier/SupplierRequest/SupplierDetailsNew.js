@@ -18,6 +18,8 @@ import {
 } from "../../../../utils/helper";
 import { useSelector } from "react-redux";
 import RenderFiles from '../../../../Buyer/components/Buy/Details/RenderFiles'
+import { Tooltip } from "react-tooltip";
+import "react-tooltip/dist/react-tooltip.css";
  
 const SupplierDetailsNew = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -308,7 +310,7 @@ const SupplierDetailsNew = () => {
                   )}
                 </div>
               </div>
-<div className="buyer-details-inner-section">
+              <div className="buyer-details-inner-section">
                 <div className="buyer-details-inner-head">
                   Company Registration No. :
                 </div>
@@ -362,7 +364,26 @@ const SupplierDetailsNew = () => {
                   Category you Trade in :
                 </div>
                 <div className="buyer-details-inner-text">
-                  {supplierDetails?.categories?.join(", ")}
+                  {supplierDetails?.categories.length < 6 ?
+                   (supplierDetails?.categories.slice(0,5).join(','))
+                   :
+                    (
+                      <>
+                       {window.innerWidth < 1380 ? supplierDetails?.categories.slice(0,4).join(','): supplierDetails?.categories.slice(0,4).join(',')}
+                       <span>{"..."}</span>
+                       <span 
+                       style={{textDecoration: "underline" , color:'#0075ce'}}
+                       id="admin-supplier">View More</span>
+                       <Tooltip
+                        anchorId="admin-supplier"
+                        content={supplierDetails?.categories.join(',')}
+                        delayHide={500}
+                        place="bottom-start"
+                        className="toolTipNew"
+                       />
+                      </>
+                    )
+                  }
                 </div>
               </div>
  
