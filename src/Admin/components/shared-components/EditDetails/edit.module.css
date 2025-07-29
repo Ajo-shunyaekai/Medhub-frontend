@@ -163,6 +163,12 @@
   gap: 10px;
   width: 24.1%;
 }
+.productContainerTwo {
+  display: flex;
+  /* flex-direction: column; */
+  gap: 10px;
+ /*  width: 24.1%; */
+}
  
 .descriptionContainer {
   display: flex;

@@ -50,6 +50,7 @@ export const initialValues = {
   tax_imageNew: [],
   tax_no: "",
   vat_reg_no: "",
+  showSubscriptionUrl: false,
 };
 
 export const setInitFormValues = (formik, otherUserDetails) => {
@@ -116,6 +117,7 @@ export const setInitFormValues = (formik, otherUserDetails) => {
       tax_image: otherUserDetails?.tax_image || "",
       tax_no: otherUserDetails?.tax_no || "",
       vat_reg_no: otherUserDetails?.vat_reg_no || "",
+      showSubscriptionUrl: otherUserDetails?.showSubscriptionUrl || false
     });
   }
 };

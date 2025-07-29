@@ -31,7 +31,7 @@ import { fetchOtherUserData } from "../../../../redux/reducers/userDataSlice";
 import { editProfileDetails } from "../../../../redux/reducers/adminSlice";
 import { toast } from "react-toastify";
 import RenderFiles from '../../../../Buyer/components/Buy/Details/RenderFiles'
-
+ 
 // MultiSelectOption Component
 const MultiSelectOption = ({ children, ...props }) => (
   <components.Option {...props} >
@@ -41,7 +41,7 @@ const MultiSelectOption = ({ children, ...props }) => (
     </div>
   </components.Option>
 );
-
+ 
 // MultiSelectDropdown Component
 const MultiSelectDropdown = ({ options, value, onChange }) => {
   return (
@@ -56,7 +56,7 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
     />
   );
 };
-
+ 
 const EditProfileDetails = () => {
   const navigate = useNavigate();
   const { userType, id } = useParams();
@@ -66,7 +66,7 @@ const EditProfileDetails = () => {
   const [category, setCategory] = useState([]);
   // Country list for select
   const countries = countryList()?.getData();
-
+ 
   const validationSchema = Yup.object().shape({
     supplier_type: Yup.string().when([], {
       is: () => userType === "supplier",
@@ -109,13 +109,13 @@ const EditProfileDetails = () => {
                 const fullNumber = supplier_country_code?.includes("+")
                   ? `${supplier_country_code || ""} ${value || ""}`
                   : `+${supplier_country_code || ""} ${value || ""}`;
-
+ 
                 if (!value && !supplier_country_code) {
                   return this.createError({
                     message: "Company Phone No. is required",
                   });
                 }
-
+ 
                 if (value && supplier_country_code) {
                   if (!isValidPhoneNumber(fullNumber)) {
                     return this.createError({
@@ -123,7 +123,7 @@ const EditProfileDetails = () => {
                     });
                   }
                 }
-
+ 
                 return true;
               }
             ),
@@ -137,13 +137,13 @@ const EditProfileDetails = () => {
               const fullNumber = buyer_country_code?.includes("+")
                 ? `${buyer_country_code || ""} ${value || ""}`
                 : `+${buyer_country_code || ""} ${value || ""}`;
-
+ 
               if (!value && !buyer_country_code) {
                 return this.createError({
                   message: "Company Phone No. is required",
                 });
               }
-
+ 
               if (value && buyer_country_code) {
                 if (!isValidPhoneNumber(fullNumber)) {
                   return this.createError({
@@ -151,7 +151,7 @@ const EditProfileDetails = () => {
                   });
                 }
               }
-
+ 
               return true;
             }
           ),
@@ -206,13 +206,13 @@ const EditProfileDetails = () => {
                 const fullNumber = contact_person_country_code?.includes("+")
                   ? `${contact_person_country_code || ""} ${value || ""}`
                   : `+${contact_person_country_code || ""} ${value || ""}`;
-
+ 
                 if (!value && !contact_person_country_code) {
                   return this.createError({
                     message: "Mobile No. is required",
                   });
                 }
-
+ 
                 if (value && contact_person_country_code) {
                   if (!isValidPhoneNumber(fullNumber)) {
                     return this.createError({
@@ -220,7 +220,7 @@ const EditProfileDetails = () => {
                     });
                   }
                 }
-
+ 
                 return true;
               }
             ),
@@ -234,19 +234,19 @@ const EditProfileDetails = () => {
               const fullNumber = contact_person_country_code?.includes("+")
                 ? `${contact_person_country_code || ""} ${value || ""}`
                 : `+${contact_person_country_code || ""} ${value || ""}`;
-
+ 
               if (!value && !contact_person_country_code) {
                 return this.createError({
                   message: "Mobile No. is required",
                 });
               }
-
+ 
               if (value && contact_person_country_code) {
                 if (!isValidPhoneNumber(fullNumber)) {
                   return this.createError({ message: "Invalid Mobile No." });
                 }
               }
-
+ 
               return true;
             }
           ),
@@ -297,7 +297,7 @@ const EditProfileDetails = () => {
       4,
       "You can upload up to 4 medical certificate."
     ),
-
+ 
     medical_practitioner_imageNew: Yup.array()
       .max(4, "You can upload up to 4 medical certificates.")
       .of(
@@ -329,7 +329,7 @@ const EditProfileDetails = () => {
           ),
         otherwise: Yup.array().notRequired(), // No validation if not a "Medical Practitioner"
       }),
-
+ 
     // Supplier Image (only for supplier)
     supplier_image: Yup.array().when([], {
       is: () => userType === "supplier",
@@ -362,7 +362,7 @@ const EditProfileDetails = () => {
           ),
       otherwise: (schema) => schema.notRequired(),
     }),
-
+ 
     // Buyer Image (only for buyer)
     buyer_image: Yup.array().when([], {
       is: () => userType === "buyer",
@@ -396,13 +396,13 @@ const EditProfileDetails = () => {
       otherwise: (schema) => schema.notRequired(),
     }),
   });
-
+ 
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
     onSubmit: (values) => {
       const formData = new FormData();
-
+ 
       // Append fields as usual
       Object.keys(values).forEach((key) => {
         const value = values[key];
@@ -418,13 +418,13 @@ const EditProfileDetails = () => {
                 formData.append(key, item); // appends non-file array items
               }
             });
-          } else if (value) {
+          } else if (value !== undefined && value !== null) {
             // Append regular fields (non-array)
             formData.append(key, value);
           }
         }
       });
-
+ 
       const certificateFileNDateUpdated = JSON.stringify(
         values?.certificateFileNDate?.map((section) => {
           return {
@@ -436,20 +436,20 @@ const EditProfileDetails = () => {
           };
         })
       );
-
+ 
       formData.append(
         "certificateFileNDate",
         certificateFileNDateUpdated?.length == 0
           ? [{ date: "", file: "" }]
           : certificateFileNDateUpdated
       );
-
+ 
       formData.append(
         "usertype",
         userType == "supplier" ? "Supplier" : "Buyer"
       );
       // Custom submit handler with e.preventDefault()
-
+ 
       // Dispatch the editProfileDetails action (or any other submit action)
       dispatch(editProfileDetails({ userType, id, values: formData })).then(
         (response) => {
@@ -460,15 +460,15 @@ const EditProfileDetails = () => {
       );
     },
   });
-
+ 
   useEffect(() => {
     userType && id && dispatch(fetchOtherUserData({ userType, id }));
   }, [id]);
-
+ 
   useEffect(() => {
     setInitFormValues(formik, otherUserDetails);
   }, [otherUserDetails]);
-
+ 
   // Populate category options from categoryArrays
   useEffect(() => {
     const categoryOptions = categoryArrays?.map((cat) => ({
@@ -477,13 +477,13 @@ const EditProfileDetails = () => {
     }));
     setCategory(categoryOptions || []);
   }, []);
-
+ 
   // Placeholder for dropdown button label
   const getDropdownButtonLabel = ({ value }) => {
     if (!value || value?.length === 0) return "Select...";
     return value?.map((item) => item.label)?.join(", ");
   };
-
+ 
   // Define handlePhoneChange inside Formik to access setFieldValue
   const handlePhoneChange = (name, value) => {
     try {
@@ -496,9 +496,9 @@ const EditProfileDetails = () => {
         );
         return;
       }
-
+ 
       const phoneNumber = parsePhoneNumber(value);
-
+ 
       // If nothing is entered yet, clear fields
       if (!value || !phoneNumber) {
         if (userType === "buyer") {
@@ -510,11 +510,11 @@ const EditProfileDetails = () => {
         }
         return;
       }
-
+ 
       // Extract components
       const countryCode = phoneNumber.countryCallingCode;
       const nationalNumber = phoneNumber.nationalNumber;
-
+ 
       // Update Formik fields based on userType
       if (userType === "buyer") {
         if (name === "buyer_mobile") {
@@ -533,7 +533,7 @@ const EditProfileDetails = () => {
           formik.setFieldValue("contact_person_mobile_no", nationalNumber);
         }
       }
-
+ 
       // Touch the field to trigger validation
       formik.setFieldTouched(name, true, false);
     } catch (error) {
@@ -541,11 +541,11 @@ const EditProfileDetails = () => {
       console.warn("Phone parsing error:", error.message);
     }
   };
-
+ 
   const handleCancel = () => {
     navigate(-1);
   }
-
+ 
   return (
     <div className={styles?.container}>
       <div className={styles?.headContainer}>
@@ -556,17 +556,17 @@ const EditProfileDetails = () => {
           className={styles?.form}
           onSubmit={async (e) => {
             e.preventDefault(); // Prevent the default form submission behavior
-
+ 
             // Wait for form validation to complete
             const errors = await formik?.validateForm();
-
+ 
             // Check if there are any validation errors after validation
             if (Object.keys(errors).length > 0) {
               // Mark all fields as touched
               for (const property in errors) {
                 formik?.setFieldTouched(property, true);
               }
-
+ 
               // Log the touched fields (for debugging)
               // Show error toast if there are validation errors
               toast.error("Please fill the details correctly");
@@ -623,7 +623,7 @@ const EditProfileDetails = () => {
                       </span>
                     )}
               </div>
-
+ 
               <div className={styles?.productContainer}>
                 <label className={styles?.formLabel}>
                   Company Name<span className={styles?.labelStamp}>*</span>
@@ -657,7 +657,7 @@ const EditProfileDetails = () => {
                       </span>
                     )}
               </div>
-
+ 
               <div className={styles?.productContainer}>
                 <label className={styles?.formLabel}>
                   Company Registration No.
@@ -679,7 +679,7 @@ const EditProfileDetails = () => {
                     </span>
                   )}
               </div>
-
+ 
               <div className={styles?.productContainer}>
                 <label className={styles?.formLabel}>
                   GST/VAT Registration No.
@@ -700,7 +700,7 @@ const EditProfileDetails = () => {
                   </span>
                 )}
               </div>
-
+ 
               {userType === "buyer" && (
                 <div className={styles?.productContainer}>
                   <label className={styles?.formLabel}>
@@ -724,7 +724,7 @@ const EditProfileDetails = () => {
                     )}
                 </div>
               )}
-
+ 
                <div className={styles?.productContainer}>
                 <label className={styles?.formLabel}>
                   Company Website
@@ -746,7 +746,7 @@ const EditProfileDetails = () => {
                       </span>
                     )}
               </div>
-
+ 
               <div className={styles?.productContainer}>
                 <label className={styles?.formLabel}>
                   Company Phone No.
@@ -771,7 +771,7 @@ const EditProfileDetails = () => {
                       userType === "supplier"
                         ? "supplier_mobile"
                         : "buyer_mobile";
-
+ 
                     handlePhoneChange(fieldName, value);
                     formik.setFieldTouched(fieldName, true, false); // <-- This is crucial
                   }}
@@ -791,7 +791,7 @@ const EditProfileDetails = () => {
                       </span>
                     )}
               </div>
-
+ 
               <div className={styles?.productContainer}>
                 <label className={styles?.formLabel}>
                   Company Billing Address
@@ -828,7 +828,7 @@ const EditProfileDetails = () => {
                       </span>
                     )}
               </div>
-
+ 
               <div className={styles?.productContainer}>
                 <label className={styles?.formLabel}>
                   Area/Locality/Road Name
@@ -849,7 +849,7 @@ const EditProfileDetails = () => {
                   </span>
                 )}
               </div>
-
+ 
               <div className={styles?.productContainer}>
                 <label className={styles?.formLabel}>Landmark</label>
                 <Field
@@ -862,7 +862,7 @@ const EditProfileDetails = () => {
                   onBlur={formik?.handleBlur}
                 />
               </div>
-
+ 
               <div className={styles?.productContainer}>
                 <label className={styles?.formLabel}>
                   Country
@@ -889,7 +889,7 @@ const EditProfileDetails = () => {
                   </span>
                 )}
               </div>
-
+ 
               <div className={styles?.productContainer}>
                 <label className={styles?.formLabel}>State/Province</label>
                 <Select
@@ -925,7 +925,7 @@ const EditProfileDetails = () => {
                   placeholder="Select State"
                 />
               </div>
-
+ 
               <div className={styles?.productContainer}>
                 <label className={styles?.formLabel}>City/Town</label>
                 <Select
@@ -1009,7 +1009,7 @@ const EditProfileDetails = () => {
                   placeholder="Select City"
                 />
               </div>
-
+ 
               <div className={styles?.productContainer}>
                 <label className={styles?.formLabel}>Pincode/Postcode</label>
                 <Field
@@ -1022,7 +1022,7 @@ const EditProfileDetails = () => {
                   onBlur={formik?.handleBlur}
                 />
               </div>
-
+ 
               <div className={styles?.productContainer}>
                 <label className={styles?.formLabel}>Medhub Global Sales Representative</label>
                 <Field
@@ -1036,7 +1036,7 @@ const EditProfileDetails = () => {
                   onBlur={formik?.handleBlur}
                 />
               </div>
-
+ 
               <div className={styles?.productContainer}>
                 <label className={styles?.formLabel}>
                   Country of Origin
@@ -1062,7 +1062,7 @@ const EditProfileDetails = () => {
                     </span>
                   )}
               </div>
-
+ 
               <div className={styles?.productContainer}>
                 <label className={styles?.formLabel}>
                   Country of Operation
@@ -1096,7 +1096,7 @@ const EditProfileDetails = () => {
                     </span>
                   )}
               </div>
-
+ 
               {userType === "buyer" && (
                 <div className={styles?.productContainer}>
                   <label className={styles?.formLabel}>
@@ -1113,7 +1113,7 @@ const EditProfileDetails = () => {
                   />
                 </div>
               )}
-
+ 
               <div className={styles?.productContainer}>
                 <label className={styles?.formLabel}>Company License No.</label>
                 <Field
@@ -1126,7 +1126,7 @@ const EditProfileDetails = () => {
                   onBlur={formik?.handleBlur}
                 />
               </div>
-
+ 
               <div className={styles?.productContainer}>
                 <label className={styles?.formLabel}>
                   License Expiry/Renewal Date
@@ -1165,7 +1165,7 @@ const EditProfileDetails = () => {
                   }}
                 />
               </div>
-
+ 
               {userType === "supplier" && (
                 <div className={styles?.productContainer}>
                   <label className={styles?.formLabel}>
@@ -1188,7 +1188,7 @@ const EditProfileDetails = () => {
                   )}
                 </div>
               )}
-
+ 
               {userType === "buyer" && (
                 <div className={styles?.productContainer}>
                   <label className={styles?.formLabel}>Interested in</label>
@@ -1219,7 +1219,7 @@ const EditProfileDetails = () => {
                     )}
                 </div>
               )}
-
+ 
               {userType === "supplier" && (
                 <div className={styles?.productContainer}>
                   <label className={styles?.formLabel}>
@@ -1253,7 +1253,7 @@ const EditProfileDetails = () => {
                     )}
                 </div>
               )}
-
+ 
               <div className={styles?.productContainer}>
                 <label className={styles?.formLabel}>
                   About Company
@@ -1275,7 +1275,7 @@ const EditProfileDetails = () => {
                     </span>
                   )}
               </div>
-
+ 
               {userType == "supplier" && (
                 <div className={styles?.productContainer}>
                   <label className={styles?.formLabel}>
@@ -1299,7 +1299,7 @@ const EditProfileDetails = () => {
                     )}
                 </div>
               )}
-
+ 
               <div className={styles?.productContainer}>
                 <label className={styles?.formLabel}>
                   Business/Trade Activity Code
@@ -1323,7 +1323,27 @@ const EditProfileDetails = () => {
               </div>
             </div>
           </div>
-
+ 
+ 
+          {/* subscription */}
+          <div className={styles.section}>
+            <span className={styles.formHead}>Subscription Payment</span>
+            <div className={styles.formSection}>
+              <div className={styles.productContainerTwo}>
+                <Field 
+                 type="checkbox"
+                 name='showSubscriptionUrl'
+                 checked={formik?.values?.showSubscriptionUrl}
+                 onChange={formik?.handleChange}
+                 onBlur = {formik?.handleBlur}
+                />
+                <label className={styles?.formLabel}>
+                  Do you want to add payment link?
+                </label>
+              </div>
+            </div>
+          </div>
+ 
           <div className={styles?.section}>
             <span className={styles?.formHead}>Contact Details</span>
             <div className={styles?.formSection}>
@@ -1347,7 +1367,7 @@ const EditProfileDetails = () => {
                     </span>
                   )}
               </div>
-
+ 
               <div className={styles?.productContainer}>
                 <label className={styles?.formLabel}>
                   Email ID
@@ -1369,7 +1389,7 @@ const EditProfileDetails = () => {
                     </span>
                   )}
               </div>
-
+ 
               <div className={styles?.productContainer}>
                 <label className={styles?.formLabel}>
                   Mobile No.
@@ -1396,7 +1416,7 @@ const EditProfileDetails = () => {
                       userType === "supplier"
                         ? "contact_person_mobile_no"
                         : "contact_person_mobile";
-
+ 
                     handlePhoneChange(fieldName, value);
                     formik.setFieldTouched(fieldName, true, false); // <-- This is crucial
                   }}
@@ -1416,7 +1436,7 @@ const EditProfileDetails = () => {
                       </span>
                     )}
               </div>
-
+ 
               <div className={styles?.productContainer}>
                 <label className={styles?.formLabel}>
                   Designation
@@ -1440,7 +1460,7 @@ const EditProfileDetails = () => {
               </div>
             </div>
           </div>
-
+ 
           <div className={styles?.section}>
             <div className={styles?.formHeadSection}>
               <span className={styles?.formHead}>Certificate</span>
@@ -1464,7 +1484,7 @@ const EditProfileDetails = () => {
                 </span>
               )}
             </div>
-
+ 
             {formik?.values?.certificateFileNDate?.map((ele, index) => (
               <div
                 key={`certification_${index}`}
@@ -1498,7 +1518,7 @@ const EditProfileDetails = () => {
                   {formik?.touched?.certificateFileNDate?.[index]?.file &&
                     formik?.errors?.certificateFileNDate?.[index]?.file}
                 </span>
-
+ 
                 <div className={styles?.productContainer}>
                   <label className={styles?.formLabel}>Date of Expiry</label>
                   <div className={styles?.tooltipContainer}>
@@ -1542,7 +1562,7 @@ const EditProfileDetails = () => {
                       formik?.errors?.certificateFileNDate?.[index]?.date}
                   </span>
                 </div>
-
+ 
                 {formik?.values?.certificateFileNDate?.length > 1 && (
                   <div
                     className={styles?.formCloseSection}
@@ -1559,7 +1579,7 @@ const EditProfileDetails = () => {
                         `certificateFileNDate.${index}.preview`,
                         false
                       );
-
+ 
                       const updatedList =
                         formik?.values?.certificateFileNDate?.filter(
                           (_, elindex) => elindex !== index
@@ -1583,7 +1603,7 @@ const EditProfileDetails = () => {
               </div>
             ))}
           </div>
-
+ 
           <div className={styles?.section}>
             <span className={styles?.formHead}>Documents</span>
             <div className={styles?.formSection}>
@@ -1630,7 +1650,7 @@ const EditProfileDetails = () => {
                   // "application/pdf": [],
                 }}
               />
-
+ 
               <EditFile
                 filePath={
                   userType == "supplier"
@@ -1656,7 +1676,7 @@ const EditProfileDetails = () => {
                   "application/pdf": [],
                 }}
               />
-
+ 
               {(userType === "supplier"
                 ? formik?.values?.supplier_type
                 : formik?.values?.buyer_type) === "Medical Practitioner" && (
@@ -1691,7 +1711,7 @@ const EditProfileDetails = () => {
               )}
             </div>
           </div>
-
+ 
           <div className={styles?.buttonContainer}>
            
             <button type="submit" className={styles?.buttonSubmit}>
@@ -1708,5 +1728,5 @@ const EditProfileDetails = () => {
     </div>
   );
 };
-
+ 
 export default EditProfileDetails;
