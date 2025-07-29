@@ -753,6 +753,14 @@ color:#5e676f;
 .lineChange{
     display: hidden;
 }
+ 
+.buyer-details-inner-head-interested{
+    font-size: 0.825rem;
+    font-weight: 500;
+    min-width: 210px;
+    color:#5e676f;
+}
+ 
 @media screen and (max-width: 1200px){
     .buyers-details-section{
         padding: 28px 16px;
@@ -774,6 +782,12 @@ color:#5e676f;
     }
     .buyer-details-uppar-card-inner-section{
         padding: 28px 16px;
+    }
+    .buyer-details-description-section {
+        padding: 28px 16px;
+    }
+    .buyer-details-inner-head-interested{
+        min-width: 150px;
     }
 }
  

@@ -114,7 +114,7 @@ export const bidValidationSchema = Yup.object().shape({
 
         delivery: Yup.string()
           .required("Delivery details are required")
-          .min(2, "Delivery must be at least 2 characters"),
+          // .min(2, "Delivery must be at least 2 characters"),
       })
     )
     .min(1, "At least one item must be added"),

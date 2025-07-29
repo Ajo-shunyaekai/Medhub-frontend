@@ -369,7 +369,7 @@ const BuyerDetailsNew = () => {
  
  
               <div className="buyer-details-inner-section">
-                <div className="buyer-details-inner-head">Interested In :</div>
+                <div className="buyer-details-inner-head-interested">Interested In :</div>
                 <div className="buyer-details-inner-text">
                   {buyerDetails?.interested_in.length < 6? buyerDetails?.interested_in.slice(0,buyerDetails?.interested_in.length).join(',')
                   :
@@ -395,83 +395,70 @@ const BuyerDetailsNew = () => {
             </div>
             <div className="buyer-details-inner-left-section">
             <div className="newSection">
-                <div className="buyer-details-inner-head">
+                <div className="newHead">
                 Year Company Founded :
                 </div>
-                <div className="buyer-details-inner-text">
+                <div className="newText">
                   {buyerDetails?.yrFounded ? buyerDetails?.yrFounded : '-'}
                 </div>
               </div>
-            <div className="buyer-details-inner-section">
-                <div className="buyer-details-inner-head">
+            <div className="newSection">
+                <div className="newHead">
                   Annual Turnover :
                 </div>
-                <div className="buyer-details-inner-text">
+                <div className="newText">
                   {buyerDetails?.annualTurnover ? `${buyerDetails?.annualTurnover} USD` : '-'}
                 </div>
               </div>
-              <div className="buyer-details-inner-section">
-                <div className="buyer-details-inner-head">
+              <div className="newSection">
+                <div className="newHead">
                   Business/Trade Activity Code :
                 </div>
-                <div className="buyer-details-inner-text">
+                <div className="newText">
                   {buyerDetails?.activity_code || "-"}
                 </div>
               </div>
- 
- 
-              {buyerDetails?.annualTurnover && (
-                <div className="buyer-details-inner-section">
-                  <div className="buyer-details-inner-head">
-                    Annual Turnover :
-                  </div>
-                  <div className="buyer-details-inner-text">
-                    {buyerDetails.annualTurnover}
-                  </div>
+  
+              <div className="newSection">
+                <div className="newHead">
+                  License Expiry Date :
                 </div>
-              )}
- 
-              {buyerDetails?.license_expiry_date && (
-                <div className="buyer-details-inner-section">
-                  <div className="buyer-details-inner-head">
-                    License Expiry Date :
-                  </div>
-                  <div className="buyer-details-inner-text">
-                    {buyerDetails.license_expiry_date}
-                  </div>
+                <div className="newText">
+                  {buyerDetails?.license_expiry_date}
                 </div>
-              )}
-              <div className="buyer-details-inner-section">
-                <div className="buyer-details-inner-head">Contact Name :</div>
-                <div className="buyer-details-inner-text">
+              </div>
+           
+              <div className="newSection">
+                <div className="newHead">Contact Name :</div>
+                <div className="newText">
                   {buyerDetails?.contact_person_name}
                 </div>
               </div>
-              <div className="buyer-details-inner-section">
-                <div className="buyer-details-inner-head">Designation :</div>
-                <div className="buyer-details-inner-text">
+              <div className="newSection">
+                <div className="newHead">Designation :</div>
+                <div className="newText">
                   {buyerDetails?.designation}
                 </div>
               </div>
-              <div className="buyer-details-inner-section">
-                <div className="buyer-details-inner-head">Email ID :</div>
-                <div className="buyer-details-inner-text">
+              <div className="newSection">
+                <div className="newHead">Email ID :</div>
+                <div className="newText">
                   {buyerDetails?.contact_person_email}
                 </div>
               </div>
-              <div className="buyer-details-inner-section">
-                <div className="buyer-details-inner-head">Mobile No. :</div>
-                <div className="buyer-details-inner-text">
+              <div className="newSection">
+                <div className="newHead">Mobile No. :</div>
+                <div className="newText">
                   {buyerDetails?.contact_person_country_code}{" "}
                   {buyerDetails?.contact_person_mobile}
                 </div>
               </div>
  
-              <div className="buyer-details-inner-section">
-                <div className="buyer-details-inner-head">
+              <div className="newSection">
+                <div className="newHead">
                   Country of Operation :
                 </div>
-                <div className="buyer-details-inner-text">
+                <div className="newText">
                   {buyerDetails?.country_of_operation?.join(", ")}
                 </div>
               </div>
