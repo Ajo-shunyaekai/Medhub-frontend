@@ -129,9 +129,14 @@ const BuyerDetailsNew = () => {
           {user?.accessControl?.buyer?.requests?.edit &&
             buyerDetails?.account_status == 1 && (
               <>
-                <Link to={`/admin/edit-details/buyer/${buyerDetails?._id}`}>
-                  <span className="buyer-details-edit-button">Edit</span>
-                </Link>
+                <div className="buyer-details-product-list-section">
+                  <Link to={`/admin/edit-details/buyer/${buyerDetails?._id}`}>
+                    <span className="buyer-details-edit-button">Edit</span>
+                  </Link>
+                  <Link>
+                    <span className="buyer-details-edit-button">Subscribed</span>
+                  </Link>
+                </div>
               </>
             )}
         </div>
@@ -211,8 +216,8 @@ const BuyerDetailsNew = () => {
                 </div>
                 <div className="buyer-details-uppar-right-container-section">
                   <div className="buyer-details-account-container-section">
-                    <div className="buyer-details-inner-section">
-                      <div className="buyer-details-inner-head">
+                    <div className="newSection">
+                      <div className="buyer-details-inner-head-second">
                         Account Status :
                       </div>
                       <div
@@ -233,16 +238,16 @@ const BuyerDetailsNew = () => {
                             : "Inactive"}
                       </div>
                     </div>
-                    <div className="buyer-details-inner-section">
-                      <div className="buyer-details-inner-head">
+                    <div className="newSection">
+                      <div className="buyer-details-inner-head-second">
                         Account Creation Date :
                       </div>
                       <div className="buyer-details-inner-text">
                         {moment(buyerDetails?.createdAt).format("DD-MM-YYYY")}
                       </div>
                     </div>
-                    <div className="buyer-details-inner-section">
-                      <div className="buyer-details-inner-head">
+                    <div className="newSection">
+                      <div className="buyer-details-inner-head-second">
                         Company Type:
                       </div>
                       <div className="buyer-details-inner-text">
@@ -389,7 +394,7 @@ const BuyerDetailsNew = () => {
               </div>
             </div>
             <div className="buyer-details-inner-left-section">
-            <div className="buyer-details-inner-section">
+            <div className="newSection">
                 <div className="buyer-details-inner-head">
                 Year Company Founded :
                 </div>

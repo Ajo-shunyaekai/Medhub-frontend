@@ -159,6 +159,9 @@ const SupplierDetailsNew = () => {
                     <span className="buyer-details-edit-button">Edit</span>
                   </Link>
                 )}
+                <Link>
+                    <span className="buyer-details-edit-button">Subscribed</span>
+                </Link>
               </div>
             </>
           )}
