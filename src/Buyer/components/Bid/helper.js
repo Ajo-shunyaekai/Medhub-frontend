@@ -216,7 +216,6 @@ export const getTimeRemaining = (startDate, startTime = "00:00", endDate, endTim
   const days = Math.floor(duration.asDays());
   const hours = duration.hours();
   const minutes = duration.minutes();
-  if(days > 0) console.log(`${days} day${days !== 1 ? "s" : ""}`);
  
   if (days > 0) return `${days} day${days !== 1 ? "s" : ""}  ${hours} hr${hours !== 1 ? "s":""}  ${minutes} min${minutes !== 1 ? "s":""}`;
   if (hours > 0) return `${hours} hr${hours !== 1 ? "s" : ""} ${minutes} min${minutes !== 1 ? "s":""}`;

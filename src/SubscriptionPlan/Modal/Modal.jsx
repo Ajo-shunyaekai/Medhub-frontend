@@ -1,106 +1,104 @@
-import React, { useEffect, useRef } from 'react';
-import styles from './modal.module.css';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
-import { toast } from 'react-toastify';
- 
-const Modal = ({ isOpen, onClose, couponArray }) => {
+import React, { useEffect, useRef } from "react";
+import styles from "./modal.module.css";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import { toast } from "react-toastify";
+
+const Modal = ({
+  isOpen,
+  onClose,
+  couponArray,
+  selectedPlan,
+  handleClickPurchase,
+}) => {
   const modalRef = useRef(null);
-   const formRef = useRef(); // to reset form
- 
+  const formRef = useRef(); // to reset form
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
         onClose();
       }
     };
- 
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [onClose]);
- 
+
   const initialValues = {
-    couponCode: '',
+    discount: "",
   };
- 
-   useEffect(() => {
+
+  useEffect(() => {
     if (isOpen && formRef.current) {
       formRef.current.resetForm(); // Reset form when modal opens
     }
   }, [isOpen]);
- 
+
   const validationSchema = Yup.object({
-    couponCode: Yup.string()
-    //   .min(3, 'Must be at least 3 characters')
-      .required('Coupon code is required')
-      .max(25, 'Maximum character should be 25')
+    discount: Yup.string()
+      //   .min(3, 'Must be at least 3 characters')
+      .required("Coupon code is required")
+      .oneOf(
+        ["SAVET1-99", "SAVET2-198", "SAVET3-297", "SAVET4-396", "SAVET6-594"],
+        "Invalid Coupon Code"
+      )
+      .max(25, "Maximum character should be 25"),
   });
- 
+
   const handleSubmit = (values) => {
-    const match = couponArray.some((coupon)=> coupon.code === values.couponCode);
-    if(match){
-        toast.success("Coupon Code Matched");
-        onClose();
-    }
-    else{
-        toast.error("Coupon code doesn't mathces");
-    }
+    handleClickPurchase(selectedPlan, values?.discount);
   };
- 
- 
+
   if (!isOpen) return null;
   return (
     <div className={styles.overlay}>
       <div className={styles.modal} ref={modalRef}>
         <h2 className={styles.heading}>Enter Your Coupon Code</h2>
- 
+
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
-          {({ values, resetForm }) =>{
-            return(
-                <Form className={styles.form}>
+          {({ values, resetForm }) => {
+            return (
+              <Form className={styles.form}>
                 <div className={styles.inputWrapper}>
-                    <Field
-                        name="couponCode"
-                        type="text"
-                        placeholder="Coupon Code"
-                        className={styles.input}
-                    />
-                    <ErrorMessage
-                        name="couponCode"
-                        component="span"
-                        className={styles.error}
-                    />
+                  <Field
+                    name="discount"
+                    type="text"
+                    placeholder="Coupon Code"
+                    className={styles.input}
+                  />
+                  <ErrorMessage
+                    name="discount"
+                    component="span"
+                    className={styles.error}
+                  />
                 </div>
- 
+
                 <div className={styles.btnDiv}>
-                    <button
-                    type="submit"
-                    className={styles.applyBtn}
-                    >
+                  <button type="submit" className={styles.applyBtn}>
                     Apply
-                    </button>
-                    <button
+                  </button>
+                  <button
                     type="button"
                     className={styles.skipBtn}
                     onClick={() => {
-                        onClose();
-                    }} 
-                    >
+                      onClose();
+                    }}
+                  >
                     Skip
-                    </button>
+                  </button>
                 </div>
-                </Form>
-            )
+              </Form>
+            );
           }}
         </Formik>
       </div>
     </div>
   );
 };
- 
+
 export default Modal;
- 

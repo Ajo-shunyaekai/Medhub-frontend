@@ -14,8 +14,7 @@ import { pdf } from "@react-pdf/renderer";
 const Loader = lazy(() =>
   import("../Buyer/components/SharedComponents/Loader/Loader")
 );
- 
- 
+
 const SubscriptionPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -24,24 +23,25 @@ const SubscriptionPage = () => {
     (state) => state?.subscriptionReducer
   );
   const [activePlan, setActivePlan] = useState(null);
- 
+
   /* modal of verify coupon */
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState(false);
   const couponArray = [
     {
-      code:"Roshan"
+      code: "Roshan",
     },
     {
-      code:"Rohit"
+      code: "Rohit",
     },
     {
-      code:"Gaurav"
+      code: "Gaurav",
     },
     {
-      code:"Rishav"
+      code: "Rishav",
     },
-  ]
- 
+  ];
+
   const subscriptionPlans = [
     {
       type: "Monthly Subscription",
@@ -58,11 +58,11 @@ const SubscriptionPage = () => {
       bgColor: "#d137dd",
     },
   ];
- 
+
   const handleCardClick = (plan) => {
     setActivePlan(plan);
   };
- 
+
   const handlePayment = async (pdfBlob, duration, pkg, email, invoiceData) => {
     const formData = new FormData();
     formData.append("plan_name", pkg);
@@ -71,7 +71,7 @@ const SubscriptionPage = () => {
     formData.append("userType", userType);
     formData.append("userId", userId || user?._id);
     formData.append("invoice_pdf", pdfBlob, "Invoice.pdf"); // Ensure the filename is set here
- 
+
     // Append invoice data (you can either send it as individual fields or as a JSON string)
     // formData.append("invoice_data", JSON.stringify(invoiceData)); // Sending invoiceData as a JSON string
     for (const key in invoiceData) {
@@ -80,9 +80,9 @@ const SubscriptionPage = () => {
         formData.append(key, element);
       }
     }
- 
+
     dispatch(createSubscriptionSession(formData));
- 
+
     // dispatch(
     //   createSubscriptionSession({
     //     plan_name: pkg,
@@ -93,7 +93,7 @@ const SubscriptionPage = () => {
     //   })
     // );
   };
- 
+
   const generatePDF = (duration, pkg, email, invoiceData) => {
     const invoiceComponent = (
       <InvoicePDF
@@ -102,7 +102,7 @@ const SubscriptionPage = () => {
         user={user}
       />
     );
- 
+
     return new Promise((resolve, reject) => {
       pdf(invoiceComponent)
         .toBlob()
@@ -112,13 +112,13 @@ const SubscriptionPage = () => {
         .catch(reject);
     });
   };
- 
+
   useEffect(() => {
     if (userId && userType) {
       dispatch(fetchUserData({ id: userId, type: userType }));
     }
   }, [userId, userType]);
- 
+
   useEffect(() => {
     if (user?.currentSubscription) {
       dispatch(
@@ -129,24 +129,22 @@ const SubscriptionPage = () => {
       );
     }
   }, [user?.currentSubscription]);
- 
-  const handleClickPurchase = (index) => {
+
+  const handleClickPurchase = (index, discount) => {
     const duration = subscriptionPlans?.[index]?.duration;
     const pkg = subscriptionPlans?.[index]?.type;
     const email = user?.contact_person_email || user?.email;
     const selectedPlan = subscriptionPlans.find((p) => p.pkg === pkg);
     const invoiceData = {
       name: pkg,
+      discount,
       amount: selectedPlan?.price || 0,
       subscriptionStartDate: new Date(),
       invoiceNumber: "INV-" + Math.floor(Math.random() * 1000000),
     };
- 
-    console.log("cleced 1", user);
- 
+
     generatePDF(duration, pkg, email, invoiceData)
       .then(({ pdfBlob }) => {
-        console.log("cleced 2");
         handlePayment(
           pdfBlob,
           duration,
@@ -159,7 +157,7 @@ const SubscriptionPage = () => {
         console.error("Error generating PDF:", error);
       });
   };
- 
+
   return (
     <>
       {loading ? (
@@ -366,14 +364,13 @@ const SubscriptionPage = () => {
                   <div className={styles.subscriptionContainer}>
                     <div
                       className={styles.button}
-                       onClick={()=>handleClickPurchase(0)} 
-                      // onClick = {()=> setIsOpen(true)}
+                      onClick={() => handleClickPurchase(0)}
                     >
                       Purchase Now
                     </div>
                   </div>
                 </div>
- 
+
                 <div
                   className={`${styles.card} ${
                     activePlan === "yearly" ? styles.activeCard : ""
@@ -419,8 +416,11 @@ const SubscriptionPage = () => {
                   <div className={styles.subscriptionContainer}>
                     <div
                       className={styles.button}
-                       onClick={()=>handleClickPurchase(1)} 
-                      // onClick = {()=> setIsOpen(true)}
+                      // onClick={() => handleClickPurchase(1)}
+                      onClick={() => {
+                        setSelectedPlan(1);
+                        setIsOpen(true);
+                      }}
                     >
                       Purchase Now
                     </div>
@@ -431,11 +431,21 @@ const SubscriptionPage = () => {
           </div>
         </div>
       )}
- 
+
       {/* modal rendering here */}
-      {/* {isOpen && <Modal isOpen={isOpen} onClose={()=>{setIsOpen(false);}} couponArray={couponArray}/>} */}
+      {isOpen && (
+        <Modal
+          isOpen={isOpen}
+          onClose={() => {
+            setIsOpen(false);
+          }}
+          couponArray={couponArray}
+          selectedPlan={selectedPlan}
+          handleClickPurchase={handleClickPurchase}
+        />
+      )}
     </>
   );
 };
- 
+
 export default SubscriptionPage;
