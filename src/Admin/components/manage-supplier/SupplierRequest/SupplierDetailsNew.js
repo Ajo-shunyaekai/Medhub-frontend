@@ -16,12 +16,14 @@ import {
   extractLast13WithExtension,
   renderFiles,
 } from "../../../../utils/helper";
-import { useSelector } from "react-redux";
-import RenderFiles from '../../../../Buyer/components/Buy/Details/RenderFiles'
+import { useDispatch, useSelector } from "react-redux";
+import RenderFiles from "../../../../Buyer/components/Buy/Details/RenderFiles";
 import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
- 
+import { sendSubscriptionPaymentUrlEmail } from "../../../../redux/reducers/subscriptionSlice";
+
 const SupplierDetailsNew = () => {
+  const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [supplierDetails, setSupplierDetails] = useState();
   const { supplierId } = useParams();
@@ -35,37 +37,40 @@ const SupplierDetailsNew = () => {
   const [salesPersonName, setSalesPersonName] = useState("");
   const [isEditable, setIsEditable] = useState(false);
   const { user } = useSelector((state) => state.userReducer);
- 
+
   /* handling inner width as per view port */
-  const [handleScreeenWidth, setHandleScreenWidth] = useState(window.innerWidth);
- 
-  useEffect(()=>{
+  const [handleScreeenWidth, setHandleScreenWidth] = useState(
+    window.innerWidth
+  );
+
+  useEffect(() => {
     const handleResize = () => setHandleScreenWidth(window.innerWidth);
- 
+
     window.addEventListener("resize", handleResize);
-    return window.removeEventListener("resize",handleResize);
-  },[])
- 
-  const shouldLineBreak = (handleScreeenWidth >= 992 && handleScreeenWidth <= 1080) || (handleScreeenWidth >= 1130 && handleScreeenWidth <= 1220);
- 
- 
+    return window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const shouldLineBreak =
+    (handleScreeenWidth >= 992 && handleScreeenWidth <= 1080) ||
+    (handleScreeenWidth >= 1130 && handleScreeenWidth <= 1220);
+
   const handleEditClick = () => {
     setIsEditable(true);
   };
- 
+
   const handleChange = (e) => {
     setSalesPersonName(e.target.value);
   };
- 
+
   const openModal = (url) => {
     window.open(url, "_blank");
   };
- 
+
   const closeModal = () => {
     setOpen(false);
     setPdfUrl(null);
   };
- 
+
   useEffect(() => {
     const getSupplierdetails = async () => {
       if (!adminIdSessionStorage && !adminIdLocalStorage) {
@@ -73,7 +78,7 @@ const SupplierDetailsNew = () => {
         navigate("/admin/login");
         return;
       }
- 
+
       const obj = {
         admin_id: adminIdSessionStorage || adminIdLocalStorage,
         supplier_id: supplierId,
@@ -88,11 +93,11 @@ const SupplierDetailsNew = () => {
         }
         setSupplierDetails(response?.result);
         setSalesPersonName(response?.result?.sales_person_name);
-      } catch (error) { }
+      } catch (error) {}
     };
     getSupplierdetails();
   }, [adminIdSessionStorage, adminIdLocalStorage, supplierId, navigate]);
- 
+
   const handleRejectClick = () => {
     setIsModalOpen(true);
   };
@@ -109,13 +114,13 @@ const SupplierDetailsNew = () => {
       });
       return;
     }
- 
+
     if (action === "accept") {
       setLoading(true);
     } else if (action === "reject") {
       setRejectLoading(true);
     }
- 
+
     postRequestWithToken(
       "admin/accept-reject-supplier-registration",
       obj,
@@ -134,7 +139,18 @@ const SupplierDetailsNew = () => {
       }
     );
   };
- 
+
+  const sendPaymentUrlEmail = async () => {
+    dispatch(sendSubscriptionPaymentUrlEmail({
+      userType: "Supplier",
+      id: supplierId,
+    })).then((response) => {
+      if (response?.meta.requestStatus === "fulfilled") {
+        toast.success("Email sent.");
+      }
+    });
+  };
+
   return (
     <div className="buyer-details-container">
       <div className="buyer-details-inner-conatiner">
@@ -142,7 +158,7 @@ const SupplierDetailsNew = () => {
           <span className="buyer-details-container-heading">
             Supplier ID: {supplierDetails?.supplier_id}
           </span>
-          {supplierDetails?.account_status == 1 && (
+          {supplierDetails?.account_status == 1 ? (
             <>
               <div className="buyer-details-product-list-section">
                 <Link
@@ -156,12 +172,60 @@ const SupplierDetailsNew = () => {
                   <Link
                     to={`/admin/edit-details/supplier/${supplierDetails?._id}`}
                   >
-                    <span className="buyer-details-edit-button">Edit</span>
+                    <span className="buyer-details-green-button">Edit</span>
                   </Link>
                 )}
-                <Link>
-                    <span className="buyer-details-edit-button">Subscribed</span>
-                </Link>
+                {user?.accessControl?.supplier?.requests?.edit && (
+                  <>
+                    <Link onClick={sendPaymentUrlEmail}>
+                      <span
+                        className={
+                          supplierDetails?.currentSubscription
+                            ? "buyer-details-green-button"
+                            : "buyer-details-red-button"
+                        }
+                        data-tooltip-id="subscription-tooltip"
+                        title={
+                          supplierDetails?.currentSubscription
+                            ? "Subscribed"
+                            : "Send Payment Link"
+                        }
+                      >
+                        {supplierDetails?.currentSubscription
+                          ? "Subscribed"
+                          : "Send Payment Link"}
+                      </span>
+                    </Link>
+                  </>
+                )}
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="buyer-details-product-list-section">
+                {user?.accessControl?.supplier?.requests?.edit && (
+                  <>
+                    <Link onClick={sendPaymentUrlEmail}>
+                      <span
+                        className={
+                          supplierDetails?.currentSubscription
+                            ? "buyer-details-green-button"
+                            : "buyer-details-red-button"
+                        }
+                        data-tooltip-id="subscription-tooltip"
+                        title={
+                          supplierDetails?.currentSubscription
+                            ? "Subscribed"
+                            : "Send Payment Link"
+                        }
+                      >
+                        {supplierDetails?.currentSubscription
+                          ? "Subscribed"
+                          : "Send Payment Link"}
+                      </span>
+                    </Link>
+                  </>
+                )}
               </div>
             </>
           )}
@@ -197,7 +261,7 @@ const SupplierDetailsNew = () => {
                         <PhoneInTalkOutlinedIcon
                           data-tooltip-id={
                             supplierDetails?.supplier_country_code &&
-                              supplierDetails?.supplier_mobile
+                            supplierDetails?.supplier_mobile
                               ? "my-tooltip-1"
                               : null
                           }
@@ -227,17 +291,17 @@ const SupplierDetailsNew = () => {
                         style={{
                           backgroundColor:
                             supplierDetails?.account_status === 0
-                              ? "orange"
+                              ? "#f4c414"
                               : supplierDetails?.account_status === 1
-                                ? "green"
-                                : "red",
+                              ? "#31c971"
+                              : "red",
                         }}
                       >
                         {supplierDetails?.account_status === 0
                           ? "Pending"
                           : supplierDetails?.account_status === 1
-                            ? "Active"
-                            : "Inactive"}
+                          ? "Active"
+                          : "Inactive"}
                       </div>
                     </div>
                     <div className="newSection">
@@ -311,8 +375,8 @@ const SupplierDetailsNew = () => {
                 </div>
                 <div className="buyer-details-inner-text">
                   {user?.accessControl?.supplier?.requests?.edit &&
-                    supplierDetails?.account_status == 0 &&
-                    isEditable ? (
+                  supplierDetails?.account_status == 0 &&
+                  isEditable ? (
                     <input
                       type="text"
                       defaultValue={supplierDetails?.sales_person_name}
@@ -341,15 +405,17 @@ const SupplierDetailsNew = () => {
                   {supplierDetails?.vat_reg_no}
                 </div>
               </div>
-               {supplierDetails?.yrFounded && (
+              {supplierDetails?.yrFounded && (
                 <div className="buyer-details-inner-section">
-                  <div className="buyer-details-inner-head">Year Company Founded :</div>
+                  <div className="buyer-details-inner-head">
+                    Year Company Founded :
+                  </div>
                   <div className="buyer-details-inner-text">
                     {supplierDetails?.yrFounded}
                   </div>
                 </div>
               )}
-               {supplierDetails?.license_no && (
+              {supplierDetails?.license_no && (
                 <div className="buyer-details-inner-section">
                   <div className="buyer-details-inner-head">License No. :</div>
                   <div className="buyer-details-inner-text">
@@ -358,12 +424,12 @@ const SupplierDetailsNew = () => {
                 </div>
               )}
               {supplierDetails?.tags && (
-               <div className="buyer-details-inner-section">
-                <div className="buyer-details-inner-head">Tags :</div>
-                <div className="buyer-details-inner-text">
-                  {supplierDetails?.tags}
+                <div className="buyer-details-inner-section">
+                  <div className="buyer-details-inner-head">Tags :</div>
+                  <div className="buyer-details-inner-text">
+                    {supplierDetails?.tags}
+                  </div>
                 </div>
-              </div>
               )}
               <div className="buyer-details-inner-section">
                 <div className="buyer-details-inner-head">
@@ -373,105 +439,94 @@ const SupplierDetailsNew = () => {
                   {supplierDetails?.country_of_origin}
                 </div>
               </div>
-              
+
               <div className="buyer-details-inner-section">
                 <div className="buyer-details-inner-head">
                   Category you Trade in :
                 </div>
                 <div className="buyer-details-inner-text">
-                  {supplierDetails?.categories.length < 6 ?
-                   (supplierDetails?.categories.slice(0,5).join(','))
-                   :
-                    (
-                      <>
-                       {window.innerWidth < 1380 ? supplierDetails?.categories.slice(0,4).join(','): supplierDetails?.categories.slice(0,4).join(',')}
-                       <span>{"..."}</span>
-                       {shouldLineBreak && <br/>}
-                       <span 
-                       className="view-more"
-                       id="admin-supplier">View More</span>
-                       <Tooltip
+                  {supplierDetails?.categories.length < 6 ? (
+                    supplierDetails?.categories.slice(0, 5).join(",")
+                  ) : (
+                    <>
+                      {window.innerWidth < 1380
+                        ? supplierDetails?.categories.slice(0, 4).join(",")
+                        : supplierDetails?.categories.slice(0, 4).join(",")}
+                      <span>{"..."}</span>
+                      {shouldLineBreak && <br />}
+                      <span className="view-more" id="admin-supplier">
+                        View More
+                      </span>
+                      <Tooltip
                         anchorId="admin-supplier"
-                        content={supplierDetails?.categories.join(',')}
+                        content={supplierDetails?.categories.join(",")}
                         delayHide={500}
                         place="bottom-start"
                         className="toolTipNew"
-                       />
-                      </>
-                    )
-                  }
+                      />
+                    </>
+                  )}
                 </div>
               </div>
- 
-              
-              
             </div>
             <div className="buyer-details-inner-left-section">
-                {supplierDetails?.annualTurnover && (
+              {supplierDetails?.annualTurnover && (
                 <div className="newSection">
-                    <div className="newHead">Annual Turnover :</div>
-                    <div className="newText">
-                      {supplierDetails?.annualTurnover ? `${supplierDetails?.annualTurnover} USD` : '-'}
-                    </div>
-                  </div>
-                )}
-                
-                <div className="newSection">
-                  <div className="newHead">
-                    Business/Trade Activity Code :
-                  </div>
+                  <div className="newHead">Annual Turnover :</div>
                   <div className="newText">
-                    {supplierDetails?.activity_code || "-"}
+                    {supplierDetails?.annualTurnover
+                      ? `${supplierDetails?.annualTurnover} USD`
+                      : "-"}
                   </div>
                 </div>
-                {/* Conditionally render License Expiry Date */}
-                {supplierDetails?.license_expiry_date && (
-                  <div className="newSection">
-                    <div className="newHead">
-                      License Expiry Date :
-                    </div>
-                    <div className="newText">
-                      {supplierDetails?.license_expiry_date}
-                    </div>
-                  </div>
-                )}
-  
+              )}
+
+              <div className="newSection">
+                <div className="newHead">Business/Trade Activity Code :</div>
+                <div className="newText">
+                  {supplierDetails?.activity_code || "-"}
+                </div>
+              </div>
+              {/* Conditionally render License Expiry Date */}
+              {supplierDetails?.license_expiry_date && (
                 <div className="newSection">
-                  <div className="newHead">
-                    Contact Person Name :
-                  </div>
+                  <div className="newHead">License Expiry Date :</div>
                   <div className="newText">
-                    {supplierDetails?.contact_person_name}
+                    {supplierDetails?.license_expiry_date}
                   </div>
                 </div>
-                <div className="newSection">
-                  <div className="newHead">Designation :</div>
-                  <div className="newText">
-                    {supplierDetails?.designation}
-                  </div>
+              )}
+
+              <div className="newSection">
+                <div className="newHead">Contact Person Name :</div>
+                <div className="newText">
+                  {supplierDetails?.contact_person_name}
                 </div>
-                <div className="newSection">
-                  <div className="newHead">Email ID :</div>
-                  <div className="newText">
-                    {supplierDetails?.contact_person_email}
-                  </div>
+              </div>
+              <div className="newSection">
+                <div className="newHead">Designation :</div>
+                <div className="newText">{supplierDetails?.designation}</div>
+              </div>
+              <div className="newSection">
+                <div className="newHead">Email ID :</div>
+                <div className="newText">
+                  {supplierDetails?.contact_person_email}
                 </div>
-                <div className="newSection">
-                  <div className="newHead">Mobile No. :</div>
-                  <div className="newText">
-                    {supplierDetails?.contact_person_country_code}{" "}
-                    {supplierDetails?.contact_person_mobile_no}
-                  </div>
+              </div>
+              <div className="newSection">
+                <div className="newHead">Mobile No. :</div>
+                <div className="newText">
+                  {supplierDetails?.contact_person_country_code}{" "}
+                  {supplierDetails?.contact_person_mobile_no}
                 </div>
-  
-                <div className="newSection">
-                  <div className="newHead">
-                    Country of Operation :
-                  </div>
-                  <div className="newText">
-                    {supplierDetails?.country_of_operation?.join(", ")}
-                  </div>
+              </div>
+
+              <div className="newSection">
+                <div className="newHead">Country of Operation :</div>
+                <div className="newText">
+                  {supplierDetails?.country_of_operation?.join(", ")}
                 </div>
+              </div>
             </div>
           </div>
         </div>
@@ -488,7 +543,7 @@ const SupplierDetailsNew = () => {
                       supplierDetails?.medical_certificate,
                       "medical_practitioner_image"
                     )} */}
-                     <RenderFiles files={supplierDetails?.medical_certificate} />
+                    <RenderFiles files={supplierDetails?.medical_certificate} />
                   </div>
                 </div>
               )}
@@ -524,16 +579,21 @@ const SupplierDetailsNew = () => {
                   )} */}
                   {supplierDetails?.certificateFileNDate?.map((ele, index) => (
                     <div key={index}>
-                      <RenderFiles files={[ele?.file || supplierDetails?.certificate_image?.[index]]} />
-                       {/* {ele?.date && <p>{moment(ele?.date).format("DD MMM YYYY")}</p>} */}
-                       {ele?.date && <p>{ele?.date}</p>}
+                      <RenderFiles
+                        files={[
+                          ele?.file ||
+                            supplierDetails?.certificate_image?.[index],
+                        ]}
+                      />
+                      {/* {ele?.date && <p>{moment(ele?.date).format("DD MMM YYYY")}</p>} */}
+                      {ele?.date && <p>{ele?.date}</p>}
                     </div>
                   ))}
                 </div>
               </div>
             </div>
           </div>
- 
+
           {/* Modal for PDF viewing */}
           <Modal open={open} onClose={closeModal} center>
             {pdfUrl ? (
@@ -547,7 +607,7 @@ const SupplierDetailsNew = () => {
             )}
           </Modal>
         </div>
- 
+
         <div className="buyer-details-container2">
           {/* Rest of your JSX content */}
           {user?.accessControl?.supplier?.requests?.edit &&
@@ -574,16 +634,16 @@ const SupplierDetailsNew = () => {
                 </div>
               </div>
             )}
- 
+
           {user?.accessControl?.supplier?.requests?.edit &&
             supplierDetails?.account_status == 0 &&
             isModalOpen && <SupplierCustomModal onClose={closeModal} />}
         </div>
- 
+
         <div className="bottomMargin"></div>
       </div>
     </div>
   );
 };
- 
+
 export default SupplierDetailsNew;

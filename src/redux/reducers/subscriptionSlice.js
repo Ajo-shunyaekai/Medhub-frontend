@@ -103,6 +103,19 @@ export const sendSubscriptionPaymentEmail = createAsyncThunk(
     }
   }
 );
+export const sendSubscriptionPaymentUrlEmail = createAsyncThunk(
+  "subscription/sendSubscriptionPaymentUrlEmail",
+  async ({ userType, id }, { rejectWithValue }) => {
+    try {
+      const response = await apiRequests?.getRequest(
+        `${process.env.REACT_APP_API_URL}subscription/send-pay-url/${userType}/${id}`
+      );
+    } catch (error) {
+      // Log and pass the error
+      return rejectWithValue(error?.response?.data || error.message);
+    }
+  }
+);
 
 export const subscriptionSlice = createSlice({
   name: "subscription",
@@ -152,6 +165,19 @@ export const subscriptionSlice = createSlice({
         state.subscriptionDetails = action?.payload;
       })
       .addCase(saveSubscriptionPayment.rejected, (state, action) => {
+        state.status = "failed";
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(sendSubscriptionPaymentUrlEmail.pending, (state) => {
+        state.status = "loading";
+        state.loading = true;
+      })
+      .addCase(sendSubscriptionPaymentUrlEmail.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.loading = false;
+      })
+      .addCase(sendSubscriptionPaymentUrlEmail.rejected, (state, action) => {
         state.status = "failed";
         state.loading = false;
         state.error = action.payload;
