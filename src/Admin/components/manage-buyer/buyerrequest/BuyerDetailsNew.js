@@ -15,10 +15,12 @@ import {
   extractLast13WithExtension,
   renderFiles,
 } from "../../../../utils/helper";
-import { useSelector } from "react-redux";
-import RenderFiles from '../../../../Buyer/components/Buy/Details/RenderFiles'
- 
+import { useDispatch, useSelector } from "react-redux";
+import RenderFiles from "../../../../Buyer/components/Buy/Details/RenderFiles";
+import { sendSubscriptionPaymentUrlEmail } from "../../../../redux/reducers/subscriptionSlice";
+
 const BuyerDetailsNew = () => {
+  const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { buyerId } = useParams();
   const navigate = useNavigate();
@@ -29,28 +31,28 @@ const BuyerDetailsNew = () => {
   const [salesPersonName, setSalesPersonName] = useState("");
   const [isEditable, setIsEditable] = useState(false);
   const { user } = useSelector((state) => state.userReducer);
- 
+
   const handleEditClick = () => {
     setIsEditable(true);
   };
- 
+
   const handleChange = (e) => {
     setSalesPersonName(e.target.value);
   };
- 
+
   const openModal = (url) => {
     window.open(url, "_blank");
   };
- 
+
   const closeModal = () => {
     setOpen(false);
     setPdfUrl(null);
   };
- 
+
   const [loading, setLoading] = useState(false);
   const [rejectLoading, setRejectLoading] = useState(false);
   const [buyerDetails, setBuyerDetails] = useState();
- 
+
   useEffect(() => {
     const getBuyerDetails = async () => {
       if (!adminIdSessionStorage && !adminIdLocalStorage) {
@@ -62,7 +64,7 @@ const BuyerDetailsNew = () => {
         admin_id: adminIdSessionStorage || adminIdLocalStorage,
         buyer_id: buyerId,
       };
- 
+
       try {
         const response = await apiRequests.getRequest(
           `buyer/get-specific-buyer-details/${buyerId}`,
@@ -73,11 +75,11 @@ const BuyerDetailsNew = () => {
         }
         setBuyerDetails(response?.result);
         setSalesPersonName(response?.result?.sales_person_name);
-      } catch (error) { }
+      } catch (error) {}
     };
     getBuyerDetails();
   }, []);
- 
+
   const handleAcceptReject = (action) => {
     const obj = {
       admin_id: adminIdSessionStorage || adminIdLocalStorage,
@@ -96,7 +98,7 @@ const BuyerDetailsNew = () => {
     } else if (action === "reject") {
       setRejectLoading(true);
     }
- 
+
     postRequestWithToken(
       "admin/accept-reject-buyer-registration",
       obj,
@@ -116,9 +118,24 @@ const BuyerDetailsNew = () => {
       }
     );
   };
+
   const handleRejectClick = () => {
     setIsModalOpen(true);
   };
+
+  const sendPaymentUrlEmail = async () => {
+    dispatch(
+      sendSubscriptionPaymentUrlEmail({
+        userType: "Supplier",
+        id: buyerId,
+      })
+    ).then((response) => {
+      if (response?.meta.requestStatus === "fulfilled") {
+        toast.success("Email sent.");
+      }
+    });
+  };
+
   return (
     <div className="buyer-details-container">
       <div className="buyer-details-inner-conatiner">
@@ -133,9 +150,27 @@ const BuyerDetailsNew = () => {
                   <Link to={`/admin/edit-details/buyer/${buyerDetails?._id}`}>
                     <span className="buyer-details-edit-button">Edit</span>
                   </Link>
-                  <Link>
-                    <span className="buyer-details-edit-button">Subscribed</span>
-                  </Link>
+                  <>
+                    <Link onClick={sendPaymentUrlEmail}>
+                      <span
+                        className={
+                          buyerDetails?.currentSubscription
+                            ? "buyer-details-green-button"
+                            : "buyer-details-red-button"
+                        }
+                        data-tooltip-id="subscription-tooltip"
+                        title={
+                          buyerDetails?.currentSubscription
+                            ? "Subscribed"
+                            : "Send Payment Link"
+                        }
+                      >
+                        {buyerDetails?.currentSubscription
+                          ? "Subscribed"
+                          : "Send Payment Link"}
+                      </span>
+                    </Link>
+                  </>
                 </div>
               </>
             )}
@@ -171,7 +206,7 @@ const BuyerDetailsNew = () => {
                         <PhoneInTalkOutlinedIcon
                           data-tooltip-id={
                             buyerDetails?.buyer_country_code &&
-                              buyerDetails?.buyer_mobile
+                            buyerDetails?.buyer_mobile
                               ? "my-tooltip-1"
                               : null
                           }
@@ -227,15 +262,15 @@ const BuyerDetailsNew = () => {
                             buyerDetails?.account_status === 0
                               ? "orange"
                               : buyerDetails?.account_status === 1
-                                ? "green"
-                                : "red",
+                              ? "green"
+                              : "red",
                         }}
                       >
                         {buyerDetails?.account_status === 0
                           ? "Pending"
                           : buyerDetails?.account_status === 1
-                            ? "Active"
-                            : "Inactive"}
+                          ? "Active"
+                          : "Inactive"}
                       </div>
                     </div>
                     <div className="newSection">
@@ -295,8 +330,8 @@ const BuyerDetailsNew = () => {
                 </div>
                 <div className="buyer-details-inner-text">
                   {user?.accessControl?.buyer?.requests?.edit &&
-                    buyerDetails?.account_status == 0 &&
-                    isEditable ? (
+                  buyerDetails?.account_status == 0 &&
+                  isEditable ? (
                     <input
                       type="text"
                       defaultValue={buyerDetails?.sales_person_name}
@@ -325,20 +360,16 @@ const BuyerDetailsNew = () => {
                   {buyerDetails?.vat_reg_no}
                 </div>
               </div>
-               {buyerDetails?.license_no && (
+              {buyerDetails?.license_no && (
                 <div className="buyer-details-inner-section">
-                  <div className="buyer-details-inner-head">
-                    License No. :
-                  </div>
+                  <div className="buyer-details-inner-head">License No. :</div>
                   <div className="buyer-details-inner-text">
                     {buyerDetails.license_no}
                   </div>
                 </div>
- 
- 
               )}
- 
-               {buyerDetails?.yrFounded && (
+
+              {buyerDetails?.yrFounded && (
                 <div className="buyer-details-inner-section">
                   <div className="buyer-details-inner-head">
                     Year Company Founded :
@@ -347,8 +378,6 @@ const BuyerDetailsNew = () => {
                     {buyerDetails.yrFounded}
                   </div>
                 </div>
- 
- 
               )}
               <div className="buyer-details-inner-section">
                 <div className="buyer-details-inner-head">
@@ -366,48 +395,58 @@ const BuyerDetailsNew = () => {
                   {buyerDetails?.country_of_origin}
                 </div>
               </div>
- 
- 
+
               <div className="buyer-details-inner-section">
                 <div className="buyer-details-inner-head">Interested In :</div>
                 <div className="buyer-details-inner-text">
-                  {buyerDetails?.interested_in.length < 6? buyerDetails?.interested_in.slice(0,buyerDetails?.interested_in.length).join(',')
-                  :
-                  <>
-                   {
-                    window.innerWidth < 1380 ? buyerDetails?.interested_in.slice(0,4).join(","): buyerDetails?.interested_in.slice(0,5).join(',')
-                   }
-                   <span>{"..."}</span>
-                   <span id="admin_buyer"
-                    style={{ textDecoration: "underline" , color:'#0075ce'}}
-                   >View More</span>
-                   <ReactTooltip
-                    anchorId="admin_buyer"
-                    place="bottom-start"
-                    delayHide={500}
-                    className="toolTipNew"
-                    content={buyerDetails?.interested_in.join(',')}
-                   />
-                  </> 
-                  }
+                  {buyerDetails?.interested_in.length < 6 ? (
+                    buyerDetails?.interested_in
+                      .slice(0, buyerDetails?.interested_in.length)
+                      .join(",")
+                  ) : (
+                    <>
+                      {window.innerWidth < 1380
+                        ? buyerDetails?.interested_in.slice(0, 4).join(",")
+                        : buyerDetails?.interested_in.slice(0, 5).join(",")}
+                      <span>{"..."}</span>
+                      <span
+                        id="admin_buyer"
+                        style={{
+                          textDecoration: "underline",
+                          color: "#0075ce",
+                        }}
+                      >
+                        View More
+                      </span>
+                      <ReactTooltip
+                        anchorId="admin_buyer"
+                        place="bottom-start"
+                        delayHide={500}
+                        className="toolTipNew"
+                        content={buyerDetails?.interested_in.join(",")}
+                      />
+                    </>
+                  )}
                 </div>
               </div>
             </div>
             <div className="buyer-details-inner-left-section">
-            <div className="newSection">
+              <div className="newSection">
                 <div className="buyer-details-inner-head">
-                Year Company Founded :
+                  Year Company Founded :
                 </div>
                 <div className="buyer-details-inner-text">
-                  {buyerDetails?.yrFounded ? buyerDetails?.yrFounded : '-'}
+                  {buyerDetails?.yrFounded ? buyerDetails?.yrFounded : "-"}
                 </div>
               </div>
-            <div className="buyer-details-inner-section">
+              <div className="buyer-details-inner-section">
                 <div className="buyer-details-inner-head">
                   Annual Turnover :
                 </div>
                 <div className="buyer-details-inner-text">
-                  {buyerDetails?.annualTurnover ? `${buyerDetails?.annualTurnover} USD` : '-'}
+                  {buyerDetails?.annualTurnover
+                    ? `${buyerDetails?.annualTurnover} USD`
+                    : "-"}
                 </div>
               </div>
               <div className="buyer-details-inner-section">
@@ -418,8 +457,7 @@ const BuyerDetailsNew = () => {
                   {buyerDetails?.activity_code || "-"}
                 </div>
               </div>
- 
- 
+
               {buyerDetails?.annualTurnover && (
                 <div className="buyer-details-inner-section">
                   <div className="buyer-details-inner-head">
@@ -430,7 +468,7 @@ const BuyerDetailsNew = () => {
                   </div>
                 </div>
               )}
- 
+
               {buyerDetails?.license_expiry_date && (
                 <div className="buyer-details-inner-section">
                   <div className="buyer-details-inner-head">
@@ -466,7 +504,7 @@ const BuyerDetailsNew = () => {
                   {buyerDetails?.contact_person_mobile}
                 </div>
               </div>
- 
+
               <div className="buyer-details-inner-section">
                 <div className="buyer-details-inner-head">
                   Country of Operation :
@@ -523,10 +561,14 @@ const BuyerDetailsNew = () => {
                     "certificate_images",
                     buyerDetails?.certificateFileNDate?.length > 0
                   )} */}
- 
+
                   {buyerDetails?.certificateFileNDate?.map((ele, index) => (
                     <div key={index}>
-                      <RenderFiles files={[ele?.file || buyerDetails?.certificate_image?.[index]]} />
+                      <RenderFiles
+                        files={[
+                          ele?.file || buyerDetails?.certificate_image?.[index],
+                        ]}
+                      />
                       {/* {ele?.date && <p>{moment(ele?.date).format("DD MMM YYYY")}</p>} */}
                       {ele?.date && <p>{ele?.date}</p>}
                     </div>
@@ -548,7 +590,7 @@ const BuyerDetailsNew = () => {
             )}
           </Modal>
         </div>
- 
+
         <div className="buyer-details-container2">
           {user?.accessControl?.buyer?.requests?.edit &&
             buyerDetails?.account_status == 0 && (
@@ -578,11 +620,11 @@ const BuyerDetailsNew = () => {
             <BuyerCustomModal onClose={closeModal} />
           )} */}
         </div>
- 
+
         <div className="bottomMargin"></div>
       </div>
     </div>
   );
 };
- 
+
 export default BuyerDetailsNew;
