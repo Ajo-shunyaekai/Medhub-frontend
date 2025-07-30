@@ -366,8 +366,8 @@ const SubscriptionPage = () => {
                   <div className={styles.subscriptionContainer}>
                     <div
                       className={styles.button}
-                      /* onClick={()=>handleClickPurchase(0)} */
-                      onClick = {()=> setIsOpen(true)}
+                       onClick={()=>handleClickPurchase(0)} 
+                      // onClick = {()=> setIsOpen(true)}
                     >
                       Purchase Now
                     </div>
@@ -419,8 +419,8 @@ const SubscriptionPage = () => {
                   <div className={styles.subscriptionContainer}>
                     <div
                       className={styles.button}
-                      /* onClick={()=>handleClickPurchase(1)} */
-                      onClick = {()=> setIsOpen(true)}
+                       onClick={()=>handleClickPurchase(1)} 
+                      // onClick = {()=> setIsOpen(true)}
                     >
                       Purchase Now
                     </div>
@@ -433,7 +433,7 @@ const SubscriptionPage = () => {
       )}
  
       {/* modal rendering here */}
-      {isOpen && <Modal isOpen={isOpen} onClose={()=>{setIsOpen(false);}} couponArray={couponArray}/>}
+      {/* {isOpen && <Modal isOpen={isOpen} onClose={()=>{setIsOpen(false);}} couponArray={couponArray}/>} */}
     </>
   );
 };
