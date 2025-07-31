@@ -73,7 +73,6 @@ const SubscriptionPage = () => {
     formData.append("invoice_pdf", pdfBlob, "Invoice.pdf"); // Ensure the filename is set here
 
     // Append invoice data (you can either send it as individual fields or as a JSON string)
-    // formData.append("invoice_data", JSON.stringify(invoiceData)); // Sending invoiceData as a JSON string
     for (const key in invoiceData) {
       if (Object.prototype.hasOwnProperty.call(invoiceData, key)) {
         const element = invoiceData[key];
@@ -82,16 +81,6 @@ const SubscriptionPage = () => {
     }
 
     dispatch(createSubscriptionSession(formData));
-
-    // dispatch(
-    //   createSubscriptionSession({
-    //     plan_name: pkg,
-    //     duration,
-    //     email,
-    //     userType,
-    //     userId: userId || user?._id,
-    //   })
-    // );
   };
 
   const generatePDF = (duration, pkg, email, invoiceData) => {
@@ -135,14 +124,22 @@ const SubscriptionPage = () => {
     const pkg = subscriptionPlans?.[index]?.type;
     const email = user?.contact_person_email || user?.email;
     const selectedPlan = subscriptionPlans.find((p) => p.pkg === pkg);
+
+    // Prepare the invoice data
     const invoiceData = {
       name: pkg,
-      discount,
+      // discount,
       amount: selectedPlan?.price || 0,
       subscriptionStartDate: new Date(),
       invoiceNumber: "INV-" + Math.floor(Math.random() * 1000000),
     };
 
+    // Apply discount if provided
+    if (discount) {
+      invoiceData.discount = discount; // Add discount to the invoice data
+    }
+
+    // Generate the PDF and handle payment
     generatePDF(duration, pkg, email, invoiceData)
       .then(({ pdfBlob }) => {
         handlePayment(

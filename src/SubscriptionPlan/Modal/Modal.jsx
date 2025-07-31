@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./modal.module.css";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -13,6 +13,7 @@ const Modal = ({
 }) => {
   const modalRef = useRef(null);
   const formRef = useRef(); // to reset form
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -47,6 +48,7 @@ const Modal = ({
   });
 
   const handleSubmit = (values) => {
+    setLoading(true);
     handleClickPurchase(selectedPlan, values?.discount);
   };
 
@@ -78,20 +80,25 @@ const Modal = ({
                   />
                 </div>
 
-                <div className={styles.btnDiv}>
-                  <button type="submit" className={styles.applyBtn}>
-                    Apply
-                  </button>
-                  <button
-                    type="button"
-                    className={styles.skipBtn}
-                    onClick={() => {
-                      onClose();
-                    }}
-                  >
-                    Skip
-                  </button>
-                </div>
+                {loading ? (
+                  <div className={styles.loadingSpinner}></div>
+                ) : (
+                  <div className={styles.btnDiv}>
+                    <button type="submit" className={styles.applyBtn}>
+                      Apply
+                    </button>
+                    <button
+                      type="button"
+                      className={styles.skipBtn}
+                      onClick={() => {
+                        setLoading(true);
+                        handleClickPurchase(selectedPlan);
+                      }}
+                    >
+                      Skip
+                    </button>
+                  </div>
+                )}
               </Form>
             );
           }}

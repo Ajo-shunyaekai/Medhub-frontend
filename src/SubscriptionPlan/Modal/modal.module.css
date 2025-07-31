@@ -1,108 +1,117 @@
 .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-  }
-   
-  .modal {
-    background: #fff;
-    padding: 30px 20px;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 400px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    text-align: center;
-  }
-   
-  .heading {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
-  }
-   
-  .input {
-    width: 100%;
-    padding: 10px;
-    font-size: 1rem;
-    border: none;
-    outline: none;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
-    border-radius: 6px;
-   
-  }
-   
-  .btnDiv{
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 20px;
-  }
-   
-  .applyBtn{
-      background: linear-gradient(to left, #00dcff, #0075ce);
-      color: white;
-      outline: none !important;
-      border: none !important;
-      padding: 6px 22px;
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      font-weight: 500;
-      font-size: 0.825rem;
-      cursor: pointer !important;
-  }
-   
-  .skipBtn{
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
-      background-color: #ffffff;
-      border: 1px solid #212121;
-      color: #5e676f;
-      padding: 6px 22px;
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      font-weight: 500;
-      font-size: 0.825rem;
-      cursor: pointer !important;
-  }
-   
-  .closeButton {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    font-size: 1rem;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-  }
-   
-  .closeButton:hover {
-    background-color: #0056b3;
-  }
-   
-   
-  .error {
-      font-size: 12px;
-      margin-top: -6px;
-      color: red;
-      padding-left: 5px;
-  }
-  .inputWrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-   
-  .form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: #fff;
+  padding: 30px 20px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.heading {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: none;
+  outline: none;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+  border-radius: 6px;
+}
+
+.btnDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.applyBtn {
+  background: linear-gradient(to left, #00dcff, #0075ce);
+  color: white;
+  outline: none !important;
+  border: none !important;
+  padding: 6px 22px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  font-size: 0.825rem;
+  cursor: pointer !important;
+}
+
+.skipBtn {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+  background-color: #ffffff;
+  border: 1px solid #212121;
+  color: #5e676f;
+  padding: 6px 22px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  font-size: 0.825rem;
+  cursor: pointer !important;
+}
+
+.closeButton {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.closeButton:hover {
+  background-color: #0056b3;
+}
+
+.error {
+  font-size: 12px;
+  margin-top: -6px;
+  color: red;
+  padding-left: 5px;
+}
+.inputWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.loadingSpinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #000;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
