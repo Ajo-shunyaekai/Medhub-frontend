@@ -10,7 +10,7 @@ const App = lazy(() => import("./App"));
 const Loader = lazy(() => import("./Buyer/components/SharedComponents/Loader/Loader"));
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-// console.log("Live version 2.2.5 on 17-07-2025")
+// console.log("Live version 2.2.5.b on 01-08-2025")
 
 root.render(
   // <React.StrictMode>
