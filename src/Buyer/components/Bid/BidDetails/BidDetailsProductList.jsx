@@ -1,4 +1,3 @@
-// ProductList.jsx
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import { Link, useParams } from "react-router-dom";
@@ -8,16 +7,13 @@ import PaginationComponent from "../../SharedComponents/Pagination/pagination";
 import styles from "../../../assets/style/table.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchBidById } from "../../../../redux/reducers/bidSlice";
-import { minWidth } from "@mui/system";
  
-const ProductList = ({}) => {
+const BidDetailsProductList = ({}) => {
   const { id, itemId } = useParams();
   const dispatch = useDispatch();
   const { bidDetails } = useSelector((state) => state?.bidReducer || {});
  
-  const [newOrder, setNewOrder] = useState([]);
- 
-  useEffect(() => { 
+  useEffect(() => {
     if (id) {
       dispatch(fetchBidById(`bid/${id}`));
     }
@@ -34,38 +30,50 @@ const ProductList = ({}) => {
     //   sortable: true,
     // },
     {
-      name: "Company Name",
-      selector: (row) => row?.companyName,
-      sortable: true,
-      minWidth:"120px"
-    },
-    {
-      name: "Company Type",
-      selector: (row) => row?.companyType,
-      sortable: true,
-      minWidth:"110px"
-    },
-    {
-      name: "From Country",
-      selector: (row) => row?.registeredCountry,
-      sortable: true,
-      minWidth:"120px"
-    },
-    {
-      name: "Bid Price",
-      selector: (row) => (row?.amount && row?.amount + " USD"),
+      name: "Product Name",
+      selector: (row) => row?.productName,
       sortable: true,
     },
     {
-      name: "Delivery Timeline",
-      selector: (row) =>( row?.timeLine && row?.timeLine + " Days"),
+      name: "Type",
+      selector: (row) => row?.type,
+      sortable: true,
+    },
+    {
+      name: "Category",
+      selector: (row) => row?.category,
+      sortable: true,
+    },
+    /* {
+      name: "Open For",
+      selector: (row) => row?.openFor,
+      sortable: true,
+    }, */
+    {
+      name: "Quantity Required",
+      selector: (row) => row?.quantityRequired,
+      sortable: true,
+    },
+    {
+      name: "Target Price",
+      selector: (row) => (row?.targetPrice + " USD"),
+      sortable: true,
+    },
+    {
+      name: "Timeline",
+      selector: (row) => (row?.timeline + " Days"),
+      sortable: true,
+    },
+    {
+      name: "Total Bids",
+      selector: (row) => Number(row?.totalBids|| 0),
       sortable: true,
     },
     {
       name: "Action",
       cell: (row) => (
         <Link
-          to={`/buyer/bid/${id}/${row?.companyType?.toLowerCase()}/${row?.itemId}`}
+          to={`/buyer/bid/${id}/${row?.type?.toLowerCase()}/${row?.itemIdF}`}
           title="View Details"
         >
           <div className={styles.activeBtn}>
@@ -80,40 +88,32 @@ const ProductList = ({}) => {
   ];
  
  
-  useEffect(()=>{
-    const indexOfLastProduct = currentPage * bidsPerPage;
-    const indexOfFirstOrder = indexOfLastProduct - bidsPerPage;
-    /* const currentOrders = bidDetails?.additionalDetails?.slice(indexOfFirstOrder,indexOfLastProduct) || [];
-    const currentOrdersWithCountry = currentOrders.map((order)=>(
-      {
-        ...order,
-        registeredCountry : bidDetails?.buyerDetails?.registeredAddress?.country,
-        companyName : bidDetails?.buyerDetails?.company_name,
-        companyType: bidDetails?.buyerDetails?.registeredAddress?.type,
-        amount : order.participants ? order?.participants[0]?.amount : "Nill",
-        timeLine: order.participants ? order?.participants[0]?.timeLine : "Nill"
-      }
-    )); */
  
+  const [newOrder, setNewOrder] = useState([]);
+ 
+  useEffect(()=>{
     const allRows = (bidDetails?.additionalDetails || []).flatMap((item)=>{
-      return (item.participants || []).map((participant)=>({
-        registeredCountry : participant?.participantCountry,
-        companyName : participant?.participantName,
-        companyType: participant?.participantType,
-        amount: participant.amount,
-        timeLine: participant.timeLine,
-        itemId: item.itemId
-      }))
+        return (item.participants || []).map((participant)=>({
+            productName: item.name,
+            type: item.type,
+            category: item.category,
+            quantityRequired: item.quantity,
+            targetPrice: item.targetPrice,
+            timeline: item.delivery,
+            totalBids: item.totalBids,
+            itemIdF: item.itemId
+        }))
     });
  
-    const currentOrder = allRows.slice(indexOfFirstOrder,indexOfLastProduct);
- 
-    setNewOrder(currentOrder);
+  const indexOfLastProduct = currentPage * bidsPerPage;
+  const indexOfFirstOrder = indexOfLastProduct - bidsPerPage;
+  const currentOrders = (allRows || []).slice(indexOfFirstOrder,indexOfLastProduct);
+  setNewOrder(currentOrders);
   },[bidDetails,currentPage]);
  
  
   const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);   
+    setCurrentPage(pageNumber);
   };
  
   return (
@@ -181,4 +181,4 @@ const ProductList = ({}) => {
   );
 };
  
-export default ProductList;
+export default BidDetailsProductList;

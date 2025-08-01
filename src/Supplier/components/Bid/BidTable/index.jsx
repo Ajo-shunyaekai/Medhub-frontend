@@ -163,17 +163,17 @@ const BidTable = () => {
             <div className={Style.title}>Bids</div>
             
             {/* filter tab */}
-            <div ref={dropdownRef} className={Style.filterContainer} >
-              <ul className={Style.filterSection}>
+            <div  className={Style.filterContainer} >
+              <ul ref={dropdownRef} className={Style.filterSection}>
                   <li
                       className={Style.filterLiSection}
                       onClick={() => setOpenDropdown(!openDropdown)/* toggleDropdown('gmpApprovals') */}
                   >
-                      Participated {isParticipated?"-":""}{" "}{isParticipated} {openDropdown === true/* 'gmpApprovals' */ ? <FaAngleUp /> : <FaAngleDown />}
+                      {isParticipated==""?"All Bids":isParticipated} {" "}  {openDropdown === true/* 'gmpApprovals' */ ? <FaAngleUp /> : <FaAngleDown />}
                       {openDropdown === true/* 'gmpApprovals' */ && (
                           <ul className={Style.filterInnerSection}>
-                              <li className={Style.yesList} onClick={() => {setOpenDropdown(false);setIsParticipated("Yes");}}>Yes</li>
-                              <li onClick={() =>{setOpenDropdown(false); setIsParticipated("No")}}>No</li>
+                              <li className={Style.yesList} onClick={() => {setOpenDropdown(false);setIsParticipated("Participated");}}>Participated</li>
+                              <li onClick={() =>{setOpenDropdown(false); setIsParticipated("Not Participated")}}>Not Participated</li>
                           </ul>
                       )}
                   </li>

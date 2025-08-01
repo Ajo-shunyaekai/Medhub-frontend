@@ -61,7 +61,10 @@ export const addBid = createAsyncThunk(
   "bid/addBid",
   async (values, { rejectWithValue }) => {
     try {
-      const response = await apiRequests?.postRequestWithFile(`bid/add`, values);
+      const response = await apiRequests?.postRequestWithFile(
+        `bid/add`,
+        values
+      );
       if (response?.code !== 200) {
         toast(response?.message, { type: "error" });
         return rejectWithValue(response?.message || "Unknown error");
@@ -97,6 +100,28 @@ export const editbid = createAsyncThunk(
       // return rejectWithValue(response?.data?.err);
     } catch (error) {
       //   toast.error("An error occurred while logging in");
+      return rejectWithValue(error?.response?.data || "Unknown error");
+    }
+  }
+);
+
+export const updateBidProductDetails = createAsyncThunk(
+  `bid/updateBidProductDetails`,
+  async (values, { rejectWithValue }) => {
+    try {
+      const response = await apiRequests?.postRequest(
+        `bid/add-participant/${values.bidId}/${values.itemId}`,
+        values
+      );
+      if (response?.code !== 200) {
+        toast(response?.message, { type: "error" });
+        return rejectWithValue(response?.message || "Unknown error");
+      }
+      const { data, message } = await response;
+      toast.success(message);
+
+      return data;
+    } catch (error) {
       return rejectWithValue(error?.response?.data || "Unknown error");
     }
   }
@@ -168,6 +193,16 @@ export const bidSlice = createSlice({
         state.loading = false;
       })
       .addCase(deletebid.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(updateBidProductDetails.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateBidProductDetails.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(updateBidProductDetails.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

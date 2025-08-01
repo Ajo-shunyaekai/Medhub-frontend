@@ -9,23 +9,23 @@ import moment from "moment";
 import RenderProductFiles from "../../../../Buyer/components/Buy/Details/RenderFiles";
 import ProductList from "./ProductList";
 import { getTimeRemaining } from "../helper";
-
+ 
 const BidDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { bidDetails } = useSelector((state) => state?.bidReducer || {});
-
+ 
   useEffect(() => {
     if (id) {
       dispatch(fetchBidById(`bid/${id}`));
     }
   }, [id]);
-
-
+ 
+ 
   return (
     <div className={styles.container}>
       <span className={styles.heading}>Bid Details</span>
-
+ 
       {/* Bid detail header section */}
       <div className={styles.section}>
         <div className={styles.mainUpparContainer}>
@@ -33,7 +33,7 @@ const BidDetails = () => {
             <span className={styles.medicineName}>
               Bid ID : {bidDetails?.bid_id}
             </span>
-
+ 
             {bidDetails?.status && (
               <div className={styles.bidStatusCont}>
                 <div className={styles?.bidStatusHead}>Bid Status</div>
@@ -45,7 +45,7 @@ const BidDetails = () => {
             )}
           </div>
         </div>
-
+ 
         {/* Bid detail General Information Section */}
         <div className={styles.mainContainer}>
           <span className={styles.innerHead}>General Information</span>
@@ -116,7 +116,7 @@ const BidDetails = () => {
             </div>
           </div>
         </div>
-
+ 
         {/* Document */}
         <div className={styles.mainContainer}>
           <span className={styles.innerHead}>Requirement Documents</span>
@@ -136,7 +136,7 @@ const BidDetails = () => {
             })}
           </div>
         </div>
-
+ 
         {/* Product Information */}
         {bidDetails?.additionalDetails?.length > 0 && (
           <>
@@ -145,10 +145,10 @@ const BidDetails = () => {
         )}
         <ProductList/>
       </div>
-
+ 
       <div className={styles.bottomMargin}></div>
     </div>
   );
 };
-
+ 
 export default BidDetails;

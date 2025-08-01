@@ -111,9 +111,12 @@ const BidDetails = () => {
                   if (
                     key === "_id" ||
                     key === "itemId" ||
-                    key === "description" || 
-                    key === "country"|| 
-                    key === "fromCountries" || key === "state"
+                    key === "description" ||
+                    key === "country" ||
+                    key === "fromCountries" ||
+                    key === "state" ||
+                    key === "participants" ||
+                    key === "totalBidsCount"
                   )
                     return null;
 
@@ -131,6 +134,8 @@ const BidDetails = () => {
                           : key == "delivery" ||
                             key == "Expected Delivery Duration"
                           ? String(value) + " Days"
+                          : key == "targetPrice"
+                          ? String(value) + " USD"
                           : String(value)}
                       </span>
                     </div>
@@ -150,7 +155,7 @@ const BidDetails = () => {
                   <div className={styles.InnerContainer2}>
                     <div className={styles.medicinesSection2}>
                       <span className={styles.medicineHead2}>
-                        {itemDetails?.type}{" "}Description
+                        {itemDetails?.type} Description
                       </span>
                       <span className={styles.medicineText2}>
                         {itemDetails?.description || "N/A"}
@@ -164,7 +169,7 @@ const BidDetails = () => {
         </div>
 
         {/* Product List */}
-        <span className={styles.innerHead3}>Supplier List</span>
+        <span className={styles.innerHead3}>Bidder List</span>
         <ProductList />
       </div>
 

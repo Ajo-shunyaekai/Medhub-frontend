@@ -3,17 +3,77 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import styles from "./bidProductDetails.module.css";
-import { fetchBidById } from "../../../../redux/reducers/bidSlice";
+import {
+  updateBidProductDetails,
+  fetchBidById,
+} from "../../../../redux/reducers/bidSlice";
 import ProductList from "./ProductList";
+import * as Yup from "yup";
+import { toast } from "react-toastify";
+import { useFormik } from "formik";
 
 const BidDetails = () => {
   const { id, itemId } = useParams();
   const dispatch = useDispatch();
-
-  const { bidDetails } = useSelector((state) => state?.bidReducer || {});
+  const participantId = localStorage.getItem("_id");
+  const [participatingDetails, setParticipatingeDetails] = useState({});
+  const { bidDetails, loading } = useSelector(
+    (state) => state?.bidReducer || {}
+  );
   const [itemDetails, setItemDetails] = useState({});
   const [fieldsArray, setFieldsArray] = useState([]);
+  const [isEditing, setIsEditing] = useState(false); // Set initial value of isEditing to false
+  // const [loading, setLoading] = useState(false);
 
+  // Initial values for the form fields
+  const [initialValues, setInitialValues] = useState({
+    amount: "",
+    timeLine: "",
+  });
+
+  // Validation schema using Yup
+  const validationSchema = Yup.object({
+    amount: Yup.number()
+      .typeError("Price Must be a number")
+      .positive("Price must be a positive")
+      .required("Price is required"),
+    timeLine: Yup.number()
+      .required("Timeline is required.")
+      .typeError("Timeline must be a number")
+      .positive("Timeline must be a positive")
+      .integer("Timeline must be an integer"),
+  });
+
+  // Formik form initialization
+  const formik = useFormik({
+    initialValues: initialValues,
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      try {
+        const obj = {
+          participantId: participantId,
+          amount: Number(values.amount),
+          timeLine: Number(values.timeLine),
+          bidId: id,
+          itemId: itemId,
+        };
+        dispatch(updateBidProductDetails(obj)).then((response) => {
+          if (response?.meta.requestStatus === "fulfilled") {
+            // setLoading(false);
+            dispatch(fetchBidById(`bid/${id}`));
+          }
+        });
+
+        setInitialValues(values);
+      } catch (error) {
+        toast.error(error);
+      } finally {
+        // setLoading(false);
+      }
+    },
+  });
+
+  // Helper function to display field names
   const getFieldName = (name) => {
     switch (name) {
       case "type":
@@ -34,18 +94,12 @@ const BidDetails = () => {
         return "Quantity Required";
       case "targetPrice":
         return "Target Price";
-      // case "country":
-      //   return "Country of Destination";
-      // case "state":
-      //   return "State of Destination";
       case "docReq":
         return "Certification Required";
       case "certificateName":
         return "Certification Name";
       case "openFor":
         return "Open For";
-      // case "fromCountries":
-      //   return "From Countries";
       case "delivery":
         return "Expected Delivery Duration";
       default:
@@ -61,10 +115,18 @@ const BidDetails = () => {
 
   useEffect(() => {
     if (bidDetails?.additionalDetails?.length && itemId) {
-      const foundItem = bidDetails.additionalDetails.find(
-        (item) => item?.itemId?.toString() === itemId?.toString()
+      const foundItem = bidDetails?.additionalDetails?.find(
+        (item) =>
+          item?.itemId?.toString()?.toLowerCase() ===
+          itemId?.toString()?.toLowerCase()
       );
       setItemDetails(foundItem || {});
+      const participatingDetails = foundItem?.participants?.find(
+        (item) =>
+          item?.id?.toString()?.toLowerCase() ===
+          participantId?.toString()?.toLowerCase()
+      );
+      setParticipatingeDetails(participatingDetails);
     }
   }, [bidDetails, itemId]);
 
@@ -72,6 +134,18 @@ const BidDetails = () => {
     const details = Object.entries(itemDetails);
     setFieldsArray(details || []);
   }, [itemDetails]);
+
+  useEffect(() => {
+    if (participatingDetails && Object.keys(participatingDetails)?.length > 0) {
+      formik?.setValues({
+        amount: participatingDetails?.amount,
+        timeLine: participatingDetails?.timeLine,
+      });
+      setIsEditing(false); // If participatingDetails are found, editing is disabled
+    } else {
+      setIsEditing(true); // If participatingDetails are empty, allow editing
+    }
+  }, [participatingDetails]);
 
   return (
     <div className={styles.container}>
@@ -90,7 +164,7 @@ const BidDetails = () => {
                 ? itemDetails.type === "Product"
                   ? "PDT"
                   : "SRV"
-                : "ITEM"}
+                : "ITEM"}{" "}
               -{itemDetails?.itemId}
             </span>
           </div>
@@ -98,10 +172,6 @@ const BidDetails = () => {
 
         {/* Dynamic General Info from fieldsArray */}
         <div className={styles.mainContainer}>
-          {/* <div className={styles.headingSecContainer}>
-            <span className={styles.innerHead}>General Information</span>
-          </div> */}
-
           <div className={styles.innerSection}>
             <div className={styles.mainSection}>
               <div
@@ -111,7 +181,12 @@ const BidDetails = () => {
                   if (
                     key === "_id" ||
                     key === "itemId" ||
-                    key === "description"
+                    key === "description" ||
+                    key === "country" ||
+                    key === "fromCountries" ||
+                    key === "state" ||
+                    key === "participants" ||
+                    key === "totalBidsCount"
                   )
                     return null;
 
@@ -126,10 +201,8 @@ const BidDetails = () => {
                       <span className={styles.generalInfoValue}>
                         {Array.isArray(value)
                           ? value.join(", ")
-                          : key == "delivery" ||
-                            key == "Expected Delivery Duration"
-                          ? String(value) + " Days"
-                          : String(value)}
+                          : (key == "delivery" ||  key == "Expected Delivery Duration") ? String(value) + " Days"
+                          : (key == "targetPrice") ? String(value) + " USD": String(value)}
                       </span>
                     </div>
                   );
@@ -148,7 +221,7 @@ const BidDetails = () => {
                   <div className={styles.InnerContainer2}>
                     <div className={styles.medicinesSection2}>
                       <span className={styles.medicineHead2}>
-                        {itemDetails?.type}{" "}Description
+                        {itemDetails?.type} Description
                       </span>
                       <span className={styles.medicineText2}>
                         {itemDetails?.description || "N/A"}
@@ -161,9 +234,103 @@ const BidDetails = () => {
           </div>
         </div>
 
-        {/* Product List */}
-        <span className={styles.innerHead3}>Supplier List</span>
-        <ProductList />
+        {/* Form */}
+        <div className={styles.mainContainer}>
+          <div className={styles.innerSection}>
+            <div className={styles.mainSection}>
+              <div className={styles.innerSection2}>
+                <div className={styles.mainSection2}>
+                  <div className={styles.fieldHeadingDiv}>
+                    <span className={styles.fieldHeading}>
+                      Participate in Bid
+                    </span>
+                    {participatingDetails &&
+                      Object.keys(participatingDetails).length > 0 &&
+                      !isEditing && (
+                        <div
+                          onClick={() => setIsEditing(true)}
+                          className={styles.fieldSubmitButton}
+                        >
+                          Edit
+                        </div>
+                      )}
+                  </div>
+                  <div className={styles.InnerContainer2}>
+                    <form
+                      className={styles.fieldSection}
+                      onSubmit={formik.handleSubmit}
+                    >
+                      <div className={styles.fieldForm}>
+                        <div className={styles.fieldDiv}>
+                          <label className={styles.fieldFormLabel}>
+                            Enter Target Price
+                          </label>
+                          <input
+                            name="amount"
+                            type="numeric"
+                            placeholder="Enter Target amount"
+                            className={styles.fieldFormInput}
+                            value={formik.values.amount}
+                            onBlur={formik.handleBlur}
+                            onChange={formik.handleChange}
+                          />
+                          {formik.errors.amount && formik.touched.amount && (
+                            <div className={styles.fieldError}>
+                              {formik.errors.amount}
+                            </div>
+                          )}
+                        </div>
+                        <div className={styles.fieldDiv}>
+                          <label className={styles.fieldFormLabel}>
+                            Enter the Timeline
+                          </label>
+                          <input
+                            name="timeLine"
+                            type="numeric"
+                            placeholder="Enter the expected delivery duration (in days)"
+                            className={styles.fieldFormInput}
+                            value={formik.values.timeLine}
+                            onBlur={formik.handleBlur}
+                            onChange={formik.handleChange}
+                          />
+                          {formik.errors.timeLine &&
+                            formik.touched.timeLine && (
+                              <div className={styles.fieldError}>
+                                {formik.errors.timeLine}
+                              </div>
+                            )}
+                        </div>
+                      </div>
+
+                      {isEditing && (
+                        <div className={styles.fieldBtnDiv}>
+                          <button
+                            type="submit"
+                            className={styles.fieldSubmitButton}
+                            disabled={loading}
+                          >
+                            {loading ? (
+                              <div className={styles.loadingSpinner}></div>
+                            ) : (
+                              "Submit"
+                            )}
+                          </button>
+                          <button
+                            type="button"
+                            className={styles.fieldCancelButton}
+                            onClick={() => setIsEditing(false)}
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      )}
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className={styles.bottomMargin}></div>
