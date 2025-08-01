@@ -91,7 +91,7 @@ const BidTable = ({
     },
     {
       name: "Total Bids",
-      selector: (row) => Number(row?.totalBids || 0),
+      selector: (row) => Number(row?.totalBidsCount || 0),
       sortable: true,
       // width: "200px",
     },

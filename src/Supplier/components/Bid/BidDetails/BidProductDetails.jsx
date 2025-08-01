@@ -263,12 +263,12 @@ const BidDetails = () => {
                       <div className={styles.fieldForm}>
                         <div className={styles.fieldDiv}>
                           <label className={styles.fieldFormLabel}>
-                            Enter Target Price
+                            Enter Bid Price
                           </label>
                           <input
                             name="amount"
                             type="numeric"
-                            placeholder="Enter Target amount"
+                            placeholder="Enter Bid Price"
                             className={styles.fieldFormInput}
                             value={formik.values.amount}
                             onBlur={formik.handleBlur}

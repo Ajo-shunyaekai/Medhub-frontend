@@ -15,7 +15,6 @@ const BidTable = ({
   bidPerPage,
   handlePageChange,
 }) => {
-
   const columns = [
     {
       name: "Bid ID",
@@ -24,9 +23,10 @@ const BidTable = ({
     },
     {
       name: "Status",
-      selector: (row) => row?.status
-                        ? row.status.charAt(0).toUpperCase() + row.status.slice(1)
-                        : "",
+      selector: (row) =>
+        row?.status
+          ? row.status.charAt(0).toUpperCase() + row.status.slice(1)
+          : "",
       sortable: true,
       // width: "200px",
     },
@@ -55,7 +55,7 @@ const BidTable = ({
         const startTime = row?.general?.startTime || "00:00"; // if you have it
         const endDate = row?.general?.endDate;
         const endTime = row?.general?.endTime || "00:00";
-    
+
         return (
           <span>
             {getTimeRemaining(startDate, startTime, endDate, endTime)}
@@ -64,7 +64,7 @@ const BidTable = ({
       },
       sortable: false,
     },
-    
+
     // {
     //   name: "Participated",
     //   selector: (row) => row?.participated,
@@ -72,12 +72,11 @@ const BidTable = ({
     // },
     {
       name: "Total Bids",
-      selector: (row) => Number(row?.totalBids || 0),
+      selector: (row) => Number(row?.totalBidsCount || 0),
       sortable: true,
       // width: "200px",
     },
-   
-   
+
     {
       name: "Action",
       cell: (row) => (
