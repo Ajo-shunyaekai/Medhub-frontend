@@ -9,46 +9,47 @@ import moment from "moment";
 import RenderProductFiles from "../../../../Buyer/components/Buy/Details/RenderFiles";
 import ProductList from "./ProductList";
 import { getTimeRemaining } from "../helper";
-
+import BidDetailsProductList from "./BidDetailsProductList";
+ 
 const BidDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { bidDetails } = useSelector((state) => state?.bidReducer || {});
-
+ 
   useEffect(() => {
     if (id) {
       dispatch(fetchBidById(`bid/${id}`));
     }
   }, [id]);
-
+ 
   // const getTimeRemaining = (endDate, endTime = "00:00") => {
     
   //   if (!endDate) return "";
-
+ 
   //   // Combine end date and time (time is expected in "HH:mm" format)
   //   const combinedEnd = moment(`${endDate}T${endTime}`, "YYYY-MM-DDTHH:mm");
-
+ 
   //   const now = moment();
   //   const duration = moment.duration(combinedEnd.diff(now));
-
+ 
   //   if (duration.asMilliseconds() <= 0) return "Expired";
-
+ 
   //   const days = Math.floor(duration.asDays());
   //   const hours = duration.hours();
   //   const minutes = duration.minutes();
-
+ 
   //   const parts = [];
   //   if (days > 0) parts.push(`${days} Day${days !== 1 ? "s" : ""}`);
   //   if (hours > 0) parts.push(`${hours} Hour${hours !== 1 ? "s" : ""}`);
   //   if (minutes > 0) parts.push(`${minutes} Min${minutes !== 1 ? "s" : ""}`);
-
+ 
   //   return parts.join(" ");
   // };
-
+ 
   return (
     <div className={styles.container}>
       <span className={styles.heading}>Bid Details</span>
-
+ 
       {/* Bid detail header section */}
       <div className={styles.section}>
         <div className={styles.mainUpparContainer}>
@@ -56,7 +57,7 @@ const BidDetails = () => {
             <span className={styles.medicineName}>
               Bid ID : {bidDetails?.bid_id}
             </span>
-
+ 
             {bidDetails?.status && (
               <div className={styles.bidStatusCont}>
                 <div className={styles?.bidStatusHead}>Bid Status</div>
@@ -68,7 +69,7 @@ const BidDetails = () => {
             )}
           </div>
         </div>
-
+ 
         {/* Bid detail General Information Section */}
         <div className={styles.mainContainer}>
           <span className={styles.innerHead}>General Information</span>
@@ -139,7 +140,7 @@ const BidDetails = () => {
             </div>
           </div>
         </div>
-
+ 
         {/* Document */}
         <div className={styles.mainContainer}>
           <span className={styles.innerHead}>Requirement Documents</span>
@@ -159,19 +160,20 @@ const BidDetails = () => {
             })}
           </div>
         </div>
-
+ 
         {/* Product Information */}
         {bidDetails?.additionalDetails?.length > 0 && (
           <>
             <span className={styles.innerHead3}>Bid Products/Services</span>
           </>
         )}
-        <ProductList/>
+        {/* <ProductList/> */}
+        <BidDetailsProductList/>
       </div>
-
+ 
       <div className={styles.bottomMargin}></div>
     </div>
   );
 };
-
+ 
 export default BidDetails;

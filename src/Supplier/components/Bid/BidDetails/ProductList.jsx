@@ -7,21 +7,21 @@ import PaginationComponent from "../../SharedComponents/Pagination/Pagination";
 import styles from "../../../assets/style/table.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchBidById } from "../../../../redux/reducers/bidSlice";
-
+ 
 const ProductList = ({}) => {
   const { id, itemId } = useParams();
   const dispatch = useDispatch();
   const { bidDetails } = useSelector((state) => state?.bidReducer || {});
-
+ 
   useEffect(() => {
     if (id) {
       dispatch(fetchBidById(`bid/${id}`));
     }
   }, [id]);
-
+ 
   const [currentPage, setCurrentPage] = useState(1);
   const bidsPerPage = 5;
-
+ 
   const columns = [
     // {
     //   name: "Id",
@@ -30,7 +30,7 @@ const ProductList = ({}) => {
     //   sortable: true,
     // },
     {
-      name: "Name",
+      name: "Product Name",
       selector: (row) => row?.name,
       sortable: true,
     },
@@ -44,15 +44,24 @@ const ProductList = ({}) => {
       selector: (row) => row?.category,
       sortable: true,
     },
-    {
+   /*  {
       name: "Open For",
       selector: (row) => row?.openFor,
       sortable: true,
-    },
+    }, */
     {
       name: "Quantity Required",
       selector: (row) => row?.quantity,
       sortable: true,
+    },
+    {
+      name: "Target Price",
+      selector: (row) => (row?.targetPrice + " USD"),
+      sortable: true,
+    },
+    {
+      name: "Timeline",
+      selector: (row) => (row?.delivery + " Days")
     },
     {
       name: "Total Bids",
@@ -76,18 +85,18 @@ const ProductList = ({}) => {
       button: true,
     },
   ];
-
+ 
   const indexOfLastProduct = currentPage * bidsPerPage;
   const indexOfFirstOrder = indexOfLastProduct - bidsPerPage;
   const currentOrders = bidDetails?.additionalDetails?.slice(
     indexOfFirstOrder,
     indexOfLastProduct
   );
-
+ 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-
+ 
   return (
     <div className={styles.mainInvoicecontainer2}>
       <style>
@@ -152,5 +161,5 @@ const ProductList = ({}) => {
     // </div>
   );
 };
-
+ 
 export default ProductList;

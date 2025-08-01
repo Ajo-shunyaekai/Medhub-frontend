@@ -181,7 +181,12 @@ const BidDetails = () => {
                   if (
                     key === "_id" ||
                     key === "itemId" ||
-                    key === "description"
+                    key === "description" ||
+                    key === "country" ||
+                    key === "fromCountries" ||
+                    key === "state" ||
+                    key === "participants" ||
+                    key === "totalBidsCount"
                   )
                     return null;
 
@@ -196,9 +201,8 @@ const BidDetails = () => {
                       <span className={styles.generalInfoValue}>
                         {Array.isArray(value)
                           ? value.join(", ")
-                          : key === "delivery"
-                          ? `${value} Days`
-                          : value}
+                          : (key == "delivery" ||  key == "Expected Delivery Duration") ? String(value) + " Days"
+                          : (key == "targetPrice") ? String(value) + " USD": String(value)}
                       </span>
                     </div>
                   );
