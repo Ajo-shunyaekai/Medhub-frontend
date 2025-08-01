@@ -1,4 +1,3 @@
-// ProductList.jsx
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import { Link, useParams } from "react-router-dom";
@@ -7,28 +6,28 @@ import PaginationComponent from "../../SharedComponents/Pagination/Pagination";
 import styles from "../../../assets/style/table.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchBidById } from "../../../../redux/reducers/bidSlice";
- 
-const ProductList = ({}) => {
-  const { id, itemId } = useParams();
+
+const ProductList = () => {
+  const { id } = useParams();
   const dispatch = useDispatch();
   const { bidDetails } = useSelector((state) => state?.bidReducer || {});
- 
+
   useEffect(() => {
     if (id) {
       dispatch(fetchBidById(`bid/${id}`));
     }
   }, [id]);
- 
+
   const [currentPage, setCurrentPage] = useState(1);
   const bidsPerPage = 5;
- 
+
+  // Function to calculate totalBidsPCount from participants
+  const getTotalBids = (participants) => {
+    // Assuming `totalBidsPCount` exists on participants, you can sum or use the first participant's count.
+    return participants?.reduce((total, participant) => total + (participant?.totalBidsPCount || 0), 0) || 0;
+  };
+
   const columns = [
-    // {
-    //   name: "Id",
-    //   selector: (row) =>
-    //     (row?.type == "Product" ? "PDT" : "SRV") + " - " + row?.itemId,
-    //   sortable: true,
-    // },
     {
       name: "Product Name",
       selector: (row) => row?.name,
@@ -44,11 +43,6 @@ const ProductList = ({}) => {
       selector: (row) => row?.category,
       sortable: true,
     },
-   /*  {
-      name: "Open For",
-      selector: (row) => row?.openFor,
-      sortable: true,
-    }, */
     {
       name: "Quantity Required",
       selector: (row) => row?.quantity,
@@ -56,16 +50,16 @@ const ProductList = ({}) => {
     },
     {
       name: "Target Price",
-      selector: (row) => (row?.targetPrice + " USD"),
+      selector: (row) => row?.targetPrice + " USD",
       sortable: true,
     },
     {
       name: "Timeline",
-      selector: (row) => (row?.delivery + " Days")
+      selector: (row) => row?.delivery + " Days",
     },
     {
       name: "Total Bids",
-      selector: (row) => Number(row?.totalBids|| 0),
+      selector: (row) => getTotalBids(row?.participants),  // Use the function to get total bids
       sortable: true,
     },
     {
@@ -85,18 +79,18 @@ const ProductList = ({}) => {
       button: true,
     },
   ];
- 
+
   const indexOfLastProduct = currentPage * bidsPerPage;
   const indexOfFirstOrder = indexOfLastProduct - bidsPerPage;
   const currentOrders = bidDetails?.additionalDetails?.slice(
     indexOfFirstOrder,
     indexOfLastProduct
   );
- 
+
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
- 
+
   return (
     <div className={styles.mainInvoicecontainer2}>
       <style>
@@ -148,7 +142,7 @@ const ProductList = ({}) => {
         pagination={false}
         responsive
       />
-      {bidDetails?.additionalDetails?.length > 0 ? (
+      {bidDetails?.additionalDetails?.length > 0 && (
         <PaginationComponent
           activePage={currentPage}
           itemsCountPerPage={bidsPerPage}
@@ -156,10 +150,9 @@ const ProductList = ({}) => {
           pageRangeDisplayed={5}
           onChange={handlePageChange}
         />
-      ) : null}
+      )}
     </div>
-    // </div>
   );
 };
- 
+
 export default ProductList;
