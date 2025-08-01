@@ -96,7 +96,6 @@ export const categoriesData = [
           "Tenaculum",
           "Rib Spreaders",
           "Aortic Punches",
-          "Vascular Clamps",
           "Skin Graft Knives",
           "Liposuction Cannulas",
           "Delicate Scissors and Forceps",
