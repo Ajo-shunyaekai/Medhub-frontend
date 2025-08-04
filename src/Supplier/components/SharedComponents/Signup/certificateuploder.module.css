@@ -8,7 +8,8 @@
   background-color: #fff !important;
   border: none !important;
   border-radius: 4px !important;
-
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   font-size: 14px !important;
   outline: none !important;
   padding: 11px !important;
@@ -18,43 +19,77 @@
   gap: 12px;
   cursor: pointer !important;
 }
-
+ 
+.newUploadBox{
+  background-color: #fff !important;
+  border: none !important;
+  border-radius: 4px !important;
+  font-size: 14px !important;
+  outline: none !important;
+  padding: 24px 0px !important;
+  position: relative !important;
+  width: 100% !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  cursor: pointer !important;
+}
+ 
+.newUploadBox:hover{
+  border-color: rgb(40, 47, 134);
+}
+ 
+.uploadNewIcon{
+  width: 36px;
+  color: #99a0ac;
+  font-size: 0.825rem;
+  cursor: pointer !important;
+}
+ 
+.uploadNewText {
+  font-size: 0.825rem;
+  cursor: pointer !important;
+}
+ 
 .uploadBox:hover {
   border-color: rgb(40, 47, 134);
 }
-
+ 
 .uploadIcon {
   width: 20px;
   color: #99a0ac;
   font-size: 0.825rem;
   cursor: pointer !important;
 }
-
+ 
 .uploadText {
   color: #5e6767;
   font-size: 0.825rem;
   cursor: pointer !important;
 }
-
+ 
 .previewContainer {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
 }
-
+ 
 /* End the Upload Section design */
-
+ 
 /* Style image preview setion */
 .uploadSection {
   margin-bottom: 20px;
 }
-
+ 
 .previewContainer {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
 }
-
+ 
 .filePreview {
   display: flex;
   flex-direction: column;
@@ -67,12 +102,12 @@
   text-align: center;
   border: none !important;
 }
-
+ 
 .previewImage {
   width: 60px;
   height: auto;
 }
-
+ 
 .fileName {
   margin-top: 8px;
   font-size: 10px;
@@ -87,13 +122,13 @@
 .fileIcon {
   color: rgb(40, 47, 134);
 }
-
+ 
 .removeIcon {
   margin-top: 6px;
   width: 14px !important;
   cursor: pointer !important;
 }
-
+ 
 .removeButton {
   position: absolute;
   top: -10px;
@@ -106,7 +141,7 @@
   cursor: pointer !important;
 }
 /* End image preview section */
-
+ 
 .tooltipSec {
   position: absolute;
   top: 50%;

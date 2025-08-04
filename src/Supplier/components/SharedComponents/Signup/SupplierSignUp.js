@@ -22,14 +22,16 @@ import { toast } from "react-toastify";
 import { parsePhoneNumber, isValidPhoneNumber } from "libphonenumber-js";
 import TermsAndConditions from "../../../../Policies/Terms&Conditions";
 import categoryArrays from "../../../../utils/Category";
-
+import { style } from "@mui/system";
+import ProductCatalogUploader from "./ProductCatalogUploader";
+ 
 const MultiSelectOption = ({ children, ...props }) => (
   <components.Option {...props}>
     <input type="checkbox" checked={props.isSelected} onChange={() => null} />{" "}
     <label>{children}</label>
   </components.Option>
 );
-
+ 
 const MultiSelectDropdown = ({ options, value, onChange }) => {
   return (
     <Select
@@ -43,7 +45,7 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
     />
   );
 };
-
+ 
 const SupplierSignUp = ({ socket }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -76,25 +78,48 @@ const SupplierSignUp = ({ socket }) => {
   const [certificateFileNDate, setCertificateFileNDate] = useState([
     { file: null, date: null },
   ]);
+  const[productCatalog, setProductCatalog] = useState([{file: null}]);
+  const[productFile, setProductFile] = useState([]);
   const [selectedYear, setSelectedYear] = useState(null);
-
+  const[productCatalogFileArray, setProductCatalogFileArray] = useState([]);
+  const[productCatalogFileError, setProductCatalogFileError] = useState([]);
+ 
   const handleYearChange = (date) => {
     formData.yrFounded = date.getFullYear();
     setSelectedYear(date);
   };
-
+ 
   const handleDateChange = (date, index) => {
     const updatedSections = [...certificateFileNDate];
     updatedSections[index].date = date;
     setCertificateFileNDate(updatedSections);
   };
-
+ 
   const addNewSection = (e) => {
     e.preventDefault();
     certificateFileNDate?.length < 4 &&
       setCertificateFileNDate((prev) => [...prev, { file: null, date: null }]);
   };
-
+ 
+  const addProductSection = (e) => {
+    e.preventDefault();
+    productCatalog?.length < 4 && setProductCatalog((prev) => [...prev,{file:null}]);
+    
+  }
+ 
+  const removeProductCatalogSection = (index) => {
+    if(productCatalog.length > 1){
+      const updatedCatalogSection = productCatalog.filter((_,i)=> i != index);
+      setProductCatalog(updatedCatalogSection);
+      setErrors((prev) => {
+        const newErrors = {...prev};
+        delete newErrors[`taxImage_${index}`];
+        delete newErrors[`date_${index}`];
+        return newErrors;
+      })
+    }
+  }
+ 
   const removeSection = (index) => {
     if (certificateFileNDate.length > 1) {
       const updatedSections = certificateFileNDate.filter(
@@ -109,7 +134,7 @@ const SupplierSignUp = ({ socket }) => {
       });
     }
   };
-
+ 
   const defaultFormData = {
     companyType: "",
     companyName: "",
@@ -157,7 +182,7 @@ const SupplierSignUp = ({ socket }) => {
     pincode: "",
     usertype: "Supplier",
   };
-
+ 
   const handleCountryChange = (selectedOption) => {
     setSelectedCountry(selectedOption);
     setSelectedState("");
@@ -172,7 +197,7 @@ const SupplierSignUp = ({ socket }) => {
       setFormData({ ...formData, country: selectedOption });
     }
   };
-
+ 
   const handleStateChange = (selectedOption) => {
     setSelectedState(selectedOption || "");
     setSelectedCity("");
@@ -186,7 +211,7 @@ const SupplierSignUp = ({ socket }) => {
       setFormData({ ...formData, state: selectedOption });
     }
   };
-
+ 
   const handleCityChange = (selectedOption) => {
     setSelectedCity(selectedOption || "");
     if (!selectedOption) {
@@ -199,14 +224,14 @@ const SupplierSignUp = ({ socket }) => {
       setFormData({ ...formData, city: selectedOption });
     }
   };
-
+ 
   const [formData, setFormData] = useState(defaultFormData);
-
+ 
   useEffect(() => {
     const options = countryList().getData();
     setCountries(options);
   }, []);
-
+ 
   useEffect(() => {
     const categoryOptions = categoryArrays?.map((cat) => ({
       value: cat.name,
@@ -214,14 +239,14 @@ const SupplierSignUp = ({ socket }) => {
     }));
     setCategory(categoryOptions);
   }, []);
-
+ 
   const companyTypeOptions = [
     { value: "manufacturer", label: "Manufacturer" },
     { value: "distributor", label: "Distributor" },
     { value: "service provider", label: "Service Provider" },
     { value: "medical practitioner", label: "Medical Practitioner" },
   ];
-
+ 
   const handleCompanyTypeChange = (selectedOption) => {
     setSelectedCompanyType(selectedOption);
     setFormData((prevState) => ({ ...prevState, companyType: selectedOption }));
@@ -234,7 +259,7 @@ const SupplierSignUp = ({ socket }) => {
       setErrors((prevState) => ({ ...prevState, companyType: "" }));
     }
   };
-
+ 
   const handleImageUpload = (hasImage, file, imageType) => {
     setFormData((prevState) => ({
       ...prevState,
@@ -252,12 +277,12 @@ const SupplierSignUp = ({ socket }) => {
         !hasImage && !file ? `${imageType} image is Required` : "",
     }));
   };
-
+ 
   const handleChange = (event) => {
     const { name, value } = event.target;
     const alphanumericNoSpaceRegex = /^[a-zA-Z0-9]*$/;
     const numericRegex = /^[0-9]*$/; // Only digits
-
+ 
     // Handle license expiry date validation
     if (name === "companyLicenseExpiry") {
       setFormData((prevState) => ({
@@ -295,7 +320,7 @@ const SupplierSignUp = ({ socket }) => {
       }
       return;
     }
-
+ 
     // Bank details validation
     if (name === "bankdetails") {
       setFormData((prevState) => ({
@@ -312,7 +337,7 @@ const SupplierSignUp = ({ socket }) => {
       }));
       return;
     }
-
+ 
     // Relaxed validations to allow copy-paste
     if (
       (name === "companyName" ||
@@ -328,7 +353,7 @@ const SupplierSignUp = ({ socket }) => {
       }));
       return;
     }
-
+ 
     if (name === "companyAddress" && value.length > 150) {
       setErrors((prevState) => ({
         ...prevState,
@@ -336,7 +361,7 @@ const SupplierSignUp = ({ socket }) => {
       }));
       return;
     }
-
+ 
     if ((name === "tags" || name === "activityCode") && value.length > 60) {
       setErrors((prevState) => ({
         ...prevState,
@@ -344,7 +369,7 @@ const SupplierSignUp = ({ socket }) => {
       }));
       return;
     }
-
+ 
     if (
       ["vatRegistrationNo", "companyLicenseNo", "companyTaxNo"].includes(name)
     ) {
@@ -363,7 +388,7 @@ const SupplierSignUp = ({ socket }) => {
         return;
       }
     }
-
+ 
     if (["registrationNo"].includes(name)) {
       if (value.length >= 20) {
         setErrors((prevState) => ({
@@ -380,7 +405,7 @@ const SupplierSignUp = ({ socket }) => {
         return;
       }
     }
-
+ 
     if (name === "description" && value.length > 2000) {
       setErrors((prevState) => ({
         ...prevState,
@@ -388,7 +413,7 @@ const SupplierSignUp = ({ socket }) => {
       }));
       return;
     }
-
+ 
     // Relaxed validation for contactPersonName, designation, salesPersonName to allow special characters
     if (
       (name === "contactPersonName" ||
@@ -402,7 +427,7 @@ const SupplierSignUp = ({ socket }) => {
       }));
       return;
     }
-
+ 
     if (name === "delivertime" && !/^\d{0,3}$/.test(value)) {
       setErrors((prevState) => ({
         ...prevState,
@@ -410,7 +435,7 @@ const SupplierSignUp = ({ socket }) => {
       }));
       return;
     }
-
+ 
     if (name === "pincode" && !/^[A-Za-z0-9-]{0,8}$/.test(value)) {
       setErrors((prevState) => ({
         ...prevState,
@@ -418,7 +443,7 @@ const SupplierSignUp = ({ socket }) => {
       }));
       return;
     }
-
+ 
     if (name === "annualTurnover") {
       if (!numericRegex.test(value)) {
         setErrors((prevState) => ({
@@ -428,11 +453,11 @@ const SupplierSignUp = ({ socket }) => {
         return;
       }
     }
-
+ 
     setFormData((prevState) => ({ ...prevState, [name]: value }));
     setErrors((prevState) => ({ ...prevState, [name]: "" }));
   };
-
+ 
   const handlePhoneChange = (name, value) => {
     setErrors((prevState) => ({ ...prevState, [name]: "" }));
     try {
@@ -455,15 +480,15 @@ const SupplierSignUp = ({ socket }) => {
       }));
     }
   };
-
+ 
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
-
+ 
   const validateForm = async () => {
     let formErrors = {};
-
+ 
     if (!formData.companyType)
       formErrors.companyType = "Company Type is Required";
     if (!formData.companyName)
@@ -553,16 +578,48 @@ const SupplierSignUp = ({ socket }) => {
         }
       }
     }
+ 
+    /* product catalog validation */
+    if(selectedCompanyType?.value !== "service provider"){
+      if (
+        Array.isArray(productCatalog) &&
+        productCatalog.length > 0
+      ) {
+        const productfileErrors = [];
+        const maxPdfSize = 5*1024*1024;
+        productCatalog.forEach((item, index) => {
+         if(item.file && item.file.size > maxPdfSize){
+          productfileErrors.push(`File exceeds 5 mb.`)
+          const productfileErrorArray = productCatalogFileError || [];
+          productfileErrorArray[index] = `Upload pdf of size less than 5mb.`
+          setProductCatalogFileError(productfileErrorArray);
+         }
+         else{
+          const productfileErrorArray = productCatalogFileError || [];
+          productCatalogFileError[index] = "";
+          setProductCatalogFileError(productfileErrorArray);
+         }
+        });
+        if (productfileErrors.length > 0) {
+          formErrors.certificateFileNDate = productfileErrors.join(", ");
+        }
+      }
+    }
+ 
     setErrors(formErrors);
     return Object.keys(formErrors).length === 0;
   };
-
+ 
   useEffect(() => {
     if (resetUploaders) {
       setResetUploaders(false);
     }
   }, [resetUploaders]);
-
+ 
+  useEffect(()=>{
+    console.log("productcatalog: ",productCatalog);
+  },[productCatalog]);
+ 
   const handleCloseModal = () => setShowModal(false);
   const handleCountryOriginChange = (selectedOption) => {
     setFormData({ ...formData, originCountry: selectedOption.label });
@@ -575,7 +632,7 @@ const SupplierSignUp = ({ socket }) => {
       setErrors((prevState) => ({ ...prevState, originCountry: "" }));
     }
   };
-
+ 
   const handleOperationCountriesChange = (selectedOptions) => {
     const selectedLabels = selectedOptions?.map((option) => option.label) || [];
     setFormData({
@@ -588,7 +645,7 @@ const SupplierSignUp = ({ socket }) => {
         selectedLabels.length === 0 ? "Country of Operation is Required" : "",
     }));
   };
-
+ 
   const handleCategoriesChange = (selectedOptions) => {
     const selectedLabels = selectedOptions?.map((option) => option.label) || [];
     setFormData({
@@ -601,22 +658,24 @@ const SupplierSignUp = ({ socket }) => {
         selectedLabels.length === 0 ? "Trade In Category is Required" : "",
     }));
   };
-
+ 
   const getDropdownButtonLabel = ({ placeholderButtonLabel, value }) => {
     if (value && value.length) {
       return value.map((country) => country.label).join(", ");
     }
     return placeholderButtonLabel;
   };
-
+ 
   const handleCancel = () => {
     localStorage?.clear();
     navigate("/supplier/login");
   };
-
+ 
   const handleResetForm = () => {
     setFormData(defaultFormData);
     setErrors({});
+    setProductCatalogFileError([]);
+    setCNCFileError([]);
     setIsChecked(false);
     setCompanyPhone("");
     setMobile("");
@@ -626,7 +685,7 @@ const SupplierSignUp = ({ socket }) => {
     setSelectedState(null);
     setSelectedCity(null);
   };
-
+ 
   const handleSubmit = async () => {
     const isFormValid = await validateForm();
     if (isFormValid) {
@@ -644,7 +703,7 @@ const SupplierSignUp = ({ socket }) => {
         formData.categories?.map((category) =>
           category ? category.label : ""
         ) || [];
-
+ 
       formDataToSend.append("supplier_type", formData.companyType?.label);
       formDataToSend.append("supplier_name", formData.companyName);
       formDataToSend.append("description", formData.description);
@@ -684,7 +743,7 @@ const SupplierSignUp = ({ socket }) => {
       formDataToSend.append("usertype", formData.usertype);
       formDataToSend.append("annualTurnover", formData.annualTurnover);
       formDataToSend.append("yrFounded", formData.yrFounded);
-
+ 
       (Array.isArray(formData.logoImage) ? formData.logoImage : []).forEach(
         (file) => formDataToSend.append("supplier_image", file)
       );
@@ -698,6 +757,9 @@ const SupplierSignUp = ({ socket }) => {
       (Array.isArray(cNCFileArray) ? cNCFileArray : []).forEach((file) =>
         formDataToSend.append("certificate_image", file)
       );
+/*       (Array.isArray(productCatalogFileArray)?productCatalogFileArray:[]).forEach((file)=>(
+        formDataToSend.append("product_catalog",file)
+      )) */
       if (selectedCompanyType?.value === "medical practitioner") {
         (Array.isArray(formData.medicalCertificateImage)
           ? formData.medicalCertificateImage
@@ -706,7 +768,7 @@ const SupplierSignUp = ({ socket }) => {
           formDataToSend.append("medical_practitioner_image", file)
         );
       }
-
+ 
       const certificateFileNDateUpdated = JSON.stringify(
         certificateFileNDate?.map((section) => ({
           date: section?.date || "",
@@ -719,7 +781,14 @@ const SupplierSignUp = ({ socket }) => {
         "certificateFileNDate",
         certificateFileNDateUpdated
       );
-
+ 
+      const updatedProductCataloge = JSON.stringify(productCatalog.map((item)=> ({
+        file: Array.isArray(item?.file)?item?.file?.[0]:item?.file || ""
+      })) || [{file:""}]
+      );
+ 
+      formDataToSend.append("product_catalogue",updatedProductCataloge);
+ 
       try {
         const response = await apiRequests?.postRequestWithFile(
           `auth/register`,
@@ -749,17 +818,17 @@ const SupplierSignUp = ({ socket }) => {
       toast("Some Fields are Missing", { type: "error" });
     }
   };
-
+ 
   const handleFormSubmit = (event) => {
     event.preventDefault();
     handleSubmit();
   };
-
+ 
   const parseDateString = (dateString) => {
     const [day, month, year] = dateString?.split("/");
     return new Date(`${year}-${month}-${day}`);
   };
-
+ 
   return (
     <>
       {showTnC ? (
@@ -1208,7 +1277,7 @@ const SupplierSignUp = ({ socket }) => {
                         }}
                       />
                     </div>
-
+ 
                       <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
                         Annual Turnover
@@ -1358,7 +1427,7 @@ const SupplierSignUp = ({ socket }) => {
                     </div>
                   </div>
                 </div>
-
+ 
                 <div className={styles.signupFormSectionContainer}>
                   <div className={styles.signupInnerHeading}>
                     Contact Details
@@ -1482,7 +1551,7 @@ const SupplierSignUp = ({ socket }) => {
                     </div>
                   </div>
                 </div>
-
+ 
                 <div className={styles.signupFormSectionContainer}>
                   <div className={styles.signupInnerHeading}>Documents</div>
                   <div className={styles.signupFormInnerDivSection}>
@@ -1613,6 +1682,7 @@ const SupplierSignUp = ({ socket }) => {
                         ))}
                       </div>
                     )}
+ 
                     {selectedCompanyType?.value === "medical practitioner" && (
                       <div className={styles.signupFormSectionDiv}>
                         <label className={styles.signupFormSectionLabel}>
@@ -1635,6 +1705,80 @@ const SupplierSignUp = ({ socket }) => {
                       </div>
                     )}
                   </div>
+ 
+                    {/* Product catalog */}
+                    {
+                      selectedCompanyType?.value !== "service provider" && (
+                        <div className={style.signupDocumentSection}>
+ 
+                          <div className={styles.productCatalogeAddButtonSection}>
+                            <button
+                              className={styles.signupDocumentHead}
+                              onClick={(e) => addProductSection(e)}
+                            >
+                              Add
+                            </button>
+                          </div>
+ 
+                          <div className={styles.productLabelInputMainDiv}>
+                            {productCatalog.map((section,index) => (
+                            <div
+                             key={index}
+                             className={styles.productInnerSection}
+                            >
+                              <div className={styles.signupProductCatalogSectionDiv}>
+                                <div className={styles.labelCrossDiv}>
+                                  <label className={styles.signupFormSectionLabel}>
+                                    Product Catalog
+                                  </label>
+                                  {productCatalog.length > 1 && (
+                                    <div
+                                      onClick={() => removeProductCatalogSection(index)}
+                                      className={styles.productCrossButton}
+                                    >
+                                      <img
+                                        src={Cross}
+                                        alt="cross"
+                                        className={styles.productCrossIcon}
+                                      />
+                                    </div>
+                                  )}
+                                </div>
+                                <ProductCatalogUploader
+                                onUploadStatusChange={(status) =>
+                                  handleImageUpload(status, index)
+                                }
+                                filePreviews={section.file}
+                                setFilePreviews={(files) =>
+                                  setProductFile(files, index)
+                                }
+                                reset={resetUploaders}
+                                allowMultiple={false}
+                                showTooltip={true}
+                                tooltipMessage="Broucher used as part of the process to upload your product catalogue to the portal"
+                                certificateFileNDate={productCatalog}
+                                setCertificateFileNDate={
+                                  setProductCatalog
+                                }
+                                cNCFileArray={productCatalogFileArray}
+                                setCNCFileArray={setProductCatalogFileArray}
+                                cNCFileError={productCatalogFileError}
+                                setCNCFileError={setProductCatalogFileError}
+                                mainIndex={index}
+                              />
+                              {productCatalogFileError?.[index] && (
+                                <div className={styles.signupErrors}>
+                                  {productCatalogFileError?.[index]}
+                                </div>
+                              )}
+                              </div>
+                            </div>
+                          ))}
+                          </div>
+ 
+                        </div>
+                      )
+                    }
                   <div className={styles.signupFormSectionCheckbox}>
                     <div
                       className={styles.termsCondition}
@@ -1673,5 +1817,5 @@ const SupplierSignUp = ({ socket }) => {
     </>
   );
 };
-
+ 
 export default SupplierSignUp;

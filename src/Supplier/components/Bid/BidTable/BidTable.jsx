@@ -85,15 +85,18 @@ const BidTable = ({
       sortable: true,
       width: "130px",
     },
-    {
+    // {
+    //   name: "Participated",
+    //   selector: (row) => row?.participated || 'Yes',
+    //   sortable: true,
+    // },
+   {
       name: "Participated",
       selector: (row) => {
         const supplierId = localStorage?.getItem("_id");
 
-        const hasParticipated = row?.additionalDetails?.some((detail) =>
-          detail?.participants?.some(
-            (participant) => participant?.id === supplierId
-          )
+        const hasParticipated = row?.additionalDetails?.some(detail =>
+          detail?.participants?.some(participant => participant?.id === supplierId)
         );
 
         return hasParticipated ? "Yes" : "No";
