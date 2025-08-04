@@ -24,7 +24,7 @@ const BidTable = () => {
 
   /* filter - dropdown */
   const [openDropdown, setOpenDropdown] = useState(false);
-  const [isParticipated, setIsParticipated] = useState("");
+  const [isParticipated, setIsParticipated] = useState();
 
   const dropdownRef = useRef(null);
 
@@ -87,20 +87,20 @@ const BidTable = () => {
       ?.toString()
       ?.toLowerCase()
       ?.replaceAll(/\s+/g, "");
-    const country = localStorage?.getItem("country")
+    const country = localStorage?.getItem("country");
 
     try {
       const response = await apiRequests.getRequest(
         isParticipated?.toLowerCase() == "Participated Bids"?.toLowerCase() ||
           isParticipated?.toLowerCase() ==
             "Not Participated Bids"?.toLowerCase()
-          ? `bid?&page_no=${currentPage}&country=${country}&page_size=${bidPerPage}&status=${status}&type=${type}&participant=${
+          ? `bid?&page_no=${currentPage}&userType=Supplier&country=${country}&page_size=${bidPerPage}&status=${status}&type=${type}&participant=${
               isParticipated?.toLowerCase() ==
               "Participated Bids"?.toLowerCase()
                 ? participant
                 : "not"
             }`
-          : `bid?&page_no=${currentPage}&country=${country}&page_size=${bidPerPage}&status=${status}&type=${type}`
+          : `bid?&page_no=${currentPage}&userType=Supplier&country=${country}&page_size=${bidPerPage}&status=${status}&type=${type}`
       );
       if (response?.code === 200) {
         setBidList(response.data?.bids);
@@ -115,6 +115,10 @@ const BidTable = () => {
   useEffect(() => {
     fetchData();
   }, [activeLink, currentPage, isParticipated]);
+
+  useEffect(() => {
+    setIsParticipated();
+  }, [location.pathname]);
 
   return (
     <>

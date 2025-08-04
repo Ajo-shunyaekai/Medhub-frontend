@@ -24,7 +24,12 @@ const ProductList = () => {
   // Function to calculate totalBidsPCount from participants
   const getTotalBids = (participants) => {
     // Assuming `totalBidsPCount` exists on participants, you can sum or use the first participant's count.
-    return participants?.reduce((total, participant) => total + (participant?.totalBidsPCount || 0), 0) || 0;
+    return (
+      participants?.reduce(
+        (total, participant) => total + (participant?.totalBidsPCount || 0),
+        0
+      ) || 0
+    );
   };
 
   const columns = [
@@ -59,7 +64,9 @@ const ProductList = () => {
     },
     {
       name: "Total Bids",
-      selector: (row) => getTotalBids(row?.participants),  // Use the function to get total bids
+      // selector: (row) => getTotalBids(row?.participants),  // Use the function to get total bids
+      selector: (row) => row?.totalBidsCount || 0, // Use the function to get total bids
+
       sortable: true,
     },
     {

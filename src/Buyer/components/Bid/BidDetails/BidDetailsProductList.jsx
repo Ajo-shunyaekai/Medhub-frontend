@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import { Link, useParams } from "react-router-dom";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
-// import PaginationComponent from "../../SharedComponents/Pagination/Pagination";
 import PaginationComponent from "../../SharedComponents/Pagination/pagination";
 import styles from "../../../assets/style/table.module.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -66,7 +65,7 @@ const BidDetailsProductList = ({}) => {
     },
     {
       name: "Total Bids",
-      selector: (row) => Number(row?.totalBidsPCount || 0),
+      selector: (row) => Number(row?.totalBidsCount || 0),
       sortable: true,
     },
     {
@@ -90,20 +89,16 @@ const BidDetailsProductList = ({}) => {
   const [newOrder, setNewOrder] = useState([]);
 
   useEffect(() => {
-    const allRows = bidDetails?.additionalDetails?.flatMap((item) => {
-      return item?.participants?.map((participant) => {
-        return {
-          productName: item?.name,
-          type: item?.type,
-          category: item?.category,
-          quantityRequired: item?.quantity,
-          targetPrice: item?.targetPrice,
-          timeline: item?.delivery,
-          totalBidsPCount: participant?.totalBidsPCount, // Use 'totalBidsPCount' here
-          itemId: item?.itemId, // Make sure the itemId matches with what you're using
-        };
-      });
-    });
+    const allRows = bidDetails?.additionalDetails?.map((item) => ({
+      productName: item?.name,
+      type: item?.type,
+      category: item?.category,
+      quantityRequired: item?.quantity,
+      targetPrice: item?.targetPrice,
+      timeline: item?.delivery,
+      totalBidsCount: item?.totalBidsCount || 0,
+      itemId: item?.itemId,
+    }));
 
     const indexOfLastProduct = currentPage * bidsPerPage;
     const indexOfFirstOrder = indexOfLastProduct - bidsPerPage;
