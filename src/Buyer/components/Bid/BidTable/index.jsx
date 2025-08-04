@@ -54,44 +54,6 @@ const BidTable = () => {
     }
   };
 
-  const dummyBids = [
-    {
-      _id: "BID20250701",
-      bidId: "BID20250701",
-      start: "2025-07-01 10:00 AM",
-      end: "2025-07-05 05:00 PM",
-      status: "Active",
-    },
-    {
-      _id: "BID20250628",
-      bidId: "BID20250628",
-      start: "2025-06-28 09:30 AM",
-      end: "2025-07-02 04:00 PM",
-      status: "Completed",
-    },
-    {
-      _id: "BID20250620",
-      bidId: "BID20250620",
-      start: "2025-06-20 11:00 AM",
-      end: "2025-06-25 03:00 PM",
-      status: "Cancelled",
-    },
-    {
-      _id: "BID20250703",
-      bidId: "BID20250703",
-      start: "2025-07-03 08:00 AM",
-      end: "2025-07-08 06:00 PM",
-      status: "Active",
-    },
-    {
-      _id: "BID20250615",
-      bidId: "BID20250615",
-      start: "2025-06-15 10:30 AM",
-      end: "2025-06-20 05:00 PM",
-      status: "Completed",
-    },
-  ];
-
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
