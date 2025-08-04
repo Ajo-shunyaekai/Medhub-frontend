@@ -75,70 +75,33 @@ const BidTable = () => {
     }
   };
 
-  const dummyBids = [
-    {
-      _id: "BID20250701",
-      bidId: "BID20250701",
-      start: "2025-07-01 10:00 AM",
-      end: "2025-07-05 05:00 PM",
-      status: "Active",
-    },
-    {
-      _id: "BID20250628",
-      bidId: "BID20250628",
-      start: "2025-06-28 09:30 AM",
-      end: "2025-07-02 04:00 PM",
-      status: "Completed",
-    },
-    {
-      _id: "BID20250620",
-      bidId: "BID20250620",
-      start: "2025-06-20 11:00 AM",
-      end: "2025-06-25 03:00 PM",
-      status: "Cancelled",
-    },
-    {
-      _id: "BID20250703",
-      bidId: "BID20250703",
-      start: "2025-07-03 08:00 AM",
-      end: "2025-07-08 06:00 PM",
-      status: "Active",
-    },
-    {
-      _id: "BID20250615",
-      bidId: "BID20250615",
-      start: "2025-06-15 10:30 AM",
-      end: "2025-06-20 05:00 PM",
-      status: "Completed",
-    },
-  ];
-
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
   const fetchData = async () => {
-    // const supplierId = localStorage?.getItem("_id");
-    // if (!supplierId) {
-    //   localStorage?.clear();
-    //   navigate("/supplier/login");
-    //   return;
-    // }
     const status = activeLink?.toLowerCase();
-    const obj = {
-      // buyer_id: buyerId,
-      status: status,
-      pageNo: currentPage,
-      pageSize: bidPerPage,
-      usertype: "Buyer",
-    };
+    const participant = localStorage.getItem("_id");
+    const type = localStorage
+      ?.getItem("supplier_type")
+      ?.toString()
+      ?.toLowerCase()
+      ?.replaceAll(/\s+/g, "");
+    console.log("isParticipated", isParticipated);
+    const country = localStorage?.getItem("country")
 
     try {
       const response = await apiRequests.getRequest(
-        `bid?&page_no=${currentPage}&page_size=${bidPerPage}&status=${status}&type=${localStorage.getItem(
-          "supplier_type"
-        )}`
-        // `bid?userId=${buyerId}&pageNo=${currentPage}&pageSize=${bidPerPage}&status=${status}`
+        isParticipated?.toLowerCase() == "Participated Bids"?.toLowerCase() ||
+          isParticipated?.toLowerCase() ==
+            "Not Participated Bids"?.toLowerCase()
+          ? `bid?&page_no=${currentPage}&country=${country}&page_size=${bidPerPage}&status=${status}&type=${type}&participant=${
+              isParticipated?.toLowerCase() ==
+              "Participated Bids"?.toLowerCase()
+                ? participant
+                : "not"
+            }`
+          : `bid?&page_no=${currentPage}&country=${country}&page_size=${bidPerPage}&status=${status}&type=${type}`
       );
       if (response?.code === 200) {
         setBidList(response.data?.bids);
@@ -152,7 +115,7 @@ const BidTable = () => {
 
   useEffect(() => {
     fetchData();
-  }, [activeLink, currentPage]);
+  }, [activeLink, currentPage, isParticipated]);
 
   return (
     <>
@@ -176,7 +139,7 @@ const BidTable = () => {
                       ) /* toggleDropdown('gmpApprovals') */
                   }
                 >
-                  {isParticipated == "" ? "All Bids" : isParticipated}{" "}
+                  {!isParticipated ? "All Bids" : isParticipated}{" "}
                   {openDropdown === true /* 'gmpApprovals' */ ? (
                     <FaAngleUp />
                   ) : (
