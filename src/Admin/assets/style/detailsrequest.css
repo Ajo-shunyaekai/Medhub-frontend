@@ -72,7 +72,7 @@
   padding: 6px 16px;
 }
 .buyer-details-red-button {
-  background: #f4c414;
+  background: linear-gradient(to left, #00dcff, #0075ce);
   font-weight: 500;
   border-radius: 4px;
   color: #fff;
@@ -776,42 +776,42 @@
 .lineChange {
   display: hidden;
 }
- 
-.buyer-details-inner-head-interested{
-    font-size: 0.825rem;
-    font-weight: 500;
-    min-width: 210px;
-    color:#5e676f;
+
+.buyer-details-inner-head-interested {
+  font-size: 0.825rem;
+  font-weight: 500;
+  min-width: 210px;
+  color: #5e676f;
 }
- 
-@media screen and (max-width: 1200px){
-    .buyers-details-section{
-        padding: 28px 16px;
-    }
-    .buyer-details-account-container-section{
-        padding: 28px 16px;
-    }
-    .buyer-details-uppar-main-containers{
-        padding: 28px 16px;
-    }
-    .buyer-details-company-type-section{
-        padding: 28px 16px;
-    }
-    .buyer-details-bank-section{
-        padding: 28px 16px;
-    }
-    .newSection{
-        gap: 10px;
-    }
-    .buyer-details-uppar-card-inner-section{
-        padding: 28px 16px;
-    }
-    .buyer-details-description-section {
-        padding: 28px 16px;
-    }
-    .buyer-details-inner-head-interested{
-        min-width: 150px;
-    }
+
+@media screen and (max-width: 1200px) {
+  .buyers-details-section {
+    padding: 28px 16px;
+  }
+  .buyer-details-account-container-section {
+    padding: 28px 16px;
+  }
+  .buyer-details-uppar-main-containers {
+    padding: 28px 16px;
+  }
+  .buyer-details-company-type-section {
+    padding: 28px 16px;
+  }
+  .buyer-details-bank-section {
+    padding: 28px 16px;
+  }
+  .newSection {
+    gap: 10px;
+  }
+  .buyer-details-uppar-card-inner-section {
+    padding: 28px 16px;
+  }
+  .buyer-details-description-section {
+    padding: 28px 16px;
+  }
+  .buyer-details-inner-head-interested {
+    min-width: 150px;
+  }
 }
 
 /* start the media query */

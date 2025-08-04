@@ -87,7 +87,6 @@ const BidTable = () => {
       ?.toString()
       ?.toLowerCase()
       ?.replaceAll(/\s+/g, "");
-    console.log("isParticipated", isParticipated);
     const country = localStorage?.getItem("country")
 
     try {

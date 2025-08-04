@@ -18,6 +18,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import RenderFiles from "../../../../Buyer/components/Buy/Details/RenderFiles";
 import { sendSubscriptionPaymentUrlEmail } from "../../../../redux/reducers/subscriptionSlice";
+import NewModal from "../../shared-components/NewModal";
 
 const BuyerDetailsNew = () => {
   const dispatch = useDispatch();
@@ -31,6 +32,10 @@ const BuyerDetailsNew = () => {
   const [salesPersonName, setSalesPersonName] = useState("");
   const [isEditable, setIsEditable] = useState(false);
   const { user } = useSelector((state) => state.userReducer);
+  const [isOpen, setIsOpen] = useState(false);
+  const onClose = () => {
+    setIsOpen(false);
+  };
 
   const handleEditClick = () => {
     setIsEditable(true);
@@ -124,16 +129,7 @@ const BuyerDetailsNew = () => {
   };
 
   const sendPaymentUrlEmail = async () => {
-    dispatch(
-      sendSubscriptionPaymentUrlEmail({
-        userType: "Supplier",
-        id: buyerId,
-      })
-    ).then((response) => {
-      if (response?.meta.requestStatus === "fulfilled") {
-        toast.success("Email sent.");
-      }
-    });
+    setIsOpen(true);
   };
 
   return (
@@ -151,7 +147,12 @@ const BuyerDetailsNew = () => {
                     <span className="buyer-details-edit-button">Edit</span>
                   </Link>
                   <>
-                    <Link onClick={sendPaymentUrlEmail}>
+                    <Link
+                      onClick={() =>
+                        !buyerDetails?.currentSubscription &&
+                        sendPaymentUrlEmail()
+                      }
+                    >
                       <span
                         className={
                           buyerDetails?.currentSubscription
@@ -397,7 +398,9 @@ const BuyerDetailsNew = () => {
               </div>
 
               <div className="buyer-details-inner-section">
-                <div className="buyer-details-inner-head-interested">Interested In :</div>
+                <div className="buyer-details-inner-head-interested">
+                  Interested In :
+                </div>
                 <div className="buyer-details-inner-text">
                   {buyerDetails?.interested_in.length < 6 ? (
                     buyerDetails?.interested_in
@@ -431,40 +434,34 @@ const BuyerDetailsNew = () => {
               </div>
             </div>
             <div className="buyer-details-inner-left-section">
-            <div className="newSection">
-                <div className="newHead">
-                Year Company Founded :
-                </div>
+              <div className="newSection">
+                <div className="newHead">Year Company Founded :</div>
                 <div className="newText">
-                  {buyerDetails?.yrFounded ? buyerDetails?.yrFounded : '-'}
-                </div>
-              </div>
-            <div className="newSection">
-                <div className="newHead">
-                  Annual Turnover :
-                </div>
-                <div className="newText">
-                  {buyerDetails?.annualTurnover ? `${buyerDetails?.annualTurnover} USD` : '-'}
+                  {buyerDetails?.yrFounded ? buyerDetails?.yrFounded : "-"}
                 </div>
               </div>
               <div className="newSection">
-                <div className="newHead">
-                  Business/Trade Activity Code :
+                <div className="newHead">Annual Turnover :</div>
+                <div className="newText">
+                  {buyerDetails?.annualTurnover
+                    ? `${buyerDetails?.annualTurnover} USD`
+                    : "-"}
                 </div>
+              </div>
+              <div className="newSection">
+                <div className="newHead">Business/Trade Activity Code :</div>
                 <div className="newText">
                   {buyerDetails?.activity_code || "-"}
                 </div>
               </div>
-  
+
               <div className="newSection">
-                <div className="newHead">
-                  License Expiry Date :
-                </div>
+                <div className="newHead">License Expiry Date :</div>
                 <div className="newText">
                   {buyerDetails?.license_expiry_date}
                 </div>
               </div>
-           
+
               <div className="newSection">
                 <div className="newHead">Contact Name :</div>
                 <div className="newText">
@@ -473,9 +470,7 @@ const BuyerDetailsNew = () => {
               </div>
               <div className="newSection">
                 <div className="newHead">Designation :</div>
-                <div className="newText">
-                  {buyerDetails?.designation}
-                </div>
+                <div className="newText">{buyerDetails?.designation}</div>
               </div>
               <div className="newSection">
                 <div className="newHead">Email ID :</div>
@@ -490,11 +485,9 @@ const BuyerDetailsNew = () => {
                   {buyerDetails?.contact_person_mobile}
                 </div>
               </div>
- 
+
               <div className="newSection">
-                <div className="newHead">
-                  Country of Operation :
-                </div>
+                <div className="newHead">Country of Operation :</div>
                 <div className="newText">
                   {buyerDetails?.country_of_operation?.join(", ")}
                 </div>
@@ -605,6 +598,14 @@ const BuyerDetailsNew = () => {
           {user?.accessControl?.buyer?.requests?.edit && buyerDetails?.account_status == 0 && isModalOpen && (
             <BuyerCustomModal onClose={closeModal} />
           )} */}
+        </div>
+        <div className="buyer-details-container2">
+          <NewModal
+            isOpen={isOpen}
+            onClose={onClose}
+            id={buyerId}
+            userType={"Buyer"}
+          />
         </div>
 
         <div className="bottomMargin"></div>

@@ -28,17 +28,19 @@ const BidTable = ({
           ? row.status.charAt(0).toUpperCase() + row.status.slice(1)
           : "",
       sortable: true,
-      // width: "200px",
+      width: "100px",
     },
     {
       name: "Bid Start Date",
       selector: (row) => moment(row?.general?.startDate)?.format("DD/MM/YYYY"),
       sortable: true,
+      width: "150px",
     },
     {
       name: "Bid End Date",
       selector: (row) => moment(row?.general?.endDate)?.format("DD/MM/YYYY"),
       sortable: true,
+      width: "150px",
     },
     // {
     //   name: "Time Remaining",
@@ -63,6 +65,7 @@ const BidTable = ({
         );
       },
       sortable: false,
+      width: "150px",
     },
 
     // {
@@ -74,7 +77,7 @@ const BidTable = ({
       name: "Total Bids",
       selector: (row) => Number(row?.totalBidsCount || 0),
       sortable: true,
-      // width: "200px",
+      width: "120px",
     },
 
     {
