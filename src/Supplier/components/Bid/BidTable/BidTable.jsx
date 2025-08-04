@@ -55,12 +55,13 @@ const BidTable = ({
           ? row.status.charAt(0).toUpperCase() + row.status.slice(1)
           : "",
       sortable: true,
-      // width: "200px",
+      width: "90px",
     },
     {
       name: "Bid Start Date",
       selector: (row) => moment(row?.general?.startDate)?.format("DD/MM/YYYY"),
       sortable: true,
+      width:"140px"
     },
     {
       name: "Bid End Date",
@@ -83,6 +84,7 @@ const BidTable = ({
             );
           },
           sortable: true,
+          width:"130px"
     },
     {
       name: "Participated",
@@ -91,9 +93,9 @@ const BidTable = ({
     },
     {
       name: "Total Bids",
-      selector: (row) => Number(row?.totalBidsCount || 0),
+      selector: (row) => Number(row?.totalBids || 0),
       sortable: true,
-      // width: "200px",
+      width: "100px",
     },
     {
       name: "Action",

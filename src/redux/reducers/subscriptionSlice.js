@@ -105,11 +105,13 @@ export const sendSubscriptionPaymentEmail = createAsyncThunk(
 );
 export const sendSubscriptionPaymentUrlEmail = createAsyncThunk(
   "subscription/sendSubscriptionPaymentUrlEmail",
-  async ({ userType, id }, { rejectWithValue }) => {
+  async ({ userType, id, coupon }, { rejectWithValue }) => {
     try {
-      const response = await apiRequests?.getRequest(
-        `${process.env.REACT_APP_API_URL}subscription/send-pay-url/${userType}/${id}`
+      const response = await apiRequests?.postRequest(
+        `${process.env.REACT_APP_API_URL}subscription/send-pay-url/${userType}/${id}`,
+        { coupon }
       );
+      return response;
     } catch (error) {
       // Log and pass the error
       return rejectWithValue(error?.response?.data || error.message);

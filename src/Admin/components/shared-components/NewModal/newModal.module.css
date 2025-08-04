@@ -1,0 +1,217 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modalContent {
+  background-color: white;
+  padding: 20px;
+  width: 500px;
+  border-radius: 8px;
+  position: relative;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Modal Header */
+.modalHeaderDiv {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  padding-bottom: 3px;
+}
+
+.modalHeaderPara {
+  font-size: 20px;
+  font-weight: 500;
+  color: #5e676f;
+}
+
+.closeButton {
+  border: none;
+  background: transparent;
+  font-size: 24px;
+  cursor: pointer;
+  color: #5e676f;
+}
+
+/* Modal main content section */
+.modalMainContentSection {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 15px;
+}
+
+/* Modal Tab Section */
+.modalTabSection {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px 10px;
+}
+
+.skipBtn {
+  background-color: #fff;
+  border: 1px solid #212121;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px #0000000d !important;
+  color: #4f4f4f;
+  align-items: center;
+  cursor: pointer !important;
+  display: flex;
+  font-size: 0.825rem;
+  font-weight: 500;
+  padding: 6px 22px;
+}
+
+.modalTab {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  box-shadow: 0 1px 2px #0000000d !important;
+  border: 1px solid #212121;
+  border-radius: 20px;
+  padding: 6px 16px;
+  cursor: pointer !important;
+  color: #4f4f4f;
+  font-size: 0.825rem;
+  font-weight: 500;
+}
+
+.modalNewTab {
+  pointer-events: none !important;
+  cursor: not-allowed !important;
+}
+
+.modalTabSelected {
+  background: linear-gradient(to left, #00dcff, #0075ce);
+  border-radius: 20px;
+  padding: 6px 16px;
+  cursor: pointer !important;
+  color: white;
+  font-size: 0.825rem;
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 150ms ease;
+}
+
+/* Modal Selected Coupon Showing Section */
+.modalSelectedCouponShowingSectionDiv {
+  padding-left: 5px;
+  padding-top: 5px;
+  min-height: 30px;
+}
+
+.modalSelectedCouponShowingDiv {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  opacity: 0;
+  transform: translateY(5px);
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.modalSelectedCouponShowingSpan {
+  color: #5e676f;
+  font-size: 0.825rem;
+  font-weight: 500;
+}
+
+.modalSelectedCouponShowingSecondSpan {
+  color: #31c971;
+}
+
+.modalResetBtn {
+  border: 1px solid #d3d3d3;
+  border-radius: 4px;
+  cursor: pointer !important;
+  display: flex;
+  background-color: transparent;
+  color: #5e676f;
+  font-size: 0.825rem;
+  font-weight: 500;
+  justify-content: center;
+  padding: 3px 6px;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Modal Buttons and error showing section*/
+
+.modalButtonSectionDiv {
+  padding-left: 5px;
+  padding-top: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.errorSectionDiv {
+  color: red;
+  font-size: 0.825rem;
+}
+
+.modalBtnDiv {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.addCoupon {
+  background: linear-gradient(to left, #00dcff, #0075ce);
+  padding: 6px 16px;
+  cursor: pointer !important;
+  color: white;
+  font-size: 0.825rem;
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+}
+
+.skipBtn {
+  background-color: #fff;
+  border: 1px solid #212121;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px #0000000d !important;
+  color: #4f4f4f;
+  align-items: center;
+  cursor: pointer !important;
+  display: flex;
+  font-size: 0.825rem;
+  font-weight: 500;
+  padding: 6px 22px;
+}
+
+.loadingSpinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #000;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
