@@ -443,6 +443,10 @@ export const categoriesData = [
         name: "Waste Management",
         anotherCategories: cleanCategories(["Waste Disposal Systems", "Services"]),
       },
+       {
+        name: "Medical Gas Supply Unit",
+        anotherCategories: cleanCategories(["Services"]),
+      },
     ]?.sort((a, b) => a?.name?.localeCompare(b?.name)),
     options: [
       {
