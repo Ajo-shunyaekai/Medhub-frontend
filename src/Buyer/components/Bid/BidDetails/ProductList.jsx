@@ -167,11 +167,11 @@ const ProductList = ({}) => {
         pagination={false}
         responsive
       />
-      {bidDetails?.additionalDetails?.length > 0 ? (
+      {bidDetails?.additionalDetails?.participants?.length > 0 ? (
         <PaginationComponent
           activePage={currentPage}
           itemsCountPerPage={bidsPerPage}
-          totalItemsCount={bidDetails?.additionalDetails?.length}
+          totalItemsCount={bidDetails?.additionalDetails?.participants?.length}
           pageRangeDisplayed={5}
           onChange={handlePageChange}
         />

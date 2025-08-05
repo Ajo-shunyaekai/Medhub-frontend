@@ -7,33 +7,9 @@ import moment from "moment";
 import PaginationComponent from "../../SharedComponents/Pagination/Pagination";
 import styles from "../../../assets/style/table.module.css";
 import { getTimeRemaining } from "../helper";
-
-// const getTimeRemaining = (startDate, startTime = "00:00", endDate, endTime = "00:00") => {
-//   if (!startDate || !endDate) return "";
-
-//   const start = moment(`${moment(startDate).format("YYYY-MM-DD")}T${startTime}`, "YYYY-MM-DDTHH:mm");
-//   const end = moment(`${moment(endDate).format("YYYY-MM-DD")}T${endTime}`, "YYYY-MM-DDTHH:mm");
-//   const now = moment();
-
-//   if (now.isBefore(start)) {
-//     return "Not Started";
-//   }
-
-//   if (now.isAfter(end)) {
-//     return "Expired";
-//   }
-
-//   const duration = moment.duration(end.diff(now));
-
-//   const days = Math.floor(duration.asDays());
-//   const hours = duration.hours();
-//   const minutes = duration.minutes();
-
-//   if (days > 0) return `${days} day${days !== 1 ? "s" : ""}`;
-//   if (hours > 0) return `${hours} hr${hours !== 1 ? "s" : ""}`;
-//   return `${minutes} min${minutes !== 1 ? "s" : ""}`;
-// };
-
+import { width } from "@mui/system";
+ 
+ 
 const BidTable = ({
   bidList,
   totalBids,
@@ -66,6 +42,7 @@ const BidTable = ({
       name: "Bid End Date",
       selector: (row) => moment(row?.general?.endDate)?.format("DD/MM/YYYY"),
       sortable: true,
+      width:"140px"
     },
     {
       name: "Time Remaining",
@@ -75,7 +52,7 @@ const BidTable = ({
         const startTime = row?.general?.startTime || "00:00";
         const endDate = row?.general?.endDate;
         const endTime = row?.general?.endTime || "00:00";
-
+ 
         return (
           <span>
             {getTimeRemaining(startDate, startTime, endDate, endTime)}
@@ -83,7 +60,7 @@ const BidTable = ({
         );
       },
       sortable: true,
-      width: "130px",
+      width: "140px",
     },
     // {
     //   name: "Participated",
@@ -94,11 +71,11 @@ const BidTable = ({
       name: "Participated",
       selector: (row) => {
         const supplierId = localStorage?.getItem("_id");
-
+ 
         const hasParticipated = row?.additionalDetails?.some(detail =>
           detail?.participants?.some(participant => participant?.id === supplierId)
         );
-
+ 
         return hasParticipated ? "Yes" : "No";
       },
       sortable: true,
@@ -125,7 +102,7 @@ const BidTable = ({
       button: true,
     },
   ];
-
+ 
   return (
     <div className={styles.container}>
       <style>
@@ -135,7 +112,7 @@ const BidTable = ({
             background-color: unset !important;
             width: 100% !important;
             table-layout: auto !important; 
-            overflow-x: hidden !important;
+            overflow-x: hidden !important; 
           }
           .rdt_TableRow {
             background-color: #ffffff !important;
@@ -165,9 +142,335 @@ const BidTable = ({
             color: #99a0ac;
             font-size: 0.825rem;
           }
+ 
+           @media (min-width: 1200px) and (max-width: 1233px) {
+          .rdt_TableCol:nth-child(1),
+            .rdt_TableCell:nth-child(1) {
+              min-width: 30px;
+            }
+            
+            .rdt_TableCol:nth-child(2),
+            .rdt_TableCell:nth-child(2) {
+              min-width: 30px;
+            }
+ 
+           
+            .rdt_TableCol:nth-child(3),
+            .rdt_TableCell:nth-child(3) {
+              min-width: 30px;
+            }
+ 
+            
+            .rdt_TableCol:nth-child(4),
+            .rdt_TableCell:nth-child(4) {
+              min-width: 30px;
+            }
+ 
+          
+            .rdt_TableCol:nth-child(5),
+            .rdt_TableCell:nth-child(5) {
+              min-width: 50px;
+            }
+ 
+            .rdt_TableCol:nth-child(6),
+            .rdt_TableCell:nth-child(6) {
+              min-width: 40px;
+            }
+ 
+           
+            .rdt_TableCol:nth-child(7),
+            .rdt_TableCell:nth-child(7) {
+              min-width: 60px;
+            }
+ 
+         
+            .rdt_TableCol:nth-child(8),
+            .rdt_TableCell:nth-child(8) {
+              min-width: 30px;
+            }
+          }
+ 
+ 
+        @media (min-width: 1234px) and (max-width: 1249px) {
+          .rdt_TableCol:nth-child(1),
+            .rdt_TableCell:nth-child(1) {
+              min-width: 30px;
+            }
+            
+            .rdt_TableCol:nth-child(2),
+            .rdt_TableCell:nth-child(2) {
+              min-width: 30px;
+            }
+ 
+            
+            
+            .rdt_TableCol:nth-child(3),
+            .rdt_TableCell:nth-child(3) {
+              min-width: 50px;
+            }
+ 
+           
+            .rdt_TableCol:nth-child(4),
+            .rdt_TableCell:nth-child(4) {
+              min-width: 50px;
+            }
+ 
+            
+            .rdt_TableCol:nth-child(5),
+            .rdt_TableCell:nth-child(5) {
+              min-width: 80px;
+            }
+ 
+            
+            .rdt_TableCol:nth-child(6),
+            .rdt_TableCell:nth-child(6) {
+              min-width: 40px;
+            }
+ 
+           
+            .rdt_TableCol:nth-child(7),
+            .rdt_TableCell:nth-child(7) {
+              min-width: 80px;
+            }
+ 
+          
+            .rdt_TableCol:nth-child(8),
+            .rdt_TableCell:nth-child(8) {
+              min-width: 40px;
+            }
+          }
+ 
+         @media (min-width: 1250px) and (max-width: 1284px) {
+          .rdt_TableCol:nth-child(1),
+            .rdt_TableCell:nth-child(1) {
+              min-width: 30px;
+            }
+           
+            .rdt_TableCol:nth-child(2),
+            .rdt_TableCell:nth-child(2) {
+              min-width: 40px;
+            }
+ 
+            
+            .rdt_TableCol:nth-child(3),
+            .rdt_TableCell:nth-child(3) {
+              min-width: 80px;
+            }
+ 
+            
+            .rdt_TableCol:nth-child(4),
+            .rdt_TableCell:nth-child(4) {
+              min-width: 80px;
+            }
+ 
+            
+            .rdt_TableCol:nth-child(5),
+            .rdt_TableCell:nth-child(5) {
+              min-width: 110px;
+            }
+ 
+            
+            .rdt_TableCol:nth-child(6),
+            .rdt_TableCell:nth-child(6) {
+              min-width: 70px;
+            }
+ 
+          
+            .rdt_TableCol:nth-child(7),
+            .rdt_TableCell:nth-child(7) {
+              min-width: 100px;
+            }
+ 
+            
+            .rdt_TableCol:nth-child(8),
+            .rdt_TableCell:nth-child(8) {
+              min-width: 50px;
+            }
+          }
+ 
+ 
+          @media (min-width: 1285px) and (max-width: 1349px) {
+          .rdt_TableCol:nth-child(1),
+            .rdt_TableCell:nth-child(1) {
+              min-width: 80px;
+            }
+           
+            .rdt_TableCol:nth-child(2),
+            .rdt_TableCell:nth-child(2) {
+              min-width: 80px;
+            }
+ 
+            
+            .rdt_TableCol:nth-child(3),
+            .rdt_TableCell:nth-child(3) {
+              min-width: 110px;
+            }
+ 
+           
+            .rdt_TableCol:nth-child(4),
+            .rdt_TableCell:nth-child(4) {
+              min-width: 110px;
+            }
+ 
+           
+            .rdt_TableCol:nth-child(5),
+            .rdt_TableCell:nth-child(5) {
+              min-width: 130px;
+            }
+ 
+           
+            .rdt_TableCol:nth-child(6),
+            .rdt_TableCell:nth-child(6) {
+              min-width: 100px;
+            }
+ 
+           
+            .rdt_TableCol:nth-child(7),
+            .rdt_TableCell:nth-child(7) {
+              min-width: 100px;
+            }
+ 
+            
+            .rdt_TableCol:nth-child(8),
+            .rdt_TableCell:nth-child(8) {
+              min-width: 80px;
+            }
+          }
+ 
+ 
+          @media (min-width: 1350px) and (max-width: 1399px) {
+            .rdt_TableCol:nth-child(2),
+            .rdt_TableCell:nth-child(2) {
+              min-width: 100px;
+            }
+ 
+            .rdt_TableCol:nth-child(3),
+            .rdt_TableCell:nth-child(3) {
+              min-width: 120px;
+            }
+ 
+            .rdt_TableCol:nth-child(4),
+            .rdt_TableCell:nth-child(4) {
+              min-width: 120px;
+            }
+ 
+            .rdt_TableCol:nth-child(5),
+            .rdt_TableCell:nth-child(5) {
+              min-width: 130px;
+            }
+ 
+            .rdt_TableCol:nth-child(6),
+            .rdt_TableCell:nth-child(6) {
+              min-width: 100px;
+            }
+ 
+            .rdt_TableCol:nth-child(7),
+            .rdt_TableCell:nth-child(7) {
+              min-width: 100px;
+            }
+          }
+ 
+ 
+          @media (min-width: 1420px) {
+          .rdt_TableCol:nth-child(2),
+            .rdt_TableCell:nth-child(2) {
+              min-width: 100px;
+            }
+           .rdt_TableCol:nth-child(5),
+            .rdt_TableCell:nth-child(5) {
+              min-width: 150px;
+            }
+           .rdt_TableCol:nth-child(7),
+            .rdt_TableCell:nth-child(7) {
+              min-width: 110px;
+            }
+          }
+          @media(min-width:1500px){
+            .rdt_TableCol:nth-child(2),
+            .rdt_TableCell:nth-child(2) {
+              min-width: 110px;
+            }
+            .rdt_TableCol:nth-child(3),
+            .rdt_TableCell:nth-child(3) {
+              min-width: 140px;
+            }
+            .rdt_TableCol:nth-child(34),
+            .rdt_TableCell:nth-child(4) {
+              min-width: 140px;
+            }
+            .rdt_TableCol:nth-child(5),
+            .rdt_TableCell:nth-child(5) {
+              min-width: 180px;
+            }
+            .rdt_TableCol:nth-child(6),
+            .rdt_TableCell:nth-child(6) {
+              min-width: 100px;
+            }
+            .rdt_TableCol:nth-child(7),
+            .rdt_TableCell:nth-child(7) {
+              min-width: 140px;
+            }
+          }
+ 
+          @media(min-width:1550px){
+          .rdt_TableCol:nth-child(34),
+            .rdt_TableCell:nth-child(4) {
+              min-width: 150px;
+            }
+          .rdt_TableCol:nth-child(5),
+            .rdt_TableCell:nth-child(5) {
+              min-width: 190px;
+            }
+          }
+          @media(min-width:1600px){
+          .rdt_TableCol:nth-child(2),
+            .rdt_TableCell:nth-child(2) {
+              min-width: 130px;
+            }
+            .rdt_TableCol:nth-child(4),
+            .rdt_TableCell:nth-child(4) {
+              min-width: 140px;
+            }
+            .rdt_TableCol:nth-child(3),
+            .rdt_TableCell:nth-child(3) {
+              min-width: 160px;
+            }
+            .rdt_TableCol:nth-child(5),
+            .rdt_TableCell:nth-child(5) {
+              min-width: 200px;
+            }
+            .rdt_TableCol:nth-child(6),
+            .rdt_TableCell:nth-child(6) {
+              min-width: 150px;
+            }
+ 
+            .rdt_TableCol:nth-child(7),
+            .rdt_TableCell:nth-child(7) {
+              min-width: 130px;
+            }
+          }
+          @media(min-width:1700px){
+            .rdt_TableCol:nth-child(2),
+            .rdt_TableCell:nth-child(2) {
+              min-width: 120px;
+            }
+            .rdt_TableCol:nth-child(5),
+            .rdt_TableCell:nth-child(5) {
+              min-width: 230px;
+            }
+            .rdt_TableCol:nth-child(4),
+            .rdt_TableCell:nth-child(4) {
+              min-width: 180px;
+            }
+ 
+            .rdt_TableCol:nth-child(6),
+            .rdt_TableCell:nth-child(6) {
+              min-width: 190px;
+            }
+          }
         `}
       </style>
-      <div className={styles.tableMainContainer}>
+      <div className={styles.tableMainContainer} >
         <DataTable
           columns={columns}
           data={bidList}
@@ -191,5 +494,5 @@ const BidTable = ({
     </div>
   );
 };
-
+ 
 export default BidTable;
