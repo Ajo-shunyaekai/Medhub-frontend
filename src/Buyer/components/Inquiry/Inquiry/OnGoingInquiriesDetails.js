@@ -344,13 +344,13 @@ const OnGoingInquiriesDetails = () => {
             // style={{ cursor: 'pointer' }}
 
             onClick={
-              inquiryDetails?.quotation_items?.some(item => item.status === 'rejected')
+              inquiryDetails?.quotation_items?.every(item => item.status === 'rejected')
                 ? null
                 : handleCreatePOClick
             }
             style={{
-              cursor: inquiryDetails?.quotation_items?.some(item => item.status === 'rejected') ? 'not-allowed' : 'pointer',
-              opacity: inquiryDetails?.quotation_items?.some(item => item.status === 'rejected') ? 0.6 : 1,
+              cursor: inquiryDetails?.quotation_items?.every(item => item.status === 'rejected') ? 'not-allowed' : 'pointer',
+              opacity: inquiryDetails?.quotation_items?.every(item => item.status === 'rejected') ? 0.6 : 1,
             }}
           >
             Create Purchase Order

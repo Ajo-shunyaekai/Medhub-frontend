@@ -169,7 +169,7 @@ const BidDetails = () => {
         </div>
 
         {/* Product List */}
-        <span className={styles.innerHead3}>Bidder List</span>
+        <span className={styles.innerHead3}>Bidders List</span>
         <ProductList />
       </div>
 
