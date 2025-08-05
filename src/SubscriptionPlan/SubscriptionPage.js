@@ -207,24 +207,25 @@ const SubscriptionPage = () => {
                             Full access to AI-Powered marketplace.
                           </li>
                           <li className={styles.cardListText}>
-                            No transaction charge.
+                           No transaction charges.
                           </li>
                           <li className={styles.cardListText}>
-                            Procurement process automation tools.
+                            Integrated logistics support.
                           </li>
                         </ul>
-                        <ul className={styles.cardList}>
+                        {/* <ul className={styles.cardList}>
                           <li className={styles.cardListText}>
                             Integrated logistics support.
                           </li>
                           <li className={styles.cardListText}>
                             Invoice factoring.
                           </li>
-                        </ul>
+                        </ul> */}
                       </div>
                       <span className={styles.cardContent}>
-                        Ideal for businesses looking for cost-effective,
-                        long-term procurement solutions.
+                        {/* Ideal for businesses looking for cost-effective,
+                        long-term procurement solutions. */}
+                        Ideal for buyers and suppliers who want flexibility without a long-term commitment.
                       </span>
                     </div>
                     <div className={styles.subscriptionContainer}>
@@ -266,19 +267,20 @@ const SubscriptionPage = () => {
                       <div className={styles.cardListSection}>
                         <ul className={styles.cardList}>
                           <li className={styles.cardListText}>
-                            All monthly plan benefits at a discount rate.
+                            All monthly plan benefits at a discounted rate.
                           </li>
                           <li className={styles.cardListText}>
-                            Priority support for an account.
+                            Priority support for your account.
                           </li>
                           <li className={styles.cardListText}>
-                            Exclusive early access to new features.
+                            Exclusive early benefits to new features.
                           </li>
                         </ul>
                       </div>
                       <span className={styles.cardContent}>
-                        Ideal for buyers and sellers who want flexibility
-                        without a long-term commitment.
+                        {/* Ideal for buyers and sellers who want flexibility
+                        without a long-term commitment. */}
+                        Ideal for  buyers and suppliers looking for cost-effective, long-term procurement solutions.
                       </span>
                     </div>
                     <div className={styles.subscriptionContainer}>
@@ -338,24 +340,23 @@ const SubscriptionPage = () => {
                           Full access to AI-Powered marketplace.
                         </li>
                         <li className={styles.cardListText}>
-                          No transaction charge.
+                          No transaction charges.
                         </li>
                         <li className={styles.cardListText}>
-                          Procurement process automation tools.
+                          Integrated logistics support.
                         </li>
                       </ul>
-                      <ul className={styles.cardList}>
+                      {/* <ul className={styles.cardList}>
                         <li className={styles.cardListText}>
                           Integrated logistics support.
                         </li>
                         <li className={styles.cardListText}>
                           Invoice factoring.
                         </li>
-                      </ul>
+                      </ul> */}
                     </div>
                     <span className={styles.cardContent}>
-                      Ideal for businesses looking for cost-effective, long-term
-                      procurement solutions.
+                      Ideal for buyers and suppliers who want flexibility without a long-term commitment.
                     </span>
                   </div>
                   <div className={styles.subscriptionContainer}>
@@ -395,19 +396,18 @@ const SubscriptionPage = () => {
                     <div className={styles.cardListSection}>
                       <ul className={styles.cardList}>
                         <li className={styles.cardListText}>
-                          All monthly plan benefits at a discount rate.
+                          All monthly plan benefits at a discounted rate.
                         </li>
                         <li className={styles.cardListText}>
-                          Priority support for an account.
+                          Priority support for your account.
                         </li>
                         <li className={styles.cardListText}>
-                          Exclusive early access to new features.
+                          Exclusive early benefits to new features.
                         </li>
                       </ul>
                     </div>
                     <span className={styles.cardContent}>
-                      Ideal for buyers and sellers who want flexibility without
-                      a long-term commitment.
+                      Ideal for buyers and suppliers looking for cost-effective, long-term procurement solutions.
                     </span>
                   </div>
                   <div className={styles.subscriptionContainer}>
