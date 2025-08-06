@@ -1326,7 +1326,7 @@ const EditProfileDetails = () => {
  
  
           {/* subscription */}
-          <div className={styles.section}>
+          {/* <div className={styles.section}>
             <span className={styles.formHead}>Subscription Payment</span>
             <div className={styles.formSection}>
               <div className={styles.productContainerTwo}>
@@ -1342,7 +1342,7 @@ const EditProfileDetails = () => {
                 </label>
               </div>
             </div>
-          </div>
+          </div> */}
  
           <div className={styles?.section}>
             <span className={styles?.formHead}>Contact Details</span>
