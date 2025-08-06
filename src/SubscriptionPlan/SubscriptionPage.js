@@ -1,7 +1,7 @@
 import React, { lazy, useEffect, useState } from "react";
 import styles from "./subscription.module.css";
 import MedhubLogo from "./assets/navibluelogo.svg";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Modal from "./Modal/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -16,6 +16,7 @@ const Loader = lazy(() =>
 );
 
 const SubscriptionPage = () => {
+  const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userType, userId } = useParams();
@@ -207,7 +208,7 @@ const SubscriptionPage = () => {
                             Full access to AI-Powered marketplace.
                           </li>
                           <li className={styles.cardListText}>
-                           No transaction charges.
+                            No transaction charges.
                           </li>
                           <li className={styles.cardListText}>
                             Integrated logistics support.
@@ -225,7 +226,8 @@ const SubscriptionPage = () => {
                       <span className={styles.cardContent}>
                         {/* Ideal for businesses looking for cost-effective,
                         long-term procurement solutions. */}
-                        Ideal for buyers and suppliers who want flexibility without a long-term commitment.
+                        Ideal for buyers and suppliers who want flexibility
+                        without a long-term commitment.
                       </span>
                     </div>
                     <div className={styles.subscriptionContainer}>
@@ -280,7 +282,8 @@ const SubscriptionPage = () => {
                       <span className={styles.cardContent}>
                         {/* Ideal for buyers and sellers who want flexibility
                         without a long-term commitment. */}
-                        Ideal for  buyers and suppliers looking for cost-effective, long-term procurement solutions.
+                        Ideal for buyers and suppliers looking for
+                        cost-effective, long-term procurement solutions.
                       </span>
                     </div>
                     <div className={styles.subscriptionContainer}>
@@ -356,7 +359,8 @@ const SubscriptionPage = () => {
                       </ul> */}
                     </div>
                     <span className={styles.cardContent}>
-                      Ideal for buyers and suppliers who want flexibility without a long-term commitment.
+                      Ideal for buyers and suppliers who want flexibility
+                      without a long-term commitment.
                     </span>
                   </div>
                   <div className={styles.subscriptionContainer}>
@@ -407,7 +411,8 @@ const SubscriptionPage = () => {
                       </ul>
                     </div>
                     <span className={styles.cardContent}>
-                      Ideal for buyers and suppliers looking for cost-effective, long-term procurement solutions.
+                      Ideal for buyers and suppliers looking for cost-effective,
+                      long-term procurement solutions.
                     </span>
                   </div>
                   <div className={styles.subscriptionContainer}>
@@ -415,8 +420,16 @@ const SubscriptionPage = () => {
                       className={styles.button}
                       // onClick={() => handleClickPurchase(1)}
                       onClick={() => {
-                        setSelectedPlan(1);
-                        setIsOpen(true);
+                        const status = new URLSearchParams(location.search).get(
+                          "status"
+                        );
+
+                        if (status === "1") {
+                          handleClickPurchase(1);
+                        } else {
+                          setSelectedPlan(1);
+                          setIsOpen(true);
+                        }
                       }}
                     >
                       Purchase Now
