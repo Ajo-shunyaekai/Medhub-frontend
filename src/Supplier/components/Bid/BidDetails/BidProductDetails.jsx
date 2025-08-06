@@ -284,7 +284,7 @@ const BidDetails = () => {
                         <div className={styles.fieldDiv}>
                           <label className={styles.fieldFormLabel}>
                             {getFieldLabel("Bid Price")}
-                            <span className={styles.labelStamp}>*</span>
+                             {isEditing && <span className={styles.labelStamp}>*</span>}
                           </label>
                           <input
                             name="amount"
@@ -305,7 +305,7 @@ const BidDetails = () => {
                         <div className={styles.fieldDiv}>
                           <label className={styles.fieldFormLabel}>
                             {getFieldLabel("Timeline")}
-                            <span className={styles.labelStamp}>*</span>
+                            {isEditing && <span className={styles.labelStamp}>*</span>}
                           </label>
                           <input
                             name="timeLine"
@@ -329,7 +329,7 @@ const BidDetails = () => {
                         <div className={styles.fieldDiv2}>
                           <label className={styles.fieldFormLabel}>
                             {getFieldLabel("Terms And Condition")}
-                            <span className={styles.labelStamp}>*</span>
+                            {isEditing && <span className={styles.labelStamp}>*</span>}
                           </label>
                           <textarea
                             className={styles.formInput}

@@ -105,6 +105,7 @@ const ProductList = () => {
         .rdt_Table {
           border: none;
           background-color: unset !important;
+          overflow-x: hidden !important; 
         }
         .rdt_TableRow {
           background-color: #ffffff !important;

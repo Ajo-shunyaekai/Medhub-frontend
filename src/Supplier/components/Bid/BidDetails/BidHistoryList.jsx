@@ -54,7 +54,22 @@ const BidHistoryList = () => {
       ),
     },
     {
-      name: "Bid Modified",
+  name: "T&C",
+  selector: (row) => row?.tnc?.value,
+  sortable: true,
+  cell: (row) => {
+    const value = row?.tnc?.value || "";
+    const updatedTnC = value.length > 10 ? value.slice(0, 10) + "..." : value;
+    return (
+      <span style={{ color: row?.tnc?.edited ? "#31c971" : "#99a0ac" }}>
+        {updatedTnC}
+      </span>
+    );
+  },
+},
+
+    {
+      name: "History",
       selector: (row) => row?.type,
       sortable: true,
     },
@@ -72,27 +87,27 @@ const BidHistoryList = () => {
   useEffect(() => {
     const indexOfLastHistory = currentPage * historyPerPage;
     const indexOfFirstHistory = indexOfLastHistory - historyPerPage;
-
-    const allRows = (bidDetails?.additionalDetails || [])
-      ?.flatMap((item) => {
-        return (item.participants || []).flatMap((participant) => {
-          return (participant.history || []).map((history) => ({
+ 
+    const allRows = [];
+ 
+    (bidDetails?.additionalDetails || []).forEach((item) => {
+      (item.participants || []).forEach((participant) => {
+        (participant.history || []).forEach((history) => {
+          allRows.push({
             price: history.amount,
             timeline: history.timeLine,
             type: history.type,
-            tnc:  history.tnc,
+            tnc: history.tnc,
             timeStamp: history.date,
-          }));
+          });
         });
-      })
-
+      });
+    });
+ 
     setTotalHistory(allRows.length);
-
-    /* console.log("All rows: ",allRows); */
-
+ 
     const historyList = allRows.slice(indexOfFirstHistory, indexOfLastHistory);
-
-    /*  console.log("historyList: ",historyList); */
+ 
     setHistory(historyList);
   }, [bidDetails, currentPage]);
 
