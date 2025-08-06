@@ -8,6 +8,7 @@ import PaginationComponent from "../../SharedComponents/Pagination/Pagination";
 import styles from "../../../assets/style/table.module.css";
 import { getTimeRemaining } from "../helper";
 import { width } from "@mui/system";
+import CountdownTimer from "../../../../utils/CountDownTimer";
  
  
 const BidTable = ({
@@ -53,11 +54,19 @@ const BidTable = ({
         const endDate = row?.general?.endDate;
         const endTime = row?.general?.endTime || "00:00";
  
-        return (
-          <span>
-            {getTimeRemaining(startDate, startTime, endDate, endTime)}
-          </span>
-        );
+        // return (
+        //   <span>
+        //     {getTimeRemaining(startDate, startTime, endDate, endTime)}
+        //   </span>
+        // );
+         return (
+            <CountdownTimer
+              startDate={startDate}
+              startTime={startTime}
+              endDate={endDate}
+              endTime={endTime}
+            />
+          );
       },
       sortable: true,
       width: "140px",

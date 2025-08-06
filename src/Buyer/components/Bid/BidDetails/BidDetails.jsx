@@ -10,7 +10,9 @@ import RenderProductFiles from "../../../../Buyer/components/Buy/Details/RenderF
 import ProductList from "./ProductList";
 import { getTimeRemaining } from "../helper";
 import BidDetailsProductList from "./BidDetailsProductList";
- 
+import CountdownTimer from "../../../../utils/CountDownTimer";
+
+
 const BidDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -93,10 +95,16 @@ const BidDetails = () => {
             <div className={styles.additionalUploadSection3}>
               <span className={styles.medicineHead3}>Time Remaining</span>
               <span className={styles.medicineText3}>
-                {
+                {/* {
                   getTimeRemaining(bidDetails?.general?.startDate, bidDetails?.general?.startTime, 
                   bidDetails?.general?.endDate, bidDetails?.general?.endTime  
-                )}
+                )} */}
+                <CountdownTimer
+                  startDate={bidDetails?.general?.startDate}
+                  startTime={bidDetails?.general?.startTime}
+                  endDate={bidDetails?.general?.endDate}
+                  endTime={bidDetails?.general?.endTime}
+                />
               </span>
             </div>
             <div className={styles.additionalUploadSection3}>

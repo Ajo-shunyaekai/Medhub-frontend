@@ -7,6 +7,7 @@ import moment from "moment";
 import PaginationComponent from "../../SharedComponents/Pagination/pagination";
 import styles from "../../../assets/style/table.module.css";
 import { getTimeRemaining } from "../helper";
+import CountdownTimer from "../../../../utils/CountDownTimer";
 import { width } from "@mui/system";
  
 const BidTable = ({
@@ -59,11 +60,19 @@ const BidTable = ({
         const endDate = row?.general?.endDate;
         const endTime = row?.general?.endTime || "00:00";
  
+        // return (
+        //   <span>
+        //     {getTimeRemaining(startDate, startTime, endDate, endTime)}
+        //   </span>
+        // );
         return (
-          <span>
-            {getTimeRemaining(startDate, startTime, endDate, endTime)}
-          </span>
-        );
+        <CountdownTimer
+          startDate={startDate}
+          startTime={startTime}
+          endDate={endDate}
+          endTime={endTime}
+        />
+       );
       },
       sortable: false,
       width: "150px",

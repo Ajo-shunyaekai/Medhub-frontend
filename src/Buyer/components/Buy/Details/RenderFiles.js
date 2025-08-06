@@ -83,7 +83,8 @@ const RenderProductFiles = ({ files }) => {
             <PdfThumbnail
               key={index}
               fileUrl={fileUrl}
-              onClick={() => handleOpenPdf(fileUrl)}
+              // onClick={() => handleOpenPdf(fileUrl)}
+               onClick={() => window.open(fileUrl, "_blank")}
               className={styles.uploadImage}
               fallbackImageUrl={fallbackImageUrl}
             />
@@ -116,7 +117,7 @@ const RenderProductFiles = ({ files }) => {
       })}
 
       {/* PDF Modal using react-modal */}
-      <PdfViewerModal isOpen={open} onClose={handleClose} fileUrl={pdfToPreview} />
+      {/* <PdfViewerModal isOpen={open} onClose={handleClose} fileUrl={pdfToPreview} /> */}
 
     </>
   );
