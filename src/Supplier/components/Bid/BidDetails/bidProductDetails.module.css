@@ -154,6 +154,36 @@
   flex-direction: column;
   gap: 10px;
 }
+.labelStamp {
+  font-size: 16px;
+  color: #4f4f4f;
+}
+.fieldDiv {
+  /* min-width: 260px; */
+  width: 32%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.fieldDiv2 {
+  /* min-width: 260px; */
+  width: calc(64% + 20px);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.fieldDiv2 textarea {
+  width: 100%;
+  outline: none !important;
+  border: none !important;
+  background-color: #ffffff !important;
+  padding: 10.4px !important;
+  font-size: 0.825rem !important;
+  color: #5e565f !important;
+  border-radius: 4px !important;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+}
 .fieldFormLabel {
   color: #5e676f;
   font-size: 0.825rem;
@@ -941,4 +971,11 @@
   height: 16px;
   animation: spin 1s linear infinite;
   margin: 0 auto;
+}
+
+.productTextContainer2 {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: calc(96% + 20px);
 }
