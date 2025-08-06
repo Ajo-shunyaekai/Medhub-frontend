@@ -108,6 +108,7 @@
   height: auto;
 }
  
+ 
 .fileName {
   margin-top: 8px;
   font-size: 10px;
@@ -141,6 +142,61 @@
   cursor: pointer !important;
 }
 /* End image preview section */
+ 
+.productFilePreview{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  position: relative;
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  text-align: center;
+  border: none !important;
+}
+ 
+.productFileImageDiv{
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  gap: 1rem;
+}
+ 
+.productFilePreviewImage{
+  width: 40px;
+  height: 40px;
+}
+ 
+.productFileName{
+  color: #000;
+  -webkit-line-clamp: 1 !important;
+  margin-right: 20px !important;
+  -webkit-box-orient: vertical !important;
+  display: -webkit-box !important;
+  font-size: 12px !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: normal !important;
+}
+ 
+.productRemoveButton{
+  position: absolute;
+  top: 0;
+  right: 0.5rem;
+  padding: 0px !important;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #4f4f4f;
+  cursor: pointer !important;
+}
+ 
+.productRemoveIcon{
+  cursor: pointer !important;
+  color: #000;
+  font-weight: 600 !important;
+}
  
 .tooltipSec {
   position: absolute;

@@ -37,13 +37,13 @@ const ProductList = ({}) => {
       name: "Company Name",
       selector: (row) => row?.companyName,
       sortable: true,
-      minWidth:"120px"
+      minWidth:"210px"
     },
     {
       name: "Company Type",
       selector: (row) => row?.companyType,
       sortable: true,
-      minWidth:"110px"
+      minWidth:"100px"
     },
     {
       name: "From Country",
@@ -55,6 +55,7 @@ const ProductList = ({}) => {
       name: "Bid Price",
       selector: (row) => (row?.amount && row?.amount + " USD"),
       sortable: true,
+      maxWidth:"175px"
     },
     {
       name: "Delivery Timeline",

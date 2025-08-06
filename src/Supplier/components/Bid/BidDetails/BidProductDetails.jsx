@@ -11,6 +11,7 @@ import ProductList from "./ProductList";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
+import BidHistoryList from "./BidHistoryList";
 
 const BidDetails = () => {
   const { id, itemId } = useParams();
@@ -378,6 +379,9 @@ const BidDetails = () => {
           </div>
         </div>
       </div>
+{/* Product List */}
+        <span className={styles.innerHead3}>Bid History</span>
+         <BidHistoryList/>
 
       <div className={styles.bottomMargin}></div>
     </div>

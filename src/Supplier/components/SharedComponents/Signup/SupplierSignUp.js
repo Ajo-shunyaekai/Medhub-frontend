@@ -78,11 +78,16 @@ const SupplierSignUp = ({ socket }) => {
   const [certificateFileNDate, setCertificateFileNDate] = useState([
     { file: null, date: null },
   ]);
-  const[productCatalog, setProductCatalog] = useState([{file: null}]);
+  const[productCatalog, setProductCatalog] = useState([{}]);
   const[productFile, setProductFile] = useState([]);
   const [selectedYear, setSelectedYear] = useState(null);
   const[productCatalogFileArray, setProductCatalogFileArray] = useState([]);
   const[productCatalogFileError, setProductCatalogFileError] = useState([]);
+ 
+/*   useEffect(()=>{
+    console.log("productCatalog: ",productCatalog);
+    console.log(productFile);
+  },[productCatalog]); */
  
   const handleYearChange = (date) => {
     formData.yrFounded = date.getFullYear();
@@ -103,7 +108,7 @@ const SupplierSignUp = ({ socket }) => {
  
   const addProductSection = (e) => {
     e.preventDefault();
-    productCatalog?.length < 4 && setProductCatalog((prev) => [...prev,{file:null}]);
+    productCatalog?.length < 4 && setProductCatalog((prev) => [...prev,{}]);
     
   }
  
@@ -580,15 +585,14 @@ const SupplierSignUp = ({ socket }) => {
     }
  
     /* product catalog validation */
-    if(selectedCompanyType?.value !== "service provider"){
-      if (
+     if (
         Array.isArray(productCatalog) &&
         productCatalog.length > 0
       ) {
         const productfileErrors = [];
         const maxPdfSize = 5*1024*1024;
         productCatalog.forEach((item, index) => {
-         if(item.file && item.file.size > maxPdfSize){
+         if(item && item.size > maxPdfSize){
           productfileErrors.push(`File exceeds 5 mb.`)
           const productfileErrorArray = productCatalogFileError || [];
           productfileErrorArray[index] = `Upload pdf of size less than 5mb.`
@@ -604,7 +608,6 @@ const SupplierSignUp = ({ socket }) => {
           formErrors.certificateFileNDate = productfileErrors.join(", ");
         }
       }
-    }
  
     setErrors(formErrors);
     return Object.keys(formErrors).length === 0;
@@ -616,9 +619,9 @@ const SupplierSignUp = ({ socket }) => {
     }
   }, [resetUploaders]);
  
-  useEffect(()=>{
+/*   useEffect(()=>{
     console.log("productcatalog: ",productCatalog);
-  },[productCatalog]);
+  },[productCatalog]); */
  
   const handleCloseModal = () => setShowModal(false);
   const handleCountryOriginChange = (selectedOption) => {
@@ -782,12 +785,16 @@ const SupplierSignUp = ({ socket }) => {
         certificateFileNDateUpdated
       );
  
-      const updatedProductCataloge = JSON.stringify(productCatalog.map((item)=> ({
+     /*  const updatedProductCataloge = JSON.stringify(productCatalog.map((item)=> ({
         file: Array.isArray(item?.file)?item?.file?.[0]:item?.file || ""
       })) || [{file:""}]
-      );
+      ); */
  
-      formDataToSend.append("product_catalogue",updatedProductCataloge);
+      const updatedProductCataloge = productCatalog.map((item)=>item.file);
+ 
+      updatedProductCataloge.forEach((product)=>{
+        formDataToSend.append("product_catalogue",product);
+      })
  
       try {
         const response = await apiRequests?.postRequestWithFile(
@@ -1706,45 +1713,31 @@ const SupplierSignUp = ({ socket }) => {
                     )}
                   </div>
  
-                    {/* Product catalog */}
-                    {
-                      selectedCompanyType?.value !== "service provider" && (
-                        <div className={style.signupDocumentSection}>
+                  {/* Product catalog */}
+                  <div className={styles.signupDocumentSection}>
  
-                          <div className={styles.productCatalogeAddButtonSection}>
-                            <button
-                              className={styles.signupDocumentHead}
-                              onClick={(e) => addProductSection(e)}
-                            >
-                              Add
-                            </button>
-                          </div>
- 
-                          <div className={styles.productLabelInputMainDiv}>
-                            {productCatalog.map((section,index) => (
-                            <div
-                             key={index}
-                             className={styles.productInnerSection}
-                            >
-                              <div className={styles.signupProductCatalogSectionDiv}>
-                                <div className={styles.labelCrossDiv}>
-                                  <label className={styles.signupFormSectionLabel}>
-                                    Product Catalog
-                                  </label>
-                                  {productCatalog.length > 1 && (
-                                    <div
-                                      onClick={() => removeProductCatalogSection(index)}
-                                      className={styles.productCrossButton}
-                                    >
-                                      <img
-                                        src={Cross}
-                                        alt="cross"
-                                        className={styles.productCrossIcon}
-                                      />
-                                    </div>
-                                  )}
-                                </div>
-                                <ProductCatalogUploader
+                    <div className={styles.productCatalogeAddButtonSection}>
+                      <button
+                        className={styles.signupDocumentHead}
+                        onClick={(e) => addProductSection(e)}
+                      >
+                        Add
+                      </button>
+                    </div>
+                    
+                    <div className={styles.productLabelInputMainDiv}>
+                      {productCatalog.map((section,index) => {
+                       /*  console.log("rendering: ",index); */
+                       return (
+                          <div
+                            key={index}
+                            className={styles.productInnerSection}
+                          >
+                            <div className={styles.productFormSectionDiv}>
+                              <label className={styles.signupFormSectionLabel}>
+                                  Product Catalog
+                              </label>
+                              <ProductCatalogUploader
                                 onUploadStatusChange={(status) =>
                                   handleImageUpload(status, index)
                                 }
@@ -1766,19 +1759,34 @@ const SupplierSignUp = ({ socket }) => {
                                 setCNCFileError={setProductCatalogFileError}
                                 mainIndex={index}
                               />
-                              {productCatalogFileError?.[index] && (
-                                <div className={styles.signupErrors}>
-                                  {productCatalogFileError?.[index]}
+                            {productCatalogFileError?.[index] && (
+                              <div className={styles.signupErrors}>
+                                {productCatalogFileError?.[index]}
+                              </div>
+                            )}
+                            </div>
+                            <div className={styles.labelCrossDiv}>
+                              {productCatalog.length > 1 && (
+                                <div
+                                  onClick={() => removeProductCatalogSection(index)}
+                                  className={styles.signupCrossButton}
+                                >
+                                  <img
+                                    src={Cross}
+                                    alt="cross"
+                                    className={styles.crossIcon}
+                                  />
                                 </div>
                               )}
-                              </div>
                             </div>
-                          ))}
                           </div>
+                        )
+                      })}
+                    </div>
  
-                        </div>
-                      )
-                    }
+                  </div>
+                    
+                    
                   <div className={styles.signupFormSectionCheckbox}>
                     <div
                       className={styles.termsCondition}

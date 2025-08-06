@@ -4,6 +4,7 @@ import UploadImage from "../../../assets/images/uplaod.svg";
 import { FiFileText, FiX } from "react-icons/fi";
 import styles from "./certificateuploder.module.css";
 import Tooltip from "../Tooltip/Tooltip";
+import PDFIcon from '../../../assets/images/pdf-icon.svg';
  
 const useFileUpload = (
   onUploadStatusChange,
@@ -41,7 +42,6 @@ const useFileUpload = (
       const updatedcertificateFileNDate = certificateFileNDate;
       updatedcertificateFileNDate[mainIndex] = {
         file: newFile,
-        date: updatedcertificateFileNDate?.[mainIndex]?.date,
       };
       setCertificateFileNDate(updatedcertificateFileNDate);
       const updatedCNCFileArray = cNCFileArray;
@@ -81,7 +81,6 @@ const useFileUpload = (
     const updatedcertificateFileNDate = certificateFileNDate;
     updatedcertificateFileNDate[mainIndex] = {
       file: null,
-      date: updatedcertificateFileNDate?.[mainIndex]?.date,
     };
     setCertificateFileNDate(updatedcertificateFileNDate);
     const updatedCNCFileArray = cNCFileArray;
@@ -159,7 +158,6 @@ const ProductCatalogUploader = ({
     acceptTypes &&
     Object.keys(acceptTypes).every((type) => type === "application/pdf");
  
-    console.log(fileUpload?.filesMerged);
  
   return (
     <div className={styles.compliancesContainer}>
@@ -211,34 +209,36 @@ const ProductCatalogUploader = ({
             const isDoc = fileExtension === "doc" || fileExtension === "docx";
  
             return (
-              <div key={index} className={styles.filePreview}>
-                {isImage ? (
-                  <img
-                    src={
-                      typeof file === "string"
-                        ? file?.startsWith("http")
-                          ? file
-                          : `${process.env.REACT_APP_SERVER_URL}uploads/products/${file}`
-                        : URL.createObjectURL(file)
-                    }
-                    alt={file?.name}
-                    className={styles.previewImage}
-                  />
-                ) : isPdf ? (
-                  <FiFileText size={25} className={styles.fileIcon} />
-                ) : isDoc ? (
-                  <FiFileText size={25} className={styles.fileIcon} /> // You can use a different icon for .doc/.docx if desired
-                ) : (
-                  <FiFileText size={25} className={styles.fileIcon} /> // Fallback for other file types
-                )}
-                <p className={styles.fileName}>
-                  {typeof file === "string" ? file : file?.name}
-                </p>
+              <div key={index} className={styles.productFilePreview}>
+                <div className={styles.productFileImageDiv}>
+                   {isImage ? (
+                    <img
+                      src={
+                        typeof file === "string"
+                          ? file?.startsWith("http")
+                            ? file
+                            : `${process.env.REACT_APP_SERVER_URL}uploads/products/${file}`
+                          : URL.createObjectURL(file)
+                      }
+                      alt={file?.name}
+                      className={styles.productFilePreviewImage}
+                    />
+                    ) : isPdf ? (
+                      <img src={PDFIcon} width={40} height={40} className={styles.fileIcon}/>
+                    ) : isDoc ? (
+                      <FiFileText size={40} className={styles.fileIcon} /> // You can use a different icon for .doc/.docx if desired
+                    ) : (
+                      <FiFileText size={40} className={styles.fileIcon} /> // Fallback for other file types
+                    )}
+                    <p className={styles.productFileName}>
+                      {typeof file === "string" ? file : file?.name}
+                    </p>
+                </div>
  
  
                 <button
                   type="button"
-                  className={styles.removeButton}
+                  className={styles.productRemoveButton}
                   onClick={(event) => fileUpload?.removeFile(mainIndex, event)}
                   title={`Remove ${
                     isImage
@@ -250,7 +250,7 @@ const ProductCatalogUploader = ({
                       : "file"
                   }`}
                 >
-                  <FiX size={15} className={styles.removeIcon} />
+                  <FiX size={15} className={styles.productRemoveIcon} />
                 </button>
               </div>
             );
