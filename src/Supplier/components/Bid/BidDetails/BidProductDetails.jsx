@@ -53,6 +53,7 @@ const BidDetails = () => {
         const obj = {
           participantId: participantId,
           amount: Number(values.amount),
+          tnc: values.tnc,
           timeLine: Number(values.timeLine),
           bidId: id,
           itemId: itemId,
@@ -140,12 +141,26 @@ const BidDetails = () => {
       formik?.setValues({
         amount: participatingDetails?.amount,
         timeLine: participatingDetails?.timeLine,
+        tnc: participatingDetails?.tnc,
       });
       setIsEditing(false); // If participatingDetails are found, editing is disabled
     } else {
       setIsEditing(true); // If participatingDetails are empty, allow editing
     }
   }, [participatingDetails]);
+
+  const getFieldLabel = (fieldName) => {
+    if (
+      !participatingDetails ||
+      Object.keys(participatingDetails).length === 0
+    ) {
+      return `Enter ${fieldName}`;
+    }
+    if (!isEditing) {
+      return `Submitted ${fieldName}`;
+    }
+    return `Edit ${fieldName}`;
+  };
 
   return (
     <div className={styles.container}>
@@ -201,8 +216,12 @@ const BidDetails = () => {
                       <span className={styles.generalInfoValue}>
                         {Array.isArray(value)
                           ? value.join(", ")
-                          : (key == "delivery" ||  key == "Expected Delivery Duration") ? String(value) + " Days"
-                          : (key == "targetPrice") ? String(value) + " USD": String(value)}
+                          : key == "delivery" ||
+                            key == "Expected Delivery Duration"
+                          ? String(value) + " Days"
+                          : key == "targetPrice"
+                          ? String(value) + " USD"
+                          : String(value)}
                       </span>
                     </div>
                   );
@@ -258,47 +277,74 @@ const BidDetails = () => {
                   <div className={styles.InnerContainer2}>
                     <form
                       className={styles.fieldSection}
-                      onSubmit={formik.handleSubmit}
+                      onSubmit={formik?.handleSubmit}
                     >
                       <div className={styles.fieldForm}>
                         <div className={styles.fieldDiv}>
                           <label className={styles.fieldFormLabel}>
-                            Enter Bid Price
+                            {getFieldLabel("Bid Price")}
+                            <span className={styles.labelStamp}>*</span>
                           </label>
                           <input
                             name="amount"
                             type="numeric"
                             placeholder="Enter Bid Price"
                             className={styles.fieldFormInput}
-                            value={formik.values.amount}
-                            onBlur={formik.handleBlur}
-                            onChange={formik.handleChange}
+                            value={formik?.values.amount}
+                            onBlur={formik?.handleBlur}
+                            onChange={formik?.handleChange}
+                            disabled={!isEditing}
                           />
-                          {formik.errors.amount && formik.touched.amount && (
+                          {formik?.errors.amount && formik?.touched.amount && (
                             <div className={styles.fieldError}>
-                              {formik.errors.amount}
+                              {formik?.errors.amount}
                             </div>
                           )}
                         </div>
                         <div className={styles.fieldDiv}>
                           <label className={styles.fieldFormLabel}>
-                            Enter the Timeline
+                            {getFieldLabel("Timeline")}
+                            <span className={styles.labelStamp}>*</span>
                           </label>
                           <input
                             name="timeLine"
                             type="numeric"
                             placeholder="Enter the expected delivery duration (in days)"
                             className={styles.fieldFormInput}
-                            value={formik.values.timeLine}
-                            onBlur={formik.handleBlur}
-                            onChange={formik.handleChange}
+                            value={formik?.values.timeLine}
+                            onBlur={formik?.handleBlur}
+                            onChange={formik?.handleChange}
+                            disabled={!isEditing}
                           />
-                          {formik.errors.timeLine &&
-                            formik.touched.timeLine && (
+                          {formik?.errors.timeLine &&
+                            formik?.touched.timeLine && (
                               <div className={styles.fieldError}>
-                                {formik.errors.timeLine}
+                                {formik?.errors.timeLine}
                               </div>
                             )}
+                        </div>
+                      </div>
+                      <div className={styles.fieldForm}>
+                        <div className={styles.fieldDiv2}>
+                          <label className={styles.fieldFormLabel}>
+                            {getFieldLabel("Terms And Condition")}
+                            <span className={styles.labelStamp}>*</span>
+                          </label>
+                          <textarea
+                            className={styles.formInput}
+                            rows={5}
+                            name={`tnc`}
+                            placeholder={`Enter Terms And Condition`}
+                            value={formik?.values?.tnc}
+                            onBlur={formik?.handleBlur}
+                            onChange={formik?.handleChange}
+                            disabled={!isEditing}
+                          />
+                          {formik?.touched?.tnc && formik?.errors?.tnc && (
+                            <span className={styles.error}>
+                              {formik?.errors?.tnc}
+                            </span>
+                          )}
                         </div>
                       </div>
 
