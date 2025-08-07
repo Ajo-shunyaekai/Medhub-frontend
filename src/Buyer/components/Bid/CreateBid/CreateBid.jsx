@@ -54,7 +54,7 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
   );
 };
 
-const CreateBid = () => {
+const CreateBid = ({socket}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
@@ -194,10 +194,22 @@ const CreateBid = () => {
             formData.append("additionalDetails", additionalDetailsUpdated);
             formData.append("userType", "Buyer");
 
+            const fromCountries = values?.fromCountries?.map((country) => country.label) || [];
+            const openFor = values?.additionalDetails?.map((section) => section?.openFor).filter(Boolean) || [];
+            const buyerName = localStorage?.getItem("buyer_name")
+
             dispatch(addBid(formData)).then((response) => {
               if (response?.meta.requestStatus === "fulfilled") {
+                 socket.emit("createBid", {
+                  buyerId: localStorage?.getItem("buyer_id"),
+                  fromCountries,
+                  openFor,
+                  message: `New Bid Created! A new bid has been created by ${buyerName}`,
+                  link: process.env.REACT_APP_PUBLIC_URL,
+                });
                 setLoading(false);
                 navigate(-1);
+                
               }
             });
           } catch (error) {

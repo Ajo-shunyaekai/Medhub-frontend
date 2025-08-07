@@ -11,6 +11,7 @@ import io from "socket.io-client";
 import { postRequestWithToken } from "../api/Requests";
 import { fetchUserData } from "../../redux/reducers/userDataSlice";
 import { useDispatch } from "react-redux";
+import logo from '../assets/images/logo.svg'
 
 // Lazy-load the components
 const SupplierSidebar = lazy(() =>
@@ -19,7 +20,7 @@ const SupplierSidebar = lazy(() =>
 
 const socket = io.connect(process.env.REACT_APP_SERVER_URL);
 
-export const SupplierNotificationProvider = ({ children }) => {
+export const SupplierNotificationProvider = ({ children, socket}) => {
   const dispatch = useDispatch();
   const supplierIdSessionStorage = localStorage?.getItem("supplier_id");
   const supplierIdLocalStorage = localStorage?.getItem("supplier_id");
@@ -98,13 +99,17 @@ export const SupplierNotificationProvider = ({ children }) => {
   }, [location.pathname]);
 
   useEffect(() => {
+
     if (supplierIdSessionStorage || supplierIdLocalStorage) {
       const supplierId = supplierIdSessionStorage || supplierIdLocalStorage;
 
       fetchInvoiceCount();
       fetchNotifications();
 
-      socket.emit("register", supplierId);
+      // socket.emit("register", supplierId);
+      if (supplierId) {
+         socket.emit("register", supplierId);
+      }
 
       const notificationEvents = [
         { event: "newEnquiry", title: "New Enquiry Received" },
@@ -124,14 +129,16 @@ export const SupplierNotificationProvider = ({ children }) => {
           event: "editMedicineRequestUpdated",
           title: "Update on Edit Medicine Request",
         },
+        { event: "BidCreated", title: "Bid Created" },
       ];
 
       notificationEvents.forEach(({ event, title }) => {
         socket.on(event, (message) => {
+          console.log('noti message',message)
           const enquiryLink = `${process.env.REACT_APP_SUPPLIER_URL}/notification-list`;
           showNotification(
             title,
-            { body: message, icon: "/path/to/logo.png" },
+            { body: message, icon: logo },
             enquiryLink
           );
           fetchNotifications();

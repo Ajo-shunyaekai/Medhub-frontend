@@ -43,11 +43,26 @@ const socket = io.connect(process.env.REACT_APP_SERVER_URL, {
 });
  
 const App = () => {
+  const [socketConnected, setSocketConnected] = useState(false);
   const [cssFileLoaded, setCssFileLoaded] = useState(false);
   const location = useLocation();
- 
+
   useEffect(() => {
     initGA();
+  }, []);
+
+  useEffect(() => {
+    socket.connect();  
+    socket.on('connect', () => {
+      setSocketConnected(true);  
+    });
+    socket.on('disconnect', () => {
+      setSocketConnected(false);  
+    });
+
+    return () => {
+      socket.disconnect();  
+    };
   }, []);
  
   useEffect(() => {
@@ -102,7 +117,7 @@ const App = () => {
             path="/buyer"
             element={
               <BuyerNotificationProvider>
-                <Layout />
+                <Layout socket={socket}/>
               </BuyerNotificationProvider>
             }
           >
@@ -112,8 +127,8 @@ const App = () => {
           <Route
             path="/supplier"
             element={
-              <SupplierNotificationProvider>
-                <Layout />
+              <SupplierNotificationProvider socket={socket}>
+                <Layout socket={socket}/>
               </SupplierNotificationProvider>
             }
           >
@@ -124,7 +139,7 @@ const App = () => {
             path="/admin"
             element={
               <AdminNotificationProvider>
-                <Layout />
+                <Layout socket={socket}/>
               </AdminNotificationProvider>
             }
           >
