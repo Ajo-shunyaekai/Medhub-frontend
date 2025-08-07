@@ -20,7 +20,7 @@
 .signupDocumentHead {
   border: none !important;
   outline: none !important;
-background: linear-gradient(to left, #00dcff, #0075ce);
+  background: linear-gradient(to left, #00dcff, #0075ce);
   color: white;
   padding: 6px 22px;
   border-radius: 4px;
@@ -63,6 +63,17 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   align-items: center;
   justify-content: center;
 }
+ 
+.productSignCrossButton{
+  cursor: pointer !important;
+  position: absolute;
+  top: 0;
+  right: 48%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+ 
 .signupLogoSection {
   width: 46%;
   display: flex;
@@ -161,6 +172,7 @@ background: linear-gradient(to left, #00dcff, #0075ce);
   display: flex;
   justify-content: end;
   /* margin-bottom: 10px; */
+  margin-top: 1rem;
 }
  
 .labelCrossDiv{

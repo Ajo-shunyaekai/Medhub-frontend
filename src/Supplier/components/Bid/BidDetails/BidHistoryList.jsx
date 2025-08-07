@@ -9,24 +9,25 @@ import { fetchBidById } from "../../../../redux/reducers/bidSlice";
 import moment from "moment";
 import { style } from "@mui/system/Stack/createStack";
 import { color } from "@mui/system";
-
+import { Tooltip } from "react-tooltip";
+ 
 const BidHistoryList = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { bidDetails } = useSelector((state) => state?.bidReducer || {});
-
+ 
   const [history, setHistory] = useState([]);
   const [totalHistory, setTotalHistory] = useState(0);
-
+ 
   useEffect(() => {
     if (id) {
       dispatch(fetchBidById(`bid/${id}`));
     }
   }, [id]);
-
+ 
   const [currentPage, setCurrentPage] = useState(1);
   const historyPerPage = 5;
-
+ 
   const columns = [
     {
       name: "Date",
@@ -37,9 +38,23 @@ const BidHistoryList = () => {
       name: "Bid Price",
       selector: (row) => row?.price?.value + " USD",
       sortable: true,
-      cell: (row) => (
+      cell: (row,rowIndex) => (
         <span style={{ color: row?.price?.edited ? "#31c971" : "#99a0ac" }}>
-          {row?.price?.value} USD
+          {!row?.price?.edited && `${row?.price?.value} USD`}
+          {row?.price?.edited 
+           && 
+          <span
+           id={`price-tooltip-${rowIndex}`}
+          >
+            {row?.price?.value} USD
+            <Tooltip
+             anchorId={`price-tooltip-${rowIndex}`}
+             delayHide={500}
+             content="Bid Price was edited"
+            />
+          </span>
+          
+          }
         </span>
       ),
     },
@@ -47,9 +62,23 @@ const BidHistoryList = () => {
       name: "Bid Timeline",
       selector: (row) => row?.timeline?.value + " Days",
       sortable: true,
-      cell: (row) => (
-        <span style={{ color: row?.timeline?.edited ? "#31c971" : "99a0ac" }}>
-          {row?.timeline?.value} Days
+      cell: (row,rowIndex) => (
+        <span style={{ color: row?.timeline?.edited ? "#31c971" : "#99a0ac" }}>
+          {!row?.timeline?.edited && `${row?.timeline?.value} USD`}
+          {row?.timeline?.edited 
+           && 
+          <span
+           id={`timeline-tooltip-${rowIndex}`}
+          >
+            {row?.timeline?.value} USD
+            <Tooltip
+             anchorId={`timeline-tooltip-${rowIndex}`}
+             delayHide={500}
+             content="Bid timeline was edited"
+            />
+          </span>
+          
+          }
         </span>
       ),
     },
@@ -57,24 +86,36 @@ const BidHistoryList = () => {
   name: "T&C",
   selector: (row) => row?.tnc?.value,
   sortable: true,
-  cell: (row) => {
+  cell: (row, rowIndex) => {
     const value = row?.tnc?.value || "";
     const updatedTnC = value.length > 10 ? value.slice(0, 10) + "..." : value;
     return (
       <span style={{ color: row?.tnc?.edited ? "#31c971" : "#99a0ac" }}>
-        {updatedTnC}
+        {!row?.tnc?.edited && updatedTnC}
+        {row?.tnc?.edited && 
+          <span 
+          id={`tnc-tooltip-${rowIndex}`}
+          >
+            {updatedTnC}
+            <Tooltip
+             anchorId={`tnc-tooltip-${rowIndex}`}
+             delayHide={500}
+             content="Bid Terms and conditions was edited"
+            />
+          </span>
+        }
       </span>
     );
   },
 },
-
+ 
     {
       name: "History",
       selector: (row) => row?.type,
       sortable: true,
     },
   ];
-
+ 
   /*     const conditionalRowStyles = [
         {
             when: row => row?.price?.edited === true || row?.timeline?.edited === true,
@@ -83,7 +124,7 @@ const BidHistoryList = () => {
             }
         }
     ]; */
-
+ 
   useEffect(() => {
     const indexOfLastHistory = currentPage * historyPerPage;
     const indexOfFirstHistory = indexOfLastHistory - historyPerPage;
@@ -110,7 +151,7 @@ const BidHistoryList = () => {
  
     setHistory(historyList);
   }, [bidDetails, currentPage]);
-
+ 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
@@ -174,5 +215,5 @@ const BidHistoryList = () => {
     </div>
   );
 };
-
+ 
 export default BidHistoryList;

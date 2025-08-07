@@ -6,7 +6,7 @@ import UploadImage from '../../../assets/images/uplaod.svg';
 import CrossIcon from '../../../assets/images/Icon.svg';
 import PDFIcon from '../../../assets/images/pdf-icon.svg';
 import styles from './imageuploader.module.css';
-
+ 
 const ImageUploader = ({
     onUploadStatusChange,
     imageType,
@@ -22,7 +22,7 @@ const ImageUploader = ({
     const [modalOpen, setModalOpen] = useState(false);
     const [modalContent, setModalContent] = useState(null);
     const [errorMessage, setErrorMessage] = useState('');
-
+ 
     useEffect(() => {
         if (reset) {
             setFilePreviews([]);
@@ -33,11 +33,11 @@ const ImageUploader = ({
             }
         }
     }, [reset, setFilePreviews, setUploading, setErrorMessage, fileInputRef]);
-
+ 
     const handleImageUpload = (event) => {
         const files = Array.from(event.target.files);
         let validFiles;
-
+ 
         if (imageType === 'logo') {
             validFiles = files.filter(file => file?.type === 'image/jpeg' || file?.type === 'image/png').slice(0, 1);
             if (files.length > 1 || validFiles.length === 0) {
@@ -55,9 +55,9 @@ const ImageUploader = ({
                 return;
             }
         }
-
+ 
         setErrorMessage('');
-
+ 
         const newPreviews = validFiles.map(file => {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -65,7 +65,7 @@ const ImageUploader = ({
                     const newFileName = file?.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
                         ? file?.name?.endsWith('.docx') ? file?.name : `${file?.name?.split('.')[0]}.docx`
                         : file?.name;
-
+ 
                     resolve({
                         name: newFileName,
                         preview: reader?.result,
@@ -77,7 +77,7 @@ const ImageUploader = ({
                 reader.readAsDataURL(file);
             });
         });
-
+ 
         setUploading(true);
         Promise.all(newPreviews)
             .then(results => {
@@ -94,7 +94,7 @@ const ImageUploader = ({
                 setUploading(false);
             });
     };
-
+ 
     const handleFileRemove = (fileName, event) => {
         event.stopPropagation();
         setFilePreviews(prev => {
@@ -106,21 +106,21 @@ const ImageUploader = ({
             fileInputRef.current.value = '';
         }
     };
-
+ 
     const handleImageClick = () => {
         fileInputRef.current.click();
     };
-
+ 
     const openModal = (preview, type) => {
         setModalContent({ preview, type });
         setModalOpen(true);
     };
-
+ 
     const closeModal = () => {
         setModalOpen(false);
         setModalContent(null);
     };
-
+ 
     return (
         <div className={styles['image-uploader']}>
             <div className={styles['upload-area']} onClick={handleImageClick}>
@@ -168,7 +168,7 @@ const ImageUploader = ({
                             {file?.type?.startsWith('image') ? (
                                 <img src={file?.preview} alt={file?.name} className={styles['uploaded-image']} />
                             ) : (
-                                <img src={PDFIcon} alt="PDF" className={styles['pdf-icon']} />
+                                <img src={PDFIcon} alt="PDF" height={40} width={40} className={styles['pdf-icon']} />
                             )}
                             <div className={styles['file-info']}>
                                 <span className={styles['image-file-name']}>{file?.name}</span>
@@ -194,5 +194,5 @@ const ImageUploader = ({
         </div>
     );
 };
-
+ 
 export default ImageUploader;

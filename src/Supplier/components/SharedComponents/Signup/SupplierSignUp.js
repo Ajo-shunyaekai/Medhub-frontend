@@ -1769,7 +1769,7 @@ const SupplierSignUp = ({ socket }) => {
                               {productCatalog.length > 1 && (
                                 <div
                                   onClick={() => removeProductCatalogSection(index)}
-                                  className={styles.signupCrossButton}
+                                  className={styles.productSignCrossButton}
                                 >
                                   <img
                                     src={Cross}

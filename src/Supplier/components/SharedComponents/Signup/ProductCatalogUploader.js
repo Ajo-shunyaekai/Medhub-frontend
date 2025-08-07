@@ -5,6 +5,7 @@ import { FiFileText, FiX } from "react-icons/fi";
 import styles from "./certificateuploder.module.css";
 import Tooltip from "../Tooltip/Tooltip";
 import PDFIcon from '../../../assets/images/pdf-icon.svg';
+import CrossIcon from '../../../assets/images/Icon.svg';
  
 const useFileUpload = (
   onUploadStatusChange,
@@ -250,7 +251,8 @@ const ProductCatalogUploader = ({
                       : "file"
                   }`}
                 >
-                  <FiX size={15} className={styles.productRemoveIcon} />
+                  {/* <FiX size={15} className={styles.productRemoveIcon} /> */}
+                  <img src={CrossIcon} className={styles.productRemoveIcon}/>
                 </button>
               </div>
             );

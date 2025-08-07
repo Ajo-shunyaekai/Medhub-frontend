@@ -9,17 +9,17 @@
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   cursor: pointer;
 }
-
+ 
 .image-name {
   font-size: 0.825rem;
   margin-top: 6px;
 }
-
+ 
 .image-uploader {
   position: relative;
   display: inline-block;
 }
-
+ 
 .upload-area {
   position: relative;
   cursor: pointer;
@@ -70,15 +70,15 @@ position: absolute;
   height: 14px;
   color: #5e676f !important;
 }
-
+ 
 .upload-icon {
   width: 36px;
 }
-
+ 
 .image-uploader {
   position: relative;
 }
-
+ 
 .upload-area {
   cursor: pointer;
   padding: 24px 0px;
@@ -91,8 +91,8 @@ position: absolute;
   max-width: 100%;
   cursor: pointer;
 }
-
-
+ 
+ 
 /* start the modal code */
 .modal {
   position: fixed;
@@ -106,7 +106,7 @@ position: absolute;
   justify-content: center;
   z-index: 1000;
 }
-
+ 
 .modal-content {
   position: relative;
   background: white;
@@ -117,12 +117,12 @@ position: absolute;
   overflow: auto;
   margin: auto;
 }
-
+ 
 .modal-image {
   width: 100%;
   height: auto;
 }
-
+ 
 .close {
   position: absolute;
   top: -6px;
@@ -131,21 +131,21 @@ position: absolute;
   font-weight: bold;
   cursor: pointer;
 }
-
+ 
 .file-upload-container{
   display: flex;
   justify-content: start;
   align-items: center;
   gap: 1rem;
 }
-
+ 
 .file-container{
   background-color: white;
   margin: 0.5rem 0px;
   padding: 0.5rem;
   border-radius: 4px;
 }
-
+ 
 .file-wrapper{
   display: flex;
   justify-content: start;
