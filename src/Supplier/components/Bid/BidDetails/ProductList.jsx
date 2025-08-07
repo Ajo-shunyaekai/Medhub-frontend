@@ -58,10 +58,10 @@ const ProductList = () => {
       selector: (row) => row?.targetPrice + " USD",
       sortable: true,
     },
-    {
-      name: "Timeline",
-      selector: (row) => row?.delivery + " Days",
-    },
+    // {
+    //   name: "Timeline",
+    //   selector: (row) => row?.delivery + " Days",
+    // },
     {
       name: "Total Bids",
       // selector: (row) => getTotalBids(row?.participants),  // Use the function to get total bids

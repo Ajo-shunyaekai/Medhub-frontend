@@ -18,10 +18,10 @@ const CountdownTimer = ({ startDate, startTime = "00:00", endDate, endTime = "00
     const minutes = duration.minutes();
     const seconds = duration.seconds();
 
-    if (days > 0) return `${days}d, ${hours}h : ${minutes}m : ${seconds}s`;
-    if (hours > 0) return `${hours}h : ${minutes}m : ${seconds}s`;
-    if (minutes > 0) return `${minutes}m : ${seconds}s`;
-    return `${seconds}s`;
+    if (days > 0) return `${days}d : ${hours}h : ${minutes}m`;
+    if (hours > 0) return `${hours}h : ${minutes}m`;
+    if (minutes > 0) return `${minutes}m`;
+    return `${minutes}m`;
   };
 
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());

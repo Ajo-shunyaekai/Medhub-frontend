@@ -58,11 +58,11 @@ const BidDetailsProductList = ({}) => {
       selector: (row) => row?.targetPrice + " USD",
       sortable: true,
     },
-    {
-      name: "Timeline",
-      selector: (row) => row?.timeline + " Days",
-      sortable: true,
-    },
+    // {
+    //   name: "Timeline",
+    //   selector: (row) => row?.timeline + " Days",
+    //   sortable: true,
+    // },
     {
       name: "Total Bids",
       selector: (row) => Number(row?.totalBidsCount || 0),
