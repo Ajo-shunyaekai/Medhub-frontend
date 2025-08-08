@@ -16,7 +16,7 @@ const NotificationList = () => {
     const [count, setCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [loading, setLoading] = useState(true);
-    const ordersPerPage = 8;
+    const listPerPage = 10;
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -31,7 +31,9 @@ const NotificationList = () => {
 
         setLoading(true);
         const obj = {
-            supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
+            supplier_id : supplierIdSessionStorage || supplierIdLocalStorage,
+            pageNo      : currentPage,
+            pageSize    : listPerPage,
         };
 
         postRequestWithToken('supplier/get-notification-details-list', obj, (response) => {
@@ -196,7 +198,7 @@ const NotificationList = () => {
                         {notificationList.length > 0 && (
                             <PaginationComponent
                                 activePage={currentPage}
-                                itemsCountPerPage={ordersPerPage}
+                                itemsCountPerPage={listPerPage}
                                 totalItemsCount={count}
                                 pageRangeDisplayed={8}
                                 onChange={handlePageChange}
