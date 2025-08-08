@@ -232,11 +232,11 @@ export const LogisticsNotificationProvider = ({ children }) => {
       
             notificationEvents.forEach(({ event, title }) => {
               socket.on(event, (message) => {
-                /* const enquiryLink = `${process.env.REACT_APP_SUPPLIER_URL}/notification-list`;
+                /* const notificationLink = `${process.env.REACT_APP_SUPPLIER_URL}/notification-list`;
                 showNotification(
                   title,
                   { body: message, icon: "/path/to/logo.png" },
-                  enquiryLink
+                  notificationLink
                 ); */
                 fetchNotifications();
               });

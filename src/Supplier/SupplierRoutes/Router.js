@@ -129,17 +129,17 @@ export const SupplierNotificationProvider = ({ children, socket}) => {
           event: "editMedicineRequestUpdated",
           title: "Update on Edit Medicine Request",
         },
-        { event: "BidCreated", title: "Bid Created" },
+        { event: "BidCreated", title: "New Bid Created" },
       ];
 
       notificationEvents.forEach(({ event, title }) => {
         socket.on(event, (message) => {
           console.log('noti message',message)
-          const enquiryLink = `${process.env.REACT_APP_SUPPLIER_URL}/notification-list`;
+          const link = `${process.env.REACT_APP_SUPPLIER_URL}/notification-list`;
           showNotification(
             title,
             { body: message, icon: logo },
-            enquiryLink
+            link
           );
           fetchNotifications();
         });

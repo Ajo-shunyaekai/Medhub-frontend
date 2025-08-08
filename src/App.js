@@ -138,7 +138,7 @@ const App = () => {
           <Route
             path="/admin"
             element={
-              <AdminNotificationProvider>
+              <AdminNotificationProvider socket={socket}>
                 <Layout socket={socket}/>
               </AdminNotificationProvider>
             }
@@ -152,7 +152,7 @@ const App = () => {
  
           {renderRoutes(newLogisticRoutesConfig)}
           <Route path="/logistic" element={
-             <LogisticsNotificationProvider>
+             <LogisticsNotificationProvider socket={socket}>
                <LogisticLayout socket={socket}/>
               </LogisticsNotificationProvider>}>
              {renderRoutes(newLogisticNestedRoutes)}
