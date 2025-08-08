@@ -284,7 +284,9 @@ const BidDetails = () => {
                         <div className={styles.fieldDiv}>
                           <label className={styles.fieldFormLabel}>
                             {getFieldLabel("Bid Price")}
-                             {isEditing && <span className={styles.labelStamp}>*</span>}
+                            {isEditing && (
+                              <span className={styles.labelStamp}>*</span>
+                            )}
                           </label>
                           <input
                             name="amount"
@@ -305,7 +307,9 @@ const BidDetails = () => {
                         <div className={styles.fieldDiv}>
                           <label className={styles.fieldFormLabel}>
                             {getFieldLabel("Timeline")}
-                            {isEditing && <span className={styles.labelStamp}>*</span>}
+                            {isEditing && (
+                              <span className={styles.labelStamp}>*</span>
+                            )}
                           </label>
                           <input
                             name="timeLine"
@@ -329,7 +333,9 @@ const BidDetails = () => {
                         <div className={styles.fieldDiv2}>
                           <label className={styles.fieldFormLabel}>
                             {getFieldLabel("Terms And Condition")}
-                            {isEditing && <span className={styles.labelStamp}>*</span>}
+                            {isEditing && (
+                              <span className={styles.labelStamp}>*</span>
+                            )}
                           </label>
                           <textarea
                             className={styles.formInput}
@@ -379,9 +385,13 @@ const BidDetails = () => {
           </div>
         </div>
       </div>
-{/* Product List */}
-        <span className={styles.innerHead3}>Bid History</span>
-         <BidHistoryList/>
+      {/* Product List */}
+      {participatingDetails?.history?.length > 0 && (
+        <>
+          <span className={styles.innerHead3}>Bid History</span>
+          <BidHistoryList />
+        </>
+      )}
 
       <div className={styles.bottomMargin}></div>
     </div>

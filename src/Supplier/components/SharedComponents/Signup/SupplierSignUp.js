@@ -84,11 +84,6 @@ const SupplierSignUp = ({ socket }) => {
   const[productCatalogFileArray, setProductCatalogFileArray] = useState([]);
   const[productCatalogFileError, setProductCatalogFileError] = useState([]);
  
-/*   useEffect(()=>{
-    console.log("productCatalog: ",productCatalog);
-    console.log(productFile);
-  },[productCatalog]); */
- 
   const handleYearChange = (date) => {
     formData.yrFounded = date.getFullYear();
     setSelectedYear(date);
@@ -618,10 +613,6 @@ const SupplierSignUp = ({ socket }) => {
       setResetUploaders(false);
     }
   }, [resetUploaders]);
- 
-/*   useEffect(()=>{
-    console.log("productcatalog: ",productCatalog);
-  },[productCatalog]); */
  
   const handleCloseModal = () => setShowModal(false);
   const handleCountryOriginChange = (selectedOption) => {
@@ -1727,7 +1718,6 @@ const SupplierSignUp = ({ socket }) => {
                     
                     <div className={styles.productLabelInputMainDiv}>
                       {productCatalog.map((section,index) => {
-                       /*  console.log("rendering: ",index); */
                        return (
                           <div
                             key={index}

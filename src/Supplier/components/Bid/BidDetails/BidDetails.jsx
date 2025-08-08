@@ -10,23 +10,29 @@ import RenderProductFiles from "../../../../Buyer/components/Buy/Details/RenderF
 import ProductList from "./ProductList";
 import { getTimeRemaining } from "../helper";
 import CountdownTimer from "../../../../utils/CountDownTimer";
- 
+
 const BidDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { bidDetails } = useSelector((state) => state?.bidReducer || {});
- 
+
   useEffect(() => {
     if (id) {
-      dispatch(fetchBidById(`bid/${id}`));
+      dispatch(
+        fetchBidById(
+          `bid/${id}?openFor=${localStorage
+            .getItem("supplier_type")
+            ?.toLowerCase()
+            ?.replaceAll(/\s+/g, "")}`
+        )
+      );
     }
   }, [id]);
- 
- 
+
   return (
     <div className={styles.container}>
       <span className={styles.heading}>Bid Details</span>
- 
+
       {/* Bid detail header section */}
       <div className={styles.section}>
         <div className={styles.mainUpparContainer}>
@@ -34,7 +40,7 @@ const BidDetails = () => {
             <span className={styles.medicineName}>
               Bid ID : {bidDetails?.bid_id}
             </span>
- 
+
             {bidDetails?.status && (
               <div className={styles.bidStatusCont}>
                 <div className={styles?.bidStatusHead}>Bid Status</div>
@@ -46,7 +52,7 @@ const BidDetails = () => {
             )}
           </div>
         </div>
- 
+
         {/* Bid detail General Information Section */}
         <div className={styles.mainContainer}>
           <span className={styles.innerHead}>General Information</span>
@@ -74,7 +80,7 @@ const BidDetails = () => {
                   getTimeRemaining(bidDetails?.general?.startDate, bidDetails?.general?.startTime, 
                   bidDetails?.general?.endDate, bidDetails?.general?.endTime  
                 )} */}
-                 <CountdownTimer
+                <CountdownTimer
                   startDate={bidDetails?.general?.startDate}
                   startTime={bidDetails?.general?.startTime}
                   endDate={bidDetails?.general?.endDate}
@@ -83,7 +89,9 @@ const BidDetails = () => {
               </span>
             </div>
             <div className={styles.additionalUploadSection3}>
-              <span className={styles.medicineHead4}>Country of Destination</span>
+              <span className={styles.medicineHead4}>
+                Country of Destination
+              </span>
               <span className={styles.medicineText3}>
                 {bidDetails?.general?.country || "N/A"}
               </span>
@@ -100,7 +108,6 @@ const BidDetails = () => {
                 {bidDetails?.general?.fromCountries?.join(", ") || "N/A"}
               </span>
             </div>
-            
           </div>
         </div>
         <div className={styles.mainContainer}>
@@ -123,7 +130,7 @@ const BidDetails = () => {
             </div>
           </div>
         </div>
- 
+
         {/* Document */}
         <div className={styles.mainContainer}>
           <span className={styles.innerHead}>Requirement Documents</span>
@@ -143,19 +150,19 @@ const BidDetails = () => {
             })}
           </div>
         </div>
- 
+
         {/* Product Information */}
         {bidDetails?.additionalDetails?.length > 0 && (
           <>
             <span className={styles.innerHead3}>Bid Products/Services</span>
           </>
         )}
-        <ProductList/>
+        <ProductList />
       </div>
- 
+
       <div className={styles.bottomMargin}></div>
     </div>
   );
 };
- 
+
 export default BidDetails;
