@@ -14,7 +14,7 @@ import { pdf } from "@react-pdf/renderer";
 const Loader = lazy(() =>
   import("../Buyer/components/SharedComponents/Loader/Loader")
 );
-
+ 
 const SubscriptionPage = () => {
   const location = useLocation();
   const dispatch = useDispatch();
@@ -24,7 +24,7 @@ const SubscriptionPage = () => {
     (state) => state?.subscriptionReducer
   );
   const [activePlan, setActivePlan] = useState(null);
-
+ 
   /* modal of verify coupon */
   const [isOpen, setIsOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(false);
@@ -42,7 +42,7 @@ const SubscriptionPage = () => {
       code: "Rishav",
     },
   ];
-
+ 
   const subscriptionPlans = [
     {
       type: "Monthly Subscription",
@@ -59,11 +59,11 @@ const SubscriptionPage = () => {
       bgColor: "#d137dd",
     },
   ];
-
+ 
   const handleCardClick = (plan) => {
     setActivePlan(plan);
   };
-
+ 
   const handlePayment = async (pdfBlob, duration, pkg, email, invoiceData) => {
     const formData = new FormData();
     formData.append("plan_name", pkg);
@@ -72,7 +72,7 @@ const SubscriptionPage = () => {
     formData.append("userType", userType);
     formData.append("userId", userId || user?._id);
     formData.append("invoice_pdf", pdfBlob, "Invoice.pdf"); // Ensure the filename is set here
-
+ 
     // Append invoice data (you can either send it as individual fields or as a JSON string)
     for (const key in invoiceData) {
       if (Object.prototype.hasOwnProperty.call(invoiceData, key)) {
@@ -80,10 +80,10 @@ const SubscriptionPage = () => {
         formData.append(key, element);
       }
     }
-
+ 
     dispatch(createSubscriptionSession(formData));
   };
-
+ 
   const generatePDF = (duration, pkg, email, invoiceData) => {
     const invoiceComponent = (
       <InvoicePDF
@@ -92,7 +92,7 @@ const SubscriptionPage = () => {
         user={user}
       />
     );
-
+ 
     return new Promise((resolve, reject) => {
       pdf(invoiceComponent)
         .toBlob()
@@ -102,13 +102,13 @@ const SubscriptionPage = () => {
         .catch(reject);
     });
   };
-
+ 
   useEffect(() => {
     if (userId && userType) {
       dispatch(fetchUserData({ id: userId, type: userType }));
     }
   }, [userId, userType]);
-
+ 
   useEffect(() => {
     if (user?.currentSubscription) {
       dispatch(
@@ -119,13 +119,13 @@ const SubscriptionPage = () => {
       );
     }
   }, [user?.currentSubscription]);
-
+ 
   const handleClickPurchase = (index, discount) => {
     const duration = subscriptionPlans?.[index]?.duration;
     const pkg = subscriptionPlans?.[index]?.type;
     const email = user?.contact_person_email || user?.email;
     const selectedPlan = subscriptionPlans.find((p) => p.pkg === pkg);
-
+ 
     // Prepare the invoice data
     const invoiceData = {
       name: pkg,
@@ -134,12 +134,12 @@ const SubscriptionPage = () => {
       subscriptionStartDate: new Date(),
       invoiceNumber: "INV-" + Math.floor(Math.random() * 1000000),
     };
-
+ 
     // Apply discount if provided
     if (discount) {
       invoiceData.discount = discount; // Add discount to the invoice data
     }
-
+ 
     // Generate the PDF and handle payment
     generatePDF(duration, pkg, email, invoiceData)
       .then(({ pdfBlob }) => {
@@ -155,7 +155,7 @@ const SubscriptionPage = () => {
         console.error("Error generating PDF:", error);
       });
   };
-
+ 
   return (
     <>
       {loading ? (
@@ -372,7 +372,7 @@ const SubscriptionPage = () => {
                     </div>
                   </div>
                 </div>
-
+ 
                 <div
                   className={`${styles.card} ${
                     activePlan === "yearly" ? styles.activeCard : ""
@@ -423,12 +423,12 @@ const SubscriptionPage = () => {
                         const status = new URLSearchParams(location.search).get(
                           "status"
                         );
-
-                        if (status === "1") {
-                          handleClickPurchase(1);
-                        } else {
+ 
+                        if (status && status == 1) {
                           setSelectedPlan(1);
                           setIsOpen(true);
+                        } else {
+                          handleClickPurchase(1);
                         }
                       }}
                     >
@@ -441,7 +441,7 @@ const SubscriptionPage = () => {
           </div>
         </div>
       )}
-
+ 
       {/* modal rendering here */}
       {isOpen && (
         <Modal
@@ -457,5 +457,5 @@ const SubscriptionPage = () => {
     </>
   );
 };
-
+ 
 export default SubscriptionPage;

@@ -5,20 +5,20 @@
   gap: 30px;
   margin-top: 20px;
 }
-
+ 
 .mainContainerFilter {
   background: linear-gradient(to left, #00dcff, #0075ce);
   color: #fff;
   padding: 12px;
 }
-
+ 
 .innerSectionFilter {
   width: 100%;
   display: flex;
   justify-content: center;
   gap: 30px;
 }
-
+ 
 .mainSectionFilter {
   display: flex;
   flex-wrap: wrap;
@@ -26,11 +26,11 @@
   width: 100%;
   justify-content: center;
 }
-
+ 
 .medicinesSectionFilter {
   position: relative;
 }
-
+ 
 .PurcahseButtonFilter {
   display: flex;
   align-items: center;
@@ -40,23 +40,23 @@
   font-weight: 500;
   /* min-width: 200px; */
 }
-
+ 
 .PurcahseButtonFilter span,
 svg,
 img {
   cursor: pointer !important;
 }
-
+ 
 .PurcahseButtonFilter svg,
 img {
   padding-top: 2px;
   font-size: 1.2rem;
 }
-
+ 
 .filterDropdownContentFilter {
   background-color: #fff;
   border-radius: 2px;
-
+ 
   color: #5e676f;
   display: flex;
   flex-direction: column;
@@ -71,21 +71,21 @@ img {
   cursor: pointer !important;
   overflow: scroll;
 }
-
+ 
 .filterDropdownContentFilter::-webkit-scrollbar {
   display: none !important;
 }
 .filterOptionFilter {
   margin-bottom: 5px;
 }
-
+ 
 .medicineTextFilter {
   display: flex;
   align-items: center;
   gap: 8px;
   cursor: pointer !important;
 }
-
+ 
 .ResetButton {
   border: 1px solid #d3d3d3;
   border-radius: 4px;
@@ -99,15 +99,15 @@ img {
   padding: 0;
   width: 100px;
 }
-
+ 
 /* End filter section code */
-
+ 
 /* Style Medicine cards */
 .cardExternalContainer {
   margin-bottom: 50rem !important;
 }
 /* End Medicine cards */
-
+ 
 /* Style Product details */
 .cardHeading {
   font-size: 22px !important;
@@ -127,7 +127,7 @@ img {
   top: 0;
   z-index: 10;
 }
-
+ 
 .ProductMainContainer2 {
   background-color: #f9f9fa;
   border-radius: 4px;
@@ -140,7 +140,7 @@ img {
   top: 0;
   /* z-index: 1000; */
 }
-
+ 
 .container {
   width: 100%;
   max-width: 98%;
@@ -153,30 +153,30 @@ img {
   scrollbar-width: none;
   background-attachment: fixed;
 }
-
+ 
 .container::-webkit-scrollbar {
   display: none;
 }
-
+ 
 .heading {
   font-size: 20px;
   font-weight: 500;
   padding-top: 5px;
 }
-
+ 
 .innerHead {
   color: #5e676f;
   font-size: 15px;
   font-weight: 500;
   margin-bottom: 8px;
 }
-
+ 
 .section {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
-
+ 
 .mainContainer {
   background-color: #fff;
   border-radius: 4px;
@@ -189,14 +189,14 @@ img {
   position: relative; /* Prevents unintended overlap */
   /* z-index: 1; */
 }
-
+ 
 .mainFixedContainer {
   position: fixed;
   width: 100%;
   max-width: 82%;
   /* z-index: 99999999; */
 }
-
+ 
 .mainManufacturerContainer {
   background-color: #fff;
   border-radius: 4px;
@@ -207,26 +207,33 @@ img {
   flex-direction: column;
   gap: 10px;
 }
-
+ 
 .innerSection {
   width: 100%;
   display: flex;
   gap: 20px;
 }
-
+ 
+.supplierInnerSection{
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 20px;
+}
+ 
 .InnerContainer {
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: start;
 }
-
+ 
 .medicineName {
   color: #5e676f;
   font-size: 20px;
   font-weight: 500;
 }
-
+ 
 .editButton {
   background: linear-gradient(to left, #00dcff, #0075ce);
   border: none !important;
@@ -240,36 +247,43 @@ img {
   font-size: 14px;
   padding: 6px 16px;
 }
-
+ 
 .editButton:hover {
   color: #fff !important;
 }
-
+ 
 .mainSection {
   display: flex;
   flex-direction: column;
   gap: 10px;
   width: 50%;
 }
-
+ 
+.supplierMainSection{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  width: 100%;
+}
+ 
 .medicinesSection {
   display: flex;
   align-items: baseline;
   gap: 10px;
 }
-
+ 
 .medicineHead {
   color: #5e676f;
   font-size: 0.825rem;
   min-width: 250px;
   font-weight: 600;
 }
-
+ 
 .medicineHeadings {
   font-size: 14px;
   font-weight: 500;
 }
-
+ 
 .medicineText {
   width: 100%;
   font-size: 0.825rem;
@@ -279,7 +293,7 @@ img {
   white-space: normal;
   overflow-wrap: break-word;
 }
-
+ 
 .medicineTexts {
   font-size: 14px;
   color: #99a0ac;
@@ -288,7 +302,7 @@ img {
   white-space: normal;
   overflow-wrap: break-word;
 }
-
+ 
 .medicineTexts2 {
   font-size: 0.825rem;
   color: #99a0ac;
@@ -296,7 +310,7 @@ img {
   white-space: normal;
   overflow-wrap: break-word;
 }
-
+ 
 .medicineContent {
   font-size: 0.825rem;
   color: #99a0ac;
@@ -305,7 +319,7 @@ img {
   overflow-wrap: break-word;
   width: 100%;
 }
-
+ 
 .medicineDescriptionContent {
   color: #99a0ac;
   /* font-weight: 500; */
@@ -315,12 +329,12 @@ img {
   overflow-wrap: break-word;
   width: 100%;
 }
-
+ 
 .medicineDescriptionContent img {
   width: 180px;
   height: auto;
 }
-
+ 
 .toolTip {
   max-width: 40rem;
   cursor: pointer;
@@ -329,44 +343,44 @@ img {
   white-space: normal;
   word-wrap: break-word;
 }
-
+ 
 .innerMainSection {
   display: flex;
   flex-direction: column;
   gap: 10px;
   width: 100%;
 }
-
+ 
 .innerInventorySection {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-
+ 
 .inventorySection {
   display: flex;
   width: 100%;
 }
-
+ 
 .inventorySection {
   width: 100%;
   display: flex;
   gap: 10px;
 }
-
+ 
 .inventoryContainer {
   display: flex;
   flex-direction: column;
   gap: 6px;
   width: 100%;
 }
-
+ 
 .inventoryHead {
   color: #5e676f;
   font-size: 0.825rem;
   font-weight: 500;
 }
-
+ 
 .inventoryInput {
   box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
   background-color: #fff !important;
@@ -394,14 +408,28 @@ img {
   gap: 20px;
   justify-content: start;
 }
-
+ 
 .manufacturerContainer {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  /* flex-wrap: wrap; */
   width: 100%;
   gap: 20px;
 }
-
+ 
+.manufacturerSecondDiv{
+  display: flex;
+  width: 100%;
+  gap: 20px;
+}
+ 
+.manufacturersectionFirstDiv{
+  width: 50%;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+ 
 .manufacturersection {
   /* flex: 1 1 250px;
   min-width: 250px;
@@ -415,13 +443,13 @@ img {
   flex-direction: column;
   gap: 5px;
 }
-
+ 
 .manufacturerDescriptionSection {
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
-
+ 
 /* End the manufacturer container */
 .productImageSection {
   display: flex;
@@ -429,7 +457,7 @@ img {
   align-items: center;
   gap: 1rem;
 }
-
+ 
 .imageContainer {
   width: 400px;
   height: 400px;
@@ -442,18 +470,18 @@ img {
   justify-content: center;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
-
+ 
 .imageSection {
   width: 100%;
   height: 100%;
   object-fit: contain;
   transition: transform 0.3s ease;
 }
-
+ 
 .imageSection:hover {
   transform: scale(1.03);
 }
-
+ 
 .thumbnailRow {
   display: flex;
   gap: 10px;
@@ -461,7 +489,7 @@ img {
   justify-content: center;
   margin-top: 1rem;
 }
-
+ 
 .thumbnailImage {
   width: 60px;
   height: 60px;
@@ -471,11 +499,11 @@ img {
   cursor: pointer;
   transition: border 0.2s ease;
 }
-
+ 
 .thumbnailImage:hover {
   border-color: #007bff;
 }
-
+ 
 /* Start form container */
 .formSection {
   display: flex;
@@ -514,10 +542,10 @@ img {
   font-size: 14px;
   cursor: pointer !important;
 }
-
+ 
 /* End form container */
 /* Start the additional Information Container */
-
+ 
 .addtionalContainer {
   background-color: #fff;
   border-radius: 4px;
@@ -528,19 +556,19 @@ img {
   flex-direction: column;
   gap: 10px;
 }
-
+ 
 .additionalSection {
   display: flex;
   width: 100%;
   gap: 20px;
 }
-
+ 
 .additionalInnerSection {
   display: flex;
   width: 50%;
   gap: 10px;
 }
-
+ 
 .additionalUploadSection {
   /* flex: 1 1 270px;
   min-width: 270px;
@@ -548,19 +576,40 @@ img {
   display: flex;
   flex-direction: column;
   gap: 5px; */
-  flex: 0 0 calc((100% - 40px) / 3);
-  max-width: calc((100% - 40px) / 3);
+    width: 100%;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+}
+ 
+.regulatoryComplianceAdditionalUploadSection{
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 20px;
 }
-
+ 
+.newUploadSection {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  gap: 20px;
+}
+ 
+.categoryAdditionalUploadSection{
+    width: 100%;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+}
+ 
 .additionalImageSection {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
 }
-
+ 
 .additionalImageSec {
   width: 24%;
   height: 240px;
@@ -569,94 +618,94 @@ img {
   flex-direction: column;
   gap: 10px;
 }
-
+ 
 .additionalInnerImage {
   overflow: hidden;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-
+ 
 .additionalImage {
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
-
+ 
 .additionalLink {
   cursor: pointer !important;
   font-size: 14px;
   font-weight: 500;
   color: rgb(40, 47, 134) !important;
 }
-
+ 
 /* End the additional information container */
-
+ 
 /* Style category section */
 .textareaContainer {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-
+ 
 .textareaSection {
   display: flex;
   gap: 20px;
 }
-
+ 
 .textareaInnerSection {
   display: flex;
   flex-direction: column;
   gap: 6px;
   width: 100%;
 }
-
+ 
 .medicinesFileSection {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-
+ 
 .innerComplianceSection {
   width: 100%;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
   gap: 20px;
   justify-content: start;
 }
-
+ 
 .uploadFileSection {
   display: flex;
   gap: 20px;
   margin-top: 10px;
 }
-
+ 
 .uploadFileContainer {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
-
+ 
 .productIcon {
   width: 30px;
   height: auto;
 }
-
+ 
 .uploadImage {
   width: 50px;
   height: auto;
 }
-
+ 
 .complianceIcon {
   width: 50px;
   height: auto;
 }
-
+ 
 .complianceImage {
   width: 150px;
   height: auto;
 }
-
+ 
 .PurcahseButton {
   align-items: center;
   background: linear-gradient(to left, #00dcff, #0075ce);
@@ -672,9 +721,9 @@ img {
   padding: 6px 0;
   width: 168px;
 }
-
+ 
 /* End category section */
-
+ 
 /* Start the modal */
 .modal {
   position: absolute;
@@ -689,7 +738,7 @@ img {
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
-
+ 
 .overlay {
   position: fixed;
   top: 0;
@@ -698,11 +747,11 @@ img {
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
 }
-
+ 
 .closeButton {
   background-color: #fff;
   border-radius: 4px;
-
+ 
   padding: 8px;
   border: none !important;
   cursor: pointer !important;
@@ -712,7 +761,7 @@ img {
   align-items: center;
   margin-bottom: 20px;
 }
-
+ 
 .formclose {
   box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
   padding: 4px 8px;
@@ -723,26 +772,26 @@ img {
   font-weight: 500;
   cursor: pointer !important;
 }
-
+ 
 .closeImg {
   width: 10px;
   cursor: pointer !important;
 }
-
+ 
 .pdfIframe {
   width: 100%;
   height: 90%;
   border: none;
 }
-
+ 
 /* End the modal */
-
+ 
 .complianceSection {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-
+ 
 /* modal */
 .modal-overlay {
   position: fixed;
@@ -757,7 +806,7 @@ img {
   z-index: 1000;
   padding: 20px;
 }
-
+ 
 .modal-content {
   background: white;
   border-radius: 8px;
@@ -769,7 +818,7 @@ img {
   flex-direction: column;
   overflow: hidden;
 }
-
+ 
 .modal-header {
   display: flex;
   justify-content: space-between;
@@ -778,14 +827,14 @@ img {
   border-bottom: 1px solid #eee;
   background-color: #f8f9fa;
 }
-
+ 
 .modal-header h3 {
   margin: 0;
   font-size: 18px;
   color: #333;
   font-weight: 600;
 }
-
+ 
 .close-button {
   background: none;
   border: none;
@@ -801,19 +850,19 @@ img {
   border-radius: 50%;
   transition: background-color 0.2s;
 }
-
+ 
 .close-button:hover {
   background-color: #f0f0f0;
   color: #333;
 }
-
+ 
 .modal-body {
   flex: 1;
   padding: 20px;
   overflow: auto;
   min-height: 400px;
 }
-
+ 
 .modal-footer {
   display: flex;
   justify-content: space-between;
@@ -822,7 +871,7 @@ img {
   border-top: 1px solid #eee;
   background-color: #f8f9fa;
 }
-
+ 
 .download-link {
   color: #007bff;
   text-decoration: none;
@@ -832,12 +881,12 @@ img {
   border-radius: 4px;
   transition: all 0.2s;
 }
-
+ 
 .download-link:hover {
   background-color: #007bff;
   color: white;
 }
-
+ 
 .close-modal-btn {
   background-color: #6c757d;
   color: white;
@@ -848,17 +897,17 @@ img {
   font-weight: 500;
   transition: background-color 0.2s;
 }
-
+ 
 .close-modal-btn:hover {
   background-color: #5a6268;
 }
-
+ 
 /* DOCX Preview Styles */
 .docx-preview {
   width: 100%;
   height: 100%;
 }
-
+ 
 .docx-content {
   font-family: "Times New Roman", serif;
   line-height: 1.6;
@@ -870,7 +919,7 @@ img {
   max-height: 500px;
   overflow-y: auto;
 }
-
+ 
 .docx-content h1,
 .docx-content h2,
 .docx-content h3 {
@@ -878,33 +927,33 @@ img {
   margin-top: 20px;
   margin-bottom: 10px;
 }
-
+ 
 .docx-content p {
   margin-bottom: 10px;
 }
-
+ 
 .docx-content table {
   width: 100%;
   border-collapse: collapse;
   margin: 10px 0;
 }
-
+ 
 .docx-content table,
 .docx-content th,
 .docx-content td {
   border: 1px solid #ddd;
 }
-
+ 
 .docx-content th,
 .docx-content td {
   padding: 8px;
   text-align: left;
 }
-
+ 
 .docx-content th {
   background-color: #f2f2f2;
 }
-
+ 
 .loading {
   display: flex;
   justify-content: center;
@@ -913,7 +962,7 @@ img {
   font-size: 16px;
   color: #666;
 }
-
+ 
 .error {
   color: #dc3545;
   text-align: center;
@@ -923,32 +972,32 @@ img {
   border-radius: 4px;
   margin: 10px 0;
 }
-
+ 
 /* Responsive Design */
 @media (max-width: 768px) {
   .modal-content {
     width: 95vw;
     max-height: 95vh;
   }
-
+ 
   .modal-header,
   .modal-footer {
     padding: 10px 15px;
   }
-
+ 
   .modal-body {
     padding: 15px;
   }
-
+ 
   .modal-header h3 {
     font-size: 16px;
   }
-
+ 
   .modal-footer {
     flex-direction: column;
     gap: 10px;
   }
-
+ 
   .download-link,
   .close-modal-btn {
     width: 100%;
@@ -965,6 +1014,9 @@ img {
   .medicineHead {
     min-width: 220px;
   }
+  .medicineHead34{
+    min-width: 220px;
+  }
   .container {
     max-width: 96%;
   }
@@ -973,27 +1025,28 @@ img {
     width: 140px;
     font-size: 12.5px;
   }
-  /* .additionalUploadSection {
-    flex: 1 1 350px;
-    min-width: 350px;
-    max-width: 350px;
-  } */
+  .additionalUploadSection {
+    width: 50%;
+  }
 }
 @media (max-width: 1300px) {
   .container {
     max-width: 94%;
   }
 }
-
+ 
 @media (max-width: 1200px) {
   .medicineHead {
+    min-width: 200px;
+  }
+  .medicineHead34{
     min-width: 200px;
   }
   .container {
     max-width: 98%;
   }
 }
-
+ 
 .accordion-item:first-of-type > .accordion-header .accordion-button {
   border-top-left-radius: var(--bs-accordion-inner-border-radius);
   border-top-right-radius: var(--bs-accordion-inner-border-radius);
@@ -1001,26 +1054,26 @@ img {
   color: #5e676f !important;
   font-weight: 500 !important;
 }
-
+ 
 .faq-cover {
   font-size: 0.825rem;
   color: #99a0ac;
 }
-
+ 
 /* Target the accordion-button inside the header */
 .accordion-item .accordion-header .accordion-button {
   font-size: 0.825rem !important;
   font-weight: 500 !important;
   color: #5e676f !important;
 }
-
+ 
 /* Optional: you can remove this if the above works */
 .faq-heading {
   font-size: 0.825rem !important;
   font-weight: 500 !important;
   color: #5e676f !important;
 }
-
+ 
 /*
 .modalOverlay {
   position: fixed;
@@ -1043,7 +1096,7 @@ img {
   height: 50vh;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
-
+ 
 .pdfIframe {
   width: 100%;
   height: 100%;
@@ -1055,14 +1108,14 @@ img {
   font-weight: 500;
   margin-bottom: 14px;
 }
-
+ 
 .fileInputWrapper {
   display: flex;
   flex-direction: column;
   gap: 10px;
   height: 100% !important;
 }
-
+ 
 .modalInnerSection {
   background-color: #fff !important;
   align-items: center !important;
@@ -1078,7 +1131,7 @@ img {
   gap: 10px;
   cursor: pointer !important;
 }
-
+ 
 .fileInput {
   opacity: 0;
   position: absolute;
@@ -1104,7 +1157,7 @@ img {
   justify-content: space-between;
   width: 100%;
 }
-
+ 
 .closeButton {
   border: none;
   font-size: 20px;
@@ -1113,7 +1166,7 @@ img {
   align-items: center !important;
   border: none !important;
   border-radius: 4px !important;
-
+ 
   font-weight: 500;
   display: flex;
   justify-content: center;
@@ -1121,12 +1174,12 @@ img {
   height: 24px;
   cursor: pointer !important;
 }
-
+ 
 .closeButton:hover {
   color: #000;
 }
   */
-
+ 
 .imageContainer2 {
   width: 40%;
   padding: 10px;
@@ -1140,7 +1193,7 @@ img {
   justify-content: center;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
-
+ 
 .thumbnailRow2 {
   /* display: flex; */
   /* gap: 10px; */
@@ -1158,7 +1211,7 @@ img {
   width: 60%;
   flex-wrap: wrap;
 }
-
+ 
 .thumbnail {
   display: flex;
   gap: 16px;
@@ -1170,7 +1223,7 @@ img {
   width: 80px;
   height: 80px;
 }
-
+ 
 .thumbnailImage2 {
   width: 60px;
   height: 60px;
@@ -1180,7 +1233,7 @@ img {
   cursor: pointer;
   transition: border 0.2s ease;
 }
-
+ 
 .thumbnailImage2:hover {
   border-color: #007bff;
 }
@@ -1194,33 +1247,38 @@ img {
   transition: border 0.2s ease;
   border-color: #007bff;
 }
-
+ 
 .additionalUploadSection34 {
   /* flex: 0 0 calc((100% - 40px) / 3);
   max-width: calc((100% - 40px) / 3); */
   width: 100%;
   display: flex;
-  flex-direction: column;
   gap: 5px;
 }
-
+ 
+.categoryAdditionalUploadSection34{
+  width: 100%;
+  display: flex;
+  gap: 10px;
+}
+ 
 .medicineHead34 {
   font-size: 0.825rem;
   font-weight: 500;
   width: 250px;
   color: #5e676f;
 }
-
+ 
 .additionalImageSection34 {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
 }
-
+ 
 .medicineContent34 {
   font-size: 0.825rem;
   color: #99a0ac;
-  font-weight: 500;
+  /* font-weight: 500; */
   word-wrap: break-word;
   white-space: normal;
   overflow-wrap: break-word;

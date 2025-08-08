@@ -31,7 +31,11 @@ const BidHistoryList = () => {
   const columns = [
     {
       name: "Date",
-      selector: (row) => moment(row?.date).format("DD-MM-YYYY") || 0,
+      // selector: (row) => moment(row?.date).format("DD-MM-YYYY") || 0,
+      selector: (row) => {
+      console.log("Row Date:", row?.date); // debug
+      return row?.date ? moment(row.date).format("DD-MM-YYYY") : "-";
+    },
       sortable: true,
     },
     {
@@ -60,10 +64,10 @@ const BidHistoryList = () => {
       sortable: true,
       cell: (row, rowIndex) => (
         <span style={{ color: row?.timeline?.edited ? "#31c971" : "#99a0ac" }}>
-          {!row?.timeline?.edited && `${row?.timeline?.value} USD`}
+          {!row?.timeline?.edited && `${row?.timeline?.value} Days`}
           {row?.timeline?.edited && (
             <span id={`timeline-tooltip-${rowIndex}`}>
-              {row?.timeline?.value} USD
+              {row?.timeline?.value} Days
               <Tooltip
                 anchorId={`timeline-tooltip-${rowIndex}`}
                 delayHide={500}
@@ -130,7 +134,7 @@ const BidHistoryList = () => {
             timeline: history.timeLine,
             type: history.type,
             tnc: history.tnc,
-            timeStamp: history.date,
+            date: history.date,
           });
         });
       });
