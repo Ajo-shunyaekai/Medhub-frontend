@@ -25,6 +25,7 @@ import { useNavigate } from "react-router-dom";
 import DocumentUpload from "../FileUpload";
 import { addBid } from "../../../../redux/reducers/bidSlice";
 import { useDispatch } from "react-redux";
+import { fetchProductsList } from "../../../../redux/reducers/productSlice";
 
 const getDropdownButtonLabel = ({ placeholderButtonLabel, value }) => {
   if (value && value.length) {
@@ -58,6 +59,7 @@ const CreateBid = ({socket}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
+  const [productList, setProductList] = useState([]);
   const [countries, setCountries] = useState([]);
 
   /** ---------- CATEGORY + SUBCATEGORY STATE -------------- */
@@ -109,6 +111,48 @@ const CreateBid = ({socket}) => {
     navigate("/buyer/bid");
   };
 
+  useEffect(() => {
+    const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
+    const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
+
+    if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
+      localStorage?.clear();
+      navigate("/buyer/login");
+      return;
+    }
+    const fetchData = async () => {
+      try {
+        const buyerId =
+          localStorage?.getItem("buyer_id") ||
+          localStorage?.getItem("buyer_id");
+        if (!buyerId) {
+          localStorage?.clear();
+          navigate("/buyer/login");
+          return;
+        }
+
+        const fetchProducts = async () => {
+          setLoading(true);
+          const response = await dispatch(
+            fetchProductsList({
+              url: `product/for-dd?buyer_id=${buyerId}`,
+            })
+          );
+          if (response.meta.requestStatus === "fulfilled") {
+            setProductList(response?.payload?.products || []);
+            setLoading(false);
+          }
+        };
+        fetchProducts();
+      } catch (error) {
+        console.error("Error fetching products:", error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
   /** ---------- RENDER -------------- */
   return (
     <div className={styles.container}>
@@ -132,9 +176,13 @@ const CreateBid = ({socket}) => {
                 if (Array.isArray(value)) {
                   // Append array items under the same key
                   value.forEach((item, index) => {
-                    if (typeof item === "object" && item !== null && item.label) {
+                    if (
+                      typeof item === "object" &&
+                      item !== null &&
+                      item.label
+                    ) {
                       formData.append(key, item.label);
-                    } 
+                    }
                     // If it's a file, append it with its index (to ensure uniqueness)
                     else if (item instanceof File) {
                       formData.append(key, item); // appends the file
@@ -294,7 +342,9 @@ const CreateBid = ({socket}) => {
                     name={`startTime`}
                     value={values?.startTime}
                     placeholder={`Enter Bid Start Time`}
-                    onChange={(e) => setFieldValue("startTime", e?.target?.value)}
+                    onChange={(e) =>
+                      setFieldValue("startTime", e?.target?.value)
+                    }
                   />
 
                   {touched?.startTime && errors?.startTime && (
@@ -353,7 +403,9 @@ const CreateBid = ({socket}) => {
                     />
                   )}
                   {touched?.fromCountries && errors?.fromCountries && (
-                    <span className={styles.error}>{errors?.fromCountries}</span>
+                    <span className={styles.error}>
+                      {errors?.fromCountries}
+                    </span>
                   )}
                   {/* {touched?.additionalDetails?.[index]
                     ?.fromCountries &&
@@ -369,36 +421,37 @@ const CreateBid = ({socket}) => {
                 </div>
                 {/* ----- Country of Destination ------ */}
                 <div className={styles.productContainer}>
-                <label className={styles.formLabel}>
-                  Country of Destination
-                  <span className={styles.labelStamp}>*</span>
-                </label>
-                <Select
-                  className={styles.formSelect}
-                  options={countryOptions}
-                  value={
-                    countryOptions.find((o) => o.value === values.country) || null
-                  }
-                  onChange={(opt) => {
-                    setFieldValue("country", opt?.value || "");
-                    setFieldValue("selectedCountry", opt?.isoCode || "");
-                  }}
-                  name="country"
-                  onBlur={() => setFieldTouched("country", true)}
-                />
-                {touched?.country && errors?.country && (
-                  <span className={styles.error}>{errors.country}</span>
-                )}
-              </div>
-              {/* ----- State of Destination ------ */}
-              <div className={styles.productContainer}>
+                  <label className={styles.formLabel}>
+                    Country of Destination
+                    <span className={styles.labelStamp}>*</span>
+                  </label>
+                  <Select
+                    className={styles.formSelect}
+                    options={countryOptions}
+                    value={
+                      countryOptions.find((o) => o.value === values.country) ||
+                      null
+                    }
+                    onChange={(opt) => {
+                      setFieldValue("country", opt?.value || "");
+                      setFieldValue("selectedCountry", opt?.isoCode || "");
+                    }}
+                    name="country"
+                    onBlur={() => setFieldTouched("country", true)}
+                  />
+                  {touched?.country && errors?.country && (
+                    <span className={styles.error}>{errors.country}</span>
+                  )}
+                </div>
+                {/* ----- State of Destination ------ */}
+                <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     State of Destination
                     <span className={styles.labelStamp}>*</span>
                   </label>
                   <Select
                     className={styles.formSelect}
-                    options={stateOptions(values.selectedCountry)} 
+                    options={stateOptions(values.selectedCountry)}
                     value={
                       stateOptions(values.selectedCountry)?.find(
                         (o) => o.value === values.state
@@ -412,8 +465,6 @@ const CreateBid = ({socket}) => {
                     <span className={styles.error}>{errors.state}</span>
                   )}
                 </div>
-
-
               </div>
               <div className={styles.formSection}>
                 <div className={styles.productTextContainer2}>
@@ -654,35 +705,91 @@ const CreateBid = ({socket}) => {
                           </div>
 
                           {/* ----- Product / Service Name ------ */}
-                          <div className={styles.productContainer}>
-                            <label className={styles.formLabel}>
-                              {section.type || "Item"} Name
-                              <span className={styles.labelStamp}>*</span>
-                            </label>
-                            <input
-                              className={styles.formInput}
-                              value={section.name}
-                              placeholder={`Enter ${
-                                section.type || "Item"
-                              } Name`}
-                              onChange={(e) =>
-                                handleChangeFormSectionDetails(
-                                  index,
-                                  "name",
-                                  setFieldValue,
-                                  values,
-                                  e?.target?.value,
-                                  "additionalDetails"
-                                )
-                              }
-                            />
-                            {touched?.additionalDetails?.[index]?.name &&
-                              errors?.additionalDetails?.[index]?.name && (
-                                <span className={styles.error}>
-                                  {errors?.additionalDetails[index].name}
-                                </span>
-                              )}
-                          </div>
+                          {
+                            <div className={styles.productContainer}>
+                              <label className={styles.formLabel}>
+                                {section.type || "Item"} Name
+                                <span className={styles.labelStamp}>*</span>
+                              </label>
+
+                              <CreatableSelect
+                                className={styles.formSelect}
+                                options={productList}
+                                placeholder="Select from list or type a custom name"
+                                value={
+                                  productList.find(
+                                    (o) => o.value === section.name
+                                  ) || null
+                                }
+                                onChange={(opt, meta) => {
+                                  const newValue = opt?.value || "";
+
+                                  if (meta.action === "create-option" && opt) {
+                                    setProductList((prev) => [
+                                      ...prev,
+                                      { label: newValue, value: newValue },
+                                    ]);
+                                  }
+
+                                  handleChangeFormSectionDetails(
+                                    index,
+                                    "name",
+                                    setFieldValue,
+                                    values,
+                                    newValue,
+                                    "additionalDetails"
+                                  );
+
+                                }}
+                                name={`additionalDetails.${index}.name`}
+                                onBlur={() =>
+                                  setFieldTouched(
+                                    `additionalDetails.${index}.name`,
+                                    true
+                                  )
+                                }
+                              />
+
+                              {touched?.additionalDetails?.[index]?.name &&
+                                errors?.additionalDetails?.[index]
+                                  ?.name && (
+                                  <span className={styles.error}>
+                                    {errors.additionalDetails[index].name}
+                                  </span>
+                                )}
+                            </div>
+                          //   <div className={styles.productContainer}>
+                          //     <label className={styles.formLabel}>
+                          //       {section.type || "Item"} Name
+                          //       <span className={styles.labelStamp}>*</span>
+                          //     </label>
+
+                          //     <input
+                          //       className={styles.formInput}
+                          //       value={section.name || ""}
+                          //       placeholder={`Enter ${
+                          //         section.type || "Item"
+                          //       } Name`}
+                          //       onChange={(e) =>
+                          //         handleChangeFormSectionDetails(
+                          //           index,
+                          //           "name",
+                          //           setFieldValue,
+                          //           values,
+                          //           e?.target?.value,
+                          //           "additionalDetails"
+                          //         )
+                          //       }
+                          //     />
+
+                          //     {touched?.additionalDetails?.[index]?.name &&
+                          //       errors?.additionalDetails?.[index]?.name && (
+                          //         <span className={styles.error}>
+                          //           {errors.additionalDetails[index].name}
+                          //         </span>
+                          //       )}
+                          //   </div>
+                        }
 
                           {/* ----- Product / Service CATEGORY (Creatable) ------ */}
                           <div className={styles.productContainer}>
