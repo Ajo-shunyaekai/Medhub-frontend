@@ -53,6 +53,7 @@ const BidDetails = () => {
       try {
         const obj = {
           participantId: participantId,
+          supplier_id: localStorage.getItem('supplier_id'),
           amount: Number(values.amount),
           tnc: values.tnc,
           timeLine: Number(values.timeLine),

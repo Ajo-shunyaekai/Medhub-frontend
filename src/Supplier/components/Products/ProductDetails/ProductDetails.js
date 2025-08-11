@@ -649,7 +649,7 @@ const ProductDetails = () => {
                     </div>
                   </div>
                 ))}
-              {productDetail?.categoryDetails
+              {/* {productDetail?.categoryDetails
                 ?.filter((item) => (item?.type == "textarea" && item?.type != "file"))
                 ?.map((item, index) => (
                   <div className={styles.additionalUploadSection34}>
@@ -657,7 +657,6 @@ const ProductDetails = () => {
                       {toTitleCase(item?.name)}
                     </span>
                     <div className={styles.additionalImageSection34}>
-                      {/* {productDetail?.categoryDetails?.map((item, index) => ( */}
                       <div
                         className={styles.complianceSection34}
                         key={item._id || index}
@@ -672,14 +671,14 @@ const ProductDetails = () => {
                       </div>
                     </div>
                   </div>
-                ))}
+                ))} */}
  
               {
                 productDetail?.categoryDetails
                 ?.filter((item) => item?.type == "file")
                 ?.map((item,index) =>(
-                  <div key={index} className={styles.newUploadSection}>
-                    <span className={styles.medicineHead}>
+                  <div key={index} className={styles.otherImageDiv}>
+                    <span className={styles.newMedicineHead}>
                       {toTitleCase(item?.name)}
                     </span>
                     <RenderProductFiles files={[item.fieldValue]}/>
@@ -693,6 +692,28 @@ const ProductDetails = () => {
             ></div>
           </div>
         )}
+ 
+        {/* new other textarea */}
+        {
+          productDetail?.categoryDetails?.length > 0  && (
+            <div className={styles.newOtherMainContainer}>
+              {
+                productDetail?.categoryDetails
+                ?.filter((item) => (item?.type == "textarea" && item?.type != "file"))
+                ?.map((item,i)=>(
+                  <div key={i} className={styles.newOtherCategory}>
+                    <span className={styles.medicineHead34}>
+                      {toTitleCase(item?.name)}
+                    </span>
+                    <span className={styles.medicineContent34}>
+                      {item.fieldValue}
+                    </span>
+                  </div>
+                ))
+              }
+            </div>
+          )
+        }
  
         {/* {productDetail?.general?.image &&
           (Array.isArray(productDetail.general.image)

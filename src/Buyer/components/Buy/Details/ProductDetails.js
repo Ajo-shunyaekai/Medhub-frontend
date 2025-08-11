@@ -816,7 +816,7 @@ const ProductDetails = () => {
                     </div>
                   </div>
                 ))}
-              {productDetail?.categoryDetails
+             {/*  {productDetail?.categoryDetails
                 ?.filter((item) => (item?.type == "textarea" && item?.type != "file"))
                 ?.map((item, index) => (
                   <div className={styles.categoryAdditionalUploadSection34}>
@@ -824,7 +824,6 @@ const ProductDetails = () => {
                       {toTitleCase(item?.name)}
                     </span>
                     <div className={styles.additionalImageSection34}>
-                      {/* {productDetail?.categoryDetails?.map((item, index) => ( */}
                       <div
                         className={styles.complianceSection}
                         key={item._id || index}
@@ -839,13 +838,13 @@ const ProductDetails = () => {
                       </div>
                     </div>
                   </div>
-                ))}
+                ))} */}
  
                 {
                   productDetail?.categoryDetails
                   ?.filter((item) => item?.type == "file")
                   ?.map((item,index) =>(
-                    <div key={index} className={styles.newUploadSection}>
+                    <div key={index} className={styles.otherImageDiv}>
                       <span className={styles.medicineHead}>
                         {toTitleCase(item?.name)}
                       </span>
@@ -860,6 +859,29 @@ const ProductDetails = () => {
             ></div>
           </div>
         )}
+ 
+        {/* new changes in others details of textarea field */}
+ 
+        {
+          productDetail?.categoryDetails?.length > 0  && (
+            <div className={styles.newOtherMainContainer}>
+              {
+                productDetail?.categoryDetails
+                ?.filter((item) => (item?.type == "textarea" && item?.type != "file"))
+                ?.map((item,i)=>(
+                  <div key={i} className={styles.newOtherCategory}>
+                    <span className={styles.medicineHead34}>
+                      {toTitleCase(item?.name)}
+                    </span>
+                    <span className={styles.medicineContent34}>
+                      {item.fieldValue}
+                    </span>
+                  </div>
+                ))
+              }
+            </div>
+          )
+        }
         {/* End of Category Other Details */}
  
         {/* Start product image section */}

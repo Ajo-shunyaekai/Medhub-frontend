@@ -1038,8 +1038,8 @@ const Edit = () => {
                 acceptTypes={{
                   "image/png": [],
                   "image/jpeg": [],
-                  "image/jpg": [],
-                  "application/pdf": [],
+                  // "image/jpg": [],
+                  // "application/pdf": [],
                 }}
               />
 
