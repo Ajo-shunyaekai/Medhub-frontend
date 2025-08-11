@@ -11,6 +11,7 @@ const initialState = {
   bidDetails: {},
   updatedbid: {},
   bidToUpdate: {},
+  currentBidDetails: {}
 };
 
 export const fetchBidList = createAsyncThunk(
@@ -30,6 +31,22 @@ export const fetchBidList = createAsyncThunk(
 
 export const fetchBidById = createAsyncThunk(
   "bid/fetchBidById",
+  async (url, { rejectWithValue }) => {
+    try {
+      const response = await apiRequests.postRequest(
+        // `bid/${values?.bidId}`
+        url
+      );
+      return response?.data;
+    } catch (error) {
+      // Log and pass the error
+      return rejectWithValue(error?.response?.data || error.message);
+    }
+  }
+);
+
+export const fetchCurrentBidDetails = createAsyncThunk(
+  "bid/currentBidDetails",
   async (url, { rejectWithValue }) => {
     try {
       const response = await apiRequests.postRequest(
@@ -183,6 +200,17 @@ export const bidSlice = createSlice({
         state.bidDetails = action?.payload;
       })
       .addCase(fetchBidById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(fetchCurrentBidDetails.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchCurrentBidDetails.fulfilled, (state, action) => {
+        state.loading = false;
+        state.currentBidDetails = action?.payload;
+      })
+      .addCase(fetchCurrentBidDetails.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

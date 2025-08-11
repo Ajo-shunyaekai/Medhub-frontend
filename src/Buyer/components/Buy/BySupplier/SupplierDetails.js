@@ -8,6 +8,7 @@ import SupplySecondaryList from './SupplySecondaryList';
 import { apiRequests } from "../../../../api/index";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductsList } from '../../../../redux/reducers/productSlice';
+import { fetchBidById, fetchCurrentBidDetails } from '../../../../redux/reducers/bidSlice';
 import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
  
@@ -15,8 +16,12 @@ const SupplierDetails = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { supplierId } = useParams();
+   const { bidId, userId, participantId } = location.state || {};
+   console.log('bidId',bidId)
+   console.log('userId',userId)
+   console.log('participantId',participantId)
   const dispatch = useDispatch();
-  const { products } = useSelector((state) => state.productReducer);
+  const { currentBidDetails } = useSelector((state) => state?.bidReducer || {});
   const [activeTab, setActiveTab] = useState('');
   const [supplier, setSupplier] = useState();
   const [buyerSupplierOrder, setBuyerSupplierOrder] = useState([]);
@@ -161,6 +166,12 @@ const SupplierDetails = () => {
     // fetchData()
     fetchBuyerSupplierOrder();
   }, [currentPage, activeTab, currentOrderPage]);
+
+  useEffect(() => {
+      if (bidId && userId && participantId) {
+        dispatch(fetchCurrentBidDetails(`bid/get-current-bid-details/${bidId}/${userId}/${participantId}`));
+      }
+    }, [bidId, userId, participantId, dispatch]);
  
   return (
     <div className={styles.container}>

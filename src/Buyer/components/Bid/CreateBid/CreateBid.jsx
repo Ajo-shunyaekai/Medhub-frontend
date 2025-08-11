@@ -135,7 +135,7 @@ const CreateBid = ({socket}) => {
           setLoading(true);
           const response = await dispatch(
             fetchProductsList({
-              url: `product/for-dd?buyer_id=${buyerId}`,
+              url: `product/for-dd?buyer_id=${buyerId}?showDuplicate=false`,
             })
           );
           if (response.meta.requestStatus === "fulfilled") {
@@ -712,7 +712,7 @@ const CreateBid = ({socket}) => {
                                 <span className={styles.labelStamp}>*</span>
                               </label>
 
-                              <CreatableSelect
+                              {/* <CreatableSelect
                                 className={styles.formSelect}
                                 options={productList}
                                 placeholder="Select from list or type a custom name"
@@ -748,7 +748,46 @@ const CreateBid = ({socket}) => {
                                     true
                                   )
                                 }
-                              />
+                              /> */}
+
+                              <Select
+                              className={styles.formSelect}
+                             options={productList}
+                                placeholder="Select from list or type a custom name"
+                                value={
+                                  productList.find(
+                                    (o) => o.value === section.name
+                                  ) || null
+                                }
+                                onChange={(opt, meta) => {
+                                  const newValue = opt?.value || "";
+
+                                  if (meta.action === "create-option" && opt) {
+                                    setProductList((prev) => [
+                                      ...prev,
+                                      { label: newValue, value: newValue },
+                                    ]);
+                                  }
+
+                                  handleChangeFormSectionDetails(
+                                    index,
+                                    "name",
+                                    setFieldValue,
+                                    values,
+                                    newValue,
+                                    "additionalDetails"
+                                  );
+
+                                }}
+                                name={`additionalDetails.${index}.name`}
+                                onBlur={() =>
+                                  setFieldTouched(
+                                    `additionalDetails.${index}.name`,
+                                    true
+                                  )
+                                }
+                            />
+
 
                               {touched?.additionalDetails?.[index]?.name &&
                                 errors?.additionalDetails?.[index]

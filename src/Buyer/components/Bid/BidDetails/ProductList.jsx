@@ -66,7 +66,13 @@ const ProductList = ({}) => {
       name: "Action",
       cell: (row) => (
         <Link
-          to={`/buyer/bid/${id}/${row?.companyType?.toLowerCase()}/${row?.itemId}`}
+          // to={`/buyer/bid/${id}/${row?.companyType?.toLowerCase()}/${row?.itemId}`}
+         to={`/buyer/supplier-details/${row?.supplierId}`}
+         state={{
+          bidId: row.bidId,
+          userId: row.userId,
+          participantId: row.participantId,
+        }}
           title="View Details"
         >
           <div className={styles.activeBtn}>
@@ -96,18 +102,39 @@ const ProductList = ({}) => {
       }
     )); */
  
-    const allRows = (bidDetails?.additionalDetails || []).flatMap((item)=>{
-      return (item.participants || []).map((participant)=>({
-        registeredCountry : participant?.participantCountry,
-        companyName : participant?.participantName,
+    // const allRows = (bidDetails?.additionalDetails || []).flatMap((item)=>{
+    //   return (item.participants || []).map((participant)=>({
+    //     registeredCountry : participant?.participantCountry,
+    //     companyName : participant?.participantName,
+    //     companyType: participant?.participantType,
+    //     supplierId: participant?.participantId,
+    //     amount: participant.amount,
+    //     timeLine: participant.timeLine,
+    //     itemId: item.itemId,
+    //   }))
+    // });
+
+     const allRows = [];
+  (bidDetails?.additionalDetails || []).forEach((item) => {
+    (item.participants || []).forEach((participant) => {
+      allRows?.push({
+        registeredCountry: participant?.participantCountry,
+        companyName: participant?.participantName,
         companyType: participant?.participantType,
-        amount: participant.amount,
-        timeLine: participant.timeLine,
-        itemId: item.itemId
-      }))
+        supplierId: participant?.participantId,
+        amount: participant?.amount,
+        timeLine: participant?.timeLine,
+        itemId: item?.itemId,
+
+        // extra fields for redirect
+        bidId: bidDetails?._id,
+        userId: bidDetails?.userId,
+        participantId: participant?.id, // the "id" field in participants array
+      });
     });
+  });
  
-    const currentOrder = allRows.slice(indexOfFirstOrder,indexOfLastProduct);
+    const currentOrder = allRows?.slice(indexOfFirstOrder,indexOfLastProduct);
  
     setNewOrder(currentOrder);
   },[bidDetails,currentPage]);
