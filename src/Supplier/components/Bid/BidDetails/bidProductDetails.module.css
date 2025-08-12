@@ -145,15 +145,34 @@
 .fieldForm {
   width: 100%;
   display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.newFieldForm {
+  width: 100%;
+  display: flex;
   gap: 20px;
 }
+
 .fieldDiv {
-  /* min-width: 260px; */
+  min-width: 260px;
   width: 32%;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
+
+.newFieldDiv{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+  width: 48%;
+  min-width: 260px;
+
+}
+
 .labelStamp {
   font-size: 16px;
   color: #4f4f4f;
@@ -166,12 +185,29 @@
   gap: 10px;
 }
 .fieldDiv2 {
-  /* min-width: 260px; */
   width: calc(64% + 20px);
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
+.editingFalseFieldDiv2{
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  width: 46%;
+}
+
+.editingFalseFieldDiv2 textarea{
+  width: 50%;
+  outline: none !important;
+  border: none !important;
+  background-color: #ffffff !important;
+  padding: 10.4px !important;
+  font-size: 0.825rem !important;
+  color: #99a0ac !important;
+}
+
+
 .fieldDiv2 textarea {
   width: 100%;
   outline: none !important;
@@ -184,22 +220,54 @@
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
 }
+
 .fieldFormLabel {
   color: #5e676f;
   font-size: 0.825rem;
   font-weight: 500;
+  width: 49.5%;
+  word-break: break-word;
 }
-.fieldFormInput {
+
+.fieldFormDiv {
+  width: 52%;
+  font-size: 0.825rem !important;
+  color: #5e565f !important;
+  border-radius: 4px !important;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.newFieldFormDiv{
+  width: 100%;
+  font-size: 0.825rem !important;
+  color: #5e565f !important;
+  border-radius: 4px !important;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.fieldFormInput{
+  width: 100%;
+  padding: 10.4px !important; 
+  outline: none !important;
+  border: none !important;
+  background-color: #ffffff !important;
+  font-size: 0.825rem !important;
+  color: #5e565f !important;
+  border-radius: 4px !important;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+}
+
+.fieldFormNonEditInput{
   width: 100%;
   outline: none !important;
   border: none !important;
   background-color: #ffffff !important;
-  padding: 10.4px !important;
   font-size: 0.825rem !important;
-  color: #5e565f !important;
-  border-radius: 4px !important;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
-    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+  color: #99a0ac !important;
 }
 
 .fieldBtnDiv {

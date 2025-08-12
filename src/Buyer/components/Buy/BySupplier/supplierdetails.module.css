@@ -306,7 +306,14 @@
     gap: 10px;
     justify-content: start;
     width: 100%;
- 
+}
+
+.innerHead3{
+    color: #5e676f;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: -8px;
+    margin-bottom: -8px;
 }
  
 .infoSection {

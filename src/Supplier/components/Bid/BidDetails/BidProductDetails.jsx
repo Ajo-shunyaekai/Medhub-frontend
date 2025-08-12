@@ -32,6 +32,9 @@ const BidDetails = () => {
     timeLine: "",
   });
 
+  //to handle cancel, manage seperate state with initial value
+  const [savedValue, setSavedValue] = useState({amount:"",timeLine:"",tnc:""});
+
   // Validation schema using Yup
   const validationSchema = Yup.object({
     amount: Yup.number()
@@ -64,6 +67,8 @@ const BidDetails = () => {
           if (response?.meta.requestStatus === "fulfilled") {
             // setLoading(false);
             dispatch(fetchBidById(`bid/${id}`));
+            setSavedValue(values);
+
           }
         });
 
@@ -145,6 +150,13 @@ const BidDetails = () => {
         timeLine: participatingDetails?.timeLine,
         tnc: participatingDetails?.tnc,
       });
+
+      setSavedValue({
+        amount: participatingDetails?.amount,
+        timeLine: participatingDetails?.timeLine,
+        tnc: participatingDetails?.tnc,
+      });
+
       setIsEditing(false); // If participatingDetails are found, editing is disabled
     } else {
       setIsEditing(true); // If participatingDetails are empty, allow editing
@@ -281,57 +293,62 @@ const BidDetails = () => {
                       className={styles.fieldSection}
                       onSubmit={formik?.handleSubmit}
                     >
-                      <div className={styles.fieldForm}>
-                        <div className={styles.fieldDiv}>
+                      <div className={isEditing?styles.newFieldForm : styles.fieldForm}>
+                        <div className={isEditing?styles.fieldDiv:styles.newFieldDiv}>
                           <label className={styles.fieldFormLabel}>
                             {getFieldLabel("Bid Price")}
                             {isEditing && (
                               <span className={styles.labelStamp}>*</span>
                             )}
                           </label>
-                          <input
-                            name="amount"
-                            type="numeric"
-                            placeholder="Enter Bid Price"
-                            className={styles.fieldFormInput}
-                            value={formik?.values.amount}
-                            onBlur={formik?.handleBlur}
-                            onChange={formik?.handleChange}
-                            disabled={!isEditing}
-                          />
-                          {formik?.errors.amount && formik?.touched.amount && (
-                            <div className={styles.fieldError}>
-                              {formik?.errors.amount}
-                            </div>
-                          )}
+                          <div className={isEditing?styles.newFieldFormDiv:styles.fieldFormDiv}>
+                            <input
+                              name="amount"
+                              type="numeric"
+                              placeholder="Enter Bid Price"
+                              value={isEditing?(formik?.values.amount||""):(`${formik?.values.amount} USD`) }
+                              onBlur={formik?.handleBlur}
+                              onChange={formik?.handleChange}
+                              disabled={!isEditing}
+                              className={isEditing ? styles.fieldFormInput: styles.fieldFormNonEditInput}
+                            />
+                            {formik?.errors.amount && formik?.touched.amount && (
+                              <div className={styles.fieldError}>
+                                {formik?.errors.amount}
+                              </div>
+                            )}
+                          </div>
                         </div>
-                        <div className={styles.fieldDiv}>
+                        <div className={isEditing?styles.fieldDiv:styles.newFieldDiv}>
                           <label className={styles.fieldFormLabel}>
                             {getFieldLabel("Timeline")}
                             {isEditing && (
                               <span className={styles.labelStamp}>*</span>
                             )}
                           </label>
-                          <input
-                            name="timeLine"
-                            type="numeric"
-                            placeholder="Enter the expected delivery duration (in days)"
-                            className={styles.fieldFormInput}
-                            value={formik?.values.timeLine}
-                            onBlur={formik?.handleBlur}
-                            onChange={formik?.handleChange}
-                            disabled={!isEditing}
-                          />
-                          {formik?.errors.timeLine &&
-                            formik?.touched.timeLine && (
-                              <div className={styles.fieldError}>
-                                {formik?.errors.timeLine}
-                              </div>
+                          <div className={isEditing?styles.newFieldFormDiv:styles.fieldFormDiv}>
+                            <input
+                              name="timeLine"
+                              type="numeric"
+                              placeholder="Enter the expected delivery duration (in days)"
+                              value={isEditing?(formik?.values.timeLine || ""):(`${formik?.values?.timeLine} Days`)}
+                              onBlur={formik?.handleBlur}
+                              onChange={formik?.handleChange}
+                              disabled={!isEditing}
+                              className={isEditing ? styles.fieldFormInput: styles.fieldFormNonEditInput}
+                            />
+                            {formik?.errors.timeLine &&
+                              formik?.touched.timeLine && (
+                                <div className={styles.fieldError}>
+                                  {formik?.errors.timeLine}
+                                </div>
                             )}
+                          </div>
                         </div>
                       </div>
-                      <div className={styles.fieldForm}>
-                        <div className={styles.fieldDiv2}>
+                      
+                      <div className={isEditing?styles.newFieldForm : styles.fieldForm}>
+                        <div className={ isEditing?styles.fieldDiv2:styles.editingFalseFieldDiv2}>
                           <label className={styles.fieldFormLabel}>
                             {getFieldLabel("Terms And Condition")}
                             {isEditing && (
@@ -372,7 +389,7 @@ const BidDetails = () => {
                           <button
                             type="button"
                             className={styles.fieldCancelButton}
-                            onClick={() => setIsEditing(false)}
+                            onClick={() => {setIsEditing(false); formik.setValues(savedValue);}}
                           >
                             Cancel
                           </button>
