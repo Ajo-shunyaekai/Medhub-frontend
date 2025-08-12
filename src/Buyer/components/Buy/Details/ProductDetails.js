@@ -69,9 +69,7 @@ const ProductDetails = () => {
   //     ? pdfFile
   //     : `${process.env.REACT_APP_SERVER_URL}/uploads/products/${pdfFile}`
   //   : "https://morth.nic.in/sites/default/files/dd12-13_0.pdf";
- 
- 
-  console.log("productDetail: ",productDetail);
+
  
   const pdfUrl = pdfFile
     ? (() => {

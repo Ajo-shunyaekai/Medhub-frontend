@@ -18,10 +18,8 @@ const SupplierDetails = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { supplierId } = useParams();
-   const { bidId, userId, participantId } = location.state || {};
-   console.log('bidId',bidId)
-   console.log('userId',userId)
-   console.log('participantId',participantId)
+  const { bidId, userId, participantId } = location.state || {};
+  
   const dispatch = useDispatch();
   const { currentBidDetails } = useSelector((state) => state?.bidReducer || {});
   const [activeTab, setActiveTab] = useState('');
@@ -169,15 +167,6 @@ const SupplierDetails = () => {
     fetchBuyerSupplierOrder();
   }, [currentPage, activeTab, currentOrderPage]);
 
-  useEffect(() => {
-      if (bidId && userId && participantId) {
-        dispatch(fetchCurrentBidDetails(`bid/get-current-bid-details/${bidId}/${userId}/${participantId}`));
-      }
-    }, [bidId, userId, participantId, dispatch]);
- 
- useEffect(()=>{
-   console.log("Supplier: ",supplier);
- },[supplier]);
 
   return (
     <div className={styles.container}>
@@ -463,7 +452,7 @@ const SupplierDetails = () => {
 
           <div>
              <p className={styles.innerHead3}>Current Bid</p>
-             <ProductList/>
+             <ProductList supplierId={supplierId}/>
           </div>
 
           <div className={styles.buttonContainer}>

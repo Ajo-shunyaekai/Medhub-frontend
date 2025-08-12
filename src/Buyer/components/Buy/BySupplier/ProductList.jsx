@@ -1,21 +1,38 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import styles from "../../../assets/style/table.module.css";
 import style from './productlist.module.css'
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import DataTable from 'react-data-table-component';
 import { Link, useNavigate } from 'react-router-dom';
 import PaginationComponent from '../../SharedComponents/Pagination/pagination';
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCurrentBidDetails } from '../../../../redux/reducers/bidSlice';
 
-const ProductList = () => {
-    const navigate = useNavigate();
+const ProductList = ({supplierId}) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { currentBidDetails } = useSelector((state) => state?.bidReducer || {});
 
+  const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
+  const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
+  const buyerId = buyerIdSessionStorage || buyerIdLocalStorage
+
+  const [currentBids, setCurrentBids] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const bidsPerPage = 5;
+
+   useEffect(() => {
+      if (!buyerId) {
+        localStorage?.clear();
+        navigate("/buyer/login");
+        return;
+      }
+      
+        if (buyerId &&  supplierId) {
+          dispatch(fetchCurrentBidDetails(`bid/get-current-bid-details/${buyerId}/${supplierId}?pageNo=${currentPage}&pageSize=${bidsPerPage}`));
+        }
+      }, [ buyerId, supplierId, dispatch, currentPage]);
     const columns = [
-    // {
-    //   name: "Id",
-    //   selector: (row) =>
-    //     (row?.type == "Product" ? "PDT" : "SRV") + " - " + row?.itemId,
-    //   sortable: true,
-    // },
     {
         name: "Product Name",
         selector: (row) => row?.productName,
@@ -58,12 +75,35 @@ const ProductList = () => {
     },
     ];
 
-    const bidData = [{productName:"New Pdt",quantityRequired: 10, timeLine: 10, targetPrice: 500}];
+    useEffect(() => {
+      const indexOfLastProduct = currentPage * bidsPerPage;
+    // const indexOfFirstOrder = indexOfLastProduct - bidsPerPage;
+
+      const bidData = [];
+        (currentBidDetails?.bidDocs || [])?.forEach(bid => {
+          (bid.additionalDetails || [])?.forEach(item => {
+            bidData?.push({
+              productName: item.name,
+              quantityRequired: item.quantity,
+              targetPrice: item.targetPrice,
+              timeLine: item.delivery,
+              itemId: item.itemId,
+              bidId: bid.bid_id,
+              productId: item.productId,
+            });
+          });
+        });
+
+    // const currentBids = bidData?.slice(indexOfFirstOrder,indexOfLastProduct);
+    setCurrentBids(bidData)
+
+    }, [currentBidDetails, currentPage])
+    
 
 
-    const handlePageChange = () => {
-
-    }
+    const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);   
+  };
 
   return (
     <div className={styles.mainInvoicecontainer2}>
@@ -106,7 +146,7 @@ const ProductList = () => {
 
       <DataTable
         columns={columns}
-        data={bidData || []}
+        data={currentBids || []}
         noDataComponent={
           <div className={styles["no-data"]}>No Data Available</div>
         }
@@ -117,9 +157,9 @@ const ProductList = () => {
 
       <div className={style.paginationDiv}>
         <PaginationComponent
-            activePage={/* currentPage */1}
-            itemsCountPerPage={/* bidsPerPage */5}
-            totalItemsCount={/* bidDetails?.additionalDetails?.participants?.length */1}
+            activePage={currentPage}
+            itemsCountPerPage={bidsPerPage}
+            totalItemsCount={currentBidDetails?.totalItems || 0}
             pageRangeDisplayed={5}
             onChange={handlePageChange}
         />

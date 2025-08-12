@@ -33,7 +33,6 @@ const BidHistoryList = () => {
       name: "Date",
       // selector: (row) => moment(row?.date).format("DD-MM-YYYY") || 0,
       selector: (row) => {
-      console.log("Row Date:", row?.date); // debug
       return row?.date ? moment(row.date).format("DD-MM-YYYY") : "-";
     },
       sortable: true,

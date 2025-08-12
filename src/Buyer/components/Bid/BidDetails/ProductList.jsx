@@ -90,49 +90,26 @@ const ProductList = ({}) => {
   useEffect(()=>{
     const indexOfLastProduct = currentPage * bidsPerPage;
     const indexOfFirstOrder = indexOfLastProduct - bidsPerPage;
-    /* const currentOrders = bidDetails?.additionalDetails?.slice(indexOfFirstOrder,indexOfLastProduct) || [];
-    const currentOrdersWithCountry = currentOrders.map((order)=>(
-      {
-        ...order,
-        registeredCountry : bidDetails?.buyerDetails?.registeredAddress?.country,
-        companyName : bidDetails?.buyerDetails?.company_name,
-        companyType: bidDetails?.buyerDetails?.registeredAddress?.type,
-        amount : order.participants ? order?.participants[0]?.amount : "Nill",
-        timeLine: order.participants ? order?.participants[0]?.timeLine : "Nill"
-      }
-    )); */
- 
-    // const allRows = (bidDetails?.additionalDetails || []).flatMap((item)=>{
-    //   return (item.participants || []).map((participant)=>({
-    //     registeredCountry : participant?.participantCountry,
-    //     companyName : participant?.participantName,
-    //     companyType: participant?.participantType,
-    //     supplierId: participant?.participantId,
-    //     amount: participant.amount,
-    //     timeLine: participant.timeLine,
-    //     itemId: item.itemId,
-    //   }))
-    // });
 
      const allRows = [];
-  (bidDetails?.additionalDetails || []).forEach((item) => {
-    (item.participants || []).forEach((participant) => {
-      allRows?.push({
-        registeredCountry: participant?.participantCountry,
-        companyName: participant?.participantName,
-        companyType: participant?.participantType,
-        supplierId: participant?.participantId,
-        amount: participant?.amount,
-        timeLine: participant?.timeLine,
-        itemId: item?.itemId,
+      (bidDetails?.additionalDetails || []).forEach((item) => {
+        (item.participants || []).forEach((participant) => {
+          allRows?.push({
+            registeredCountry: participant?.participantCountry,
+            companyName: participant?.participantName,
+            companyType: participant?.participantType,
+            supplierId: participant?.participantId,
+            amount: participant?.amount,
+            timeLine: participant?.timeLine,
+            itemId: item?.itemId,
 
-        // extra fields for redirect
-        bidId: bidDetails?._id,
-        userId: bidDetails?.userId,
-        participantId: participant?.id, // the "id" field in participants array
+            // extra fields for redirect
+            bidId: bidDetails?._id,
+            userId: bidDetails?.userId,
+            participantId: participant?.id, // the "id" field in participants array
+          });
+        });
       });
-    });
-  });
  
     const currentOrder = allRows?.slice(indexOfFirstOrder,indexOfLastProduct);
  

@@ -134,7 +134,6 @@ export const SupplierNotificationProvider = ({ children, socket}) => {
 
       notificationEvents.forEach(({ event, title }) => {
         socket.on(event, (message) => {
-          console.log('noti message',message)
           const link = `${process.env.REACT_APP_SUPPLIER_URL}/notification-list`;
           showNotification(
             title,
