@@ -10,6 +10,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchProductsList } from '../../../../redux/reducers/productSlice';
 import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
+import DataTable from 'react-data-table-component';
+import ProductList from './ProductList';
  
 const SupplierDetails = () => {
   const location = useLocation();
@@ -162,6 +164,10 @@ const SupplierDetails = () => {
     fetchBuyerSupplierOrder();
   }, [currentPage, activeTab, currentOrderPage]);
  
+ useEffect(()=>{
+   console.log("Supplier: ",supplier);
+ },[supplier]);
+
   return (
     <div className={styles.container}>
       {supplier?.supplier_id && (
@@ -369,18 +375,18 @@ const SupplierDetails = () => {
                 {supplier?.country_of_operation && (
                   <div className={styles.cardMainContainer}>
                     <span className={styles.cardHead}>Country of Operation</span>
-                    <span className={styles.cardContent}>{supplier.country_of_operation.join(', ')}</span>
+                    <span className={styles.cardContent}>{supplier.country_of_operation?.join(', ')}</span>
                   </div>
                 )}
                  {supplier?.categories?.length > 0 && (
                   <div className={styles.cardMainContainer}>
                     <span className={styles.cardHead}>Trading Categories</span>
                     <span className={styles.cardContent}>{supplier?.categories?.length < 6 ?
-                    (supplier?.categories?.slice(0, supplier?.categories?.length).join(', '))
+                    (supplier?.categories?.slice(0, supplier?.categories?.length)?.join(', '))
                     :
                     (
-                      <>
-                        {(window.innerWidth < 1380? supplier?.categories?.slice(0,4).join(', '): supplier?.categories?.slice(0,5)).join(",")}
+                      <div>
+                        {(window.innerWidth < 1380? supplier?.categories?.slice(0,4)?.join(', '): supplier?.categories?.slice(0,5)?.join(","))}
                         <span>{" ... "}</span>
                         <span
                           id="buyer-tooltip"
@@ -397,7 +403,7 @@ const SupplierDetails = () => {
                             supplier?.categories?.join(",")
                           }
                         />
-                      </>
+                      </div>
                     )}
                     </span>
                   </div>
@@ -443,6 +449,12 @@ const SupplierDetails = () => {
               <span className={styles.rightContent}>{buyerSupplierOrder?.completedCount || 0}</span>
             </Link>
           </div>
+
+          <div>
+             <p className={styles.innerHead3}>Current Bid</p>
+             <ProductList/>
+          </div>
+
           <div className={styles.buttonContainer}>
             <button
               className={`${styles.buttonProduct} ${activeButton === 'products' ? styles.active : ''}`}
