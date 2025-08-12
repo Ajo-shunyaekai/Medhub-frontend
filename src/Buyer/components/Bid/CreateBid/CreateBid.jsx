@@ -135,7 +135,7 @@ const CreateBid = ({socket}) => {
           setLoading(true);
           const response = await dispatch(
             fetchProductsList({
-              url: `product/for-dd?buyer_id=${buyerId}?showDuplicate=false`,
+              url: `product/for-dd?buyer_id=${buyerId}&showDuplicate=false`,
             })
           );
           if (response.meta.requestStatus === "fulfilled") {
@@ -635,6 +635,7 @@ const CreateBid = ({socket}) => {
                           category: undefined,
                           subCategory: undefined,
                           name: undefined,
+                          productId:undefined,
                           description: undefined,
                           upc: undefined,
                           brand: undefined,
@@ -750,44 +751,46 @@ const CreateBid = ({socket}) => {
                                 }
                               /> */}
 
-                              <Select
+
+                            <Select
                               className={styles.formSelect}
-                             options={productList}
-                                placeholder="Select from list or type a custom name"
-                                value={
-                                  productList.find(
-                                    (o) => o.value === section.name
-                                  ) || null
+                              options={productList}
+                              placeholder="Select from list or type a custom name"
+                              value={
+                                productList.find((o) => o.value === section.productId) || null
+                              }
+                              onChange={(opt, meta) => {
+                                const productName = opt?.label || "";
+                                const productId = opt?.value || "";
+
+                                if (meta.action === "create-option" && opt) {
+                                  setProductList((prev) => [
+                                    ...prev,
+                                    { label: productName, value: productId }
+                                  ]);
                                 }
-                                onChange={(opt, meta) => {
-                                  const newValue = opt?.value || "";
-
-                                  if (meta.action === "create-option" && opt) {
-                                    setProductList((prev) => [
-                                      ...prev,
-                                      { label: newValue, value: newValue },
-                                    ]);
-                                  }
-
-                                  handleChangeFormSectionDetails(
-                                    index,
-                                    "name",
-                                    setFieldValue,
-                                    values,
-                                    newValue,
-                                    "additionalDetails"
-                                  );
-
-                                }}
-                                name={`additionalDetails.${index}.name`}
-                                onBlur={() =>
-                                  setFieldTouched(
-                                    `additionalDetails.${index}.name`,
-                                    true
-                                  )
-                                }
+                                handleChangeFormSectionDetails(
+                                  index,
+                                  "name",
+                                  setFieldValue,
+                                  values,
+                                  productName,
+                                  "additionalDetails"
+                                );
+                                handleChangeFormSectionDetails(
+                                  index,
+                                  "productId",
+                                  setFieldValue,
+                                  values,
+                                  productId,
+                                  "additionalDetails"
+                                );
+                              }}
+                              name={`additionalDetails.${index}.productId`}
+                              onBlur={() =>
+                                setFieldTouched(`additionalDetails.${index}.productId`, true)
+                              }
                             />
-
 
                               {touched?.additionalDetails?.[index]?.name &&
                                 errors?.additionalDetails?.[index]
