@@ -8,10 +8,10 @@ a:hover {
   color: currentColor !important;
   text-decoration: none !important;
 }
-* {
+/* * {
    
     cursor: default !important;
-}
+} */
 .table-icon{
   cursor: pointer !important;
 }

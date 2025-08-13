@@ -625,6 +625,18 @@ const SupplierDetailsNew = () => {
             </Modal>
           </div>
 
+          {/* product catalogue */}
+          {
+            supplierDetails?.product_catalogue?.length > 0 && (
+              <div className="buyer-details-product-catalogue-card-section">
+                <p className="buyer-details-company-logo-heading">Product Catalogue</p>
+                <div className="buyer-details-product-catalogue-section">
+                  <RenderFiles files={supplierDetails?.product_catalogue}/>
+                </div>
+              </div>
+            )
+          }
+
           <div className="buyer-details-container2">
             {/* Rest of your JSX content */}
             {user?.accessControl?.supplier?.requests?.edit &&

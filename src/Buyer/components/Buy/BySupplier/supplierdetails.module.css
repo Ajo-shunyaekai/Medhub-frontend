@@ -142,19 +142,68 @@
 }
  
 .cardContents {
-          font-size: 0.825rem;
+    font-size: 0.825rem;
     color: #99a0ac;
 }
  
 .cardContent {
-        font-size: 0.825rem;
+    font-size: 0.825rem;
     color: #99a0ac;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: normal;
     text-align: end;
 }
- 
+
+/* product catalogue */
+.productCatalogueSection{
+    display: flex;
+    gap: 15px;
+
+} 
+
+.fileAndDateSection{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    cursor:  pointer !important;
+}
+
+.datePara{
+    font-size: 0.825rem;
+    color: #99a0ac;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    text-align: center;
+}
+
+.productCatalogueCardContainer{
+    background-color: #fff;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px 24px;
+    width: 100%;
+}
+
+.tradeLicenseContainer{
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    padding: 20px 24px;
+    width: 100%;
+}
+
+.tradeLicenseCardContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
 .cardMainContainer {
     display: flex;
     justify-content: space-between;

@@ -30,11 +30,14 @@ const BidDetails = () => {
   const [initialValues, setInitialValues] = useState({
     amount: "",
     timeLine: "",
+    tnc:""
   });
 
   //to handle cancel, manage seperate state with initial value
   const [savedValue, setSavedValue] = useState({amount:"",timeLine:"",tnc:""});
 
+  console.log("bidDetails: ",bidDetails);
+  
   // Validation schema using Yup
   const validationSchema = Yup.object({
     amount: Yup.number()
@@ -175,6 +178,28 @@ const BidDetails = () => {
     }
     return `Edit ${fieldName}`;
   };
+
+  useEffect(()=>{
+    console.log("participatingDetails: ",participatingDetails);
+  },[participatingDetails]);
+
+  const handleCancel = () => {
+    if(participatingDetails){
+      setIsEditing(false);
+      formik.setValues(savedValue);
+    }
+    else{
+      setSavedValue({amount:"",timeLine:"",tnc:""});
+      formik.setValues(savedValue);
+    }
+  }
+
+  console.log("formik.values: ",formik.values);
+  const allFieldsEmpty = Object.values(formik.values).every(
+    (value) => value === ""
+  );
+
+  const isDisabled = !participatingDetails && allFieldsEmpty;
 
   return (
     <div className={styles.container}>
@@ -355,7 +380,9 @@ const BidDetails = () => {
                               <span className={styles.labelStamp}>*</span>
                             )}
                           </label>
-                          <textarea
+                         {
+                          isEditing? (
+                             <textarea
                             className={styles.formInput}
                             rows={5}
                             name={`tnc`}
@@ -365,6 +392,12 @@ const BidDetails = () => {
                             onChange={formik?.handleChange}
                             disabled={!isEditing}
                           />
+                          )
+                          :
+                          (
+                            <p className={styles.tncPara}>{savedValue.tnc}</p>
+                          )
+                         }
                           {formik?.touched?.tnc && formik?.errors?.tnc && (
                             <span className={styles.error}>
                               {formik?.errors?.tnc}
@@ -388,8 +421,9 @@ const BidDetails = () => {
                           </button>
                           <button
                             type="button"
-                            className={styles.fieldCancelButton}
-                            onClick={() => {setIsEditing(false); formik.setValues(savedValue);}}
+                            className={`${styles.fieldCancelButton} ${isDisabled ? styles.disabledCancel : styles.disabledNotCancel}`}
+                            disabled={isDisabled}
+                            onClick={handleCancel}
                           >
                             Cancel
                           </button>

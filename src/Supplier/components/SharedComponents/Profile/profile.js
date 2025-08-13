@@ -12,6 +12,7 @@ import {
   renderFiles2,
 } from "../../../../utils/helper";
 import RenderFiles from '../../../../Buyer/components/Buy/Details/RenderFiles'
+import { Tooltip } from "react-tooltip";
 
 const Profile = () => {
   const { user } = useSelector((state) => state?.userReducer);
@@ -229,7 +230,30 @@ const Profile = () => {
                     <div className={styles.companyDetails}>
                       <div className={styles.companyHead}>Trading Categories</div>
                       <div className={styles.companyText}>
-                        {user.categories.join(' , ')}
+                        {user?.categories?.length < 6 ?
+                          (user?.categories?.slice(0, user?.categories?.length)?.join(', '))
+                          :
+                          (
+                            <div>
+                              {(window.innerWidth < 1380? user?.categories?.slice(0,4)?.join(', '): user?.categories?.slice(0,5)?.join(','))}
+                              <span>{" ... "}</span>
+                              <span
+                                id="buyer-tooltip"
+                                style={{ textDecoration: "underline" , color:'#0075ce'}}
+                              >
+                                {"view more"}
+                              </span>
+                              <Tooltip
+                                anchorId="buyer-tooltip"
+                                place="bottom-start"
+                                className={styles.toolTip}
+                                delayHide={500}
+                                content={
+                                  user?.categories?.join(',')
+                                }
+                              />
+                            </div>
+                        )}
                       </div>
                     </div>
                   )}
@@ -398,6 +422,19 @@ const Profile = () => {
           )}
         </div>
       </div>
+
+      {/* product catalogue section */}
+      {
+        user?.product_catalogue.length > 0 && (
+          <div className={styles.productCatalogueContainer}>
+            <div className={styles.documentMainHeading}>Product Catalogue</div>
+ 
+            <div className={styles.productCatalogueSection}>
+              <RenderFiles files={user?.product_catalogue}/>
+            </div>
+          </div>
+        )
+      }
     </div>
   );
 };

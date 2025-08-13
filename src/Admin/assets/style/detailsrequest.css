@@ -21,6 +21,25 @@
   /* margin-bottom: 5rem; */
 }
 
+/* product catalogue */
+.buyer-details-product-catalogue-card-section{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    flex-wrap: wrap;
+    gap: 20px;
+    background-color: white;
+    padding: 28px 34px;
+    border-color: transparent;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+    width: 100%;
+}
+
+.buyer-details-product-catalogue-section{
+  display: flex;
+  gap: 15px;
+}
+
 .buyer-details-container::-webkit-scrollbar {
   display: none;
 }
@@ -510,6 +529,7 @@
   display: flex;
   height: auto;
   gap: 1rem;
+  cursor: pointer !important;
 }
 
 .buyer-details-image-section {

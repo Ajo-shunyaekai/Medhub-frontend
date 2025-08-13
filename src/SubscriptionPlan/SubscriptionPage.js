@@ -9,8 +9,9 @@ import {
   fetchCurrentSubscription,
   fetchUserData,
 } from "../redux/reducers/subscriptionSlice";
-import InvoicePDF from "./SubscriptionInvoice/InvoicePDF";
 import { pdf } from "@react-pdf/renderer";
+import Invoice from "./SubscriptionInvoice/Invoice";
+import InvoicePDF from "./SubscriptionInvoice/InvoicePDF";
 const Loader = lazy(() =>
   import("../Buyer/components/SharedComponents/Loader/Loader")
 );
@@ -83,6 +84,12 @@ const SubscriptionPage = () => {
  
     dispatch(createSubscriptionSession(formData));
   };
+
+
+  useEffect(()=>{
+    console.log("user: ",user);
+    console.log("subscriptionDetails: ",subscribedPlanDetails);
+  },[user]);
  
   const generatePDF = (duration, pkg, email, invoiceData) => {
     const invoiceComponent = (
@@ -158,6 +165,7 @@ const SubscriptionPage = () => {
  
   return (
     <>
+      {/* <Invoice/> */}
       {loading ? (
         <Loader />
       ) : user?.currentSubscription ? (
@@ -214,18 +222,10 @@ const SubscriptionPage = () => {
                             Integrated logistics support.
                           </li>
                         </ul>
-                        {/* <ul className={styles.cardList}>
-                          <li className={styles.cardListText}>
-                            Integrated logistics support.
-                          </li>
-                          <li className={styles.cardListText}>
-                            Invoice factoring.
-                          </li>
-                        </ul> */}
+                        
                       </div>
                       <span className={styles.cardContent}>
-                        {/* Ideal for businesses looking for cost-effective,
-                        long-term procurement solutions. */}
+                       
                         Ideal for buyers and suppliers who want flexibility
                         without a long-term commitment.
                       </span>
@@ -280,8 +280,7 @@ const SubscriptionPage = () => {
                         </ul>
                       </div>
                       <span className={styles.cardContent}>
-                        {/* Ideal for buyers and sellers who want flexibility
-                        without a long-term commitment. */}
+                        
                         Ideal for buyers and suppliers looking for
                         cost-effective, long-term procurement solutions.
                       </span>
@@ -349,14 +348,7 @@ const SubscriptionPage = () => {
                           Integrated logistics support.
                         </li>
                       </ul>
-                      {/* <ul className={styles.cardList}>
-                        <li className={styles.cardListText}>
-                          Integrated logistics support.
-                        </li>
-                        <li className={styles.cardListText}>
-                          Invoice factoring.
-                        </li>
-                      </ul> */}
+                      
                     </div>
                     <span className={styles.cardContent}>
                       Ideal for buyers and suppliers who want flexibility
@@ -442,7 +434,7 @@ const SubscriptionPage = () => {
         </div>
       )}
  
-      {/* modal rendering here */}
+      
       {isOpen && (
         <Modal
           isOpen={isOpen}
