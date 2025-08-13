@@ -709,14 +709,14 @@ const CreateBid = ({socket}) => {
                           {
                             <div className={styles.productContainer}>
                               <label className={styles.formLabel}>
-                                {section.type || "Item"} Name
+                                {section.type} Name
                                 <span className={styles.labelStamp}>*</span>
                               </label>
-
-                              {/* <CreatableSelect
+                              <CreatableSelect
                                 className={styles.formSelect}
                                 options={productList}
                                 placeholder="Select from list or type a custom name"
+                               
                                 value={
                                   productList.find(
                                     (o) => o.value === section.name
@@ -749,10 +749,10 @@ const CreateBid = ({socket}) => {
                                     true
                                   )
                                 }
-                              /> */}
+                              />
 
 
-                            <Select
+                            {/* <Select
                               className={styles.formSelect}
                               options={productList}
                               placeholder="Select from list or type a custom name"
@@ -790,7 +790,7 @@ const CreateBid = ({socket}) => {
                               onBlur={() =>
                                 setFieldTouched(`additionalDetails.${index}.productId`, true)
                               }
-                            />
+                            /> */}
 
                               {touched?.additionalDetails?.[index]?.name &&
                                 errors?.additionalDetails?.[index]
@@ -836,10 +836,10 @@ const CreateBid = ({socket}) => {
                           {/* ----- Product / Service CATEGORY (Creatable) ------ */}
                           <div className={styles.productContainer}>
                             <label className={styles.formLabel}>
-                              {section.type || "Item"} Category
+                              {section.type} Category
                               <span className={styles.labelStamp}>*</span>
                             </label>
-                            <CreatableSelect
+                            {/* <CreatableSelect
                               className={styles.formSelect}
                               options={categoryOptions}
                               // placeholder="Select or Create Category"
@@ -885,6 +885,51 @@ const CreateBid = ({socket}) => {
                                   true
                                 )
                               }
+                            /> */}
+                            <Select
+                              className={styles.formSelect}
+                              options={categoryOptions}
+                              placeholder="Select a Category"
+                              value={
+                                categoryOptions.find((o) => o.value === section.category) || null
+                              }
+                              onChange={(opt, meta) => {
+                                // If a new option is created
+                                if (meta.action === "create-option" && opt) {
+                                  setCategoryOptions((prev) => [
+                                    ...prev,
+                                    { label: opt.value, value: opt.value },
+                                  ]);
+                                  setSubcategoryMap((prev) => ({
+                                    ...prev,
+                                    [opt.value]: [],
+                                  }));
+                                }
+
+                                // Update category field
+                                handleChangeFormSectionDetails(
+                                  index,
+                                  "category",
+                                  setFieldValue,
+                                  values,
+                                  opt?.value || "",
+                                  "additionalDetails"
+                                );
+
+                                // Reset subCategory when category changes
+                                handleChangeFormSectionDetails(
+                                  index,
+                                  "subCategory",
+                                  setFieldValue,
+                                  values,
+                                  "",
+                                  "additionalDetails"
+                                );
+                              }}
+                              name={`additionalDetails.${index}.category`}
+                              onBlur={() =>
+                                setFieldTouched(`additionalDetails.${index}.category`, true)
+                              }
                             />
                             {touched?.additionalDetails?.[index]?.category &&
                               errors?.additionalDetails?.[index]?.category && (
@@ -897,7 +942,7 @@ const CreateBid = ({socket}) => {
                           {/* ----- Product / Service Sub Category (Creatable) ------ */}
                           <div className={styles.productContainer}>
                             <label className={styles.formLabel}>
-                              {section.type || "Item"} Sub Category
+                              {section.type} Sub Category
                               <span className={styles.labelStamp}>*</span>
                             </label>
                             <CreatableSelect
@@ -974,7 +1019,7 @@ const CreateBid = ({socket}) => {
                               className={styles.formInput}
                               value={section.upc}
                               placeholder={`Enter ${
-                                section.type || "Item"
+                                section.type
                               } UPC`}
                               onChange={(e) =>
                                 handleChangeFormSectionDetails(
@@ -1378,7 +1423,7 @@ const CreateBid = ({socket}) => {
                           {/* ----- Product / Service Description ------ */}
                           <div className={styles.productTextContainer2}>
                             <label className={styles.formLabel}>
-                              {section.type || "Item"} Description
+                              {section.type} Description
                               <span className={styles.labelStamp}>*</span>
                             </label>
                             <textarea
@@ -1386,7 +1431,7 @@ const CreateBid = ({socket}) => {
                               rows={5}
                               name={`additionalDetails.${index}.description`}
                               placeholder={`Enter ${
-                                section.type || "Item"
+                                section.type 
                               } Description`}
                               value={section.description}
                               onBlur={() =>

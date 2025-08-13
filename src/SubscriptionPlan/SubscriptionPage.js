@@ -87,8 +87,8 @@ const SubscriptionPage = () => {
 
 
   useEffect(()=>{
-    console.log("user: ",user);
-    console.log("subscriptionDetails: ",subscribedPlanDetails);
+    // console.log("user: ",user);
+    // console.log("subscriptionDetails: ",subscribedPlanDetails);
   },[user]);
  
   const generatePDF = (duration, pkg, email, invoiceData) => {

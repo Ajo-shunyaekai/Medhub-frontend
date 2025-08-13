@@ -35,8 +35,6 @@ const BidDetails = () => {
 
   //to handle cancel, manage seperate state with initial value
   const [savedValue, setSavedValue] = useState({amount:"",timeLine:"",tnc:""});
-
-  console.log("bidDetails: ",bidDetails);
   
   // Validation schema using Yup
   const validationSchema = Yup.object({
@@ -179,10 +177,6 @@ const BidDetails = () => {
     return `Edit ${fieldName}`;
   };
 
-  useEffect(()=>{
-    console.log("participatingDetails: ",participatingDetails);
-  },[participatingDetails]);
-
   const handleCancel = () => {
     if(participatingDetails){
       setIsEditing(false);
@@ -194,7 +188,6 @@ const BidDetails = () => {
     }
   }
 
-  console.log("formik.values: ",formik.values);
   const allFieldsEmpty = Object.values(formik.values).every(
     (value) => value === ""
   );
