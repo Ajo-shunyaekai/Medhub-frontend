@@ -221,7 +221,7 @@ const Sidebar = ({
           style={{ display: isOpen ? "block" : "none" }}
           className={styles.sidebar_text}
         >
-          Bid
+          Bids
         </div>
       </Link>
 
@@ -631,7 +631,7 @@ const Sidebar = ({
                 style={{ display: isOpen ? "block" : "none" }}
                 className={styles.sidebar_text}
               >
-                Bid
+                Bids
               </div>
             </Link>
             <Link

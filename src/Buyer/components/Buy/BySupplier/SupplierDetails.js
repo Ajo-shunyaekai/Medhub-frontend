@@ -451,7 +451,7 @@ const SupplierDetails = () => {
           </div>
 
           <div>
-             <p className={styles.innerHead3}>Current Bid</p>
+             <p className={styles.innerHead3}>Current Bids</p>
              <ProductList supplierId={supplierId}/>
           </div>
 
