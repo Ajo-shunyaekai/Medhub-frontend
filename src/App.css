@@ -4,10 +4,10 @@ p {
 h1 {
   margin-bottom: 0px !important;
 }
-* {
+/* * {
    
     cursor: default !important;
-}
+} */
 a:hover {
   color: currentColor !important;
   text-decoration: none !important;

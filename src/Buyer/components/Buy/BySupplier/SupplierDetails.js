@@ -13,6 +13,7 @@ import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 import DataTable from 'react-data-table-component';
 import ProductList from './ProductList';
+import RenderFiles from '../Details/RenderFiles';
  
 const SupplierDetails = () => {
   const location = useLocation();
@@ -435,7 +436,72 @@ const SupplierDetails = () => {
                   </div>
                 )} */}
               </div>
-            )}
+          )}
+
+          {/* certificate file & date */} 
+          {
+            supplier?.certificateFileNDate.length > 0 && (
+              <div className={styles.innerContainer}>
+                <div className={styles.productCatalogueCardContainer}>
+                  <span className={styles.cardHead}>Certificates</span>
+                  <div className={styles.productCatalogueSection}>
+                    {
+                      supplier?.certificateFileNDate.map((item,i)=>(
+                        <div key={i} className={styles.fileAndDateSection}>
+                          <RenderFiles files={[item.file]}/>
+                          <p className={styles.datePara}>{item.date}</p>
+                        </div>
+                      ))
+                    }
+                  </div>
+                </div>
+              </div>
+            )
+          }
+
+          {/* Trade License & Medical Practicioner */}
+          {
+            (supplier?.license_image.length > 0 || supplier?.medical_certificate.length > 0 ) && (
+              <div className={styles.innerContainer}>
+                <div className={styles.tradeLicenseContainer}>
+                  {
+                    supplier?.medical_certificate.length > 0  && (
+                      <div className={styles.productCatalogueCardContainer}>
+                        <span className={styles.cardHead}>Medical Practitioner</span>
+                        <div className={styles.productCatalogueSection}>
+                          <RenderFiles files={supplier?.medical_certificate}/>
+                        </div>
+                      </div>
+                    )
+                  }
+                  {
+                    supplier?.license_image.length > 0  && (
+                      <div className={styles.tradeLicenseCardContainer}>
+                        <span className={styles.cardHead}>Trade License</span>
+                        <div className={styles.productCatalogueSection}>
+                          <RenderFiles files={supplier?.license_image}/>
+                        </div>
+                      </div>
+                    )
+                  }
+                </div>
+              </div>
+            )
+          }
+
+          {/* product catalogue */}  
+          {
+            supplier?.product_catalogue.length  > 0 && (
+            <div className={styles.innerContainer}>
+              <div className={styles.productCatalogueCardContainer}>
+                <span className={styles.cardHead}>Product Catalogue</span>
+                <div className={styles.productCatalogueSection}>
+                  <RenderFiles files={supplier.product_catalogue}/>
+                </div>
+              </div>
+            </div>
+            )
+          }
         </div>
  
         <div className={styles.rightCard}>

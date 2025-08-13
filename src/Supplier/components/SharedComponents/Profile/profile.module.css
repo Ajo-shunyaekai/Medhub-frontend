@@ -23,6 +23,19 @@
   align-items: center;
 }
 
+.toolTip {
+  max-width: 30rem;
+  max-height: 40rem;
+  white-space: pre-wrap;  
+  word-wrap: break-word;
+  z-index: 20;
+  cursor: default;
+  font-size: 0.85rem;
+  padding: 8px 12px;
+  line-height: 1.4;
+  text-align: left;
+}
+
 .MainHeading {
   color: #5e676f;
   font-size: 20px;
@@ -59,8 +72,8 @@
 }
 
 .profileImage {
-  width: 220px;
-  height: 200px;
+  width: 280px;
+  height: auto;
 }
 
 .profileContainer {
@@ -249,7 +262,6 @@ color: #5e676f;
 
 /* style the document section */
 .documentContainer {
-  margin-bottom: 20rem;
   width: 100%;
   display: flex;
   background-color: #ffffff;
@@ -259,6 +271,27 @@ color: #5e676f;
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
   flex-direction: column;
   row-gap: 8px;
+}
+
+.productCatalogueContainer{
+  margin-bottom: 20rem;
+  display: flex;
+  background-color: #ffffff;
+  border-radius: 4px;
+  padding: 26px 30px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+  flex-direction: column;
+  row-gap: 8px;
+}
+
+.productCatalogueSection{
+  display: flex;
+  gap: 15px;
+  width: 100%;
+  flex-wrap: wrap;
+  cursor: pointer;
+  
 }
 
 .documentMainHeading {
@@ -289,7 +322,7 @@ color: #5e676f;
 .documentDocContent {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 15px;
 }
 
 .pdfSection,

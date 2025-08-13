@@ -8,10 +8,10 @@ p {
     color: currentColor !important;
     text-decoration: none !important;
   }
-  * {
+  /* * {
    
       cursor: default !important;
-}
+} */
 a{
   cursor: pointer !important; 
 }

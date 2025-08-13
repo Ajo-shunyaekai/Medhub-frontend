@@ -194,10 +194,16 @@
   display: flex;
   flex-direction: row;
   align-items: baseline;
-  width: 46%;
+  width: 48%;
+  margin-bottom: 20px;
 }
 
-.editingFalseFieldDiv2 textarea{
+.tncPara{
+  font-size: 0.825rem;
+  color: #99a0ac !important;
+}
+
+/* .editingFalseFieldDiv2 textarea{
   width: 50%;
   outline: none !important;
   border: none !important;
@@ -205,6 +211,15 @@
   padding: 10.4px !important;
   font-size: 0.825rem !important;
   color: #99a0ac !important;
+} */
+
+.disabledCancel {
+  cursor: not-allowed !important;
+  background-color: #ccc; /* lighter background */
+  color: #666; /* muted text */
+}
+.disabledNotCancel{
+  cursor: pointer I !important;
 }
 
 
@@ -268,7 +283,12 @@
   background-color: #ffffff !important;
   font-size: 0.825rem !important;
   color: #99a0ac !important;
+  cursor: default !important;
 }
+
+/* .fieldFormNonEditInput input{
+  cursor: line !important;
+} */
 
 .fieldBtnDiv {
   width: 100%;
@@ -320,7 +340,7 @@
   box-shadow: 0 1px 2px #0000000d !important;
   color: #4f4f4f;
   align-items: center;
-  cursor: pointer !important;
+  /* cursor: pointer !important; */
   display: flex;
   font-size: 0.825rem;
   font-weight: 500;
