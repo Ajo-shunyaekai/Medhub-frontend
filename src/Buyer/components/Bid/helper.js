@@ -53,18 +53,19 @@ export const bidValidationSchema = Yup.object().shape({
   additionalDetails: Yup.array()
     .of(
       Yup.object().shape({
-        type: Yup.string().required("Bid type is required"),
+        type: Yup.string().required("Bid Type is required"),
  
         category: Yup.string().required("Category is required"),
+        subCategory: Yup.string().required("Sub Category is required"),
  
         // subCategory is excluded
  
         name: Yup.string()
-          .required("Item name is required")
+          .required("Name is required")
           .min(2, "Name must be at least 2 characters"),
  
         description: Yup.string()
-          .required("Item description is required")
+          .required("Description is required")
           .min(5, "Description must be at least 5 characters"),
  
         // upc: Yup.string().when("type", {
@@ -100,10 +101,10 @@ export const bidValidationSchema = Yup.object().shape({
         // ),
  
  
-        openFor: Yup.string().required("Open for field is required"),
+        openFor: Yup.string().required("Open for is required"),
  
         docReq: Yup.string().required(
-          "Certification Required field is required"
+          "Certification Required is required"
         ),
  
         certificateName: Yup.string().when("docReq", {
@@ -113,7 +114,7 @@ export const bidValidationSchema = Yup.object().shape({
         }),
  
         delivery: Yup.string()
-          .required("Delivery details are required")
+          .required("Delivery Duration is required")
           // .min(2, "Delivery must be at least 2 characters"),
       })
     )

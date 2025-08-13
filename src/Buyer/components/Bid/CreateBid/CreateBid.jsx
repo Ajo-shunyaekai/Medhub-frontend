@@ -705,135 +705,7 @@ const CreateBid = ({socket}) => {
                               )}
                           </div>
 
-                          {/* ----- Product / Service Name ------ */}
-                          {
-                            <div className={styles.productContainer}>
-                              <label className={styles.formLabel}>
-                                {section.type} Name
-                                <span className={styles.labelStamp}>*</span>
-                              </label>
-                              <CreatableSelect
-                                className={styles.formSelect}
-                                options={productList}
-                                placeholder="Select from list or type a custom name"
-                               
-                                value={
-                                  productList.find(
-                                    (o) => o.value === section.name
-                                  ) || null
-                                }
-                                onChange={(opt, meta) => {
-                                  const newValue = opt?.value || "";
-
-                                  if (meta.action === "create-option" && opt) {
-                                    setProductList((prev) => [
-                                      ...prev,
-                                      { label: newValue, value: newValue },
-                                    ]);
-                                  }
-
-                                  handleChangeFormSectionDetails(
-                                    index,
-                                    "name",
-                                    setFieldValue,
-                                    values,
-                                    newValue,
-                                    "additionalDetails"
-                                  );
-
-                                }}
-                                name={`additionalDetails.${index}.name`}
-                                onBlur={() =>
-                                  setFieldTouched(
-                                    `additionalDetails.${index}.name`,
-                                    true
-                                  )
-                                }
-                              />
-
-
-                            {/* <Select
-                              className={styles.formSelect}
-                              options={productList}
-                              placeholder="Select from list or type a custom name"
-                              value={
-                                productList.find((o) => o.value === section.productId) || null
-                              }
-                              onChange={(opt, meta) => {
-                                const productName = opt?.label || "";
-                                const productId = opt?.value || "";
-
-                                if (meta.action === "create-option" && opt) {
-                                  setProductList((prev) => [
-                                    ...prev,
-                                    { label: productName, value: productId }
-                                  ]);
-                                }
-                                handleChangeFormSectionDetails(
-                                  index,
-                                  "name",
-                                  setFieldValue,
-                                  values,
-                                  productName,
-                                  "additionalDetails"
-                                );
-                                handleChangeFormSectionDetails(
-                                  index,
-                                  "productId",
-                                  setFieldValue,
-                                  values,
-                                  productId,
-                                  "additionalDetails"
-                                );
-                              }}
-                              name={`additionalDetails.${index}.productId`}
-                              onBlur={() =>
-                                setFieldTouched(`additionalDetails.${index}.productId`, true)
-                              }
-                            /> */}
-
-                              {touched?.additionalDetails?.[index]?.name &&
-                                errors?.additionalDetails?.[index]
-                                  ?.name && (
-                                  <span className={styles.error}>
-                                    {errors.additionalDetails[index].name}
-                                  </span>
-                                )}
-                            </div>
-                          //   <div className={styles.productContainer}>
-                          //     <label className={styles.formLabel}>
-                          //       {section.type || "Item"} Name
-                          //       <span className={styles.labelStamp}>*</span>
-                          //     </label>
-
-                          //     <input
-                          //       className={styles.formInput}
-                          //       value={section.name || ""}
-                          //       placeholder={`Enter ${
-                          //         section.type || "Item"
-                          //       } Name`}
-                          //       onChange={(e) =>
-                          //         handleChangeFormSectionDetails(
-                          //           index,
-                          //           "name",
-                          //           setFieldValue,
-                          //           values,
-                          //           e?.target?.value,
-                          //           "additionalDetails"
-                          //         )
-                          //       }
-                          //     />
-
-                          //     {touched?.additionalDetails?.[index]?.name &&
-                          //       errors?.additionalDetails?.[index]?.name && (
-                          //         <span className={styles.error}>
-                          //           {errors.additionalDetails[index].name}
-                          //         </span>
-                          //       )}
-                          //   </div>
-                        }
-
-                          {/* ----- Product / Service CATEGORY (Creatable) ------ */}
+                           {/* ----- Product / Service CATEGORY (Creatable) ------ */}
                           <div className={styles.productContainer}>
                             <label className={styles.formLabel}>
                               {section.type} Category
@@ -1001,6 +873,136 @@ const CreateBid = ({socket}) => {
                               )}
                           </div>
 
+                          {/* ----- Product / Service Name ------ */}
+                          {
+                            <div className={styles.productContainer}>
+                              <label className={styles.formLabel}>
+                                {section.type} Name
+                                <span className={styles.labelStamp}>*</span>
+                              </label>
+                              <CreatableSelect
+                                className={styles.formSelect}
+                                options={productList}
+                                placeholder="Select from list or type a custom name"
+                               
+                                value={
+                                  productList.find(
+                                    (o) => o.value === section.name
+                                  ) || null
+                                }
+                                onChange={(opt, meta) => {
+                                  const newValue = opt?.value || "";
+
+                                  if (meta.action === "create-option" && opt) {
+                                    setProductList((prev) => [
+                                      ...prev,
+                                      { label: newValue, value: newValue },
+                                    ]);
+                                  }
+
+                                  handleChangeFormSectionDetails(
+                                    index,
+                                    "name",
+                                    setFieldValue,
+                                    values,
+                                    newValue,
+                                    "additionalDetails"
+                                  );
+
+                                }}
+                                name={`additionalDetails.${index}.name`}
+                                onBlur={() =>
+                                  setFieldTouched(
+                                    `additionalDetails.${index}.name`,
+                                    true
+                                  )
+                                }
+                              />
+
+
+                            {/* <Select
+                              className={styles.formSelect}
+                              options={productList}
+                              placeholder="Select from list or type a custom name"
+                              value={
+                                productList.find((o) => o.value === section.productId) || null
+                              }
+                              onChange={(opt, meta) => {
+                                const productName = opt?.label || "";
+                                const productId = opt?.value || "";
+
+                                if (meta.action === "create-option" && opt) {
+                                  setProductList((prev) => [
+                                    ...prev,
+                                    { label: productName, value: productId }
+                                  ]);
+                                }
+                                handleChangeFormSectionDetails(
+                                  index,
+                                  "name",
+                                  setFieldValue,
+                                  values,
+                                  productName,
+                                  "additionalDetails"
+                                );
+                                handleChangeFormSectionDetails(
+                                  index,
+                                  "productId",
+                                  setFieldValue,
+                                  values,
+                                  productId,
+                                  "additionalDetails"
+                                );
+                              }}
+                              name={`additionalDetails.${index}.productId`}
+                              onBlur={() =>
+                                setFieldTouched(`additionalDetails.${index}.productId`, true)
+                              }
+                            /> */}
+
+                              {touched?.additionalDetails?.[index]?.name &&
+                                errors?.additionalDetails?.[index]
+                                  ?.name && (
+                                  <span className={styles.error}>
+                                    {errors.additionalDetails[index].name}
+                                  </span>
+                                )}
+                            </div>
+                          //   <div className={styles.productContainer}>
+                          //     <label className={styles.formLabel}>
+                          //       {section.type || "Item"} Name
+                          //       <span className={styles.labelStamp}>*</span>
+                          //     </label>
+
+                          //     <input
+                          //       className={styles.formInput}
+                          //       value={section.name || ""}
+                          //       placeholder={`Enter ${
+                          //         section.type || "Item"
+                          //       } Name`}
+                          //       onChange={(e) =>
+                          //         handleChangeFormSectionDetails(
+                          //           index,
+                          //           "name",
+                          //           setFieldValue,
+                          //           values,
+                          //           e?.target?.value,
+                          //           "additionalDetails"
+                          //         )
+                          //       }
+                          //     />
+
+                          //     {touched?.additionalDetails?.[index]?.name &&
+                          //       errors?.additionalDetails?.[index]?.name && (
+                          //         <span className={styles.error}>
+                          //           {errors.additionalDetails[index].name}
+                          //         </span>
+                          //       )}
+                          //   </div>
+                        }
+
+                         
+
                           {/* ----- UPC (Universal Product Code) ------ */}
                           <div className={styles.productContainer}>
                             <label className={styles.formLabel}>
@@ -1019,7 +1021,7 @@ const CreateBid = ({socket}) => {
                               className={styles.formInput}
                               value={section.upc}
                               placeholder={`Enter ${
-                                section.type
+                                section.type || ''
                               } UPC`}
                               onChange={(e) =>
                                 handleChangeFormSectionDetails(
