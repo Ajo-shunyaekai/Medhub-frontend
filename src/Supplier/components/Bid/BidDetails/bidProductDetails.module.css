@@ -190,6 +190,26 @@
   flex-direction: column;
   gap: 10px;
 }
+
+.viewmoreSpan{
+  text-decoration: underline;
+  color: rgb(0, 117, 206);
+  cursor: pointer;
+}
+
+.toolTip {
+  max-width: 30rem;
+  max-height: 40rem;
+  white-space: pre-wrap;  /* ensures \n becomes new line */
+  word-wrap: break-word;
+  z-index: 20;
+  cursor: default;
+  font-size: 0.85rem;
+  padding: 8px 12px;
+  line-height: 1.4;
+  text-align: left;
+}
+
 .editingFalseFieldDiv2{
   display: flex;
   flex-direction: row;
@@ -289,6 +309,18 @@
 /* .fieldFormNonEditInput input{
   cursor: line !important;
 } */
+
+.react-select__control{
+  width: 100%;
+  padding: 10.4px !important;
+  outline: none !important;
+  border: none !important;
+  background-color: #ffffff !important;
+  font-size: 0.825rem !important;
+  color: #5e565f !important;
+  border-radius: 4px !important;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+}
 
 .fieldBtnDiv {
   width: 100%;
