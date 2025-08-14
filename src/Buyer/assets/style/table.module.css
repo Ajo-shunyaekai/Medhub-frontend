@@ -40,6 +40,26 @@
   align-items: center;
 }
 
+.actionBtnContainer{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.requestQuoteContainer{
+    background: linear-gradient(to left, #00dcff, #0075ce);
+    border: none !important;
+    border-radius: 4px;
+    color: #fff;
+    outline: none !important;
+    align-items: center;
+    cursor: pointer !important;
+    display: flex;
+    font-size: 0.825rem;
+    font-weight: 500;
+    padding: 6px 22px;
+}
+
 .title {
   font-size: 20px;
   font-weight: 500;
