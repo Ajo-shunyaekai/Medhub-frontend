@@ -9,6 +9,7 @@ import styles from "../../../assets/style/table.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchBidById } from "../../../../redux/reducers/bidSlice";
 import { minWidth } from "@mui/system";
+import { MdOutlineStarBorder } from "react-icons/md";
  
 const ProductList = ({}) => {
   const { id, itemId } = useParams();
@@ -37,13 +38,13 @@ const ProductList = ({}) => {
       name: "Company Name",
       selector: (row) => row?.companyName,
       sortable: true,
-      minWidth:"210px"
+      minWidth:"190px"
     },
     {
       name: "Company Type",
       selector: (row) => row?.companyType,
       sortable: true,
-      minWidth:"100px"
+      minWidth:"140px"
     },
     {
       name: "From Country",
@@ -55,35 +56,57 @@ const ProductList = ({}) => {
       name: "Bid Price",
       selector: (row) => (row?.amount && row?.amount + " USD"),
       sortable: true,
-      maxWidth:"175px"
+      maxWidth:"140px"
     },
     {
       name: "Delivery Timeline",
       selector: (row) =>( row?.timeLine && row?.timeLine + " Days"),
       sortable: true,
+      minWidth:"160px"
     },
     {
       name: "Action",
       cell: (row) => (
-        <Link
-          // to={`/buyer/bid/${id}/${row?.companyType?.toLowerCase()}/${row?.itemId}`}
-         to={`/buyer/supplier-details/${row?.supplierId}`}
-         state={{
-          bidId: row.bidId,
-          userId: row.userId,
-          participantId: row.participantId,
-        }}
-          title="View Details"
-        >
-          <div className={styles.activeBtn}>
-            <VisibilityOutlinedIcon className={styles["table-icon"]} />
-          </div>
-        </Link>
+       <div className={styles.actionBtnContainer}>
+          <Link
+            // to={`/buyer/bid/${id}/${row?.companyType?.toLowerCase()}/${row?.itemId}`}
+          to={`/buyer/supplier-details/${row?.supplierId}`}
+          state={{
+            bidId: row.bidId,
+            userId: row.userId,
+            participantId: row.participantId,
+          }}
+            title="View Details"
+          >
+            <div className={styles.activeBtn}>
+              <VisibilityOutlinedIcon className={styles["table-icon"]} />
+            </div>
+          </Link>
+          <Link>
+            <div className={styles.activeBtn}>
+            <MdOutlineStarBorder size={18} className={styles["table-icon"]}/>
+            </div>
+          </Link>
+       </div>
       ),
       ignoreRowClick: true,
       allowOverflow: true,
       button: true,
+      minWidth:"150px"
     },
+
+    {
+      name:"Request",
+      cell: (row) => (
+        <div className={styles.requestQuoteContainer}>
+          Request Quote
+        </div>
+      ),
+      ignoreRowClick: true,
+      allowOverflow: true,
+      button: true,
+      minWidth:"150px"
+    }
   ];
  
  

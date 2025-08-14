@@ -7,11 +7,14 @@ import { Link, useNavigate } from 'react-router-dom';
 import PaginationComponent from '../../SharedComponents/Pagination/pagination';
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCurrentBidDetails } from '../../../../redux/reducers/bidSlice';
+import { minWidth } from '@mui/system';
 
 const ProductList = ({supplierId}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { currentBidDetails } = useSelector((state) => state?.bidReducer || {});
+
+
 
   const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
   const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
@@ -22,16 +25,17 @@ const ProductList = ({supplierId}) => {
   const bidsPerPage = 5;
 
    useEffect(() => {
-      if (!buyerId) {
-        localStorage?.clear();
-        navigate("/buyer/login");
-        return;
-      }
-      
-        if (buyerId &&  supplierId) {
-          dispatch(fetchCurrentBidDetails(`bid/get-current-bid-details/${buyerId}/${supplierId}?pageNo=${currentPage}&pageSize=${bidsPerPage}`));
-        }
-      }, [ buyerId, supplierId, dispatch, currentPage]);
+    if (!buyerId) {
+      localStorage?.clear();
+      navigate("/buyer/login");
+      return;
+    }
+    
+    if (buyerId &&  supplierId) {
+      dispatch(fetchCurrentBidDetails(`bid/get-current-bid-details/${buyerId}/${supplierId}?pageNo=${currentPage}&pageSize=${bidsPerPage}`));
+    }
+   }, [ buyerId, supplierId, dispatch, currentPage]);
+
     const columns = [
     {
         name: "Product Name",
@@ -59,9 +63,8 @@ const ProductList = ({supplierId}) => {
         name: "Action",
         cell: (row) => (
         <div
-        onClick={()=>navigate('/buyer/product-details/687a300ce533ae4db75f83f7')}
+        onClick={()=>navigate(`/buyer/product-details/${row.itemId}`)}
             /* to={`/buyer/bid/${id}/${row?.companyType?.toLowerCase()}/${row?.itemId}`} */
-            to={`buyer/product-details/687a300ce533ae4db75f83f7`}
             title="View Details"
         >
             <div className={styles.activeBtn}>
@@ -73,6 +76,18 @@ const ProductList = ({supplierId}) => {
         allowOverflow: true,
         button: true,
     },
+    {
+      name:'Request',
+      cell: (row) => (
+        <div className={styles.requestQuoteContainer}>
+          Request Quote
+        </div>
+      ),
+      ignoreRowClick: true,
+      allowOverflow: true,
+      button: true,
+      minWidth:"140px"
+    }
     ];
 
     useEffect(() => {

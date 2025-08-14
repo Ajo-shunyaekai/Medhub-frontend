@@ -167,6 +167,10 @@ const BidHistoryList = () => {
     setHistory(historyList);
   }, [bidDetails, currentPage]);
 
+  useEffect(()=>{
+    console.log(history);
+  },[history]);
+
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
