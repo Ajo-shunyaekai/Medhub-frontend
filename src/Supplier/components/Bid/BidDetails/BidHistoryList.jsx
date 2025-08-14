@@ -38,6 +38,26 @@ const BidHistoryList = () => {
       sortable: true,
     },
     {
+      name: "Prouct Name",
+      selector: (row) => row?.productName?.value,
+      sortable: true,
+      cell: (row,rowIndex) => (
+        <span style={{ color: row?.productName?.edited ? "#31c971" : "#99a0ac" }}>
+          {!row?.productName?.edited && `${row?.productName?.value}`}
+            {row?.productName?.edited && (
+            <span id={`productName-tooltip-${rowIndex}`}>
+              {row?.productName?.value}
+              <Tooltip
+                anchorId={`productName-tooltip-${rowIndex}`}
+                delayHide={500}
+                content="Product Name was edited"
+              />
+            </span>
+          )}
+        </span>
+      )
+    },
+    {
       name: "Bid Price",
       selector: (row) => row?.price?.value + " USD",
       sortable: true,
@@ -129,6 +149,7 @@ const BidHistoryList = () => {
       (item.participants || []).forEach((participant) => {
         (participant.history || []).forEach((history) => {
           allRows.push({
+            productName: history.productName,
             price: history.amount,
             timeline: history.timeLine,
             type: history.type,
