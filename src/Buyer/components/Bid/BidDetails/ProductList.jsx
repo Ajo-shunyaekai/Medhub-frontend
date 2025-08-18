@@ -11,6 +11,7 @@ import { addToFavourite, fetchBidById } from "../../../../redux/reducers/bidSlic
 import { minWidth } from "@mui/system";
 import { toast } from "react-toastify";
 import { MdOutlineStarBorder,  MdStarRate } from "react-icons/md";
+import { postRequestWithToken } from "../../../../api/Requests";
  
 const ProductList = ({}) => {
   const { id, itemId } = useParams();
@@ -28,38 +29,58 @@ const ProductList = ({}) => {
   const [currentPage, setCurrentPage] = useState(1);
   const bidsPerPage = 5;
 
- const handleAddToFavourite = async (row) => {
+ const handleAddToFavourite = async (row, e) => {
   try {
+    e?.preventDefault?.(); 
+    e?.stopPropagation?.();
     const bidId = row.bidId;
     const participantId = row.participantId;  
     const itemId = row.additionalDetailsId;
 
     const updatedFavourite = !row.favourite;
 
-    const response = await dispatch(
-      addToFavourite(`bid/add-to-favourite/${bidId}/${itemId}/${participantId}`)
-    );
+    // const response = await dispatch(
+    //   addToFavourite(`bid/add-to-favourite/${bidId}/${itemId}/${participantId}`)
+    // );
 
-    if (response.meta.requestStatus === "fulfilled") {
-      setNewOrder((prev) =>
+    // if (response.meta.requestStatus === "fulfilled") {
+      // setNewOrder((prev) =>
+      //   prev.map((p) =>
+      //     p.participantId === participantId && p.itemId === row.itemId
+      //       ? { ...p, favourite: updatedFavourite }
+      //       : p
+      //   )
+      // );
+    //   if (updatedFavourite) {
+    //     // toast.success("Added to favourites!");
+    //     toast.success("Added to favourites!", { toastId: `${participantId}-${itemId}`});
+    //   } else {
+    //     // toast.warning("Removed from favourites!");
+    //     toast.warning("Removed from favourites!", { toastId: `${participantId}-${itemId}`});
+    //   }
+    // } else {
+    //   toast.error("Failed to update favourite. Please try again.");
+    // }
+
+    postRequestWithToken(`/bid/add-to-favourite/${bidId}/${itemId}/${participantId}`, {}, async(response) => {
+      if(response?.code === 200) {
+        console.log('response',response)
+           setNewOrder((prev) =>
         prev.map((p) =>
           p.participantId === participantId && p.itemId === row.itemId
             ? { ...p, favourite: updatedFavourite }
             : p
         )
       );
-      if (updatedFavourite) {
-        toast.success("Added to favourites!");
+       toast(response.message, { type: "success" });
       } else {
-        toast.warning("Removed from favourites!");
+
       }
-    } else {
-      toast.error("Failed to update favourite. Please try again.");
-    }
+    })
   } catch (error) {
     console.error("Error updating favourite:", error);
   }
-};
+ };
 
  
   const columns = [
@@ -179,8 +200,14 @@ const ProductList = ({}) => {
           });
         });
       });
- console.log('allRows',allRows)
-    const currentOrder = allRows?.slice(indexOfFirstOrder,indexOfLastProduct);
+
+    const sortedRows = allRows.sort((a, b) => {
+        if (a.favourite === b.favourite) return 0;
+        return a.favourite ? -1 : 1; // favourites on top
+      });
+
+      const currentOrder = sortedRows.slice(indexOfFirstOrder, indexOfLastProduct);
+    // const currentOrder = allRows?.slice(indexOfFirstOrder,indexOfLastProduct);
  
     setNewOrder(currentOrder);
   },[bidDetails,currentPage]);

@@ -94,8 +94,6 @@ const styles = StyleSheet.create({
  
 const InvoicePDF = ({ user, subscriptionDetails }) => {
 
-  console.log("user: ",user);
-  console.log("Subscription Details: ",subscriptionDetails);
   return(
     <Document>
       <Page size="A4" style={styles.page}>

@@ -1443,7 +1443,7 @@ const CreateBid = ({socket}) => {
                               rows={5}
                               name={`additionalDetails.${index}.description`}
                               placeholder={`Enter ${
-                                section.type 
+                                section.type || ''
                               } Description`}
                               value={section.description}
                               onBlur={() =>

@@ -67,7 +67,7 @@ const BidDetails = () => {
       .required("Product Name is required.")
       .test(
         "match-original",
-        "Selected Product does not match Bid Product",
+        "Product does not match bid requirements",
         function (value) {
         
           if (!value) return true; 
@@ -424,7 +424,7 @@ const BidDetails = () => {
                             if (selectedName !== itemDetails?.name) {
                               formik.setFieldError(
                                 "productName",
-                                "Selected Product does not match Bid Product"
+                                "Product does not match bid requirements"
                               );
                             } else {
                               formik.setFieldError("productName", ""); 
@@ -551,7 +551,7 @@ const BidDetails = () => {
                           !isEditing && (
                             <div className={styles.newFieldDiv}>
                               <p className={styles.generalInfoLabel}>Submitted Bid Price</p>
-                              <p className={styles.generalInfoValue}>{formik.values.amount}</p>
+                              <p className={styles.generalInfoValue}>{formik.values.amount ? `${formik.values.amount} USD` : ''}</p>
                             </div>
                           )
                         }
@@ -565,7 +565,7 @@ const BidDetails = () => {
                           !isEditing && (
                             <div className={styles.newFieldDiv}>
                               <p className={styles.generalInfoLabel}>Submitted Bid Timeline</p>
-                              <p className={styles.generalInfoValue}>{formik.values.timeLine}</p>
+                              <p className={styles.generalInfoValue}>{formik.values.timeLine ? `${formik.values.timeLine} Days` : ''} </p>
                             </div>
                           )
                         }
