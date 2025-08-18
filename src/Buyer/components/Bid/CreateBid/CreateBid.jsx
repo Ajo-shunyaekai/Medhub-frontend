@@ -26,6 +26,7 @@ import DocumentUpload from "../FileUpload";
 import { addBid } from "../../../../redux/reducers/bidSlice";
 import { useDispatch } from "react-redux";
 import { fetchProductsList } from "../../../../redux/reducers/productSlice";
+import {toOrdinal, toWords} from 'number-to-words'
 
 const getDropdownButtonLabel = ({ placeholderButtonLabel, value }) => {
   if (value && value.length) {
@@ -61,6 +62,9 @@ const CreateBid = ({socket}) => {
   const [loading, setLoading] = useState(false);
   const [productList, setProductList] = useState([]);
   const [countries, setCountries] = useState([]);
+
+  /* Add product or service button toast */
+  const[numberOfSection, setNumberOfSection] = useState(1);
 
   /** ---------- CATEGORY + SUBCATEGORY STATE -------------- */
   const [categoryOptions, setCategoryOptions] = useState(
@@ -627,7 +631,7 @@ const CreateBid = ({socket}) => {
                   </span>
                   <span
                     className={styles.formAddButton}
-                    onClick={() =>
+                    onClick={() =>{
                       setFieldValue("additionalDetails", [
                         ...values.additionalDetails,
                         {
@@ -649,7 +653,10 @@ const CreateBid = ({socket}) => {
                           delivery: undefined,
                         },
                       ])
+                     /*  toast.success(`${toOrdinal(numberOfSection+1)} section is added below to enter bid product/services`); 
+                      setNumberOfSection(numberOfSection+1); */
                     }
+                  }
                   >
                     Add More
                   </span>
@@ -1481,13 +1488,16 @@ const CreateBid = ({socket}) => {
                         <div className={styles.formclosebutton}>
                           <CloseIcon
                             className={styles.iconClose}
-                            onClick={() =>
+                            onClick={() =>{
                               removeFormSection(
                                 index,
                                 setFieldValue,
                                 values,
                                 "additionalDetails"
                               )
+                            /*   toast.success(numberOfSection==1?"No section remaining to add product/services":`${toWords(numberOfSection-1)} section is remaining to add product/services`);
+                              setNumberOfSection(numberOfSection-1); */
+                            }
                             }
                           />
                         </div>

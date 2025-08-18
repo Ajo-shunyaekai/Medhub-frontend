@@ -118,7 +118,7 @@ const InvoicePDF = ({ user, subscriptionDetails }) => {
                 user?.registeredAddress?.locality && (
                   <Text style={styles.infoText}>
                     {user?.registeredAddress?.locality || ""},
-                    {user?.registeredAddress?.locality && " "},
+                    {user?.registeredAddress?.locality && " "}
                   </Text>
                 )
               }
@@ -126,7 +126,7 @@ const InvoicePDF = ({ user, subscriptionDetails }) => {
                 user?.registeredAddress?.land_mark && (
                   <Text style={styles.infoText}>
                     {user?.registeredAddress?.land_mark || ""},
-                    {user?.registeredAddress?.land_mark && " "},
+                    {user?.registeredAddress?.land_mark && " "}
                   </Text>
                 )
               }
@@ -165,13 +165,13 @@ const InvoicePDF = ({ user, subscriptionDetails }) => {
               </Text> */}
               <Text style={styles.invoiceKey}>
                 Invoice Date:{" "}
-                {/* {moment(subscriptionDetails?.subscriptionStartDate).format(
+                {moment(subscriptionDetails?.subscriptionStartDate).format(
                   "MM/DD/YYYY"
-                )} */}
-                05/08/2025
+                )}
+                {/* 05/08/2025 */}
               </Text>
               <Text style={styles.invoiceKey}>
-                Invoice No.:  INV-545723{/* {subscriptionDetails?.invoiceNumber} */}
+                Invoice No.:  {/* INV-545723 */}{subscriptionDetails?.invoiceNumber}
               </Text>
             </View>
           </View>
@@ -181,7 +181,7 @@ const InvoicePDF = ({ user, subscriptionDetails }) => {
             <View style={styles.billLeftTextContainer}>
               <Text style={styles.infoHeading}>Bill To:</Text>
               <Text style={styles.infoText}>
-                stripetest.shivani.test@yopmail.com {/* {user?.buyer_name || user?.supplier_name || ""} */}
+                {user?.contact_person_email} {/* stripetest.shivani.test@yopmail.com */} {/* {user?.buyer_name || user?.supplier_name || ""} */}
               </Text>
             </View>
             <View style={styles.rightTextContainer}>
@@ -206,13 +206,13 @@ const InvoicePDF = ({ user, subscriptionDetails }) => {
   
             <View style={styles.row}>
               <View style={{ flex: 1 }}>
-                <Text style={styles.tableText}>Yearly Subscription</Text>
-                <Text style={styles.infoText}>(Aug 4, 2025 – Aug 4, 2026)</Text>
+                <Text style={styles.tableText}>{subscriptionDetails?.productName}</Text>
+                <Text style={styles.infoText}>({subscriptionDetails?.subscriptionStartDate} – {subscriptionDetails?.subscriptionEndDate})</Text>
               </View>
               <View style={{ flex: 1, flexDirection: "row" }}>
                 <Text style={[styles.cell, { flex: 1 }]}>1</Text>
-                <Text style={[styles.cell, { flex: 1 }]}>$1,188.00</Text>
-                <Text style={[styles.cell, { flex: 1 }]}>$1,188.00</Text>
+                <Text style={[styles.cell, { flex: 1 }]}>${subscriptionDetails?.subtotalAmount}.00</Text>
+                <Text style={[styles.cell, { flex: 1 }]}>${subscriptionDetails?.subtotalAmount}.00</Text>
               </View>
             </View>
   
@@ -226,21 +226,33 @@ const InvoicePDF = ({ user, subscriptionDetails }) => {
   
           {/* Total Section */}
           <View style={styles.totalSectionFirstView}>
-            <View style={styles.totalSectionSecondView}>
-                <Text style={styles.infoText}>Subtotal </Text>
-                <Text style={styles.infoText}>$1,188.00</Text>
-              </View>
-              <View style={styles.totalSectionSecondView}>
-                <Text style={styles.infoText}>SAVET1-99 ($99.00 off) </Text>
-                <Text style={styles.infoText}>-$99.00</Text>
-              </View>
-              <View style={styles.totalSectionSecondView}>
-                <Text style={styles.infoText}>Total </Text>
-                <Text style={styles.infoText}>$1,089.00</Text>
-              </View>
+              {
+                subscriptionDetails?.subtotalAmount && (
+                  <View style={styles.totalSectionSecondView}>
+                    <Text style={styles.infoText}>Subtotal </Text>
+                    <Text style={styles.infoText}>${subscriptionDetails?.subtotalAmount}.00</Text>
+                  </View>
+                )
+              }
+              {
+                subscriptionDetails?.discount && (
+                  <View style={styles.totalSectionSecondView}>
+                    <Text style={styles.infoText}>{subscriptionDetails?.discount} </Text>
+                    <Text style={styles.infoText}>-${subscriptionDetails?.discountAmount}.00</Text>
+                  </View>
+                )
+              }
+              {
+                subscriptionDetails?.totalAmount && (
+                  <View style={styles.totalSectionSecondView}>
+                    <Text style={styles.infoText}>Total </Text>
+                    <Text style={styles.infoText}>${subscriptionDetails?.discountAmount? subscriptionDetails?.totalAmount - Number(subscriptionDetails?.discountAmount):subscriptionDetails?.totalAmount}.00</Text>
+                  </View>
+                )
+              }
               <View style={styles.totalSectionSecondAmountView}>
                 <Text style={styles.infoHeading}>Amount due</Text>
-                <Text style={styles.infoText}>$1,089.00 USD</Text>
+                <Text style={styles.infoText}>{subscriptionDetails?.discountAmount? subscriptionDetails?.totalAmount - Number(subscriptionDetails?.discountAmount):subscriptionDetails?.totalAmount}.00 USD</Text>
               </View>
           </View>
         </View>

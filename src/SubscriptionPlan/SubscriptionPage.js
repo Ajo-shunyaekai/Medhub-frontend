@@ -31,16 +31,29 @@ const SubscriptionPage = () => {
   const [selectedPlan, setSelectedPlan] = useState(false);
   const couponArray = [
     {
-      code: "Roshan",
+      name: "SAVET1-99",
+      amount: 99,
+      id: "i7QVnDDB",
     },
     {
-      code: "Rohit",
+      name: "SAVET2-198",
+      amount: 198,
+      id: "tKcpuARp",
     },
     {
-      code: "Gaurav",
+      name: "SAVET3-297",
+      amount: 297,
+      id: "RjZT9s9M",
     },
     {
-      code: "Rishav",
+      name: "SAVET4-396",
+      amount: 396,
+      id: "BLHeHGTq",
+    },
+    {
+      name: "SAVET6-594",
+      amount: 594,
+      id: "xn2mnvi1",
     },
   ];
  
@@ -84,7 +97,6 @@ const SubscriptionPage = () => {
  
     dispatch(createSubscriptionSession(formData));
   };
-
  
   const generatePDF = (duration, pkg, email, invoiceData) => {
     const invoiceComponent = (
@@ -122,7 +134,7 @@ const SubscriptionPage = () => {
     }
   }, [user?.currentSubscription]);
  
-  const handleClickPurchase = (index, discount) => {
+  const handleClickPurchase = (index, discount , discountAmount) => {
     const duration = subscriptionPlans?.[index]?.duration;
     const pkg = subscriptionPlans?.[index]?.type;
     const email = user?.contact_person_email || user?.email;
@@ -138,8 +150,9 @@ const SubscriptionPage = () => {
     };
  
     // Apply discount if provided
-    if (discount) {
+    if (discount && discountAmount) {
       invoiceData.discount = discount; // Add discount to the invoice data
+      invoiceData.discountAmount = discountAmount;
     }
  
     // Generate the PDF and handle payment
@@ -160,7 +173,6 @@ const SubscriptionPage = () => {
  
   return (
     <>
-     {/* <Invoice user={user} subscribedPlanDetails={subscribedPlanDetails}/> */}
       {loading ? (
         <Loader />
       ) : user?.currentSubscription ? (
