@@ -31,11 +31,11 @@ const ProductList = ({}) => {
    try {
     console.log('row',row)
     const bidId = row.bidId
-    const paricipantId = row.paricipantId
-    const itemId = row.id
+    const paricipantId = row.participantId
+    const itemId = row.additionalDetailsId
     const updatedFavourite = !row.favourite; 
 
-    const response = await dispatch(addToFavourite(`bid/add-to-favourite/${bidId}/${paricipantId}/${itemId}`))
+    const response = await dispatch(addToFavourite(`bid/add-to-favourite/${bidId}/${itemId}/${paricipantId}`))
     console.log('response',response)
     // setNewOrder((prev) =>
     //   prev.map((p) =>
@@ -156,7 +156,7 @@ const ProductList = ({}) => {
             timeLine: participant?.timeLine,
             favourite: participant?.favourite || false,
             itemId: item?.itemId,
-
+            additionalDetailsId: item?._id,
             bidId: bidDetails?._id,
             userId: bidDetails?.userId,
             participantId: participant?.id, 
