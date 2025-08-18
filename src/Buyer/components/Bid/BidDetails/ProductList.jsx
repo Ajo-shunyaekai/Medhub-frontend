@@ -7,9 +7,9 @@ import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import PaginationComponent from "../../SharedComponents/Pagination/pagination";
 import styles from "../../../assets/style/table.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchBidById } from "../../../../redux/reducers/bidSlice";
+import { addToFavourite, fetchBidById } from "../../../../redux/reducers/bidSlice";
 import { minWidth } from "@mui/system";
-import { MdOutlineStarBorder } from "react-icons/md";
+import { MdOutlineStarBorder, MdOutlineStar } from "react-icons/md";
  
 const ProductList = ({}) => {
   const { id, itemId } = useParams();
@@ -26,6 +26,29 @@ const ProductList = ({}) => {
  
   const [currentPage, setCurrentPage] = useState(1);
   const bidsPerPage = 5;
+
+  const handleAddToFavourite = async (row) => {
+   try {
+    console.log('row',row)
+    const bidId = row.bidId
+    const paricipantId = row.paricipantId
+    const itemId = row.id
+    const updatedFavourite = !row.favourite; 
+
+    const response = await dispatch(addToFavourite(`bid/add-to-favourite/${bidId}/${paricipantId}/${itemId}`))
+    console.log('response',response)
+    // setNewOrder((prev) =>
+    //   prev.map((p) =>
+    //     p.participantId === row.participantId && p.itemId === row.itemId
+    //       ? { ...p, favourite: updatedFavourite }
+    //       : p
+    //   )
+    // );
+
+   } catch (error) {
+    
+   }
+  }
  
   const columns = [
     // {
@@ -78,13 +101,20 @@ const ProductList = ({}) => {
           }}
             title="View Details"
           >
-            <div className={styles.activeBtn}>
-              <VisibilityOutlinedIcon className={styles["table-icon"]} />
+            <div className={styles.activeBtn} onClick={handleAddToFavourite}>
+              <VisibilityOutlinedIcon className={styles["table-icon"]}/>
             </div>
           </Link>
           <Link>
-            <div className={styles.activeBtn}>
-            <MdOutlineStarBorder size={18} className={styles["table-icon"]}/>
+            <div className={styles.activeBtn}
+            onClick={() => handleAddToFavourite(row)}
+            >
+            {/* <MdOutlineStarBorder size={18} className={styles["table-icon"]}/> */}
+            {row.favourite ? (
+          <MdOutlineStar size={18} className={styles["table-icon"]} />
+        ) : (
+          <MdOutlineStarBorder size={18} className={styles["table-icon"]} />
+        )}
             </div>
           </Link>
        </div>
@@ -124,16 +154,17 @@ const ProductList = ({}) => {
             supplierId: participant?.participantId,
             amount: participant?.amount,
             timeLine: participant?.timeLine,
+            favourite: participant?.favourite || false,
             itemId: item?.itemId,
 
-            // extra fields for redirect
             bidId: bidDetails?._id,
             userId: bidDetails?.userId,
-            participantId: participant?.id, // the "id" field in participants array
+            participantId: participant?.id, 
+            id: participant._id
           });
         });
       });
- 
+ console.log('allRows',allRows)
     const currentOrder = allRows?.slice(indexOfFirstOrder,indexOfLastProduct);
  
     setNewOrder(currentOrder);
