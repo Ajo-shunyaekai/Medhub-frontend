@@ -70,6 +70,18 @@
   justify-content: center;
   cursor: pointer !important;
 }
+
+.favActiveBtn{
+  background-color: #f4c414 !important;
+  border-radius: 4px;
+  color: #fff;
+  display: flex;
+  padding: 2px 6px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer !important;
+}
+
 .activeDownloadBtn {
   background-color: #f4c414;
   border-radius: 4px;

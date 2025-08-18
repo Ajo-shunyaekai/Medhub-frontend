@@ -9,7 +9,8 @@ import styles from "../../../assets/style/table.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { addToFavourite, fetchBidById } from "../../../../redux/reducers/bidSlice";
 import { minWidth } from "@mui/system";
-import { MdOutlineStarBorder, MdOutlineStar } from "react-icons/md";
+
+import { MdOutlineStarBorder,  MdStarRate } from "react-icons/md";
  
 const ProductList = ({}) => {
   const { id, itemId } = useParams();
@@ -17,6 +18,7 @@ const ProductList = ({}) => {
   const { bidDetails } = useSelector((state) => state?.bidReducer || {});
  
   const [newOrder, setNewOrder] = useState([]);
+  const[isFavourite, setIsFavourite] = useState(false);
  
   useEffect(() => { 
     if (id) {
@@ -34,7 +36,7 @@ const ProductList = ({}) => {
     const paricipantId = row.participantId
     const itemId = row.additionalDetailsId
     const updatedFavourite = !row.favourite; 
-
+setIsFavourite(!isFavourite);
     const response = await dispatch(addToFavourite(`bid/add-to-favourite/${bidId}/${itemId}/${paricipantId}`))
     console.log('response',response)
     // setNewOrder((prev) =>
@@ -48,6 +50,7 @@ const ProductList = ({}) => {
    } catch (error) {
     
    }
+    
   }
  
   const columns = [
@@ -105,16 +108,15 @@ const ProductList = ({}) => {
               <VisibilityOutlinedIcon className={styles["table-icon"]}/>
             </div>
           </Link>
-          <Link>
-            <div className={styles.activeBtn}
-            onClick={() => handleAddToFavourite(row)}
+
+          <Link
+           title="Add to Favourite"
+          >
+            <div  className={styles.activeDownloadBtn}
+             onClick={() => handleAddToFavourite(row)}
             >
-            {/* <MdOutlineStarBorder size={18} className={styles["table-icon"]}/> */}
-            {row.favourite ? (
-          <MdOutlineStar size={18} className={styles["table-icon"]} />
-        ) : (
-          <MdOutlineStarBorder size={18} className={styles["table-icon"]} />
-        )}
+            {isFavourite? <MdStarRate size={18} className={styles["table-icon"]}/>:<MdOutlineStarBorder size={18} className={styles["table-icon"]}/>}
+         
             </div>
           </Link>
        </div>
