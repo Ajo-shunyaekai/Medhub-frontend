@@ -9,7 +9,7 @@ import styles from "../../../assets/style/table.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { addToFavourite, fetchBidById } from "../../../../redux/reducers/bidSlice";
 import { minWidth } from "@mui/system";
-
+import { toast } from "react-toastify";
 import { MdOutlineStarBorder,  MdStarRate } from "react-icons/md";
  
 const ProductList = ({}) => {
@@ -18,7 +18,6 @@ const ProductList = ({}) => {
   const { bidDetails } = useSelector((state) => state?.bidReducer || {});
  
   const [newOrder, setNewOrder] = useState([]);
-  const[isFavourite, setIsFavourite] = useState(false);
  
   useEffect(() => { 
     if (id) {
@@ -29,29 +28,39 @@ const ProductList = ({}) => {
   const [currentPage, setCurrentPage] = useState(1);
   const bidsPerPage = 5;
 
-  const handleAddToFavourite = async (row) => {
-   try {
-    console.log('row',row)
-    const bidId = row.bidId
-    const paricipantId = row.participantId
-    const itemId = row.additionalDetailsId
-    const updatedFavourite = !row.favourite; 
-setIsFavourite(!isFavourite);
-    const response = await dispatch(addToFavourite(`bid/add-to-favourite/${bidId}/${itemId}/${paricipantId}`))
-    console.log('response',response)
-    // setNewOrder((prev) =>
-    //   prev.map((p) =>
-    //     p.participantId === row.participantId && p.itemId === row.itemId
-    //       ? { ...p, favourite: updatedFavourite }
-    //       : p
-    //   )
-    // );
+ const handleAddToFavourite = async (row) => {
+  try {
+    const bidId = row.bidId;
+    const participantId = row.participantId;  
+    const itemId = row.additionalDetailsId;
 
-   } catch (error) {
-    
-   }
-    
+    const updatedFavourite = !row.favourite;
+
+    const response = await dispatch(
+      addToFavourite(`bid/add-to-favourite/${bidId}/${itemId}/${participantId}`)
+    );
+
+    if (response.meta.requestStatus === "fulfilled") {
+      setNewOrder((prev) =>
+        prev.map((p) =>
+          p.participantId === participantId && p.itemId === row.itemId
+            ? { ...p, favourite: updatedFavourite }
+            : p
+        )
+      );
+      if (updatedFavourite) {
+        toast.success("Added to favourites!");
+      } else {
+        toast.warning("Removed from favourites!");
+      }
+    } else {
+      toast.error("Failed to update favourite. Please try again.");
+    }
+  } catch (error) {
+    console.error("Error updating favourite:", error);
   }
+};
+
  
   const columns = [
     // {
@@ -115,7 +124,11 @@ setIsFavourite(!isFavourite);
             <div  className={styles.activeDownloadBtn}
              onClick={() => handleAddToFavourite(row)}
             >
-            {isFavourite? <MdStarRate size={18} className={styles["table-icon"]}/>:<MdOutlineStarBorder size={18} className={styles["table-icon"]}/>}
+            {/* {isFavourite? <MdStarRate size={18} className={styles["table-icon"]}/>:<MdOutlineStarBorder size={18} className={styles["table-icon"]}/>} */}
+            {row.favourite
+            ? <MdStarRate size={18} className={styles["table-icon"]}/>
+            : <MdOutlineStarBorder size={18} className={styles["table-icon"]}/>
+          }
          
             </div>
           </Link>
