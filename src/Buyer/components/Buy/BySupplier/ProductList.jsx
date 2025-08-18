@@ -63,7 +63,7 @@ const ProductList = ({supplierId}) => {
         name: "Action",
         cell: (row) => (
         <div
-        onClick={()=>navigate(`/buyer/product-details/${row.itemId}`)}
+        onClick={()=>navigate(`/buyer/product-details/${row.productId}`)}
             /* to={`/buyer/bid/${id}/${row?.companyType?.toLowerCase()}/${row?.itemId}`} */
             title="View Details"
         >
@@ -95,8 +95,9 @@ const ProductList = ({supplierId}) => {
     // const indexOfFirstOrder = indexOfLastProduct - bidsPerPage;
 
       const bidData = [];
-        (currentBidDetails?.bidDocs || [])?.forEach(bid => {
-          (bid.additionalDetails || [])?.forEach(item => {
+       (currentBidDetails?.bidDocs || [])?.forEach(bid => {
+        (bid.additionalDetails || [])?.forEach(item => {
+          (item.participants || []).forEach(participant => {
             bidData?.push({
               productName: item.name,
               quantityRequired: item.quantity,
@@ -104,7 +105,8 @@ const ProductList = ({supplierId}) => {
               timeLine: item.delivery,
               itemId: item.itemId,
               bidId: bid.bid_id,
-              productId: item.productId,
+              productId: participant.productId,
+             });
             });
           });
         });
