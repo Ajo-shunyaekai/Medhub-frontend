@@ -65,14 +65,27 @@ const BidDetails = () => {
       .integer("Timeline must be an integer"),
     productName: Yup.string()
       .required("Product Name is required.")
+      .test(
+        "match-original",
+        "Selected Product does not match Bid Product",
+        function (value) {
+        
+          if (!value) return true; 
+          if (!itemDetails?.name) return true; 
+          return value === itemDetails.name;
+        }
+      ),
+    tnc: Yup.string()
+      .required("Terms and condition is required")
   });
 
   // Formik form initialization
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
+    validateOnBlur: true,
+    validateOnChange: true,
     onSubmit: (values) => {
-      
       try {
         const obj = {
           participantId: participantId,
@@ -264,6 +277,7 @@ const BidDetails = () => {
       fetchData();
     }, []);
 
+
   return (
     <div className={styles.container}>
       <span className={styles.heading}>
@@ -399,10 +413,26 @@ const BidDetails = () => {
                               ? { label: formik.values.productName, value: formik.values.productId }
                               : null
                           }
-                          onChange={(selectedOption) => {
-                            formik.setFieldValue("productName", selectedOption?.label || "");
-                            formik.setFieldValue("productId", selectedOption?.value || "");
+                          onChange={async (selectedOption) => {
+                            const selectedName = selectedOption?.label || "";
+                            const selectedId = selectedOption?.value || "";
+
+                            await formik.setFieldValue("productName", selectedName);
+                            formik.setFieldValue("productId", selectedId);
+
+                            // compare with itemDetails.name
+                            if (selectedName !== itemDetails?.name) {
+                              formik.setFieldError(
+                                "productName",
+                                "Selected Product does not match Bid Product"
+                              );
+                            } else {
+                              formik.setFieldError("productName", ""); 
+                            }
+                             await formik.setFieldTouched("productName",true,true);
+                             formik.validateField("productName");
                           }}
+                          onBlur={() => formik.setFieldTouched("productName", true)}
                           styles={{
                             control: (base) => ({
                               ...base,
@@ -433,7 +463,7 @@ const BidDetails = () => {
                             }),
 
                           }}
-                          placeholder='select product name from column'
+                          placeholder='Select Product Name'
                           />
 
                           {formik?.errors.productName && formik?.touched.productName && (
@@ -488,7 +518,7 @@ const BidDetails = () => {
                                   <input
                                     name="timeLine"
                                     type="numeric"
-                                    placeholder="Enter the expected delivery duration (in days)"
+                                    placeholder="Enter Timeline (in days)"
                                     value={isEditing?(formik?.values.timeLine || ""):(`${formik?.values?.timeLine} Days`)}
                                     onBlur={formik?.handleBlur}
                                     onChange={formik?.handleChange}
@@ -593,7 +623,7 @@ const BidDetails = () => {
                           )
                          }
                           {formik?.touched?.tnc && formik?.errors?.tnc && (
-                            <span className={styles.error}>
+                            <span className={styles.fieldError}>
                               {formik?.errors?.tnc}
                             </span>
                           )}

@@ -9,7 +9,7 @@ import styles from "../../../assets/style/table.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchBidById } from "../../../../redux/reducers/bidSlice";
 import { minWidth } from "@mui/system";
-import { MdOutlineStarBorder } from "react-icons/md";
+import { MdOutlineStarBorder,  MdStarRate } from "react-icons/md";
  
 const ProductList = ({}) => {
   const { id, itemId } = useParams();
@@ -17,6 +17,7 @@ const ProductList = ({}) => {
   const { bidDetails } = useSelector((state) => state?.bidReducer || {});
  
   const [newOrder, setNewOrder] = useState([]);
+  const[isFavourite, setIsFavourite] = useState(false);
  
   useEffect(() => { 
     if (id) {
@@ -26,6 +27,10 @@ const ProductList = ({}) => {
  
   const [currentPage, setCurrentPage] = useState(1);
   const bidsPerPage = 5;
+
+  const handleFavourite = () => {
+    setIsFavourite(!isFavourite);
+  }
  
   const columns = [
     // {
@@ -82,9 +87,11 @@ const ProductList = ({}) => {
               <VisibilityOutlinedIcon className={styles["table-icon"]} />
             </div>
           </Link>
-          <Link>
-            <div className={styles.activeBtn}>
-            <MdOutlineStarBorder size={18} className={styles["table-icon"]}/>
+          <Link
+           title="Add to Favourite"
+          >
+            <div onClick={handleFavourite} className={styles.activeDownloadBtn}>
+            {isFavourite? <MdStarRate size={18} className={styles["table-icon"]}/>:<MdOutlineStarBorder size={18} className={styles["table-icon"]}/>}
             </div>
           </Link>
        </div>

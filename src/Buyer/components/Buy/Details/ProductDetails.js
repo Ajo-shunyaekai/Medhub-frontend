@@ -55,7 +55,6 @@ const toTitleCase = (str) => {
 const ProductDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  console.log("id: ",id);
   const dispatch = useDispatch();
   const { productDetail } = useSelector((state) => state?.productReducer || {});
   const [modalIsOpen, setModalIsOpen] = useState(false);
