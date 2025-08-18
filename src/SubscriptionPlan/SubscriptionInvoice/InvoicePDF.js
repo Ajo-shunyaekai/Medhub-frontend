@@ -94,6 +94,8 @@ const styles = StyleSheet.create({
  
 const InvoicePDF = ({ user, subscriptionDetails }) => {
 
+  console.log("user: ",user);
+  console.log("Subscription Details: ",subscriptionDetails);
   return(
     <Document>
       <Page size="A4" style={styles.page}>
@@ -107,38 +109,53 @@ const InvoicePDF = ({ user, subscriptionDetails }) => {
           <View style={styles.header}>
             <View style={styles.leftSection}>
               <Text style={styles.infoHeading}>
-                  One Vision Technologies FZLLC{/* {user?.registeredAddress?.company_reg_address || ""} */},
-                </Text>
-            {/*   {user?.registeredAddress?.company_reg_address && (
+                One Vision Technologies FZLLC{/* {user?.registeredAddress?.company_reg_address || ""} */},
+              </Text>
+              {user?.registeredAddress?.company_reg_address && (
                 <Text style={styles.infoText}>
                   {user?.registeredAddress?.company_reg_address || ""},
                 </Text>
-              )} */}
-              <Text style={styles.infoText}>
-                VUPR0467, Compass building - Al Hulaila{/* {user?.registeredAddress?.locality} */}
-              </Text>
-              <Text style={styles.infoText}>AL Hulaila Industrial Zone-FZ,</Text>
-              <Text style={styles.infoText}>United Arab Emirates</Text>
+              )}
+              {
+                user?.registeredAddress?.locality && (
+                  <Text style={styles.infoText}>
+                    {user?.registeredAddress?.locality || ""},
+                    {user?.registeredAddress?.locality && " "},
+                  </Text>
+                )
+              }
+              {
+                user?.registeredAddress?.land_mark && (
+                  <Text style={styles.infoText}>
+                    {user?.registeredAddress?.land_mark || ""},
+                    {user?.registeredAddress?.land_mark && " "},
+                  </Text>
+                )
+              }
+              {/* <Text style={styles.infoText}>
+                VUPR0467, Compass building - Al Hulaila{user?.registeredAddress?.locality}
+              </Text> */}
+              {/* <Text style={styles.infoText}>AL Hulaila Industrial Zone-FZ,</Text>
+              <Text style={styles.infoText}>United Arab Emirates</Text> */}
               {/* <Text style={styles.infoText}>إمارة رأس الخيمة</Text> */}
-              <Text style={styles.infoText}>+91 9292392399</Text>
-              {/* {(user?.registeredAddress?.city ||
+              {/* <Text style={styles.infoText}>+91 9292392399</Text> */}
+              {(user?.registeredAddress?.city ||
                 user?.registeredAddress?.state ||
                 user?.registeredAddress?.country) && (
                 <Text style={styles.infoText}>
-                  {user?.registeredAddress?.city || ""}
+                  {user?.registeredAddress?.city || ""},
                   {user?.registeredAddress?.city && " "}
-                  {user?.registeredAddress?.state || ""}
+                  {user?.registeredAddress?.state || ""},
                   {user?.registeredAddress?.state && " "}
                   {user?.registeredAddress?.country || ""}
                 </Text>
-              )} */}
-              {/* {(user?.contact_person_mobile ||
-                user?.contact_person_mobile_no) && (
+              )}
+              {(user?.contact_person_mobile_no) && (
                 <Text style={styles.infoText}>
                   {user?.contact_person_country_code}{" "}
                   {user?.contact_person_mobile || user?.contact_person_mobile_no}
                 </Text>
-              )} */}
+              )}
             </View>
             <View style={styles.rightSection}>
               <Text style={styles.title}>INVOICE</Text>

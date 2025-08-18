@@ -22,8 +22,6 @@ const Profile = () => {
   const documentsArray = [
     { headings: "Certificate", keyword: "certificate_image" },
     { headings: "Trade License", keyword: "license_image" },
-
-
     {
       headings: "Medical Practitioner",
       keyword: "medical_certificate",
