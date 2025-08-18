@@ -11,7 +11,8 @@ const initialState = {
   bidDetails: {},
   updatedbid: {},
   bidToUpdate: {},
-  currentBidDetails: {}
+  currentBidDetails: {},
+  addToFavourite: {}
 };
 
 export const fetchBidList = createAsyncThunk(
@@ -51,6 +52,21 @@ export const fetchCurrentBidDetails = createAsyncThunk(
     try {
       const response = await apiRequests.postRequest(
         // `bid/${values?.bidId}`
+        url
+      );
+      return response?.data;
+    } catch (error) {
+      // Log and pass the error
+      return rejectWithValue(error?.response?.data || error.message);
+    }
+  }
+);
+
+export const addToFavourite = createAsyncThunk(
+  "bid/addToFavourite",
+  async (url, { rejectWithValue }) => {
+    try {
+      const response = await apiRequests.postRequest(
         url
       );
       return response?.data;
@@ -211,6 +227,17 @@ export const bidSlice = createSlice({
         state.currentBidDetails = action?.payload;
       })
       .addCase(fetchCurrentBidDetails.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(addToFavourite.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(addToFavourite.fulfilled, (state, action) => {
+        state.loading = false;
+        state.addToFavourite = action?.payload;
+      })
+      .addCase(addToFavourite.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

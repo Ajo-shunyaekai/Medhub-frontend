@@ -43,7 +43,7 @@ const ProductList = ({supplierId}) => {
         sortable: true,
     },
     {
-        name: "Quantity Required",
+        name: "Qty Required",
         selector: (row) => row?.quantityRequired,
         sortable: true,
        /*  minWidth:"100px" */
