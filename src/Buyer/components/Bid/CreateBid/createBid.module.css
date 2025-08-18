@@ -246,6 +246,11 @@
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
 }
+
+.formInput:disabled{
+  background-color: hsl(0, 0%, 95%) !important;
+}
+
 .formTextarea {
   outline: none !important;
   height: 80px !important;

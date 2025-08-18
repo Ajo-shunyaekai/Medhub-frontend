@@ -802,6 +802,7 @@ const CreateBid = ({socket}) => {
                               onBlur={() =>
                                 setFieldTouched(`additionalDetails.${index}.category`, true)
                               }
+                              isDisabled={!section.type}
                             />
                             {touched?.additionalDetails?.[index]?.category &&
                               errors?.additionalDetails?.[index]?.category && (
@@ -862,7 +863,7 @@ const CreateBid = ({socket}) => {
                                 );
                               }}
                               name={`additionalDetails.${index}.subCategory`}
-                              isDisabled={!section.category}
+                              isDisabled={!section.type || !section.category}
                             />
                             {touched?.additionalDetails?.[index]?.subCategory &&
                               errors?.additionalDetails?.[index]
@@ -917,6 +918,7 @@ const CreateBid = ({socket}) => {
                                     true
                                   )
                                 }
+                                isDisabled={!section.type}
                               />
 
 
@@ -1033,6 +1035,7 @@ const CreateBid = ({socket}) => {
                                   "additionalDetails"
                                 )
                               }
+                              disabled={!section.type}
                             />
                             {touched?.additionalDetails?.[index]?.upc &&
                               errors?.additionalDetails?.[index]?.upc && (
@@ -1070,6 +1073,7 @@ const CreateBid = ({socket}) => {
                                   "additionalDetails"
                                 )
                               }
+                              disabled={!section.type}
                             />
                             {touched?.additionalDetails?.[index]?.brand &&
                               errors?.additionalDetails?.[index]?.brand && (
@@ -1110,6 +1114,7 @@ const CreateBid = ({socket}) => {
                                   true
                                 )
                               }
+                              isDisabled={!section.type}
                             />
                             {touched?.additionalDetails?.[index]?.openFor &&
                               errors?.additionalDetails?.[index]?.openFor && (
@@ -1282,6 +1287,7 @@ const CreateBid = ({socket}) => {
                                   true
                                 )
                               }
+                              isDisabled={!section.type}
                             />
                             {touched?.additionalDetails?.[index]?.docReq &&
                               errors?.additionalDetails?.[index]?.docReq && (
@@ -1313,6 +1319,7 @@ const CreateBid = ({socket}) => {
                                     "additionalDetails"
                                   )
                                 }
+                                disabled={!section.type}
                               />
                               {touched?.additionalDetails?.[index]
                                 ?.certificateName &&
@@ -1348,6 +1355,7 @@ const CreateBid = ({socket}) => {
                                   "additionalDetails"
                                 )
                               }
+                              disabled={!section.type}
                             />
                             {touched?.additionalDetails?.[index]?.quantity &&
                               errors?.additionalDetails?.[index]?.quantity && (
@@ -1377,6 +1385,7 @@ const CreateBid = ({socket}) => {
                                   "additionalDetails"
                                 )
                               }
+                              disabled={!section.type}
                             />
                             {touched?.additionalDetails?.[index]?.targetPrice &&
                               errors?.additionalDetails?.[index]
@@ -1413,6 +1422,7 @@ const CreateBid = ({socket}) => {
                                   "additionalDetails"
                                 )
                               }
+                              disabled={!section.type}
                             />
                             {touched?.additionalDetails?.[index]?.delivery &&
                               errors?.additionalDetails?.[index]?.delivery && (
@@ -1452,6 +1462,7 @@ const CreateBid = ({socket}) => {
                                   "additionalDetails"
                                 )
                               }
+                              disabled={!section.type}
                             />
                             {touched?.additionalDetails?.[index]?.description &&
                               errors?.additionalDetails?.[index]

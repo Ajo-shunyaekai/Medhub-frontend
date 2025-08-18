@@ -85,6 +85,10 @@ const SubscriptionPage = () => {
     dispatch(createSubscriptionSession(formData));
   };
 
+  useEffect(()=>{
+    console.log("user in subscription page: ",user);
+    console.log("subscribedPlanDetails: ",subscribedPlanDetails);
+  },[user]);
 
  
   const generatePDF = (duration, pkg, email, invoiceData) => {
@@ -161,7 +165,7 @@ const SubscriptionPage = () => {
  
   return (
     <>
-      {/* <Invoice/> */}
+     {/* <Invoice user={user} subscribedPlanDetails={subscribedPlanDetails}/> */}
       {loading ? (
         <Loader />
       ) : user?.currentSubscription ? (

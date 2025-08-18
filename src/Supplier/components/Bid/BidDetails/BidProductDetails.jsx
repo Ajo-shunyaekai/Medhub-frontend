@@ -429,8 +429,8 @@ const BidDetails = () => {
                             } else {
                               formik.setFieldError("productName", ""); 
                             }
-                             await formik.setFieldTouched("productName",true,true);
-                             formik.validateField("productName");
+                            await formik.setFieldTouched("productName",true,true);
+                            formik.validateField("productName");
                           }}
                           onBlur={() => formik.setFieldTouched("productName", true)}
                           styles={{
