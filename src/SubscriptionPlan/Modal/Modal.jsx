@@ -49,7 +49,8 @@ const Modal = ({
 
   const handleSubmit = (values) => {
     setLoading(true);
-    handleClickPurchase(selectedPlan, values?.discount);
+    const discountObj = couponArray.find((item)=>item.name===values.discount);
+    handleClickPurchase(selectedPlan, discountObj.name,discountObj.amount);
   };
 
   if (!isOpen) return null;
