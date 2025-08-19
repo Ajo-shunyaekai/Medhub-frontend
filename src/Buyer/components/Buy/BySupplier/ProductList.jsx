@@ -6,20 +6,20 @@ import DataTable from 'react-data-table-component';
 import { Link, useNavigate } from 'react-router-dom';
 import PaginationComponent from '../../SharedComponents/Pagination/pagination';
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCurrentBidDetails } from '../../../../redux/reducers/bidSlice';
+import { fetchCurrentBidDetails, requestQuote } from '../../../../redux/reducers/bidSlice';
 import { minWidth } from '@mui/system';
+import { toast } from "react-toastify";
 
 const ProductList = ({supplierId}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { currentBidDetails } = useSelector((state) => state?.bidReducer || {});
 
-
-
   const buyerIdSessionStorage = localStorage?.getItem("buyer_id");
   const buyerIdLocalStorage = localStorage?.getItem("buyer_id");
   const buyerId = buyerIdSessionStorage || buyerIdLocalStorage
 
+  const [loading, setLoading] = useState(false);
   const [currentBids, setCurrentBids] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const bidsPerPage = 5;
@@ -35,6 +35,33 @@ const ProductList = ({supplierId}) => {
       dispatch(fetchCurrentBidDetails(`bid/get-current-bid-details/${buyerId}/${supplierId}?pageNo=${currentPage}&pageSize=${bidsPerPage}`));
     }
    }, [ buyerId, supplierId, dispatch, currentPage]);
+
+   const handleRequestQuote = (row) => {
+     try {
+       setLoading(true);
+  
+       const obj = {
+         bidId: row.bidId,
+         additionalDetailsId: row.additionalDetailsId,
+         supplierId: row.participantId,
+         buyerId: row.userId,
+         productId: row.productId,
+         quantityRequired: row.quantityRequired,
+         targetPrice: row.amount,
+         deliveryTime: row.deliveryTime
+       }
+       
+       dispatch(requestQuote(obj).then((response) => {
+         if(response?.meta.requestStatus === 'fulfilled') {
+           setLoading(false);
+         }
+       }))
+     } catch (error) {
+       toast.error(error);
+     } finally {
+       setLoading(false);
+     }
+    }
 
     const columns = [
     {
@@ -64,7 +91,6 @@ const ProductList = ({supplierId}) => {
         cell: (row) => (
         <div
         onClick={()=>navigate(`/buyer/product-details/${row.productId}`)}
-            /* to={`/buyer/bid/${id}/${row?.companyType?.toLowerCase()}/${row?.itemId}`} */
             title="View Details"
         >
             <div className={styles.activeBtn}>
@@ -79,7 +105,9 @@ const ProductList = ({supplierId}) => {
     {
       name:'Request',
       cell: (row) => (
-        <div className={styles.requestQuoteContainer}>
+        <div className={styles.requestQuoteContainer}
+         onClick={() => handleRequestQuote(row)}
+        >
           Request Quote
         </div>
       ),
@@ -101,11 +129,21 @@ const ProductList = ({supplierId}) => {
             bidData?.push({
               productName: item.name,
               quantityRequired: item.quantity,
-              targetPrice: item.targetPrice,
-              timeLine: item.delivery,
+              // targetPrice: item.targetPrice,
+              targetPrice: participant?.amount,
+              // timeLine: item.delivery,
+               timeLine: participant?.timeLine,
               itemId: item.itemId,
-              bidId: bid.bid_id,
+              additionalDetailsId: item._id,
+              bidId: bid._id,
+              userId: bid.userId,
+              participantId: participant?.id, 
               productId: participant.productId,
+              productName: participant?.productName,
+              quantityRequired: item?.quantity,
+              amount: participant?.amount,
+              deliveryTime: participant?.timeLine,
+              tnc: participant?.tnc
              });
             });
           });

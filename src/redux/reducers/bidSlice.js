@@ -181,6 +181,30 @@ export const deletebid = createAsyncThunk(
   }
 );
 
+export const requestQuote = createAsyncThunk(
+  "bid/requestQuote",
+  async (values, { rejectWithValue }) => {
+    try {
+      const response = await apiRequests?.postRequest(
+        `bid/request-quote/${values.bidId}/${values.additionalDetailsId}/${values.supplierId}`,
+        values
+      );
+      if (response?.code !== 200) {
+        toast(response?.message, { type: "error" });
+        return rejectWithValue(response?.message || "Unknown error");
+      }
+      const { data, message } = await response;
+      toast.success(message);
+
+      return data;
+      // return rejectWithValue(response?.data?.err);
+    } catch (error) {
+      //   toast.error("An error occurred while logging in");
+      return rejectWithValue(error?.response?.data || "Unknown error");
+    }
+  }
+);
+
 export const bidSlice = createSlice({
   name: "bid",
   initialState,

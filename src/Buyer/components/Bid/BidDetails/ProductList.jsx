@@ -7,7 +7,7 @@ import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import PaginationComponent from "../../SharedComponents/Pagination/pagination";
 import styles from "../../../assets/style/table.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { addToFavourite, fetchBidById } from "../../../../redux/reducers/bidSlice";
+import { addToFavourite, fetchBidById, requestQuote } from "../../../../redux/reducers/bidSlice";
 import { minWidth } from "@mui/system";
 import { toast } from "react-toastify";
 import { MdOutlineStarBorder,  MdStarRate } from "react-icons/md";
@@ -19,6 +19,7 @@ const ProductList = ({}) => {
   const { bidDetails } = useSelector((state) => state?.bidReducer || {});
  
   const [newOrder, setNewOrder] = useState([]);
+  const [loading, setLoading] = useState(false);
  
   useEffect(() => { 
     if (id) {
@@ -29,10 +30,9 @@ const ProductList = ({}) => {
   const [currentPage, setCurrentPage] = useState(1);
   const bidsPerPage = 5;
 
- const handleAddToFavourite = async (row, e) => {
+ const handleAddToFavourite = async (row) => {
   try {
-    e?.preventDefault?.(); 
-    e?.stopPropagation?.();
+  
     const bidId = row.bidId;
     const participantId = row.participantId;  
     const itemId = row.additionalDetailsId;
@@ -64,7 +64,6 @@ const ProductList = ({}) => {
 
     postRequestWithToken(`/bid/add-to-favourite/${bidId}/${itemId}/${participantId}`, {}, async(response) => {
       if(response?.code === 200) {
-        console.log('response',response)
            setNewOrder((prev) =>
         prev.map((p) =>
           p.participantId === participantId && p.itemId === row.itemId
@@ -81,6 +80,31 @@ const ProductList = ({}) => {
     console.error("Error updating favourite:", error);
   }
  };
+
+ const handleRequestQuote = (row) => {
+  try {
+    setLoading(true);
+    const obj = {
+      bidId: row.bidId,
+      additionalDetailsId: row.additionalDetailsId,
+      supplierId: row.participantId,
+      buyerId: row.userId,
+      productId: row.productId,
+      quantityRequired: row.quantityRequired,
+      targetPrice: row.amount,
+      deliveryTime: row.deliveryTime
+    }
+    dispatch(requestQuote(obj).then((response) => {
+      if(response?.meta.requestStatus === 'fulfilled') {
+        setLoading(false);
+      }
+    }))
+  } catch (error) {
+    toast.error(error);
+  } finally {
+    setLoading(false);
+  }
+ }
 
  
   const columns = [
@@ -164,7 +188,9 @@ const ProductList = ({}) => {
     {
       name:"Request",
       cell: (row) => (
-        <div className={styles.requestQuoteContainer}>
+        <div className={styles.requestQuoteContainer} 
+        onClick={() => handleRequestQuote(row)}
+        >
           Request Quote
         </div>
       ),
@@ -196,7 +222,13 @@ const ProductList = ({}) => {
             bidId: bidDetails?._id,
             userId: bidDetails?.userId,
             participantId: participant?.id, 
-            id: participant._id
+            id: participant._id,
+            productId: participant?.productId,
+            productName: participant?.productName,
+            quantityRequired: item?.quantity,
+            targetPrice: participant?.amount,
+            deliveryTime: participant?.timeLine,
+            tnc: participant?.tnc
           });
         });
       });
