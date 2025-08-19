@@ -12,7 +12,7 @@ const initialState = {
   updatedbid: {},
   bidToUpdate: {},
   currentBidDetails: {},
-  addToFavourite: {}
+  addToFavourite: {},
 };
 
 export const fetchBidList = createAsyncThunk(
@@ -185,6 +185,7 @@ export const requestQuote = createAsyncThunk(
   "bid/requestQuote",
   async (values, { rejectWithValue }) => {
     try {
+      console.log('values',values)
       const response = await apiRequests?.postRequest(
         `bid/request-quote/${values.bidId}/${values.additionalDetailsId}/${values.supplierId}`,
         values
@@ -262,6 +263,16 @@ export const bidSlice = createSlice({
         state.addToFavourite = action?.payload;
       })
       .addCase(addToFavourite.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(requestQuote.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(requestQuote.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(requestQuote.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
