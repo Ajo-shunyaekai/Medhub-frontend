@@ -187,7 +187,7 @@ export const requestQuote = createAsyncThunk(
     try {
       console.log('values',values)
       const response = await apiRequests?.postRequest(
-        `bid/request-quote/${values.bidId}/${values.additionalDetailsId}/${values.supplierId}`,
+        `bid/send-enquiry/${values.bidId}/${values.additionalDetailsId}/${values.supplierId}`,
         values
       );
       if (response?.code !== 200) {
