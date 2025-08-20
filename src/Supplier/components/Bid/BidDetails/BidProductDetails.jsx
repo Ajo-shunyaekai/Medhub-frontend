@@ -153,7 +153,7 @@ const BidDetails = () => {
 
   useEffect(() => {
     if (id) {
-      dispatch(fetchBidById(`bid/${id}`));
+      dispatch(fetchBidById(`bid/${id}?supplierId=${localStorage.getItem('_id')}`));
     }
   }, [id, dispatch]);
 

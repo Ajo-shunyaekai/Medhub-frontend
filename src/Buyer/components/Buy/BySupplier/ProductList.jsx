@@ -9,8 +9,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchCurrentBidDetails, requestQuote } from '../../../../redux/reducers/bidSlice';
 import { minWidth } from '@mui/system';
 import { toast } from "react-toastify";
+import { postRequestWithToken } from '../../../../api/Requests';
 
-const ProductList = ({supplierId}) => {
+const ProductList = ({supplierId, socket}) => {
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { currentBidDetails } = useSelector((state) => state?.bidReducer || {});
@@ -36,32 +38,69 @@ const ProductList = ({supplierId}) => {
     }
    }, [ buyerId, supplierId, dispatch, currentPage]);
 
-   const handleRequestQuote = (row) => {
-     try {
-       setLoading(true);
+  //  const handleRequestQuote = (row) => {
+  //    try {
+  //      setLoading(true);
   
-       const obj = {
-         bidId: row.bidId,
-         additionalDetailsId: row.additionalDetailsId,
-         supplierId: row.participantId,
-         buyerId: row.userId,
-         productId: row.productId,
-         quantityRequired: row.quantityRequired,
-         targetPrice: row.amount,
-         deliveryTime: row.deliveryTime
-       }
+  //      const obj = {
+  //        bidId: row.bidId,
+  //        additionalDetailsId: row.additionalDetailsId,
+  //        supplierId: row.participantId,
+  //        buyerId: row.userId,
+  //        productId: row.productId,
+  //        quantityRequired: row.quantityRequired,
+  //        targetPrice: row.amount,
+  //        deliveryTime: row.deliveryTime
+  //      }
        
-       dispatch(requestQuote(obj).then((response) => {
-         if(response?.meta.requestStatus === 'fulfilled') {
-           setLoading(false);
-         }
-       }))
-     } catch (error) {
-       toast.error(error);
-     } finally {
-       setLoading(false);
-     }
+  //      dispatch(requestQuote(obj).then((response) => {
+  //        if(response?.meta.requestStatus === 'fulfilled') {
+  //          setLoading(false);
+  //        }
+  //      }))
+  //    } catch (error) {
+  //      toast.error(error);
+  //    } finally {
+  //      setLoading(false);
+  //    }
+  //   }
+
+  const handleRequestQuote = (row) => {
+    try {
+      setLoading(true);
+      const obj = {
+        bidId: row.bidId,
+        itemId: row.additionalDetailsId,
+        participantId: row.participantId,
+        buyerId: row.userId,
+        productId: row.productId,
+        quantityRequired: row.quantityRequired,
+        targetPrice: row.amount,
+        deliveryTime: row.deliveryTime
+      }
+  
+      postRequestWithToken(`bid/send-enquiry/${obj.bidId}/${obj.itemId}/${obj.participantId}`,
+        obj,
+        async (response) => {
+          if(response.code === 200) {
+            socket.emit("sendInquiry", {
+                supplierId: row.supplierId,
+                message: "You have a new enquiry from a buyer!",
+                link: process.env.REACT_APP_PUBLIC_URL,
+              });
+             toast(response.message, { type: "success" });
+          } else {
+            toast(response.message, { type: "error" });
+          }
+        }
+  
+      )
+    } catch (error) {
+      toast.error(error);
+    } finally {
+      setLoading(false);
     }
+   }
 
     const columns = [
     {

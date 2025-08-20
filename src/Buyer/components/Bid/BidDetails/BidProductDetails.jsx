@@ -6,7 +6,8 @@ import styles from "./bidProductDetails.module.css";
 import { fetchBidById } from "../../../../redux/reducers/bidSlice";
 import ProductList from "./ProductList";
 
-const BidDetails = () => {
+const BidDetails = ({socket}) => {
+  
   const { id, itemId } = useParams();
   const dispatch = useDispatch();
 
@@ -170,7 +171,7 @@ const BidDetails = () => {
 
         {/* Product List */}
         <span className={styles.innerHead3}>Bidders List</span>
-        <ProductList />
+        <ProductList socket = {socket}/>
       </div>
 
       <div className={styles.bottomMargin}></div>

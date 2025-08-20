@@ -15,7 +15,7 @@ import DataTable from 'react-data-table-component';
 import ProductList from './ProductList';
 import RenderFiles from '../Details/RenderFiles';
  
-const SupplierDetails = () => {
+const SupplierDetails = ({socket}) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { supplierId } = useParams();
@@ -518,7 +518,7 @@ const SupplierDetails = () => {
 
           <div>
              <p className={styles.innerHead3}>Current Bids</p>
-             <ProductList supplierId={supplierId}/>
+             <ProductList supplierId={supplierId} socket={socket}/>
           </div>
 
           <div className={styles.buttonContainer}>

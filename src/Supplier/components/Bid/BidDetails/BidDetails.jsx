@@ -20,10 +20,9 @@ const BidDetails = () => {
     if (id) {
       dispatch(
         fetchBidById(
-          `bid/${id}?openFor=${localStorage
-            .getItem("supplier_type")
+          `bid/${id}?openFor=${localStorage.getItem("supplier_type")
             ?.toLowerCase()
-            ?.replaceAll(/\s+/g, "")}`
+            ?.replaceAll(/\s+/g, "")}?supplierId=${localStorage.getItem('_id')}`
         )
       );
     }

@@ -13,7 +13,8 @@ import { toast } from "react-toastify";
 import { MdOutlineStarBorder,  MdStarRate } from "react-icons/md";
 import { postRequestWithToken } from "../../../../api/Requests";
  
-const ProductList = ({}) => {
+const ProductList = ({socket}) => {
+
   const { id, itemId } = useParams();
   const dispatch = useDispatch();
   const { bidDetails } = useSelector((state) => state?.bidReducer || {});
@@ -32,7 +33,6 @@ const ProductList = ({}) => {
 
  const handleAddToFavourite = async (row) => {
   try {
-  
     const bidId = row.bidId;
     const participantId = row.participantId;  
     const itemId = row.additionalDetailsId;
@@ -81,24 +81,62 @@ const ProductList = ({}) => {
   }
  };
 
- const handleRequestQuote = (row) => {
+//  const handleRequestQuote = (row) => {
+//   try {
+//     // setLoading(true);
+//     const obj = {
+//       bidId: row.bidId,
+//       additionalDetailsId: row.additionalDetailsId,
+//       supplierId: row.participantId,
+//       buyerId: row.userId,
+//       productId: row.productId,
+//       quantityRequired: row.quantityRequired,
+//       targetPrice: row.amount,
+//       deliveryTime: row.deliveryTime
+//     }
+//     dispatch(requestQuote(obj).unwrap().then((response) => {
+//       if(response?.meta.requestStatus === 'fulfilled') {
+//         // setLoading(false);
+//       }
+//     }))
+//   } catch (error) {
+//     toast.error(error);
+//   } finally {
+//     // setLoading(false);
+//   }
+//  }
+
+
+const handleRequestQuote = (row) => {
   try {
     setLoading(true);
     const obj = {
       bidId: row.bidId,
-      additionalDetailsId: row.additionalDetailsId,
-      supplierId: row.participantId,
+      itemId: row.additionalDetailsId,
+      participantId: row.participantId,
       buyerId: row.userId,
       productId: row.productId,
       quantityRequired: row.quantityRequired,
       targetPrice: row.amount,
       deliveryTime: row.deliveryTime
     }
-    dispatch(requestQuote(obj).then((response) => {
-      if(response?.meta.requestStatus === 'fulfilled') {
-        setLoading(false);
+
+    postRequestWithToken(`bid/send-enquiry/${obj.bidId}/${obj.itemId}/${obj.participantId}`,
+      obj,
+      async (response) => {
+        if(response.code === 200) {
+          socket.emit("sendInquiry", {
+              supplierId: row.supplierId,
+              message: "You have a new enquiry from a buyer!",
+              link: process.env.REACT_APP_PUBLIC_URL,
+            });
+           toast(response.message, { type: "success" });
+        } else {
+          toast(response.message, { type: "error" });
+        }
       }
-    }))
+
+    )
   } catch (error) {
     toast.error(error);
   } finally {

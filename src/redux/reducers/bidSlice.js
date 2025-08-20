@@ -34,6 +34,7 @@ export const fetchBidById = createAsyncThunk(
   "bid/fetchBidById",
   async (url, { rejectWithValue }) => {
     try {
+
       const response = await apiRequests.postRequest(
         // `bid/${values?.bidId}`
         url
@@ -182,10 +183,9 @@ export const deletebid = createAsyncThunk(
 );
 
 export const requestQuote = createAsyncThunk(
-  "bid/requestQuote",
+  `bid/requestQuote`,
   async (values, { rejectWithValue }) => {
     try {
-      console.log('values',values)
       const response = await apiRequests?.postRequest(
         `bid/send-enquiry/${values.bidId}/${values.additionalDetailsId}/${values.supplierId}`,
         values
