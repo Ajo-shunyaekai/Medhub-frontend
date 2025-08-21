@@ -189,7 +189,7 @@ const AddProduct = ({ placeholder }) => {
   /* handle add product by link when updated by admin */
   const [addProductImageButton, setAddProductImageButton] = useState(false);
   const superAdmin = JSON.parse(localStorage.getItem("superAdmin"));
-  console.log("Super Admin: ",superAdmin);
+  /* console.log("Super Admin: ",superAdmin); */
 
   const handleSelectFile = (file) => {
     setSelectedFile(file);

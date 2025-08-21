@@ -861,7 +861,7 @@ const ProductDetails = () => {
                 {imageArray.map((img, index) => {
                   const imgUrl = getFullImageUrl(img);
                   const isImageFile = isImageExtension(imgUrl);
-                  console.log('imgUrl',imgUrl);
+                  
 
                   return (
                     <div className={styles.thumbnail}>

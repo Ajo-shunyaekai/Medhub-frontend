@@ -11,10 +11,11 @@ const Modal = ({
   selectedPlan,
   handleClickPurchase,
   subscriptionPlanIndex,
-  setLoader
+  setLoader,
+  loader
 }) => {
 
-  console.log("subscriptionPlanIndex: ",subscriptionPlanIndex);
+  /* console.log("subscriptionPlanIndex: ",subscriptionPlanIndex); */
 
   const modalRef = useRef(null);
   const formRef = useRef(); // to reset form
@@ -86,7 +87,7 @@ const Modal = ({
                   />
                 </div>
 
-                {loading ? (
+                {loader ? (
                   <div className={styles.loadingSpinner}></div>
                 ) : (
                   <div className={styles.btnDiv}>

@@ -8,7 +8,14 @@ const RequestModal = ({isOpen, onClose, handleRequestQuote, requestQuoteBidObjec
 
   useEffect(() => {
     const handleClickOutside = (event) => {
+      /* console.log("Clicked on:", event.target); */
       if (modalRef.current && !modalRef.current.contains(event.target)) {
+        if (
+          event.target.closest(`.${styles.sendQuote}`) ||
+          event.target.closest(`.${styles.cancelBtn}`)
+        ) {
+      return;
+    }
         onClose();
       }
     };
@@ -24,9 +31,16 @@ const RequestModal = ({isOpen, onClose, handleRequestQuote, requestQuoteBidObjec
 
   /* handle quote btn */
   const handleQuoteBtn = async() => {
-    setIsLoading(true);
-    await handleRequestQuote(requestQuoteBidObject);
-    onClose();
+    try {
+     /*  console.log(requestQuoteBidObject); */
+      setIsLoading(true);
+      await handleRequestQuote(requestQuoteBidObject); 
+      onClose();
+    } catch (error) {
+      console.error("Error while sending quote:", error);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   const handleCancelBtn = () => {
@@ -38,8 +52,7 @@ const RequestModal = ({isOpen, onClose, handleRequestQuote, requestQuoteBidObjec
 
   return (
     <div className={styles.modalOverlay}>
-      <div className={styles.modalBox} ref={modalRef}>
-        <div>
+      <div className={styles.modalBox} ref={modalRef}>       
           <div className={styles.modalHeaderContainer}>
             <p className={styles.modalHeaderPara}>Request Quote</p>
             <button className={styles.closeButton} onClick={onClose}>
@@ -54,24 +67,15 @@ const RequestModal = ({isOpen, onClose, handleRequestQuote, requestQuoteBidObjec
           {/* button */}
           <div className={styles.modalBtnSection}>
             {/* send Quotate */}
-            {
-              isLoading?
-              (
-                <div className={styles.loadingSpinner}></div>
-              )
-              :
-              (
-              <div onClick={handleQuoteBtn} className={styles.sendQuote}>
-                Send Quote
-              </div>
-              )
-            }
+            <div  onClick={handleQuoteBtn} className={isLoading?styles.sendQuoteLoaderDiv:styles.sendQuote}>
+              {isLoading?<div className={styles.loadingSpinner}></div>:(`Send Quote`)}
+            </div>
             {/* cancel */}
             <div onClick={handleCancelBtn} className={styles.cancelBtn}>
               Cancel
             </div>
           </div>
-        </div>
+        
       </div>
     </div>
   )

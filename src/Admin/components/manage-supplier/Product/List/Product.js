@@ -120,9 +120,7 @@ const Product = () => {
     fetchData();
   }, [dispatch, currentPage, medicineType, supplierId, location.pathname]); // Add location.pathname as a dependency
 
-  useEffect(()=>{
-    console.log(user);
-  },[user]);
+ 
 
   return (
     <>
