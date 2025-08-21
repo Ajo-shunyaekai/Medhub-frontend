@@ -177,16 +177,17 @@ const SubscriptionPage = () => {
     const email = user?.contact_person_email || user?.email;
     const selectedPlan = subscriptionPlans.find((p) => p.pkg === subscriptionPlanIndex);
     const subscriptionEndDate = new Date();
-    console.log("Selected Plan: ",selectedPlan);
-    if(selectedPlan.duration === 'month'){
-      subscriptionEndDate.setDate(subscriptionEndDate.getDate()+30);
+    
+    if(selectedPlan && selectedPlan.duration=='year'){
+      subscriptionEndDate.setDate(subscriptionEndDate.getDate()+365);
     }
     else{
-      subscriptionEndDate.setDate(subscriptionEndDate.getDate()+365);
+      subscriptionEndDate.setDate(subscriptionEndDate.getDate()+30);
     }
   
     const pkg =selectedPlan ? (selectedPlan?.pkg || ""): (subscriptionPlans?.[index]?.type);
     const duration = selectedPlan? (selectedPlan?.duration || "") : (subscriptionPlans?.[index]?.duration);
+    const price = selectedPlan? (selectedPlan?.price || 0) : (subscriptionPlans?.[index]?.price);
 
     /* if(!discount){
       pkg = "";
@@ -195,16 +196,19 @@ const SubscriptionPage = () => {
  
     // Prepare the invoice data
     const invoiceData = {
-      productName: selectedPlan?.type,
+      productName: pkg,
       // discount,
-      amount: selectedPlan?.price || 0,
+      amount: price || 0,
       subscriptionStartDate: new Date(),
       subscriptionEndDate: subscriptionEndDate,
       invoiceNumber: "INV-" + Math.floor(Math.random() * 1000000),
-      subtotalAmount: selectedPlan?.price,
-      totalAmount: selectedPlan?.price
+      subtotalAmount: price,
+      totalAmount: price
     };
  
+
+    /* console.log(invoiceData); */
+
     // Apply discount if provided
     if (discount && discountAmount) {
       invoiceData.discount = discount; // Add discount to the invoice data
@@ -424,20 +428,21 @@ const SubscriptionPage = () => {
                     <div
                       className={styles.button}
                       onClick={() => {
-                          /* setSelectedPlan(0);
+                          handleClickPurchase(0);
+                           /* setSelectedPlan(0);
                           setSubscriptionPlanIndex("Monthly Subscription")
-                          setIsOpen(true); */
-                        const status = new URLSearchParams(location.search).get(
+                          setIsOpen(true);  */
+                        /* const status = new URLSearchParams(location.search).get(
                           "status"
-                        );
+                        ); */
  
-                        if (status && status == 1) {
+                        /* if (status && status == 1) {
                           setSelectedPlan(0);
                           setSubscriptionPlanIndex("Monthly Subscription")
                           setIsOpen(true);
                         } else {
                           handleClickPurchase(0);
-                        }
+                        } */
                       }}
                     >
                       Purchase Now
@@ -492,6 +497,9 @@ const SubscriptionPage = () => {
                       className={styles.button}
                       // onClick={() => handleClickPurchase(1)}
                       onClick={() => {
+                         /*  setSelectedPlan(1);
+                          setSubscriptionPlanIndex("Yearly Subscription")
+                          setIsOpen(true); */ 
                         const status = new URLSearchParams(location.search).get(
                           "status"
                         );
