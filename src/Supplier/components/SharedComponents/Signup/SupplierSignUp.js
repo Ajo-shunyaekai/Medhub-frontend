@@ -270,7 +270,7 @@ const SupplierSignUp = ({ socket }) => {
 
   /* handle product indicator change */
   const handleProductIndicatorChange = (selectedOption) => {
-    console.log(selectedOption);
+    /* console.log(selectedOption); */
     setFormData((prev)=>({...prev,productsIndicator:selectedOption}));
     if(!selectedOption){
       setErrors((prev)=>({
@@ -634,7 +634,7 @@ const SupplierSignUp = ({ socket }) => {
         }
       }
  
-    console.log("formErrors: ",formErrors);
+    /* console.log("formErrors: ",formErrors); */
     setErrors(formErrors);
     return Object.keys(formErrors).length === 0;
   };

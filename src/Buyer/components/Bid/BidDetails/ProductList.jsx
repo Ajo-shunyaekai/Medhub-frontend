@@ -21,8 +21,8 @@ const ProductList = ({socket}) => {
   const { bidDetails } = useSelector((state) => state?.bidReducer || {});
  
   const [newOrder, setNewOrder] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [isOpen, setIsOpen] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [requestQuoteBidObject, setRequestQuoteBidObject] = useState(null);
 
   const onClose = () => {
@@ -114,7 +114,7 @@ const ProductList = ({socket}) => {
 //  }
 
 
-const handleRequestQuote = (row) => {
+const handleRequestQuote = async(row) => {
   try {
     setLoading(true);
     const obj = {
@@ -128,7 +128,7 @@ const handleRequestQuote = (row) => {
       deliveryTime: row.deliveryTime
     }
 
-    postRequestWithToken(`bid/send-enquiry/${obj.bidId}/${obj.itemId}/${obj.participantId}`,
+   await postRequestWithToken(`bid/send-enquiry/${obj.bidId}/${obj.itemId}/${obj.participantId}`,
       obj,
       async (response) => {
         if(response.code === 200) {
