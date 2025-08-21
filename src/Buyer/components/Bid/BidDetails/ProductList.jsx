@@ -21,7 +21,7 @@ const ProductList = ({socket}) => {
   const { bidDetails } = useSelector((state) => state?.bidReducer || {});
  
   const [newOrder, setNewOrder] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [requestQuoteBidObject, setRequestQuoteBidObject] = useState(null);
 
@@ -233,11 +233,11 @@ const handleRequestQuote = async(row) => {
     {
       name:"Request",
       cell: (row) => (
-        <div className={styles.requestQuoteContainer} 
+        <button disabled={row.quoteRequested} className={styles.requestQuoteContainer} 
         onClick={() => {setIsOpen(true); setRequestQuoteBidObject(row)}}
         >
-          Request Quote
-        </div>
+          {row?.quoteRequested?`Quote Requested`:`Request Quote`}
+        </button>
       ),
       ignoreRowClick: true,
       allowOverflow: true,
@@ -273,7 +273,8 @@ const handleRequestQuote = async(row) => {
             quantityRequired: item?.quantity,
             targetPrice: participant?.amount,
             deliveryTime: participant?.timeLine,
-            tnc: participant?.tnc
+            tnc: participant?.tnc,
+            quoteRequested: item?.quoteRequested
           });
         });
       });
