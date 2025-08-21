@@ -511,48 +511,105 @@ const ProductDetails = () => {
         )}
         {/* End the product description */}
 
+        {/* supplier information */}
         <div className={styles.mainContainer}>
-          <span className={styles.innerHead}>Manufacturer Details</span>
-          <div className={styles.innerComplianceSection}>
-            {/* {productDetail?.categoryDetails
-                ?.filter((item) => item?.type != "textarea")
-                ?.map((item, index) => ( */}
-            <div className={styles.additionalUploadSection}>
-              <span className={styles.medicineHead}>Manufacturer Name</span>
-              <div className={styles.additionalImageSection}>
-                <div className={styles.complianceSection}>
-                  <span className={styles.medicineContent}>
-                    {productDetail?.general?.manufacturer || "N/A"}
-                  </span>
+          <span className={styles.innerHead}>Supplier Information</span>
+          <div className={styles.supplierInnerSection}>
+              {
+                productDetail?.userDetails?.supplier_name && (
+                  <div className={styles.medicinesSection}>
+                      <span className={styles.medicineHead}>Supplier Name</span>
+                      <span className={styles.medicineText}>
+                        {productDetail?.userDetails?.supplier_name}
+                      </span>
+                  </div>
+                )
+              }
+ 
+              {
+                productDetail?.userDetails?.supplier_type && (
+                  <div className={styles.medicinesSection}>
+                    <span className={styles.medicineHead}>Supplier Type</span>
+                    <span className={styles.medicineText}>
+                      {productDetail?.userDetails?.supplier_type}
+                    </span>
+                  </div>
+                )
+              }
+              {
+                productDetail?.userDetails?.country_of_origin && (
+                  <div className={styles.medicinesSection}>
+                    <span className={styles.medicineHead}>Country Of Origin</span>
+                    <span className={styles.medicineText}>
+                      {productDetail?.userDetails?.country_of_origin}
+                    </span>
+                  </div>
+                )
+              }
+              {
+                productDetail?.userDetails?.description && (
+                  <div className={styles.medicinesSection}>
+                    <span className={styles.medicineHead}>Description</span>
+                    <span className={styles.medicineText}>
+                      {productDetail?.userDetails?.description}
+                    </span>
+                  </div>
+                )
+              }
+          </div>
+        </div>
+
+        {/* Start Manufacturer section */}
+        {(productDetail?.general?.manufacturer ||
+          productDetail?.general?.countryOfOrigin) && (
+          <div className={styles.mainManufacturerContainer}>
+            <span className={styles.innerHead}>Manufacturer Details</span>
+            <div className={styles.manufacturerMainContainer}>
+              {(productDetail?.general?.manufacturer ||
+                productDetail?.general?.countryOfOrigin) && (
+                <div className={styles.manufacturerContainer}>
+                  <div className={styles.manufacturerSecondDiv}>
+                      {productDetail?.general?.manufacturer && (
+                      <div className={styles.manufacturersectionFirstDiv}>
+                        <span className={styles.medicineHead}>
+                          Manufacturer Name
+                        </span>
+                        <span className={styles.medicineText}>
+                          {productDetail?.general?.manufacturer}
+                        </span>
+                      </div>
+                    )}
+                    {productDetail?.general?.countryOfOrigin && (
+                      <div className={styles.manufacturersectionFirstDiv}>
+                        <span className={styles.medicineHead}>
+                          Contry of Origin
+                        </span>
+                        <span className={styles.medicineText}>
+                          {productDetail?.general?.countryOfOrigin}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                  {/* about  */}
+                  <div>
+                    {productDetail?.general?.aboutManufacturer && (
+                      <div className={styles.manufacturersectionFirstDiv}>
+                        <span className={styles.medicineHead}>
+                          About Manufacturer
+                        </span>
+                        <span className={styles.medicineText}>
+                          {productDetail?.general?.aboutManufacturer}
+                        </span>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div className={styles.additionalUploadSection}>
-              <span className={styles.medicineHead}>Country of Origin</span>
-              <div className={styles.additionalImageSection}>
-                <div className={styles.complianceSection}>
-                  <span className={styles.medicineContent}>
-                    {productDetail?.general?.countryOfOrigin || "N/A"}
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div className={styles.additionalUploadSection34}>
-              <span className={styles.medicineHead34}>About Manufacturer</span>
-              <div className={styles.additionalImageSection34}>
-                <div className={styles.complianceSection34}>
-                  <span className={styles.medicineContent34}>
-                    {productDetail?.general?.aboutManufacturer || "N/A"}
-                  </span>
-                </div>
-              </div>
+              )}
             </div>
           </div>
-          <div
-            className={styles.innerComplianceSection}
-            style={{ marginTop: "20px" }}
-          ></div>
-        </div>
+        )}
+
+        {/* other details */}
         {productDetail?.categoryDetails?.length > 0 && (
           <div className={styles.mainContainer}>
             <span className={styles.innerHead}>
@@ -565,7 +622,7 @@ const ProductDetails = () => {
             </span>
             <div className={styles.innerComplianceSection}>
               {productDetail?.categoryDetails
-                ?.filter((item) => item?.type != "textarea")
+                ?.filter((item) => (item?.type != "textarea" && item?.type !== "file") )
                 ?.map((item, index) => (
                   <div className={styles.additionalUploadSection}>
                     <span className={styles.medicineHead}>
@@ -588,15 +645,14 @@ const ProductDetails = () => {
                     </div>
                   </div>
                 ))}
-              {productDetail?.categoryDetails
-                ?.filter((item) => item?.type == "textarea")
+              {/* {productDetail?.categoryDetails
+                ?.filter((item) => (item?.type == "textarea" && item?.type != "file"))
                 ?.map((item, index) => (
                   <div className={styles.additionalUploadSection34}>
                     <span className={styles.medicineHead34}>
                       {toTitleCase(item?.name)}
                     </span>
                     <div className={styles.additionalImageSection34}>
-                      {/* {productDetail?.categoryDetails?.map((item, index) => ( */}
                       <div
                         className={styles.complianceSection34}
                         key={item._id || index}
@@ -611,7 +667,20 @@ const ProductDetails = () => {
                       </div>
                     </div>
                   </div>
-                ))}
+                ))} */}
+  
+              {
+                productDetail?.categoryDetails
+                ?.filter((item) => item?.type == "file")
+                ?.map((item,index) =>(
+                  <div key={index} className={styles.otherImageDiv}>
+                    <span className={styles.medicineHead}>
+                      {toTitleCase(item?.name)}
+                    </span>
+                    <RenderProductFiles files={[item.fieldValue]}/>
+                  </div>
+                ) )
+              }  
             </div>
             <div
               className={styles.innerComplianceSection}
@@ -619,6 +688,28 @@ const ProductDetails = () => {
             ></div>
           </div>
         )}
+         
+        {/* other details text area */}
+        {
+          productDetail?.categoryDetails?.length > 0  && (
+            <div className={styles.newOtherMainContainer}>
+              {
+                productDetail?.categoryDetails
+                ?.filter((item) => (item?.type == "textarea" && item?.type != "file"))
+                ?.map((item,i)=>(
+                  <div key={i} className={styles.newOtherCategory}>
+                    <span className={styles.medicineHead34}>
+                      {toTitleCase(item?.name)}
+                    </span>
+                    <span className={styles.medicineContent34}>
+                      {item.fieldValue}
+                    </span>
+                  </div>
+                ))
+              }
+            </div>
+          )
+        }
 
         {/* {productDetail?.general?.image &&
           (Array.isArray(productDetail.general.image)
@@ -770,6 +861,7 @@ const ProductDetails = () => {
                 {imageArray.map((img, index) => {
                   const imgUrl = getFullImageUrl(img);
                   const isImageFile = isImageExtension(imgUrl);
+                  console.log('imgUrl',imgUrl);
 
                   return (
                     <div className={styles.thumbnail}>
@@ -982,7 +1074,7 @@ const ProductDetails = () => {
             </span>
             <div className={styles.innerComplianceSection}>
               {productDetail?.cNCFileNDate?.length > 0 && (
-                <div className={styles.additionalUploadSection}>
+                <div className={styles.regulatoryComplianceAdditionalUploadSection}>
                   <span className={styles.medicineHead}>
                     Regulatory Compliance
                   </span>
@@ -1080,10 +1172,10 @@ const ProductDetails = () => {
                   )}
                 </div>
               )}
-
+ 
               {productDetail?.additional?.guidelinesFile?.length > 0 && (
                 <div className={styles.additionalUploadSection}>
-                  <div className={styles.additionalUploadSection}>
+                  <div className={styles.regulatoryComplianceAdditionalUploadSection}>
                     <span className={styles.medicineHead}>User Guidelines</span>
                     <div className={styles.additionalImageSection}>
                       <RenderProductFiles
@@ -1106,7 +1198,7 @@ const ProductDetails = () => {
             <span className={styles.innerHead}>Product Documents</span>
             <div className={styles.innerComplianceSection}>
               {productDetail?.documents?.catalogue?.length > 0 && (
-                <div className={styles.additionalUploadSection}>
+                <div className={styles.regulatoryComplianceAdditionalUploadSection}>
                   <span className={styles.medicineHead}>Product Catalogue</span>
                   <div className={styles.additionalImageSection}>
                     <RenderProductFiles
@@ -1116,7 +1208,7 @@ const ProductDetails = () => {
                 </div>
               )}
               {productDetail?.documents?.specification?.length > 0 && (
-                <div className={styles.additionalUploadSection}>
+                <div className={styles.regulatoryComplianceAdditionalUploadSection}>
                   <span className={styles.medicineHead}>Specification</span>
                   <div className={styles.additionalImageSection}>
                     <RenderProductFiles

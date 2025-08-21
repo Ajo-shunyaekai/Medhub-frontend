@@ -235,6 +235,18 @@ const ProductList = ({supplierId, socket}) => {
             color: #99a0ac;
             font-size: 0.825rem;
         }
+        
+        .rdt_TableWrapper {
+          overflow-x: auto !important;
+          overflow-y: hidden !important;
+
+          -ms-overflow-style: none;  /* IE/Edge */
+          scrollbar-width: none;     /* Firefox */
+        }
+
+        .rdt_TableWrapper::-webkit-scrollbar {
+          display: none;  /* Chrome, Safari, Edge */
+        }
       `}
       </style>
 

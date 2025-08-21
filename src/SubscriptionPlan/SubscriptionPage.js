@@ -25,10 +25,36 @@ const SubscriptionPage = () => {
     (state) => state?.subscriptionReducer
   );
   const [activePlan, setActivePlan] = useState(null);
+
+ 
+
+  const [newUser, setNewUser] = useState({});
+  useEffect(() => {
+  if (user?.registeredAddress) {
+    setNewUser({
+      city: user.registeredAddress.city,
+      company_reg_address: user.registeredAddress.company_reg_address,
+      country: user.registeredAddress.country,
+      land_mark: user.registeredAddress.land_mark,
+      locality: user.registeredAddress.locality,
+      state: user.registeredAddress.state,
+      contact_person_country_code: user.contact_person_country_code,
+      contact_person_mobile_no: user.contact_person_mobile_no,
+      contact_person_email: user.contact_person_email,
+    });
+  }
+}, [user]);
+
+ useEffect(()=>{
+    console.log("user: ",newUser);
+  },[user]);
  
   /* modal of verify coupon */
   const [isOpen, setIsOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(false);
+  const [subscriptionPlanIndex,setSubscriptionPlanIndex] =  useState("");
+  const[loader,setLoader] = useState(false);
+  
   const couponArray = [
     {
       name: "SAVET1-99",
@@ -79,6 +105,8 @@ const SubscriptionPage = () => {
   };
  
   const handlePayment = async (pdfBlob, duration, pkg, email, invoiceData) => {
+    console.log("pkg: ",pkg);
+    console.log("duration: ",duration);
     const formData = new FormData();
     formData.append("plan_name", pkg);
     formData.append("duration", duration);
@@ -101,16 +129,25 @@ const SubscriptionPage = () => {
   const generatePDF = (duration, pkg, email, invoiceData) => {
     const invoiceComponent = (
       <InvoicePDF
-        title="Invoice"
-        subscriptionDetails={invoiceData}
-        user={user}
+        /* title="Invoice" */
+        {...invoiceData}
+        {...newUser}
       />
     );
+    console.log("INvoicePdf: ",InvoicePDF);
+/* 
+    if(invoiceComponent){
+      return true;
+    }
+    else{
+      return false;
+    } */
  
     return new Promise((resolve, reject) => {
       pdf(invoiceComponent)
         .toBlob()
         .then((pdfBlob) => {
+          console.log("PDF Blob created:", pdfBlob);
           resolve({ pdfBlob, duration, pkg, email, invoiceData });
         })
         .catch(reject);
@@ -134,19 +171,31 @@ const SubscriptionPage = () => {
     }
   }, [user?.currentSubscription]);
  
-  const handleClickPurchase = (index, discount , discountAmount) => {
-    const duration = subscriptionPlans?.[index]?.duration;
-    const pkg = subscriptionPlans?.[index]?.type;
+  const handleClickPurchase = (index, discount , discountAmount,subscriptionPlanIndex) => {
+/*     const duration = subscriptionPlans?.[index]?.duration; */
+   /*  const pkg = subscriptionPlans?.[index]?.type; */
     const email = user?.contact_person_email || user?.email;
-    const selectedPlan = subscriptionPlans.find((p) => p.pkg === pkg);
+    const selectedPlan = subscriptionPlans.find((p) => p.pkg === subscriptionPlanIndex);
+    const subscriptionEndDate = new Date();
+    subscriptionEndDate.setDate(subscriptionEndDate.getDate()+30);
+    const pkg =selectedPlan ? (selectedPlan?.pkg || ""): (subscriptionPlans?.[index]?.type);
+    const duration = selectedPlan? (selectedPlan?.duration || "") : (subscriptionPlans?.[index]?.duration);
+
+    /* if(!discount){
+      pkg = "";
+      duration:"";
+    } */
  
     // Prepare the invoice data
     const invoiceData = {
-      name: pkg,
+      productName: selectedPlan?.type,
       // discount,
       amount: selectedPlan?.price || 0,
       subscriptionStartDate: new Date(),
+      subscriptionEndDate: subscriptionEndDate,
       invoiceNumber: "INV-" + Math.floor(Math.random() * 1000000),
+      subtotalAmount: selectedPlan?.price,
+      totalAmount: selectedPlan?.price
     };
  
     // Apply discount if provided
@@ -154,7 +203,8 @@ const SubscriptionPage = () => {
       invoiceData.discount = discount; // Add discount to the invoice data
       invoiceData.discountAmount = discountAmount;
     }
- 
+
+    console.log("invoiceData: ",invoiceData);
     // Generate the PDF and handle payment
     generatePDF(duration, pkg, email, invoiceData)
       .then(({ pdfBlob }) => {
@@ -169,6 +219,7 @@ const SubscriptionPage = () => {
       .catch((error) => {
         console.error("Error generating PDF:", error);
       });
+    setLoader(false);
   };
  
   return (
@@ -365,7 +416,19 @@ const SubscriptionPage = () => {
                   <div className={styles.subscriptionContainer}>
                     <div
                       className={styles.button}
-                      onClick={() => handleClickPurchase(0)}
+                      onClick={() => {
+                        const status = new URLSearchParams(location.search).get(
+                          "status"
+                        );
+ 
+                        if (status && status == 1) {
+                          setSelectedPlan(0);
+                          setSubscriptionPlanIndex("Monthly Subscription")
+                          setIsOpen(true);
+                        } else {
+                          handleClickPurchase(0);
+                        }
+                      }}
                     >
                       Purchase Now
                     </div>
@@ -425,6 +488,7 @@ const SubscriptionPage = () => {
  
                         if (status && status == 1) {
                           setSelectedPlan(1);
+                          setSubscriptionPlanIndex("Yearly Subscription")
                           setIsOpen(true);
                         } else {
                           handleClickPurchase(1);
@@ -450,7 +514,9 @@ const SubscriptionPage = () => {
           }}
           couponArray={couponArray}
           selectedPlan={selectedPlan}
+          subscriptionPlanIndex={subscriptionPlanIndex}
           handleClickPurchase={handleClickPurchase}
+          setLoader={setLoader}
         />
       )}
     </>

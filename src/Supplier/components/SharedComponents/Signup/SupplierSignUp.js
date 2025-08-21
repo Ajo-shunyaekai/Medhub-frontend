@@ -181,6 +181,7 @@ const SupplierSignUp = ({ socket }) => {
     city: "",
     pincode: "",
     usertype: "Supplier",
+    productsIndicator:""
   };
  
   const handleCountryChange = (selectedOption) => {
@@ -246,6 +247,13 @@ const SupplierSignUp = ({ socket }) => {
     { value: "service provider", label: "Service Provider" },
     { value: "medical practitioner", label: "Medical Practitioner" },
   ];
+
+  const productIndicator = [
+    {value:"1-500",label: "1-500"},
+    {value:"500-5000",label: "500-5,000"},
+    {value:"5000-50000",label: "5000-50,000"},
+    {value:"over 50000",label: "over 50,000"},
+  ]
  
   const handleCompanyTypeChange = (selectedOption) => {
     setSelectedCompanyType(selectedOption);
@@ -259,6 +267,24 @@ const SupplierSignUp = ({ socket }) => {
       setErrors((prevState) => ({ ...prevState, companyType: "" }));
     }
   };
+
+  /* handle product indicator change */
+  const handleProductIndicatorChange = (selectedOption) => {
+    console.log(selectedOption);
+    setFormData((prev)=>({...prev,productsIndicator:selectedOption}));
+    if(!selectedOption){
+      setErrors((prev)=>({
+        ...prev,
+        productsIndicator:"Select the Number of Product"
+      }))
+    }
+    else{
+      setErrors((prev)=>({
+        ...prev,
+        productsIndicator:""
+      }))
+    }
+  }
  
   const handleImageUpload = (hasImage, file, imageType) => {
     setFormData((prevState) => ({
@@ -489,6 +515,10 @@ const SupplierSignUp = ({ socket }) => {
   const validateForm = async () => {
     let formErrors = {};
  
+    /* product indicator */
+    if(!formData.productsIndicator)
+      formErrors.productsIndicator = "Number of Product is Required"
+
     if (!formData.companyType)
       formErrors.companyType = "Company Type is Required";
     if (!formData.companyName)
@@ -604,6 +634,7 @@ const SupplierSignUp = ({ socket }) => {
         }
       }
  
+    console.log("formErrors: ",formErrors);
     setErrors(formErrors);
     return Object.keys(formErrors).length === 0;
   };
@@ -698,6 +729,8 @@ const SupplierSignUp = ({ socket }) => {
           category ? category.label : ""
         ) || [];
  
+      /* productIndicator */
+      formDataToSend.append("productsIndicator",formData.productsIndicator?.value);
       formDataToSend.append("supplier_type", formData.companyType?.label);
       formDataToSend.append("supplier_name", formData.companyName);
       formDataToSend.append("description", formData.description);
@@ -1210,6 +1243,21 @@ const SupplierSignUp = ({ socket }) => {
                       {errors.categories && (
                         <div className={styles.signupErrors}>
                           {errors.categories}
+                        </div>
+                      )}
+                    </div>
+                    <div className={styles.signupFormSectionDiv}>
+                      <label className={styles.signupFormSectionLabel}>
+                        Number Of Products<span className={styles.labelStamp}>*</span>
+                      </label>
+                      <Select
+                        value={formData.productsIndicator}
+                        onChange={handleProductIndicatorChange}
+                        options={productIndicator}
+                      />
+                      {errors.productsIndicator && (
+                        <div className={styles.signupErrors}>
+                          {errors.productsIndicator}
                         </div>
                       )}
                     </div>

@@ -186,6 +186,11 @@ const AddProduct = ({ placeholder }) => {
   const [open, setOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
 
+  /* handle add product by link when updated by admin */
+  const [addProductImageButton, setAddProductImageButton] = useState(false);
+  const superAdmin = JSON.parse(localStorage.getItem("superAdmin"));
+  console.log("Super Admin: ",superAdmin);
+
   const handleSelectFile = (file) => {
     setSelectedFile(file);
   };
@@ -2237,74 +2242,189 @@ const AddProduct = ({ placeholder }) => {
             </div>
 
             {/* End the Additional Information */}
-            <div className={styles.additionalSection}>
-              <span className={styles.formHead}>Upload Product Image</span>
+            <div className={styles.section}>
+              <div className={styles.formHeadSection}>
+                <span className={styles.formHead}>Upload Product Image</span>
+                {
+                  superAdmin && <span onClick={()=>{setAddProductImageButton(!addProductImageButton);}} className={styles.formAddButton}>{addProductImageButton ?"Add Product Image":"Add Product Link"}</span>
+                }
+              </div>
               <div className={styles.formSection}>
-                <div className={styles.ImageproductContainer}>
-                  <AddProductFileUpload
-                    styles={styles}
-                    fieldInputName={"imageFront"}
-                    setFieldValue={setFieldValue}
-                    initialValues={values}
-                    label="Front Image"
-                    label2="(max file size- 5MB)"
-                    tooltip={false}
-                    acceptTypes={{ "image/jpeg": [], "image/png": [] }}
-                    maxFiles={1}
-                    error={
-                      touched.imageFront && errors.imageFront
-                        ? errors.imageFront
-                        : null
-                    }
-                  />
-                  <AddProductFileUpload
-                    styles={styles}
-                    fieldInputName={"imageBack"}
-                    setFieldValue={setFieldValue}
-                    initialValues={values}
-                    label="Back Image"
-                    label2="(max file size- 5MB)"
-                    tooltip={false}
-                    acceptTypes={{ "image/jpeg": [], "image/png": [] }}
-                    maxFiles={1}
-                    error={
-                      touched.imageBack && errors.imageBack
-                        ? errors.imageBack
-                        : null
-                    }
-                  />
-                  <AddProductFileUpload
-                    styles={styles}
-                    fieldInputName={"imageSide"}
-                    setFieldValue={setFieldValue}
-                    initialValues={values}
-                    label="Side Image"
-                    label2="(max file size- 5MB)"
-                    tooltip={false}
-                    acceptTypes={{ "image/jpeg": [], "image/png": [] }}
-                    maxFiles={1}
-                    error={
-                      touched.imageSide && errors.imageSide
-                        ? errors.imageSide
-                        : null
-                    }
-                  />
-                  <AddProductFileUpload
-                    styles={styles}
-                    fieldInputName={"imageClosure"}
-                    setFieldValue={setFieldValue}
-                    initialValues={values}
-                    label="Close Up Image"
-                    label2="(max file size- 5MB)"
-                    tooltip={false}
-                    acceptTypes={{ "image/jpeg": [], "image/png": [] }}
-                    maxFiles={1}
-                    error={
-                      touched.imageClosure && errors.imageClosure
-                        ? errors.imageClosure
-                        : null
-                    }
-                  />
+                  {(superAdmin && addProductImageButton)?
+                  (
+                    <div className={styles.ImageproductContainer}>
+                      <div className={styles.productContainer}>
+                        <label className={styles.formLabel}>
+                          Front Image
+                        </label>
+                        <input
+                          className={styles.formInput}
+                          type="text"
+                          placeholder="Enter Front Image Url"
+                          // autoComplete="off"
+                          name="frontUrl"
+                          value={values.frontUrl}
+                          onChange={(e) =>
+                            handleInputChange(
+                              e,
+                              setFieldValue,
+                              500,
+                              "all",
+                              ["frontUrl"],
+                              ":/.?=&-_~#@"
+                            )
+                          }
+                          onBlur={handleBlur}
+                        />
+                        <span className={styles.error}></span>
+                      </div>
+                      <div className={styles.productContainer}>
+                        <label className={styles.formLabel}>
+                          Back Image
+                        </label>
+                        <input
+                          className={styles.formInput}
+                          type="text"
+                          placeholder="Enter Back Image Url"
+                          // autoComplete="off"
+                          name="backUrl"
+                          value={values.backUrl}
+                          onChange={(e) =>
+                            handleInputChange(
+                              e,
+                              setFieldValue,
+                              500,
+                              "all",
+                              ["backUrl"],
+                              ":/.?=&-_~#@"
+                            )
+                          }
+                          onBlur={handleBlur}
+                        />
+                        <span className={styles.error}></span>
+                      </div>
+                      <div className={styles.productContainer}>
+                        <label className={styles.formLabel}>
+                          Side Image
+                        </label>
+                        <input
+                          className={styles.formInput}
+                          type="text"
+                          placeholder="Enter Side Image Url"
+                          // autoComplete="off"
+                          name="sideUrl"
+                          value={values.sideUrl}
+                          onChange={(e) =>
+                            handleInputChange(
+                              e,
+                              setFieldValue,
+                              500,
+                              "all",
+                              ["sideUrl"],
+                              ":/.?=&-_~#@"
+                            )
+                          }
+                          onBlur={handleBlur}
+                        />
+                        <span className={styles.error}></span>
+                      </div>
+                      <div className={styles.productContainer}>
+                        <label className={styles.formLabel}>
+                          Close Up Image
+                        </label>
+                        <input
+                          className={styles.formInput}
+                          type="text"
+                          placeholder="Enter Close Up Image Url"
+                          // autoComplete="off"
+                          name="closeupUrl"
+                          value={values.closeupUrl}
+                          onChange={(e) =>
+                            handleInputChange(
+                              e,
+                              setFieldValue,
+                              500,
+                              "all",
+                              ["closeupUrl"],
+                              ":/.?=&-_~#@"
+                            )
+                          }
+                          onBlur={handleBlur}
+                        />
+                        <span className={styles.error}></span>
+                      </div>
+                    </div>
+                  )
+                  :
+                  (
+                    <div className={styles.ImageproductContainer}>
+                      <AddProductFileUpload
+                        styles={styles}
+                        fieldInputName={"imageFront"}
+                        setFieldValue={setFieldValue}
+                        initialValues={values}
+                        label="Front Image"
+                        label2="(max file size- 5MB)"
+                        tooltip={false}
+                        acceptTypes={{ "image/jpeg": [], "image/png": [] }}
+                        maxFiles={1}
+                        error={
+                          touched.imageFront && errors.imageFront
+                            ? errors.imageFront
+                            : null
+                        }
+                      />
+                      <AddProductFileUpload
+                        styles={styles}
+                        fieldInputName={"imageBack"}
+                        setFieldValue={setFieldValue}
+                        initialValues={values}
+                        label="Back Image"
+                        label2="(max file size- 5MB)"
+                        tooltip={false}
+                        acceptTypes={{ "image/jpeg": [], "image/png": [] }}
+                        maxFiles={1}
+                        error={
+                          touched.imageBack && errors.imageBack
+                            ? errors.imageBack
+                            : null
+                        }
+                      />
+                      <AddProductFileUpload
+                        styles={styles}
+                        fieldInputName={"imageSide"}
+                        setFieldValue={setFieldValue}
+                        initialValues={values}
+                        label="Side Image"
+                        label2="(max file size- 5MB)"
+                        tooltip={false}
+                        acceptTypes={{ "image/jpeg": [], "image/png": [] }}
+                        maxFiles={1}
+                        error={
+                          touched.imageSide && errors.imageSide
+                            ? errors.imageSide
+                            : null
+                        }
+                      />
+                      <AddProductFileUpload
+                        styles={styles}
+                        fieldInputName={"imageClosure"}
+                        setFieldValue={setFieldValue}
+                        initialValues={values}
+                        label="Close Up Image"
+                        label2="(max file size- 5MB)"
+                        tooltip={false}
+                        acceptTypes={{ "image/jpeg": [], "image/png": [] }}
+                        maxFiles={1}
+                        error={
+                          touched.imageClosure && errors.imageClosure
+                            ? errors.imageClosure
+                            : null
+                        }
+                      />
+                    </div>
+                  )
+                  }
                 </div>
                 {productType === "secondary" && (
                   <div className={styles.productContainer}>
@@ -2330,7 +2450,7 @@ const AddProduct = ({ placeholder }) => {
                   </div>
                 )}
               </div>
-            </div>
+            
 
             {/* Start the Add FAQs */}
             <div className={styles.section}>
