@@ -481,6 +481,17 @@ const SupplierDetailsNew = () => {
                     )}
                   </div>
                 </div>
+
+                {supplierDetails?.productsIndicator && (
+                  <div className="buyer-details-inner-section">
+                  <div className="buyer-details-inner-head">
+                    Number of Products :
+                  </div>
+                  <div className="buyer-details-inner-text">
+                    {supplierDetails?.productsIndicator}
+                  </div>
+                </div>
+                )}
               </div>
               <div className="buyer-details-inner-left-section">
                 {supplierDetails?.annualTurnover && (

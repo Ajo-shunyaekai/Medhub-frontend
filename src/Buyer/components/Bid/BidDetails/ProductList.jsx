@@ -12,6 +12,7 @@ import { minWidth } from "@mui/system";
 import { toast } from "react-toastify";
 import { MdOutlineStarBorder,  MdStarRate } from "react-icons/md";
 import { postRequestWithToken } from "../../../../api/Requests";
+import RequestModal from "./RequestModal/RequestModal";
  
 const ProductList = ({socket}) => {
 
@@ -21,6 +22,12 @@ const ProductList = ({socket}) => {
  
   const [newOrder, setNewOrder] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
+  const [requestQuoteBidObject, setRequestQuoteBidObject] = useState(null);
+
+  const onClose = () => {
+    setIsOpen(false);
+  }
  
   useEffect(() => { 
     if (id) {
@@ -227,7 +234,7 @@ const handleRequestQuote = (row) => {
       name:"Request",
       cell: (row) => (
         <div className={styles.requestQuoteContainer} 
-        onClick={() => handleRequestQuote(row)}
+        onClick={() => {setIsOpen(true); setRequestQuoteBidObject(row)}}
         >
           Request Quote
         </div>
@@ -347,6 +354,18 @@ const handleRequestQuote = (row) => {
           onChange={handlePageChange}
         />
       ) : null}
+
+     { isOpen &&
+      <RequestModal
+       onClose = {onClose}
+       isOpen = {isOpen}
+       handleRequestQuote = {handleRequestQuote}
+       requestQuoteBidObject = {requestQuoteBidObject}
+       setRequestQuoteBidObject = {setRequestQuoteBidObject}
+       isLoading = {loading}
+       setIsLoading = {setLoading}
+      />
+     }
     </div>
     // </div>
   );

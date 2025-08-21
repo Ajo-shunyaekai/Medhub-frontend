@@ -564,6 +564,7 @@ const ProductDetails = () => {
           </div>
         </div> */}
  
+
         {/* Start Manufacturer section */}
         {(productDetail?.general?.manufacturer ||
           productDetail?.general?.countryOfOrigin) && (

@@ -10,10 +10,15 @@ const Modal = ({
   couponArray,
   selectedPlan,
   handleClickPurchase,
+  subscriptionPlanIndex,
+  setLoader
 }) => {
+
+  console.log("subscriptionPlanIndex: ",subscriptionPlanIndex);
+
   const modalRef = useRef(null);
   const formRef = useRef(); // to reset form
-  const [loading, setLoading] = useState(false);
+  /* const [loading, setLoading] = useState(false); */
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -48,9 +53,9 @@ const Modal = ({
   });
 
   const handleSubmit = (values) => {
-    setLoading(true);
+    setLoader(true);
     const discountObj = couponArray.find((item)=>item.name===values.discount);
-    handleClickPurchase(selectedPlan, discountObj.name,discountObj.amount);
+    handleClickPurchase(selectedPlan, discountObj.name,discountObj.amount,subscriptionPlanIndex);
   };
 
   if (!isOpen) return null;
@@ -92,7 +97,7 @@ const Modal = ({
                       type="button"
                       className={styles.skipBtn}
                       onClick={() => {
-                        setLoading(true);
+                        setLoader(true);
                         handleClickPurchase(selectedPlan);
                       }}
                     >

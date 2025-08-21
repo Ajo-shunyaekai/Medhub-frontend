@@ -196,6 +196,11 @@ export const initialValues = {
   imageBackNew: [],
   imageSideNew: [],
   imageClosureNew: [],
+  /* send link from admin side */
+  frontUrl:"",
+  backUrl:"",
+  sideUrl:"",
+  closeupUrl:"",
   brand: "",
   form: "",
   quantity: "",

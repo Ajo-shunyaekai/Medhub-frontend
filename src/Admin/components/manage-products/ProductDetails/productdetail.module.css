@@ -70,9 +70,26 @@
   max-width: 82%;
   /* z-index: 99999999; */
 }
-.mainManufacturerContainer {
-  margin-bottom: 20rem;
+
+.otherImageDiv{
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
+
+.mainManufacturerContainer {
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+  padding: 26px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .innerSection {
   width: 100%;
   display: flex;
@@ -128,7 +145,7 @@
 .medicineHead {
   font-size: 0.825rem;
   font-weight: 500;
-  width: 250px;
+  min-width: 250px;
   color: #5e676f;
 }
 
@@ -147,7 +164,7 @@
   width: 100%;
   font-size: 0.825rem;
   color: #99a0ac;
-  font-weight: 500;
+ /*  font-weight: 500; */
   word-wrap: break-word;
   white-space: normal;
   overflow-wrap: break-word;
@@ -164,7 +181,6 @@
 .medicineContent {
   font-size: 0.825rem;
   color: #99a0ac;
-  font-weight: 500;
   word-wrap: break-word;
   white-space: normal;
   overflow-wrap: break-word;
@@ -280,7 +296,29 @@
 
 .manufacturerContainer {
   display: flex;
+  flex-direction: column;
+  /* flex-wrap: wrap; */
   width: 100%;
+  gap: 20px;
+}
+
+.manufacturerSecondDiv{
+  display: flex;
+  width: 100%;
+  gap: 20px;
+}
+
+.manufacturersectionFirstDiv{
+  width: 50%;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.supplierInnerSection{
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
   gap: 20px;
 }
 
@@ -462,17 +500,17 @@
 } */
 
 .additionalUploadSection {
-  flex: 0 0 calc((100% - 40px) / 3);
-  max-width: calc((100% - 40px) / 3);
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  gap: 5px;
+  align-items: baseline;
+  gap: 10px;
 }
 
 .additionalImageSection {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
+  width: 100%;
 }
 
 .additionalImageSec {
@@ -533,8 +571,8 @@
 
 .innerComplianceSection {
   width: 100%;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
   gap: 20px;
   justify-content: start;
 }
@@ -644,6 +682,33 @@
   flex-direction: column;
   gap: 10px;
 }
+
+.newMedicineHead{
+  font-size: 0.825rem;
+  font-weight: 500; 
+  color: #5e676f;
+  width: 220px;
+}
+
+.newOtherMainContainer{
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+  padding: 26px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+}
+
+.newOtherCategory{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+
 /* @media (max-width: 1500px) {
   .additionalUploadSection {
     flex: 1 1 350px;
@@ -651,6 +716,30 @@
     max-width: 350px;
   }
 } */
+@media (max-width: 1560px) {
+  .container {
+    margin: unset;
+  }
+}
+ 
+@media (max-width: 1460px){
+  .container {
+    max-width: 96%;
+  }
+  .medicineHead {
+    min-width: 220px;
+  }
+  .medicineHead34{
+    min-width: 220px;
+  }  
+}
+ 
+@media (min-width: 1460px){
+  .newMedicineHead{
+    width: 175px;
+  }
+}
+ 
 @media (max-width: 1400px) {
   .container {
     max-width: 100%;
@@ -661,10 +750,29 @@
     font-size: 12.5px;
   }
 }
-
+ 
+@media (max-width: 1300px) {
+  .container {
+    max-width: 94%;
+  }
+}
+ 
+@media(min-width : 1300px){
+  .additionalImageSection {
+    min-width: 250px;
+    width: 100%;
+  }
+}
+ 
 @media (max-width: 1200px) {
   .medicineHead {
-    width: 200px;
+    min-width: 200px;
+  }
+  .medicineHead34{
+    min-width: 200px;
+  }
+  .container {
+    max-width: 98%;
   }
 }
 
@@ -698,9 +806,16 @@
 .medicineContent34 {
   font-size: 0.825rem;
   color: #99a0ac;
-  font-weight: 500;
+  /* font-weight: 500; */
   word-wrap: break-word;
   white-space: normal;
   overflow-wrap: break-word;
   width: 100%;
+}
+
+.regulatoryComplianceAdditionalUploadSection{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }

@@ -9,18 +9,22 @@ import {
   PDFViewer,
 } from "@react-pdf/renderer";
 import moment from "moment";
- 
+
 const styles = StyleSheet.create({
   textContainer: { flexDirection: "column" },
   leftTextContainer: { width: "50%", alignItems: "flex-start" },
   rightTextContainer: { width: "50%", alignItems: "flex-end" },
   page: { padding: 30, backgroundColor: "#ffffff", fontFamily: "Helvetica" },
-  billLeftTextContainer:{width:"50%",display:"flex",alignItems:"flex-start", flexDirection:"row", gap:4},
+  billLeftTextContainer: { width: "50%", display: "flex", alignItems: "flex-start", flexDirection: "row", gap: 4 },
   container: {
     padding: 20,
     backgroundColor: "#ffffff",
     borderRadius: 10,
-    border: "1px solid #99A0AC",
+   /*  border: "1px solid #99A0AC", */
+    borderWidth: 1,
+    borderStyle: "solid",
+    borderColor: "#99A0AC",
+
   },
   header: {
     flexDirection: "row",
@@ -40,15 +44,15 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   titleText: { fontSize: 12, color: "#212121" },
-  infoHeading:{fontWeight:600, fontSize:11, lineHeight:1.2,paddingBottom:4},
-  infoText: { fontSize: 10, color: "#212121", lineHeight:1.4 },
+  infoHeading: { fontWeight: 600, fontSize: 11, lineHeight: 1.2, paddingBottom: 4 },
+  infoText: { fontSize: 10, color: "#212121", lineHeight: 1.4 },
   table: { display: "table", width: "100%" },
-  invoiceKey:{fontSize:10,lineHeight:1.4},
+  invoiceKey: { fontSize: 10, lineHeight: 1.4 },
   row: {
-    width:"100%",
+    width: "100%",
     flexDirection: "row",
     /* borderBottom: "1px solid #99A0AC", */
-    paddingBottom:10,
+    paddingBottom: 10,
     backgroundColor: "#FFFFFF",
   },
   rowHead: { flexDirection: "row", backgroundColor: "#FFFFFF" },
@@ -60,41 +64,50 @@ const styles = StyleSheet.create({
     backgroundColor: "#e1f2ff",
     color: "#333",
   },
-  tableText:{
+  tableText: {
     fontSize: 10,
     color: "#212121",
     paddingTop: 10,
     paddingBottom: 5
   },
   cell: { flex: 1, fontSize: 10, padding: 12, color: "#212121" },
-  totalSectionFirstView:{
+  totalSectionFirstView: {
     paddingTop: 20,
-    width:"100%",
-    display:"flex",
-    flexDirection:"col",
-    alignItems:"flex-end"
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-end"
   },
-  totalSectionSecondView:{
-    width:"50%",
-    borderBottom: "1px solid #99A0AC",
-    paddingBottom:4,
-    display:"flex",
-    flexDirection:"row",
-    justifyContent:"space-between",
-    paddingTop:4
+  totalSectionSecondView: {
+    width: "50%",
+  /*   borderBottom: "1px solid #99A0AC", */
+    borderBottomWidth: 1,
+    borderBottomStyle: "solid",
+    borderBottomColor: "#99A0AC",
+    paddingBottom: 4,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingTop: 4
   },
-  totalSectionSecondAmountView:{
-    width:"50%",
-    display:"flex",
-    flexDirection:"row",
-    justifyContent:"space-between",
-    paddingTop:4
+  totalSectionSecondAmountView: {
+    width: "50%",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingTop: 4
   }
 });
- 
-const InvoicePDF = ({ user, subscriptionDetails }) => {
 
-  return(
+const InvoicePDF = ({ city,company_reg_address,country,land_mark,locality,state, contact_person_country_code,contact_person_mobile_no,contact_person_email
+  ,productName,amount,subscriptionStartDate,subscriptionEndDate,invoiceNumber,subtotalAmount,totalAmount,discount,discountAmount }) => {
+
+  console.log("city: ",city);
+  console.log("subscriptionDetails: ",productName);
+  console.log(moment(subscriptionStartDate).format("MM/DD/YYYY"));
+  console.log(moment(subscriptionEndDate).format("MM/DD/YYYY"));
+
+  return (
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={styles.container}>
@@ -102,86 +115,72 @@ const InvoicePDF = ({ user, subscriptionDetails }) => {
             src={require("../assets/navibluelogo.png")}
             style={styles.logo}
           />
-  
+
           {/* company name & address */}
           <View style={styles.header}>
             <View style={styles.leftSection}>
               <Text style={styles.infoHeading}>
-                One Vision Technologies FZLLC{/* {user?.registeredAddress?.company_reg_address || ""} */},
+                One Vision Technologies FZLLC,
               </Text>
-              {user?.registeredAddress?.company_reg_address && (
+              {company_reg_address && (
                 <Text style={styles.infoText}>
-                  {user?.registeredAddress?.company_reg_address || ""},
+                  {company_reg_address || ""},
                 </Text>
               )}
               {
-                user?.registeredAddress?.locality && (
+                locality && (
                   <Text style={styles.infoText}>
-                    {user?.registeredAddress?.locality || ""},
-                    {user?.registeredAddress?.locality && " "}
+                    {locality || ""},
+                    {locality && " "}
                   </Text>
                 )
               }
               {
-                user?.registeredAddress?.land_mark && (
+                land_mark && (
                   <Text style={styles.infoText}>
-                    {user?.registeredAddress?.land_mark || ""},
-                    {user?.registeredAddress?.land_mark && " "}
+                    {land_mark || ""},
+                    {land_mark && " "}
                   </Text>
                 )
               }
-              {/* <Text style={styles.infoText}>
-                VUPR0467, Compass building - Al Hulaila{user?.registeredAddress?.locality}
-              </Text> */}
-              {/* <Text style={styles.infoText}>AL Hulaila Industrial Zone-FZ,</Text>
-              <Text style={styles.infoText}>United Arab Emirates</Text> */}
-              {/* <Text style={styles.infoText}>إمارة رأس الخيمة</Text> */}
-              {/* <Text style={styles.infoText}>+91 9292392399</Text> */}
-              {(user?.registeredAddress?.city ||
-                user?.registeredAddress?.state ||
-                user?.registeredAddress?.country) && (
+              {(city ||
+                state ||
+                country) && (
+                  <Text style={styles.infoText}>
+                    {city || ""},
+                    {city && " "}
+                    {state || ""},
+                    {state && " "}
+                    {country || ""}
+                  </Text>
+                )}
+              {(contact_person_mobile_no) && (
                 <Text style={styles.infoText}>
-                  {user?.registeredAddress?.city || ""},
-                  {user?.registeredAddress?.city && " "}
-                  {user?.registeredAddress?.state || ""},
-                  {user?.registeredAddress?.state && " "}
-                  {user?.registeredAddress?.country || ""}
-                </Text>
-              )}
-              {(user?.contact_person_mobile_no) && (
-                <Text style={styles.infoText}>
-                  {user?.contact_person_country_code}{" "}
-                  {user?.contact_person_mobile || user?.contact_person_mobile_no}
+                  {contact_person_country_code}{" "}
+                  { contact_person_mobile_no}
                 </Text>
               )}
             </View>
             <View style={styles.rightSection}>
               <Text style={styles.title}>INVOICE</Text>
-              {/* <Text style={styles.titleText}>
-                Payment ID:{" "}
-                {subscriptionDetails?.paymentMethodId
-                  ?.replace("pm_", "PAY")
-                  ?.slice(0, 8)}
-              </Text> */}
               <Text style={styles.invoiceKey}>
                 Invoice Date:{" "}
-                {moment(subscriptionDetails?.subscriptionStartDate).format(
+                {moment(subscriptionStartDate).format(
                   "MM/DD/YYYY"
                 )}
-                {/* 05/08/2025 */}
               </Text>
               <Text style={styles.invoiceKey}>
-                Invoice No.:  {/* INV-545723 */}{subscriptionDetails?.invoiceNumber}
+                Invoice No.:  {invoiceNumber}
               </Text>
             </View>
           </View>
-  
+
           {/* Bill to section */}
           <View style={styles.header}>
             <View style={styles.billLeftTextContainer}>
               <Text style={styles.infoHeading}>Bill To:</Text>
               <Text style={styles.infoText}>
-                {user?.contact_person_email} {/* stripetest.shivani.test@yopmail.com */} {/* {user?.buyer_name || user?.supplier_name || ""} */}
+                {contact_person_email} {/* stripetest.shivani.test@yopmail.com */} {/* {user?.buyer_name || user?.supplier_name || ""} */}
               </Text>
             </View>
             <View style={styles.rightTextContainer}>
@@ -190,7 +189,7 @@ const InvoicePDF = ({ user, subscriptionDetails }) => {
               </Text> */}
             </View>
           </View>
-  
+
           {/* TABLE SECTION */}
           <View style={styles.table}>
             <View style={styles.rowHead}>
@@ -203,62 +202,64 @@ const InvoicePDF = ({ user, subscriptionDetails }) => {
                 <Text style={styles.cellHeader}>Amount</Text>
               </View>
             </View>
-  
+
             <View style={styles.row}>
               <View style={{ flex: 1 }}>
-                <Text style={styles.tableText}>{subscriptionDetails?.productName}</Text>
-                <Text style={styles.infoText}>({subscriptionDetails?.subscriptionStartDate} – {subscriptionDetails?.subscriptionEndDate})</Text>
+                <Text style={styles.tableText}>{productName}</Text>
+                <Text style={styles.infoText}>
+                  ({subscriptionStartDate ? moment(subscriptionStartDate).format("MM/DD/YYYY") : ""} – 
+                  {subscriptionEndDate ? moment(subscriptionEndDate).format("MM/DD/YYYY") : ""})
+                </Text>
+
               </View>
               <View style={{ flex: 1, flexDirection: "row" }}>
                 <Text style={[styles.cell, { flex: 1 }]}>1</Text>
-                <Text style={[styles.cell, { flex: 1 }]}>${subscriptionDetails?.subtotalAmount}.00</Text>
-                <Text style={[styles.cell, { flex: 1 }]}>${subscriptionDetails?.subtotalAmount}.00</Text>
+                <Text style={[styles.cell, { flex: 1 }]}>${subtotalAmount?.toFixed(2)}</Text>
+                <Text style={[styles.cell, { flex: 1 }]}>${subtotalAmount?.toFixed(2)}</Text>
               </View>
             </View>
-  
-            {/* <View style={styles.row}>
-              <Text style={[styles.cell, styles.leftAlign]}>Total Amount:</Text>
-              <Text style={[styles.cell, styles.rightAlign]}>
-                $ {subscriptionDetails?.amount || 0}
-              </Text>
-            </View> */}
+
           </View>
-  
+
           {/* Total Section */}
           <View style={styles.totalSectionFirstView}>
-              {
-                subscriptionDetails?.subtotalAmount && (
-                  <View style={styles.totalSectionSecondView}>
-                    <Text style={styles.infoText}>Subtotal </Text>
-                    <Text style={styles.infoText}>${subscriptionDetails?.subtotalAmount}.00</Text>
-                  </View>
-                )
-              }
-              {
-                subscriptionDetails?.discount && (
-                  <View style={styles.totalSectionSecondView}>
-                    <Text style={styles.infoText}>{subscriptionDetails?.discount} </Text>
-                    <Text style={styles.infoText}>-${subscriptionDetails?.discountAmount}.00</Text>
-                  </View>
-                )
-              }
-              {
-                subscriptionDetails?.totalAmount && (
-                  <View style={styles.totalSectionSecondView}>
-                    <Text style={styles.infoText}>Total </Text>
-                    <Text style={styles.infoText}>${subscriptionDetails?.discountAmount? subscriptionDetails?.totalAmount - Number(subscriptionDetails?.discountAmount):subscriptionDetails?.totalAmount}.00</Text>
-                  </View>
-                )
-              }
-              <View style={styles.totalSectionSecondAmountView}>
-                <Text style={styles.infoHeading}>Amount due</Text>
-                <Text style={styles.infoText}>{subscriptionDetails?.discountAmount? subscriptionDetails?.totalAmount - Number(subscriptionDetails?.discountAmount):subscriptionDetails?.totalAmount}.00 USD</Text>
-              </View>
+            {
+              subtotalAmount && (
+                <View style={styles.totalSectionSecondView}>
+                  <Text style={styles.infoText}>Subtotal </Text>
+                  <Text style={styles.infoText}>${subtotalAmount.toFixed(2)}</Text>
+                </View>
+              )
+            }
+            {
+              (discount && discountAmount)&& (
+                <View style={styles.totalSectionSecondView}>
+                  <Text style={styles.infoText}>{discount} </Text>
+                  <Text style={styles.infoText}>-${discountAmount.toFixed(2)}</Text>
+                </View>
+              )
+            }
+            {
+              totalAmount && (
+                <View style={styles.totalSectionSecondView}>
+                  <Text style={styles.infoText}>Total </Text>
+                  <Text style={styles.infoText}>${discountAmount ? (totalAmount - Number(discountAmount)).toFixed(2) : totalAmount.toFixed(2)}</Text>
+                </View>
+              )
+            }
+            {
+              totalAmount && (
+                <View style={styles.totalSectionSecondAmountView}>
+                  <Text style={styles.infoHeading}>Amount due</Text>
+                  <Text style={styles.infoText}>{discountAmount ? (totalAmount - Number(discountAmount)).toFixed(2): totalAmount.toFixed(2)} USD</Text>
+                </View>
+              )
+            }
           </View>
         </View>
       </Page>
     </Document>
   );
 }
- 
+
 export default InvoicePDF;
