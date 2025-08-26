@@ -102,10 +102,7 @@ const styles = StyleSheet.create({
 const InvoicePDF = ({ city,company_reg_address,country,land_mark,locality,state, contact_person_country_code,contact_person_mobile_no,contact_person_email
   ,productName,amount,subscriptionStartDate,subscriptionEndDate,invoiceNumber,subtotalAmount,totalAmount,discount,discountAmount }) => {
 
-  /* console.log("city: ",city);
-  console.log("subscriptionDetails: ",productName);
-  console.log(moment(subscriptionStartDate).format("MM/DD/YYYY"));
-  console.log(moment(subscriptionEndDate).format("MM/DD/YYYY")); */
+  
 
   return (
     <Document>

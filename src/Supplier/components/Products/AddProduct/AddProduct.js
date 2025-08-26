@@ -189,7 +189,14 @@ const AddProduct = ({ placeholder }) => {
   /* handle add product by link when updated by admin */
   const [addProductImageButton, setAddProductImageButton] = useState(false);
   const superAdmin = JSON.parse(localStorage.getItem("superAdmin"));
-  /* console.log("Super Admin: ",superAdmin); */
+
+  /* update requiredment of product link and product image */
+  const [addProductFrontImageLinkBtn, setAddProductFrontImageLinkBtn] = useState(false);
+  const [addProductBackImageLinkBtn, setAddProductBackImageLinkBtn] = useState(false);
+  const [addProductSideImageLinkBtn, setAddProductSideImageLinkBtn] = useState(false);
+  const [addProductCloseUpImageLinkBtn, setAddProductCloseUpImageLinkBtn] = useState(false);
+  const [showProductLinkBtn, setShowProductLinkBtn] = useState(false);
+  
 
   const handleSelectFile = (file) => {
     setSelectedFile(file);
@@ -2245,12 +2252,78 @@ const AddProduct = ({ placeholder }) => {
             <div className={styles.section}>
               <div className={styles.formHeadSection}>
                 <span className={styles.formHead}>Upload Product Image</span>
-                {
+{/*                 {
                   superAdmin && <span onClick={()=>{setAddProductImageButton(!addProductImageButton);}} className={styles.formAddButton}>{addProductImageButton ?"Add Product Image":"Add Product Link"}</span>
-                }
+                } */}
               </div>
               <div className={styles.formSection}>
-                  {(superAdmin && addProductImageButton)?
+               <div className={styles.ImageproductContainer}>
+                  <AddProductFileUpload
+                    styles={styles}
+                    fieldInputName={"imageFront"}
+                    setFieldValue={setFieldValue}
+                    initialValues={values}
+                    label="Front Image"
+                    label2="(max file size- 5MB)"
+                    tooltip={false}
+                    acceptTypes={{ "image/jpeg": [], "image/png": [] }}
+                    maxFiles={1}
+                    error={
+                      touched.imageFront && errors.imageFront
+                        ? errors.imageFront
+                        : null
+                    }
+                  />
+                  <AddProductFileUpload
+                    styles={styles}
+                    fieldInputName={"imageBack"}
+                    setFieldValue={setFieldValue}
+                    initialValues={values}
+                    label="Back Image"
+                    label2="(max file size- 5MB)"
+                    tooltip={false}
+                    acceptTypes={{ "image/jpeg": [], "image/png": [] }}
+                    maxFiles={1}
+                    error={
+                      touched.imageBack && errors.imageBack
+                        ? errors.imageBack
+                        : null
+                    }
+                  />
+                  <AddProductFileUpload
+                    styles={styles}
+                    fieldInputName={"imageSide"}
+                    setFieldValue={setFieldValue}
+                    initialValues={values}
+                    label="Side Image"
+                    label2="(max file size- 5MB)"
+                    tooltip={false}
+                    acceptTypes={{ "image/jpeg": [], "image/png": [] }}
+                    maxFiles={1}
+                    error={
+                      touched.imageSide && errors.imageSide
+                        ? errors.imageSide
+                        : null
+                    }
+                  />
+                  <AddProductFileUpload
+                    styles={styles}
+                    fieldInputName={"imageClosure"}
+                    setFieldValue={setFieldValue}
+                    initialValues={values}
+                    label="Close Up Image"
+                    label2="(max file size- 5MB)"
+                    tooltip={false}
+                    acceptTypes={{ "image/jpeg": [], "image/png": [] }}
+                    maxFiles={1}
+                    error={
+                      touched.imageClosure && errors.imageClosure
+                        ? errors.imageClosure
+                        : null
+                    }
+                  />
+               </div>
+{/*                   {(superAdmin && addProductImageButton)?
                   (
                     <div className={styles.ImageproductContainer}>
                       <div className={styles.productContainer}>
@@ -2424,7 +2497,7 @@ const AddProduct = ({ placeholder }) => {
                       />
                     </div>
                   )
-                  }
+                  } */}
                 </div>
                 {productType === "secondary" && (
                   <div className={styles.productContainer}>

@@ -45,9 +45,6 @@ const SubscriptionPage = () => {
   }
 }, [user]);
 
-/*  useEffect(()=>{
-    console.log("user: ",newUser);
-  },[user]); */
  
   /* modal of verify coupon */
   const [isOpen, setIsOpen] = useState(false);
@@ -105,8 +102,7 @@ const SubscriptionPage = () => {
   };
  
   const handlePayment = async (pdfBlob, duration, pkg, email, invoiceData) => {
-    /* console.log("pkg: ",pkg);
-    console.log("duration: ",duration); */
+    
     const formData = new FormData();
     formData.append("plan_name", pkg);
     formData.append("duration", duration);
@@ -134,7 +130,7 @@ const SubscriptionPage = () => {
         {...newUser}
       />
     );
-   /*  console.log("INvoicePdf: ",InvoicePDF); */
+
 /* 
     if(invoiceComponent){
       return true;
@@ -147,7 +143,6 @@ const SubscriptionPage = () => {
       pdf(invoiceComponent)
         .toBlob()
         .then((pdfBlob) => {
-          /* console.log("PDF Blob created:", pdfBlob); */
           resolve({ pdfBlob, duration, pkg, email, invoiceData });
         })
         .catch(reject);
@@ -207,7 +202,7 @@ const SubscriptionPage = () => {
     };
  
 
-    /* console.log(invoiceData); */
+   
 
     // Apply discount if provided
     if (discount && discountAmount) {
@@ -215,7 +210,7 @@ const SubscriptionPage = () => {
       invoiceData.discountAmount = discountAmount;
     }
 
-    /* console.log("invoiceData: ",invoiceData); */
+    
     // Generate the PDF and handle payment
     generatePDF(duration, pkg, email, invoiceData)
       .then(({ pdfBlob }) => {

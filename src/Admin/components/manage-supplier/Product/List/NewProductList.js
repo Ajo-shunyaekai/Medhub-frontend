@@ -7,6 +7,7 @@ import { Link, useParams } from "react-router-dom";
 import PaginationComponent from "../../../shared-components/Pagination/Pagination";
 import { useSelector } from "react-redux";
 
+
 const NewProductList = ({
   products,
   totalItems,
@@ -47,6 +48,7 @@ const NewProductList = ({
       name: "Quantity",
       selector: (row) => row?.general.quantity || row?.general.totalQuantity || "0",
       sortable: true,
+      width:"14%"
     },
     // {
     //   name: "Stock Status",

@@ -4,6 +4,7 @@ import { FiUploadCloud, FiFileText, FiX } from "react-icons/fi";
 import { useDropzone } from "react-dropzone";
 import Tooltip from "@mui/material/Tooltip";
 import Information from "../Admin/assets/Images/infomation.svg";
+import { MdEdit } from "react-icons/md";
 export function extractLast13WithExtension(filename) {
   // Check if filename is provided and is a string
   if (!filename || typeof filename !== "string") {
@@ -415,15 +416,20 @@ export const AddProductFileUpload = ({
     <div className={styles.compliancesContainer}>
       {showLabel && (
         <label className={styles.formLabel}>
-          {label}
-          {label === "Purchase Invoice" && (
-            <span className={styles.labelStamp}>*</span>
-          )}{" "}
-          {
-            <label className={styles.formLabelSmall}>
-              (max file size- 5MB)
-            </label>
-          }
+          <label>
+            {label}
+            {label === "Purchase Invoice" && (
+              <span className={styles.labelStamp}>*</span>
+            )}{" "}
+            {
+              <label className={styles.formLabelSmall}>
+                (max file size- 5MB)
+              </label>
+            }
+          </label>
+          <label className={styles.formLabelBtn}>
+              <MdEdit fill="#fff" fontSize={20}/>
+          </label>
         </label>
       )}
       <div className={styles.tooltipContainer}>
