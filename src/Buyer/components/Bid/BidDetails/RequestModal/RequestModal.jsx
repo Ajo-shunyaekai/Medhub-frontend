@@ -67,9 +67,9 @@ const RequestModal = ({isOpen, onClose, handleRequestQuote, requestQuoteBidObjec
           {/* button */}
           <div className={styles.modalBtnSection}>
             {/* send Quotate */}
-            <div  onClick={handleQuoteBtn} className={isLoading?styles.sendQuoteLoaderDiv:styles.sendQuote}>
+            <button disabled={isLoading} onClick={handleQuoteBtn} className={isLoading?styles.sendQuoteLoaderDiv:styles.sendQuote}>
               {isLoading?<div className={styles.loadingSpinner}></div>:(`Send Quote`)}
-            </div>
+            </button>
             {/* cancel */}
             <div onClick={handleCancelBtn} className={styles.cancelBtn}>
               Cancel
