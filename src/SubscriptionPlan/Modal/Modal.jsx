@@ -15,7 +15,7 @@ const Modal = ({
   loader
 }) => {
 
-  /* console.log("subscriptionPlanIndex: ",subscriptionPlanIndex); */
+  
 
   const modalRef = useRef(null);
   const formRef = useRef(); // to reset form
@@ -91,7 +91,7 @@ const Modal = ({
                   <div className={styles.loadingSpinner}></div>
                 ) : (
                   <div className={styles.btnDiv}>
-                    <button type="submit" className={styles.applyBtn}>
+                    <button disabled={loader} type="submit" className={styles.applyBtn}>
                       Apply
                     </button>
                     <button

@@ -128,6 +128,7 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap !important;
   /* gap: 20px; */
   align-items: start;
   /* background-color: #fff;
@@ -140,7 +141,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 10px;
 }
 .fieldForm {
   width: 100%;

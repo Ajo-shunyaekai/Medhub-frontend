@@ -233,7 +233,7 @@ const handleRequestQuote = async(row) => {
     {
       name:"Request",
       cell: (row) => (
-        <button disabled={row.quoteRequested} className={styles.requestQuoteContainer} 
+        <button /* disabled={row.quoteRequested} */ className={styles.requestQuoteContainer} 
         onClick={() => {setIsOpen(true); setRequestQuoteBidObject(row)}}
         >
           {row?.quoteRequested?`Quote Requested`:`Request Quote`}

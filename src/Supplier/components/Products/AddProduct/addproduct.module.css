@@ -21,6 +21,12 @@
   justify-content: space-between;
 }
 
+.formLabelBtn{
+  background: linear-gradient(to left, #00dcff, #0075ce);
+  padding: 3px 5px 3px 5px;
+  border-radius: 4px;
+}
+
 .bulkButton {
   border: none !important;
   outline: none !important;
@@ -227,6 +233,8 @@
   color: #5e676f;
   font-size: 0.825rem;
   font-weight: 500;
+  display: flex;
+  justify-content: space-between;
 }
 
 .formLabelSmall {

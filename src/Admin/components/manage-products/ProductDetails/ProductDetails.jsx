@@ -1013,9 +1013,9 @@ const ProductDetails = () => {
                 <div className={styles.inventoryContainer}>
                   <span className={styles.inventoryHead}>Cost Per Product</span>
                 </div>
-                <div className={styles.inventoryContainer}>
+               {/*  <div className={styles.inventoryContainer}>
                   <span className={styles.inventoryHead}>Total Price</span>
-                </div>
+                </div> */}
                 <div className={styles.inventoryContainer}>
                   <span className={styles.inventoryHead}>
                     Est. Shipping Time
@@ -1047,11 +1047,11 @@ const ProductDetails = () => {
                       {ele?.price} USD
                     </span>
                   </div>
-                  <div className={styles.inventoryContainer}>
+                 {/*  <div className={styles.inventoryContainer}>
                     <span className={styles.inventoryInput}>
                       {ele?.totalPrice} USD
                     </span>
-                  </div>
+                  </div> */}
                   <div className={styles.inventoryContainer}>
                     <span className={styles.inventoryInput}>
                       {ele?.deliveryTime}

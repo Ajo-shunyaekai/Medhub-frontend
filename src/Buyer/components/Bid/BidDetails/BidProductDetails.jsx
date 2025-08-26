@@ -117,7 +117,8 @@ const BidDetails = ({socket}) => {
                     key === "fromCountries" ||
                     key === "state" ||
                     key === "participants" ||
-                    key === "totalBidsCount"
+                    key === "totalBidsCount" ||
+                    key === "quoteRequested"
                   )
                     return null;
 
