@@ -5,6 +5,7 @@ import { useDropzone } from "react-dropzone";
 import Tooltip from "@mui/material/Tooltip";
 import Information from "../Admin/assets/Images/infomation.svg";
 import { MdEdit } from "react-icons/md";
+import { MdFileUpload } from "react-icons/md";
 export function extractLast13WithExtension(filename) {
   // Check if filename is provided and is a string
   if (!filename || typeof filename !== "string") {
@@ -390,9 +391,28 @@ export const AddProductFileUpload = ({
   acceptTypes,
   maxFiles = 4,
   styles,
+  showProductLinkBtn = false,
+  addProductFrontImageLinkBtn = false,
+  setAddProductFrontImageLinkBtn,
+  addProductBackImageLinkBtn = false,
+  setAddProductBackImageLinkBtn,
+  addProductSideImageLinkBtn = false,
+  setAddProductSideImageLinkBtn,
+  addProductCloseUpImageLinkBtn = false,
+  setAddProductCloseUpImageLinkBtn,
+  frontImageStatus = false,
+  closeUpImageStatus = false,
+  backImageStatus = false,
+  sideImageStatus = false,
+  handleInputChange
 }) => {
   // const tooltipId = `tooltip-${label.replace(/\s+/g, "-")?.toLowerCase()}`;
   const tooltipContent = tooltip || "Default tooltip text";
+
+/*   console.log("addProductFrontImageLinkBtn: ",addProductFrontImageLinkBtn); */
+  console.log("showProductLinkBtn: ",showProductLinkBtn);
+
+  console.log("new: ",(showProductLinkBtn && !addProductFrontImageLinkBtn));
 
   // Call the useFileUpload hook with acceptTypes and maxFiles
   const fileUpload = useFileUpload(
@@ -415,25 +435,120 @@ export const AddProductFileUpload = ({
   return (
     <div className={styles.compliancesContainer}>
       {showLabel && (
-        <label className={styles.formLabel}>
+        <label className={styles.newFormLabel}>
           <label>
             {label}
             {label === "Purchase Invoice" && (
               <span className={styles.labelStamp}>*</span>
             )}{" "}
             {
-              <label className={styles.formLabelSmall}>
-                (max file size- 5MB)
-              </label>
+              !addProductFrontImageLinkBtn && (
+                <label className={styles.formLabelSmall}>
+                  (max file size- 5MB)
+                </label>
+              )
             }
           </label>
-          <label className={styles.formLabelBtn}>
-              <MdEdit fill="#fff" fontSize={20}/>
-          </label>
+          {
+            showProductLinkBtn && (
+            <label className={styles.formLabelBtn}>
+              {showProductLinkBtn  && frontImageStatus && (addProductFrontImageLinkBtn ? (<MdFileUpload onClick={()=> setAddProductFrontImageLinkBtn(false)} fill="#fff" fontSize={20}/>):(<MdEdit  onClick={()=> setAddProductFrontImageLinkBtn(!addProductFrontImageLinkBtn)} fill="#fff" fontSize={20}/>))}
+              {showProductLinkBtn  && backImageStatus && (addProductBackImageLinkBtn ? (<MdFileUpload onClick={()=> setAddProductBackImageLinkBtn(false)} fill="#fff" fontSize={20}/>):(<MdEdit  onClick={()=> setAddProductBackImageLinkBtn(!addProductFrontImageLinkBtn)} fill="#fff" fontSize={20}/>))}
+              {showProductLinkBtn  && sideImageStatus && (addProductSideImageLinkBtn ? (<MdFileUpload onClick={()=> setAddProductSideImageLinkBtn(false)} fill="#fff" fontSize={20}/>):(<MdEdit  onClick={()=> setAddProductSideImageLinkBtn(!addProductFrontImageLinkBtn)} fill="#fff" fontSize={20}/>))}
+              {showProductLinkBtn  && closeUpImageStatus && (addProductCloseUpImageLinkBtn ? (<MdFileUpload onClick={()=> setAddProductCloseUpImageLinkBtn(false)} fill="#fff" fontSize={20}/>):<MdEdit  onClick={()=> setAddProductCloseUpImageLinkBtn(!addProductFrontImageLinkBtn)} fill="#fff" fontSize={20}/>)}
+            </label>
+            )
+          }
         </label>
       )}
       <div className={styles.tooltipContainer}>
-        <div {...fileUpload?.getRootProps({ className: styles.uploadBox })}>
+        {
+          addProductFrontImageLinkBtn ?
+           <input 
+            className={styles.formInput}
+            type="text"
+            placeholder="Enter Front Image Url"
+            name="frontUrl"
+            value={initialValues.frontUrl}
+            onChange={(e) =>
+              handleInputChange(
+                e,
+                setFieldValue,
+                500,
+                "all",
+                ["frontUrl"],
+                ":/.?=&-_~#@"
+              )
+            }
+            /> :
+          addProductBackImageLinkBtn ?
+          <input
+           className={styles.formInput}
+           type="text"
+           placeholder="Enter Back Image Url"
+           name="backUrl"
+           value={initialValues.backUrl}
+           onChange={(e) =>
+              handleInputChange(
+                e,
+                setFieldValue,
+                500,
+                "all",
+                ["frontUrl"],
+                ":/.?=&-_~#@"
+              )
+            }
+          /> :
+          addProductCloseUpImageLinkBtn ?
+          <input
+           className={styles.formInput}
+           type="text"
+           placeholder="Enter Close Up Image Url"
+           name="closeupUrl"
+           value={initialValues.closeupUrl}
+           onChange={(e) =>
+            handleInputChange(
+              e,
+              setFieldValue,
+              500,
+              "all",
+              ["closeupUrl"],
+              ":/.?=&-_~#@"
+            )
+           }
+          /> :
+          addProductSideImageLinkBtn ?
+          <input
+           className={styles.formInput}
+           type="text"
+           placeholder="Enter Side Image Url"
+           name="sideUrl"
+           value={initialValues.sideUrl}
+           onChange={(e) =>
+              handleInputChange(
+                e,
+                setFieldValue,
+                500,
+                "all",
+                ["sideUrl"],
+                ":/.?=&-_~#@"
+              )
+            }/> :
+          <div {...fileUpload?.getRootProps({ className: styles.uploadBox })}>
+            <input {...fileUpload?.getInputProps()} />
+            <FiUploadCloud size={20} className={styles.uploadIcon} />
+            <p className={styles.uploadText}>
+              {fileUpload?.isDragActive
+                ? `Drop the ${
+                    isImageOnly ? "image" : isPdfOnly ? "PDF" : "files"
+                  } here...`
+                : `Click here to Upload ${
+                    isImageOnly ? "Image" : isPdfOnly ? "PDF" : ""
+                  }`}
+            </p>
+          </div>
+        }
+{/*         <div {...fileUpload?.getRootProps({ className: styles.uploadBox })}>
           <input {...fileUpload?.getInputProps()} />
           <FiUploadCloud size={20} className={styles.uploadIcon} />
           <p className={styles.uploadText}>
@@ -445,7 +560,7 @@ export const AddProductFileUpload = ({
                   isImageOnly ? "Image" : isPdfOnly ? "PDF" : ""
                 }`}
           </p>
-        </div>
+        </div> */}
         {tooltip && (
           <CustomTooltip
             styles={styles}
@@ -520,6 +635,8 @@ export const AddProductFileUpload = ({
             </div>
           );
         })} */}
+
+
 
 {fileUpload?.filesMerged?.map((file, index) => {
   const isString = typeof file === "string";

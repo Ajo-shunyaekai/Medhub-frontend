@@ -6,7 +6,8 @@ const RequestModal = ({isOpen, onClose, handleRequestQuote, requestQuoteBidObjec
   const modalRef = useRef();
 
 
-  const quoteRequested = requestQuoteBidObject?.quoteRequested ? true : false;
+  console.log("requestQuoteBidObject: ",requestQuoteBidObject);
+  const quoteRequested = requestQuoteBidObject?.quoteRequested;
 
 
   useEffect(() => {
@@ -63,7 +64,7 @@ const RequestModal = ({isOpen, onClose, handleRequestQuote, requestQuoteBidObjec
           </div>
 
           <div className={styles.modalDescSection}>
-            <p>{quoteRequested?"Quote is requested to a supplier":"Once a quotation is sent, this bid will be considered closed, and you will not be able to request other vendors."}</p>
+            <p>{quoteRequested?`Quote is requested to a supplier ${requestQuoteBidObject?.companyName || ""}`:"Once a quotation is sent, this bid will be considered closed, and you will not be able to request other vendors."}</p>
           </div>
 
           {/* button */}

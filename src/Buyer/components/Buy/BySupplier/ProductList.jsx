@@ -10,6 +10,7 @@ import { fetchCurrentBidDetails, requestQuote } from '../../../../redux/reducers
 import { minWidth } from '@mui/system';
 import { toast } from "react-toastify";
 import { postRequestWithToken } from '../../../../api/Requests';
+import RequestModal from '../../Bid/BidDetails/RequestModal/RequestModal';
 
 const ProductList = ({supplierId, socket}) => {
 
@@ -22,11 +23,19 @@ const ProductList = ({supplierId, socket}) => {
   const buyerId = buyerIdSessionStorage || buyerIdLocalStorage
 
   const [loading, setLoading] = useState(false);
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [requestQuoteBidObject, setRequestQuoteBidObject] = useState(null);
+
   const [currentBids, setCurrentBids] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const bidsPerPage = 5;
 
-   useEffect(() => {
+  const onClose = () => {
+    setIsOpen(false);
+  }
+ 
+  useEffect(() => {
     if (!buyerId) {
       localStorage?.clear();
       navigate("/buyer/login");
@@ -36,7 +45,7 @@ const ProductList = ({supplierId, socket}) => {
     if (buyerId &&  supplierId) {
       dispatch(fetchCurrentBidDetails(`bid/get-current-bid-details/${buyerId}/${supplierId}?pageNo=${currentPage}&pageSize=${bidsPerPage}`));
     }
-   }, [ buyerId, supplierId, dispatch, currentPage]);
+  }, [ buyerId, supplierId, dispatch, currentPage]);
 
   //  const handleRequestQuote = (row) => {
   //    try {
@@ -65,7 +74,7 @@ const ProductList = ({supplierId, socket}) => {
   //    }
   //   }
 
-  const handleRequestQuote = (row) => {
+  const handleRequestQuote = async (row) => {
     try {
       setLoading(true);
       const obj = {
@@ -79,7 +88,7 @@ const ProductList = ({supplierId, socket}) => {
         deliveryTime: row.deliveryTime
       }
   
-      postRequestWithToken(`bid/send-enquiry/${obj.bidId}/${obj.itemId}/${obj.participantId}`,
+      await postRequestWithToken(`bid/send-enquiry/${obj.bidId}/${obj.itemId}/${obj.participantId}`,
         obj,
         async (response) => {
           if(response.code === 200) {
@@ -144,19 +153,25 @@ const ProductList = ({supplierId, socket}) => {
     {
       name:'Request',
       cell: (row) => (
-        <div className={styles.requestQuoteContainer}
+      <button /* disabled={row.quoteRequested} */ className={styles.requestQuoteContainer} 
+      onClick={() => {setIsOpen(true); setRequestQuoteBidObject(row)}}
+      >
+        {row?.quoteRequested?`Quote Requested`:`Request Quote`}
+      </button>
+/*         <div className={styles.requestQuoteContainer}
          onClick={() => handleRequestQuote(row)}
         >
           Request Quote
-        </div>
+        </div> */
       ),
       ignoreRowClick: true,
       allowOverflow: true,
       button: true,
-      minWidth:"140px"
+      minWidth:"150px"
     }
     ];
 
+    console.log("currentBids: ",currentBids);
     useEffect(() => {
       const indexOfLastProduct = currentPage * bidsPerPage;
     // const indexOfFirstOrder = indexOfLastProduct - bidsPerPage;
@@ -166,6 +181,7 @@ const ProductList = ({supplierId, socket}) => {
         (bid.additionalDetails || [])?.forEach(item => {
           (item.participants || []).forEach(participant => {
             bidData?.push({
+              companyName: participant?.participantName,
               productName: item.name,
               quantityRequired: item.quantity,
               // targetPrice: item.targetPrice,
@@ -182,7 +198,8 @@ const ProductList = ({supplierId, socket}) => {
               quantityRequired: item?.quantity,
               amount: participant?.amount,
               deliveryTime: participant?.timeLine,
-              tnc: participant?.tnc
+              tnc: participant?.tnc,
+              quoteRequested: item?.quoteRequested
              });
             });
           });
@@ -271,6 +288,17 @@ const ProductList = ({supplierId, socket}) => {
         />
       </div>
 
+      { isOpen &&
+      <RequestModal
+       onClose = {onClose}
+       isOpen = {isOpen}
+       handleRequestQuote = {handleRequestQuote}
+       requestQuoteBidObject = {requestQuoteBidObject}
+       setRequestQuoteBidObject = {setRequestQuoteBidObject}
+       isLoading = {loading}
+       setIsLoading = {setLoading}
+      />
+     }
     </div>
   )
 }

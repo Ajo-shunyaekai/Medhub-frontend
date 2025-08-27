@@ -233,6 +233,11 @@
   color: #5e676f;
   font-size: 0.825rem;
   font-weight: 500;
+}
+.newFormLabel {
+  color: #5e676f;
+  font-size: 0.825rem;
+  font-weight: 500;
   display: flex;
   justify-content: space-between;
 }
