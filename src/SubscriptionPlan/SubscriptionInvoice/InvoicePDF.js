@@ -15,16 +15,21 @@ const styles = StyleSheet.create({
   leftTextContainer: { width: "50%", alignItems: "flex-start" },
   rightTextContainer: { width: "50%", alignItems: "flex-end" },
   page: { padding: 30, backgroundColor: "#ffffff", fontFamily: "Helvetica" },
-  billLeftTextContainer: { width: "50%", display: "flex", alignItems: "flex-start", flexDirection: "row", gap: 4 },
+  billLeftTextContainer: {
+    width: "50%",
+    display: "flex",
+    alignItems: "flex-start",
+    flexDirection: "row",
+    gap: 4,
+  },
   container: {
     padding: 20,
     backgroundColor: "#ffffff",
     borderRadius: 10,
-   /*  border: "1px solid #99A0AC", */
+    /*  border: "1px solid #99A0AC", */
     borderWidth: 1,
     borderStyle: "solid",
     borderColor: "#99A0AC",
-
   },
   header: {
     flexDirection: "row",
@@ -44,7 +49,12 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   titleText: { fontSize: 12, color: "#212121" },
-  infoHeading: { fontWeight: 600, fontSize: 11, lineHeight: 1.2, paddingBottom: 4 },
+  infoHeading: {
+    fontWeight: 600,
+    fontSize: 11,
+    lineHeight: 1.2,
+    paddingBottom: 4,
+  },
   infoText: { fontSize: 10, color: "#212121", lineHeight: 1.4 },
   table: { display: "table", width: "100%" },
   invoiceKey: { fontSize: 10, lineHeight: 1.4 },
@@ -68,7 +78,7 @@ const styles = StyleSheet.create({
     fontSize: 10,
     color: "#212121",
     paddingTop: 10,
-    paddingBottom: 5
+    paddingBottom: 5,
   },
   cell: { flex: 1, fontSize: 10, padding: 12, color: "#212121" },
   totalSectionFirstView: {
@@ -76,11 +86,11 @@ const styles = StyleSheet.create({
     width: "100%",
     display: "flex",
     flexDirection: "column",
-    alignItems: "flex-end"
+    alignItems: "flex-end",
   },
   totalSectionSecondView: {
     width: "50%",
-  /*   borderBottom: "1px solid #99A0AC", */
+    /*   borderBottom: "1px solid #99A0AC", */
     borderBottomWidth: 1,
     borderBottomStyle: "solid",
     borderBottomColor: "#99A0AC",
@@ -88,21 +98,37 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingTop: 4
+    paddingTop: 4,
   },
   totalSectionSecondAmountView: {
     width: "50%",
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingTop: 4
-  }
+    paddingTop: 4,
+  },
 });
 
-const InvoicePDF = ({ city,company_reg_address,country,land_mark,locality,state, contact_person_country_code,contact_person_mobile_no,contact_person_email
-  ,productName,amount,subscriptionStartDate,subscriptionEndDate,invoiceNumber,subtotalAmount,totalAmount,discount,discountAmount }) => {
-
-  
+const InvoicePDF = ({
+  city,
+  company_reg_address,
+  country,
+  land_mark,
+  locality,
+  state,
+  contact_person_country_code,
+  contact_person_mobile_no,
+  contact_person_email,
+  productName,
+  amount,
+  subscriptionStartDate,
+  subscriptionEndDate,
+  invoiceNumber,
+  subtotalAmount,
+  totalAmount,
+  discount,
+  discountAmount,
+}) => {
 
   return (
     <Document>
@@ -124,37 +150,26 @@ const InvoicePDF = ({ city,company_reg_address,country,land_mark,locality,state,
                   {company_reg_address || ""},
                 </Text>
               )}
-              {
-                locality && (
-                  <Text style={styles.infoText}>
-                    {locality || ""},
-                    {locality && " "}
-                  </Text>
-                )
-              }
-              {
-                land_mark && (
-                  <Text style={styles.infoText}>
-                    {land_mark || ""},
-                    {land_mark && " "}
-                  </Text>
-                )
-              }
-              {(city ||
-                state ||
-                country) && (
-                  <Text style={styles.infoText}>
-                    {city || ""},
-                    {city && " "}
-                    {state || ""},
-                    {state && " "}
-                    {country || ""}
-                  </Text>
-                )}
-              {(contact_person_mobile_no) && (
+              {locality && (
                 <Text style={styles.infoText}>
-                  {contact_person_country_code}{" "}
-                  { contact_person_mobile_no}
+                  {locality || ""},{locality && " "}
+                </Text>
+              )}
+              {land_mark && (
+                <Text style={styles.infoText}>
+                  {land_mark || ""},{land_mark && " "}
+                </Text>
+              )}
+              {(city || state || country) && (
+                <Text style={styles.infoText}>
+                  {city || ""},{city && " "}
+                  {state || ""},{state && " "}
+                  {country || ""}
+                </Text>
+              )}
+              {contact_person_mobile_no && (
+                <Text style={styles.infoText}>
+                  {contact_person_country_code} {contact_person_mobile_no}
                 </Text>
               )}
             </View>
@@ -162,12 +177,10 @@ const InvoicePDF = ({ city,company_reg_address,country,land_mark,locality,state,
               <Text style={styles.title}>INVOICE</Text>
               <Text style={styles.invoiceKey}>
                 Invoice Date:{" "}
-                {moment(subscriptionStartDate).format(
-                  "MM/DD/YYYY"
-                )}
+                {moment(subscriptionStartDate).format("MM/DD/YYYY")}
               </Text>
               <Text style={styles.invoiceKey}>
-                Invoice No.:  {invoiceNumber}
+                Invoice No.: {invoiceNumber}
               </Text>
             </View>
           </View>
@@ -177,7 +190,9 @@ const InvoicePDF = ({ city,company_reg_address,country,land_mark,locality,state,
             <View style={styles.billLeftTextContainer}>
               <Text style={styles.infoHeading}>Bill To:</Text>
               <Text style={styles.infoText}>
-                {contact_person_email} {/* stripetest.shivani.test@yopmail.com */} {/* {user?.buyer_name || user?.supplier_name || ""} */}
+                {contact_person_email}{" "}
+                {/* stripetest.shivani.test@yopmail.com */}{" "}
+                {/* {user?.buyer_name || user?.supplier_name || ""} */}
               </Text>
             </View>
             <View style={styles.rightTextContainer}>
@@ -204,59 +219,75 @@ const InvoicePDF = ({ city,company_reg_address,country,land_mark,locality,state,
               <View style={{ flex: 1 }}>
                 <Text style={styles.tableText}>{productName}</Text>
                 <Text style={styles.infoText}>
-                  ({subscriptionStartDate ? moment(subscriptionStartDate).format("MM/DD/YYYY") : ""} – 
-                  {subscriptionEndDate ? moment(subscriptionEndDate).format("MM/DD/YYYY") : ""})
+                  {subscriptionStartDate
+                    ? moment(subscriptionStartDate).format("MMM DD, YYYY")
+                    : ""}{" "}
+                  –
+                  {" " + subscriptionEndDate
+                    ? moment(subscriptionEndDate).format("MMM DD, YYYY")
+                    : ""}
                 </Text>
-
               </View>
               <View style={{ flex: 1, flexDirection: "row" }}>
                 <Text style={[styles.cell, { flex: 1 }]}>1</Text>
-                <Text style={[styles.cell, { flex: 1 }]}>${subtotalAmount?.toFixed(2)}</Text>
-                <Text style={[styles.cell, { flex: 1 }]}>${subtotalAmount?.toFixed(2)}</Text>
+                <Text style={[styles.cell, { flex: 1 }]}>
+                  ${subtotalAmount?.toFixed(2)}
+                </Text>
+                <Text style={[styles.cell, { flex: 1 }]}>
+                  ${subtotalAmount?.toFixed(2)}
+                </Text>
               </View>
             </View>
-
           </View>
 
           {/* Total Section */}
           <View style={styles.totalSectionFirstView}>
-            {
-              subtotalAmount && (
-                <View style={styles.totalSectionSecondView}>
-                  <Text style={styles.infoText}>Subtotal </Text>
-                  <Text style={styles.infoText}>${subtotalAmount.toFixed(2)}</Text>
-                </View>
-              )
-            }
-            {
-              (discount && discountAmount)&& (
-                <View style={styles.totalSectionSecondView}>
-                  <Text style={styles.infoText}>{discount} </Text>
-                  <Text style={styles.infoText}>-${discountAmount.toFixed(2)}</Text>
-                </View>
-              )
-            }
-            {
-              totalAmount && (
-                <View style={styles.totalSectionSecondView}>
-                  <Text style={styles.infoText}>Total </Text>
-                  <Text style={styles.infoText}>${discountAmount ? (totalAmount - Number(discountAmount)).toFixed(2) : totalAmount.toFixed(2)}</Text>
-                </View>
-              )
-            }
-            {
-              totalAmount && (
-                <View style={styles.totalSectionSecondAmountView}>
-                  <Text style={styles.infoHeading}>Amount due</Text>
-                  <Text style={styles.infoText}>{discountAmount ? (totalAmount - Number(discountAmount)).toFixed(2): totalAmount.toFixed(2)} USD</Text>
-                </View>
-              )
-            }
+            {subtotalAmount && (
+              <View style={styles.totalSectionSecondView}>
+                <Text style={styles.infoText}>Subtotal </Text>
+                <Text style={styles.infoText}>
+                  ${subtotalAmount.toFixed(2)}
+                </Text>
+              </View>
+            )}
+            {discount && discountAmount && (
+              <View style={styles.totalSectionSecondView}>
+                <Text style={styles.infoText}>
+                  {discount} (-${discountAmount.toFixed(2)} off)
+                </Text>
+                <Text style={styles.infoText}>
+                  -${discountAmount.toFixed(2)}
+                </Text>
+              </View>
+            )}
+            {totalAmount && (
+              <View style={styles.totalSectionSecondView}>
+                <Text style={styles.infoText}>Total </Text>
+                <Text style={styles.infoText}>
+                  $
+                  {discountAmount
+                    ? (totalAmount - Number(discountAmount)).toFixed(2)
+                    : totalAmount.toFixed(2)}
+                </Text>
+              </View>
+            )}
+            {totalAmount && (
+              <View style={styles.totalSectionSecondAmountView}>
+                <Text style={styles.infoHeading}>Amount due</Text>
+                <Text style={styles.infoText}>
+                  $
+                  {discountAmount
+                    ? (totalAmount - Number(discountAmount)).toFixed(2)
+                    : totalAmount.toFixed(2)}{" "}
+                  USD
+                </Text>
+              </View>
+            )}
           </View>
         </View>
       </Page>
     </Document>
   );
-}
+};
 
 export default InvoicePDF;

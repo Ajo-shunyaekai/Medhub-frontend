@@ -12,7 +12,7 @@ import { color } from "@mui/system";
 import { Tooltip } from "react-tooltip";
 
 const BidHistoryList = () => {
-  const { id } = useParams();
+  const { id, itemId } = useParams();
   const dispatch = useDispatch();
   const { bidDetails } = useSelector((state) => state?.bidReducer || {});
 
@@ -33,18 +33,20 @@ const BidHistoryList = () => {
       name: "Date",
       // selector: (row) => moment(row?.date).format("DD-MM-YYYY") || 0,
       selector: (row) => {
-      return row?.date ? moment(row.date).format("DD-MM-YYYY") : "-";
-    },
+        return row?.date ? moment(row.date).format("DD-MM-YYYY") : "-";
+      },
       sortable: true,
     },
     {
       name: "Prouct Name",
       selector: (row) => row?.productName?.value,
       sortable: true,
-      cell: (row,rowIndex) => (
-        <span style={{ color: row?.productName?.edited ? "#31c971" : "#99a0ac" }}>
+      cell: (row, rowIndex) => (
+        <span
+          style={{ color: row?.productName?.edited ? "#31c971" : "#99a0ac" }}
+        >
           {!row?.productName?.edited && `${row?.productName?.value}`}
-            {row?.productName?.edited && (
+          {row?.productName?.edited && (
             <span id={`productName-tooltip-${rowIndex}`}>
               {row?.productName?.value}
               <Tooltip
@@ -55,7 +57,7 @@ const BidHistoryList = () => {
             </span>
           )}
         </span>
-      )
+      ),
     },
     {
       name: "Bid Price",
@@ -145,20 +147,24 @@ const BidHistoryList = () => {
 
     const allRows = [];
 
-    (bidDetails?.additionalDetails || []).forEach((item) => {
-      (item.participants || []).forEach((participant) => {
-        (participant.history || []).forEach((history) => {
-          allRows.push({
-            productName: history.productName,
-            price: history.amount,
-            timeline: history.timeLine,
-            type: history.type,
-            tnc: history.tnc,
-            date: history.date,
+    (bidDetails?.additionalDetails || [])
+      ?.filter((item) => item?.itemId == itemId)
+      ?.forEach((item) => {
+        (item.participants || [])
+          ?.filter((parti) => parti?.id == localStorage.getItem("_id"))
+          ?.forEach((participant) => {
+            (participant.history || []).forEach((history) => {
+              allRows.push({
+                productName: history.productName,
+                price: history.amount,
+                timeline: history.timeLine,
+                type: history.type,
+                tnc: history.tnc,
+                date: history.date,
+              });
+            });
           });
-        });
       });
-    });
 
     setTotalHistory(allRows.length);
 
@@ -166,7 +172,6 @@ const BidHistoryList = () => {
 
     setHistory(historyList);
   }, [bidDetails, currentPage]);
-
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
