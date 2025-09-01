@@ -144,10 +144,19 @@ const ProductList = ({ socket }) => {
               link: process.env.REACT_APP_PUBLIC_URL,
             });
             toast(response.message, { type: "success" });
+            dispatch(fetchBidById(`bid/${id}`));
           } else {
             toast(response.message, { type: "error" });
           }
         }
+      );
+      setNewOrder((prevOrders) =>
+        prevOrders.map((order) =>
+          order.participantId === row.participantId &&
+          order.itemId === row.itemId
+            ? { ...order, quoteRequested: row.participantId }
+            : order
+        )
       );
     } catch (error) {
       toast.error(error);
@@ -165,7 +174,7 @@ const ProductList = ({ socket }) => {
     // },
     {
       name: "Company Name",
-      selector: (row) => row?.companyName,
+      selector: (row) => row?.company,
       sortable: true,
       minWidth: "190px",
     },
@@ -240,15 +249,21 @@ const ProductList = ({ socket }) => {
       name: "Request",
       cell: (row) => (
         <button
-          /* disabled={row.quoteRequested} */ className={
-            styles.requestQuoteContainer
-          }
+          disabled={row.participantId === row?.quoteRequested}
+          className={styles.requestQuoteContainer}
           onClick={() => {
-            setIsOpen(true);
-            setRequestQuoteBidObject(row);
+            if (row.participantId !== row?.quoteRequested) {
+              setIsOpen(true);
+              setRequestQuoteBidObject(row);
+            }
+            /* setIsOpen(true); setRequestQuoteBidObject(row) */
           }}
         >
-          {row?.quoteRequested ? `Quote Requested` : `Request Quote`}
+          {row?.quoteRequested
+            ? row.participantId == row?.quoteRequested
+              ? "Quote Requested"
+              : "Request Quote"
+            : "Request Quote"}
         </button>
       ),
       ignoreRowClick: true,
@@ -274,28 +289,38 @@ const ProductList = ({ socket }) => {
 
       combinedParticipants.forEach((participant) => {
         // item.participants.forEach((participant) => {
-        allRows.push({
-          registeredCountry: participant?.participantCountry,
-          companyName: participant?.participantName,
-          companyType: participant?.participantType,
-          supplierId: participant?.participantId,
-          amount: participant?.amount,
-          timeLine: participant?.timeLine,
-          favourite: participant?.favourite || false,
-          itemId: item?.itemId,
-          additionalDetailsId: item?._id,
-          bidId: bidDetails?._id,
-          userId: bidDetails?.userId,
-          participantId: participant?.id,
-          id: participant._id,
-          productId: participant?.productId,
-          productName: participant?.productName,
-          quantityRequired: item?.quantity,
-          targetPrice: participant?.amount,
-          deliveryTime: participant?.timeLine,
-          tnc: participant?.tnc,
-          quoteRequested: item?.quoteRequested,
-        });
+        item.itemId == itemId &&
+          allRows.push({
+            registeredCountry: participant?.participantCountry,
+            company: participant?.participantName,
+            companyType: participant?.participantType,
+            supplierId: participant?.participantId,
+            amount: participant?.amount,
+            timeLine: participant?.timeLine,
+            favourite: participant?.favourite || false,
+            itemId: item?.itemId,
+            additionalDetailsId: item?._id,
+            bidId: bidDetails?._id,
+            userId: bidDetails?.userId,
+            participantId: participant?.id,
+            id: participant._id,
+            productId: participant?.productId,
+            productName: participant?.productName,
+            quantityRequired: item?.quantity,
+            targetPrice: participant?.amount,
+            deliveryTime: participant?.timeLine,
+            tnc: participant?.tnc,
+            quoteRequested: item?.quoteRequested,
+            ...(item?.quoteRequested &&
+              (() => {
+                const matchedItem = (item.participants || []).find(
+                  (p) => p.id === item?.quoteRequested
+                );
+                return matchedItem
+                  ? { companyName: matchedItem.participantName }
+                  : {};
+              })()),
+          });
       });
     });
 

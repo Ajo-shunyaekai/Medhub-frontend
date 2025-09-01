@@ -5,6 +5,9 @@ import { useDropzone } from "react-dropzone";
 import Tooltip from "@mui/material/Tooltip";
 import Information from "../Admin/assets/Images/infomation.svg";
 import { MdEdit } from "react-icons/md";
+import { MdFileUpload } from "react-icons/md";
+import { useLocation } from "react-router-dom";
+
 export function extractLast13WithExtension(filename) {
   // Check if filename is provided and is a string
   if (!filename || typeof filename !== "string") {
@@ -390,9 +393,42 @@ export const AddProductFileUpload = ({
   acceptTypes,
   maxFiles = 4,
   styles,
+  showProductLinkBtn = false,
+  addProductFrontImageLinkBtn = false,
+  setAddProductFrontImageLinkBtn,
+  addProductBackImageLinkBtn = false,
+  setAddProductBackImageLinkBtn,
+  addProductSideImageLinkBtn = false,
+  setAddProductSideImageLinkBtn,
+  addProductCloseUpImageLinkBtn = false,
+  setAddProductCloseUpImageLinkBtn,
+  frontImageStatus = false,
+  closeUpImageStatus = false,
+  backImageStatus = false,
+  sideImageStatus = false,
+  handleInputChange,
+  inputUrl,
+  setInputUrl,
 }) => {
   // const tooltipId = `tooltip-${label.replace(/\s+/g, "-")?.toLowerCase()}`;
   const tooltipContent = tooltip || "Default tooltip text";
+
+  /* edit remove preview */
+  const location = useLocation();
+  const editProductLocationArray = location.pathname.split("/");
+  const editProductLocation = editProductLocationArray[editProductLocationArray?.length-2];
+
+  /* add link only to admin panel */
+  const superAdmin = JSON.parse(localStorage.getItem("superAdmin"));
+  
+  const [allTrue, setAllTrue] = useState(false);
+
+  useEffect(()=>{
+    const allRows = inputUrl?.front && inputUrl?.back && inputUrl?.side && inputUrl?.close;
+    setAllTrue(allRows);
+  },[inputUrl]);
+            
+
 
   // Call the useFileUpload hook with acceptTypes and maxFiles
   const fileUpload = useFileUpload(
@@ -412,40 +448,349 @@ export const AddProductFileUpload = ({
     acceptTypes &&
     Object.keys(acceptTypes).every((type) => type === "application/pdf");
 
+
   return (
     <div className={styles.compliancesContainer}>
       {showLabel && (
-        <label className={styles.formLabel}>
-          <label>
+        <label className={styles.newFormLabel}>
+          <label /* className={styles.innerSectionLabel} */>
             {label}
             {label === "Purchase Invoice" && (
               <span className={styles.labelStamp}>*</span>
             )}{" "}
             {
-              <label className={styles.formLabelSmall}>
-                (max file size- 5MB)
-              </label>
+              (!addProductFrontImageLinkBtn && label == "Front Image") && (
+                <label className={styles.formLabelSmall}>
+                  (max file size- 5MB)
+                </label>
+              )
+            }
+            {
+              (!addProductBackImageLinkBtn && label == "Back Image") && (
+                <label className={styles.formLabelSmall}>
+                  (max file size- 5MB)
+                </label>
+              )
+            }
+            {
+              (!addProductSideImageLinkBtn && label == "Side Image") && (
+                <label className={styles.formLabelSmall}>
+                  (max file size- 5MB)
+                </label>
+              )
+            }
+            {
+              (!addProductCloseUpImageLinkBtn && label == "Close Up Image") && (
+                <label className={styles.formLabelSmall}>
+                  (max file size- 5MB)
+                </label>
+              )
             }
           </label>
-          <label className={styles.formLabelBtn}>
-              <MdEdit fill="#fff" fontSize={20}/>
-          </label>
+          {
+            (showProductLinkBtn && superAdmin) && (
+            <label className={styles.formLabelBtn}>
+              {showProductLinkBtn  && frontImageStatus &&
+              (addProductFrontImageLinkBtn ?
+                (
+                  <p
+                  onClick={()=>{
+                    setAddProductFrontImageLinkBtn(false);
+                    setFieldValue("frontUrl","");
+                    setInputUrl((prev)=>({...prev,front:false}));
+                  }}
+                  className={styles.editStyleButton}
+                  >
+                    Upload Image
+                  </p>
+                )
+                :
+                (
+                  <p 
+                  onClick={(event) => {
+                    fileUpload?.removeFile(0, event,"new");
+                    if(editProductLocation == 'edit-product'){
+                      fileUpload?.removeFile(0, event,"old");
+                    }
+                    setAddProductFrontImageLinkBtn(true);
+                    setInputUrl((prev)=>({...prev,front:true}));
+                  }}
+                  className={styles.editStyleButton}
+                  >
+                    Add via Link
+                  </p>
+                )
+              )}
+
+              {showProductLinkBtn  && backImageStatus && 
+              (addProductBackImageLinkBtn ? 
+                (
+                 <p
+                  onClick={()=> {
+                    setAddProductBackImageLinkBtn(false);
+                    setFieldValue("backUrl","");
+                    setInputUrl((prev)=>({...prev,back:false}));
+                  }}
+                  className={styles.editStyleButton}
+                  >
+                    Upload Image
+                  </p>
+                )
+                :
+                (
+                  <p 
+                  onClick={(event)=> {
+                    fileUpload?.removeFile(0, event, "new");
+                    if(editProductLocation == 'edit-product'){
+                      fileUpload?.removeFile(0, event,"old");
+                    }
+                    setAddProductBackImageLinkBtn(true);
+                    setInputUrl((prev)=>({...prev,back:true}));
+                  }} 
+                  className={styles.editStyleButton}
+                  >
+                     Add via Link
+                  </p>
+                )
+              )}
+
+              {showProductLinkBtn  && sideImageStatus && 
+              (addProductSideImageLinkBtn ? 
+              (
+                <p
+                onClick={()=> {
+                 setAddProductSideImageLinkBtn(false);
+                 setFieldValue("sideUrl","");
+                 setInputUrl((prev)=>({...prev,side:false}));
+                }}
+                className={styles.editStyleButton}
+                >
+                  Upload Image
+                </p>
+              )
+              :
+              (
+                 <p 
+                  onClick={(event) => {
+                    fileUpload?.removeFile(0, event, "new");
+                    if(editProductLocation == 'edit-product'){
+                      fileUpload?.removeFile(0, event,"old");
+                    }
+                    setAddProductSideImageLinkBtn(true);
+                    setInputUrl((prev)=>({...prev,side:true}));
+                  }}
+                  className={styles.editStyleButton}
+                  >
+                     Add via Link
+                  </p>
+              )
+              )}
+
+              {showProductLinkBtn  && closeUpImageStatus &&
+              (addProductCloseUpImageLinkBtn ?
+              (
+                <p
+                onClick={()=>{ 
+                  setAddProductCloseUpImageLinkBtn(false);
+                  setFieldValue("closeupUrl","");
+                  setInputUrl((prev)=>({...prev,close:false}));
+                }}
+                className={styles.editStyleButton}
+                >
+                  Upload Image
+                </p>
+              )
+              :
+              (
+                <p 
+                onClick={(event)=>{
+                  fileUpload?.removeFile(0, event, "new");
+                  if(editProductLocation == 'edit-product'){
+                    fileUpload?.removeFile(0, event,"old");
+                  }
+                  setAddProductCloseUpImageLinkBtn(true);
+                  setInputUrl((prev)=>({...prev,close:true}));
+                }}
+                className={styles.editStyleButton}
+                >
+                  Add via Link
+                </p>
+              )
+              )}
+
+            </label>
+            )
+          }
         </label>
       )}
       <div className={styles.tooltipContainer}>
-        <div {...fileUpload?.getRootProps({ className: styles.uploadBox })}>
-          <input {...fileUpload?.getInputProps()} />
-          <FiUploadCloud size={20} className={styles.uploadIcon} />
-          <p className={styles.uploadText}>
-            {fileUpload?.isDragActive
-              ? `Drop the ${
-                  isImageOnly ? "image" : isPdfOnly ? "PDF" : "files"
-                } here...`
-              : `Click here to Upload ${
-                  isImageOnly ? "Image" : isPdfOnly ? "PDF" : ""
-                }`}
-          </p>
-        </div>
+        {
+          addProductFrontImageLinkBtn ?
+            <div className={allTrue ?styles.inputFormAndPreviewContainerNew:styles.inputFormAndPreviewContainer}>
+              <input 
+              className={styles.formInput}
+              type="text"
+              placeholder="Enter Front Image Url"
+              name="frontUrl"
+              value={initialValues.frontUrl}
+              onChange={(e) =>
+                handleInputChange(
+                  e,
+                  setFieldValue,
+                  500,
+                  "all",
+                  ["frontUrl"],
+                  ":/.?=&-_~#@"
+                )
+              }
+            />
+            {
+              initialValues.frontUrl && (
+              <div className={styles.newFilePreview}>
+                <button onClick={()=>setFieldValue("frontUrl","")} className={styles.removeButton}>
+                  <FiX size={15} className={styles.removeIcon} />
+                </button>
+                <img 
+                src={initialValues.frontUrl}
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = "https://medhub.shunyaekai.com/uploads/fallbackImage.jpg"
+                }}
+                className={styles.previewImage}
+                />
+              </div>
+              )
+            }
+            </div> :
+          addProductBackImageLinkBtn ?
+            <div className={allTrue ?styles.inputFormAndPreviewContainerNew:styles.inputFormAndPreviewContainer}>
+              <input
+              className={styles.formInput}
+              type="text"
+              placeholder="Enter Back Image Url"
+              name="backUrl"
+              value={initialValues.backUrl}
+              onChange={(e) =>
+                  handleInputChange(
+                    e,
+                    setFieldValue,
+                    500,
+                    "all",
+                    ["backUrl"],
+                    ":/.?=&-_~#@"
+                  )
+                }
+              />
+
+              {
+                initialValues.backUrl && (
+                <div  className={styles.newFilePreview}>
+                  <button onClick={()=>setFieldValue("backUrl","")} className={styles.removeButton}>
+                    <FiX size={15} className={styles.removeIcon} />
+                  </button>
+                  <img 
+                  src={initialValues.backUrl}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = "https://medhub.shunyaekai.com/uploads/fallbackImage.jpg"
+                  }}
+                  className={styles.previewImage}
+                  />
+                </div>
+                )
+              }
+            </div>
+          :
+          addProductCloseUpImageLinkBtn ?
+            <div className={allTrue ?styles.inputFormAndPreviewContainerNew:styles.inputFormAndPreviewContainer}>
+              <input
+              className={styles.formInput}
+              type="text"
+              placeholder="Enter Close Up Image Url"
+              name="closeupUrl"
+              value={initialValues.closeupUrl}
+              onChange={(e) =>
+                handleInputChange(
+                  e,
+                  setFieldValue,
+                  500,
+                  "all",
+                  ["closeupUrl"],
+                  ":/.?=&-_~#@"
+                )
+              }
+              />
+              {
+                initialValues.closeupUrl && (
+                <div className={styles.newFilePreview}>
+                  <button onClick={()=>setFieldValue("closeupUrl","")} className={styles.removeButton}>
+                    <FiX size={15} className={styles.removeIcon} />
+                  </button>
+                  <img 
+                  src={initialValues.closeupUrl}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = "https://medhub.shunyaekai.com/uploads/fallbackImage.jpg"
+                  }}
+                  className={styles.previewImage}
+                  />
+                </div>
+                )
+              }
+            </div>
+          :
+          addProductSideImageLinkBtn ?
+            <div className={allTrue ?styles.inputFormAndPreviewContainerNew:styles.inputFormAndPreviewContainer}>
+              <input
+                className={styles.formInput}
+                type="text"
+                placeholder="Enter Side Image Url"
+                name="sideUrl"
+                value={initialValues.sideUrl}
+                onChange={(e) =>
+                    handleInputChange(
+                      e,
+                      setFieldValue,
+                      500,
+                      "all",
+                      ["sideUrl"],
+                      ":/.?=&-_~#@"
+                    )
+                }
+              />
+              {
+                initialValues.sideUrl && (
+                <div className={styles.newFilePreview}>
+                  <button onClick={()=>setFieldValue("sideUrl","")} className={styles.removeButton}>
+                    <FiX size={15} className={styles.removeIcon} />
+                  </button>
+                  <img 
+                  src={initialValues.sideUrl}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = "https://medhub.shunyaekai.com/uploads/fallbackImage.jpg"
+                  }}
+                  className={styles.previewImage}
+                  />
+                </div>
+                )
+              }
+            </div>
+          :
+          <div {...fileUpload?.getRootProps({ className: styles.uploadBox })}>
+            <input {...fileUpload?.getInputProps()} />
+            <FiUploadCloud size={20} className={styles.uploadIcon} />
+            <p className={styles.uploadText}>
+              {fileUpload?.isDragActive
+                ? `Drop the ${
+                    isImageOnly ? "image" : isPdfOnly ? "PDF" : "files"
+                  } here...`
+                : `Click here to Upload ${
+                    isImageOnly ? "Image" : isPdfOnly ? "PDF" : ""
+                  }`}
+            </p>
+          </div>
+        }
         {tooltip && (
           <CustomTooltip
             styles={styles}
@@ -456,6 +801,7 @@ export const AddProductFileUpload = ({
       </div>
       {error && <span className={styles.error}>{error}</span>}
       <div className={styles.filePreviewContainer}>
+        {/* image upload preview */}
         {/* {fileUpload?.filesMerged?.map((file, index) => {
           const isString = typeof file === "string";
           const fileName = isString
@@ -468,7 +814,7 @@ export const AddProductFileUpload = ({
           const isPdf = fileExtension === "pdf";
           const fallbackImage =
             "https://medhub.shunyaekai.com/uploads/fallbackImage.jpg";
-
+ 
           const isValidUrl = (url) => {
             try {
               new URL(url);
@@ -477,7 +823,7 @@ export const AddProductFileUpload = ({
               return false;
             }
           };
-
+ 
           let imageSrc = "";
           if (isImage) {
             imageSrc = isString
@@ -490,7 +836,7 @@ export const AddProductFileUpload = ({
           } else {
             imageSrc = fallbackImage;
           }
-
+ 
           return (
             <div key={index} className={styles.filePreview}>
               {isPdf ? (
@@ -520,65 +866,66 @@ export const AddProductFileUpload = ({
             </div>
           );
         })} */}
+        {fileUpload?.filesMerged?.map((file, index) => {
+          const isString = typeof file === "string";
+          const fileName = isString
+            ? extractLast13WithExtension(file)
+            : file?.name;
 
-{fileUpload?.filesMerged?.map((file, index) => {
-  const isString = typeof file === "string";
-  const fileName = isString
-    ? extractLast13WithExtension(file)
-    : file?.name;
+          const fallbackImage =
+            "https://medhub.shunyaekai.com/uploads/fallbackImage.jpg";
 
-  const fallbackImage =
-    "https://medhub.shunyaekai.com/uploads/fallbackImage.jpg";
+          const isValidUrl = (url) => {
+            try {
+              const parsed = new URL(url);
+              return parsed.protocol === "http:" || parsed.protocol === "https:";
+            } catch {
+              return false;
+            }
+          };
 
-  const isValidUrl = (url) => {
-    try {
-      const parsed = new URL(url);
-      return parsed.protocol === "http:" || parsed.protocol === "https:";
-    } catch {
-      return false;
-    }
-  };
+          let imageSrc = "";
+          if (isString) {
+            imageSrc = isValidUrl(file)
+              ? file
+              : `${process.env.REACT_APP_SERVER_URL}uploads/products/${file}`;
+          } else {
+            imageSrc = URL.createObjectURL(file);
+          }
 
-  let imageSrc = "";
-  if (isString) {
-    imageSrc = isValidUrl(file)
-      ? file
-      : `${process.env.REACT_APP_SERVER_URL}uploads/products/${file}`;
-  } else {
-    imageSrc = URL.createObjectURL(file);
-  }
+          const isPdf = fileName?.toLowerCase()?.endsWith(".pdf");
 
-  const isPdf = fileName?.toLowerCase()?.endsWith(".pdf");
-
-  return (
-    <div key={index} className={styles.filePreview}>
-      {isPdf ? (
-        <FiFileText size={25} className={styles.fileIcon} />
-      ) : (
-        <img
-          src={imageSrc}
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src = fallbackImage;
-          }}
-          alt={fileName}
-          className={styles.previewImage}
-        />
-      )}
-      <p className={styles.fileName}>{fileName}</p>
-      <button
-        type="button"
-        className={styles.removeButton}
-        onClick={(event) =>
-          fileUpload?.removeFile(index, event, isString ? "old" : "new")
-        }
-        title={`Remove ${isPdf ? "PDF" : "file"}`}
-      >
-        <FiX size={15} className={styles.removeIcon} />
-      </button>
-    </div>
-  );
-})}
+          return (
+            <div key={index} className={styles.filePreview}>
+              {isPdf ?
+              (
+                <FiFileText size={25} className={styles.fileIcon} />
+              ) : 
+              (
+                <img
+                  src={imageSrc}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = fallbackImage;
+                  }}
+                  alt={fileName}
+                  className={styles.previewImage}
+                />
+              )}
+              <p className={styles.fileName}>{fileName}</p>
+              <button
+                type="button"
+                className={styles.removeButton}
+                onClick={(event) =>
+                  fileUpload?.removeFile(index, event, isString ? "old" : "new")
+                }
+                title={`Remove ${isPdf ? "PDF" : "file"}`}
+              >
+                <FiX size={15} className={styles.removeIcon} />
+              </button>
+            </div>
+          );
+        })}
 
       </div>
     </div>

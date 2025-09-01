@@ -14,8 +14,9 @@ import * as Yup from "yup";
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import BidHistoryList from "./BidHistoryList";
-import Select from 'react-select'
+import Select from "react-select";
 import { Tooltip } from "react-tooltip";
+import QuoteRequestedModal from "./QuoteRequestedModal";
 
 const BidDetails = () => {
   const { id, itemId } = useParams();
@@ -36,22 +37,44 @@ const BidDetails = () => {
   const [initialValues, setInitialValues] = useState({
     amount: "",
     timeLine: "",
-    tnc:"",
-    productName:"",
-    productId:""
+    tnc: "",
+    productName: "",
+    productId: "",
   });
 
   //to handle cancel, manage seperate state with initial value
-  const [savedValue, setSavedValue] = useState({amount:"",timeLine:"",tnc:"",productName:"",productId:""});
+  const [savedValue, setSavedValue] = useState({
+    amount: "",
+    timeLine: "",
+    tnc: "",
+    productName: "",
+    productId: "",
+  });
+
+  /* handle if quote is requested then the supplier can't edit the participated field */
+  const [quoteRequestStatus, setQuoteRequestStatus] = useState(false);
+
+  /* handle if bid is completed and supplier has participated or not participated */
+  /* handle if supplier is participated */
+  const [bidCompletedNotParticipated, setBidCompletedNotParticipated] =
+    useState(false);
+  const [bidCompletedParticipated, setBidCompletedParticipated] =
+    useState(false);
 
   /* select option added */
- /*  const option = [
-    { value: '2332', label: 'Paracetamol'},
-    { value: '2331', label: 'Algoliptin'},
-    { value: '2330', label: 'Crocin'},
-    { value: '2335', label: 'Crocin Tablet'},
-  ] */
-  
+  /*  const option = [
+     { value: '2332', label: 'Paracetamol'},
+     { value: '2331', label: 'Algoliptin'},
+     { value: '2330', label: 'Crocin'},
+     { value: '2335', label: 'Crocin Tablet'},
+   ] */
+
+  /* if quote requested then open the modal */
+  const [isOpen, setIsOpen] = useState(false);
+  const onClose = () => {
+    setIsOpen(false);
+  };
+
   // Validation schema using Yup
   const validationSchema = Yup.object({
     amount: Yup.number()
@@ -69,14 +92,12 @@ const BidDetails = () => {
         "match-original",
         "Product does not match bid requirements",
         function (value) {
-        
-          if (!value) return true; 
-          if (!itemDetails?.name) return true; 
+          if (!value) return true;
+          if (!itemDetails?.name) return true;
           return value === itemDetails.name;
         }
       ),
-    tnc: Yup.string()
-      .required("Terms and condition is required")
+    tnc: Yup.string().required("Terms and condition is required"),
   });
 
   // Formik form initialization
@@ -89,7 +110,7 @@ const BidDetails = () => {
       try {
         const obj = {
           participantId: participantId,
-          supplier_id: localStorage.getItem('supplier_id'),
+          supplier_id: localStorage.getItem("supplier_id"),
           amount: Number(values.amount),
           tnc: values.tnc,
           productName: values.productName,
@@ -98,13 +119,12 @@ const BidDetails = () => {
           bidId: id,
           itemId: itemId,
         };
-        
+
         dispatch(updateBidProductDetails(obj)).then((response) => {
           if (response?.meta.requestStatus === "fulfilled") {
             // setLoading(false);
             dispatch(fetchBidById(`bid/${id}`));
             setSavedValue(values);
-
           }
         });
 
@@ -153,7 +173,9 @@ const BidDetails = () => {
 
   useEffect(() => {
     if (id) {
-      dispatch(fetchBidById(`bid/${id}?supplierId=${localStorage.getItem('_id')}`));
+      dispatch(
+        fetchBidById(`bid/${id}?supplierId=${localStorage.getItem("_id")}`)
+      );
     }
   }, [id, dispatch]);
 
@@ -165,12 +187,20 @@ const BidDetails = () => {
           itemId?.toString()?.toLowerCase()
       );
       setItemDetails(foundItem || {});
-      const participatingDetails = foundItem?.participants?.find(
+      const newParticipatingDetails = foundItem?.participants?.find(
         (item) =>
           item?.id?.toString()?.toLowerCase() ===
           participantId?.toString()?.toLowerCase()
       );
-      setParticipatingeDetails(participatingDetails);
+
+      if (bidDetails?.status == "completed") {
+        setParticipatingeDetails({
+          ...newParticipatingDetails,
+          bidStatus: bidDetails?.status,
+        });
+      } else {
+        setParticipatingeDetails(newParticipatingDetails);
+      }
     }
   }, [bidDetails, itemId]);
 
@@ -180,13 +210,26 @@ const BidDetails = () => {
   }, [itemDetails]);
 
   useEffect(() => {
-    if (participatingDetails && Object.keys(participatingDetails)?.length > 0) {
+    if (
+      participatingDetails &&
+      Object.keys(participatingDetails)?.length == 1 &&
+      participatingDetails?.bidStatus == "completed"
+    ) {
+      setBidCompletedNotParticipated(true);
+    } else if (
+      participatingDetails &&
+      Object.keys(participatingDetails)?.length > 1 &&
+      participatingDetails?.bidStatus == "completed"
+    ) {
+      setBidCompletedParticipated(true);
+      setIsEditing(false);
+
       formik?.setValues({
         amount: participatingDetails?.amount,
         timeLine: participatingDetails?.timeLine,
         tnc: participatingDetails?.tnc,
         productName: participatingDetails?.productName,
-        productId: participatingDetails?.productId
+        productId: participatingDetails?.productId,
       });
 
       setSavedValue({
@@ -194,10 +237,37 @@ const BidDetails = () => {
         timeLine: participatingDetails?.timeLine,
         tnc: participatingDetails?.tnc,
         productName: participatingDetails?.productName,
-        productId: participatingDetails?.productId
+        productId: participatingDetails?.productId,
+      });
+    } else if (
+      participatingDetails &&
+      Object.keys(participatingDetails)?.length > 0
+    ) {
+      formik?.setValues({
+        amount: participatingDetails?.amount,
+        timeLine: participatingDetails?.timeLine,
+        tnc: participatingDetails?.tnc,
+        productName: participatingDetails?.productName,
+        productId: participatingDetails?.productId,
+      });
+
+      setSavedValue({
+        amount: participatingDetails?.amount,
+        timeLine: participatingDetails?.timeLine,
+        tnc: participatingDetails?.tnc,
+        productName: participatingDetails?.productName,
+        productId: participatingDetails?.productId,
       });
 
       setIsEditing(false); // If participatingDetails are found, editing is disabled
+      //if supplier participated and quote is requested then set it true
+      // if (participatingDetails.status == "Quote Requested") {
+      if (
+        bidDetails?.additionalDetails?.find((item) => item?.itemId == itemId)
+          ?.quoteRequested == localStorage?.getItem("_id")
+      ) {
+        setQuoteRequestStatus(true);
+      }
     } else {
       setIsEditing(true); // If participatingDetails are empty, allow editing
     }
@@ -217,66 +287,67 @@ const BidDetails = () => {
   };
 
   const handleCancel = () => {
-    if(participatingDetails){
+    if (participatingDetails) {
       setIsEditing(false);
       formik.setValues(savedValue);
-    }
-    else{
-      setSavedValue({amount:"",timeLine:"",tnc:"",productName:""});
+    } else {
+      setSavedValue({ amount: "", timeLine: "", tnc: "", productName: "" });
       formik.setValues(savedValue);
     }
-  }
+  };
 
   const allFieldsEmpty = Object.values(formik.values).every(
     (value) => value === ""
   );
 
-  const isDisabled = !participatingDetails && allFieldsEmpty;
+  // const isDisabled = !participatingDetails && allFieldsEmpty;
+  const isDisabled =
+    bidDetails?.status == "completed" ||
+    bidDetails?.additionalDetails?.find((item) => item?.itemId == itemId)
+      ?.quoteRequested == localStorage?.getItem("_id");
 
   //api for fetching productId and name
-  
-  useEffect(() => {
-      const supplierIdSessionStorage = localStorage?.getItem("_id");
-      const supplierIdLocalStorage = localStorage?.getItem("_id");
-  
-      if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-        localStorage?.clear();
-        navigate("/buyer/login");
-        return;
-      }
-      const fetchData = async () => {
-        try {
-          const supplierId =
-            localStorage?.getItem("_id") ||
-            localStorage?.getItem("_id");
-          if (!supplierId) {
-            localStorage?.clear();
-            navigate("/supplier/login");
-            return;
-          }
-  
-          const fetchProducts = async () => {
-            // setLoading(true);
-            const response = await dispatch(
-              fetchProductsList({
-                url: `product/for-dd?supplier_id=${supplierId}&showDuplicate=false`,
-              })
-            );
-            if (response.meta.requestStatus === "fulfilled") {
-              setProductList(response?.payload?.products || []);
-              // setLoading(false);
-            }
-          };
-          fetchProducts();
-        } catch (error) {
-          console.error("Error fetching products:", error.message);
-        } finally {
-          // setLoading(false);
-        }
-      };
-      fetchData();
-    }, []);
 
+  useEffect(() => {
+    const supplierIdSessionStorage = localStorage?.getItem("_id");
+    const supplierIdLocalStorage = localStorage?.getItem("_id");
+
+    if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
+      localStorage?.clear();
+      navigate("/buyer/login");
+      return;
+    }
+    const fetchData = async () => {
+      try {
+        const supplierId =
+          localStorage?.getItem("_id") || localStorage?.getItem("_id");
+        if (!supplierId) {
+          localStorage?.clear();
+          navigate("/supplier/login");
+          return;
+        }
+
+        const fetchProducts = async () => {
+          // setLoading(true);
+          const response = await dispatch(
+            fetchProductsList({
+              url: `product/for-dd?supplier_id=${supplierId}&showDuplicate=false`,
+            })
+          );
+          if (response.meta.requestStatus === "fulfilled") {
+            setProductList(response?.payload?.products || []);
+            // setLoading(false);
+          }
+        };
+        fetchProducts();
+      } catch (error) {
+        console.error("Error fetching products:", error.message);
+      } finally {
+        // setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -298,6 +369,16 @@ const BidDetails = () => {
                 : "ITEM"}{" "}
               -{itemDetails?.itemId}
             </span>
+
+            {bidDetails?.status == "completed" && (
+              <div className={styles.bidStatusCont}>
+                <div className={styles?.bidStatusHead}>Bid Status</div>
+                <div className={styles?.bidStatusText}>
+                  {bidDetails.status.charAt(0).toUpperCase() +
+                    bidDetails.status.slice(1)}
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
@@ -371,298 +452,362 @@ const BidDetails = () => {
         </div>
 
         {/* Form */}
-        <div className={styles.mainContainer}>
-          <div className={styles.innerSection}>
-            <div className={styles.mainSection}>
-              <div className={styles.innerSection2}>
-                <div className={styles.mainSection2}>
-                  <div className={styles.fieldHeadingDiv}>
-                    <span className={styles.fieldHeading}>
-                      Participate in Bid
-                    </span>
-                    {participatingDetails &&
-                      Object.keys(participatingDetails).length > 0 &&
-                      !isEditing && (
+        {
+          <div className={styles.mainContainer}>
+            <div className={styles.innerSection}>
+              <div className={styles.mainSection}>
+                <div className={styles.innerSection2}>
+                  <div className={styles.mainSection2}>
+                    <div className={styles.fieldHeadingDiv}>
+                      {/* <span className={styles.fieldHeading}>
+                        Participate in Bid {bidDetails?.status == "completed" && <span className={styles.fieldHeading}>
+                          (You can no longer participate in Bid as it's completed.)
+                        </span>}
+                      </span> */}
+                      <span className={styles.fieldHeading}>
+                        Participate in Bid{" "}
+                        {bidDetails?.status === "completed" && (
+                          <span className={styles.fieldHeading}>
+                            {bidDetails?.additionalDetails?.some((item) =>
+                              item?.participants?.some(
+                                (participant) =>
+                                  participant?.id?.toString() ===
+                                  localStorage.getItem("_id")
+                              )
+                            )
+                              ? "(You can no longer edit your bid as it's completed.)"
+                              : "(You can no longer participate in the bid as it's completed.)"}
+                          </span>
+                        )}
+                      </span>
+                      {participatingDetails &&
+                        Object.keys(participatingDetails).length > 0 &&
+                        !isEditing /* && !quoteRequestStatus  && !bidCompletedParticipated */ && (
+                          <div
+                            onClick={() => {
+                              if (!quoteRequestStatus) {
+                                // if (!bidCompletedParticipated) {
+                                setIsEditing(true);
+                                // }
+                                // else {
+                                //   toast.warning("You cannot edit it as bid is already completed")
+                                // }
+                              } else {
+                                setIsOpen(true);
+                              }
+                            }}
+                            className={styles.fieldSubmitButton}
+                          >
+                            Edit
+                          </div>
+                        )}
+                    </div>
+                    {/* <div className={styles.fieldHeadingDiv}> */}
+
+                    {/* </div> */}
+                    <div className={styles.InnerContainer2}>
+                      <form
+                        className={styles.fieldSection}
+                        onSubmit={formik?.handleSubmit}
+                      >
                         <div
-                          onClick={() => setIsEditing(true)}
-                          className={styles.fieldSubmitButton}
-                        >
-                          Edit
-                        </div>
-                      )}
-                  </div>
-                  <div className={styles.InnerContainer2}>
-                    <form
-                      className={styles.fieldSection}
-                      onSubmit={formik?.handleSubmit}
-                    >
-                      <div className={isEditing?styles.newFieldForm : styles.fieldForm}>
-                        {/* select product name */}
-                        {
-                          isEditing && (
-                            <div className={isEditing?styles.fieldDiv:styles.newFieldDiv}>
-                          <label className={styles.fieldFormLabel}>
-                            {getFieldLabel("Product Name")}
-                            {isEditing && (
-                              <span className={styles.labelStamp}>*</span>
-                            )}
-                          </label>
-                          <Select
-                          options={productList || []}
-                          value={
-                            formik.values.productId
-                              ? { label: formik.values.productName, value: formik.values.productId }
-                              : null
+                          className={
+                            isEditing ? styles.newFieldForm : styles.fieldForm
                           }
-                          onChange={async (selectedOption) => {
-                            const selectedName = selectedOption?.label || "";
-                            const selectedId = selectedOption?.value || "";
+                        >
+                          {/* Product Name */}
+                          {isEditing && (
+                            <div className={styles.fieldDiv}>
+                              <label className={styles.fieldFormLabel}>
+                                {getFieldLabel("Product Name")}
+                                <span className={styles.labelStamp}>*</span>
+                              </label>
+                              <Select
+                                options={productList || []}
+                                value={
+                                  formik.values.productId
+                                    ? {
+                                        label: formik.values.productName,
+                                        value: formik.values.productId,
+                                      }
+                                    : null
+                                }
+                                isDisabled={isDisabled}
+                                onChange={async (selectedOption) => {
+                                  const selectedName =
+                                    selectedOption?.label || "";
+                                  const selectedId =
+                                    selectedOption?.value || "";
+                                  await formik.setFieldValue(
+                                    "productName",
+                                    selectedName
+                                  );
+                                  formik.setFieldValue("productId", selectedId);
 
-                            await formik.setFieldValue("productName", selectedName);
-                            formik.setFieldValue("productId", selectedId);
-
-                            // compare with itemDetails.name
-                            if (selectedName !== itemDetails?.name) {
-                              formik.setFieldError(
-                                "productName",
-                                "Product does not match bid requirements"
-                              );
-                            } else {
-                              formik.setFieldError("productName", ""); 
-                            }
-                            await formik.setFieldTouched("productName",true,true);
-                            formik.validateField("productName");
-                          }}
-                          onBlur={() => formik.setFieldTouched("productName", true)}
-                          styles={{
-                            control: (base) => ({
-                              ...base,
-                              width: '100%',
-                              padding:'3.3px',
-                              outline: 'none',
-                              border: 'none',
-                              backgroundColor: '#ffffff !important',
-                              fontSize: '0.825rem',
-                              color: '#5e565f !important',
-                              borderRadius: '4px',
-                              cursor:"pointer !important",
-                              boxShadow:
-                                'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,' +
-                                'rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
-                            }),
-                            placeholder: (base) => ({
-                              ...base,
-                              color: '#5e565f !important', 
-                              fontSize: '0.825rem',
-                              fontWeight: '400 !important'
-                            }),
-                            option: (base, state) => ({
-                              ...base,
-                              color:'#5e565f !important',
-                              fontSize: '0.825rem',
-                              padding: '10px',
-                            }),
-
-                          }}
-                          placeholder='Select Product Name'
-                          />
-
-                          {formik?.errors.productName && formik?.touched.productName && (
-                              <div className={styles.fieldError}>
-                                {formik?.errors.productName}
-                              </div>
+                                  if (selectedName !== itemDetails?.name) {
+                                    formik.setFieldError(
+                                      "productName",
+                                      "Product does not match bid requirements"
+                                    );
+                                  } else {
+                                    formik.setFieldError("productName", "");
+                                  }
+                                  await formik.setFieldTouched(
+                                    "productName",
+                                    true,
+                                    true
+                                  );
+                                  formik.validateField("productName");
+                                }}
+                                onBlur={() =>
+                                  formik.setFieldTouched("productName", true)
+                                }
+                                styles={{
+                                  control: (base) => ({
+                                    ...base,
+                                    width: "100%",
+                                    padding: "3.3px",
+                                    outline: "none",
+                                    border: "none",
+                                    backgroundColor: isDisabled
+                                      ? "#f5f5f5"
+                                      : "#ffffff",
+                                    fontSize: "0.825rem",
+                                    color: "#5e565f",
+                                    borderRadius: "4px",
+                                    cursor: isDisabled
+                                      ? "not-allowed"
+                                      : "pointer",
+                                    boxShadow: isDisabled
+                                      ? "none"
+                                      : "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
+                                  }),
+                                  placeholder: (base) => ({
+                                    ...base,
+                                    color: "#5e565f",
+                                    fontSize: "0.825rem",
+                                    fontWeight: "400",
+                                  }),
+                                  option: (base) => ({
+                                    ...base,
+                                    color: "#5e565f",
+                                    fontSize: "0.825rem",
+                                    padding: "10px",
+                                  }),
+                                }}
+                                placeholder="Select Product Name"
+                              />
+                              {formik?.errors.productName &&
+                                formik?.touched.productName && (
+                                  <div className={styles.fieldError}>
+                                    {formik?.errors.productName}
+                                  </div>
+                                )}
+                            </div>
                           )}
-                        </div>
-                          )
-                        }
-                        {/* Enter Bid Price */}
-                        {
-                          isEditing && (
-                            <div className={isEditing?styles.fieldDiv:styles.newFieldDiv}>
+
+                          {/* Bid Price */}
+                          {isEditing && (
+                            <div className={styles.fieldDiv}>
                               <label className={styles.fieldFormLabel}>
                                 {getFieldLabel("Bid Price")}
-                                {isEditing && (
-                                  <span className={styles.labelStamp}>*</span>
-                                )}
+                                <span className={styles.labelStamp}>*</span>
                               </label>
-                              <div className={isEditing?styles.newFieldFormDiv:styles.fieldFormDiv}>
+                              <div className={styles.newFieldFormDiv}>
                                 <input
                                   name="amount"
                                   type="numeric"
                                   placeholder="Enter Bid Price"
-                                  value={isEditing?(formik?.values.amount||""):(`${formik?.values.amount} USD`) }
+                                  value={formik?.values.amount || ""}
                                   onBlur={formik?.handleBlur}
                                   onChange={formik?.handleChange}
-                                  disabled={!isEditing}
-                                  className={isEditing ? styles.fieldFormInput: styles.fieldFormNonEditInput}
+                                  disabled={isDisabled}
+                                  className={`
+                ${styles.fieldFormInput}
+                ${isDisabled ? styles.fieldFormInputDisabled : ""}
+              `}
                                 />
-                                {formik?.errors.amount && formik?.touched.amount && (
-                                  <div className={styles.fieldError}>
-                                    {formik?.errors.amount}
-                                  </div>
-                                )}
+                                {formik?.errors.amount &&
+                                  formik?.touched.amount && (
+                                    <div className={styles.fieldError}>
+                                      {formik?.errors.amount}
+                                    </div>
+                                  )}
                               </div>
                             </div>
-                          )
-                        }
-                        {/* Enter Timeline */}
-                        {
-                          isEditing && (
-                             <div className={isEditing?styles.fieldDiv:styles.newFieldDiv}>
-                                <label className={styles.fieldFormLabel}>
-                                  {getFieldLabel("Timeline")}
-                                  {isEditing && (
-                                    <span className={styles.labelStamp}>*</span>
+                          )}
+
+                          {/* Timeline */}
+                          {isEditing && (
+                            <div className={styles.fieldDiv}>
+                              <label className={styles.fieldFormLabel}>
+                                {getFieldLabel("Timeline")}
+                                <span className={styles.labelStamp}>*</span>
+                              </label>
+                              <div className={styles.newFieldFormDiv}>
+                                <input
+                                  name="timeLine"
+                                  type="numeric"
+                                  placeholder="Enter Timeline (in days)"
+                                  value={formik?.values.timeLine || ""}
+                                  onBlur={formik?.handleBlur}
+                                  onChange={formik?.handleChange}
+                                  disabled={isDisabled}
+                                  className={`
+                ${styles.fieldFormInput}
+                ${isDisabled ? styles.fieldFormInputDisabled : ""}
+              `}
+                                />
+                                {formik?.errors.timeLine &&
+                                  formik?.touched.timeLine && (
+                                    <div className={styles.fieldError}>
+                                      {formik?.errors.timeLine}
+                                    </div>
                                   )}
-                                </label>
-                                <div className={isEditing?styles.newFieldFormDiv:styles.fieldFormDiv}>
-                                  <input
-                                    name="timeLine"
-                                    type="numeric"
-                                    placeholder="Enter Timeline (in days)"
-                                    value={isEditing?(formik?.values.timeLine || ""):(`${formik?.values?.timeLine} Days`)}
-                                    onBlur={formik?.handleBlur}
-                                    onChange={formik?.handleChange}
-                                    disabled={!isEditing}
-                                    className={isEditing ? styles.fieldFormInput: styles.fieldFormNonEditInput}
-                                  />
-                                  {formik?.errors.timeLine &&
-                                    formik?.touched.timeLine && (
-                                      <div className={styles.fieldError}>
-                                        {formik?.errors.timeLine}
-                                      </div>
-                                  )}
-                                </div>
-                             </div>
-                          )
-                        }
-
-                        {/* product name para*/}
-                        {
-                          !isEditing && (
-                            <div className={styles.newFieldDiv}>
-                              <p className={styles.generalInfoLabel}>Submitted Product Name</p>
-                              <p className={styles.generalInfoValue}>{formik.values.productName}</p>
+                              </div>
                             </div>
-                          )
-                        }
+                          )}
 
-                        {/* submitted bid price para */}
-                        {
-                          !isEditing && (
-                            <div className={styles.newFieldDiv}>
-                              <p className={styles.generalInfoLabel}>Submitted Bid Price</p>
-                              <p className={styles.generalInfoValue}>{formik.values.amount ? `${formik.values.amount} USD` : ''}</p>
-                            </div>
-                          )
-                        }
-
-
-                      </div>
-                      
-                      <div className={isEditing?styles.newFieldForm : styles.fieldForm}>
-                        {/* submitted bid timeline para */}
-                        {
-                          !isEditing && (
-                            <div className={styles.newFieldDiv}>
-                              <p className={styles.generalInfoLabel}>Submitted Bid Timeline</p>
-                              <p className={styles.generalInfoValue}>{formik.values.timeLine ? `${formik.values.timeLine} Days` : ''} </p>
-                            </div>
-                          )
-                        }
-                        {/* submitted tnc */}
-                        {
-                          !isEditing && (
-                            <div className={styles.newFieldDiv}>
-                              <p className={styles.generalInfoLabel}>Submitted Terms And Condition</p>
-                              <p className={styles.generalInfoValue}>
-                                {formik.values.tnc.length > 100 ? (
-                                  <div>
-                                    <span>{formik.values.tnc.substring(0,150) + "..."}</span>
-                                    <span id="tnc-tooltip" className={styles.viewmoreSpan}>view more</span>
-                                    <Tooltip
-                                    content={formik?.values?.tnc}
-                                    anchorId="tnc-tooltip"
-                                    place="bottom-start"
-                                    delayHide={500}
-                                    className={styles.toolTip}
-                                    />
-                                  </div>
-                                ) : (
-                                  formik.values.tnc
-                                )}
-                              </p>
-
-                            </div>
-                          )
-                        }
-                        {
-                          isEditing && (
-                          <div className={ isEditing?styles.fieldDiv2:styles.editingFalseFieldDiv2}>
-                          <label className={styles.fieldFormLabel}>
-                            {getFieldLabel("Terms And Condition")}
-                            {isEditing && (
-                              <span className={styles.labelStamp}>*</span>
-                            )}
-                          </label>
-                         {
-                          isEditing? (
-                            <textarea
-                            className={styles.formInput}
-                            rows={5}
-                            name={`tnc`}
-                            placeholder={`Enter Terms And Condition`}
-                            value={formik?.values?.tnc}
-                            onBlur={formik?.handleBlur}
-                            onChange={formik?.handleChange}
-                            disabled={!isEditing}
-                          />
-                          )
-                          :
-                          (
-                            <p className={styles.tncPara}>{savedValue.tnc}</p>
-                          )
-                         }
-                          {formik?.touched?.tnc && formik?.errors?.tnc && (
-                            <span className={styles.fieldError}>
-                              {formik?.errors?.tnc}
-                            </span>
+                          {/* Display when not editing */}
+                          {!isEditing && (
+                            <>
+                              <div className={styles.newFieldDiv}>
+                                <p className={styles.generalInfoLabel}>
+                                  Submitted Product Name
+                                </p>
+                                <p className={styles.generalInfoValue}>
+                                  {formik.values.productName}
+                                </p>
+                              </div>
+                              <div className={styles.newFieldDiv}>
+                                <p className={styles.generalInfoLabel}>
+                                  Submitted Bid Price
+                                </p>
+                                <p className={styles.generalInfoValue}>
+                                  {formik.values.amount
+                                    ? `${formik.values.amount} USD`
+                                    : ""}
+                                </p>
+                              </div>
+                            </>
                           )}
                         </div>
-                          )
-                        }
-                      </div>
 
-                      {isEditing && (
-                        <div className={styles.fieldBtnDiv}>
-                          <button
-                            type="submit"
-                            className={styles.fieldSubmitButton}
-                            disabled={loading}
-                          >
-                            {loading ? (
-                              <div className={styles.loadingSpinner}></div>
-                            ) : (
-                              "Submit"
-                            )}
-                          </button>
-                          <button
-                            type="button"
-                            className={`${styles.fieldCancelButton} ${isDisabled ? styles.disabledCancel : styles.disabledNotCancel}`}
-                            disabled={isDisabled}
-                            onClick={handleCancel}
-                          >
-                            Cancel
-                          </button>
+                        <div
+                          className={
+                            isEditing ? styles.newFieldForm : styles.fieldForm
+                          }
+                        >
+                          {!isEditing && (
+                            <>
+                              <div className={styles.newFieldDiv}>
+                                <p className={styles.generalInfoLabel}>
+                                  Submitted Bid Timeline
+                                </p>
+                                <p className={styles.generalInfoValue}>
+                                  {formik.values.timeLine
+                                    ? `${formik.values.timeLine} Days`
+                                    : ""}
+                                </p>
+                              </div>
+
+                              <div className={styles.newFieldDiv}>
+                                <p className={styles.generalInfoLabel}>
+                                  Submitted Terms And Condition
+                                </p>
+                                <p className={styles.generalInfoValue}>
+                                  {formik.values.tnc.length > 100 ? (
+                                    <div>
+                                      <span>
+                                        {formik.values.tnc.substring(0, 150) +
+                                          "..."}
+                                      </span>
+                                      <span
+                                        id="tnc-tooltip"
+                                        className={styles.viewmoreSpan}
+                                      >
+                                        view more
+                                      </span>
+                                      <Tooltip
+                                        content={formik?.values?.tnc}
+                                        anchorId="tnc-tooltip"
+                                        place="bottom-start"
+                                        delayHide={500}
+                                        className={styles.toolTip}
+                                      />
+                                    </div>
+                                  ) : (
+                                    formik.values.tnc
+                                  )}
+                                </p>
+                              </div>
+                            </>
+                          )}
+
+                          {isEditing && (
+                            <div className={styles.fieldDiv2}>
+                              <label className={styles.fieldFormLabel}>
+                                {getFieldLabel("Terms And Condition")}
+                                <span className={styles.labelStamp}>*</span>
+                              </label>
+                              <textarea
+                                className={`
+              ${styles.formInput}
+              ${isDisabled ? styles.fieldFormInputDisabled : ""}
+            `}
+                                rows={5}
+                                name={`tnc`}
+                                placeholder={`Enter Terms And Condition`}
+                                value={formik?.values?.tnc}
+                                onBlur={formik?.handleBlur}
+                                onChange={formik?.handleChange}
+                                disabled={isDisabled}
+                              />
+                              {formik?.touched?.tnc && formik?.errors?.tnc && (
+                                <span className={styles.fieldError}>
+                                  {formik?.errors?.tnc}
+                                </span>
+                              )}
+                            </div>
+                          )}
                         </div>
-                      )}
-                    </form>
+
+                        {/* Submit & Cancel */}
+                        {isEditing && (
+                          <div className={styles.fieldBtnDiv}>
+                            <button
+                              type="submit"
+                              className={styles.fieldSubmitButton}
+                              disabled={loading}
+                            >
+                              {loading ? (
+                                <div className={styles.loadingSpinner}></div>
+                              ) : (
+                                "Submit"
+                              )}
+                            </button>
+                            <button
+                              type="button"
+                              className={`${styles.fieldCancelButton} ${
+                                isDisabled
+                                  ? styles.disabledCancel
+                                  : styles.disabledNotCancel
+                              }`}
+                              disabled={isDisabled}
+                              onClick={handleCancel}
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        )}
+                      </form>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        }
       </div>
       {/* Product List */}
       {participatingDetails?.history?.length > 0 && (
@@ -673,6 +818,11 @@ const BidDetails = () => {
       )}
 
       <div className={styles.bottomMargin}></div>
+      <QuoteRequestedModal
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        onClose={onClose}
+      />
     </div>
   );
 };

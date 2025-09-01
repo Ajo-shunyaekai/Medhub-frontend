@@ -195,7 +195,13 @@ const AddProduct = ({ placeholder }) => {
   const [addProductBackImageLinkBtn, setAddProductBackImageLinkBtn] = useState(false);
   const [addProductSideImageLinkBtn, setAddProductSideImageLinkBtn] = useState(false);
   const [addProductCloseUpImageLinkBtn, setAddProductCloseUpImageLinkBtn] = useState(false);
-  const [showProductLinkBtn, setShowProductLinkBtn] = useState(false);
+  const [frontImageStatus, setFrontImageStatus] = useState(true);
+  const [backImageStatus, setBackImageStatus] = useState(true);
+  const [sideImageStatus, setSideImageStatus] = useState(true);
+  const [closeUpImageStatus, setCloseUpImageStatus] = useState(true);
+/*   const [showProductLinkBtn, setShowProductLinkBtn] = useState(false); */
+  const [inputUrl, setInputUrl] = useState({front:false, back:false, side:false, close:false});
+
   
 
   const handleSelectFile = (file) => {
@@ -2218,7 +2224,7 @@ const AddProduct = ({ placeholder }) => {
                         : null
                     }
                   />
-                </div>
+                </div> 
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Other Information
@@ -2252,7 +2258,7 @@ const AddProduct = ({ placeholder }) => {
             <div className={styles.section}>
               <div className={styles.formHeadSection}>
                 <span className={styles.formHead}>Upload Product Image</span>
-{/*                 {
+{/*             {
                   superAdmin && <span onClick={()=>{setAddProductImageButton(!addProductImageButton);}} className={styles.formAddButton}>{addProductImageButton ?"Add Product Image":"Add Product Link"}</span>
                 } */}
               </div>
@@ -2273,6 +2279,13 @@ const AddProduct = ({ placeholder }) => {
                         ? errors.imageFront
                         : null
                     }
+                    addProductFrontImageLinkBtn= {addProductFrontImageLinkBtn}
+                    setAddProductFrontImageLinkBtn = {setAddProductFrontImageLinkBtn}
+                    showProductLinkBtn = {true}
+                    frontImageStatus = {frontImageStatus}
+                    handleInputChange = {handleInputChange}
+                    inputUrl = {inputUrl}
+                    setInputUrl = {setInputUrl}
                   />
                   <AddProductFileUpload
                     styles={styles}
@@ -2289,6 +2302,13 @@ const AddProduct = ({ placeholder }) => {
                         ? errors.imageBack
                         : null
                     }
+                    addProductBackImageLinkBtn = {addProductBackImageLinkBtn}
+                    setAddProductBackImageLinkBtn = {setAddProductBackImageLinkBtn}
+                    showProductLinkBtn = {true}
+                    backImageStatus = {backImageStatus}
+                    handleInputChange = {handleInputChange}
+                    inputUrl = {inputUrl}
+                    setInputUrl = {setInputUrl}
                   />
                   <AddProductFileUpload
                     styles={styles}
@@ -2305,6 +2325,13 @@ const AddProduct = ({ placeholder }) => {
                         ? errors.imageSide
                         : null
                     }
+                    addProductSideImageLinkBtn = {addProductSideImageLinkBtn}
+                    setAddProductSideImageLinkBtn = {setAddProductSideImageLinkBtn}
+                    showProductLinkBtn = {true}
+                    sideImageStatus = {sideImageStatus}
+                    handleInputChange = {handleInputChange}
+                    inputUrl = {inputUrl}
+                    setInputUrl = {setInputUrl}
                   />
                   <AddProductFileUpload
                     styles={styles}
@@ -2321,6 +2348,13 @@ const AddProduct = ({ placeholder }) => {
                         ? errors.imageClosure
                         : null
                     }
+                    addProductCloseUpImageLinkBtn = {addProductCloseUpImageLinkBtn}
+                    setAddProductCloseUpImageLinkBtn = {setAddProductCloseUpImageLinkBtn}
+                    showProductLinkBtn = {true}
+                    closeUpImageStatus = {closeUpImageStatus}
+                    handleInputChange = {handleInputChange}
+                    inputUrl = {inputUrl}
+                    setInputUrl = {setInputUrl}
                   />
                </div>
 {/*                   {(superAdmin && addProductImageButton)?

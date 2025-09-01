@@ -319,6 +319,20 @@ const EditAddProduct = ({ placeholder }) => {
       placeholder: "Enter Box Quantity",
     },
   ]);
+
+  /* update requiredment of product link and product image */
+  const [addProductFrontImageLinkBtn, setAddProductFrontImageLinkBtn] = useState(false);
+  const [addProductBackImageLinkBtn, setAddProductBackImageLinkBtn] = useState(false);
+  const [addProductSideImageLinkBtn, setAddProductSideImageLinkBtn] = useState(false);
+  const [addProductCloseUpImageLinkBtn, setAddProductCloseUpImageLinkBtn] = useState(false);
+  const [frontImageStatus, setFrontImageStatus] = useState(true);
+  const [backImageStatus, setBackImageStatus] = useState(true);
+  const [sideImageStatus, setSideImageStatus] = useState(true);
+  const [closeUpImageStatus, setCloseUpImageStatus] = useState(true);
+  /* const [showProductLinkBtn, setShowProductLinkBtn] = useState(false); */
+  const [inputUrl, setInputUrl] = useState({front:false, back:false, side:false, close:false});
+
+
   const [selectedOption, setSelectedOption] = useState(null);
   const [otherMaterial, setOtherMaterial] = useState("");
   const [dermatologistTested, setDermatologistTested] = useState(null);
@@ -2435,7 +2449,7 @@ const EditAddProduct = ({ placeholder }) => {
                   initialValues={formik?.values}
                   label="Front Image"
                   tooltip={false}
-                  showLabel={false}
+                  showLabel={true}
                   acceptTypes={{
                     "image/png": [],
                     "image/jpeg": [],
@@ -2451,6 +2465,13 @@ const EditAddProduct = ({ placeholder }) => {
                       </div>
                     )
                   }
+                  addProductFrontImageLinkBtn= {addProductFrontImageLinkBtn}
+                  setAddProductFrontImageLinkBtn = {setAddProductFrontImageLinkBtn}
+                  showProductLinkBtn = {true}
+                  frontImageStatus = {frontImageStatus}
+                  handleInputChange = {handleInputChange}
+                  inputUrl = {inputUrl}
+                  setInputUrl = {setInputUrl}
                 />
                 <AddProductFileUpload
                   styles={styles}
@@ -2463,7 +2484,7 @@ const EditAddProduct = ({ placeholder }) => {
                   initialValues={formik?.values}
                   label="Back Image"
                   tooltip={false}
-                  showLabel={false}
+                  showLabel={true}
                   acceptTypes={{
                     "image/png": [],
                     "image/jpeg": [],
@@ -2479,6 +2500,13 @@ const EditAddProduct = ({ placeholder }) => {
                       </div>
                     )
                   }
+                  addProductBackImageLinkBtn = {addProductBackImageLinkBtn}
+                  setAddProductBackImageLinkBtn = {setAddProductBackImageLinkBtn}
+                  showProductLinkBtn = {true}
+                  backImageStatus = {backImageStatus}
+                  handleInputChange = {handleInputChange}
+                  inputUrl = {inputUrl}
+                  setInputUrl = {setInputUrl}
                 />
                 <AddProductFileUpload
                   styles={styles}
@@ -2491,7 +2519,7 @@ const EditAddProduct = ({ placeholder }) => {
                   initialValues={formik?.values}
                   label="Side Image"
                   tooltip={false}
-                  showLabel={false}
+                  showLabel={true}
                   acceptTypes={{
                     "image/png": [],
                     "image/jpeg": [],
@@ -2507,6 +2535,13 @@ const EditAddProduct = ({ placeholder }) => {
                       </div>
                     )
                   }
+                  addProductSideImageLinkBtn = {addProductSideImageLinkBtn}
+                  setAddProductSideImageLinkBtn = {setAddProductSideImageLinkBtn}
+                  showProductLinkBtn = {true}
+                  sideImageStatus = {sideImageStatus}
+                  handleInputChange = {handleInputChange}
+                  inputUrl = {inputUrl}
+                  setInputUrl = {setInputUrl}
                 />
                 <AddProductFileUpload
                   styles={styles}
@@ -2517,9 +2552,9 @@ const EditAddProduct = ({ placeholder }) => {
                   existingFiles={formik?.values?.imageClosure}
                   setFieldValue={formik?.setFieldValue}
                   initialValues={formik?.values}
-                  label="Close up Image"
+                  label="Close Up Image"
                   tooltip={false}
-                  showLabel={false}
+                  showLabel={true}
                   acceptTypes={{
                     "image/png": [],
                     "image/jpeg": [],
@@ -2535,6 +2570,13 @@ const EditAddProduct = ({ placeholder }) => {
                       </div>
                     )
                   }
+                  addProductCloseUpImageLinkBtn = {addProductCloseUpImageLinkBtn}
+                  setAddProductCloseUpImageLinkBtn = {setAddProductCloseUpImageLinkBtn}
+                  showProductLinkBtn = {true}
+                  closeUpImageStatus = {closeUpImageStatus}
+                  handleInputChange = {handleInputChange}
+                  inputUrl = {inputUrl}
+                  setInputUrl = {setInputUrl}
                 />
               </div>
               <div className={styles?.productContainer}>

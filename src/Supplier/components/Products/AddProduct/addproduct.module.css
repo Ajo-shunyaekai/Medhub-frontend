@@ -22,10 +22,56 @@
 }
 
 .formLabelBtn{
-  background: linear-gradient(to left, #00dcff, #0075ce);
-  padding: 3px 5px 3px 5px;
-  border-radius: 4px;
+  /* background: linear-gradient(to left, #00dcff, #0075ce); */
+  /* width: 40%; */
 }
+.innerSectionLabel{
+  display: flex;
+  flex-direction: column;
+}
+
+/* @media (max-width: 1501px) {
+  .formLabelBtn{
+    width: 40%;
+  }
+}
+@media (max-width: 1375px) {
+  .formLabelBtn{
+    width: 50%;
+  }
+}
+@media (max-width: 1290px) {
+  .formLabelBtn{
+    width: 60%;
+  }
+}
+@media (max-width: 1225px) {
+  .formLabelBtn{
+    width: 70%;
+  }
+} */
+@media (max-width: 1500px) {
+  .newFormLabel {
+    color: #5e676f;
+    font-size: 0.825rem;
+    font-weight: 500;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 5px;
+
+  }
+}
+
+.editStyleButton{
+    color: #99a0ac;
+    cursor: pointer !important;
+    font-size: 0.825rem;
+    font-weight: 500;
+    text-decoration: underline;
+}
+
 
 .bulkButton {
   border: none !important;
@@ -233,6 +279,11 @@
   color: #5e676f;
   font-size: 0.825rem;
   font-weight: 500;
+}
+.newFormLabel {
+  color: #5e676f;
+  font-size: 0.825rem;
+  font-weight: 500;
   display: flex;
   justify-content: space-between;
 }
@@ -244,6 +295,7 @@
 }
 
 .formInput {
+  width: 100%;
   outline: none !important;
   border: none !important;
   background-color: #ffffff !important;
@@ -521,6 +573,30 @@
   background-color: #f9f9f9;
   text-align: center;
   border: none !important;
+}
+
+.newFilePreview{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 80px;
+  padding: 16px 8px;
+  background-color: #f9f9f9;
+  text-align: center;
+  border: none !important;
+}
+
+.inputFormAndPreviewContainer{
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+.inputFormAndPreviewContainerNew{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .previewImage {
