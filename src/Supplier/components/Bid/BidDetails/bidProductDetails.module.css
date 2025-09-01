@@ -264,18 +264,35 @@
 
 .disabledCancel {
   cursor: not-allowed !important;
-  background-color: #ccc;
-  /* lighter background */
-  color: #666;
-  /* muted text */
+  background-color: #ccc;  
+  color: #666;             
+  position: relative;      
+  overflow: hidden;        
 }
+
+.disabledCancel::after {
+  content: "";
+  position: absolute;
+  inset: 0;  
+  background-color: rgba(255, 255, 255, 0.5); 
+  border-radius: 4px;
+  pointer-events: none;   
+}
+
+/* .disabledCancel {
+  cursor: not-allowed !important;
+  background-color: #ccc;
+  lighter background
+  color: #666;
+  muted text
+} */
 
 .disabledNotCancel {
   cursor: pointer I !important;
 }
 
 
-.fieldDiv2 textarea {
+/* .fieldDiv2 textarea {
   width: 100%;
   outline: none !important;
   border: none !important;
@@ -286,6 +303,28 @@
   border-radius: 4px !important;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+} */
+
+.tncTextarea{
+  width: 100%;
+  outline: none !important;
+  border: none !important;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+}
+
+.tncTextareaDisabled{
+  width: 100%;
+  outline: none !important;
+  border: none !important;
+  padding: 10.4px !important;
+  font-size: 0.825rem !important;
+  background-color: #f5f5f5 !important;
+  color: #a0a0a0;
+  cursor: not-allowed;
+  border: 1px solid #dcdcdc;
+  border-radius: 4px !important;
+  opacity: 0.8;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
 }
 
 .fieldFormLabel {
@@ -383,12 +422,20 @@
   color: #fff;
   outline: none !important;
   align-items: center;
-  cursor: pointer !important;
+  cursor: not-allowed !important;
   display: flex;
   font-size: 0.825rem;
   font-weight: 500;
   padding: 6px 22px;
-  pointer-events: none;
+}
+
+.fieldSubmitButtonDisable::after{
+ content: '';
+ position: absolute;
+ inset: 0;
+ background-color: rgba(255, 255, 255, 0.4);
+ pointer-events: none !important;
+ border-radius: 4px;
 }
 
 .fieldError {
@@ -1278,4 +1325,10 @@
   cursor: not-allowed;
   border: 1px solid #dcdcdc;
   opacity: 0.8;
+}
+
+.bidCompletedFieldHeading {
+  font-size:  14px;
+  font-weight: 500;
+  color: #99a0ac;
 }

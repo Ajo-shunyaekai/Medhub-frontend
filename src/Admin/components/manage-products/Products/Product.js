@@ -8,6 +8,9 @@ import ApprovedSecondaryProducts from "./SecondaryProducts";
 import Loader from "../../shared-components/Loader/Loader";
 import { apiRequests } from "../../../../api";
 import { fetchProductsList } from "../../../../redux/reducers/productSlice";
+import { FaAngleDown, FaAngleUp } from "react-icons/fa";
+import DatePicker from "react-date-picker";
+import { categoriesData } from "../../../../utils/Category";
 
 const ApprovedProduct = () => {
   const location = useLocation();
@@ -115,6 +118,29 @@ useEffect(() => {
   //   );
   // };
 
+  /* filter and download button state manage */
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [isDateOpen, setIsDateOpen] = useState(false);
+  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+  const [isUploadTypeOpen, setIsUploadTypeOpen] = useState(false);
+
+  const [filteredData, setFilteredData] = useState({startDate:null, endDate:null, category:"All", uploadType:"All"});
+
+  const [categoryOptions, setCategoryOptions] = useState([
+    { label: "All", value: "All" },
+    ...(categoriesData?.map((c) => ({ label: c.name, value: c.name })) || []),
+  ]);
+
+  const uploadType = ["All","Manual Type","Bulk Type"];
+
+  console.log("categoryOptions: ",categoryOptions);
+  console.log("filtereData: ", filteredData);
+
+  const handleResetFilter = () => {
+    setFilteredData({startDate:null, endDate:null, category:"All", uploadType:"All"});
+    setIsFilterOpen(false);
+  }
+
   return (
     <>
       {loading ? (
@@ -124,6 +150,114 @@ useEffect(() => {
           <div className={styles.header}>
             <div className={styles.title}>
               Products List
+            </div>
+            <div className={`${isFilterOpen?styles.headerBtnDiv:styles.headerBtnDivFilterClose}`}>
+              <div className={styles.filterBtnMainContainer}>
+                <div className={styles.filteredBtnContainer}>
+                  <div onClick={()=>setIsFilterOpen(!isFilterOpen)} className={styles.filterProductBtn}>
+                    <span>Filter Product</span>
+                    {
+                      isFilterOpen? <FaAngleUp/>: <FaAngleDown/>
+                    }
+                  </div>
+                  {
+                  isFilterOpen &&
+                  <ul className={styles.filterInnerSection}>
+                    <li onClick={()=>setIsDateOpen(!isDateOpen)} className={styles.filterList}>
+                      <span>Date</span>
+                      {
+                        isDateOpen? <FaAngleUp/> : <FaAngleDown/>
+                      }
+                    </li>
+                    {/* {
+                      isDateOpen &&
+                      (
+                       <div>
+                         <li className={styles.filterList}>
+                          <label>Start Date</label>
+                           <DatePicker 
+                            format="dd/MM/yyyy"
+                            placeholder="__/__/____"
+                            clearIcon={null}
+                            calendarIcon={null}
+                            className={styles.dateInput}
+                            onKeyDown={(e) => e.preventDefault()}
+
+                           />
+                         </li>
+                         <li></li>
+                       </div>
+                      )
+                    } */}
+                    <li onClick={()=>setIsCategoryOpen(!isCategoryOpen)} className={styles.filterList}>
+                      <span>Category</span>
+                      {
+                        isCategoryOpen? <FaAngleUp/> :<FaAngleDown/>
+                      }
+                    </li>
+                    {
+                      isCategoryOpen && (
+                        <ul className={styles.categoryOpenUl}>
+                        {
+                          categoryOptions.map((category,i)=>(
+                            <li
+                             key={i}
+                             onClick={() =>
+                                setFilteredData((prev) => ({ ...prev, category: category.value }))
+                              }
+                             className={`
+                              ${styles.categoryLi}
+                              ${filteredData.category === category.value ? styles.activeCategory: ""}
+                              `}>
+                              {category.label}
+                            </li>
+                          ))
+                        }
+                        </ul>
+                      )
+                    }
+                    <li 
+                    onClick={()=>setIsUploadTypeOpen(!isUploadTypeOpen)} 
+                    className={`
+                      ${isUploadTypeOpen? styles.filterList: styles.filterListLast}
+                      ${isCategoryOpen? styles.borderTop:""}
+                    `}>
+                      <span>Upload Type</span>
+                      {
+                        isUploadTypeOpen? <FaAngleUp/> : <FaAngleDown/>
+                      }
+                    </li>
+                    {
+                      isUploadTypeOpen && (
+                       <ul className={styles.uploadOpenUl}>
+                          {
+                            uploadType.map((type,i)=> (
+                              <li 
+                              key={i}
+                              onClick={(prev)=>{
+                                setFilteredData({...prev,uploadType:type})
+                              }}
+                              className={`
+                              ${styles.categoryLi}
+                              ${filteredData.uploadType === type ? styles.activeCategory: ""}
+                              `}
+                              >
+                                {type}
+                              </li>
+                            ))
+                          }
+                        </ul>
+                      )
+                    }
+                  </ul>
+                  }
+                </div>
+
+                {isFilterOpen && <button className={styles.applyFilter}>Apply</button>}
+                {isFilterOpen &&<button onClick={handleResetFilter} className={styles.resetFilterBtn}>Reset Filter</button>}
+              </div>
+              {/* download product list */}
+              <div className={isFilterOpen?styles.downloadBtnIsOpen:styles.downloadBtn}>Download</div>
             </div>
           </div>
           <div className={styles.content}>
