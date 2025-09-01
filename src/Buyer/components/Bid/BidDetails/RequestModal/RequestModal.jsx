@@ -1,12 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styles from './RequestModal.module.css'
+import { useSelector } from 'react-redux';
 
 const RequestModal = ({isOpen, onClose, handleRequestQuote, requestQuoteBidObject, setRequestQuoteBidObject,isLoading ,setIsLoading}) => {
 
   const modalRef = useRef();
+  const { bidDetails } = useSelector((state) => state?.bidReducer || {});
 
 
-  const quoteRequested = requestQuoteBidObject?.quoteRequested ? true : false;
+  const quoteRequested = requestQuoteBidObject?.quoteRequested;
 
 
   useEffect(() => {
@@ -33,10 +35,13 @@ const RequestModal = ({isOpen, onClose, handleRequestQuote, requestQuoteBidObjec
 
   /* handle quote btn */
   const handleQuoteBtn = async() => {
-    try {
-     
+    try { 
       setIsLoading(true);
       await handleRequestQuote(requestQuoteBidObject); 
+      setRequestQuoteBidObject((prev)=>({
+        ...prev,
+        quoteRequested: prev.participantId
+      }));
       onClose();
     } catch (error) {
       console.error("Error while sending quote:", error);
@@ -63,7 +68,7 @@ const RequestModal = ({isOpen, onClose, handleRequestQuote, requestQuoteBidObjec
           </div>
 
           <div className={styles.modalDescSection}>
-            <p>{quoteRequested?"Quote is requested to a supplier":"Once a quotation is sent, this bid will be considered closed, and you will not be able to request other vendors."}</p>
+            <p>{quoteRequested?`Quote is requested to a supplier ${requestQuoteBidObject?.companyName || ""}`:"Once a quotation is sent, this bid will be considered closed, and you will not be able to request other vendors."}</p>
           </div>
 
           {/* button */}

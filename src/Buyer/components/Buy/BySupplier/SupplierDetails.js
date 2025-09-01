@@ -518,7 +518,7 @@ const SupplierDetails = ({socket}) => {
 
           <div>
              <p className={styles.innerHead3}>Current Bids</p>
-             <ProductList supplierId={supplierId} socket={socket}/>
+             <ProductList supplierId={supplierId} socket={socket} supplierName={supplier?.supplier_name}/>
           </div>
 
           <div className={styles.buttonContainer}>
