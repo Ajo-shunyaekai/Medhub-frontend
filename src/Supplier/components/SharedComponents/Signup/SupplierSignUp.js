@@ -516,8 +516,8 @@ const SupplierSignUp = ({ socket }) => {
     let formErrors = {};
  
     /* product indicator */
-    if(!formData.productsIndicator)
-      formErrors.productsIndicator = "Number of Product is Required"
+    // if(!formData.productsIndicator)
+    //   formErrors.productsIndicator = "Number of Product is Required"
 
     if (!formData.companyType)
       formErrors.companyType = "Company Type is Required";
@@ -1248,18 +1248,19 @@ const SupplierSignUp = ({ socket }) => {
                     </div>
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
-                        Number Of Products<span className={styles.labelStamp}>*</span>
+                        Number of Products
+                        {/* <span className={styles.labelStamp}>*</span> */}
                       </label>
                       <Select
                         value={formData.productsIndicator}
                         onChange={handleProductIndicatorChange}
                         options={productIndicator}
                       />
-                      {errors.productsIndicator && (
+                      {/* {errors.productsIndicator && (
                         <div className={styles.signupErrors}>
                           {errors.productsIndicator}
                         </div>
-                      )}
+                      )} */}
                     </div>
                     <div className={styles.signupFormSectionDiv}>
                       <label className={styles.signupFormSectionLabel}>
