@@ -249,7 +249,8 @@ const SupplierSignUp = ({ socket }) => {
   ];
 
   const productIndicator = [
-    {value:"1-500",label: "1-500"},
+     {value:"1-50",label: "1-50"},
+    {value:"51-500",label: "51-500"},
     {value:"500-5000",label: "500-5,000"},
     {value:"5000-50000",label: "5000-50,000"},
     {value:"over 50000",label: "over 50,000"},

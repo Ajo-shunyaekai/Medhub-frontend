@@ -416,26 +416,25 @@ const SupplierDetailsNew = () => {
                     {supplierDetails?.vat_reg_no}
                   </div>
                 </div>
-                {supplierDetails?.yrFounded && (
+                
                   <div className="buyer-details-inner-section">
                     <div className="buyer-details-inner-head">
                       Year Company Founded :
                     </div>
                     <div className="buyer-details-inner-text">
-                      {supplierDetails?.yrFounded}
+                      {supplierDetails?.yrFounded || '-'}
                     </div>
                   </div>
-                )}
-                {supplierDetails?.license_no && (
+
                   <div className="buyer-details-inner-section">
                     <div className="buyer-details-inner-head">
                       License No. :
                     </div>
                     <div className="buyer-details-inner-text">
-                      {supplierDetails?.license_no}
+                      {supplierDetails?.license_no || '-'}
                     </div>
                   </div>
-                )}
+  
                 {supplierDetails?.tags && (
                   <div className="buyer-details-inner-section">
                     <div className="buyer-details-inner-head">Tags :</div>
@@ -482,28 +481,28 @@ const SupplierDetailsNew = () => {
                   </div>
                 </div>
 
-                {supplierDetails?.productsIndicator && (
+                {/* {supplierDetails?.productsIndicator && ( */}
                   <div className="buyer-details-inner-section">
                   <div className="buyer-details-inner-head">
                     Number of Products :
                   </div>
                   <div className="buyer-details-inner-text">
-                    {supplierDetails?.productsIndicator}
+                    {supplierDetails?.productsIndicator || '-'}
                   </div>
                 </div>
-                )}
+                {/* )} */}
               </div>
               <div className="buyer-details-inner-left-section">
-                {supplierDetails?.annualTurnover && (
+                {/* {supplierDetails?.annualTurnover && ( */}
                   <div className="newSection">
                     <div className="newHead">Annual Turnover :</div>
                     <div className="newText">
                       {supplierDetails?.annualTurnover
-                        ? `${supplierDetails?.annualTurnover} USD`
+                        ? `${supplierDetails?.annualTurnover || '-'} USD`
                         : "-"}
                     </div>
                   </div>
-                )}
+                {/* )} */}
 
                 <div className="newSection">
                   <div className="newHead">Business/Trade Activity Code :</div>
@@ -512,14 +511,14 @@ const SupplierDetailsNew = () => {
                   </div>
                 </div>
                 {/* Conditionally render License Expiry Date */}
-                {supplierDetails?.license_expiry_date && (
+                {/* {supplierDetails?.license_expiry_date && ( */}
                   <div className="newSection">
                     <div className="newHead">License Expiry Date :</div>
                     <div className="newText">
-                      {supplierDetails?.license_expiry_date}
+                      {supplierDetails?.license_expiry_date || '-'}
                     </div>
                   </div>
-                )}
+                {/* )} */}
 
                 <div className="newSection">
                   <div className="newHead">Contact Person Name :</div>
