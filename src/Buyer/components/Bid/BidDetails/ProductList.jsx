@@ -43,52 +43,19 @@ const ProductList = ({ socket }) => {
 
   const handleAddToFavourite = async (row) => {
     try {
-      const bidId = row.bidId;
-      const participantId = row.participantId;
-      const itemId = row.additionalDetailsId;
+      const bidId = row?.bidId;
+      const participantId = row?.participantId;
+      const itemId = row?.additionalDetailsId;
 
-      const updatedFavourite = !row.favourite;
-
-      // const response = await dispatch(
-      //   addToFavourite(`bid/add-to-favourite/${bidId}/${itemId}/${participantId}`)
-      // );
-
-      // if (response.meta.requestStatus === "fulfilled") {
-      // setNewOrder((prev) =>
-      //   prev.map((p) =>
-      //     p.participantId === participantId && p.itemId === row.itemId
-      //       ? { ...p, favourite: updatedFavourite }
-      //       : p
-      //   )
-      // );
-      //   if (updatedFavourite) {
-      //     // toast.success("Added to favourites!");
-      //     toast.success("Added to favourites!", { toastId: `${participantId}-${itemId}`});
-      //   } else {
-      //     // toast.warning("Removed from favourites!");
-      //     toast.warning("Removed from favourites!", { toastId: `${participantId}-${itemId}`});
-      //   }
-      // } else {
-      //   toast.error("Failed to update favourite. Please try again.");
-      // }
-
-      postRequestWithToken(
-        `/bid/add-to-favourite/${bidId}/${itemId}/${participantId}`,
-        {},
-        async (response) => {
-          if (response?.code === 200) {
-            setNewOrder((prev) =>
-              prev.map((p) =>
-                p.participantId === participantId && p.itemId === row.itemId
-                  ? { ...p, favourite: updatedFavourite }
-                  : p
-              )
-            );
-            toast(response.message, { type: "success" });
-          } else {
-          }
-        }
+      const response = await dispatch(
+        addToFavourite(
+          `bid/add-to-favourite/${bidId}/${itemId}/${participantId}`
+        )
       );
+
+      if (response.meta.requestStatus === "fulfilled") {
+        dispatch(fetchBidById(`bid/${id}`));
+      }
     } catch (error) {
       console.error("Error updating favourite:", error);
     }
