@@ -467,7 +467,7 @@ const BidDetails = () => {
                       <span className={styles.fieldHeading}>
                         Participate in Bid{" "}
                         {bidDetails?.status === "completed" && (
-                          <span className={styles.fieldHeading}>
+                          <span className={styles.bidCompletedFieldHeading}>
                             {bidDetails?.additionalDetails?.some((item) =>
                               item?.participants?.some(
                                 (participant) =>
@@ -573,18 +573,19 @@ const BidDetails = () => {
                                       ? "#f5f5f5"
                                       : "#ffffff",
                                     fontSize: "0.825rem",
-                                    color: "#5e565f",
+                                    color: isDisabled? "#aoaoao":"#5e565f",
                                     borderRadius: "4px",
                                     cursor: isDisabled
                                       ? "not-allowed"
                                       : "pointer",
                                     boxShadow: isDisabled
-                                      ? "none"
+                                      ? "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important"
                                       : "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
                                   }),
                                   placeholder: (base) => ({
                                     ...base,
-                                    color: "#5e565f",
+                                    color: isDisabled? "#aoaoao":"#5e565f",
+                                    opacity: isDisabled? "0.8":"1",
                                     fontSize: "0.825rem",
                                     fontWeight: "400",
                                   }),
@@ -623,9 +624,9 @@ const BidDetails = () => {
                                   onChange={formik?.handleChange}
                                   disabled={isDisabled}
                                   className={`
-                ${styles.fieldFormInput}
-                ${isDisabled ? styles.fieldFormInputDisabled : ""}
-              `}
+                                    ${styles.fieldFormInput}
+                                    ${isDisabled ? styles.fieldFormInputDisabled : ""}
+                                  `}
                                 />
                                 {formik?.errors.amount &&
                                   formik?.touched.amount && (
@@ -654,9 +655,9 @@ const BidDetails = () => {
                                   onChange={formik?.handleChange}
                                   disabled={isDisabled}
                                   className={`
-                ${styles.fieldFormInput}
-                ${isDisabled ? styles.fieldFormInputDisabled : ""}
-              `}
+                                    ${styles.fieldFormInput}
+                                    ${isDisabled ? styles.fieldFormInputDisabled : ""}
+                                  `}
                                 />
                                 {formik?.errors.timeLine &&
                                   formik?.touched.timeLine && (
@@ -752,9 +753,9 @@ const BidDetails = () => {
                               </label>
                               <textarea
                                 className={`
-              ${styles.formInput}
-              ${isDisabled ? styles.fieldFormInputDisabled : ""}
-            `}
+                                  ${styles.formInput}
+                                  ${isDisabled ? styles.tncTextareaDisabled : styles.tncTextarea}
+                                `}
                                 rows={5}
                                 name={`tnc`}
                                 placeholder={`Enter Terms And Condition`}
@@ -777,7 +778,7 @@ const BidDetails = () => {
                           <div className={styles.fieldBtnDiv}>
                             <button
                               type="submit"
-                              className={styles.fieldSubmitButton}
+                              className={isDisabled?styles.fieldSubmitButtonDisable:styles.fieldSubmitButton}
                               disabled={loading}
                             >
                               {loading ? (
