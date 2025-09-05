@@ -103,6 +103,8 @@ const ApprovedSeller = () => {
             searchKey: searchKey,
             status: 1,
         };
+
+        console.log("obj: ",obj);
  
         setLoading(true);
  

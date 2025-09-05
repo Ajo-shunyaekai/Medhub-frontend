@@ -25,6 +25,7 @@ export const fetchProductsList = createAsyncThunk(
   }
 );
 
+
 export const fetchProductsQRListCsvDwnld = createAsyncThunk(
   "product/fetchProductsQRListCsvDwnld",
   async ({ url, obj }, { rejectWithValue }) => {
@@ -222,6 +223,20 @@ export const fetchOtherSupplierProductsList = createAsyncThunk(
   }
 );
 
+/* filtered product -> admin */
+export const fetchFilteredProductsList = createAsyncThunk(
+  "product/filteredProductsList",
+  async({url, obj},{rejectWithValue}) => {
+    try {
+      const response = await apiRequests.postRequest(url, obj);
+      return response?.data
+    } 
+    catch (error) {
+      return rejectWithValue(error?.response || error.message);
+    }
+  }
+)
+
 export const productSlice = createSlice({
   name: "admin",
   initialState,
@@ -282,6 +297,17 @@ export const productSlice = createSlice({
         state.previewProducts = action?.payload;
       })
       .addCase(previewBulkProducts.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(fetchFilteredProductsList.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchFilteredProductsList.fulfilled, (state, action) => {
+        state.loading = false;
+        state.products = action?.payload
+      })
+      .addCase(fetchFilteredProductsList.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

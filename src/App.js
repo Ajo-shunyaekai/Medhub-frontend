@@ -36,7 +36,6 @@ import LogisticLayout from "./Logistics/Components/SharedComponents/LogisticLayo
 import { LogisticsNotificationProvider } from "./Logistics/LogisticsRoutes/Router";
 GlobalWorkerOptions.workerSrc = `${process.env.PUBLIC_URL}/pdf.worker.min.js`;
  
- 
 // Socket Connection
 const socket = io.connect(process.env.REACT_APP_SERVER_URL, {
   autoConnect: false,
