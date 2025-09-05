@@ -34,7 +34,6 @@ export const fetchBidById = createAsyncThunk(
   "bid/fetchBidById",
   async (url, { rejectWithValue }) => {
     try {
-
       const response = await apiRequests.postRequest(
         // `bid/${values?.bidId}`
         url
@@ -67,10 +66,10 @@ export const addToFavourite = createAsyncThunk(
   "bid/addToFavourite",
   async (url, { rejectWithValue }) => {
     try {
-      const response = await apiRequests.postRequest(
-        url
-      );
-      return response?.data;
+      const response = await apiRequests.postRequest(url);
+      response?.code == 200
+        ? toast.success(response?.message)
+        : toast.error(response?.message);
     } catch (error) {
       // Log and pass the error
       return rejectWithValue(error?.response?.data || error.message);
